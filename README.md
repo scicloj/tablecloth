@@ -13,6 +13,8 @@ During conversions of the examples I've come up how to reorganized existing `tec
 -   Most operations recognize regular dataset and grouped dataset and process data accordingly.
 -   One function form to enable thread-first on dataset.
 
+Important! This library is not the replacement of `tech.ml.dataset` nor a separate library. It should be considered as a addition on the top of `tech.ml.dataset`.
+
 If you want to know more about `tech.ml.dataset` and `tech.ml.datatype` please refer their documentation:
 
 -   [Datatype](https://github.com/techascent/tech.datatype/blob/master/docs/cheatsheet.md)
@@ -20,6 +22,11 @@ If you want to know more about `tech.ml.dataset` and `tech.ml.datatype` please r
 -   [Dataset](https://github.com/techascent/tech.ml.dataset/blob/master/docs/walkthrough.md)
 
 Join the discussion on [Zulip](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
+
+Current version
+---------------
+
+![](https://img.shields.io/clojars/v/scicloj/tablecloth)
 
 Documentation
 -------------
