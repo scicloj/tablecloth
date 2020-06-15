@@ -766,6 +766,8 @@ Datatype groups are:
 * `:type/integer` - any integer
 * `:type/datetime` - any datetime type
 
+If qualified keyword starts with `:!type`, complement set is used.
+
 ---
 
 To select all column names you can use `column-names` function.
@@ -847,6 +849,7 @@ If you want to select all columns but given, use `complement` function. Works on
 ```{clojure}
 (api/column-names DS (complement #{:V1}))
 (api/column-names DS (complement #{:float64}) :datatype)
+(api/column-names DS :!type/float64)
 ```
 
 ---

@@ -61,7 +61,6 @@
   (let [k (-> datatype-columns-selector name keyword)]
     (get type-sets k #{k})))
 
-
 (defn- filter-column-names
   "Filter column names"
   [ds columns-selector meta-field]
@@ -83,6 +82,8 @@
        (cond (= :all columns-selector) (ds/column-names ds)
              (and (keyword? columns-selector)
                   (= "type" (namespace columns-selector))) (column-names ds (prepare-datatype-set columns-selector) :datatype)
+             (and (keyword? columns-selector)
+                  (= "!type" (namespace columns-selector))) (column-names ds (complement (prepare-datatype-set columns-selector)) :datatype)
              :else (let [csel-fn (cond
                                    (set? columns-selector) #(contains? columns-selector %)
                                    (map? columns-selector) (set (keys columns-selector))
