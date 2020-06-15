@@ -42,6 +42,9 @@ knit_engines$set(clojure = function(options) {
     engine_output(options, options$code, out)})
 ```
 
+[![](https://img.shields.io/clojars/v/scicloj/tablecloth)](https://clojars.org/scicloj/tablecloth)
+[![](https://img.shields.io/badge/zulip-discussion-yellowgreen)](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
+
 ## Introduction
 
 [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) is a great and fast library which brings columnar dataset to the Clojure. Chris Nuernberger has been working on this library for last year as a part of bigger `tech.ml` stack.
@@ -65,10 +68,6 @@ If you want to know more about `tech.ml.dataset` and `tech.ml.datatype` please r
 * [Dataset](https://github.com/techascent/tech.ml.dataset/blob/master/docs/walkthrough.md)
 
 Join the discussion on [Zulip](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
-
-## Current version
-
-![](https://img.shields.io/clojars/v/scicloj/tablecloth)
 
 ## Documentation
 

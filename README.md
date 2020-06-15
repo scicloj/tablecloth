@@ -1,3 +1,5 @@
+[![](https://img.shields.io/clojars/v/scicloj/tablecloth)](https://clojars.org/scicloj/tablecloth) [![](https://img.shields.io/badge/zulip-discussion-yellowgreen)](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
+
 Introduction
 ------------
 
@@ -22,11 +24,6 @@ If you want to know more about `tech.ml.dataset` and `tech.ml.datatype` please r
 -   [Dataset](https://github.com/techascent/tech.ml.dataset/blob/master/docs/walkthrough.md)
 
 Join the discussion on [Zulip](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
-
-Current version
----------------
-
-![](https://img.shields.io/clojars/v/scicloj/tablecloth)
 
 Documentation
 -------------
