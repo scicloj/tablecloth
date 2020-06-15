@@ -29,8 +29,6 @@ Please refer [detailed documentation with examples](https://scicloj.github.io/ta
 Usage example
 -------------
 
-Dataset creation
-
 ``` clojure
 (require '[tablecloth.api :as api])
 ```
