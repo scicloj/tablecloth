@@ -85,6 +85,11 @@ Please refer [detailed documentation with examples](https://scicloj.github.io/ta
     (api/head 10))
 ```
 
+## TODO
+
+* tests
+* more information about data manipulation
+
 ## Licence
 
 Copyright (c) 2020 Scicloj

@@ -59,6 +59,12 @@ Usage example
 | AAPL    | 2008  | 138.5    |
 | AAPL    | 2009  | 150.4    |
 
+TODO
+----
+
+-   tests
+-   more information about data manipulation
+
 Licence
 -------
 
