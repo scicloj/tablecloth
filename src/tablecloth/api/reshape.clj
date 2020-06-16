@@ -4,6 +4,7 @@
             [tech.ml.dataset.column :as col]
             [tech.v2.datatype :as dtype]
             [clojure.string :as str]
+            [clojure.set :refer [difference]]
 
             [tablecloth.api.utils :refer [iterable-sequence? column-names]]
             [tablecloth.api.columns :refer [drop-columns convert-types
@@ -13,6 +14,22 @@
             [tablecloth.api.group-by :refer [group-by]]
             [tablecloth.api.missing :refer [drop-missing]]))
 
+(defn- fix-groups
+  "Fill empty columns with nils if column is missing."
+  [groups]
+  (let [col-set (->> groups ;; take all possible columns
+                     (map keys)
+                     (mapcat identity)
+                     (set))]
+    (map (fn [g]
+           (if-let [diff (->> g
+                              (keys)
+                              (set)
+                              (difference col-set)
+                              (seq))]
+             (apply assoc g (interleave diff (repeat nil)))
+             g)) groups)))
+
 (defn- regroup-cols-from-template
   [ds cols target-columns value-name column-split-fn]
   (let [template? (some nil? target-columns)
@@ -21,33 +38,48 @@
                                (let [col (ds col-name)
                                      split (column-split-fn col-name)
                                      buff (if template? {} {value-name col})]
-                                 (into buff (mapv (fn [k v] (if k [k v] [v col]))
-                                                  target-columns split))))))
+                                 (into buff (map (fn [k v] (if k [k v] [v col]))
+                                                 target-columns split))))))
         groups (-> (->> target-columns
                         (remove nil?)
                         (map #(fn [n] (get n %)))
                         (apply juxt))
                    (clojure.core/group-by pre-groups)
                    (vals))]
-    (map #(reduce merge %) groups)))
+    (->> groups
+         (map #(reduce merge %))
+         (fix-groups))))
 
 (defn- cols->pre-longer
   ([ds cols names value-name column-splitter]
-   (let [column-split-fn (cond (instance? java.util.regex.Pattern column-splitter) (comp rest #(re-find column-splitter (str %)))
+   (let [column-split-fn (cond (string? column-splitter) (let [pat (re-pattern column-splitter)]
+                                                           #(str/split % pat))
+                               (instance? java.util.regex.Pattern column-splitter) (comp rest #(re-find column-splitter (str %)))
                                (fn? column-splitter) column-splitter
                                :else vector)]
      (regroup-cols-from-template ds cols names value-name column-split-fn))))
 
+(defn- maybe-number
+  "Try convert string to number, to get valid datatype"
+  [v]
+  (try
+    (let [vv (read-string v)]
+      (if (number? vv) vv v))
+    (catch Exception _ v)))
+
 (defn- pre-longer->target-columns
   [ds cnt m]
   (let [new-cols (map (fn [[col-name maybe-column]]
-                        (if (col/is-column? maybe-column)
-                          (col/set-name maybe-column col-name)
-                          (col/new-column col-name (dtype/const-reader maybe-column cnt {:datatype :object})))) m)]
+                        (cond
+                          (col/is-column? maybe-column) (col/set-name maybe-column col-name)
+                          (nil? maybe-column) (col/new-column col-name (dtype/const-reader maybe-column cnt {:datatype :object}) nil (range cnt))
+                          :else (let [v (maybe-number maybe-column)]
+                                  (col/new-column col-name (dtype/const-reader v cnt {:datatype (dtype/get-datatype v)}))))) m)]
     (ds/append-columns ds new-cols)))
 
 (defn pivot->longer
   "`tidyr` pivot_longer api"
+  ([ds] (pivot->longer ds :all))
   ([ds columns-selector] (pivot->longer ds columns-selector nil))
   ([ds columns-selector {:keys [target-columns value-column-name splitter drop-missing? datatypes]
                          :or {target-columns :$column
@@ -63,9 +95,12 @@
                                  (map (partial pre-longer->target-columns ds-template cnt))
                                  (apply ds/concat))
                             (ds/metadata ds)) final-ds
-       (if drop-missing? (drop-missing final-ds cols-to-add) final-ds)
-       (if datatypes (convert-types final-ds datatypes) final-ds)
-       (reorder-columns final-ds (ds/column-names ds-template) (remove nil? target-columns))))))
+       (cond-> final-ds
+         drop-missing? (drop-missing cols-to-add)
+         datatypes (convert-types datatypes)
+         :always (reorder-columns (ds/column-names ds-template) (remove nil? target-columns)))))))
+
+;; 
 
 (defn- drop-join-leftovers
   [data join-name]
@@ -89,7 +124,7 @@
 (defn- process-target-name
   [value concat-value-with col-name]
   (cond
-    (string? concat-value-with) (str value concat-value-with col-name)
+    (string? concat-value-with) (str col-name concat-value-with value)
     (fn? concat-value-with) (concat-value-with col-name value)
     :else [col-name value]))
 
@@ -122,8 +157,8 @@
 
 (defn pivot->wider
   ([ds columns-selector value-columns] (pivot->wider ds columns-selector value-columns nil))
-  ([ds columns-selector value-columns {:keys [fold-fn concat-columns-with concat-value-with]
-                                       :or {concat-columns-with "_" concat-value-with "-"}}]
+  ([ds columns-selector value-columns {:keys [fold-fn concat-columns-with concat-value-with drop-missing?]
+                                       :or {concat-columns-with "_" concat-value-with "-" drop-missing? true}}]
    (let [col-names (column-names ds columns-selector) ;; columns to be unrolled
          value-names (column-names ds value-columns) ;; columns to be used as values
          single-value? (= (count value-names) 1) ;; maybe this is one column? (different name creation rely on this)
@@ -152,8 +187,9 @@
                                             concat-columns-with concat-value-with)
                         starting-ds
                         (ds/mapseq-reader grouped-ds))] ;; perform join on groups and create new columns
-     (-> (if join-on-single? ;; finalize, recreate original columns from join column, and reorder stuff
-           result
-           (-> (separate-column result join-name rest-cols identity {:drop-column? true})
-               (reorder-columns rest-cols)))
-         (ds/set-dataset-name (ds/dataset-name ds))))))
+     (cond-> (-> (if join-on-single? ;; finalize, recreate original columns from join column, and reorder stuff
+                   result
+                   (-> (separate-column result join-name rest-cols identity {:drop-column? true})
+                       (reorder-columns rest-cols)))
+                 (ds/set-dataset-name (ds/dataset-name ds)))
+       drop-missing? (drop-missing)))))
