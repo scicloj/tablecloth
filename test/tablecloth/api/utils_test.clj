@@ -85,4 +85,20 @@
                       (and (= datatype :int16)
                            (str/starts-with? name "new_sp_m"))) :all))
 
-(deftest rank-tests)
+(deftest rank-tests
+  (let [x2 [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]]
+    (are [x y] (= x (sut/rank y))
+      '(1.0 0.0 2.0 3.0 4.0) [3 1 4 15 92]
+      '(1.0 0.0 2.0 3.0 4.0) '(1.0 0.0 2.0 3.0 4.0)
+      '(3.5 0.5 5.0 0.5 7.0 10.0 2.0 9.0 7.0 3.5 7.0) x2
+      '(3.5 0.5 5.0 0.5 7.0 10.0 2.0 9.0 7.0 3.5 7.0) '(3.5 0.5 5.0 0.5 7.0 10.0 2.0 9.0 7.0 3.5 7.0)
+      ;; as in data.table, `frankv(x, na.last=FALSE)`
+      '(5.0 2.5 5.0 0.5 2.5 0.5 5.0) [4 1 4 nil 1 nil 4])
+    (are [x y ties] (= x (sut/rank y ties))
+      [3 0 5 1 6 10 2 9 7 4 8] x2 :first
+      [4 1 5 0 8 10 2 9 7 3 6] x2 :last
+      '(4 1 5 1 8 10 2 9 8 4 8) x2 :max
+      '(3 0 5 0 6 10 2 9 6 3 6) x2 :min
+      '(2 0 3 0 4 6 1 5 4 2 4) x2 :dense)
+    (is (= '(6.5 9.5 5.0 9.5 3.0 0.0 8.0 1.0 3.0 6.5 3.0) (sut/rank x2 :average true)))
+    (is (= '(4 6 3 6 2 0 5 1 2 4 2) (sut/rank x2 :dense true)))))

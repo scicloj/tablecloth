@@ -56,7 +56,7 @@
    :float #{:float32 :float64}
    :numerical #{:int16 :int32 :int64 :float32 :float64}})
 
-(defn prepare-datatype-set
+(defn- prepare-datatype-set
   [datatype-columns-selector]
   (let [k (-> datatype-columns-selector name keyword)]
     (get type-sets k #{k})))
