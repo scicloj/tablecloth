@@ -1,0 +1,6 @@
+language: clojure
+lein: lein
+script: lein do clean, check, test
+jdk:
+  - openjdk8
+  - openjdk11
