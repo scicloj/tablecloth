@@ -6,7 +6,7 @@
             [clojure.string :as str]
             [clojure.set :refer [difference]]
 
-            [tablecloth.api.utils :refer [iterable-sequence? column-names]]
+            [tablecloth.api.utils :refer [iterable-sequence? column-names ->str]]
             [tablecloth.api.columns :refer [drop-columns convert-types
                                             reorder-columns rename-columns select-columns]]
             [tablecloth.api.join-separate :refer [join-columns separate-column]]
@@ -124,7 +124,7 @@
 (defn- process-target-name
   [value concat-value-with col-name]
   (cond
-    (string? concat-value-with) (str col-name concat-value-with value)
+    (string? concat-value-with) (str col-name concat-value-with (->str value))
     (fn? concat-value-with) (concat-value-with col-name value)
     :else [col-name value]))
 
@@ -134,7 +134,8 @@
   (fn [curr-ds {:keys [name data]}]
     (let [col-name (process-column-name concat-columns-with (->> name
                                                                  group-name->names
-                                                                 (remove nil?))) ;; source names
+                                                                 (remove nil?)
+                                                                 (map ->str))) ;; source names
           target-names (if single-value?
                          [col-name]
                          (map #(process-target-name % concat-value-with col-name) value-names)) ;; traget column names

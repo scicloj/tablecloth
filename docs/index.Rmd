@@ -2561,7 +2561,7 @@ fish
 ```
 
 ```{clojure results="asis"}
-(api/pivot->wider fish "station" "seen")
+(api/pivot->wider fish "station" "seen" {:drop-missing? false})
 ```
 
 ---
@@ -2633,14 +2633,15 @@ income
 ```
 
 ```{clojure results="asis"}
-(api/pivot->wider income "variable" ["estimate" "moe"])
+(api/pivot->wider income "variable" ["estimate" "moe"] {:drop-missing? false})
 ```
 
 Value concatenated by custom function
 
 ```{clojure results="asis"}
 (api/pivot->wider income "variable" ["estimate" "moe"] {:concat-columns-with vec
-                                                        :concat-value-with vector})
+                                                        :concat-value-with vector
+                                                        :drop-missing? false})
 ```
 
 ---
@@ -2656,7 +2657,7 @@ contacts
 ```
 
 ```{clojure results="asis"}
-(api/pivot->wider contacts "field" "value")
+(api/pivot->wider contacts "field" "value" {:drop-missing? false})
 
 ```
 
@@ -2706,7 +2707,7 @@ pop3
 Step 3 - Make columns based on `"variable"` values.
 
 ```{clojure results="asis"}
-(api/pivot->wider pop3 "variable" "value")
+(api/pivot->wider pop3 "variable" "value" {:drop-missing? false})
 ```
 
 ---
@@ -2789,7 +2790,7 @@ Conversion 2 - Convert to longer form and back and rename columns
                                                              [nil col-name]))
                                                :value-column-name :n
                                                :drop-missing? false})
-    (api/pivot->wider [:units :region] :n)
+    (api/pivot->wider [:units :region] :n {:drop-missing? false})
     (api/rename-columns (zipmap (vals construction-unit-map)
                                 (keys construction-unit-map))))
 ```
@@ -2828,7 +2829,7 @@ Convert to wide form on time column (let's limit values to a couple of rows)
 ```{clojure results="asis"}
 (-> stocks-long
     (api/select-rows (range 0 30 4))
-    (api/pivot->wider "time" :price))
+    (api/pivot->wider "time" :price {:drop-missing? false}))
 ```
 
 ### Join/Concat Datasets

@@ -1265,17 +1265,17 @@ precipitation
 <hr />
 <p>Rows as sequence of sequences</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(<span class="kw">take</span> <span class="dv">2</span> (api/rows ds))</code></pre></div>
-<pre><code>([#object[java.time.LocalDate 0x5a7bafff &quot;2012-01-01&quot;] 0.0 12.8 5.0 4.7 &quot;drizzle&quot;] [#object[java.time.LocalDate 0x72a8b0d9 &quot;2012-01-02&quot;] 10.9 10.6 2.8 4.5 &quot;rain&quot;])</code></pre>
+<pre><code>([#object[java.time.LocalDate 0x3a502441 &quot;2012-01-01&quot;] 0.0 12.8 5.0 4.7 &quot;drizzle&quot;] [#object[java.time.LocalDate 0xe69bbc6 &quot;2012-01-02&quot;] 10.9 10.6 2.8 4.5 &quot;rain&quot;])</code></pre>
 <hr />
 <p>Rows as sequence of maps</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(clojure.pprint/pprint (<span class="kw">take</span> <span class="dv">2</span> (api/rows ds <span class="at">:as-maps</span>)))</code></pre></div>
-<pre><code>({&quot;date&quot; #object[java.time.LocalDate 0x148c6b2e &quot;2012-01-01&quot;],
+<pre><code>({&quot;date&quot; #object[java.time.LocalDate 0x2927b665 &quot;2012-01-01&quot;],
   &quot;precipitation&quot; 0.0,
   &quot;temp_min&quot; 5.0,
   &quot;weather&quot; &quot;drizzle&quot;,
   &quot;temp_max&quot; 12.8,
   &quot;wind&quot; 4.7}
- {&quot;date&quot; #object[java.time.LocalDate 0x4ae09834 &quot;2012-01-02&quot;],
+ {&quot;date&quot; #object[java.time.LocalDate 0x2b1b84ae &quot;2012-01-02&quot;],
   &quot;precipitation&quot; 10.9,
   &quot;temp_min&quot; 2.8,
   &quot;weather&quot; &quot;rain&quot;,
@@ -3655,7 +3655,7 @@ precipitation
 <th align="right">v1</th>
 <th align="right">v2</th>
 <th align="right">[1 2 3]</th>
-<th><a href="mailto:java.lang.Object@2b219e37">java.lang.Object@2b219e37</a></th>
+<th><a href="mailto:java.lang.Object@71e72d5c">java.lang.Object@71e72d5c</a></th>
 </tr>
 </thead>
 <tbody>
@@ -3871,7 +3871,7 @@ precipitation
 <th align="right">v1</th>
 <th align="right">v2</th>
 <th align="right">[1 2 3]</th>
-<th><a href="mailto:java.lang.Object@336285ad">java.lang.Object@336285ad</a></th>
+<th><a href="mailto:java.lang.Object@5ea46e3a">java.lang.Object@5ea46e3a</a></th>
 </tr>
 </thead>
 <tbody>
@@ -3914,7 +3914,7 @@ precipitation
 <th align="right">v1</th>
 <th align="right">v2</th>
 <th align="right">[1 2 3]</th>
-<th><a href="mailto:java.lang.Object@336285ad">java.lang.Object@336285ad</a></th>
+<th><a href="mailto:java.lang.Object@5ea46e3a">java.lang.Object@5ea46e3a</a></th>
 </tr>
 </thead>
 <tbody>
@@ -4056,55 +4056,55 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>0.3354</td>
+<td>0.9065</td>
 <td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td>0.3788</td>
+<td>0.2276</td>
 <td align="right">2</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td>0.7244</td>
+<td>0.05822</td>
 <td align="right">3</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
-<td>0.1561</td>
+<td>0.7984</td>
 <td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
-<td>0.05256</td>
+<td>0.4497</td>
 <td align="right">5</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
-<td>0.1118</td>
+<td>0.1631</td>
 <td align="right">6</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
-<td>0.2503</td>
+<td>0.9499</td>
 <td align="right">7</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td>0.2582</td>
+<td>0.7933</td>
 <td align="right">8</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td>0.2008</td>
+<td>0.7715</td>
 <td align="right">9</td>
 <td align="right">1.5</td>
 <td>C</td>
@@ -4946,25 +4946,25 @@ precipitation
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>7</td>
+<td>4</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>4</td>
+<td>1</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
 <td>1</td>
-<td>3</td>
+<td>6</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>6</td>
+<td>8</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
@@ -4976,13 +4976,13 @@ precipitation
 </tr>
 <tr class="even">
 <td>2</td>
-<td>1</td>
+<td>3</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
 <td>1</td>
-<td>8</td>
+<td>5</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
@@ -4994,7 +4994,7 @@ precipitation
 </tr>
 <tr class="odd">
 <td>1</td>
-<td>5</td>
+<td>7</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
@@ -5624,19 +5624,19 @@ precipitation
 <hr />
 <p>Double array conversion.</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/-&gt;array DS <span class="at">:V1</span>)</code></pre></div>
-<pre><code>#object[&quot;[J&quot; 0x5623595f &quot;[J@5623595f&quot;]</code></pre>
+<pre><code>#object[&quot;[J&quot; 0x7f017f75 &quot;[J@7f017f75&quot;]</code></pre>
 <hr />
 <p>Function also works on grouped dataset</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(<span class="kw">-&gt;</span> DS
     (api/group-by <span class="at">:V3</span>)
     (api/-&gt;array <span class="at">:V2</span>))</code></pre></div>
-<pre><code>(#object[&quot;[J&quot; 0x5baa93f &quot;[J@5baa93f&quot;] #object[&quot;[J&quot; 0x763633a &quot;[J@763633a&quot;] #object[&quot;[J&quot; 0x15275c9 &quot;[J@15275c9&quot;])</code></pre>
+<pre><code>(#object[&quot;[J&quot; 0x5a7b8d3b &quot;[J@5a7b8d3b&quot;] #object[&quot;[J&quot; 0x1f3aa53f &quot;[J@1f3aa53f&quot;] #object[&quot;[J&quot; 0x37ec83d7 &quot;[J@37ec83d7&quot;])</code></pre>
 <hr />
 <p>You can also cast the type to the other one (if casting is possible):</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/-&gt;array DS <span class="at">:V4</span> <span class="at">:string</span>)
 (api/-&gt;array DS <span class="at">:V1</span> <span class="at">:float32</span>)</code></pre></div>
-<pre><code>#object[&quot;[Ljava.lang.String;&quot; 0x56742df1 &quot;[Ljava.lang.String;@56742df1&quot;]
-#object[&quot;[F&quot; 0x36c0ed6d &quot;[F@36c0ed6d&quot;]</code></pre>
+<pre><code>#object[&quot;[Ljava.lang.String;&quot; 0x55bffa78 &quot;[Ljava.lang.String;@55bffa78&quot;]
+#object[&quot;[F&quot; 0x6af242c3 &quot;[F@6af242c3&quot;]</code></pre>
 </div>
 </div>
 <div id="rows" class="section level3">
@@ -5962,9 +5962,9 @@ precipitation
 <tbody>
 <tr class="odd">
 <td align="right">2</td>
-<td align="right">4</td>
-<td align="right">0.5</td>
-<td>A</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 </tbody>
 </table>
@@ -6006,13 +6006,13 @@ precipitation
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
+<td align="right">9</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
-<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
@@ -6029,28 +6029,28 @@ precipitation
 <td>C</td>
 </tr>
 <tr class="odd">
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="right">0.5</td>
-<td>A</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
 <td align="right">2</td>
 <td align="right">6</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="odd">
 <td align="right">2</td>
@@ -6075,22 +6075,10 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="right">0.5</td>
-<td>A</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
@@ -6100,9 +6088,21 @@ precipitation
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
+<td align="right">7</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -6121,32 +6121,32 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
 <td align="right">1</td>
 <td align="right">7</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
-<tr class="even">
-<td align="right">1</td>
-<td align="right">9</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">2</td>
-<td align="right">4</td>
+<td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
@@ -6214,27 +6214,15 @@ precipitation
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td align="right">2</td>
-<td align="right">2</td>
+<td align="right">5</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">6</td>
-<td align="right">1.5</td>
-<td>C</td>
+<td align="right">8</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
@@ -6244,9 +6232,21 @@ precipitation
 </tr>
 <tr class="even">
 <td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
+<td align="right">1</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
@@ -6256,15 +6256,15 @@ precipitation
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">4</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
 <td align="right">2</td>
-<td align="right">8</td>
 <td align="right">1.0</td>
 <td>B</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -6545,8 +6545,8 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
@@ -6563,32 +6563,20 @@ precipitation
 <td>A</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
-<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
-<td align="right">2</td>
-<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
 <td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">8</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
@@ -6606,7 +6594,19 @@ precipitation
 </tr>
 <tr class="odd">
 <td align="right">2</td>
-<td align="right">6</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">3</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
@@ -6618,7 +6618,7 @@ precipitation
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">9</td>
+<td align="right">3</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
@@ -6629,8 +6629,8 @@ precipitation
 <td>C</td>
 </tr>
 <tr class="odd">
-<td align="right">2</td>
-<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">9</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
@@ -7814,15 +7814,15 @@ precipitation
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
+<td align="right">1</td>
+<td align="right">0.5</td>
+<td>A</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
+<td align="right">4</td>
+<td align="right">0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -13366,8 +13366,8 @@ precipitation
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0</td>
-<td align="right">0.91341904</td>
-<td align="right">0.89679028</td>
+<td align="right">0.42611805</td>
+<td align="right">0.71969871</td>
 <td align="right">3</td>
 <td align="right">-2</td>
 </tr>
@@ -13375,8 +13375,8 @@ precipitation
 <td align="right">2</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.62772497</td>
-<td align="right">0.07774844</td>
+<td align="right">0.12860939</td>
+<td align="right">0.60050485</td>
 <td align="right">3</td>
 <td align="right">-2</td>
 </tr>
@@ -13384,8 +13384,8 @@ precipitation
 <td align="right">3</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">0.72708502</td>
-<td align="right">0.57822211</td>
+<td align="right">0.31479439</td>
+<td align="right">0.17231312</td>
 <td align="right">3</td>
 <td align="right">-2</td>
 </tr>
@@ -13393,8 +13393,8 @@ precipitation
 <td align="right">4</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">0.89620886</td>
-<td align="right">0.08037836</td>
+<td align="right">0.29538768</td>
+<td align="right">0.30918907</td>
 <td align="right">3</td>
 <td align="right">-2</td>
 </tr>
@@ -13420,7 +13420,7 @@ precipitation
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">0.91341904</td>
+<td align="right">0.42611805</td>
 <td align="right">3</td>
 </tr>
 <tr class="even">
@@ -13428,7 +13428,7 @@ precipitation
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.62772497</td>
+<td align="right">0.12860939</td>
 <td align="right">3</td>
 </tr>
 <tr class="odd">
@@ -13436,7 +13436,7 @@ precipitation
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.72708502</td>
+<td align="right">0.31479439</td>
 <td align="right">3</td>
 </tr>
 <tr class="even">
@@ -13444,7 +13444,7 @@ precipitation
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.89620886</td>
+<td align="right">0.29538768</td>
 <td align="right">3</td>
 </tr>
 <tr class="odd">
@@ -13452,7 +13452,7 @@ precipitation
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">2</td>
-<td align="right">0.89679028</td>
+<td align="right">0.71969871</td>
 <td align="right">-2</td>
 </tr>
 <tr class="even">
@@ -13460,7 +13460,7 @@ precipitation
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">2</td>
-<td align="right">0.07774844</td>
+<td align="right">0.60050485</td>
 <td align="right">-2</td>
 </tr>
 <tr class="odd">
@@ -13468,7 +13468,7 @@ precipitation
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">2</td>
-<td align="right">0.57822211</td>
+<td align="right">0.17231312</td>
 <td align="right">-2</td>
 </tr>
 <tr class="even">
@@ -13476,7 +13476,7 @@ precipitation
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">2</td>
-<td align="right">0.08037836</td>
+<td align="right">0.30918907</td>
 <td align="right">-2</td>
 </tr>
 </tbody>
@@ -13635,8 +13635,8 @@ precipitation
 </tr>
 </tbody>
 </table>
-<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/pivot-&gt;wider fish <span class="st">&quot;station&quot;</span> <span class="st">&quot;seen&quot;</span>)</code></pre></div>
-<p>data/fish_encounters.csv [5 12]:</p>
+<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/pivot-&gt;wider fish <span class="st">&quot;station&quot;</span> <span class="st">&quot;seen&quot;</span> {<span class="at">:drop-missing</span>? <span class="va">false</span>})</code></pre></div>
+<p>data/fish_encounters.csv [19 12]:</p>
 <table>
 <thead>
 <tr class="header">
@@ -13698,6 +13698,34 @@ precipitation
 <td align="right">1</td>
 </tr>
 <tr class="even">
+<td align="right">4850</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">4857</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
 <td align="right">4858</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -13724,6 +13752,174 @@ precipitation
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">4862</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">4864</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td align="right">4865</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right"></td>
+</tr>
+<tr class="odd">
+<td align="right">4845</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td align="right">4847</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right"></td>
+</tr>
+<tr class="odd">
+<td align="right">4848</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td align="right">4849</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+<tr class="odd">
+<td align="right">4851</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td align="right">4854</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+<tr class="odd">
+<td align="right">4855</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td align="right">4859</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right"></td>
+</tr>
+<tr class="odd">
+<td align="right">4863</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
 </tr>
 </tbody>
 </table>
@@ -14544,8 +14740,8 @@ precipitation
 </tr>
 </tbody>
 </table>
-<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/pivot-&gt;wider income <span class="st">&quot;variable&quot;</span> [<span class="st">&quot;estimate&quot;</span> <span class="st">&quot;moe&quot;</span>])</code></pre></div>
-<p>data/us_rent_income.csv [51 6]:</p>
+<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/pivot-&gt;wider income <span class="st">&quot;variable&quot;</span> [<span class="st">&quot;estimate&quot;</span> <span class="st">&quot;moe&quot;</span>] {<span class="at">:drop-missing</span>? <span class="va">false</span>})</code></pre></div>
+<p>data/us_rent_income.csv [52 6]:</p>
 <table>
 <thead>
 <tr class="header">
@@ -14762,8 +14958,9 @@ precipitation
 </table>
 <p>Value concatenated by custom function</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/pivot-&gt;wider income <span class="st">&quot;variable&quot;</span> [<span class="st">&quot;estimate&quot;</span> <span class="st">&quot;moe&quot;</span>] {<span class="at">:concat-columns-with</span> <span class="kw">vec</span>
-                                                        <span class="at">:concat-value-with</span> <span class="kw">vector</span>})</code></pre></div>
-<p>data/us_rent_income.csv [51 6]:</p>
+                                                        <span class="at">:concat-value-with</span> <span class="kw">vector</span>
+                                                        <span class="at">:drop-missing</span>? <span class="va">false</span>})</code></pre></div>
+<p>data/us_rent_income.csv [52 6]:</p>
 <table>
 <colgroup>
 <col width="7%"></col>
@@ -15032,8 +15229,8 @@ precipitation
 </tr>
 </tbody>
 </table>
-<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/pivot-&gt;wider contacts <span class="st">&quot;field&quot;</span> <span class="st">&quot;value&quot;</span>)</code></pre></div>
-<p>data/contacts.csv [1 4]:</p>
+<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/pivot-&gt;wider contacts <span class="st">&quot;field&quot;</span> <span class="st">&quot;value&quot;</span> {<span class="at">:drop-missing</span>? <span class="va">false</span>})</code></pre></div>
+<p>data/contacts.csv [3 4]:</p>
 <table>
 <thead>
 <tr class="header">
@@ -15045,10 +15242,22 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
+<td align="right">1</td>
+<td></td>
+<td>Jiena McLellan</td>
+<td>Toyota</td>
+</tr>
+<tr class="even">
 <td align="right">2</td>
 <td><a href="mailto:john@google.com">john@google.com</a></td>
 <td>John Smith</td>
 <td>google</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td></td>
+<td>Huxley Ratcliffe</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -15703,8 +15912,8 @@ precipitation
 </tbody>
 </table>
 <p>Step 3 - Make columns based on <code>&quot;variable&quot;</code> values.</p>
-<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/pivot-&gt;wider pop3 <span class="st">&quot;variable&quot;</span> <span class="st">&quot;value&quot;</span>)</code></pre></div>
-<p>data/world_bank_pop.csv.gz [9419 5]:</p>
+<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/pivot-&gt;wider pop3 <span class="st">&quot;variable&quot;</span> <span class="st">&quot;value&quot;</span> {<span class="at">:drop-missing</span>? <span class="va">false</span>})</code></pre></div>
+<p>data/world_bank_pop.csv.gz [9504 5]:</p>
 <table>
 <thead>
 <tr class="header">
@@ -16383,10 +16592,10 @@ precipitation
                                                              [<span class="va">nil</span> col-name]))
                                                <span class="at">:value-column-name</span> <span class="at">:n</span>
                                                <span class="at">:drop-missing</span>? <span class="va">false</span>})
-    (api/pivot-&gt;wider [<span class="at">:units</span> <span class="at">:region</span>] <span class="at">:n</span>)
+    (api/pivot-&gt;wider [<span class="at">:units</span> <span class="at">:region</span>] <span class="at">:n</span> {<span class="at">:drop-missing</span>? <span class="va">false</span>})
     (api/rename-columns (<span class="kw">zipmap</span> (<span class="kw">vals</span> construction-unit-map)
                                 (<span class="kw">keys</span> construction-unit-map))))</code></pre></div>
-<p>data/construction.csv [0 9]:</p>
+<p>data/construction.csv [9 9]:</p>
 <table>
 <thead>
 <tr class="header">
@@ -16397,11 +16606,110 @@ precipitation
 <th>2 to 4 units</th>
 <th>Northeast</th>
 <th>South</th>
-<th>1</th>
+<th>1 unit</th>
 <th>West</th>
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td align="right">2018</td>
+<td>January</td>
+<td>169</td>
+<td>348</td>
+<td></td>
+<td>114</td>
+<td>596</td>
+<td>859</td>
+<td>339</td>
+</tr>
+<tr class="even">
+<td align="right">2018</td>
+<td>February</td>
+<td>160</td>
+<td>400</td>
+<td></td>
+<td>138</td>
+<td>655</td>
+<td>882</td>
+<td>336</td>
+</tr>
+<tr class="odd">
+<td align="right">2018</td>
+<td>March</td>
+<td>154</td>
+<td>356</td>
+<td></td>
+<td>150</td>
+<td>595</td>
+<td>862</td>
+<td>330</td>
+</tr>
+<tr class="even">
+<td align="right">2018</td>
+<td>April</td>
+<td>196</td>
+<td>447</td>
+<td></td>
+<td>144</td>
+<td>613</td>
+<td>797</td>
+<td>304</td>
+</tr>
+<tr class="odd">
+<td align="right">2018</td>
+<td>May</td>
+<td>169</td>
+<td>364</td>
+<td></td>
+<td>90</td>
+<td>673</td>
+<td>875</td>
+<td>319</td>
+</tr>
+<tr class="even">
+<td align="right">2018</td>
+<td>June</td>
+<td>170</td>
+<td>342</td>
+<td></td>
+<td>76</td>
+<td>610</td>
+<td>867</td>
+<td>360</td>
+</tr>
+<tr class="odd">
+<td align="right">2018</td>
+<td>July</td>
+<td>183</td>
+<td>360</td>
+<td></td>
+<td>108</td>
+<td>594</td>
+<td>829</td>
+<td>310</td>
+</tr>
+<tr class="even">
+<td align="right">2018</td>
+<td>August</td>
+<td>205</td>
+<td>286</td>
+<td></td>
+<td>90</td>
+<td>649</td>
+<td>939</td>
+<td>286</td>
+</tr>
+<tr class="odd">
+<td align="right">2018</td>
+<td>September</td>
+<td>175</td>
+<td>304</td>
+<td></td>
+<td>117</td>
+<td>560</td>
+<td>835</td>
+<td>296</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -16700,8 +17008,8 @@ precipitation
 <p>Convert to wide form on time column (let's limit values to a couple of rows)</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(<span class="kw">-&gt;</span> stocks-long
     (api/select-rows (<span class="kw">range</span> <span class="dv">0</span> <span class="dv">30</span> <span class="dv">4</span>))
-    (api/pivot-&gt;wider <span class="st">&quot;time&quot;</span> <span class="at">:price</span>))</code></pre></div>
-<p>data/stockstidyr.csv [0 6]:</p>
+    (api/pivot-&gt;wider <span class="st">&quot;time&quot;</span> <span class="at">:price</span> {<span class="at">:drop-missing</span>? <span class="va">false</span>}))</code></pre></div>
+<p>data/stockstidyr.csv [3 6]:</p>
 <table>
 <thead>
 <tr class="header">
@@ -16714,6 +17022,30 @@ precipitation
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td>X</td>
+<td align="right">-0.9605236</td>
+<td align="right"></td>
+<td align="right">1.3098980</td>
+<td align="right"></td>
+<td align="right">0.40257135</td>
+</tr>
+<tr class="even">
+<td>Z</td>
+<td align="right">1.4371517</td>
+<td align="right"></td>
+<td align="right">-1.7794688</td>
+<td align="right"></td>
+<td align="right">-6.80878830</td>
+</tr>
+<tr class="odd">
+<td>Y</td>
+<td align="right"></td>
+<td align="right">-2.1679482</td>
+<td align="right"></td>
+<td align="right">-1.0360686</td>
+<td align="right"></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -18946,21 +19278,9 @@ ds2</code></pre></div>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="odd">
 <td align="right">2</td>
@@ -18970,33 +19290,33 @@ ds2</code></pre></div>
 </tr>
 <tr class="even">
 <td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td align="right">1</td>
 <td align="right">7</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">9</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
+<td align="right">3</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
@@ -19006,19 +19326,55 @@ ds2</code></pre></div>
 </tr>
 <tr class="even">
 <td align="right">1</td>
-<td align="right">3</td>
+<td align="right">9</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
+<td align="right">3</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
 <td align="right">2</td>
+<td align="right">4</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">5</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
@@ -19036,45 +19392,9 @@ ds2</code></pre></div>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">3</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td align="right">1</td>
 <td align="right">5</td>
 <td align="right">1.0</td>
 <td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">6</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">3</td>
-<td align="right">1.5</td>
-<td>C</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
@@ -19084,9 +19404,21 @@ ds2</code></pre></div>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">7</td>
+<td align="right">5</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -19211,34 +19543,34 @@ ds2</code></pre></div>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
 <td align="right">1</td>
-<td align="right">3</td>
+<td align="right">9</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
+<td align="right">3</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
@@ -19247,22 +19579,22 @@ ds2</code></pre></div>
 <td>C</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">9</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
 <td align="right">2</td>
 <td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -23501,20 +23833,20 @@ tech.ml.dataset.impl.dataset.Dataset</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
-<tr class="even">
-<td align="right">1</td>
-<td align="right">9</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
@@ -23533,34 +23865,34 @@ tech.ml.dataset.impl.dataset.Dataset</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">9</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
-<td align="right">1</td>
-<td align="right">3</td>
-<td align="right">1.5</td>
-<td>C</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">9</td>
-<td align="right">1.5</td>
-<td>C</td>
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -28256,25 +28588,25 @@ tech.ml.dataset.impl.dataset.Dataset</code></pre>
 <thead>
 <tr class="header">
 <th>:V4</th>
-<th>:V1</th>
-<th>:V2</th>
+<th>V1</th>
+<th>V2</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>C</td>
-<td>3</td>
-<td>3</td>
+<td>B</td>
+<td>[4 4 1]</td>
+<td>[0 8 5]</td>
 </tr>
 <tr class="even">
-<td>B</td>
-<td>3</td>
-<td>3</td>
+<td>A</td>
+<td>[0 0 0]</td>
+<td>[3 4 7]</td>
 </tr>
 <tr class="odd">
-<td>A</td>
-<td>3</td>
-<td>3</td>
+<td>C</td>
+<td>[4 1 1]</td>
+<td>[5 0 9]</td>
 </tr>
 </tbody>
 </table>
@@ -28286,25 +28618,25 @@ tech.ml.dataset.impl.dataset.Dataset</code></pre>
 <thead>
 <tr class="header">
 <th>:V4</th>
-<th>:V1</th>
-<th>:V2</th>
+<th>V1</th>
+<th>V2</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>C</td>
-<td>6.000</td>
-<td>14.00</td>
+<td>B</td>
+<td>[4 4 1]</td>
+<td>[0 8 5]</td>
 </tr>
 <tr class="even">
-<td>B</td>
-<td>9.000</td>
-<td>13.00</td>
+<td>A</td>
+<td>[0 0 0]</td>
+<td>[3 4 7]</td>
 </tr>
 <tr class="odd">
-<td>A</td>
-<td>0.000</td>
-<td>14.00</td>
+<td>C</td>
+<td>[4 1 1]</td>
+<td>[5 0 9]</td>
 </tr>
 </tbody>
 </table>
@@ -28323,19 +28655,19 @@ tech.ml.dataset.impl.dataset.Dataset</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td>A</td>
-<td>1</td>
-<td>5</td>
+<td>C</td>
+<td>:V2</td>
+<td>[:V1 :V1 :V1 :V2 :V2]</td>
 </tr>
 <tr class="even">
-<td>B</td>
-<td>1</td>
-<td>5</td>
+<td>A</td>
+<td>:V2</td>
+<td>[:V1 :V1 :V1 :V2 :V2]</td>
 </tr>
 <tr class="odd">
-<td>C</td>
-<td>1</td>
-<td>5</td>
+<td>B</td>
+<td>:V2</td>
+<td>[:V1 :V1 :V1 :V2 :V2]</td>
 </tr>
 </tbody>
 </table>
