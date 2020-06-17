@@ -1,4 +1,12 @@
 language: clojure
+before_script:
+  - sudo apt-get -y install rlwrap
+  - curl -O https://download.clojure.org/install/linux-install-1.10.1.536.sh
+  - chmod +x linux-install-1.10.1.536.sh
+  - sudo ./linux-install-1.10.1.536.sh
+addons:
+  apt:
+    update: true
 lein: lein
 script: lein do clean, check, test
 jdk:
