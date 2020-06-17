@@ -1,14 +1,14 @@
+language: clojure
 before_install:
   - sudo apt-get -y install rlwrap
   - curl -O https://download.clojure.org/install/linux-install-1.10.1.536.sh
   - chmod +x linux-install-1.10.1.536.sh
   - sudo ./linux-install-1.10.1.536.sh
-  - curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
-  - chmod +x lein
 addons:
   apt:
     update: true
-script: ./lein do clean, check, test
+lein: 2.9.3
+script: lein do clean, check, test
 jdk:
   - openjdk8
   - openjdk11
