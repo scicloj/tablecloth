@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.0.0-pre-alpha6]
+
+`tech.ml.dataset` version 2.06
+
+### Added
+
+* `asof-join` added
+
 ## [1.0.0-pre-alpha4]
 
 ### Added

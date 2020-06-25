@@ -3016,6 +3016,31 @@ Return rows from ds1 not matching ds2
 ```{clojure results="asis"}
 (api/anti-join ds2 ds1 [:a :b])
 ```
+#### asof
+
+```{clojure results="hide"}
+(def left-ds (api/dataset {:a [1 5 10]
+                           :left-val ["a" "b" "c"]}))
+(def right-ds (api/dataset {:a [1 2 3 6 7]
+                            :right-val [:a :b :c :d :e]}))
+```
+
+```{clojure results="asis"}
+left-ds
+right-ds
+```
+
+```{clojure results="asis"}
+(api/asof-join left-ds right-ds :a)
+```
+
+```{clojure results="asis"}
+(api/asof-join left-ds right-ds :a {:asof-op :nearest})
+```
+
+```{clojure results="asis"}
+(api/asof-join left-ds right-ds :a {:asof-op :>=})
+```
 
 #### Concat
 

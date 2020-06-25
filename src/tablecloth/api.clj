@@ -93,6 +93,7 @@
                          left-join
                          right-join
                          inner-join
+                         asof-join
                          full-join
                          semi-join
                          anti-join

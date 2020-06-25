@@ -11,7 +11,7 @@
 
 <meta name="author" content="GenerateMe" />
 
-<meta name="date" content="2020-06-22" />
+<meta name="date" content="2020-06-25" />
 
 <title>Dplyr-like API for tech.ml.dataset</title>
 
@@ -313,7 +313,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Dplyr-like API for tech.ml.dataset</h1>
 <h4 class="author">GenerateMe</h4>
-<h4 class="date">2020-06-22</h4>
+<h4 class="date">2020-06-25</h4>
 
 </div>
 
@@ -1092,39 +1092,39 @@ false</code></pre>
 </tr>
 <tr class="even">
 <td>precipitation</td>
-<td>:float32</td>
+<td>:float64</td>
 <td align="right">1461</td>
 <td align="right">0</td>
 <td>0.000</td>
 <td>3.029</td>
 <td></td>
 <td>55.90</td>
-<td align="right">6.68019429</td>
-<td align="right">3.50564374</td>
+<td align="right">6.68019432</td>
+<td align="right">3.50564372</td>
 </tr>
 <tr class="odd">
 <td>temp_max</td>
-<td>:float32</td>
+<td>:float64</td>
 <td align="right">1461</td>
 <td align="right">0</td>
 <td>-1.600</td>
 <td>16.44</td>
 <td></td>
 <td>35.60</td>
-<td align="right">7.34975813</td>
-<td align="right">0.28093000</td>
+<td align="right">7.34975810</td>
+<td align="right">0.28092999</td>
 </tr>
 <tr class="even">
 <td>temp_min</td>
-<td>:float32</td>
+<td>:float64</td>
 <td align="right">1461</td>
 <td align="right">0</td>
 <td>-7.100</td>
 <td>8.235</td>
 <td></td>
 <td>18.30</td>
-<td align="right">5.02300419</td>
-<td align="right">-0.24945853</td>
+<td align="right">5.02300418</td>
+<td align="right">-0.24945855</td>
 </tr>
 <tr class="odd">
 <td>weather</td>
@@ -1140,7 +1140,7 @@ false</code></pre>
 </tr>
 <tr class="even">
 <td>wind</td>
-<td>:float32</td>
+<td>:float64</td>
 <td align="right">1461</td>
 <td align="right">0</td>
 <td>0.4000</td>
@@ -1148,7 +1148,7 @@ false</code></pre>
 <td></td>
 <td>9.500</td>
 <td align="right">1.43782506</td>
-<td align="right">0.89166753</td>
+<td align="right">0.89166752</td>
 </tr>
 </tbody>
 </table>
@@ -1197,25 +1197,25 @@ false</code></pre>
 <tr class="even">
 <td>precipitation</td>
 <td align="right">1461</td>
-<td>:float32</td>
+<td>:float64</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>temp_max</td>
 <td align="right">1461</td>
-<td>:float32</td>
+<td>:float64</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>temp_min</td>
 <td align="right">1461</td>
-<td>:float32</td>
+<td>:float64</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>wind</td>
 <td align="right">1461</td>
-<td>:float32</td>
+<td>:float64</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -1244,7 +1244,7 @@ false</code></pre>
 <p>Select column.</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(ds <span class="st">&quot;wind&quot;</span>)
 (api/column ds <span class="st">&quot;date&quot;</span>)</code></pre></div>
-<pre><code>#tech.ml.dataset.column&lt;float32&gt;[1461]
+<pre><code>#tech.ml.dataset.column&lt;float64&gt;[1461]
 wind
 [4.700, 4.500, 2.300, 4.700, 6.100, 2.200, 2.300, 2.000, 3.400, 3.400, 5.100, 1.900, 1.300, 5.300, 3.200, 5.000, 5.600, 5.000, 1.600, 2.300, ...]
 #tech.ml.dataset.column&lt;packed-local-date&gt;[1461]
@@ -1255,7 +1255,7 @@ date
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(<span class="kw">take</span> <span class="dv">2</span> (api/columns ds))</code></pre></div>
 <pre><code>(#tech.ml.dataset.column&lt;packed-local-date&gt;[1461]
 date
-[2012-01-01, 2012-01-02, 2012-01-03, 2012-01-04, 2012-01-05, 2012-01-06, 2012-01-07, 2012-01-08, 2012-01-09, 2012-01-10, 2012-01-11, 2012-01-12, 2012-01-13, 2012-01-14, 2012-01-15, 2012-01-16, 2012-01-17, 2012-01-18, 2012-01-19, 2012-01-20, ...] #tech.ml.dataset.column&lt;float32&gt;[1461]
+[2012-01-01, 2012-01-02, 2012-01-03, 2012-01-04, 2012-01-05, 2012-01-06, 2012-01-07, 2012-01-08, 2012-01-09, 2012-01-10, 2012-01-11, 2012-01-12, 2012-01-13, 2012-01-14, 2012-01-15, 2012-01-16, 2012-01-17, 2012-01-18, 2012-01-19, 2012-01-20, ...] #tech.ml.dataset.column&lt;float64&gt;[1461]
 precipitation
 [0.000, 10.90, 0.8000, 20.30, 1.300, 2.500, 0.000, 0.000, 4.300, 1.000, 0.000, 0.000, 0.000, 4.100, 5.300, 2.500, 8.100, 19.80, 15.20, 13.50, ...])</code></pre>
 <hr />
@@ -1265,17 +1265,17 @@ precipitation
 <hr />
 <p>Rows as sequence of sequences</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(<span class="kw">take</span> <span class="dv">2</span> (api/rows ds))</code></pre></div>
-<pre><code>([#object[java.time.LocalDate 0x482c3259 &quot;2012-01-01&quot;] 0.0 12.8 5.0 4.7 &quot;drizzle&quot;] [#object[java.time.LocalDate 0x4947b5c7 &quot;2012-01-02&quot;] 10.9 10.6 2.8 4.5 &quot;rain&quot;])</code></pre>
+<pre><code>([#object[java.time.LocalDate 0x48017fbc &quot;2012-01-01&quot;] 0.0 12.8 5.0 4.7 &quot;drizzle&quot;] [#object[java.time.LocalDate 0x6497100a &quot;2012-01-02&quot;] 10.9 10.6 2.8 4.5 &quot;rain&quot;])</code></pre>
 <hr />
 <p>Rows as sequence of maps</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(clojure.pprint/pprint (<span class="kw">take</span> <span class="dv">2</span> (api/rows ds <span class="at">:as-maps</span>)))</code></pre></div>
-<pre><code>({&quot;date&quot; #object[java.time.LocalDate 0x5ea6b863 &quot;2012-01-01&quot;],
+<pre><code>({&quot;date&quot; #object[java.time.LocalDate 0x7c01eb00 &quot;2012-01-01&quot;],
   &quot;precipitation&quot; 0.0,
   &quot;temp_min&quot; 5.0,
   &quot;weather&quot; &quot;drizzle&quot;,
   &quot;temp_max&quot; 12.8,
   &quot;wind&quot; 4.7}
- {&quot;date&quot; #object[java.time.LocalDate 0x531277f7 &quot;2012-01-02&quot;],
+ {&quot;date&quot; #object[java.time.LocalDate 0x5535002f &quot;2012-01-02&quot;],
   &quot;precipitation&quot; 10.9,
   &quot;temp_min&quot; 2.8,
   &quot;weather&quot; &quot;rain&quot;,
@@ -3655,7 +3655,7 @@ precipitation
 <th align="right">v1</th>
 <th align="right">v2</th>
 <th align="right">[1 2 3]</th>
-<th><a href="mailto:java.lang.Object@1e950aec">java.lang.Object@1e950aec</a></th>
+<th><a href="mailto:java.lang.Object@359f2877">java.lang.Object@359f2877</a></th>
 </tr>
 </thead>
 <tbody>
@@ -3871,7 +3871,7 @@ precipitation
 <th align="right">v1</th>
 <th align="right">v2</th>
 <th align="right">[1 2 3]</th>
-<th><a href="mailto:java.lang.Object@1964381a">java.lang.Object@1964381a</a></th>
+<th><a href="mailto:java.lang.Object@7a8e0187">java.lang.Object@7a8e0187</a></th>
 </tr>
 </thead>
 <tbody>
@@ -3914,7 +3914,7 @@ precipitation
 <th align="right">v1</th>
 <th align="right">v2</th>
 <th align="right">[1 2 3]</th>
-<th><a href="mailto:java.lang.Object@1964381a">java.lang.Object@1964381a</a></th>
+<th><a href="mailto:java.lang.Object@7a8e0187">java.lang.Object@7a8e0187</a></th>
 </tr>
 </thead>
 <tbody>
@@ -4056,55 +4056,55 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>0.9911</td>
+<td>0.5036</td>
 <td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td>0.7792</td>
+<td>0.9553</td>
 <td align="right">2</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td>0.02482</td>
+<td>0.2654</td>
 <td align="right">3</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
-<td>0.3969</td>
+<td>0.006650</td>
 <td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
-<td>0.5115</td>
+<td>0.2941</td>
 <td align="right">5</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
-<td>0.7264</td>
+<td>0.9554</td>
 <td align="right">6</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
-<td>0.1827</td>
+<td>0.8924</td>
 <td align="right">7</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td>0.5868</td>
+<td>0.8066</td>
 <td align="right">8</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td>0.9158</td>
+<td>0.9097</td>
 <td align="right">9</td>
 <td align="right">1.5</td>
 <td>C</td>
@@ -4946,42 +4946,6 @@ precipitation
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>2</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>5</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>9</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>3</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>1</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>4</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td>1</td>
 <td>8</td>
 <td align="right">0.5</td>
 <td>A</td>
@@ -4994,7 +4958,43 @@ precipitation
 </tr>
 <tr class="odd">
 <td>1</td>
+<td>4</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>5</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td>1</td>
 <td>6</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>3</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>9</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>1</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>2</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
@@ -5624,19 +5624,19 @@ precipitation
 <hr />
 <p>Double array conversion.</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/-&gt;array DS <span class="at">:V1</span>)</code></pre></div>
-<pre><code>#object[&quot;[J&quot; 0x5982232f &quot;[J@5982232f&quot;]</code></pre>
+<pre><code>#object[&quot;[J&quot; 0x281d433 &quot;[J@281d433&quot;]</code></pre>
 <hr />
 <p>Function also works on grouped dataset</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(<span class="kw">-&gt;</span> DS
     (api/group-by <span class="at">:V3</span>)
     (api/-&gt;array <span class="at">:V2</span>))</code></pre></div>
-<pre><code>(#object[&quot;[J&quot; 0x60ab9064 &quot;[J@60ab9064&quot;] #object[&quot;[J&quot; 0x74102cb0 &quot;[J@74102cb0&quot;] #object[&quot;[J&quot; 0x317d0e77 &quot;[J@317d0e77&quot;])</code></pre>
+<pre><code>(#object[&quot;[J&quot; 0x6cc0e9c5 &quot;[J@6cc0e9c5&quot;] #object[&quot;[J&quot; 0x1154889e &quot;[J@1154889e&quot;] #object[&quot;[J&quot; 0x64db329d &quot;[J@64db329d&quot;])</code></pre>
 <hr />
 <p>You can also cast the type to the other one (if casting is possible):</p>
 <div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/-&gt;array DS <span class="at">:V4</span> <span class="at">:string</span>)
 (api/-&gt;array DS <span class="at">:V1</span> <span class="at">:float32</span>)</code></pre></div>
-<pre><code>#object[&quot;[Ljava.lang.String;&quot; 0x2af610de &quot;[Ljava.lang.String;@2af610de&quot;]
-#object[&quot;[F&quot; 0x26a18448 &quot;[F@26a18448&quot;]</code></pre>
+<pre><code>#object[&quot;[Ljava.lang.String;&quot; 0x57ae6a24 &quot;[Ljava.lang.String;@57ae6a24&quot;]
+#object[&quot;[F&quot; 0x6db9aa79 &quot;[F@6db9aa79&quot;]</code></pre>
 </div>
 </div>
 <div id="rows" class="section level3">
@@ -5961,10 +5961,10 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -6006,21 +6006,33 @@ precipitation
 <tbody>
 <tr class="odd">
 <td align="right">2</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
 <td align="right">2</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.5</td>
-<td>A</td>
+<td align="right">9</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
@@ -6030,7 +6042,7 @@ precipitation
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">7</td>
+<td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
@@ -6042,21 +6054,9 @@ precipitation
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">3</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td align="right">1</td>
 <td align="right">5</td>
 <td align="right">1.0</td>
 <td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -6075,8 +6075,8 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">7</td>
+<td align="right">2</td>
+<td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
@@ -6094,15 +6094,15 @@ precipitation
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">2</td>
+<td align="right">8</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.5</td>
-<td>A</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -6122,33 +6122,33 @@ precipitation
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
+<td align="right">3</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
 <td align="right">5</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="right">2</td>
 <td align="right">2</td>
 <td align="right">1.0</td>
 <td>B</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.5</td>
+<td>A</td>
 </tr>
 <tr class="odd">
 <td align="right">2</td>
 <td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">9</td>
-<td align="right">1.5</td>
-<td>C</td>
 </tr>
 </tbody>
 </table>
@@ -6213,10 +6213,10 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
@@ -6225,38 +6225,14 @@ precipitation
 <td>B</td>
 </tr>
 <tr class="odd">
-<td align="right">2</td>
-<td align="right">6</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
 <td align="right">1</td>
-<td align="right">3</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">7</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">9</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
 <tr class="even">
 <td align="right">1</td>
-<td align="right">7</td>
+<td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
@@ -6265,6 +6241,30 @@ precipitation
 <td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -6545,14 +6545,14 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
-<td align="right">7</td>
+<td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
@@ -6569,10 +6569,22 @@ precipitation
 <td>A</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">7</td>
+<td align="right">2</td>
+<td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
@@ -6588,19 +6600,7 @@ precipitation
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">2</td>
+<td align="right">8</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
@@ -6611,26 +6611,26 @@ precipitation
 <td>C</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
-<td align="right">6</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
 <td align="right">1</td>
 <td align="right">3</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">6</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
 <td align="right">9</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">6</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
@@ -7813,16 +7813,16 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
-<td align="right">6</td>
-<td align="right">1.5</td>
-<td>C</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -13366,8 +13366,8 @@ precipitation
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0</td>
-<td align="right">0.05643226</td>
-<td align="right">0.29102694</td>
+<td align="right">0.44527090</td>
+<td align="right">0.30252015</td>
 <td align="right">3</td>
 <td align="right">-2</td>
 </tr>
@@ -13375,8 +13375,8 @@ precipitation
 <td align="right">2</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.84081458</td>
-<td align="right">0.91720114</td>
+<td align="right">0.54860176</td>
+<td align="right">0.53981172</td>
 <td align="right">3</td>
 <td align="right">-2</td>
 </tr>
@@ -13384,8 +13384,8 @@ precipitation
 <td align="right">3</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">0.64215607</td>
-<td align="right">0.58936824</td>
+<td align="right">0.37865939</td>
+<td align="right">0.09934954</td>
 <td align="right">3</td>
 <td align="right">-2</td>
 </tr>
@@ -13393,8 +13393,8 @@ precipitation
 <td align="right">4</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">0.86786956</td>
-<td align="right">0.16496914</td>
+<td align="right">0.66311511</td>
+<td align="right">0.33957648</td>
 <td align="right">3</td>
 <td align="right">-2</td>
 </tr>
@@ -13420,7 +13420,7 @@ precipitation
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">1</td>
-<td align="right">0.05643226</td>
+<td align="right">0.44527090</td>
 <td align="right">3</td>
 </tr>
 <tr class="even">
@@ -13428,7 +13428,7 @@ precipitation
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.84081458</td>
+<td align="right">0.54860176</td>
 <td align="right">3</td>
 </tr>
 <tr class="odd">
@@ -13436,7 +13436,7 @@ precipitation
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.64215607</td>
+<td align="right">0.37865939</td>
 <td align="right">3</td>
 </tr>
 <tr class="even">
@@ -13444,7 +13444,7 @@ precipitation
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
-<td align="right">0.86786956</td>
+<td align="right">0.66311511</td>
 <td align="right">3</td>
 </tr>
 <tr class="odd">
@@ -13452,7 +13452,7 @@ precipitation
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">2</td>
-<td align="right">0.29102694</td>
+<td align="right">0.30252015</td>
 <td align="right">-2</td>
 </tr>
 <tr class="even">
@@ -13460,7 +13460,7 @@ precipitation
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">2</td>
-<td align="right">0.91720114</td>
+<td align="right">0.53981172</td>
 <td align="right">-2</td>
 </tr>
 <tr class="odd">
@@ -13468,7 +13468,7 @@ precipitation
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">2</td>
-<td align="right">0.58936824</td>
+<td align="right">0.09934954</td>
 <td align="right">-2</td>
 </tr>
 <tr class="even">
@@ -13476,7 +13476,7 @@ precipitation
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">2</td>
-<td align="right">0.16496914</td>
+<td align="right">0.33957648</td>
 <td align="right">-2</td>
 </tr>
 </tbody>
@@ -14190,7 +14190,7 @@ precipitation
 <td>A</td>
 <td>AI</td>
 <td align="right">2000</td>
-<td align="right">1.63727150</td>
+<td align="right">1.63727158</td>
 </tr>
 <tr class="even">
 <td>A</td>
@@ -14202,13 +14202,13 @@ precipitation
 <td>A</td>
 <td>AI</td>
 <td align="right">2002</td>
-<td align="right">-1.56797743</td>
+<td align="right">-1.56797745</td>
 </tr>
 <tr class="even">
 <td>A</td>
 <td>AI</td>
 <td align="right">2003</td>
-<td align="right">-0.44455510</td>
+<td align="right">-0.44455509</td>
 </tr>
 <tr class="odd">
 <td>A</td>
@@ -14220,55 +14220,55 @@ precipitation
 <td>A</td>
 <td>AI</td>
 <td align="right">2005</td>
-<td align="right">1.61183100</td>
+<td align="right">1.61183090</td>
 </tr>
 <tr class="odd">
 <td>A</td>
 <td>AI</td>
 <td align="right">2006</td>
-<td align="right">-0.70434684</td>
+<td align="right">-0.70434682</td>
 </tr>
 <tr class="even">
 <td>A</td>
 <td>AI</td>
 <td align="right">2007</td>
-<td align="right">-1.53550541</td>
+<td align="right">-1.53550542</td>
 </tr>
 <tr class="odd">
 <td>A</td>
 <td>AI</td>
 <td align="right">2008</td>
-<td align="right">0.83907160</td>
+<td align="right">0.83907155</td>
 </tr>
 <tr class="even">
 <td>A</td>
 <td>AI</td>
 <td align="right">2009</td>
-<td align="right">-0.37424111</td>
+<td align="right">-0.37424110</td>
 </tr>
 <tr class="odd">
 <td>A</td>
 <td>AI</td>
 <td align="right">2010</td>
-<td align="right">-0.71158928</td>
+<td align="right">-0.71158926</td>
 </tr>
 <tr class="even">
 <td>A</td>
 <td>AI</td>
 <td align="right">2011</td>
-<td align="right">1.12805630</td>
+<td align="right">1.12805634</td>
 </tr>
 <tr class="odd">
 <td>A</td>
 <td>AI</td>
 <td align="right">2012</td>
-<td align="right">1.45718240</td>
+<td align="right">1.45718247</td>
 </tr>
 <tr class="even">
 <td>A</td>
 <td>AI</td>
 <td align="right">2013</td>
-<td align="right">-1.55934095</td>
+<td align="right">-1.55934101</td>
 </tr>
 <tr class="odd">
 <td>A</td>
@@ -14286,7 +14286,7 @@ precipitation
 <td>B</td>
 <td>AI</td>
 <td align="right">2001</td>
-<td align="right">-0.68863577</td>
+<td align="right">-0.68863576</td>
 </tr>
 <tr class="even">
 <td>B</td>
@@ -14298,13 +14298,13 @@ precipitation
 <td>B</td>
 <td>AI</td>
 <td align="right">2003</td>
-<td align="right">-0.72339684</td>
+<td align="right">-0.72339686</td>
 </tr>
 <tr class="even">
 <td>B</td>
 <td>AI</td>
 <td align="right">2004</td>
-<td align="right">0.47248950</td>
+<td align="right">0.47248952</td>
 </tr>
 <tr class="odd">
 <td>B</td>
@@ -14316,25 +14316,25 @@ precipitation
 <td>B</td>
 <td>AI</td>
 <td align="right">2006</td>
-<td align="right">-0.34782109</td>
+<td align="right">-0.34782108</td>
 </tr>
 <tr class="odd">
 <td>B</td>
 <td>AI</td>
 <td align="right">2007</td>
-<td align="right">0.52425283</td>
+<td align="right">0.52425284</td>
 </tr>
 <tr class="even">
 <td>B</td>
 <td>AI</td>
 <td align="right">2008</td>
-<td align="right">1.83230940</td>
+<td align="right">1.83230937</td>
 </tr>
 <tr class="odd">
 <td>B</td>
 <td>AI</td>
 <td align="right">2009</td>
-<td align="right">0.10706490</td>
+<td align="right">0.10706491</td>
 </tr>
 </tbody>
 </table>
@@ -14352,92 +14352,92 @@ precipitation
 <tbody>
 <tr class="odd">
 <td align="right">2000</td>
-<td align="right">1.63727150</td>
-<td align="right">1.40470850</td>
+<td align="right">1.63727158</td>
+<td align="right">1.40470848</td>
 <td align="right">-0.02617661</td>
 </tr>
 <tr class="even">
 <td align="right">2001</td>
 <td align="right">0.15870784</td>
-<td align="right">-0.59618372</td>
-<td align="right">-0.68863577</td>
+<td align="right">-0.59618369</td>
+<td align="right">-0.68863576</td>
 </tr>
 <tr class="odd">
 <td align="right">2002</td>
-<td align="right">-1.56797743</td>
-<td align="right">-0.26568580</td>
+<td align="right">-1.56797745</td>
+<td align="right">-0.26568579</td>
 <td align="right">0.06248741</td>
 </tr>
 <tr class="even">
 <td align="right">2003</td>
-<td align="right">-0.44455510</td>
-<td align="right">0.65257806</td>
-<td align="right">-0.72339684</td>
+<td align="right">-0.44455509</td>
+<td align="right">0.65257808</td>
+<td align="right">-0.72339686</td>
 </tr>
 <tr class="odd">
 <td align="right">2004</td>
 <td align="right">-0.07133701</td>
-<td align="right">0.62565000</td>
-<td align="right">0.47248950</td>
+<td align="right">0.62564999</td>
+<td align="right">0.47248952</td>
 </tr>
 <tr class="even">
 <td align="right">2005</td>
-<td align="right">1.61183100</td>
-<td align="right">-1.34530294</td>
+<td align="right">1.61183090</td>
+<td align="right">-1.34530299</td>
 <td align="right">-0.94173861</td>
 </tr>
 <tr class="odd">
 <td align="right">2006</td>
-<td align="right">-0.70434684</td>
-<td align="right">-0.97184974</td>
-<td align="right">-0.34782109</td>
+<td align="right">-0.70434682</td>
+<td align="right">-0.97184975</td>
+<td align="right">-0.34782108</td>
 </tr>
 <tr class="even">
 <td align="right">2007</td>
-<td align="right">-1.53550541</td>
-<td align="right">-1.69715822</td>
-<td align="right">0.52425283</td>
+<td align="right">-1.53550542</td>
+<td align="right">-1.69715821</td>
+<td align="right">0.52425284</td>
 </tr>
 <tr class="odd">
 <td align="right">2008</td>
-<td align="right">0.83907160</td>
+<td align="right">0.83907155</td>
 <td align="right">0.04556128</td>
-<td align="right">1.83230940</td>
+<td align="right">1.83230937</td>
 </tr>
 <tr class="even">
 <td align="right">2009</td>
-<td align="right">-0.37424111</td>
-<td align="right">1.19315040</td>
-<td align="right">0.10706490</td>
+<td align="right">-0.37424110</td>
+<td align="right">1.19315043</td>
+<td align="right">0.10706491</td>
 </tr>
 <tr class="odd">
 <td align="right">2010</td>
-<td align="right">-0.71158928</td>
-<td align="right">-1.60557508</td>
-<td align="right">-0.32903662</td>
+<td align="right">-0.71158926</td>
+<td align="right">-1.60557503</td>
+<td align="right">-0.32903664</td>
 </tr>
 <tr class="even">
 <td align="right">2011</td>
-<td align="right">1.12805630</td>
-<td align="right">-0.77235496</td>
-<td align="right">-1.78319120</td>
+<td align="right">1.12805634</td>
+<td align="right">-0.77235497</td>
+<td align="right">-1.78319121</td>
 </tr>
 <tr class="odd">
 <td align="right">2012</td>
-<td align="right">1.45718240</td>
-<td align="right">-2.50262737</td>
-<td align="right">0.61125800</td>
+<td align="right">1.45718247</td>
+<td align="right">-2.50262738</td>
+<td align="right">0.61125798</td>
 </tr>
 <tr class="even">
 <td align="right">2013</td>
-<td align="right">-1.55934095</td>
-<td align="right">-1.62753773</td>
+<td align="right">-1.55934101</td>
+<td align="right">-1.62753769</td>
 <td align="right">-0.78526092</td>
 </tr>
 <tr class="odd">
 <td align="right">2014</td>
 <td align="right">-0.11695838</td>
-<td align="right">0.03329644</td>
+<td align="right">0.03329645</td>
 <td align="right">0.97843635</td>
 </tr>
 </tbody>
@@ -14457,92 +14457,92 @@ precipitation
 <tbody>
 <tr class="odd">
 <td align="right">2000</td>
-<td align="right">1.63727150</td>
-<td align="right">1.40470850</td>
+<td align="right">1.63727158</td>
+<td align="right">1.40470848</td>
 <td align="right">-0.02617661</td>
 </tr>
 <tr class="even">
 <td align="right">2001</td>
 <td align="right">0.15870784</td>
-<td align="right">-0.59618372</td>
-<td align="right">-0.68863577</td>
+<td align="right">-0.59618369</td>
+<td align="right">-0.68863576</td>
 </tr>
 <tr class="odd">
 <td align="right">2002</td>
-<td align="right">-1.56797743</td>
-<td align="right">-0.26568580</td>
+<td align="right">-1.56797745</td>
+<td align="right">-0.26568579</td>
 <td align="right">0.06248741</td>
 </tr>
 <tr class="even">
 <td align="right">2003</td>
-<td align="right">-0.44455510</td>
-<td align="right">0.65257806</td>
-<td align="right">-0.72339684</td>
+<td align="right">-0.44455509</td>
+<td align="right">0.65257808</td>
+<td align="right">-0.72339686</td>
 </tr>
 <tr class="odd">
 <td align="right">2004</td>
 <td align="right">-0.07133701</td>
-<td align="right">0.62565000</td>
-<td align="right">0.47248950</td>
+<td align="right">0.62564999</td>
+<td align="right">0.47248952</td>
 </tr>
 <tr class="even">
 <td align="right">2005</td>
-<td align="right">1.61183100</td>
-<td align="right">-1.34530294</td>
+<td align="right">1.61183090</td>
+<td align="right">-1.34530299</td>
 <td align="right">-0.94173861</td>
 </tr>
 <tr class="odd">
 <td align="right">2006</td>
-<td align="right">-0.70434684</td>
-<td align="right">-0.97184974</td>
-<td align="right">-0.34782109</td>
+<td align="right">-0.70434682</td>
+<td align="right">-0.97184975</td>
+<td align="right">-0.34782108</td>
 </tr>
 <tr class="even">
 <td align="right">2007</td>
-<td align="right">-1.53550541</td>
-<td align="right">-1.69715822</td>
-<td align="right">0.52425283</td>
+<td align="right">-1.53550542</td>
+<td align="right">-1.69715821</td>
+<td align="right">0.52425284</td>
 </tr>
 <tr class="odd">
 <td align="right">2008</td>
-<td align="right">0.83907160</td>
+<td align="right">0.83907155</td>
 <td align="right">0.04556128</td>
-<td align="right">1.83230940</td>
+<td align="right">1.83230937</td>
 </tr>
 <tr class="even">
 <td align="right">2009</td>
-<td align="right">-0.37424111</td>
-<td align="right">1.19315040</td>
-<td align="right">0.10706490</td>
+<td align="right">-0.37424110</td>
+<td align="right">1.19315043</td>
+<td align="right">0.10706491</td>
 </tr>
 <tr class="odd">
 <td align="right">2010</td>
-<td align="right">-0.71158928</td>
-<td align="right">-1.60557508</td>
-<td align="right">-0.32903662</td>
+<td align="right">-0.71158926</td>
+<td align="right">-1.60557503</td>
+<td align="right">-0.32903664</td>
 </tr>
 <tr class="even">
 <td align="right">2011</td>
-<td align="right">1.12805630</td>
-<td align="right">-0.77235496</td>
-<td align="right">-1.78319120</td>
+<td align="right">1.12805634</td>
+<td align="right">-0.77235497</td>
+<td align="right">-1.78319121</td>
 </tr>
 <tr class="odd">
 <td align="right">2012</td>
-<td align="right">1.45718240</td>
-<td align="right">-2.50262737</td>
-<td align="right">0.61125800</td>
+<td align="right">1.45718247</td>
+<td align="right">-2.50262738</td>
+<td align="right">0.61125798</td>
 </tr>
 <tr class="even">
 <td align="right">2013</td>
-<td align="right">-1.55934095</td>
-<td align="right">-1.62753773</td>
+<td align="right">-1.55934101</td>
+<td align="right">-1.62753769</td>
 <td align="right">-0.78526092</td>
 </tr>
 <tr class="odd">
 <td align="right">2014</td>
 <td align="right">-0.11695838</td>
-<td align="right">0.03329644</td>
+<td align="right">0.03329645</td>
 <td align="right">0.97843635</td>
 </tr>
 </tbody>
@@ -15310,12 +15310,12 @@ precipitation
 <tr class="even">
 <td>ABW</td>
 <td>SP.URB.GROW</td>
-<td align="right">1.18263230E+00</td>
-<td align="right">1.41302120E+00</td>
-<td align="right">1.43455960E+00</td>
-<td align="right">1.31036040E+00</td>
-<td align="right">9.51477700E-01</td>
-<td align="right">4.91302730E-01</td>
+<td align="right">1.18263237E+00</td>
+<td align="right">1.41302122E+00</td>
+<td align="right">1.43455953E+00</td>
+<td align="right">1.31036044E+00</td>
+<td align="right">9.51477684E-01</td>
+<td align="right">4.91302715E-01</td>
 </tr>
 <tr class="odd">
 <td>ABW</td>
@@ -15330,12 +15330,12 @@ precipitation
 <tr class="even">
 <td>ABW</td>
 <td>SP.POP.GROW</td>
-<td align="right">2.05502680E+00</td>
-<td align="right">2.22593020E+00</td>
-<td align="right">2.22905610E+00</td>
-<td align="right">2.10935430E+00</td>
-<td align="right">1.75735280E+00</td>
-<td align="right">1.30203880E+00</td>
+<td align="right">2.05502678E+00</td>
+<td align="right">2.22593013E+00</td>
+<td align="right">2.22905605E+00</td>
+<td align="right">2.10935434E+00</td>
+<td align="right">1.75735287E+00</td>
+<td align="right">1.30203884E+00</td>
 </tr>
 <tr class="odd">
 <td>AFG</td>
@@ -15350,32 +15350,32 @@ precipitation
 <tr class="even">
 <td>AFG</td>
 <td>SP.URB.GROW</td>
-<td align="right">3.91222830E+00</td>
-<td align="right">4.66283850E+00</td>
-<td align="right">5.13467450E+00</td>
-<td align="right">5.23045870E+00</td>
-<td align="right">5.12439300E+00</td>
+<td align="right">3.91222846E+00</td>
+<td align="right">4.66283822E+00</td>
+<td align="right">5.13467454E+00</td>
+<td align="right">5.23045853E+00</td>
+<td align="right">5.12439302E+00</td>
 <td align="right">4.76864700E+00</td>
 </tr>
 <tr class="odd">
 <td>AFG</td>
 <td>SP.POP.TOTL</td>
 <td align="right">2.00937560E+07</td>
-<td align="right">2.09664640E+07</td>
-<td align="right">2.19799240E+07</td>
-<td align="right">2.30648520E+07</td>
-<td align="right">2.41189800E+07</td>
+<td align="right">2.09664630E+07</td>
+<td align="right">2.19799230E+07</td>
+<td align="right">2.30648510E+07</td>
+<td align="right">2.41189790E+07</td>
 <td align="right">2.50707980E+07</td>
 </tr>
 <tr class="even">
 <td>AFG</td>
 <td>SP.POP.GROW</td>
-<td align="right">3.49465870E+00</td>
-<td align="right">4.25150400E+00</td>
-<td align="right">4.72052860E+00</td>
-<td align="right">4.81804130E+00</td>
-<td align="right">4.46891830E+00</td>
-<td align="right">3.87047000E+00</td>
+<td align="right">3.49465874E+00</td>
+<td align="right">4.25150411E+00</td>
+<td align="right">4.72052846E+00</td>
+<td align="right">4.81804112E+00</td>
+<td align="right">4.46891840E+00</td>
+<td align="right">3.87047016E+00</td>
 </tr>
 <tr class="odd">
 <td>AGO</td>
@@ -15390,32 +15390,32 @@ precipitation
 <tr class="even">
 <td>AGO</td>
 <td>SP.URB.GROW</td>
-<td align="right">5.43749430E+00</td>
-<td align="right">5.58771940E+00</td>
-<td align="right">5.70013240E+00</td>
-<td align="right">5.75812700E+00</td>
-<td align="right">5.75341460E+00</td>
-<td align="right">5.69279670E+00</td>
+<td align="right">5.43749411E+00</td>
+<td align="right">5.58771954E+00</td>
+<td align="right">5.70013237E+00</td>
+<td align="right">5.75812711E+00</td>
+<td align="right">5.75341450E+00</td>
+<td align="right">5.69279690E+00</td>
 </tr>
 <tr class="odd">
 <td>AGO</td>
 <td>SP.POP.TOTL</td>
 <td align="right">1.64409240E+07</td>
 <td align="right">1.69832660E+07</td>
-<td align="right">1.75726480E+07</td>
-<td align="right">1.82033680E+07</td>
+<td align="right">1.75726490E+07</td>
+<td align="right">1.82033690E+07</td>
 <td align="right">1.88657160E+07</td>
 <td align="right">1.95525420E+07</td>
 </tr>
 <tr class="even">
 <td>AGO</td>
 <td>SP.POP.GROW</td>
-<td align="right">3.03294350E+00</td>
-<td align="right">3.24549150E+00</td>
-<td align="right">3.41151520E+00</td>
-<td align="right">3.52630280E+00</td>
-<td align="right">3.57396200E+00</td>
-<td align="right">3.57589960E+00</td>
+<td align="right">3.03294342E+00</td>
+<td align="right">3.24549139E+00</td>
+<td align="right">3.41151529E+00</td>
+<td align="right">3.52630277E+00</td>
+<td align="right">3.57396197E+00</td>
+<td align="right">3.57589970E+00</td>
 </tr>
 <tr class="odd">
 <td>ALB</td>
@@ -15430,12 +15430,12 @@ precipitation
 <tr class="even">
 <td>ALB</td>
 <td>SP.URB.GROW</td>
-<td align="right">7.42478600E-01</td>
-<td align="right">7.10442600E-01</td>
-<td align="right">2.18120880E+00</td>
-<td align="right">2.06027410E+00</td>
-<td align="right">1.97179890E+00</td>
-<td align="right">1.82642940E+00</td>
+<td align="right">7.42478629E-01</td>
+<td align="right">7.10442618E-01</td>
+<td align="right">2.18120890E+00</td>
+<td align="right">2.06027418E+00</td>
+<td align="right">1.97179894E+00</td>
+<td align="right">1.82642936E+00</td>
 </tr>
 <tr class="odd">
 <td>ALB</td>
@@ -15450,12 +15450,12 @@ precipitation
 <tr class="even">
 <td>ALB</td>
 <td>SP.POP.GROW</td>
-<td align="right">-6.37356818E-01</td>
-<td align="right">-9.38470423E-01</td>
-<td align="right">-2.99876690E-01</td>
-<td align="right">-3.74149173E-01</td>
+<td align="right">-6.37356834E-01</td>
+<td align="right">-9.38470428E-01</td>
+<td align="right">-2.99876697E-01</td>
+<td align="right">-3.74149169E-01</td>
 <td align="right">-4.17931378E-01</td>
-<td align="right">-5.11790097E-01</td>
+<td align="right">-5.11790116E-01</td>
 </tr>
 <tr class="odd">
 <td>AND</td>
@@ -15470,12 +15470,12 @@ precipitation
 <tr class="even">
 <td>AND</td>
 <td>SP.URB.GROW</td>
-<td align="right">1.27931380E+00</td>
-<td align="right">2.57186910E+00</td>
-<td align="right">3.49205350E+00</td>
-<td align="right">3.89996050E+00</td>
-<td align="right">3.59758970E+00</td>
-<td align="right">2.86777930E+00</td>
+<td align="right">1.27931383E+00</td>
+<td align="right">2.57186909E+00</td>
+<td align="right">3.49205352E+00</td>
+<td align="right">3.89996041E+00</td>
+<td align="right">3.59758966E+00</td>
+<td align="right">2.86777917E+00</td>
 </tr>
 <tr class="odd">
 <td>AND</td>
@@ -15490,52 +15490,52 @@ precipitation
 <tr class="even">
 <td>AND</td>
 <td>SP.POP.GROW</td>
-<td align="right">1.57216560E+00</td>
-<td align="right">2.93999220E+00</td>
-<td align="right">3.94257330E+00</td>
-<td align="right">4.37544900E+00</td>
-<td align="right">4.09892370E+00</td>
-<td align="right">3.38241650E+00</td>
+<td align="right">1.57216555E+00</td>
+<td align="right">2.93999221E+00</td>
+<td align="right">3.94257335E+00</td>
+<td align="right">4.37544919E+00</td>
+<td align="right">4.09892348E+00</td>
+<td align="right">3.38241655E+00</td>
 </tr>
 <tr class="odd">
 <td>ARB</td>
 <td>SP.URB.TOTL</td>
-<td align="right">1.49981216E+08</td>
-<td align="right">1.53924352E+08</td>
-<td align="right">1.57985744E+08</td>
-<td align="right">1.62267760E+08</td>
-<td align="right">1.66820464E+08</td>
-<td align="right">1.71813696E+08</td>
+<td align="right">1.49981223E+08</td>
+<td align="right">1.53924351E+08</td>
+<td align="right">1.57985738E+08</td>
+<td align="right">1.62267754E+08</td>
+<td align="right">1.66820459E+08</td>
+<td align="right">1.71813698E+08</td>
 </tr>
 <tr class="even">
 <td>ARB</td>
 <td>SP.URB.GROW</td>
-<td align="right">2.59956300E+00</td>
-<td align="right">2.62908100E+00</td>
-<td align="right">2.63856050E+00</td>
-<td align="right">2.71038130E+00</td>
-<td align="right">2.80567460E+00</td>
-<td align="right">2.99318150E+00</td>
+<td align="right">2.59956290E+00</td>
+<td align="right">2.62908111E+00</td>
+<td align="right">2.63856042E+00</td>
+<td align="right">2.71038136E+00</td>
+<td align="right">2.80567450E+00</td>
+<td align="right">2.99318143E+00</td>
 </tr>
 <tr class="odd">
 <td>ARB</td>
 <td>SP.POP.TOTL</td>
-<td align="right">2.83832000E+08</td>
-<td align="right">2.89850368E+08</td>
-<td align="right">2.96026560E+08</td>
-<td align="right">3.02434528E+08</td>
-<td align="right">3.09162016E+08</td>
-<td align="right">3.16264736E+08</td>
+<td align="right">2.83832016E+08</td>
+<td align="right">2.89850357E+08</td>
+<td align="right">2.96026575E+08</td>
+<td align="right">3.02434519E+08</td>
+<td align="right">3.09162029E+08</td>
+<td align="right">3.16264728E+08</td>
 </tr>
 <tr class="even">
 <td>ARB</td>
 <td>SP.POP.GROW</td>
-<td align="right">2.11148600E+00</td>
-<td align="right">2.12038830E+00</td>
-<td align="right">2.13082980E+00</td>
+<td align="right">2.11148598E+00</td>
+<td align="right">2.12038835E+00</td>
+<td align="right">2.13082988E+00</td>
 <td align="right">2.16465160E+00</td>
-<td align="right">2.22445180E+00</td>
-<td align="right">2.29740330E+00</td>
+<td align="right">2.22445177E+00</td>
+<td align="right">2.29740341E+00</td>
 </tr>
 <tr class="odd">
 <td>ARE</td>
@@ -15575,7 +15575,7 @@ precipitation
 <td>ABW</td>
 <td>SP.URB.GROW</td>
 <td align="right">2013</td>
-<td align="right">6.69504000E-01</td>
+<td align="right">6.69503994E-01</td>
 </tr>
 <tr class="odd">
 <td>ABW</td>
@@ -15587,7 +15587,7 @@ precipitation
 <td>ABW</td>
 <td>SP.POP.GROW</td>
 <td align="right">2013</td>
-<td align="right">5.92914000E-01</td>
+<td align="right">5.92914005E-01</td>
 </tr>
 <tr class="odd">
 <td>AFG</td>
@@ -15599,7 +15599,7 @@ precipitation
 <td>AFG</td>
 <td>SP.URB.GROW</td>
 <td align="right">2013</td>
-<td align="right">4.19298000E+00</td>
+<td align="right">4.19297967E+00</td>
 </tr>
 <tr class="odd">
 <td>AFG</td>
@@ -15611,7 +15611,7 @@ precipitation
 <td>AFG</td>
 <td>SP.POP.GROW</td>
 <td align="right">2013</td>
-<td align="right">3.31522420E+00</td>
+<td align="right">3.31522413E+00</td>
 </tr>
 <tr class="odd">
 <td>AGO</td>
@@ -15623,7 +15623,7 @@ precipitation
 <td>AGO</td>
 <td>SP.URB.GROW</td>
 <td align="right">2013</td>
-<td align="right">4.72272250E+00</td>
+<td align="right">4.72272270E+00</td>
 </tr>
 <tr class="odd">
 <td>AGO</td>
@@ -15635,7 +15635,7 @@ precipitation
 <td>AGO</td>
 <td>SP.POP.GROW</td>
 <td align="right">2013</td>
-<td align="right">3.53182400E+00</td>
+<td align="right">3.53182419E+00</td>
 </tr>
 <tr class="odd">
 <td>ALB</td>
@@ -15647,7 +15647,7 @@ precipitation
 <td>ALB</td>
 <td>SP.URB.GROW</td>
 <td align="right">2013</td>
-<td align="right">1.74363930E+00</td>
+<td align="right">1.74363937E+00</td>
 </tr>
 <tr class="odd">
 <td>ALB</td>
@@ -15659,7 +15659,7 @@ precipitation
 <td>ALB</td>
 <td>SP.POP.GROW</td>
 <td align="right">2013</td>
-<td align="right">-1.83211386E-01</td>
+<td align="right">-1.83211385E-01</td>
 </tr>
 <tr class="odd">
 <td>AND</td>
@@ -15671,7 +15671,7 @@ precipitation
 <td>AND</td>
 <td>SP.URB.GROW</td>
 <td align="right">2013</td>
-<td align="right">-2.11923337E+00</td>
+<td align="right">-2.11923331E+00</td>
 </tr>
 <tr class="odd">
 <td>AND</td>
@@ -15689,25 +15689,25 @@ precipitation
 <td>ARB</td>
 <td>SP.URB.TOTL</td>
 <td align="right">2013</td>
-<td align="right">2.18605120E+08</td>
+<td align="right">2.18605128E+08</td>
 </tr>
 <tr class="even">
 <td>ARB</td>
 <td>SP.URB.GROW</td>
 <td align="right">2013</td>
-<td align="right">2.78289400E+00</td>
+<td align="right">2.78289395E+00</td>
 </tr>
 <tr class="odd">
 <td>ARB</td>
 <td>SP.POP.TOTL</td>
 <td align="right">2013</td>
-<td align="right">3.81702080E+08</td>
+<td align="right">3.81702086E+08</td>
 </tr>
 <tr class="even">
 <td>ARB</td>
 <td>SP.POP.GROW</td>
 <td align="right">2013</td>
-<td align="right">2.24884440E+00</td>
+<td align="right">2.24884429E+00</td>
 </tr>
 <tr class="odd">
 <td>ARE</td>
@@ -15746,7 +15746,7 @@ precipitation
 <td>URB</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">6.69504000E-01</td>
+<td align="right">6.69503994E-01</td>
 </tr>
 <tr class="odd">
 <td>ABW</td>
@@ -15760,7 +15760,7 @@ precipitation
 <td>POP</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">5.92914000E-01</td>
+<td align="right">5.92914005E-01</td>
 </tr>
 <tr class="odd">
 <td>AFG</td>
@@ -15774,7 +15774,7 @@ precipitation
 <td>URB</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">4.19298000E+00</td>
+<td align="right">4.19297967E+00</td>
 </tr>
 <tr class="odd">
 <td>AFG</td>
@@ -15788,7 +15788,7 @@ precipitation
 <td>POP</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">3.31522420E+00</td>
+<td align="right">3.31522413E+00</td>
 </tr>
 <tr class="odd">
 <td>AGO</td>
@@ -15802,7 +15802,7 @@ precipitation
 <td>URB</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">4.72272250E+00</td>
+<td align="right">4.72272270E+00</td>
 </tr>
 <tr class="odd">
 <td>AGO</td>
@@ -15816,7 +15816,7 @@ precipitation
 <td>POP</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">3.53182400E+00</td>
+<td align="right">3.53182419E+00</td>
 </tr>
 <tr class="odd">
 <td>ALB</td>
@@ -15830,7 +15830,7 @@ precipitation
 <td>URB</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">1.74363930E+00</td>
+<td align="right">1.74363937E+00</td>
 </tr>
 <tr class="odd">
 <td>ALB</td>
@@ -15844,7 +15844,7 @@ precipitation
 <td>POP</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">-1.83211386E-01</td>
+<td align="right">-1.83211385E-01</td>
 </tr>
 <tr class="odd">
 <td>AND</td>
@@ -15858,7 +15858,7 @@ precipitation
 <td>URB</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">-2.11923337E+00</td>
+<td align="right">-2.11923331E+00</td>
 </tr>
 <tr class="odd">
 <td>AND</td>
@@ -15879,28 +15879,28 @@ precipitation
 <td>URB</td>
 <td>TOTL</td>
 <td align="right">2013</td>
-<td align="right">2.18605120E+08</td>
+<td align="right">2.18605128E+08</td>
 </tr>
 <tr class="even">
 <td>ARB</td>
 <td>URB</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">2.78289400E+00</td>
+<td align="right">2.78289395E+00</td>
 </tr>
 <tr class="odd">
 <td>ARB</td>
 <td>POP</td>
 <td>TOTL</td>
 <td align="right">2013</td>
-<td align="right">3.81702080E+08</td>
+<td align="right">3.81702086E+08</td>
 </tr>
 <tr class="even">
 <td>ARB</td>
 <td>POP</td>
 <td>GROW</td>
 <td align="right">2013</td>
-<td align="right">2.24884440E+00</td>
+<td align="right">2.24884429E+00</td>
 </tr>
 <tr class="odd">
 <td>ARE</td>
@@ -15929,63 +15929,63 @@ precipitation
 <td>ABW</td>
 <td>URB</td>
 <td align="right">2013</td>
-<td align="right">0.66950400</td>
+<td align="right">0.66950399</td>
 <td align="right">4.43600000E+04</td>
 </tr>
 <tr class="even">
 <td>ABW</td>
 <td>POP</td>
 <td align="right">2013</td>
-<td align="right">0.59291400</td>
+<td align="right">0.59291401</td>
 <td align="right">1.03187000E+05</td>
 </tr>
 <tr class="odd">
 <td>AFG</td>
 <td>URB</td>
 <td align="right">2013</td>
-<td align="right">4.19298000</td>
+<td align="right">4.19297967</td>
 <td align="right">7.73396400E+06</td>
 </tr>
 <tr class="even">
 <td>AFG</td>
 <td>POP</td>
 <td align="right">2013</td>
-<td align="right">3.31522420</td>
+<td align="right">3.31522413</td>
 <td align="right">3.17316880E+07</td>
 </tr>
 <tr class="odd">
 <td>AGO</td>
 <td>URB</td>
 <td align="right">2013</td>
-<td align="right">4.72272250</td>
+<td align="right">4.72272270</td>
 <td align="right">1.61194910E+07</td>
 </tr>
 <tr class="even">
 <td>AGO</td>
 <td>POP</td>
 <td align="right">2013</td>
-<td align="right">3.53182400</td>
+<td align="right">3.53182419</td>
 <td align="right">2.59983400E+07</td>
 </tr>
 <tr class="odd">
 <td>ALB</td>
 <td>URB</td>
 <td align="right">2013</td>
-<td align="right">1.74363930</td>
+<td align="right">1.74363937</td>
 <td align="right">1.60350500E+06</td>
 </tr>
 <tr class="even">
 <td>ALB</td>
 <td>POP</td>
 <td align="right">2013</td>
-<td align="right">-0.18321139</td>
+<td align="right">-0.18321138</td>
 <td align="right">2.89509200E+06</td>
 </tr>
 <tr class="odd">
 <td>AND</td>
 <td>URB</td>
 <td align="right">2013</td>
-<td align="right">-2.11923337</td>
+<td align="right">-2.11923331</td>
 <td align="right">7.15270000E+04</td>
 </tr>
 <tr class="even">
@@ -15999,56 +15999,56 @@ precipitation
 <td>ARB</td>
 <td>URB</td>
 <td align="right">2013</td>
-<td align="right">2.78289400</td>
-<td align="right">2.18605120E+08</td>
+<td align="right">2.78289395</td>
+<td align="right">2.18605128E+08</td>
 </tr>
 <tr class="even">
 <td>ARB</td>
 <td>POP</td>
 <td align="right">2013</td>
-<td align="right">2.24884440</td>
-<td align="right">3.81702080E+08</td>
+<td align="right">2.24884429</td>
+<td align="right">3.81702086E+08</td>
 </tr>
 <tr class="odd">
 <td>ARE</td>
 <td>URB</td>
 <td align="right">2013</td>
-<td align="right">1.55515590</td>
+<td align="right">1.55515587</td>
 <td align="right">7.66126800E+06</td>
 </tr>
 <tr class="even">
 <td>ARE</td>
 <td>POP</td>
 <td align="right">2013</td>
-<td align="right">1.18180500</td>
+<td align="right">1.18180499</td>
 <td align="right">9.00626300E+06</td>
 </tr>
 <tr class="odd">
 <td>ARG</td>
 <td>URB</td>
 <td align="right">2013</td>
-<td align="right">1.18764910</td>
+<td align="right">1.18764913</td>
 <td align="right">3.88172560E+07</td>
 </tr>
 <tr class="even">
 <td>ARG</td>
 <td>POP</td>
 <td align="right">2013</td>
-<td align="right">1.04727670</td>
-<td align="right">4.25399240E+07</td>
+<td align="right">1.04727675</td>
+<td align="right">4.25399250E+07</td>
 </tr>
 <tr class="odd">
 <td>ARM</td>
 <td>URB</td>
 <td align="right">2013</td>
-<td align="right">0.28102720</td>
+<td align="right">0.28102719</td>
 <td align="right">1.82765600E+06</td>
 </tr>
 <tr class="even">
 <td>ARM</td>
 <td>POP</td>
 <td align="right">2013</td>
-<td align="right">0.40125197</td>
+<td align="right">0.40125198</td>
 <td align="right">2.89350900E+06</td>
 </tr>
 <tr class="odd">
@@ -16062,7 +16062,7 @@ precipitation
 <td>ASM</td>
 <td>POP</td>
 <td align="right">2013</td>
-<td align="right">0.13931988</td>
+<td align="right">0.13931989</td>
 <td align="right">5.53070000E+04</td>
 </tr>
 <tr class="odd">
@@ -16083,15 +16083,15 @@ precipitation
 <td>AUS</td>
 <td>URB</td>
 <td align="right">2013</td>
-<td align="right">1.87536410</td>
+<td align="right">1.87536404</td>
 <td align="right">1.97902080E+07</td>
 </tr>
 <tr class="even">
 <td>AUS</td>
 <td>POP</td>
 <td align="right">2013</td>
-<td align="right">1.75833810</td>
-<td align="right">2.31459000E+07</td>
+<td align="right">1.75833808</td>
+<td align="right">2.31459010E+07</td>
 </tr>
 <tr class="odd">
 <td>AUT</td>
@@ -16729,63 +16729,63 @@ precipitation
 <tbody>
 <tr class="odd">
 <td>2009-01-01</td>
-<td align="right">1.30989800</td>
-<td align="right">-1.89040196</td>
-<td align="right">-1.7794688</td>
+<td align="right">1.30989806</td>
+<td align="right">-1.89040193</td>
+<td align="right">-1.77946880</td>
 </tr>
 <tr class="even">
 <td>2009-01-02</td>
-<td align="right">-0.29993805</td>
-<td align="right">-1.82473087</td>
-<td align="right">2.3989250</td>
+<td align="right">-0.29993804</td>
+<td align="right">-1.82473090</td>
+<td align="right">2.39892513</td>
 </tr>
 <tr class="odd">
 <td>2009-01-03</td>
-<td align="right">0.53647500</td>
-<td align="right">-1.03606856</td>
-<td align="right">-3.9869797</td>
+<td align="right">0.53647501</td>
+<td align="right">-1.03606860</td>
+<td align="right">-3.98697977</td>
 </tr>
 <tr class="even">
 <td>2009-01-04</td>
-<td align="right">-1.88390803</td>
-<td align="right">-0.52178389</td>
-<td align="right">-2.8306549</td>
+<td align="right">-1.88390802</td>
+<td align="right">-0.52178390</td>
+<td align="right">-2.83065490</td>
 </tr>
 <tr class="odd">
 <td>2009-01-05</td>
 <td align="right">-0.96052361</td>
-<td align="right">-2.21683359</td>
-<td align="right">1.4371517</td>
+<td align="right">-2.21683349</td>
+<td align="right">1.43715171</td>
 </tr>
 <tr class="even">
 <td>2009-01-06</td>
-<td align="right">-1.18528962</td>
-<td align="right">-2.89350915</td>
-<td align="right">3.3978415</td>
+<td align="right">-1.18528966</td>
+<td align="right">-2.89350924</td>
+<td align="right">3.39784140</td>
 </tr>
 <tr class="odd">
 <td>2009-01-07</td>
-<td align="right">-0.85207057</td>
-<td align="right">-2.16794825</td>
-<td align="right">-1.2010826</td>
+<td align="right">-0.85207056</td>
+<td align="right">-2.16794818</td>
+<td align="right">-1.20108258</td>
 </tr>
 <tr class="even">
 <td>2009-01-08</td>
 <td align="right">0.25234172</td>
-<td align="right">-0.32854116</td>
-<td align="right">-1.5316048</td>
+<td align="right">-0.32854117</td>
+<td align="right">-1.53160473</td>
 </tr>
 <tr class="odd">
 <td>2009-01-09</td>
-<td align="right">0.40257135</td>
-<td align="right">1.96407900</td>
-<td align="right">-6.8087883</td>
+<td align="right">0.40257136</td>
+<td align="right">1.96407898</td>
+<td align="right">-6.80878830</td>
 </tr>
 <tr class="even">
 <td>2009-01-10</td>
-<td align="right">-0.64383501</td>
-<td align="right">2.68618400</td>
-<td align="right">-2.5590932</td>
+<td align="right">-0.64383500</td>
+<td align="right">2.68618382</td>
+<td align="right">-2.55909321</td>
 </tr>
 </tbody>
 </table>
@@ -16806,22 +16806,22 @@ precipitation
 <tr class="odd">
 <td>2009-01-01</td>
 <td>X</td>
-<td align="right">1.30989800</td>
+<td align="right">1.30989806</td>
 </tr>
 <tr class="even">
 <td>2009-01-02</td>
 <td>X</td>
-<td align="right">-0.29993805</td>
+<td align="right">-0.29993804</td>
 </tr>
 <tr class="odd">
 <td>2009-01-03</td>
 <td>X</td>
-<td align="right">0.53647500</td>
+<td align="right">0.53647501</td>
 </tr>
 <tr class="even">
 <td>2009-01-04</td>
 <td>X</td>
-<td align="right">-1.88390803</td>
+<td align="right">-1.88390802</td>
 </tr>
 <tr class="odd">
 <td>2009-01-05</td>
@@ -16831,12 +16831,12 @@ precipitation
 <tr class="even">
 <td>2009-01-06</td>
 <td>X</td>
-<td align="right">-1.18528962</td>
+<td align="right">-1.18528966</td>
 </tr>
 <tr class="odd">
 <td>2009-01-07</td>
 <td>X</td>
-<td align="right">-0.85207057</td>
+<td align="right">-0.85207056</td>
 </tr>
 <tr class="even">
 <td>2009-01-08</td>
@@ -16846,87 +16846,87 @@ precipitation
 <tr class="odd">
 <td>2009-01-09</td>
 <td>X</td>
-<td align="right">0.40257135</td>
+<td align="right">0.40257136</td>
 </tr>
 <tr class="even">
 <td>2009-01-10</td>
 <td>X</td>
-<td align="right">-0.64383501</td>
+<td align="right">-0.64383500</td>
 </tr>
 <tr class="odd">
 <td>2009-01-01</td>
 <td>Y</td>
-<td align="right">-1.89040196</td>
+<td align="right">-1.89040193</td>
 </tr>
 <tr class="even">
 <td>2009-01-02</td>
 <td>Y</td>
-<td align="right">-1.82473087</td>
+<td align="right">-1.82473090</td>
 </tr>
 <tr class="odd">
 <td>2009-01-03</td>
 <td>Y</td>
-<td align="right">-1.03606856</td>
+<td align="right">-1.03606860</td>
 </tr>
 <tr class="even">
 <td>2009-01-04</td>
 <td>Y</td>
-<td align="right">-0.52178389</td>
+<td align="right">-0.52178390</td>
 </tr>
 <tr class="odd">
 <td>2009-01-05</td>
 <td>Y</td>
-<td align="right">-2.21683359</td>
+<td align="right">-2.21683349</td>
 </tr>
 <tr class="even">
 <td>2009-01-06</td>
 <td>Y</td>
-<td align="right">-2.89350915</td>
+<td align="right">-2.89350924</td>
 </tr>
 <tr class="odd">
 <td>2009-01-07</td>
 <td>Y</td>
-<td align="right">-2.16794825</td>
+<td align="right">-2.16794818</td>
 </tr>
 <tr class="even">
 <td>2009-01-08</td>
 <td>Y</td>
-<td align="right">-0.32854116</td>
+<td align="right">-0.32854117</td>
 </tr>
 <tr class="odd">
 <td>2009-01-09</td>
 <td>Y</td>
-<td align="right">1.96407900</td>
+<td align="right">1.96407898</td>
 </tr>
 <tr class="even">
 <td>2009-01-10</td>
 <td>Y</td>
-<td align="right">2.68618400</td>
+<td align="right">2.68618382</td>
 </tr>
 <tr class="odd">
 <td>2009-01-01</td>
 <td>Z</td>
-<td align="right">-1.77946877</td>
+<td align="right">-1.77946880</td>
 </tr>
 <tr class="even">
 <td>2009-01-02</td>
 <td>Z</td>
-<td align="right">2.39892500</td>
+<td align="right">2.39892513</td>
 </tr>
 <tr class="odd">
 <td>2009-01-03</td>
 <td>Z</td>
-<td align="right">-3.98697972</td>
+<td align="right">-3.98697977</td>
 </tr>
 <tr class="even">
 <td>2009-01-04</td>
 <td>Z</td>
-<td align="right">-2.83065486</td>
+<td align="right">-2.83065490</td>
 </tr>
 <tr class="odd">
 <td>2009-01-05</td>
 <td>Z</td>
-<td align="right">1.43715170</td>
+<td align="right">1.43715171</td>
 </tr>
 </tbody>
 </table>
@@ -16945,63 +16945,63 @@ precipitation
 <tbody>
 <tr class="odd">
 <td>2009-01-01</td>
-<td align="right">-1.7794688</td>
-<td align="right">1.30989800</td>
-<td align="right">-1.89040196</td>
+<td align="right">-1.77946880</td>
+<td align="right">1.30989806</td>
+<td align="right">-1.89040193</td>
 </tr>
 <tr class="even">
 <td>2009-01-02</td>
-<td align="right">2.3989250</td>
-<td align="right">-0.29993805</td>
-<td align="right">-1.82473087</td>
+<td align="right">2.39892513</td>
+<td align="right">-0.29993804</td>
+<td align="right">-1.82473090</td>
 </tr>
 <tr class="odd">
 <td>2009-01-03</td>
-<td align="right">-3.9869797</td>
-<td align="right">0.53647500</td>
-<td align="right">-1.03606856</td>
+<td align="right">-3.98697977</td>
+<td align="right">0.53647501</td>
+<td align="right">-1.03606860</td>
 </tr>
 <tr class="even">
 <td>2009-01-04</td>
-<td align="right">-2.8306549</td>
-<td align="right">-1.88390803</td>
-<td align="right">-0.52178389</td>
+<td align="right">-2.83065490</td>
+<td align="right">-1.88390802</td>
+<td align="right">-0.52178390</td>
 </tr>
 <tr class="odd">
 <td>2009-01-05</td>
-<td align="right">1.4371517</td>
+<td align="right">1.43715171</td>
 <td align="right">-0.96052361</td>
-<td align="right">-2.21683359</td>
+<td align="right">-2.21683349</td>
 </tr>
 <tr class="even">
 <td>2009-01-06</td>
-<td align="right">3.3978415</td>
-<td align="right">-1.18528962</td>
-<td align="right">-2.89350915</td>
+<td align="right">3.39784140</td>
+<td align="right">-1.18528966</td>
+<td align="right">-2.89350924</td>
 </tr>
 <tr class="odd">
 <td>2009-01-07</td>
-<td align="right">-1.2010826</td>
-<td align="right">-0.85207057</td>
-<td align="right">-2.16794825</td>
+<td align="right">-1.20108258</td>
+<td align="right">-0.85207056</td>
+<td align="right">-2.16794818</td>
 </tr>
 <tr class="even">
 <td>2009-01-08</td>
-<td align="right">-1.5316048</td>
+<td align="right">-1.53160473</td>
 <td align="right">0.25234172</td>
-<td align="right">-0.32854116</td>
+<td align="right">-0.32854117</td>
 </tr>
 <tr class="odd">
 <td>2009-01-09</td>
-<td align="right">-6.8087883</td>
-<td align="right">0.40257135</td>
-<td align="right">1.96407900</td>
+<td align="right">-6.80878830</td>
+<td align="right">0.40257136</td>
+<td align="right">1.96407898</td>
 </tr>
 <tr class="even">
 <td>2009-01-10</td>
-<td align="right">-2.5590932</td>
-<td align="right">-0.64383501</td>
-<td align="right">2.68618400</td>
+<td align="right">-2.55909321</td>
+<td align="right">-0.64383500</td>
+<td align="right">2.68618382</td>
 </tr>
 </tbody>
 </table>
@@ -17024,24 +17024,24 @@ precipitation
 <tbody>
 <tr class="odd">
 <td>X</td>
-<td align="right">-0.9605236</td>
+<td align="right">-0.96052361</td>
 <td align="right"></td>
-<td align="right">1.3098980</td>
+<td align="right">1.30989806</td>
 <td align="right"></td>
-<td align="right">0.40257135</td>
+<td align="right">0.40257136</td>
 </tr>
 <tr class="even">
 <td>Z</td>
-<td align="right">1.4371517</td>
+<td align="right">1.43715171</td>
 <td align="right"></td>
-<td align="right">-1.7794688</td>
+<td align="right">-1.77946880</td>
 <td align="right"></td>
 <td align="right">-6.80878830</td>
 </tr>
 <tr class="odd">
 <td>Y</td>
 <td align="right"></td>
-<td align="right">-2.1679482</td>
+<td align="right">-2.16794818</td>
 <td align="right"></td>
 <td align="right">-1.0360686</td>
 <td align="right"></td>
@@ -19092,6 +19092,165 @@ ds2</code></pre></div>
 </tbody>
 </table>
 </div>
+<div id="asof" class="section level4">
+<h4>asof</h4>
+<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(<span class="bu">def</span><span class="fu"> left-ds </span>(api/dataset {<span class="at">:a</span> [<span class="dv">1</span> <span class="dv">5</span> <span class="dv">10</span>]
+                           <span class="at">:left-val</span> [<span class="st">&quot;a&quot;</span> <span class="st">&quot;b&quot;</span> <span class="st">&quot;c&quot;</span>]}))
+(<span class="bu">def</span><span class="fu"> right-ds </span>(api/dataset {<span class="at">:a</span> [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">6</span> <span class="dv">7</span>]
+                            <span class="at">:right-val</span> [<span class="at">:a</span> <span class="at">:b</span> <span class="at">:c</span> <span class="at">:d</span> <span class="at">:e</span>]}))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">left-ds
+right-ds</code></pre></div>
+<p>_unnamed [3 2]:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">:a</th>
+<th>:left-val</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td>a</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td>b</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td>c</td>
+</tr>
+</tbody>
+</table>
+<p>_unnamed [5 2]:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">:a</th>
+<th>:right-val</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td>:a</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td>:b</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td>:c</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td>:d</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td>:e</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/asof-join left-ds right-ds <span class="at">:a</span>)</code></pre></div>
+<p>asof-&lt;= [3 4]:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">:a</th>
+<th>:left-val</th>
+<th align="right">:right.a</th>
+<th>:right-val</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td>a</td>
+<td align="right">1</td>
+<td>:a</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td>b</td>
+<td align="right">6</td>
+<td>:d</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td>c</td>
+<td align="right"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/asof-join left-ds right-ds <span class="at">:a</span> {<span class="at">:asof-op</span> <span class="at">:nearest</span>})</code></pre></div>
+<p>asof-nearest [3 4]:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">:a</th>
+<th>:left-val</th>
+<th align="right">:right.a</th>
+<th>:right-val</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td>a</td>
+<td align="right">1</td>
+<td>:a</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td>b</td>
+<td align="right">6</td>
+<td>:d</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td>c</td>
+<td align="right">7</td>
+<td>:e</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode clojure"><code class="sourceCode clojure">(api/asof-join left-ds right-ds <span class="at">:a</span> {<span class="at">:asof-op</span> :&gt;=})</code></pre></div>
+<p>asof-&gt;= [3 4]:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">:a</th>
+<th>:left-val</th>
+<th align="right">:right.a</th>
+<th>:right-val</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td>a</td>
+<td align="right">1</td>
+<td>:a</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td>b</td>
+<td align="right">3</td>
+<td>:c</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td>c</td>
+<td align="right">7</td>
+<td>:e</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="concat" class="section level4">
 <h4>Concat</h4>
 <p><code>contact</code> joins rows from other datasets</p>
@@ -19271,10 +19430,34 @@ ds2</code></pre></div>
 </thead>
 <tbody>
 <tr class="odd">
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
 <td align="right">2</td>
-<td align="right">8</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">5</td>
 <td align="right">1.0</td>
 <td>B</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
@@ -19283,10 +19466,46 @@ ds2</code></pre></div>
 <td>C</td>
 </tr>
 <tr class="odd">
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
 <td align="right">2</td>
 <td align="right">4</td>
 <td align="right">0.5</td>
 <td>A</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
@@ -19301,58 +19520,10 @@ ds2</code></pre></div>
 <td>C</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
 <td align="right">1</td>
 <td align="right">9</td>
 <td align="right">1.5</td>
 <td>C</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
@@ -19361,16 +19532,16 @@ ds2</code></pre></div>
 <td>C</td>
 </tr>
 <tr class="even">
-<td align="right">1</td>
-<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
@@ -19379,46 +19550,34 @@ ds2</code></pre></div>
 <td>C</td>
 </tr>
 <tr class="odd">
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">9</td>
-<td align="right">1.5</td>
-<td>C</td>
-</tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">2</td>
+<td align="right">8</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">2</td>
+<td align="right">5</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>
-<tr class="odd">
-<td align="right">2</td>
-<td align="right">6</td>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">3</td>
 <td align="right">1.5</td>
 <td>C</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -19543,38 +19702,14 @@ ds2</code></pre></div>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">2</td>
-<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">7</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">5</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
 <td align="right">2</td>
-<td align="right">8</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">2</td>
-<td align="right">2</td>
-<td align="right">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td align="right">1</td>
-<td align="right">3</td>
+<td align="right">6</td>
 <td align="right">1.5</td>
 <td>C</td>
 </tr>
@@ -19586,15 +19721,39 @@ ds2</code></pre></div>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">6</td>
-<td align="right">1.5</td>
-<td>C</td>
+<td align="right">4</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.5</td>
+<td>A</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">7</td>
-<td align="right">0.5</td>
-<td>A</td>
+<td align="right">3</td>
+<td align="right">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -20217,127 +20376,127 @@ ds2</code></pre></div>
 <tr class="odd">
 <td>AAPL</td>
 <td>2000</td>
-<td align="right">21.74833341</td>
+<td align="right">21.74833333</td>
 </tr>
 <tr class="even">
 <td>AAPL</td>
 <td>2001</td>
-<td align="right">10.17583323</td>
+<td align="right">10.17583333</td>
 </tr>
 <tr class="odd">
 <td>AAPL</td>
 <td>2002</td>
-<td align="right">9.40833330</td>
+<td align="right">9.40833333</td>
 </tr>
 <tr class="even">
 <td>AAPL</td>
 <td>2003</td>
-<td align="right">9.34749989</td>
+<td align="right">9.34750000</td>
 </tr>
 <tr class="odd">
 <td>AAPL</td>
 <td>2004</td>
-<td align="right">18.72333336</td>
+<td align="right">18.72333333</td>
 </tr>
 <tr class="even">
 <td>AAPL</td>
 <td>2005</td>
-<td align="right">48.17166678</td>
+<td align="right">48.17166667</td>
 </tr>
 <tr class="odd">
 <td>AAPL</td>
 <td>2006</td>
-<td align="right">72.04333369</td>
+<td align="right">72.04333333</td>
 </tr>
 <tr class="even">
 <td>AAPL</td>
 <td>2007</td>
-<td align="right">133.35333379</td>
+<td align="right">133.35333333</td>
 </tr>
 <tr class="odd">
 <td>AAPL</td>
 <td>2008</td>
-<td align="right">138.48083242</td>
+<td align="right">138.48083333</td>
 </tr>
 <tr class="even">
 <td>AAPL</td>
 <td>2009</td>
-<td align="right">150.39333344</td>
+<td align="right">150.39333333</td>
 </tr>
 <tr class="odd">
 <td>AAPL</td>
 <td>2010</td>
-<td align="right">206.56666565</td>
+<td align="right">206.56666667</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2000</td>
-<td align="right">43.93083342</td>
+<td align="right">43.93083333</td>
 </tr>
 <tr class="odd">
 <td>AMZN</td>
 <td>2001</td>
-<td align="right">11.73916642</td>
+<td align="right">11.73916667</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2002</td>
-<td align="right">16.72333336</td>
+<td align="right">16.72333333</td>
 </tr>
 <tr class="odd">
 <td>AMZN</td>
 <td>2003</td>
-<td align="right">39.01666673</td>
+<td align="right">39.01666667</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2004</td>
-<td align="right">43.26749992</td>
+<td align="right">43.26750000</td>
 </tr>
 <tr class="odd">
 <td>AMZN</td>
 <td>2005</td>
-<td align="right">40.18750032</td>
+<td align="right">40.18750000</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2006</td>
-<td align="right">36.25166623</td>
+<td align="right">36.25166667</td>
 </tr>
 <tr class="odd">
 <td>AMZN</td>
 <td>2007</td>
-<td align="right">69.95250066</td>
+<td align="right">69.95250000</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2008</td>
-<td align="right">69.01500003</td>
+<td align="right">69.01500000</td>
 </tr>
 <tr class="odd">
 <td>AMZN</td>
 <td>2009</td>
-<td align="right">90.73083433</td>
+<td align="right">90.73083333</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2010</td>
-<td align="right">124.21000417</td>
+<td align="right">124.21000000</td>
 </tr>
 <tr class="odd">
 <td>GOOG</td>
 <td>2004</td>
-<td align="right">159.47599945</td>
+<td align="right">159.47600000</td>
 </tr>
 <tr class="even">
 <td>GOOG</td>
 <td>2005</td>
-<td align="right">286.47249858</td>
+<td align="right">286.47250000</td>
 </tr>
 <tr class="odd">
 <td>GOOG</td>
 <td>2006</td>
-<td align="right">415.25666809</td>
+<td align="right">415.25666667</td>
 </tr>
 </tbody>
 </table>
@@ -20359,127 +20518,127 @@ ds2</code></pre></div>
 <tr class="odd">
 <td>AMZN</td>
 <td>2007</td>
-<td align="right">69.95250066</td>
+<td align="right">69.95250000</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2008</td>
-<td align="right">69.01500003</td>
+<td align="right">69.01500000</td>
 </tr>
 <tr class="odd">
 <td>AMZN</td>
 <td>2009</td>
-<td align="right">90.73083433</td>
+<td align="right">90.73083333</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2010</td>
-<td align="right">124.21000417</td>
+<td align="right">124.21000000</td>
 </tr>
 <tr class="odd">
 <td>AMZN</td>
 <td>2000</td>
-<td align="right">43.93083342</td>
+<td align="right">43.93083333</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2001</td>
-<td align="right">11.73916642</td>
+<td align="right">11.73916667</td>
 </tr>
 <tr class="odd">
 <td>AMZN</td>
 <td>2002</td>
-<td align="right">16.72333336</td>
+<td align="right">16.72333333</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2003</td>
-<td align="right">39.01666673</td>
+<td align="right">39.01666667</td>
 </tr>
 <tr class="odd">
 <td>AMZN</td>
 <td>2004</td>
-<td align="right">43.26749992</td>
+<td align="right">43.26750000</td>
 </tr>
 <tr class="even">
 <td>AMZN</td>
 <td>2005</td>
-<td align="right">40.18750032</td>
+<td align="right">40.18750000</td>
 </tr>
 <tr class="odd">
 <td>AMZN</td>
 <td>2006</td>
-<td align="right">36.25166623</td>
+<td align="right">36.25166667</td>
 </tr>
 <tr class="even">
 <td>IBM</td>
 <td>2001</td>
-<td align="right">96.96833356</td>
+<td align="right">96.96833333</td>
 </tr>
 <tr class="odd">
 <td>IBM</td>
 <td>2002</td>
-<td align="right">75.12500032</td>
+<td align="right">75.12500000</td>
 </tr>
 <tr class="even">
 <td>IBM</td>
 <td>2000</td>
-<td align="right">96.91416677</td>
+<td align="right">96.91416667</td>
 </tr>
 <tr class="odd">
 <td>MSFT</td>
 <td>2006</td>
-<td align="right">24.75833321</td>
+<td align="right">24.75833333</td>
 </tr>
 <tr class="even">
 <td>MSFT</td>
 <td>2005</td>
-<td align="right">23.84583330</td>
+<td align="right">23.84583333</td>
 </tr>
 <tr class="odd">
 <td>MSFT</td>
 <td>2004</td>
-<td align="right">22.67416684</td>
+<td align="right">22.67416667</td>
 </tr>
 <tr class="even">
 <td>MSFT</td>
 <td>2003</td>
-<td align="right">20.93416675</td>
+<td align="right">20.93416667</td>
 </tr>
 <tr class="odd">
 <td>AAPL</td>
 <td>2001</td>
-<td align="right">10.17583323</td>
+<td align="right">10.17583333</td>
 </tr>
 <tr class="even">
 <td>MSFT</td>
 <td>2010</td>
-<td align="right">28.50666618</td>
+<td align="right">28.50666667</td>
 </tr>
 <tr class="odd">
 <td>AAPL</td>
 <td>2002</td>
-<td align="right">9.40833330</td>
+<td align="right">9.40833333</td>
 </tr>
 <tr class="even">
 <td>MSFT</td>
 <td>2009</td>
-<td align="right">22.87250002</td>
+<td align="right">22.87250000</td>
 </tr>
 <tr class="odd">
 <td>MSFT</td>
 <td>2008</td>
-<td align="right">25.20833317</td>
+<td align="right">25.20833333</td>
 </tr>
 <tr class="even">
 <td>AAPL</td>
 <td>2000</td>
-<td align="right">21.74833341</td>
+<td align="right">21.74833333</td>
 </tr>
 <tr class="odd">
 <td>MSFT</td>
 <td>2007</td>
-<td align="right">29.28416665</td>
+<td align="right">29.28416667</td>
 </tr>
 </tbody>
 </table>
@@ -20489,9 +20648,8 @@ ds2</code></pre></div>
 <p>Below you can find comparizon between functionality of <code>data.table</code> and Clojure dataset API. I leave it without comments, please refer original document explaining details:</p>
 <p><a href="https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html">Introduction to <code>data.table</code></a></p>
 <p>R</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(data.table)</code></pre></div>
-<pre><code>data.table 1.12.8 using 2 threads (see ?getDTthreads).  Latest news: r-datatable.com</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(data.table)
+<span class="kw">library</span>(knitr)
 
 flights &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv&quot;</span>)
 
@@ -23835,21 +23993,21 @@ tech.ml.dataset.impl.dataset.Dataset</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">9</td>
-<td align="right">1.5</td>
-<td>C</td>
+<td align="right">1</td>
+<td align="right">0.5</td>
+<td>A</td>
 </tr>
 <tr class="even">
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
 <td align="right">1</td>
 <td align="right">5</td>
 <td align="right">1.0</td>
 <td>B</td>
-</tr>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">3</td>
-<td align="right">1.5</td>
-<td>C</td>
 </tr>
 </tbody>
 </table>
@@ -23867,21 +24025,21 @@ tech.ml.dataset.impl.dataset.Dataset</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">1</td>
+<td align="right">7</td>
 <td align="right">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
 <td align="right">1</td>
-<td align="right">9</td>
-<td align="right">1.5</td>
-<td>C</td>
+<td align="right">1</td>
+<td align="right">0.5</td>
+<td>A</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">3</td>
-<td align="right">1.5</td>
-<td>C</td>
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">1.0</td>
+<td>B</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
@@ -23890,8 +24048,8 @@ tech.ml.dataset.impl.dataset.Dataset</code></pre>
 <td>A</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">5</td>
+<td align="right">2</td>
+<td align="right">2</td>
 <td align="right">1.0</td>
 <td>B</td>
 </tr>

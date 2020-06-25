@@ -110,7 +110,7 @@
 
 \title{Dplyr-like API for tech.ml.dataset}
 \author{GenerateMe}
-\date{2020-06-22}
+\date{2020-06-25}
 
 \begin{document}
 \maketitle
@@ -754,7 +754,7 @@ date\strut
 \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 precipitation\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut
-:float32\strut
+:float64\strut
 \end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft\strut
 1461\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft\strut
@@ -768,14 +768,14 @@ precipitation\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedright\strut
 55.90\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-6.68019429\strut
+6.68019432\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft\strut
-3.50564374\strut
+3.50564372\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 temp\_max\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut
-:float32\strut
+:float64\strut
 \end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft\strut
 1461\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft\strut
@@ -789,14 +789,14 @@ temp\_max\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedright\strut
 35.60\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-7.34975813\strut
+7.34975810\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft\strut
-0.28093000\strut
+0.28092999\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 temp\_min\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut
-:float32\strut
+:float64\strut
 \end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft\strut
 1461\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft\strut
@@ -810,9 +810,9 @@ temp\_min\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedright\strut
 18.30\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-5.02300419\strut
+5.02300418\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft\strut
--0.24945853\strut
+-0.24945855\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 weather\strut
@@ -838,7 +838,7 @@ sun\strut
 \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 wind\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut
-:float32\strut
+:float64\strut
 \end{minipage} & \begin{minipage}[t]{0.06\columnwidth}\raggedleft\strut
 1461\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft\strut
@@ -854,7 +854,7 @@ wind\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
 1.43782506\strut
 \end{minipage} & \begin{minipage}[t]{0.07\columnwidth}\raggedleft\strut
-0.89166753\strut
+0.89166752\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
@@ -896,10 +896,10 @@ false\strut
 \midrule
 \endhead
 date & 1461 & :packed-local-date &\tabularnewline
-precipitation & 1461 & :float32 &\tabularnewline
-temp\_max & 1461 & :float32 &\tabularnewline
-temp\_min & 1461 & :float32 &\tabularnewline
-wind & 1461 & :float32 &\tabularnewline
+precipitation & 1461 & :float64 &\tabularnewline
+temp\_max & 1461 & :float64 &\tabularnewline
+temp\_min & 1461 & :float64 &\tabularnewline
+wind & 1461 & :float64 &\tabularnewline
 weather & 1461 & :string & true\tabularnewline
 \bottomrule
 \end{longtable}
@@ -952,7 +952,7 @@ Select column.
 \end{Shaded}
 
 \begin{verbatim}
-#tech.ml.dataset.column<float32>[1461]
+#tech.ml.dataset.column<float64>[1461]
 wind
 [4.700, 4.500, 2.300, 4.700, 6.100, 2.200, 2.300, 2.000, 3.400, 3.400, 5.100, 1.900, 1.300, 5.300, 3.200, 5.000, 5.600, 5.000, 1.600, 2.300, ...]
 #tech.ml.dataset.column<packed-local-date>[1461]
@@ -973,7 +973,7 @@ Columns as sequence
 \begin{verbatim}
 (#tech.ml.dataset.column<packed-local-date>[1461]
 date
-[2012-01-01, 2012-01-02, 2012-01-03, 2012-01-04, 2012-01-05, 2012-01-06, 2012-01-07, 2012-01-08, 2012-01-09, 2012-01-10, 2012-01-11, 2012-01-12, 2012-01-13, 2012-01-14, 2012-01-15, 2012-01-16, 2012-01-17, 2012-01-18, 2012-01-19, 2012-01-20, ...] #tech.ml.dataset.column<float32>[1461]
+[2012-01-01, 2012-01-02, 2012-01-03, 2012-01-04, 2012-01-05, 2012-01-06, 2012-01-07, 2012-01-08, 2012-01-09, 2012-01-10, 2012-01-11, 2012-01-12, 2012-01-13, 2012-01-14, 2012-01-15, 2012-01-16, 2012-01-17, 2012-01-18, 2012-01-19, 2012-01-20, ...] #tech.ml.dataset.column<float64>[1461]
 precipitation
 [0.000, 10.90, 0.8000, 20.30, 1.300, 2.500, 0.000, 0.000, 4.300, 1.000, 0.000, 0.000, 0.000, 4.100, 5.300, 2.500, 8.100, 19.80, 15.20, 13.50, ...])
 \end{verbatim}
@@ -1003,7 +1003,7 @@ Rows as sequence of sequences
 \end{Shaded}
 
 \begin{verbatim}
-([#object[java.time.LocalDate 0x2581598f "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x49175714 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
+([#object[java.time.LocalDate 0x2ce5d90c "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x1ca66007 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
 \end{verbatim}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -1017,13 +1017,13 @@ Rows as sequence of maps
 \end{Shaded}
 
 \begin{verbatim}
-({"date" #object[java.time.LocalDate 0x1ba69dc4 "2012-01-01"],
+({"date" #object[java.time.LocalDate 0x4b272eed "2012-01-01"],
   "precipitation" 0.0,
   "temp_min" 5.0,
   "weather" "drizzle",
   "temp_max" 12.8,
   "wind" 4.7}
- {"date" #object[java.time.LocalDate 0x6cedc07c "2012-01-02"],
+ {"date" #object[java.time.LocalDate 0x7a5e2357 "2012-01-02"],
   "precipitation" 10.9,
   "temp_min" 2.8,
   "weather" "rain",
@@ -2743,7 +2743,7 @@ You can also pass mapping function with optional columns-selector
 \begin{longtable}[]{@{}rrrl@{}}
 \toprule
 v1 & v2 & {[}1 2 3{]} &
-\href{mailto:java.lang.Object@74b9a5de}{\nolinkurl{java.lang.Object@74b9a5de}}\tabularnewline
+\href{mailto:java.lang.Object@331946df}{\nolinkurl{java.lang.Object@331946df}}\tabularnewline
 \midrule
 \endhead
 1 & 1 & 0.5 & A\tabularnewline
@@ -2837,7 +2837,7 @@ Function works on grouped dataset
 \begin{longtable}[]{@{}rrrl@{}}
 \toprule
 v1 & v2 & {[}1 2 3{]} &
-\href{mailto:java.lang.Object@652689b4}{\nolinkurl{java.lang.Object@652689b4}}\tabularnewline
+\href{mailto:java.lang.Object@8f40ebe}{\nolinkurl{java.lang.Object@8f40ebe}}\tabularnewline
 \midrule
 \endhead
 1 & 1 & 0.5 & A\tabularnewline
@@ -2853,7 +2853,7 @@ v1 & v2 & {[}1 2 3{]} &
 \begin{longtable}[]{@{}rrrl@{}}
 \toprule
 v1 & v2 & {[}1 2 3{]} &
-\href{mailto:java.lang.Object@652689b4}{\nolinkurl{java.lang.Object@652689b4}}\tabularnewline
+\href{mailto:java.lang.Object@8f40ebe}{\nolinkurl{java.lang.Object@8f40ebe}}\tabularnewline
 \midrule
 \endhead
 2 & 2 & 1.0 & B\tabularnewline
@@ -2945,15 +2945,15 @@ Replace one column (column is trimmed)
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-0.08998 & 1 & 0.5 & A\tabularnewline
-0.6419 & 2 & 1.0 & B\tabularnewline
-0.9393 & 3 & 1.5 & C\tabularnewline
-0.03942 & 4 & 0.5 & A\tabularnewline
-0.1184 & 5 & 1.0 & B\tabularnewline
-0.7112 & 6 & 1.5 & C\tabularnewline
-0.07158 & 7 & 0.5 & A\tabularnewline
-0.02130 & 8 & 1.0 & B\tabularnewline
-0.8349 & 9 & 1.5 & C\tabularnewline
+0.8328 & 1 & 0.5 & A\tabularnewline
+0.6194 & 2 & 1.0 & B\tabularnewline
+0.002740 & 3 & 1.5 & C\tabularnewline
+0.3752 & 4 & 0.5 & A\tabularnewline
+0.06687 & 5 & 1.0 & B\tabularnewline
+0.8312 & 6 & 1.5 & C\tabularnewline
+0.5494 & 7 & 0.5 & A\tabularnewline
+0.5845 & 8 & 1.0 & B\tabularnewline
+0.2864 & 9 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -3318,14 +3318,14 @@ map.
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 7 & 0.5 & A\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
-1 & 5 & 1.5 & C\tabularnewline
-2 & 6 & 0.5 & A\tabularnewline
-1 & 9 & 1.0 & B\tabularnewline
-2 & 4 & 1.5 & C\tabularnewline
-1 & 8 & 0.5 & A\tabularnewline
-2 & 3 & 1.0 & B\tabularnewline
+1 & 6 & 0.5 & A\tabularnewline
+2 & 9 & 1.0 & B\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
+2 & 7 & 0.5 & A\tabularnewline
+1 & 2 & 1.0 & B\tabularnewline
+2 & 8 & 1.5 & C\tabularnewline
+1 & 5 & 0.5 & A\tabularnewline
+2 & 4 & 1.0 & B\tabularnewline
 1 & 1 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
@@ -3676,7 +3676,7 @@ Double array conversion.
 \end{Shaded}
 
 \begin{verbatim}
-#object["[J" 0x55fdff05 "[J@55fdff05"]
+#object["[J" 0x21c682dd "[J@21c682dd"]
 \end{verbatim}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -3692,7 +3692,7 @@ Function also works on grouped dataset
 \end{Shaded}
 
 \begin{verbatim}
-(#object["[J" 0x6baa66f "[J@6baa66f"] #object["[J" 0x6e2330e8 "[J@6e2330e8"] #object["[J" 0x30c1ac96 "[J@30c1ac96"])
+(#object["[J" 0x3f1da999 "[J@3f1da999"] #object["[J" 0x27140a17 "[J@27140a17"] #object["[J" 0x3759571d "[J@3759571d"])
 \end{verbatim}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -3707,8 +3707,8 @@ You can also cast the type to the other one (if casting is possible):
 \end{Shaded}
 
 \begin{verbatim}
-#object["[Ljava.lang.String;" 0x64a5a3a8 "[Ljava.lang.String;@64a5a3a8"]
-#object["[F" 0x7fa12876 "[F@7fa12876"]
+#object["[Ljava.lang.String;" 0x766682b0 "[Ljava.lang.String;@766682b0"]
+#object["[F" 0x6d62495c "[F@6d62495c"]
 \end{verbatim}
 
 \subsubsection{Rows}\label{rows}
@@ -3981,7 +3981,7 @@ Random row (single)
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 5 & 1.0 & B\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -4023,14 +4023,14 @@ Random \texttt{n} (default: row count) rows with repetition.
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
+2 & 6 & 1.5 & C\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
 1 & 1 & 0.5 & A\tabularnewline
 1 & 5 & 1.0 & B\tabularnewline
-2 & 8 & 1.0 & B\tabularnewline
-2 & 8 & 1.0 & B\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
 1 & 9 & 1.5 & C\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
+2 & 2 & 1.0 & B\tabularnewline
 2 & 2 & 1.0 & B\tabularnewline
 \bottomrule
 \end{longtable}
@@ -4052,11 +4052,11 @@ Five random rows with repetition
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
+2 & 6 & 1.5 & C\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
 1 & 3 & 1.5 & C\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
-2 & 8 & 1.0 & B\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -4077,11 +4077,11 @@ Five random, non-repeating rows
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
+2 & 4 & 0.5 & A\tabularnewline
 1 & 9 & 1.5 & C\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
 2 & 2 & 1.0 & B\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
-2 & 8 & 1.0 & B\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -4127,15 +4127,15 @@ Shuffle dataset
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 1 & 0.5 & A\tabularnewline
-2 & 4 & 0.5 & A\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
-1 & 9 & 1.5 & C\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
 2 & 8 & 1.0 & B\tabularnewline
+2 & 4 & 0.5 & A\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
+2 & 2 & 1.0 & B\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -4313,21 +4313,21 @@ Select 5 random rows from each group
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 7 & 0.5 & A\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
 1 & 1 & 0.5 & A\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
 2 & 4 & 0.5 & A\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
+2 & 4 & 0.5 & A\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
 2 & 2 & 1.0 & B\tabularnewline
 1 & 5 & 1.0 & B\tabularnewline
 1 & 5 & 1.0 & B\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
+2 & 8 & 1.0 & B\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
 1 & 3 & 1.5 & C\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
 1 & 3 & 1.5 & C\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -8614,10 +8614,10 @@ data/anscombe.csv {[}44 3{]}:
 :x & :a & :b & :y1 & :y2 & :z1 & :z2\tabularnewline
 \midrule
 \endhead
-1 & 1 & 0 & 0.04051645 & 0.65405006 & 3 & -2\tabularnewline
-2 & 1 & 1 & 0.77289142 & 0.93709394 & 3 & -2\tabularnewline
-3 & 0 & 1 & 0.70127104 & 0.45253143 & 3 & -2\tabularnewline
-4 & 0 & 1 & 0.10430747 & 0.11716527 & 3 & -2\tabularnewline
+1 & 1 & 0 & 0.44511845 & 0.98065280 & 3 & -2\tabularnewline
+2 & 1 & 1 & 0.09011471 & 0.04117017 & 3 & -2\tabularnewline
+3 & 0 & 1 & 0.24620136 & 0.51395378 & 3 & -2\tabularnewline
+4 & 0 & 1 & 0.72753451 & 0.04575767 & 3 & -2\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -8635,14 +8635,14 @@ data/anscombe.csv {[}44 3{]}:
 :x & :a & :b & :times & y & z\tabularnewline
 \midrule
 \endhead
-1 & 1 & 0 & 1 & 0.04051645 & 3\tabularnewline
-2 & 1 & 1 & 1 & 0.77289142 & 3\tabularnewline
-3 & 0 & 1 & 1 & 0.70127104 & 3\tabularnewline
-4 & 0 & 1 & 1 & 0.10430747 & 3\tabularnewline
-1 & 1 & 0 & 2 & 0.65405006 & -2\tabularnewline
-2 & 1 & 1 & 2 & 0.93709394 & -2\tabularnewline
-3 & 0 & 1 & 2 & 0.45253143 & -2\tabularnewline
-4 & 0 & 1 & 2 & 0.11716527 & -2\tabularnewline
+1 & 1 & 0 & 1 & 0.44511845 & 3\tabularnewline
+2 & 1 & 1 & 1 & 0.09011471 & 3\tabularnewline
+3 & 0 & 1 & 1 & 0.24620136 & 3\tabularnewline
+4 & 0 & 1 & 1 & 0.72753451 & 3\tabularnewline
+1 & 1 & 0 & 2 & 0.98065280 & -2\tabularnewline
+2 & 1 & 1 & 2 & 0.04117017 & -2\tabularnewline
+3 & 0 & 1 & 2 & 0.51395378 & -2\tabularnewline
+4 & 0 & 1 & 2 & 0.04575767 & -2\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -8914,31 +8914,31 @@ data/production.csv {[}45 4{]}:
 product & country & year & production\tabularnewline
 \midrule
 \endhead
-A & AI & 2000 & 1.63727150\tabularnewline
+A & AI & 2000 & 1.63727158\tabularnewline
 A & AI & 2001 & 0.15870784\tabularnewline
-A & AI & 2002 & -1.56797743\tabularnewline
-A & AI & 2003 & -0.44455510\tabularnewline
+A & AI & 2002 & -1.56797745\tabularnewline
+A & AI & 2003 & -0.44455509\tabularnewline
 A & AI & 2004 & -0.07133701\tabularnewline
-A & AI & 2005 & 1.61183100\tabularnewline
-A & AI & 2006 & -0.70434684\tabularnewline
-A & AI & 2007 & -1.53550541\tabularnewline
-A & AI & 2008 & 0.83907160\tabularnewline
-A & AI & 2009 & -0.37424111\tabularnewline
-A & AI & 2010 & -0.71158928\tabularnewline
-A & AI & 2011 & 1.12805630\tabularnewline
-A & AI & 2012 & 1.45718240\tabularnewline
-A & AI & 2013 & -1.55934095\tabularnewline
+A & AI & 2005 & 1.61183090\tabularnewline
+A & AI & 2006 & -0.70434682\tabularnewline
+A & AI & 2007 & -1.53550542\tabularnewline
+A & AI & 2008 & 0.83907155\tabularnewline
+A & AI & 2009 & -0.37424110\tabularnewline
+A & AI & 2010 & -0.71158926\tabularnewline
+A & AI & 2011 & 1.12805634\tabularnewline
+A & AI & 2012 & 1.45718247\tabularnewline
+A & AI & 2013 & -1.55934101\tabularnewline
 A & AI & 2014 & -0.11695838\tabularnewline
 B & AI & 2000 & -0.02617661\tabularnewline
-B & AI & 2001 & -0.68863577\tabularnewline
+B & AI & 2001 & -0.68863576\tabularnewline
 B & AI & 2002 & 0.06248741\tabularnewline
-B & AI & 2003 & -0.72339684\tabularnewline
-B & AI & 2004 & 0.47248950\tabularnewline
+B & AI & 2003 & -0.72339686\tabularnewline
+B & AI & 2004 & 0.47248952\tabularnewline
 B & AI & 2005 & -0.94173861\tabularnewline
-B & AI & 2006 & -0.34782109\tabularnewline
-B & AI & 2007 & 0.52425283\tabularnewline
-B & AI & 2008 & 1.83230940\tabularnewline
-B & AI & 2009 & 0.10706490\tabularnewline
+B & AI & 2006 & -0.34782108\tabularnewline
+B & AI & 2007 & 0.52425284\tabularnewline
+B & AI & 2008 & 1.83230937\tabularnewline
+B & AI & 2009 & 0.10706491\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -8955,21 +8955,21 @@ data/production.csv {[}15 4{]}:
 year & A\_AI & B\_EI & B\_AI\tabularnewline
 \midrule
 \endhead
-2000 & 1.63727150 & 1.40470850 & -0.02617661\tabularnewline
-2001 & 0.15870784 & -0.59618372 & -0.68863577\tabularnewline
-2002 & -1.56797743 & -0.26568580 & 0.06248741\tabularnewline
-2003 & -0.44455510 & 0.65257806 & -0.72339684\tabularnewline
-2004 & -0.07133701 & 0.62565000 & 0.47248950\tabularnewline
-2005 & 1.61183100 & -1.34530294 & -0.94173861\tabularnewline
-2006 & -0.70434684 & -0.97184974 & -0.34782109\tabularnewline
-2007 & -1.53550541 & -1.69715822 & 0.52425283\tabularnewline
-2008 & 0.83907160 & 0.04556128 & 1.83230940\tabularnewline
-2009 & -0.37424111 & 1.19315040 & 0.10706490\tabularnewline
-2010 & -0.71158928 & -1.60557508 & -0.32903662\tabularnewline
-2011 & 1.12805630 & -0.77235496 & -1.78319120\tabularnewline
-2012 & 1.45718240 & -2.50262737 & 0.61125800\tabularnewline
-2013 & -1.55934095 & -1.62753773 & -0.78526092\tabularnewline
-2014 & -0.11695838 & 0.03329644 & 0.97843635\tabularnewline
+2000 & 1.63727158 & 1.40470848 & -0.02617661\tabularnewline
+2001 & 0.15870784 & -0.59618369 & -0.68863576\tabularnewline
+2002 & -1.56797745 & -0.26568579 & 0.06248741\tabularnewline
+2003 & -0.44455509 & 0.65257808 & -0.72339686\tabularnewline
+2004 & -0.07133701 & 0.62564999 & 0.47248952\tabularnewline
+2005 & 1.61183090 & -1.34530299 & -0.94173861\tabularnewline
+2006 & -0.70434682 & -0.97184975 & -0.34782108\tabularnewline
+2007 & -1.53550542 & -1.69715821 & 0.52425284\tabularnewline
+2008 & 0.83907155 & 0.04556128 & 1.83230937\tabularnewline
+2009 & -0.37424110 & 1.19315043 & 0.10706491\tabularnewline
+2010 & -0.71158926 & -1.60557503 & -0.32903664\tabularnewline
+2011 & 1.12805634 & -0.77235497 & -1.78319121\tabularnewline
+2012 & 1.45718247 & -2.50262738 & 0.61125798\tabularnewline
+2013 & -1.55934101 & -1.62753769 & -0.78526092\tabularnewline
+2014 & -0.11695838 & 0.03329645 & 0.97843635\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -8989,21 +8989,21 @@ year & {[}``A'' ``AI''{]} & {[}``B'' ``EI''{]} & {[}``B''
 ``AI''{]}\tabularnewline
 \midrule
 \endhead
-2000 & 1.63727150 & 1.40470850 & -0.02617661\tabularnewline
-2001 & 0.15870784 & -0.59618372 & -0.68863577\tabularnewline
-2002 & -1.56797743 & -0.26568580 & 0.06248741\tabularnewline
-2003 & -0.44455510 & 0.65257806 & -0.72339684\tabularnewline
-2004 & -0.07133701 & 0.62565000 & 0.47248950\tabularnewline
-2005 & 1.61183100 & -1.34530294 & -0.94173861\tabularnewline
-2006 & -0.70434684 & -0.97184974 & -0.34782109\tabularnewline
-2007 & -1.53550541 & -1.69715822 & 0.52425283\tabularnewline
-2008 & 0.83907160 & 0.04556128 & 1.83230940\tabularnewline
-2009 & -0.37424111 & 1.19315040 & 0.10706490\tabularnewline
-2010 & -0.71158928 & -1.60557508 & -0.32903662\tabularnewline
-2011 & 1.12805630 & -0.77235496 & -1.78319120\tabularnewline
-2012 & 1.45718240 & -2.50262737 & 0.61125800\tabularnewline
-2013 & -1.55934095 & -1.62753773 & -0.78526092\tabularnewline
-2014 & -0.11695838 & 0.03329644 & 0.97843635\tabularnewline
+2000 & 1.63727158 & 1.40470848 & -0.02617661\tabularnewline
+2001 & 0.15870784 & -0.59618369 & -0.68863576\tabularnewline
+2002 & -1.56797745 & -0.26568579 & 0.06248741\tabularnewline
+2003 & -0.44455509 & 0.65257808 & -0.72339686\tabularnewline
+2004 & -0.07133701 & 0.62564999 & 0.47248952\tabularnewline
+2005 & 1.61183090 & -1.34530299 & -0.94173861\tabularnewline
+2006 & -0.70434682 & -0.97184975 & -0.34782108\tabularnewline
+2007 & -1.53550542 & -1.69715821 & 0.52425284\tabularnewline
+2008 & 0.83907155 & 0.04556128 & 1.83230937\tabularnewline
+2009 & -0.37424110 & 1.19315043 & 0.10706491\tabularnewline
+2010 & -0.71158926 & -1.60557503 & -0.32903664\tabularnewline
+2011 & 1.12805634 & -0.77235497 & -1.78319121\tabularnewline
+2012 & 1.45718247 & -2.50262738 & 0.61125798\tabularnewline
+2013 & -1.55934101 & -1.62753769 & -0.78526092\tabularnewline
+2014 & -0.11695838 & 0.03329645 & 0.97843635\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -9268,17 +9268,17 @@ ABW\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.URB.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.18263230E+00\strut
+1.18263237E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.41302120E+00\strut
+1.41302122E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.43455960E+00\strut
+1.43455953E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.31036040E+00\strut
+1.31036044E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-9.51477700E-01\strut
+9.51477684E-01\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-4.91302730E-01\strut
+4.91302715E-01\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 ABW\strut
@@ -9302,17 +9302,17 @@ ABW\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.POP.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.05502680E+00\strut
+2.05502678E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.22593020E+00\strut
+2.22593013E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.22905610E+00\strut
+2.22905605E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.10935430E+00\strut
+2.10935434E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.75735280E+00\strut
+1.75735287E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.30203880E+00\strut
+1.30203884E+00\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 AFG\strut
@@ -9336,15 +9336,15 @@ AFG\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.URB.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.91222830E+00\strut
+3.91222846E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-4.66283850E+00\strut
+4.66283822E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-5.13467450E+00\strut
+5.13467454E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-5.23045870E+00\strut
+5.23045853E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-5.12439300E+00\strut
+5.12439302E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
 4.76864700E+00\strut
 \end{minipage}\tabularnewline
@@ -9355,13 +9355,13 @@ SP.POP.TOTL\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
 2.00937560E+07\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.09664640E+07\strut
+2.09664630E+07\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.19799240E+07\strut
+2.19799230E+07\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.30648520E+07\strut
+2.30648510E+07\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.41189800E+07\strut
+2.41189790E+07\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
 2.50707980E+07\strut
 \end{minipage}\tabularnewline
@@ -9370,17 +9370,17 @@ AFG\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.POP.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.49465870E+00\strut
+3.49465874E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-4.25150400E+00\strut
+4.25150411E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-4.72052860E+00\strut
+4.72052846E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-4.81804130E+00\strut
+4.81804112E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-4.46891830E+00\strut
+4.46891840E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.87047000E+00\strut
+3.87047016E+00\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 AGO\strut
@@ -9404,17 +9404,17 @@ AGO\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.URB.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-5.43749430E+00\strut
+5.43749411E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-5.58771940E+00\strut
+5.58771954E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-5.70013240E+00\strut
+5.70013237E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-5.75812700E+00\strut
+5.75812711E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-5.75341460E+00\strut
+5.75341450E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-5.69279670E+00\strut
+5.69279690E+00\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 AGO\strut
@@ -9425,9 +9425,9 @@ SP.POP.TOTL\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
 1.69832660E+07\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.75726480E+07\strut
+1.75726490E+07\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.82033680E+07\strut
+1.82033690E+07\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
 1.88657160E+07\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
@@ -9438,17 +9438,17 @@ AGO\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.POP.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.03294350E+00\strut
+3.03294342E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.24549150E+00\strut
+3.24549139E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.41151520E+00\strut
+3.41151529E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.52630280E+00\strut
+3.52630277E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.57396200E+00\strut
+3.57396197E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.57589960E+00\strut
+3.57589970E+00\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 ALB\strut
@@ -9472,17 +9472,17 @@ ALB\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.URB.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-7.42478600E-01\strut
+7.42478629E-01\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-7.10442600E-01\strut
+7.10442618E-01\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.18120880E+00\strut
+2.18120890E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.06027410E+00\strut
+2.06027418E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.97179890E+00\strut
+1.97179894E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.82642940E+00\strut
+1.82642936E+00\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 ALB\strut
@@ -9506,17 +9506,17 @@ ALB\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.POP.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
--6.37356818E-01\strut
+-6.37356834E-01\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
--9.38470423E-01\strut
+-9.38470428E-01\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
--2.99876690E-01\strut
+-2.99876697E-01\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
--3.74149173E-01\strut
+-3.74149169E-01\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
 -4.17931378E-01\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
--5.11790097E-01\strut
+-5.11790116E-01\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 AND\strut
@@ -9540,17 +9540,17 @@ AND\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.URB.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.27931380E+00\strut
+1.27931383E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.57186910E+00\strut
+2.57186909E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.49205350E+00\strut
+3.49205352E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.89996050E+00\strut
+3.89996041E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.59758970E+00\strut
+3.59758966E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.86777930E+00\strut
+2.86777917E+00\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 AND\strut
@@ -9574,85 +9574,85 @@ AND\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.POP.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.57216560E+00\strut
+1.57216555E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.93999220E+00\strut
+2.93999221E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.94257330E+00\strut
+3.94257335E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-4.37544900E+00\strut
+4.37544919E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-4.09892370E+00\strut
+4.09892348E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.38241650E+00\strut
+3.38241655E+00\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 ARB\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.URB.TOTL\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.49981216E+08\strut
+1.49981223E+08\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.53924352E+08\strut
+1.53924351E+08\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.57985744E+08\strut
+1.57985738E+08\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.62267760E+08\strut
+1.62267754E+08\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.66820464E+08\strut
+1.66820459E+08\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-1.71813696E+08\strut
+1.71813698E+08\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 ARB\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.URB.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.59956300E+00\strut
+2.59956290E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.62908100E+00\strut
+2.62908111E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.63856050E+00\strut
+2.63856042E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.71038130E+00\strut
+2.71038136E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.80567460E+00\strut
+2.80567450E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.99318150E+00\strut
+2.99318143E+00\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 ARB\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.POP.TOTL\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.83832000E+08\strut
+2.83832016E+08\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.89850368E+08\strut
+2.89850357E+08\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.96026560E+08\strut
+2.96026575E+08\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.02434528E+08\strut
+3.02434519E+08\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.09162016E+08\strut
+3.09162029E+08\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-3.16264736E+08\strut
+3.16264728E+08\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 ARB\strut
 \end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright\strut
 SP.POP.GROW\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.11148600E+00\strut
+2.11148598E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.12038830E+00\strut
+2.12038835E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.13082980E+00\strut
+2.13082988E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
 2.16465160E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.22445180E+00\strut
+2.22445177E+00\strut
 \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedleft\strut
-2.29740330E+00\strut
+2.29740341E+00\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.06\columnwidth}\raggedright\strut
 ARE\strut
@@ -9698,29 +9698,29 @@ country & indicator & year & value\tabularnewline
 \midrule
 \endhead
 ABW & SP.URB.TOTL & 2013 & 4.43600000E+04\tabularnewline
-ABW & SP.URB.GROW & 2013 & 6.69504000E-01\tabularnewline
+ABW & SP.URB.GROW & 2013 & 6.69503994E-01\tabularnewline
 ABW & SP.POP.TOTL & 2013 & 1.03187000E+05\tabularnewline
-ABW & SP.POP.GROW & 2013 & 5.92914000E-01\tabularnewline
+ABW & SP.POP.GROW & 2013 & 5.92914005E-01\tabularnewline
 AFG & SP.URB.TOTL & 2013 & 7.73396400E+06\tabularnewline
-AFG & SP.URB.GROW & 2013 & 4.19298000E+00\tabularnewline
+AFG & SP.URB.GROW & 2013 & 4.19297967E+00\tabularnewline
 AFG & SP.POP.TOTL & 2013 & 3.17316880E+07\tabularnewline
-AFG & SP.POP.GROW & 2013 & 3.31522420E+00\tabularnewline
+AFG & SP.POP.GROW & 2013 & 3.31522413E+00\tabularnewline
 AGO & SP.URB.TOTL & 2013 & 1.61194910E+07\tabularnewline
-AGO & SP.URB.GROW & 2013 & 4.72272250E+00\tabularnewline
+AGO & SP.URB.GROW & 2013 & 4.72272270E+00\tabularnewline
 AGO & SP.POP.TOTL & 2013 & 2.59983400E+07\tabularnewline
-AGO & SP.POP.GROW & 2013 & 3.53182400E+00\tabularnewline
+AGO & SP.POP.GROW & 2013 & 3.53182419E+00\tabularnewline
 ALB & SP.URB.TOTL & 2013 & 1.60350500E+06\tabularnewline
-ALB & SP.URB.GROW & 2013 & 1.74363930E+00\tabularnewline
+ALB & SP.URB.GROW & 2013 & 1.74363937E+00\tabularnewline
 ALB & SP.POP.TOTL & 2013 & 2.89509200E+06\tabularnewline
-ALB & SP.POP.GROW & 2013 & -1.83211386E-01\tabularnewline
+ALB & SP.POP.GROW & 2013 & -1.83211385E-01\tabularnewline
 AND & SP.URB.TOTL & 2013 & 7.15270000E+04\tabularnewline
-AND & SP.URB.GROW & 2013 & -2.11923337E+00\tabularnewline
+AND & SP.URB.GROW & 2013 & -2.11923331E+00\tabularnewline
 AND & SP.POP.TOTL & 2013 & 8.07880000E+04\tabularnewline
 AND & SP.POP.GROW & 2013 & -2.01331401E+00\tabularnewline
-ARB & SP.URB.TOTL & 2013 & 2.18605120E+08\tabularnewline
-ARB & SP.URB.GROW & 2013 & 2.78289400E+00\tabularnewline
-ARB & SP.POP.TOTL & 2013 & 3.81702080E+08\tabularnewline
-ARB & SP.POP.GROW & 2013 & 2.24884440E+00\tabularnewline
+ARB & SP.URB.TOTL & 2013 & 2.18605128E+08\tabularnewline
+ARB & SP.URB.GROW & 2013 & 2.78289395E+00\tabularnewline
+ARB & SP.POP.TOTL & 2013 & 3.81702086E+08\tabularnewline
+ARB & SP.POP.GROW & 2013 & 2.24884429E+00\tabularnewline
 ARE & SP.URB.TOTL & 2013 & 7.66126800E+06\tabularnewline
 \bottomrule
 \end{longtable}
@@ -9749,29 +9749,29 @@ country & area & variable & year & value\tabularnewline
 \midrule
 \endhead
 ABW & URB & TOTL & 2013 & 4.43600000E+04\tabularnewline
-ABW & URB & GROW & 2013 & 6.69504000E-01\tabularnewline
+ABW & URB & GROW & 2013 & 6.69503994E-01\tabularnewline
 ABW & POP & TOTL & 2013 & 1.03187000E+05\tabularnewline
-ABW & POP & GROW & 2013 & 5.92914000E-01\tabularnewline
+ABW & POP & GROW & 2013 & 5.92914005E-01\tabularnewline
 AFG & URB & TOTL & 2013 & 7.73396400E+06\tabularnewline
-AFG & URB & GROW & 2013 & 4.19298000E+00\tabularnewline
+AFG & URB & GROW & 2013 & 4.19297967E+00\tabularnewline
 AFG & POP & TOTL & 2013 & 3.17316880E+07\tabularnewline
-AFG & POP & GROW & 2013 & 3.31522420E+00\tabularnewline
+AFG & POP & GROW & 2013 & 3.31522413E+00\tabularnewline
 AGO & URB & TOTL & 2013 & 1.61194910E+07\tabularnewline
-AGO & URB & GROW & 2013 & 4.72272250E+00\tabularnewline
+AGO & URB & GROW & 2013 & 4.72272270E+00\tabularnewline
 AGO & POP & TOTL & 2013 & 2.59983400E+07\tabularnewline
-AGO & POP & GROW & 2013 & 3.53182400E+00\tabularnewline
+AGO & POP & GROW & 2013 & 3.53182419E+00\tabularnewline
 ALB & URB & TOTL & 2013 & 1.60350500E+06\tabularnewline
-ALB & URB & GROW & 2013 & 1.74363930E+00\tabularnewline
+ALB & URB & GROW & 2013 & 1.74363937E+00\tabularnewline
 ALB & POP & TOTL & 2013 & 2.89509200E+06\tabularnewline
-ALB & POP & GROW & 2013 & -1.83211386E-01\tabularnewline
+ALB & POP & GROW & 2013 & -1.83211385E-01\tabularnewline
 AND & URB & TOTL & 2013 & 7.15270000E+04\tabularnewline
-AND & URB & GROW & 2013 & -2.11923337E+00\tabularnewline
+AND & URB & GROW & 2013 & -2.11923331E+00\tabularnewline
 AND & POP & TOTL & 2013 & 8.07880000E+04\tabularnewline
 AND & POP & GROW & 2013 & -2.01331401E+00\tabularnewline
-ARB & URB & TOTL & 2013 & 2.18605120E+08\tabularnewline
-ARB & URB & GROW & 2013 & 2.78289400E+00\tabularnewline
-ARB & POP & TOTL & 2013 & 3.81702080E+08\tabularnewline
-ARB & POP & GROW & 2013 & 2.24884440E+00\tabularnewline
+ARB & URB & TOTL & 2013 & 2.18605128E+08\tabularnewline
+ARB & URB & GROW & 2013 & 2.78289395E+00\tabularnewline
+ARB & POP & TOTL & 2013 & 3.81702086E+08\tabularnewline
+ARB & POP & GROW & 2013 & 2.24884429E+00\tabularnewline
 ARE & URB & TOTL & 2013 & 7.66126800E+06\tabularnewline
 \bottomrule
 \end{longtable}
@@ -9791,30 +9791,30 @@ data/world\_bank\_pop.csv.gz {[}9504 5{]}:
 country & area & year & GROW & TOTL\tabularnewline
 \midrule
 \endhead
-ABW & URB & 2013 & 0.66950400 & 4.43600000E+04\tabularnewline
-ABW & POP & 2013 & 0.59291400 & 1.03187000E+05\tabularnewline
-AFG & URB & 2013 & 4.19298000 & 7.73396400E+06\tabularnewline
-AFG & POP & 2013 & 3.31522420 & 3.17316880E+07\tabularnewline
-AGO & URB & 2013 & 4.72272250 & 1.61194910E+07\tabularnewline
-AGO & POP & 2013 & 3.53182400 & 2.59983400E+07\tabularnewline
-ALB & URB & 2013 & 1.74363930 & 1.60350500E+06\tabularnewline
-ALB & POP & 2013 & -0.18321139 & 2.89509200E+06\tabularnewline
-AND & URB & 2013 & -2.11923337 & 7.15270000E+04\tabularnewline
+ABW & URB & 2013 & 0.66950399 & 4.43600000E+04\tabularnewline
+ABW & POP & 2013 & 0.59291401 & 1.03187000E+05\tabularnewline
+AFG & URB & 2013 & 4.19297967 & 7.73396400E+06\tabularnewline
+AFG & POP & 2013 & 3.31522413 & 3.17316880E+07\tabularnewline
+AGO & URB & 2013 & 4.72272270 & 1.61194910E+07\tabularnewline
+AGO & POP & 2013 & 3.53182419 & 2.59983400E+07\tabularnewline
+ALB & URB & 2013 & 1.74363937 & 1.60350500E+06\tabularnewline
+ALB & POP & 2013 & -0.18321138 & 2.89509200E+06\tabularnewline
+AND & URB & 2013 & -2.11923331 & 7.15270000E+04\tabularnewline
 AND & POP & 2013 & -2.01331401 & 8.07880000E+04\tabularnewline
-ARB & URB & 2013 & 2.78289400 & 2.18605120E+08\tabularnewline
-ARB & POP & 2013 & 2.24884440 & 3.81702080E+08\tabularnewline
-ARE & URB & 2013 & 1.55515590 & 7.66126800E+06\tabularnewline
-ARE & POP & 2013 & 1.18180500 & 9.00626300E+06\tabularnewline
-ARG & URB & 2013 & 1.18764910 & 3.88172560E+07\tabularnewline
-ARG & POP & 2013 & 1.04727670 & 4.25399240E+07\tabularnewline
-ARM & URB & 2013 & 0.28102720 & 1.82765600E+06\tabularnewline
-ARM & POP & 2013 & 0.40125197 & 2.89350900E+06\tabularnewline
+ARB & URB & 2013 & 2.78289395 & 2.18605128E+08\tabularnewline
+ARB & POP & 2013 & 2.24884429 & 3.81702086E+08\tabularnewline
+ARE & URB & 2013 & 1.55515587 & 7.66126800E+06\tabularnewline
+ARE & POP & 2013 & 1.18180499 & 9.00626300E+06\tabularnewline
+ARG & URB & 2013 & 1.18764913 & 3.88172560E+07\tabularnewline
+ARG & POP & 2013 & 1.04727675 & 4.25399250E+07\tabularnewline
+ARM & URB & 2013 & 0.28102719 & 1.82765600E+06\tabularnewline
+ARM & POP & 2013 & 0.40125198 & 2.89350900E+06\tabularnewline
 ASM & URB & 2013 & 0.05797582 & 4.83100000E+04\tabularnewline
-ASM & POP & 2013 & 0.13931988 & 5.53070000E+04\tabularnewline
+ASM & POP & 2013 & 0.13931989 & 5.53070000E+04\tabularnewline
 ATG & URB & 2013 & 0.38383110 & 2.47980000E+04\tabularnewline
 ATG & POP & 2013 & 1.07605830 & 9.78240000E+04\tabularnewline
-AUS & URB & 2013 & 1.87536410 & 1.97902080E+07\tabularnewline
-AUS & POP & 2013 & 1.75833810 & 2.31459000E+07\tabularnewline
+AUS & URB & 2013 & 1.87536404 & 1.97902080E+07\tabularnewline
+AUS & POP & 2013 & 1.75833808 & 2.31459010E+07\tabularnewline
 AUT & URB & 2013 & 0.91956020 & 4.86199100E+06\tabularnewline
 \bottomrule
 \end{longtable}
@@ -10069,16 +10069,16 @@ data/stockstidyr.csv {[}10 4{]}:
 time & X & Y & Z\tabularnewline
 \midrule
 \endhead
-2009-01-01 & 1.30989800 & -1.89040196 & -1.7794688\tabularnewline
-2009-01-02 & -0.29993805 & -1.82473087 & 2.3989250\tabularnewline
-2009-01-03 & 0.53647500 & -1.03606856 & -3.9869797\tabularnewline
-2009-01-04 & -1.88390803 & -0.52178389 & -2.8306549\tabularnewline
-2009-01-05 & -0.96052361 & -2.21683359 & 1.4371517\tabularnewline
-2009-01-06 & -1.18528962 & -2.89350915 & 3.3978415\tabularnewline
-2009-01-07 & -0.85207057 & -2.16794825 & -1.2010826\tabularnewline
-2009-01-08 & 0.25234172 & -0.32854116 & -1.5316048\tabularnewline
-2009-01-09 & 0.40257135 & 1.96407900 & -6.8087883\tabularnewline
-2009-01-10 & -0.64383501 & 2.68618400 & -2.5590932\tabularnewline
+2009-01-01 & 1.30989806 & -1.89040193 & -1.77946880\tabularnewline
+2009-01-02 & -0.29993804 & -1.82473090 & 2.39892513\tabularnewline
+2009-01-03 & 0.53647501 & -1.03606860 & -3.98697977\tabularnewline
+2009-01-04 & -1.88390802 & -0.52178390 & -2.83065490\tabularnewline
+2009-01-05 & -0.96052361 & -2.21683349 & 1.43715171\tabularnewline
+2009-01-06 & -1.18528966 & -2.89350924 & 3.39784140\tabularnewline
+2009-01-07 & -0.85207056 & -2.16794818 & -1.20108258\tabularnewline
+2009-01-08 & 0.25234172 & -0.32854117 & -1.53160473\tabularnewline
+2009-01-09 & 0.40257136 & 1.96407898 & -6.80878830\tabularnewline
+2009-01-10 & -0.64383500 & 2.68618382 & -2.55909321\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -10104,31 +10104,31 @@ data/stockstidyr.csv {[}30 3{]}:
 time & :stocks & :price\tabularnewline
 \midrule
 \endhead
-2009-01-01 & X & 1.30989800\tabularnewline
-2009-01-02 & X & -0.29993805\tabularnewline
-2009-01-03 & X & 0.53647500\tabularnewline
-2009-01-04 & X & -1.88390803\tabularnewline
+2009-01-01 & X & 1.30989806\tabularnewline
+2009-01-02 & X & -0.29993804\tabularnewline
+2009-01-03 & X & 0.53647501\tabularnewline
+2009-01-04 & X & -1.88390802\tabularnewline
 2009-01-05 & X & -0.96052361\tabularnewline
-2009-01-06 & X & -1.18528962\tabularnewline
-2009-01-07 & X & -0.85207057\tabularnewline
+2009-01-06 & X & -1.18528966\tabularnewline
+2009-01-07 & X & -0.85207056\tabularnewline
 2009-01-08 & X & 0.25234172\tabularnewline
-2009-01-09 & X & 0.40257135\tabularnewline
-2009-01-10 & X & -0.64383501\tabularnewline
-2009-01-01 & Y & -1.89040196\tabularnewline
-2009-01-02 & Y & -1.82473087\tabularnewline
-2009-01-03 & Y & -1.03606856\tabularnewline
-2009-01-04 & Y & -0.52178389\tabularnewline
-2009-01-05 & Y & -2.21683359\tabularnewline
-2009-01-06 & Y & -2.89350915\tabularnewline
-2009-01-07 & Y & -2.16794825\tabularnewline
-2009-01-08 & Y & -0.32854116\tabularnewline
-2009-01-09 & Y & 1.96407900\tabularnewline
-2009-01-10 & Y & 2.68618400\tabularnewline
-2009-01-01 & Z & -1.77946877\tabularnewline
-2009-01-02 & Z & 2.39892500\tabularnewline
-2009-01-03 & Z & -3.98697972\tabularnewline
-2009-01-04 & Z & -2.83065486\tabularnewline
-2009-01-05 & Z & 1.43715170\tabularnewline
+2009-01-09 & X & 0.40257136\tabularnewline
+2009-01-10 & X & -0.64383500\tabularnewline
+2009-01-01 & Y & -1.89040193\tabularnewline
+2009-01-02 & Y & -1.82473090\tabularnewline
+2009-01-03 & Y & -1.03606860\tabularnewline
+2009-01-04 & Y & -0.52178390\tabularnewline
+2009-01-05 & Y & -2.21683349\tabularnewline
+2009-01-06 & Y & -2.89350924\tabularnewline
+2009-01-07 & Y & -2.16794818\tabularnewline
+2009-01-08 & Y & -0.32854117\tabularnewline
+2009-01-09 & Y & 1.96407898\tabularnewline
+2009-01-10 & Y & 2.68618382\tabularnewline
+2009-01-01 & Z & -1.77946880\tabularnewline
+2009-01-02 & Z & 2.39892513\tabularnewline
+2009-01-03 & Z & -3.98697977\tabularnewline
+2009-01-04 & Z & -2.83065490\tabularnewline
+2009-01-05 & Z & 1.43715171\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -10147,16 +10147,16 @@ data/stockstidyr.csv {[}10 4{]}:
 time & Z & X & Y\tabularnewline
 \midrule
 \endhead
-2009-01-01 & -1.7794688 & 1.30989800 & -1.89040196\tabularnewline
-2009-01-02 & 2.3989250 & -0.29993805 & -1.82473087\tabularnewline
-2009-01-03 & -3.9869797 & 0.53647500 & -1.03606856\tabularnewline
-2009-01-04 & -2.8306549 & -1.88390803 & -0.52178389\tabularnewline
-2009-01-05 & 1.4371517 & -0.96052361 & -2.21683359\tabularnewline
-2009-01-06 & 3.3978415 & -1.18528962 & -2.89350915\tabularnewline
-2009-01-07 & -1.2010826 & -0.85207057 & -2.16794825\tabularnewline
-2009-01-08 & -1.5316048 & 0.25234172 & -0.32854116\tabularnewline
-2009-01-09 & -6.8087883 & 0.40257135 & 1.96407900\tabularnewline
-2009-01-10 & -2.5590932 & -0.64383501 & 2.68618400\tabularnewline
+2009-01-01 & -1.77946880 & 1.30989806 & -1.89040193\tabularnewline
+2009-01-02 & 2.39892513 & -0.29993804 & -1.82473090\tabularnewline
+2009-01-03 & -3.98697977 & 0.53647501 & -1.03606860\tabularnewline
+2009-01-04 & -2.83065490 & -1.88390802 & -0.52178390\tabularnewline
+2009-01-05 & 1.43715171 & -0.96052361 & -2.21683349\tabularnewline
+2009-01-06 & 3.39784140 & -1.18528966 & -2.89350924\tabularnewline
+2009-01-07 & -1.20108258 & -0.85207056 & -2.16794818\tabularnewline
+2009-01-08 & -1.53160473 & 0.25234172 & -0.32854117\tabularnewline
+2009-01-09 & -6.80878830 & 0.40257136 & 1.96407898\tabularnewline
+2009-01-10 & -2.55909321 & -0.64383500 & 2.68618382\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -10179,9 +10179,9 @@ data/stockstidyr.csv {[}3 6{]}:
 2009-01-09\tabularnewline
 \midrule
 \endhead
-X & -0.9605236 & & 1.3098980 & & 0.40257135\tabularnewline
-Z & 1.4371517 & & -1.7794688 & & -6.80878830\tabularnewline
-Y & & -2.1679482 & & -1.0360686 &\tabularnewline
+X & -0.96052361 & & 1.30989806 & & 0.40257136\tabularnewline
+Z & 1.43715171 & & -1.77946880 & & -6.80878830\tabularnewline
+Y & & -2.16794818 & & -1.0360686 &\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -10892,6 +10892,109 @@ anti-join {[}5 4{]}:
 \bottomrule
 \end{longtable}
 
+\paragraph{asof}\label{asof}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\BuiltInTok{def}\FunctionTok{ left-ds }\NormalTok{(api/dataset \{}\AttributeTok{:a}\NormalTok{ [}\DecValTok{1} \DecValTok{5} \DecValTok{10}\NormalTok{]}
+                           \AttributeTok{:left-val}\NormalTok{ [}\StringTok{"a"} \StringTok{"b"} \StringTok{"c"}\NormalTok{]\}))}
+\NormalTok{(}\BuiltInTok{def}\FunctionTok{ right-ds }\NormalTok{(api/dataset \{}\AttributeTok{:a}\NormalTok{ [}\DecValTok{1} \DecValTok{2} \DecValTok{3} \DecValTok{6} \DecValTok{7}\NormalTok{]}
+                            \AttributeTok{:right-val}\NormalTok{ [}\AttributeTok{:a} \AttributeTok{:b} \AttributeTok{:c} \AttributeTok{:d} \AttributeTok{:e}\NormalTok{]\}))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{left-ds}
+\NormalTok{right-ds}
+\end{Highlighting}
+\end{Shaded}
+
+\_unnamed {[}3 2{]}:
+
+\begin{longtable}[]{@{}rl@{}}
+\toprule
+:a & :left-val\tabularnewline
+\midrule
+\endhead
+1 & a\tabularnewline
+5 & b\tabularnewline
+10 & c\tabularnewline
+\bottomrule
+\end{longtable}
+
+\_unnamed {[}5 2{]}:
+
+\begin{longtable}[]{@{}rl@{}}
+\toprule
+:a & :right-val\tabularnewline
+\midrule
+\endhead
+1 & :a\tabularnewline
+2 & :b\tabularnewline
+3 & :c\tabularnewline
+6 & :d\tabularnewline
+7 & :e\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(api/asof-join left-ds right-ds }\AttributeTok{:a}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+asof-\textless{}= {[}3 4{]}:
+
+\begin{longtable}[]{@{}rlrl@{}}
+\toprule
+:a & :left-val & :right.a & :right-val\tabularnewline
+\midrule
+\endhead
+1 & a & 1 & :a\tabularnewline
+5 & b & 6 & :d\tabularnewline
+10 & c & &\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(api/asof-join left-ds right-ds }\AttributeTok{:a}\NormalTok{ \{}\AttributeTok{:asof-op} \AttributeTok{:nearest}\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+asof-nearest {[}3 4{]}:
+
+\begin{longtable}[]{@{}rlrl@{}}
+\toprule
+:a & :left-val & :right.a & :right-val\tabularnewline
+\midrule
+\endhead
+1 & a & 1 & :a\tabularnewline
+5 & b & 6 & :d\tabularnewline
+10 & c & 7 & :e\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(api/asof-join left-ds right-ds }\AttributeTok{:a}\NormalTok{ \{}\AttributeTok{:asof-op}\NormalTok{ :>=\})}
+\end{Highlighting}
+\end{Shaded}
+
+asof-\textgreater{}= {[}3 4{]}:
+
+\begin{longtable}[]{@{}rlrl@{}}
+\toprule
+:a & :left-val & :right.a & :right-val\tabularnewline
+\midrule
+\endhead
+1 & a & 1 & :a\tabularnewline
+5 & b & 3 & :c\tabularnewline
+10 & c & 7 & :e\tabularnewline
+\bottomrule
+\end{longtable}
+
 \paragraph{Concat}\label{concat}
 
 \texttt{contact} joins rows from other datasets
@@ -10972,31 +11075,31 @@ null {[}27 4{]}:
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-2 & 2 & 1.0 & B\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
-2 & 8 & 1.0 & B\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
-2 & 4 & 0.5 & A\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
 1 & 5 & 1.0 & B\tabularnewline
 2 & 2 & 1.0 & B\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
+2 & 8 & 1.0 & B\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
+2 & 8 & 1.0 & B\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
+2 & 8 & 1.0 & B\tabularnewline
+2 & 4 & 0.5 & A\tabularnewline
 1 & 7 & 0.5 & A\tabularnewline
 2 & 8 & 1.0 & B\tabularnewline
 1 & 1 & 0.5 & A\tabularnewline
-1 & 9 & 1.5 & C\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
 1 & 7 & 0.5 & A\tabularnewline
-1 & 9 & 1.5 & C\tabularnewline
-2 & 8 & 1.0 & B\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
-2 & 8 & 1.0 & B\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
-1 & 9 & 1.5 & C\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
 1 & 1 & 0.5 & A\tabularnewline
 2 & 2 & 1.0 & B\tabularnewline
-1 & 9 & 1.5 & C\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -11053,14 +11156,14 @@ union {[}9 4{]}:
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 7 & 0.5 & A\tabularnewline
 1 & 9 & 1.5 & C\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
 2 & 4 & 0.5 & A\tabularnewline
+2 & 2 & 1.0 & B\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
 2 & 8 & 1.0 & B\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
 1 & 3 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
@@ -11324,31 +11427,31 @@ MSFT & 2002-01-01 & 25.92\tabularnewline
 :symbol & :year & :summary\tabularnewline
 \midrule
 \endhead
-AAPL & 2000 & 21.74833341\tabularnewline
-AAPL & 2001 & 10.17583323\tabularnewline
-AAPL & 2002 & 9.40833330\tabularnewline
-AAPL & 2003 & 9.34749989\tabularnewline
-AAPL & 2004 & 18.72333336\tabularnewline
-AAPL & 2005 & 48.17166678\tabularnewline
-AAPL & 2006 & 72.04333369\tabularnewline
-AAPL & 2007 & 133.35333379\tabularnewline
-AAPL & 2008 & 138.48083242\tabularnewline
-AAPL & 2009 & 150.39333344\tabularnewline
-AAPL & 2010 & 206.56666565\tabularnewline
-AMZN & 2000 & 43.93083342\tabularnewline
-AMZN & 2001 & 11.73916642\tabularnewline
-AMZN & 2002 & 16.72333336\tabularnewline
-AMZN & 2003 & 39.01666673\tabularnewline
-AMZN & 2004 & 43.26749992\tabularnewline
-AMZN & 2005 & 40.18750032\tabularnewline
-AMZN & 2006 & 36.25166623\tabularnewline
-AMZN & 2007 & 69.95250066\tabularnewline
-AMZN & 2008 & 69.01500003\tabularnewline
-AMZN & 2009 & 90.73083433\tabularnewline
-AMZN & 2010 & 124.21000417\tabularnewline
-GOOG & 2004 & 159.47599945\tabularnewline
-GOOG & 2005 & 286.47249858\tabularnewline
-GOOG & 2006 & 415.25666809\tabularnewline
+AAPL & 2000 & 21.74833333\tabularnewline
+AAPL & 2001 & 10.17583333\tabularnewline
+AAPL & 2002 & 9.40833333\tabularnewline
+AAPL & 2003 & 9.34750000\tabularnewline
+AAPL & 2004 & 18.72333333\tabularnewline
+AAPL & 2005 & 48.17166667\tabularnewline
+AAPL & 2006 & 72.04333333\tabularnewline
+AAPL & 2007 & 133.35333333\tabularnewline
+AAPL & 2008 & 138.48083333\tabularnewline
+AAPL & 2009 & 150.39333333\tabularnewline
+AAPL & 2010 & 206.56666667\tabularnewline
+AMZN & 2000 & 43.93083333\tabularnewline
+AMZN & 2001 & 11.73916667\tabularnewline
+AMZN & 2002 & 16.72333333\tabularnewline
+AMZN & 2003 & 39.01666667\tabularnewline
+AMZN & 2004 & 43.26750000\tabularnewline
+AMZN & 2005 & 40.18750000\tabularnewline
+AMZN & 2006 & 36.25166667\tabularnewline
+AMZN & 2007 & 69.95250000\tabularnewline
+AMZN & 2008 & 69.01500000\tabularnewline
+AMZN & 2009 & 90.73083333\tabularnewline
+AMZN & 2010 & 124.21000000\tabularnewline
+GOOG & 2004 & 159.47600000\tabularnewline
+GOOG & 2005 & 286.47250000\tabularnewline
+GOOG & 2006 & 415.25666667\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -11369,31 +11472,31 @@ GOOG & 2006 & 415.25666809\tabularnewline
 :symbol & :year & :summary\tabularnewline
 \midrule
 \endhead
-AMZN & 2007 & 69.95250066\tabularnewline
-AMZN & 2008 & 69.01500003\tabularnewline
-AMZN & 2009 & 90.73083433\tabularnewline
-AMZN & 2010 & 124.21000417\tabularnewline
-AMZN & 2000 & 43.93083342\tabularnewline
-AMZN & 2001 & 11.73916642\tabularnewline
-AMZN & 2002 & 16.72333336\tabularnewline
-AMZN & 2003 & 39.01666673\tabularnewline
-AMZN & 2004 & 43.26749992\tabularnewline
-AMZN & 2005 & 40.18750032\tabularnewline
-AMZN & 2006 & 36.25166623\tabularnewline
-IBM & 2001 & 96.96833356\tabularnewline
-IBM & 2002 & 75.12500032\tabularnewline
-IBM & 2000 & 96.91416677\tabularnewline
-MSFT & 2006 & 24.75833321\tabularnewline
-MSFT & 2005 & 23.84583330\tabularnewline
-MSFT & 2004 & 22.67416684\tabularnewline
-MSFT & 2003 & 20.93416675\tabularnewline
-AAPL & 2001 & 10.17583323\tabularnewline
-MSFT & 2010 & 28.50666618\tabularnewline
-AAPL & 2002 & 9.40833330\tabularnewline
-MSFT & 2009 & 22.87250002\tabularnewline
-MSFT & 2008 & 25.20833317\tabularnewline
-AAPL & 2000 & 21.74833341\tabularnewline
-MSFT & 2007 & 29.28416665\tabularnewline
+AMZN & 2007 & 69.95250000\tabularnewline
+AMZN & 2008 & 69.01500000\tabularnewline
+AMZN & 2009 & 90.73083333\tabularnewline
+AMZN & 2010 & 124.21000000\tabularnewline
+AMZN & 2000 & 43.93083333\tabularnewline
+AMZN & 2001 & 11.73916667\tabularnewline
+AMZN & 2002 & 16.72333333\tabularnewline
+AMZN & 2003 & 39.01666667\tabularnewline
+AMZN & 2004 & 43.26750000\tabularnewline
+AMZN & 2005 & 40.18750000\tabularnewline
+AMZN & 2006 & 36.25166667\tabularnewline
+IBM & 2001 & 96.96833333\tabularnewline
+IBM & 2002 & 75.12500000\tabularnewline
+IBM & 2000 & 96.91416667\tabularnewline
+MSFT & 2006 & 24.75833333\tabularnewline
+MSFT & 2005 & 23.84583333\tabularnewline
+MSFT & 2004 & 22.67416667\tabularnewline
+MSFT & 2003 & 20.93416667\tabularnewline
+AAPL & 2001 & 10.17583333\tabularnewline
+MSFT & 2010 & 28.50666667\tabularnewline
+AAPL & 2002 & 9.40833333\tabularnewline
+MSFT & 2009 & 22.87250000\tabularnewline
+MSFT & 2008 & 25.20833333\tabularnewline
+AAPL & 2000 & 21.74833333\tabularnewline
+MSFT & 2007 & 29.28416667\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -13193,9 +13296,9 @@ Other filters
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-2 & 2 & 1.0 & B\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -13213,9 +13316,9 @@ Other filters
 \midrule
 \endhead
 2 & 8 & 1.0 & B\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
 1 & 5 & 1.0 & B\tabularnewline
-2 & 4 & 0.5 & A\tabularnewline
-2 & 8 & 1.0 & B\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
 2 & 4 & 0.5 & A\tabularnewline
 \bottomrule
 \end{longtable}

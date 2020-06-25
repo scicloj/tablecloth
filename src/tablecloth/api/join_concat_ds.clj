@@ -73,6 +73,13 @@
               (ds/unique-by identity))
          (vary-meta assoc :name "anti-join")))))
 
+(defn asof-join
+  ([ds-left ds-right colname] (asof-join ds-left ds-right colname nil))
+  ([ds-left ds-right colname options]
+   (ds/left-join-asof colname ds-left ds-right options)))
+
+;; set operations
+
 (defn intersect
   ([ds-left ds-right] (intersect ds-left ds-right nil))
   ([ds-left ds-right options]
