@@ -110,7 +110,7 @@
 
 \title{Dplyr-like API for tech.ml.dataset}
 \author{GenerateMe}
-\date{2020-06-25}
+\date{2020-06-29}
 
 \begin{document}
 \maketitle
@@ -1003,7 +1003,7 @@ Rows as sequence of sequences
 \end{Shaded}
 
 \begin{verbatim}
-([#object[java.time.LocalDate 0x2ce5d90c "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x1ca66007 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
+([#object[java.time.LocalDate 0x1e6e4081 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x4802434 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
 \end{verbatim}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -1017,13 +1017,13 @@ Rows as sequence of maps
 \end{Shaded}
 
 \begin{verbatim}
-({"date" #object[java.time.LocalDate 0x4b272eed "2012-01-01"],
+({"date" #object[java.time.LocalDate 0x77bdf4d8 "2012-01-01"],
   "precipitation" 0.0,
   "temp_min" 5.0,
   "weather" "drizzle",
   "temp_max" 12.8,
   "wind" 4.7}
- {"date" #object[java.time.LocalDate 0x7a5e2357 "2012-01-02"],
+ {"date" #object[java.time.LocalDate 0x1fefd789 "2012-01-02"],
   "precipitation" 10.9,
   "temp_min" 2.8,
   "weather" "rain",
@@ -2743,7 +2743,7 @@ You can also pass mapping function with optional columns-selector
 \begin{longtable}[]{@{}rrrl@{}}
 \toprule
 v1 & v2 & {[}1 2 3{]} &
-\href{mailto:java.lang.Object@331946df}{\nolinkurl{java.lang.Object@331946df}}\tabularnewline
+\href{mailto:java.lang.Object@6b104ab4}{\nolinkurl{java.lang.Object@6b104ab4}}\tabularnewline
 \midrule
 \endhead
 1 & 1 & 0.5 & A\tabularnewline
@@ -2837,7 +2837,7 @@ Function works on grouped dataset
 \begin{longtable}[]{@{}rrrl@{}}
 \toprule
 v1 & v2 & {[}1 2 3{]} &
-\href{mailto:java.lang.Object@8f40ebe}{\nolinkurl{java.lang.Object@8f40ebe}}\tabularnewline
+\href{mailto:java.lang.Object@59825c7b}{\nolinkurl{java.lang.Object@59825c7b}}\tabularnewline
 \midrule
 \endhead
 1 & 1 & 0.5 & A\tabularnewline
@@ -2853,7 +2853,7 @@ v1 & v2 & {[}1 2 3{]} &
 \begin{longtable}[]{@{}rrrl@{}}
 \toprule
 v1 & v2 & {[}1 2 3{]} &
-\href{mailto:java.lang.Object@8f40ebe}{\nolinkurl{java.lang.Object@8f40ebe}}\tabularnewline
+\href{mailto:java.lang.Object@59825c7b}{\nolinkurl{java.lang.Object@59825c7b}}\tabularnewline
 \midrule
 \endhead
 2 & 2 & 1.0 & B\tabularnewline
@@ -2945,15 +2945,15 @@ Replace one column (column is trimmed)
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-0.8328 & 1 & 0.5 & A\tabularnewline
-0.6194 & 2 & 1.0 & B\tabularnewline
-0.002740 & 3 & 1.5 & C\tabularnewline
-0.3752 & 4 & 0.5 & A\tabularnewline
-0.06687 & 5 & 1.0 & B\tabularnewline
-0.8312 & 6 & 1.5 & C\tabularnewline
-0.5494 & 7 & 0.5 & A\tabularnewline
-0.5845 & 8 & 1.0 & B\tabularnewline
-0.2864 & 9 & 1.5 & C\tabularnewline
+0.3585 & 1 & 0.5 & A\tabularnewline
+0.2696 & 2 & 1.0 & B\tabularnewline
+0.1241 & 3 & 1.5 & C\tabularnewline
+0.7789 & 4 & 0.5 & A\tabularnewline
+0.7024 & 5 & 1.0 & B\tabularnewline
+0.9305 & 6 & 1.5 & C\tabularnewline
+0.8839 & 7 & 0.5 & A\tabularnewline
+0.9883 & 8 & 1.0 & B\tabularnewline
+0.6800 & 9 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -3318,15 +3318,15 @@ map.
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 6 & 0.5 & A\tabularnewline
-2 & 9 & 1.0 & B\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
-2 & 7 & 0.5 & A\tabularnewline
-1 & 2 & 1.0 & B\tabularnewline
-2 & 8 & 1.5 & C\tabularnewline
 1 & 5 & 0.5 & A\tabularnewline
 2 & 4 & 1.0 & B\tabularnewline
-1 & 1 & 1.5 & C\tabularnewline
+1 & 8 & 1.5 & C\tabularnewline
+2 & 7 & 0.5 & A\tabularnewline
+1 & 1 & 1.0 & B\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
+1 & 9 & 0.5 & A\tabularnewline
+2 & 2 & 1.0 & B\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -3676,7 +3676,7 @@ Double array conversion.
 \end{Shaded}
 
 \begin{verbatim}
-#object["[J" 0x21c682dd "[J@21c682dd"]
+#object["[J" 0x6d96e1ca "[J@6d96e1ca"]
 \end{verbatim}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -3692,7 +3692,7 @@ Function also works on grouped dataset
 \end{Shaded}
 
 \begin{verbatim}
-(#object["[J" 0x3f1da999 "[J@3f1da999"] #object["[J" 0x27140a17 "[J@27140a17"] #object["[J" 0x3759571d "[J@3759571d"])
+(#object["[J" 0x51677250 "[J@51677250"] #object["[J" 0x4079c46e "[J@4079c46e"] #object["[J" 0x50628a22 "[J@50628a22"])
 \end{verbatim}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -3707,8 +3707,8 @@ You can also cast the type to the other one (if casting is possible):
 \end{Shaded}
 
 \begin{verbatim}
-#object["[Ljava.lang.String;" 0x766682b0 "[Ljava.lang.String;@766682b0"]
-#object["[F" 0x6d62495c "[F@6d62495c"]
+#object["[Ljava.lang.String;" 0x4848cbe7 "[Ljava.lang.String;@4848cbe7"]
+#object["[F" 0x534c414c "[F@534c414c"]
 \end{verbatim}
 
 \subsubsection{Rows}\label{rows}
@@ -3981,7 +3981,7 @@ Random row (single)
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 3 & 1.5 & C\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -4023,15 +4023,15 @@ Random \texttt{n} (default: row count) rows with repetition.
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
+1 & 3 & 1.5 & C\tabularnewline
 2 & 6 & 1.5 & C\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
 1 & 9 & 1.5 & C\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
+2 & 8 & 1.0 & B\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -4052,11 +4052,11 @@ Five random rows with repetition
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-2 & 6 & 1.5 & C\tabularnewline
-1 & 9 & 1.5 & C\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
-1 & 9 & 1.5 & C\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
+2 & 2 & 1.0 & B\tabularnewline
 1 & 3 & 1.5 & C\tabularnewline
+2 & 8 & 1.0 & B\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -4077,11 +4077,11 @@ Five random, non-repeating rows
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-2 & 4 & 0.5 & A\tabularnewline
-1 & 9 & 1.5 & C\tabularnewline
 1 & 3 & 1.5 & C\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
+2 & 4 & 0.5 & A\tabularnewline
 2 & 2 & 1.0 & B\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -4127,15 +4127,15 @@ Shuffle dataset
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-2 & 8 & 1.0 & B\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
 2 & 4 & 0.5 & A\tabularnewline
 1 & 5 & 1.0 & B\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
 1 & 9 & 1.5 & C\tabularnewline
 1 & 7 & 0.5 & A\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
 2 & 2 & 1.0 & B\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
+2 & 8 & 1.0 & B\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -4314,19 +4314,19 @@ Select 5 random rows from each group
 \midrule
 \endhead
 1 & 1 & 0.5 & A\tabularnewline
-2 & 4 & 0.5 & A\tabularnewline
-2 & 4 & 0.5 & A\tabularnewline
 1 & 7 & 0.5 & A\tabularnewline
 1 & 7 & 0.5 & A\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
+2 & 8 & 1.0 & B\tabularnewline
 2 & 2 & 1.0 & B\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
+2 & 2 & 1.0 & B\tabularnewline
 2 & 8 & 1.0 & B\tabularnewline
 1 & 5 & 1.0 & B\tabularnewline
-1 & 3 & 1.5 & C\tabularnewline
 1 & 9 & 1.5 & C\tabularnewline
 1 & 9 & 1.5 & C\tabularnewline
 1 & 3 & 1.5 & C\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
 1 & 9 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
@@ -5114,8 +5114,8 @@ Random
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 1 & 0.5 & A\tabularnewline
-2 & 4 & 0.5 & A\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -5428,9 +5428,11 @@ Missing values can be replaced using several strategies.
 \item
   dataset
 \item
-  column selector
+  column selector, default: \texttt{:all}
 \item
-  value
+  strategy, default: \texttt{:mid}
+\item
+  value (optional)
 
   \begin{itemize}
   \tightlist
@@ -5441,8 +5443,6 @@ Missing values can be replaced using several strategies.
   \item
     function, applied on column(s) with stripped missings
   \end{itemize}
-\item
-  strategy (optional)
 \end{itemize}
 
 Strategies are:
@@ -5450,19 +5450,26 @@ Strategies are:
 \begin{itemize}
 \tightlist
 \item
-  \texttt{:value} - replace with given value (default)
+  \texttt{:value} - replace with given value
 \item
-  \texttt{:up} - copy values up
+  \texttt{:up} - copy values up and then down for missing values at the
+  end
 \item
-  \texttt{:down} - copy values down
+  \texttt{:down} - copy values down and then up for missing values at
+  the beginning
+\item
+  \texttt{:mid} - copy values around known values
+\item
+  \texttt{:lerp} - trying to lineary approximate values, works for
+  numbers and datetime, otherwise applies \texttt{:mid}
 \end{itemize}
 
 Let's define special dataset here:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(}\BuiltInTok{def}\FunctionTok{ DSm2 }\NormalTok{(api/dataset \{}\AttributeTok{:a}\NormalTok{ [}\VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \FloatTok{1.0} \DecValTok{2}   \VariableTok{nil} \DecValTok{4}   \VariableTok{nil}  \DecValTok{11} \VariableTok{nil} \VariableTok{nil}\NormalTok{]}
-                        \AttributeTok{:b}\NormalTok{ [}\FloatTok{2.0}   \DecValTok{2}   \DecValTok{2} \VariableTok{nil} \VariableTok{nil} \DecValTok{3}   \VariableTok{nil}   \DecValTok{3}  \DecValTok{4}  \DecValTok{5} \DecValTok{5}\NormalTok{]\}))}
+\NormalTok{(}\BuiltInTok{def}\FunctionTok{ DSm2 }\NormalTok{(api/dataset \{}\AttributeTok{:a}\NormalTok{ [}\VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \FloatTok{1.0} \DecValTok{2}  \VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \VariableTok{nil}  \VariableTok{nil} \DecValTok{4}   \VariableTok{nil}  \DecValTok{11} \VariableTok{nil} \VariableTok{nil}\NormalTok{]}
+                        \AttributeTok{:b}\NormalTok{ [}\DecValTok{2}   \DecValTok{2}   \DecValTok{2} \VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \DecValTok{13}   \VariableTok{nil}   \DecValTok{3}  \DecValTok{4}  \DecValTok{5} \DecValTok{5}\NormalTok{]\}))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5472,24 +5479,63 @@ Let's define special dataset here:
 \end{Highlighting}
 \end{Shaded}
 
-\_unnamed {[}11 2{]}:
+\_unnamed {[}15 2{]}:
 
 \begin{longtable}[]{@{}rr@{}}
 \toprule
 :a & :b\tabularnewline
 \midrule
 \endhead
-& 2.0\tabularnewline
-& 2.0\tabularnewline
-& 2.0\tabularnewline
+& 2\tabularnewline
+& 2\tabularnewline
+& 2\tabularnewline
 1.0 &\tabularnewline
 2.0 &\tabularnewline
-& 3.0\tabularnewline
+&\tabularnewline
+&\tabularnewline
+&\tabularnewline
+&\tabularnewline
+& 13\tabularnewline
 4.0 &\tabularnewline
-& 3.0\tabularnewline
-11.0 & 4.0\tabularnewline
-& 5.0\tabularnewline
-& 5.0\tabularnewline
+& 3\tabularnewline
+11.0 & 4\tabularnewline
+& 5\tabularnewline
+& 5\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Replace missing with default strategy for all columns
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(api/replace-missing DSm2)}
+\end{Highlighting}
+\end{Shaded}
+
+\_unnamed {[}15 2{]}:
+
+\begin{longtable}[]{@{}rr@{}}
+\toprule
+:a & :b\tabularnewline
+\midrule
+\endhead
+1.0 & 2\tabularnewline
+1.0 & 2\tabularnewline
+1.0 & 2\tabularnewline
+1.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 13\tabularnewline
+2.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 3\tabularnewline
+11.0 & 4\tabularnewline
+11.0 & 5\tabularnewline
+11.0 & 5\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -5499,28 +5545,32 @@ Replace missing with single value in whole dataset
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(api/replace-missing DSm2 }\DecValTok{999}\NormalTok{)}
+\NormalTok{(api/replace-missing DSm2 }\AttributeTok{:all} \AttributeTok{:value} \DecValTok{999}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\_unnamed {[}11 2{]}:
+\_unnamed {[}15 2{]}:
 
 \begin{longtable}[]{@{}rr@{}}
 \toprule
 :a & :b\tabularnewline
 \midrule
 \endhead
-999.0 & 2.0\tabularnewline
-999.0 & 2.0\tabularnewline
-999.0 & 2.0\tabularnewline
-1.0 & 999.0\tabularnewline
-2.0 & 999.0\tabularnewline
-999.0 & 3.0\tabularnewline
-4.0 & 999.0\tabularnewline
-999.0 & 3.0\tabularnewline
-11.0 & 4.0\tabularnewline
-999.0 & 5.0\tabularnewline
-999.0 & 5.0\tabularnewline
+999.0 & 2\tabularnewline
+999.0 & 2\tabularnewline
+999.0 & 2\tabularnewline
+1.0 & 999\tabularnewline
+2.0 & 999\tabularnewline
+999.0 & 999\tabularnewline
+999.0 & 999\tabularnewline
+999.0 & 999\tabularnewline
+999.0 & 999\tabularnewline
+999.0 & 13\tabularnewline
+4.0 & 999\tabularnewline
+999.0 & 3\tabularnewline
+11.0 & 4\tabularnewline
+999.0 & 5\tabularnewline
+999.0 & 5\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -5530,28 +5580,32 @@ Replace missing with single value in \texttt{:a} column
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(api/replace-missing DSm2 }\AttributeTok{:a} \DecValTok{999}\NormalTok{)}
+\NormalTok{(api/replace-missing DSm2 }\AttributeTok{:a} \AttributeTok{:value} \DecValTok{999}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\_unnamed {[}11 2{]}:
+\_unnamed {[}15 2{]}:
 
 \begin{longtable}[]{@{}rr@{}}
 \toprule
 :a & :b\tabularnewline
 \midrule
 \endhead
-999.0 & 2.0\tabularnewline
-999.0 & 2.0\tabularnewline
-999.0 & 2.0\tabularnewline
+999.0 & 2\tabularnewline
+999.0 & 2\tabularnewline
+999.0 & 2\tabularnewline
 1.0 &\tabularnewline
 2.0 &\tabularnewline
-999.0 & 3.0\tabularnewline
+999.0 &\tabularnewline
+999.0 &\tabularnewline
+999.0 &\tabularnewline
+999.0 &\tabularnewline
+999.0 & 13\tabularnewline
 4.0 &\tabularnewline
-999.0 & 3.0\tabularnewline
-11.0 & 4.0\tabularnewline
-999.0 & 5.0\tabularnewline
-999.0 & 5.0\tabularnewline
+999.0 & 3\tabularnewline
+11.0 & 4\tabularnewline
+999.0 & 5\tabularnewline
+999.0 & 5\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -5561,28 +5615,32 @@ Replace missing with sequence in \texttt{:a} column
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(api/replace-missing DSm2 }\AttributeTok{:a}\NormalTok{ [-}\DecValTok{999} \DecValTok{-998} \DecValTok{-997}\NormalTok{])}
+\NormalTok{(api/replace-missing DSm2 }\AttributeTok{:a} \AttributeTok{:value}\NormalTok{ [-}\DecValTok{999} \DecValTok{-998} \DecValTok{-997}\NormalTok{])}
 \end{Highlighting}
 \end{Shaded}
 
-\_unnamed {[}11 2{]}:
+\_unnamed {[}15 2{]}:
 
 \begin{longtable}[]{@{}rr@{}}
 \toprule
 :a & :b\tabularnewline
 \midrule
 \endhead
--999.0 & 2.0\tabularnewline
--998.0 & 2.0\tabularnewline
--997.0 & 2.0\tabularnewline
+-999.0 & 2\tabularnewline
+-998.0 & 2\tabularnewline
+-997.0 & 2\tabularnewline
 1.0 &\tabularnewline
 2.0 &\tabularnewline
--999.0 & 3.0\tabularnewline
+-999.0 &\tabularnewline
+-998.0 &\tabularnewline
+-997.0 &\tabularnewline
+-999.0 &\tabularnewline
+-998.0 & 13\tabularnewline
 4.0 &\tabularnewline
--998.0 & 3.0\tabularnewline
-11.0 & 4.0\tabularnewline
--997.0 & 5.0\tabularnewline
--999.0 & 5.0\tabularnewline
+-997.0 & 3\tabularnewline
+11.0 & 4\tabularnewline
+-999.0 & 5\tabularnewline
+-998.0 & 5\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -5592,60 +5650,69 @@ Replace missing with a function (mean)
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(api/replace-missing DSm2 }\AttributeTok{:a}\NormalTok{ tech.v2.datatype.functional/mean)}
+\NormalTok{(api/replace-missing DSm2 }\AttributeTok{:a} \AttributeTok{:value}\NormalTok{ tech.v2.datatype.functional/mean)}
 \end{Highlighting}
 \end{Shaded}
 
-\_unnamed {[}11 2{]}:
+\_unnamed {[}15 2{]}:
 
 \begin{longtable}[]{@{}rr@{}}
 \toprule
 :a & :b\tabularnewline
 \midrule
 \endhead
-4.5 & 2.0\tabularnewline
-4.5 & 2.0\tabularnewline
-4.5 & 2.0\tabularnewline
+4.5 & 2\tabularnewline
+4.5 & 2\tabularnewline
+4.5 & 2\tabularnewline
 1.0 &\tabularnewline
 2.0 &\tabularnewline
-4.5 & 3.0\tabularnewline
+4.5 &\tabularnewline
+4.5 &\tabularnewline
+4.5 &\tabularnewline
+4.5 &\tabularnewline
+4.5 & 13\tabularnewline
 4.0 &\tabularnewline
-4.5 & 3.0\tabularnewline
-11.0 & 4.0\tabularnewline
-4.5 & 5.0\tabularnewline
-4.5 & 5.0\tabularnewline
+4.5 & 3\tabularnewline
+11.0 & 4\tabularnewline
+4.5 & 5\tabularnewline
+4.5 & 5\tabularnewline
 \bottomrule
 \end{longtable}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 Using \texttt{:down} strategy, fills gaps with values from above. You
-can see that if missings are at the beginning, they are left missing.
+can see that if missings are at the beginning, the are filled with first
+value
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(api/replace-missing DSm2 [}\AttributeTok{:a} \AttributeTok{:b}\NormalTok{] }\VariableTok{nil} \AttributeTok{:down}\NormalTok{)}
+\NormalTok{(api/replace-missing DSm2 [}\AttributeTok{:a} \AttributeTok{:b}\NormalTok{] }\AttributeTok{:down}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\_unnamed {[}11 2{]}:
+\_unnamed {[}15 2{]}:
 
 \begin{longtable}[]{@{}rr@{}}
 \toprule
 :a & :b\tabularnewline
 \midrule
 \endhead
-& 2.0\tabularnewline
-& 2.0\tabularnewline
-& 2.0\tabularnewline
-1.0 & 2.0\tabularnewline
-2.0 & 2.0\tabularnewline
-2.0 & 3.0\tabularnewline
-4.0 & 3.0\tabularnewline
-4.0 & 3.0\tabularnewline
-11.0 & 4.0\tabularnewline
-11.0 & 5.0\tabularnewline
-11.0 & 5.0\tabularnewline
+1.0 & 2\tabularnewline
+1.0 & 2\tabularnewline
+1.0 & 2\tabularnewline
+1.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 3\tabularnewline
+11.0 & 4\tabularnewline
+11.0 & 5\tabularnewline
+11.0 & 5\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -5655,28 +5722,32 @@ To fix above issue you can provide value
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(api/replace-missing DSm2 [}\AttributeTok{:a} \AttributeTok{:b}\NormalTok{] }\DecValTok{999} \AttributeTok{:down}\NormalTok{)}
+\NormalTok{(api/replace-missing DSm2 [}\AttributeTok{:a} \AttributeTok{:b}\NormalTok{] }\AttributeTok{:down} \DecValTok{999}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\_unnamed {[}11 2{]}:
+\_unnamed {[}15 2{]}:
 
 \begin{longtable}[]{@{}rr@{}}
 \toprule
 :a & :b\tabularnewline
 \midrule
 \endhead
-999.0 & 2.0\tabularnewline
-999.0 & 2.0\tabularnewline
-999.0 & 2.0\tabularnewline
-1.0 & 2.0\tabularnewline
-2.0 & 2.0\tabularnewline
-2.0 & 3.0\tabularnewline
-4.0 & 3.0\tabularnewline
-4.0 & 3.0\tabularnewline
-11.0 & 4.0\tabularnewline
-11.0 & 5.0\tabularnewline
-11.0 & 5.0\tabularnewline
+999.0 & 2\tabularnewline
+999.0 & 2\tabularnewline
+999.0 & 2\tabularnewline
+1.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 3\tabularnewline
+11.0 & 4\tabularnewline
+11.0 & 5\tabularnewline
+11.0 & 5\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -5686,28 +5757,32 @@ The same applies for \texttt{:up} strategy which is opposite direction.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(api/replace-missing DSm2 [}\AttributeTok{:a} \AttributeTok{:b}\NormalTok{] }\DecValTok{999} \AttributeTok{:up}\NormalTok{)}
+\NormalTok{(api/replace-missing DSm2 [}\AttributeTok{:a} \AttributeTok{:b}\NormalTok{] }\AttributeTok{:up}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\_unnamed {[}11 2{]}:
+\_unnamed {[}15 2{]}:
 
 \begin{longtable}[]{@{}rr@{}}
 \toprule
 :a & :b\tabularnewline
 \midrule
 \endhead
-1.0 & 2.0\tabularnewline
-1.0 & 2.0\tabularnewline
-1.0 & 2.0\tabularnewline
-1.0 & 3.0\tabularnewline
-2.0 & 3.0\tabularnewline
-4.0 & 3.0\tabularnewline
-4.0 & 3.0\tabularnewline
-11.0 & 3.0\tabularnewline
-11.0 & 4.0\tabularnewline
-999.0 & 5.0\tabularnewline
-999.0 & 5.0\tabularnewline
+1.0 & 2\tabularnewline
+1.0 & 2\tabularnewline
+1.0 & 2\tabularnewline
+1.0 & 13\tabularnewline
+2.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 3\tabularnewline
+11.0 & 3\tabularnewline
+11.0 & 4\tabularnewline
+11.0 & 5\tabularnewline
+11.0 & 5\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -5718,28 +5793,99 @@ We can use a function which is applied after applying \texttt{:up} or
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(api/replace-missing DSm2 [}\AttributeTok{:a} \AttributeTok{:b}\NormalTok{] tech.v2.datatype.functional/mean }\AttributeTok{:down}\NormalTok{)}
+\NormalTok{(api/replace-missing DSm2 [}\AttributeTok{:a} \AttributeTok{:b}\NormalTok{] }\AttributeTok{:down}\NormalTok{ tech.v2.datatype.functional/mean)}
 \end{Highlighting}
 \end{Shaded}
 
-\_unnamed {[}11 2{]}:
+\_unnamed {[}15 2{]}:
 
 \begin{longtable}[]{@{}rr@{}}
 \toprule
 :a & :b\tabularnewline
 \midrule
 \endhead
-4.5 & 2.0\tabularnewline
-4.5 & 2.0\tabularnewline
-4.5 & 2.0\tabularnewline
-1.0 & 2.0\tabularnewline
-2.0 & 2.0\tabularnewline
-2.0 & 3.0\tabularnewline
-4.0 & 3.0\tabularnewline
-4.0 & 3.0\tabularnewline
-11.0 & 4.0\tabularnewline
-11.0 & 5.0\tabularnewline
-11.0 & 5.0\tabularnewline
+4.5 & 2\tabularnewline
+4.5 & 2\tabularnewline
+4.5 & 2\tabularnewline
+1.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 2\tabularnewline
+2.0 & 13\tabularnewline
+4.0 & 13\tabularnewline
+4.0 & 3\tabularnewline
+11.0 & 4\tabularnewline
+11.0 & 5\tabularnewline
+11.0 & 5\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Lerp tries to apply linear interpolation of the values
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(api/replace-missing DSm2 [}\AttributeTok{:a} \AttributeTok{:b}\NormalTok{] }\AttributeTok{:lerp}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\_unnamed {[}15 2{]}:
+
+\begin{longtable}[]{@{}rr@{}}
+\toprule
+:a & :b\tabularnewline
+\midrule
+\endhead
+1.00000000 & 2\tabularnewline
+1.00000000 & 2\tabularnewline
+1.00000000 & 2\tabularnewline
+1.00000000 & 4\tabularnewline
+2.00000000 & 5\tabularnewline
+2.33333333 & 7\tabularnewline
+2.66666667 & 8\tabularnewline
+3.00000000 & 10\tabularnewline
+3.33333333 & 11\tabularnewline
+3.66666667 & 13\tabularnewline
+4.00000000 & 8\tabularnewline
+7.50000000 & 3\tabularnewline
+11.00000000 & 4\tabularnewline
+11.00000000 & 5\tabularnewline
+11.00000000 & 5\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+Lerp works also on dates
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\KeywordTok{->}\NormalTok{ (api/dataset \{}\AttributeTok{:dt}\NormalTok{ [(java.}\KeywordTok{time}\NormalTok{.LocalDateTime/of }\DecValTok{2020} \DecValTok{01} \DecValTok{01} \DecValTok{11} \DecValTok{22} \DecValTok{33}\NormalTok{)}
+                       \VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \VariableTok{nil} \VariableTok{nil}
+\NormalTok{                       (java.}\KeywordTok{time}\NormalTok{.LocalDateTime/of }\DecValTok{2020} \DecValTok{10} \DecValTok{01} \DecValTok{01} \DecValTok{01} \DecValTok{01}\NormalTok{)]\})}
+\NormalTok{    (api/replace-missing }\AttributeTok{:lerp}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\_unnamed {[}9 1{]}:
+
+\begin{longtable}[]{@{}l@{}}
+\toprule
+:dt\tabularnewline
+\midrule
+\endhead
+2020-01-01T11:22:33\tabularnewline
+2020-01-01T11:22:33\tabularnewline
+2020-01-01T11:22:33\tabularnewline
+2020-01-01T11:22:33\tabularnewline
+2020-01-01T11:22:33\tabularnewline
+2020-10-01T01:01:01\tabularnewline
+2020-10-01T01:01:01\tabularnewline
+2020-10-01T01:01:01\tabularnewline
+2020-10-01T01:01:01\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -8614,10 +8760,10 @@ data/anscombe.csv {[}44 3{]}:
 :x & :a & :b & :y1 & :y2 & :z1 & :z2\tabularnewline
 \midrule
 \endhead
-1 & 1 & 0 & 0.44511845 & 0.98065280 & 3 & -2\tabularnewline
-2 & 1 & 1 & 0.09011471 & 0.04117017 & 3 & -2\tabularnewline
-3 & 0 & 1 & 0.24620136 & 0.51395378 & 3 & -2\tabularnewline
-4 & 0 & 1 & 0.72753451 & 0.04575767 & 3 & -2\tabularnewline
+1 & 1 & 0 & 0.87744684 & 0.47447710 & 3 & -2\tabularnewline
+2 & 1 & 1 & 0.07597678 & 0.74594409 & 3 & -2\tabularnewline
+3 & 0 & 1 & 0.77728845 & 0.64364140 & 3 & -2\tabularnewline
+4 & 0 & 1 & 0.31083780 & 0.88360303 & 3 & -2\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -8635,14 +8781,14 @@ data/anscombe.csv {[}44 3{]}:
 :x & :a & :b & :times & y & z\tabularnewline
 \midrule
 \endhead
-1 & 1 & 0 & 1 & 0.44511845 & 3\tabularnewline
-2 & 1 & 1 & 1 & 0.09011471 & 3\tabularnewline
-3 & 0 & 1 & 1 & 0.24620136 & 3\tabularnewline
-4 & 0 & 1 & 1 & 0.72753451 & 3\tabularnewline
-1 & 1 & 0 & 2 & 0.98065280 & -2\tabularnewline
-2 & 1 & 1 & 2 & 0.04117017 & -2\tabularnewline
-3 & 0 & 1 & 2 & 0.51395378 & -2\tabularnewline
-4 & 0 & 1 & 2 & 0.04575767 & -2\tabularnewline
+1 & 1 & 0 & 1 & 0.87744684 & 3\tabularnewline
+2 & 1 & 1 & 1 & 0.07597678 & 3\tabularnewline
+3 & 0 & 1 & 1 & 0.77728845 & 3\tabularnewline
+4 & 0 & 1 & 1 & 0.31083780 & 3\tabularnewline
+1 & 1 & 0 & 2 & 0.47447710 & -2\tabularnewline
+2 & 1 & 1 & 2 & 0.74594409 & -2\tabularnewline
+3 & 0 & 1 & 2 & 0.64364140 & -2\tabularnewline
+4 & 0 & 1 & 2 & 0.88360303 & -2\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -11075,31 +11221,31 @@ null {[}27 4{]}:
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 9 & 1.5 & C\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
 2 & 8 & 1.0 & B\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
 1 & 9 & 1.5 & C\tabularnewline
 1 & 3 & 1.5 & C\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
 2 & 8 & 1.0 & B\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
+2 & 2 & 1.0 & B\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
+2 & 8 & 1.0 & B\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
+2 & 8 & 1.0 & B\tabularnewline
 2 & 8 & 1.0 & B\tabularnewline
 2 & 4 & 0.5 & A\tabularnewline
 1 & 7 & 0.5 & A\tabularnewline
-2 & 8 & 1.0 & B\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
+2 & 4 & 0.5 & A\tabularnewline
 1 & 5 & 1.0 & B\tabularnewline
 1 & 3 & 1.5 & C\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
-2 & 2 & 1.0 & B\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
-1 & 1 & 0.5 & A\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -11156,15 +11302,15 @@ union {[}9 4{]}:
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 9 & 1.5 & C\tabularnewline
+1 & 5 & 1.0 & B\tabularnewline
+1 & 7 & 0.5 & A\tabularnewline
 2 & 4 & 0.5 & A\tabularnewline
 2 & 2 & 1.0 & B\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
 2 & 8 & 1.0 & B\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
+1 & 9 & 1.5 & C\tabularnewline
 1 & 1 & 0.5 & A\tabularnewline
 1 & 3 & 1.5 & C\tabularnewline
+2 & 6 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -13296,9 +13442,9 @@ Other filters
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-1 & 3 & 1.5 & C\tabularnewline
-1 & 7 & 0.5 & A\tabularnewline
+2 & 4 & 0.5 & A\tabularnewline
 1 & 9 & 1.5 & C\tabularnewline
+1 & 1 & 0.5 & A\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -13315,11 +13461,11 @@ Other filters
 :V1 & :V2 & :V3 & :V4\tabularnewline
 \midrule
 \endhead
-2 & 8 & 1.0 & B\tabularnewline
-2 & 6 & 1.5 & C\tabularnewline
-1 & 5 & 1.0 & B\tabularnewline
 1 & 1 & 0.5 & A\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
 2 & 4 & 0.5 & A\tabularnewline
+2 & 4 & 0.5 & A\tabularnewline
+1 & 3 & 1.5 & C\tabularnewline
 \bottomrule
 \end{longtable}
 

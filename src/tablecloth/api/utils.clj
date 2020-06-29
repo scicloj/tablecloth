@@ -51,10 +51,16 @@
 
 ;;
 (def ^:private type-sets
-  {:datetime #{:local-date :local-time :local-date-time :instant :duration}
+  {:datetime #{:zoned-date-time :local-date :local-time :local-date-time :instant :duration
+               :packed-zoned-date-time :packed-local-date :packed-local-time
+               :packed-local-date-time :packed-instant :packed-duration}
    :integer #{:int16 :int32 :int64}
    :float #{:float32 :float64}
    :numerical #{:int16 :int32 :int64 :float32 :float64}})
+
+(defn type?
+  [general-type datatype]
+  ((type-sets general-type) datatype))
 
 (defn- prepare-datatype-set
   [datatype-columns-selector]

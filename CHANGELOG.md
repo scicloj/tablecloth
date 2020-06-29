@@ -1,5 +1,18 @@
 # Change Log
 
+## [1.0.0-pre-alpha7] unreleased
+
+`tech.ml.dataset` version 2.07
+
+### Added
+
+* `replace-missing` new strategies: `:mid` and `:lerp`
+
+### Changed
+
+* [breaking] `replace-missing` has different conctract and default strategy `:mid`. `value` argument is the last argument now.
+* [breaking] `replace-missing` `:up` and `:down` strategies, when `value` is `nil` fills border missing values with nearest value.
+
 ## [1.0.0-pre-alpha6]
 
 `tech.ml.dataset` version 2.06

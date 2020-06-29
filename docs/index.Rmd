@@ -1865,24 +1865,26 @@ The same with grouped dataset
 Missing values can be replaced using several strategies. `replace-missing` accepts:
 
 * dataset
-* column selector
-* value
+* column selector, default: `:all`
+* strategy, default: `:mid`
+* value (optional)
     - single value
     - sequence of values (cycled)
     - function, applied on column(s) with stripped missings
-* strategy (optional)
 
 Strategies are:
 
-* `:value` - replace with given value (default)
-* `:up` - copy values up
-* `:down` - copy values down
+* `:value` - replace with given value
+* `:up` - copy values up and then down for missing values at the end
+* `:down` - copy values down and then up for missing values at the beginning
+* `:mid` - copy values around known values
+* `:lerp` - trying to lineary approximate values, works for numbers and datetime, otherwise applies `:mid`
 
 Let's define special dataset here:
 
 ```{clojure results="hide"}
-(def DSm2 (api/dataset {:a [nil nil nil 1.0 2   nil 4   nil  11 nil nil]
-                        :b [2.0   2   2 nil nil 3   nil   3  4  5 5]}))
+(def DSm2 (api/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
+                        :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
 ```
 
 ```{clojure results="asis"}
@@ -1891,10 +1893,18 @@ DSm2
 
 ---
 
+Replace missing with default strategy for all columns
+
+```{clojure results="asis"}
+(api/replace-missing DSm2)
+```
+
+---
+
 Replace missing with single value in whole dataset
 
 ```{clojure results="asis"}
-(api/replace-missing DSm2 999)
+(api/replace-missing DSm2 :all :value 999)
 ```
 
 ---
@@ -1902,7 +1912,7 @@ Replace missing with single value in whole dataset
 Replace missing with single value in `:a` column
 
 ```{clojure results="asis"}
-(api/replace-missing DSm2 :a 999)
+(api/replace-missing DSm2 :a :value 999)
 ```
 
 ---
@@ -1910,7 +1920,7 @@ Replace missing with single value in `:a` column
 Replace missing with sequence in `:a` column
 
 ```{clojure results="asis"}
-(api/replace-missing DSm2 :a [-999 -998 -997])
+(api/replace-missing DSm2 :a :value [-999 -998 -997])
 ```
 
 ---
@@ -1918,15 +1928,15 @@ Replace missing with sequence in `:a` column
 Replace missing with a function (mean)
 
 ```{clojure results="asis"}
-(api/replace-missing DSm2 :a tech.v2.datatype.functional/mean)
+(api/replace-missing DSm2 :a :value tech.v2.datatype.functional/mean)
 ```
 
 ---
 
-Using `:down` strategy, fills gaps with values from above. You can see that if missings are at the beginning, they are left missing.
+Using `:down` strategy, fills gaps with values from above. You can see that if missings are at the beginning, the are filled with first value
 
 ```{clojure results="asis"}
-(api/replace-missing DSm2 [:a :b] nil :down)
+(api/replace-missing DSm2 [:a :b] :down)
 ```
 
 ---
@@ -1934,7 +1944,7 @@ Using `:down` strategy, fills gaps with values from above. You can see that if m
 To fix above issue you can provide value
 
 ```{clojure results="asis"}
-(api/replace-missing DSm2 [:a :b] 999 :down)
+(api/replace-missing DSm2 [:a :b] :down 999)
 ```
 
 ---
@@ -1942,7 +1952,7 @@ To fix above issue you can provide value
 The same applies for `:up` strategy which is opposite direction.
 
 ```{clojure results="asis"}
-(api/replace-missing DSm2 [:a :b] 999 :up)
+(api/replace-missing DSm2 [:a :b] :up)
 ```
 
 ---
@@ -1950,7 +1960,26 @@ The same applies for `:up` strategy which is opposite direction.
 We can use a function which is applied after applying `:up` or `:down`
 
 ```{clojure results="asis"}
-(api/replace-missing DSm2 [:a :b] tech.v2.datatype.functional/mean :down)
+(api/replace-missing DSm2 [:a :b] :down tech.v2.datatype.functional/mean)
+```
+
+---
+
+Lerp tries to apply linear interpolation of the values
+
+```{clojure results="asis"}
+(api/replace-missing DSm2 [:a :b] :lerp)
+```
+
+---
+
+Lerp works also on dates
+
+```{clojure results="asis"}
+(-> (api/dataset {:dt [(java.time.LocalDateTime/of 2020 01 01 11 22 33)
+                       nil nil nil nil nil nil nil
+                       (java.time.LocalDateTime/of 2020 10 01 01 01 01)]})
+    (api/replace-missing :lerp))
 ```
 
 ### Join/Separate Columns
