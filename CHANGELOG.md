@@ -1,12 +1,12 @@
 # Change Log
 
-## [1.0.0-pre-alpha7] unreleased
+## [1.0.0-alpha7]
 
-`tech.ml.dataset` version 2.07
+`tech.ml.dataset` version 2.13
 
 ### Added
 
-* `replace-missing` new strategies: `:mid` and `:lerp`
+* `replace-missing` new strategies: `:mid` and `:lerp`, working also for dates.
 
 ### Changed
 

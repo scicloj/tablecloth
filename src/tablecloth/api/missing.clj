@@ -106,8 +106,8 @@
 
 (defn- lerp-time
   [datatype mn mx steps]
-  (let [vs (lerp-long (dt/to-milliseconds mn datatype) (dt/to-milliseconds mx datatype) steps)]
-    (map #(dt/from-milliseconds % datatype) vs)))
+  (let [vs (lerp-long (dto/->milliseconds mn) (dto/->milliseconds mx) steps)]
+    (seq (dto/milliseconds->datetime datatype vs))))
 
 (defn- lerp-object
   [f l steps]
@@ -129,7 +129,7 @@
                   :else lerp-object)
         nil)
       (cond
-        ;; (type? :datetime datatype) (partial lerp-time datatype)
+        (type? :datetime datatype) (partial lerp-time datatype)
         :else lerp-object)))
 
 (defn- find-lerp-values

@@ -1976,9 +1976,9 @@ Lerp tries to apply linear interpolation of the values
 Lerp works also on dates
 
 ```{clojure results="asis"}
-(-> (api/dataset {:dt [(java.time.LocalDateTime/of 2020 01 01 11 22 33)
+(-> (api/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
                        nil nil nil nil nil nil nil
-                       (java.time.LocalDateTime/of 2020 10 01 01 01 01)]})
+                       (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
     (api/replace-missing :lerp))
 ```
 

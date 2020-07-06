@@ -63,7 +63,16 @@
     (map approx [2 2 2 4 5 7 8 10 11 13 8 3 4 5 5])
     (sut/replace-missing :b :lerp) :b))
 
-;; TODO: add datetime lerp
+(deftest strategy-lerp-time
+  (let [dtds (api/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 1 1 1)
+                                nil nil nil
+                                (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})]
+    (is (= (seq ((sut/replace-missing dtds :lerp) :dt))
+           [(java.time.LocalDateTime/of 2020 1 1 1 1 1)
+            (java.time.LocalDateTime/of 2020 3 9 13 1 1)
+            (java.time.LocalDateTime/of 2020 5 17 1 1 1)
+            (java.time.LocalDateTime/of 2020 7 24 13 1 1)
+            (java.time.LocalDateTime/of 2020 10 1 1 1 1)]))))
 
 (deftest strategy-value
   (are [xs cmd col] (= xs (-> ds cmd (api/column col) seq))
@@ -75,3 +84,4 @@
     (sut/replace-missing :a :value [-10.0 -20.0]) :a
     [nil 100.0 nil 1.0 2.0 nil nil nil nil -100.0 4.0 nil 11.0 nil nil]
     (sut/replace-missing :a :value {1 100.0 9 -100.0}) :a))
+
