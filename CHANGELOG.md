@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.0.0-alpha7]
+## [1.0.0-pre-alpha7]
 
 `tech.ml.dataset` version 2.13
 

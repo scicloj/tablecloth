@@ -4,7 +4,6 @@
             [tech.v2.datatype.readers.update :as update-rdr]
             [tech.v2.datatype.bitmap :as bitmap]
             [tech.v2.datatype :as dtype]
-            [tech.v2.datatype.datetime :as dt]
             [tech.v2.datatype.datetime.operations :as dto]
             
             [tablecloth.api.utils :refer [iterable-sequence? column-names type?]]
