@@ -1,6 +1,7 @@
 (ns tablecloth.api
   (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle])
-  (:require [tech.parallel.utils :as exporter]))
+  (:require [tech.parallel.utils :as exporter]
+            [tech.ml.dataset :as ds]))
 
 (exporter/export-symbols tech.v2.datatype
                          clone)
@@ -17,7 +18,9 @@
                          concat)
 
 (exporter/export-symbols tablecloth.api.utils
-                         column-names)
+                         column-names
+                         write-nippy!
+                         read-nippy)
 
 (exporter/export-symbols tablecloth.api.dataset
                          dataset?
@@ -75,7 +78,8 @@
 (exporter/export-symbols tablecloth.api.missing
                          select-missing
                          drop-missing
-                         replace-missing)
+                         replace-missing
+                         fill-range-replace)
 
 (exporter/export-symbols tablecloth.api.join-separate
                          join-columns
@@ -119,4 +123,3 @@
 
 (def select (partial select-or-drop select-columns select-rows))
 (def drop (partial select-or-drop drop-columns drop-rows))
-

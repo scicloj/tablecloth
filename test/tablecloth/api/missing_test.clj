@@ -84,4 +84,3 @@
     (sut/replace-missing :a :value [-10.0 -20.0]) :a
     [nil 100.0 nil 1.0 2.0 nil nil nil nil -100.0 4.0 nil 11.0 nil nil]
     (sut/replace-missing :a :value {1 100.0 9 -100.0}) :a))
-

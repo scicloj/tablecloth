@@ -1,5 +1,6 @@
 (ns tablecloth.api.utils
-  (:require [tech.ml.dataset :as ds]))
+  (:require [tech.ml.dataset :as ds]
+            [tech.io :as tio]))
 
 ;;;;;;;;;;;;
 ;; HELPERS
@@ -99,3 +100,23 @@
                                    :else #{columns-selector})
                          csel-fn (if (set? csel-fn) #(contains? csel-fn %) csel-fn)]
                      (filter-column-names ds csel-fn meta-field)))))))
+
+;; nippy
+
+(defn gzipped?
+  [filename]
+  (re-matches #".+\.gz$" filename))
+
+(defn write-nippy!
+  [ds filename]
+  (let [f (if (gzipped? filename)
+            (tio/gzip-output-stream! filename)
+            filename)]
+    (tio/put-nippy! f ds)))
+
+(defn read-nippy
+  [filename]
+  (let [f (if (gzipped? filename)
+            (tio/gzip-input-stream filename)
+            filename)]
+    (tio/get-nippy f)))

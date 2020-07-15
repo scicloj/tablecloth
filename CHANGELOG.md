@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.0.0-pre-alpha8]
+
+`tech.ml.dataset` version 3.04
+
+### Added
+
+* `fill-range-replace` to inject data to make continuous seqence in column
+* `write-nippy!` and `read-nippy`
+
 ## [1.0.0-pre-alpha7]
 
 `tech.ml.dataset` version 2.13
