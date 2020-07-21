@@ -2,7 +2,7 @@
 
 ## [1.0.0-pre-alpha8]
 
-`tech.ml.dataset` version 3.04
+`tech.ml.dataset` version 3.06
 
 ### Added
 
