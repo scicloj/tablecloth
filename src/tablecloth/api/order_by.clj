@@ -59,7 +59,7 @@
   - custom comparator function"
   ([ds columns-or-fn] (order-by ds columns-or-fn nil))
   ([ds columns-or-fn comparators] (order-by ds columns-or-fn comparators nil))
-  ([ds columns-or-fn comparators {:keys [select-keys]}]
+  ([ds columns-or-fn comparators {:keys [select-keys parallel?]}]
    (let [selected-keys (column-names ds select-keys)
          comparators (or comparators (if (iterable-sequence? columns-or-fn)
                                        (repeat (count columns-or-fn) :asc)
@@ -69,7 +69,7 @@
                          (sort-fn columns-or-fn selected-keys))]
      
      (if (grouped? ds)
-       (process-group-data ds sorting-fn)
+       (process-group-data ds sorting-fn parallel?)
        (sorting-fn ds)))))
 
 

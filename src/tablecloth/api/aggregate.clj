@@ -1,6 +1,6 @@
 (ns tablecloth.api.aggregate
   (:require [tablecloth.api.utils :refer [iterable-sequence? ->str column-names]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data ungroup]]
+            [tablecloth.api.group-by :refer [grouped? process-group-data process->ungroup ungroup]]
             [tablecloth.api.dataset :refer [dataset]]))
 
 (defn- add-agg-result-from-seq
@@ -16,9 +16,13 @@
     :else (conj tot-res [k agg-res])))
 
 (defn- aggregate-map
+  [ds aggregator]
+  (reduce (fn [res [k f]]
+            (add-agg-result res k (f ds))) [] aggregator))
+
+(defn- aggregate-map->dataset
   [ds aggregator options]
-  (dataset (reduce (fn [res [k f]]
-                     (add-agg-result res k (f ds))) [] aggregator) options))
+  (dataset (aggregate-map ds aggregator) options))
 
 (defn aggregate
   "Aggregate dataset by providing:
@@ -32,7 +36,7 @@
   - seq of values
   - map of values with column names"
   ([ds aggregator] (aggregate ds aggregator nil))
-  ([ds aggregator {:keys [default-column-name-prefix ungroup?]
+  ([ds aggregator {:keys [default-column-name-prefix ungroup? parallel?]
                    :or {default-column-name-prefix "summary" ungroup? true}
                    :as options}]
 
@@ -46,11 +50,11 @@
                       :else aggregator)]
      
      (if (grouped? ds)
-       (let [pds (process-group-data ds #(aggregate-map % aggregator options))]
-         (if ungroup?
-           (ungroup pds (merge {:add-group-as-column true} options))
-           pds))
-       (aggregate-map ds aggregator options)))))
+       (cond (true? ungroup?) (process->ungroup ds #(seq (aggregate-map % aggregator)) (merge {:add-group-as-column true} options))
+             ungroup? (ungroup (process-group-data ds #(aggregate-map->dataset % aggregator options) parallel?)
+                               (merge {:add-group-as-column true} options))
+             :else (process-group-data ds #(aggregate-map->dataset % aggregator options) parallel?))
+       (aggregate-map->dataset ds aggregator options)))))
 
 (defn aggregate-columns
   "Aggregates each column separately"

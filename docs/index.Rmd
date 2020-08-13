@@ -1291,7 +1291,7 @@ Additionally you may want to precalculate some values which will be visible for 
 
 #### Select
 
-Select fourth row
+Select fifth row
 
 ```{clojure results="asis"}
 (api/select-rows DS 4)
@@ -4466,7 +4466,7 @@ Expression chaining using >
 (-> DS
     (api/group-by [:V4])
     (api/aggregate {:V1sum #(dfn/sum (% :V1))})
-    (api/select-rows #(> (:V1sum %) 5) ))
+    (api/select-rows #(>= (:V1sum %) 5)))
 ```
 
 ```{clojure results="asis"}

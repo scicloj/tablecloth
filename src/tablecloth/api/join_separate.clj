@@ -15,7 +15,7 @@
 
 (defn join-columns
   ([ds target-column columns-selector] (join-columns ds target-column columns-selector nil))
-  ([ds target-column columns-selector {:keys [separator missing-subst drop-columns? result-type]
+  ([ds target-column columns-selector {:keys [separator missing-subst drop-columns? result-type parallel?]
                                        :or {separator "-" drop-columns? true result-type :string}
                                        :as options}]
    
@@ -40,7 +40,7 @@
                              missing-subst-fn)]
 
      (if (grouped? ds)
-       (process-group-data ds #(process-join-columns % target-column join-function col-names options drop-columns?))
+       (process-group-data ds #(process-join-columns % target-column join-function col-names options drop-columns?) parallel?)
        (process-join-columns ds target-column join-function col-names options drop-columns?)))))
 
 ;;
@@ -82,7 +82,7 @@
 (defn separate-column
   ([ds column target-columns] (separate-column ds column target-columns identity))
   ([ds column target-columns separator] (separate-column ds column target-columns separator nil))
-  ([ds column target-columns separator {:keys [missing-subst drop-column?]
+  ([ds column target-columns separator {:keys [missing-subst drop-column? parallel?]
                                         :or {missing-subst "" drop-column? true}}]
    (let [separator-fn (cond
                         (string? separator) (let [pat (re-pattern separator)]
@@ -99,5 +99,5 @@
                            identity)]
      
      (if (grouped? ds)       
-       (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?))
+       (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?) parallel?)
        (process-separate-columns ds column target-columns replace-missing separator-fn drop-column?)))))

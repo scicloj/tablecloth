@@ -156,6 +156,31 @@
               data))
         data))))
 
+(let [ds (ds/->dataset {:key ["x" "y" "z"]
+                        :val [1 2 3]})
+      columns-selector :key
+      value-columns :val
+      concat-columns-with "_" concat-value-with "-" drop-missing? true
+      col-names (column-names ds columns-selector) ;; columns to be unrolled
+      value-names (column-names ds value-columns) ;; columns to be used as values
+      single-value? (= (count value-names) 1) ;; maybe this is one column? (different name creation rely on this)
+      rest-cols (->> (clojure.core/concat col-names value-names)
+                     (set)
+                     (partial contains?)
+                     (complement)
+                     (column-names ds))
+      join-on-single? (= (count rest-cols) 1) ;; mayve this is one column? (different join column creation)
+      join-name (if join-on-single?
+                  (clojure.core/first rest-cols)
+                  "aaa") ;; generate join column name
+
+      pre-ds (if join-on-single?
+               ds
+               (join-columns ds join-name rest-cols {:result-type :seq
+                                                     :drop-columns? true}))]
+  [col-names value-names single-value? rest-cols join-on-single? join-name pre-ds]
+  ((select-columns pre-ds join-name) join-name))
+
 (defn pivot->wider
   ([ds columns-selector value-columns] (pivot->wider ds columns-selector value-columns nil))
   ([ds columns-selector value-columns {:keys [fold-fn concat-columns-with concat-value-with drop-missing?]

@@ -173,33 +173,38 @@
   (ds/column-cast ds colname new-type))
 
 (defn- process-convert-column-type
-  [ds colname new-type]
-  (if (iterable-sequence? new-type)
-    (try-convert-to-type ds colname new-type)
-    (if (= :object new-type)
-      (try-convert-to-type ds colname [:object identity])
-      (let [col (ds colname)]
-        (condp = (dtype/get-datatype col)
-          :string (ds/add-or-update-column ds colname (col/parse-column new-type col))
-          :object (if (string? (dtype/get-value col 0))
-                    (-> (try-convert-to-type ds colname :string)
-                        (ds/column colname)
-                        (->> (col/parse-column new-type)
-                             (ds/add-or-update-column ds colname)))
-                    (try-convert-to-type ds colname new-type))
-          (try-convert-to-type ds colname new-type))))))
+  ([ds colname new-type]
+   (if (iterable-sequence? new-type)
+     (try-convert-to-type ds colname new-type)
+     (cond
+       (nil? new-type) (-> (ds/->dataset {colname (ds/column ds colname)})
+                           (ds/column colname)
+                           (->> (ds/add-or-update-column ds colname)))
+       (= :object new-type) (try-convert-to-type ds colname [:object identity])
+       :else (let [col (ds colname)]
+               (condp = (dtype/get-datatype col)
+                 :string (ds/add-or-update-column ds colname (col/parse-column new-type col))
+                 :object (if (string? (dtype/get-value col 0))
+                           (-> (try-convert-to-type ds colname :string)
+                               (ds/column colname)
+                               (->> (col/parse-column new-type)
+                                    (ds/add-or-update-column ds colname)))
+                           (try-convert-to-type ds colname new-type))
+                 (try-convert-to-type ds colname new-type)))))))
 
 (defn convert-types
   "Convert type of the column to the other type."
-  ([ds coltype-map]
-   (reduce (fn [ds [colname new-type]]
-             (process-convert-column-type ds colname new-type)) ds coltype-map))
+  ([ds coltype-map-or-columns-selector]
+   (if (map? coltype-map-or-columns-selector)
+     (reduce (fn [ds [colname new-type]]
+               (process-convert-column-type ds colname new-type)) ds coltype-map-or-columns-selector)
+     (convert-types ds coltype-map-or-columns-selector nil)))
   ([ds columns-selector new-types]
    (let [colnames (column-names ds columns-selector)
          types (if (iterable-sequence? new-types)
                  (cycle new-types)
                  (repeat new-types))
-         ct (map vector colnames types)]
+         ct (zipmap colnames types)]
      (if (grouped? ds)
        (process-group-data ds #(convert-types % ct))
        (convert-types ds ct)))))
@@ -214,4 +219,3 @@
        (if (and datatype (not= datatype (dtype/get-datatype c)))
          (dtype/make-array-of-type datatype c)
          (dtype/->array-copy c))))))
-

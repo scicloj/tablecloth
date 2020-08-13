@@ -1,5 +1,22 @@
 # Change Log
 
+## [1.0.0-pre-alpha9]
+
+`tech.ml.dataset` version 4.03
+
+### Added
+
+* some operations on grouped dataset can be parallel (`parallel?` option set to `true`). These are: `aggregate`, `unique-by`, `order-by`, `join-columns`, `separate-columns`, `ungroup`
+
+### Fixed
+
+* #2 - docs typo
+* #3 - recover datatypes after ungrouping
+
+### Changed
+
+* `aggregation` uses now in-place ungrouping which is much faster
+
 ## [1.0.0-pre-alpha8]
 
 `tech.ml.dataset` version 3.06

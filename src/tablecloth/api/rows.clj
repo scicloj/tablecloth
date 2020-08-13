@@ -36,14 +36,15 @@
 (defn- select-or-drop-rows
   "Select or drop rows."
   ([f ds rows-selector] (select-or-drop-rows f ds rows-selector nil))
-  ([f ds rows-selector {:keys [select-keys pre result-type]}]
+  ([f ds rows-selector {:keys [select-keys pre result-type parallel?]}]
    (let [selected-keys (column-names ds select-keys)]
      (if (grouped? ds)
-       (let [pre-ds (map #(add-or-replace-columns % pre) (ds :data))
-             indices (map #(find-indexes % rows-selector selected-keys) pre-ds)]
+       (let [mapper (if parallel? pmap map)
+             pre-ds (mapper #(add-or-replace-columns % pre) (ds :data))
+             indices (mapper #(find-indexes % rows-selector selected-keys) pre-ds)]
          (if (= result-type :as-indexes)
-           (map seq indices)
-           (ds/add-or-update-column ds :data (map #(select-or-drop-rows f %1 %2) (ds :data) indices))))
+           (mapper seq indices)
+           (ds/add-or-update-column ds :data (mapper #(select-or-drop-rows f %1 %2) (ds :data) indices))))
        (let [indices (find-indexes (add-or-replace-columns ds pre) rows-selector selected-keys)]
          (if (= result-type :as-indexes)
            (seq indices)

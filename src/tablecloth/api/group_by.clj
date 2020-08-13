@@ -3,7 +3,7 @@
             [tech.ml.dataset.column :as col]
             [tech.v2.datatype :as dtype]
             
-            [tablecloth.api.utils :refer [iterable-sequence? ->str column-names]]
+            [tablecloth.api.utils :refer [iterable-sequence? ->str column-names parallel-concat]]
             [tablecloth.api.dataset :refer [dataset]])
   (:refer-clojure :exclude [group-by]))
 
@@ -91,9 +91,10 @@
                     (into {}))
        (group-by->dataset ds group-indexes options)))))
 
-(defn process-group-data  
-  [ds f]
-  (ds/add-or-update-column ds :data (map f (ds :data))))
+(defn process-group-data
+  ([ds f] (process-group-data ds f false))
+  ([ds f parallel?]
+   (ds/add-or-update-column ds :data ((if parallel? pmap map) f (ds :data)))))
 
 (defn groups->map
   "Convert grouped dataset to the map of groups"
@@ -120,8 +121,10 @@
 (defn- group-name-map->cols
   "create columns with repeated value `v` from group name if it's map."
   [name count]
-  (map (fn [[n v]]
-         (col/new-column n (repeat count v))) name))
+  (->> name
+       (repeat count)
+       (ds/->dataset)
+       (ds/columns)))
 
 (defn- maybe-name
   [possible-name default-name]
@@ -129,13 +132,19 @@
     default-name
     possible-name))
 
-(defn- group-name-seq->cols
-  [name add-group-as-column count]
+(defn- group-name-seq->map
+  [name add-group-as-column]
   (let [cn (if (iterable-sequence? add-group-as-column)
              add-group-as-column
              (let [tn (maybe-name add-group-as-column :$group-name)]
                (map-indexed #(keyword (str %2 "-" %1)) (repeat (->str tn)))))]
-    (group-name-map->cols (map vector cn name) count)))
+    (zipmap cn name)))
+
+(defn- group-name-seq->cols
+  [name add-group-as-column count]
+  (-> name
+      (group-name-seq->map add-group-as-column)
+      (group-name-map->cols count)))
 
 (defn- group-as-column->seq
   "Convert group name to a seq of columns"
@@ -154,18 +163,19 @@
 
 (defn- prepare-ds-for-ungrouping
   "Add optional group name and/or group-id as columns to a result of ungrouping."
-  [ds add-group-as-column add-group-id-as-column separate?]
-  (->> ds
-       (ds/mapseq-reader)
-       (map (fn [{:keys [name group-id data] :as ds}]
-              (if (or add-group-as-column
-                      add-group-id-as-column)
-                (let [count (ds/row-count data)]
-                  (add-groups-as-columns ds
-                                         (group-as-column->seq add-group-as-column separate? name count)
-                                         (group-id-as-column->seq add-group-id-as-column count group-id)
-                                         (ds/columns data)))
-                ds)))))
+  [ds add-group-as-column add-group-id-as-column separate? parallel?]
+  (let [mapper (if parallel? pmap map)]
+    (->> ds
+         (ds/mapseq-reader)
+         (mapper (fn [{:keys [name group-id data] :as ds}]
+                   (if (or add-group-as-column
+                           add-group-id-as-column)
+                     (let [count (ds/row-count data)]
+                       (add-groups-as-columns ds
+                                              (group-as-column->seq add-group-as-column separate? name count)
+                                              (group-id-as-column->seq add-group-id-as-column count group-id)
+                                              (ds/columns data)))
+                     ds))))))
 
 (defn- order-ds-for-ungrouping
   "Order results by group name or leave untouched."
@@ -182,12 +192,45 @@
 
   Before joining the groups groups can be sorted by group name."
   ([ds] (ungroup ds nil))
-  ([ds {:keys [order? add-group-as-column add-group-id-as-column separate? dataset-name]
+  ([ds {:keys [order? add-group-as-column add-group-id-as-column separate? dataset-name parallel?]
         :or {separate? true}}]
    (assert (grouped? ds) "Works only on grouped dataset")
+   (let [concatter (if parallel? parallel-concat ds/concat)]
+     (-> ds
+         (prepare-ds-for-ungrouping add-group-as-column add-group-id-as-column separate? parallel?)
+         (order-ds-for-ungrouping order?)
+         (->> (map :data)
+              (apply concatter))
+         (ds/set-dataset-name (or dataset-name (ds/dataset-name ds)))))))
+
+;; processing and ungrouping in-place
+;; instead of creating subdatasets create seq of maps
+
+(defn- add-groups-to-a-map
+  "Convert group name to a seq of columns"
+  [curr-row add-group-as-column separate? name]
+  (cond
+    (and separate? (map? name)) (concat name curr-row)
+    (and separate? (iterable-sequence? name)) (concat (group-name-seq->map name add-group-as-column) curr-row)
+    :else (conj curr-row [(maybe-name add-group-as-column :$group-name) name])))
+
+(defn- process-and-ungroup
+  [ds process-fn add-group-as-column add-group-id-as-column separate? parallel?]
+  (let [mapper (if parallel? pmap map)]
+    (->> ds
+         (ds/mapseq-reader)
+         (mapper (fn [{:keys [name group-id data]}]
+                   (into (array-map) (cond-> (process-fn data)
+                                       add-group-id-as-column (conj [(maybe-name add-group-id-as-column :$group-id) group-id])
+                                       add-group-as-column (add-groups-to-a-map add-group-as-column separate? name))))))))
+
+(defn process->ungroup
+  ([ds process-fn] (process->ungroup ds process-fn nil))
+  ([ds process-fn {:keys [order? add-group-as-column add-group-id-as-column separate? dataset-name parallel?]
+                   :or {separate? true}}]
+   (assert (grouped? ds) "Works only on grouped dataset")
    (-> ds
-       (prepare-ds-for-ungrouping add-group-as-column add-group-id-as-column separate?)
        (order-ds-for-ungrouping order?)
-       (->> (map :data)
-            (apply ds/concat))
+       (process-and-ungroup process-fn add-group-as-column add-group-id-as-column separate? parallel?)
+       (dataset)
        (ds/set-dataset-name (or dataset-name (ds/dataset-name ds))))))

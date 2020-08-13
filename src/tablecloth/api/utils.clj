@@ -120,3 +120,14 @@
             (tio/gzip-input-stream filename)
             filename)]
     (tio/get-nippy f)))
+
+;; parallel concat
+
+(defn parallel-concat
+  [& dss]
+  (let [cnt (max 10 (int (Math/sqrt (count dss))))        
+        subdss (pmap (partial apply ds/concat) (partition-all cnt dss))]
+    (apply ds/concat subdss)))
+
+
+

@@ -3,19 +3,34 @@
 Introduction
 ------------
 
-[tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) is a great and fast library which brings columnar dataset to the Clojure. Chris Nuernberger has been working on this library for last year as a part of bigger `tech.ml` stack.
+[tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) is a
+great and fast library which brings columnar dataset to the Clojure.
+Chris Nuernberger has been working on this library for last year as a
+part of bigger `tech.ml` stack.
 
-I've started to test the library and help to fix uncovered bugs. My main goal was to compare functionalities with the other standards from other platforms. I focused on R solutions: [dplyr](https://dplyr.tidyverse.org/), [tidyr](https://tidyr.tidyverse.org/) and [data.table](https://rdatatable.gitlab.io/data.table/).
+I’ve started to test the library and help to fix uncovered bugs. My main
+goal was to compare functionalities with the other standards from other
+platforms. I focused on R solutions:
+[dplyr](https://dplyr.tidyverse.org/),
+[tidyr](https://tidyr.tidyverse.org/) and
+[data.table](https://rdatatable.gitlab.io/data.table/).
 
-During conversions of the examples I've come up how to reorganized existing `tech.ml.dataset` functions into simple to use API. The main goals were:
+During conversions of the examples I’ve come up how to reorganized
+existing `tech.ml.dataset` functions into simple to use API. The main
+goals were:
 
--   Focus on dataset manipulation functionality, leaving other parts of `tech.ml` like pipelines, datatypes, readers, ML, etc.
--   Single entry point for common operations - one function dispatching on given arguments.
--   `group-by` results with special kind of dataset - a dataset containing subsets created after grouping as a column.
--   Most operations recognize regular dataset and grouped dataset and process data accordingly.
+-   Focus on dataset manipulation functionality, leaving other parts of
+    `tech.ml` like pipelines, datatypes, readers, ML, etc.
+-   Single entry point for common operations - one function dispatching
+    on given arguments.
+-   `group-by` results with special kind of dataset - a dataset
+    containing subsets created after grouping as a column.
+-   Most operations recognize regular dataset and grouped dataset and
+    process data accordingly.
 -   One function form to enable thread-first on dataset.
 
-If you want to know more about `tech.ml.dataset` and `tech.ml.datatype` please refer their documentation:
+If you want to know more about `tech.ml.dataset` and `tech.ml.datatype`
+please refer their documentation:
 
 -   [Datatype](https://github.com/techascent/tech.datatype/blob/master/docs/cheatsheet.md)
 -   [Date/time](https://github.com/techascent/tech.datatype/blob/master/docs/datetime.md)
@@ -23,9 +38,10 @@ If you want to know more about `tech.ml.dataset` and `tech.ml.datatype` please r
 
 [SOURCE CODE](https://github.com/scicloj/tablecloth)
 
-Join the discussion on [Zulip](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
+Join the discussion on
+[Zulip](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
 
-Let's require main namespace and define dataset used in most examples:
+Let’s require main namespace and define dataset used in most examples:
 
 ``` clojure
 (require '[tablecloth.api :as api])
@@ -58,30 +74,38 @@ Functionality
 
 ### Dataset
 
-Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.datatype` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
+Dataset is a special type which can be considered as a map of columns
+implemented around `tech.ml.datatype` library. Each column can be
+considered as named sequence of typed data. Supported types include
+integers, floats, string, boolean, date/time, objects etc.
 
 #### Dataset creation
 
-Dataset can be created from various of types of Clojure structures and files:
+Dataset can be created from various of types of Clojure structures and
+files:
 
 -   single values
 -   sequence of maps
 -   map of sequences or values
 -   sequence of columns (taken from other dataset or created manually)
 -   sequence of pairs
--   file types: raw/gzipped csv/tsv, json, xls(x) taken from local file system or URL
+-   file types: raw/gzipped csv/tsv, json, xls(x) taken from local file
+    system or URL
 -   input stream
 
 `api/dataset` accepts:
 
 -   data
--   options (see documentation of `tech.ml.dataset/->dataset` function for full list):
+-   options (see documentation of `tech.ml.dataset/->dataset` function
+    for full list):
     -   `:dataset-name` - name of the dataset
     -   `:num-rows` - number of rows to read from file
     -   `:header-row?` - indication if first row in file is a header
-    -   `:key-fn` - function applied to column names (eg. `keyword`, to convert column names to keywords)
+    -   `:key-fn` - function applied to column names (eg. `keyword`, to
+        convert column names to keywords)
     -   `:separator` - column separator
-    -   `:single-value-column-name` - name of the column when single value is provided
+    -   `:single-value-column-name` - name of the column when single
+        value is provided
 
 ------------------------------------------------------------------------
 
@@ -164,7 +188,8 @@ Not sequential values are repeated row-count number of times.
 
 ------------------------------------------------------------------------
 
-Dataset created from map (keys = column names, vals = value(s)). Works the same as sequence of pairs.
+Dataset created from map (keys = column names, vals = value(s)). Works
+the same as sequence of pairs.
 
 ``` clojure
 (api/dataset {:A 33})
@@ -278,7 +303,8 @@ Import from URL
 ds
 ```
 
-<https://vega.github.io/vega-lite/examples/data/seattle-weather.csv> \[1461 6\]:
+<a href="https://vega.github.io/vega-lite/examples/data/seattle-weather.csv" class="uri">https://vega.github.io/vega-lite/examples/data/seattle-weather.csv</a>
+\[1461 6\]:
 
 | date       | precipitation | temp\_max | temp\_min | wind | weather |
 |------------|---------------|-----------|-----------|------|---------|
@@ -310,10 +336,12 @@ ds
 
 #### Saving
 
-Export dataset to a file or output stream can be done by calling `api/write-csv!`. Function accepts:
+Export dataset to a file or output stream can be done by calling
+`api/write-csv!`. Function accepts:
 
 -   dataset
--   file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and `.tsv.gz` or output stream
+-   file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and
+    `.tsv.gz` or output stream
 -   options:
     -   `:separator` - string or separator char.
 
@@ -353,7 +381,8 @@ Export dataset to a file or output stream can be done by calling `api/write-csv!
 
 #### Dataset related functions
 
-Summary functions about the dataset like number of rows, columns and basic stats.
+Summary functions about the dataset like number of rows, columns and
+basic stats.
 
 ------------------------------------------------------------------------
 
@@ -390,8 +419,9 @@ Shape of the dataset, \[row count, column count\]
 General info about dataset. There are three variants:
 
 -   default - containing information about columns with basic statistics
-    -   `:basic` - just name, row and column count and information if dataset is a result of `group-by` operation
-    -   `:columns` - columns' metadata
+    -   `:basic` - just name, row and column count and information if
+        dataset is a result of `group-by` operation
+    -   `:columns` - columns’ metadata
 
 ``` clojure
 (api/info ds)
@@ -399,20 +429,21 @@ General info about dataset. There are three variants:
 (api/info ds :columns)
 ```
 
-<https://vega.github.io/vega-lite/examples/data/seattle-weather.csv>: descriptive-stats \[6 10\]:
+<a href="https://vega.github.io/vega-lite/examples/data/seattle-weather.csv" class="uri">https://vega.github.io/vega-lite/examples/data/seattle-weather.csv</a>:
+descriptive-stats \[6 10\]:
 
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="10%" />
-<col width="14%" />
-<col width="7%" />
-<col width="8%" />
-<col width="8%" />
-<col width="8%" />
-<col width="5%" />
-<col width="8%" />
-<col width="14%" />
-<col width="12%" />
+<col style="width: 10%" />
+<col style="width: 14%" />
+<col style="width: 7%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 5%" />
+<col style="width: 8%" />
+<col style="width: 15%" />
+<col style="width: 12%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -484,7 +515,7 @@ General info about dataset. There are three variants:
 <td>0</td>
 <td></td>
 <td></td>
-<td>sun</td>
+<td>rain</td>
 <td></td>
 <td></td>
 <td></td>
@@ -504,14 +535,15 @@ General info about dataset. There are three variants:
 </tbody>
 </table>
 
-<https://vega.github.io/vega-lite/examples/data/seattle-weather.csv> :basic info \[1 4\]:
+<a href="https://vega.github.io/vega-lite/examples/data/seattle-weather.csv" class="uri">https://vega.github.io/vega-lite/examples/data/seattle-weather.csv</a>
+:basic info \[1 4\]:
 
 <table>
 <colgroup>
-<col width="69%" />
-<col width="12%" />
-<col width="8%" />
-<col width="11%" />
+<col style="width: 70%" />
+<col style="width: 11%" />
+<col style="width: 7%" />
+<col style="width: 10%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -531,7 +563,8 @@ General info about dataset. There are three variants:
 </tbody>
 </table>
 
-<https://vega.github.io/vega-lite/examples/data/seattle-weather.csv> :column info \[6 4\]:
+<a href="https://vega.github.io/vega-lite/examples/data/seattle-weather.csv" class="uri">https://vega.github.io/vega-lite/examples/data/seattle-weather.csv</a>
+:column info \[6 4\]:
 
 | :name         | :size | :datatype          | :categorical? |
 |---------------|-------|--------------------|---------------|
@@ -566,7 +599,9 @@ Setting a dataset name (operation is immutable).
 
 #### Columns and rows
 
-Get columns and rows as sequences. `column`, `columns` and `rows` treat grouped dataset as regular one. See `Groups` to read more about grouped datasets.
+Get columns and rows as sequences. `column`, `columns` and `rows` treat
+grouped dataset as regular one. See `Groups` to read more about grouped
+datasets.
 
 ------------------------------------------------------------------------
 
@@ -616,7 +651,7 @@ Rows as sequence of sequences
 (take 2 (api/rows ds))
 ```
 
-    ([#object[java.time.LocalDate 0x1b736f54 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x6b008acf "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
+    ([#object[java.time.LocalDate 0x1aa9abea "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x5c10a75a "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
 
 ------------------------------------------------------------------------
 
@@ -626,13 +661,13 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (api/rows ds :as-maps)))
 ```
 
-    ({"date" #object[java.time.LocalDate 0x5ec9674a "2012-01-01"],
+    ({"date" #object[java.time.LocalDate 0x676da9f9 "2012-01-01"],
       "precipitation" 0.0,
       "temp_min" 5.0,
       "weather" "drizzle",
       "temp_max" 12.8,
       "wind" 4.7}
-     {"date" #object[java.time.LocalDate 0x2dcdeb78 "2012-01-02"],
+     {"date" #object[java.time.LocalDate 0x6cc14040 "2012-01-02"],
       "precipitation" 10.9,
       "temp_min" 2.8,
       "weather" "rain",
@@ -641,7 +676,10 @@ Rows as sequence of maps
 
 #### Printing
 
-Dataset is printed using `dataset->str` or `print-dataset` functions. Options are the same as in `tech.ml.dataset/dataset-data->str`. Most important is `:print-line-policy` which can be one of the: `:single`, `:repl` or `:markdown`.
+Dataset is printed using `dataset->str` or `print-dataset` functions.
+Options are the same as in `tech.ml.dataset/dataset-data->str`. Most
+important is `:print-line-policy` which can be one of the: `:single`,
+`:repl` or `:markdown`.
 
 ``` clojure
 (api/print-dataset (api/group-by DS :V1) {:print-line-policy :markdown})
@@ -693,17 +731,22 @@ Dataset is printed using `dataset->str` or `print-dataset` functions. Options ar
 
 ### Group-by
 
-Grouping by is an operation which splits dataset into subdatasets and pack it into new special type of... dataset. I distinguish two types of dataset: regular dataset and grouped dataset. The latter is the result of grouping.
+Grouping by is an operation which splits dataset into subdatasets and
+pack it into new special type of… dataset. I distinguish two types of
+dataset: regular dataset and grouped dataset. The latter is the result
+of grouping.
 
-Grouped dataset is annotated in by `:grouped?` meta tag and consist following columns:
+Grouped dataset is annotated in by `:grouped?` meta tag and consist
+following columns:
 
 -   `:name` - group name or structure
 -   `:group-id` - integer assigned to the group
 -   `:data` - groups as datasets
 
-Almost all functions recognize type of the dataset (grouped or not) and operate accordingly.
+Almost all functions recognize type of the dataset (grouped or not) and
+operate accordingly.
 
-You can't apply reshaping or join/concat functions on grouped datasets.
+You can’t apply reshaping or join/concat functions on grouped datasets.
 
 #### Grouping
 
@@ -714,21 +757,28 @@ Grouping is done by calling `group-by` function with arguments:
 -   options:
     -   `:result-type` - what to return:
         -   `:as-dataset` (default) - return grouped dataset
-        -   `:as-indexes` - return rows ids (row number from original dataset)
-        -   `:as-map` - return map with group names as keys and subdataset as values
+        -   `:as-indexes` - return rows ids (row number from original
+            dataset)
+        -   `:as-map` - return map with group names as keys and
+            subdataset as values
         -   `:as-seq` - return sequens of subdatasets
-    -   `:select-keys` - list of the columns passed to a grouping selector function
+    -   `:select-keys` - list of the columns passed to a grouping
+        selector function
 
-All subdatasets (groups) have set name as the group name, additionally `group-id` is in meta.
+All subdatasets (groups) have set name as the group name, additionally
+`group-id` is in meta.
 
 Grouping can be done by:
 
 -   single column name
 -   seq of column names
 -   map of keys (group names) and row indexes
--   value returned by function taking row as map (limited to `:select-keys`)
+-   value returned by function taking row as map (limited to
+    `:select-keys`)
 
-Note: currently dataset inside dataset is printed recursively so it renders poorly from markdown. So I will use `:as-seq` result type to show just group names and groups.
+Note: currently dataset inside dataset is printed recursively so it
+renders poorly from markdown. So I will use `:as-seq` result type to
+show just group names and groups.
 
 ------------------------------------------------------------------------
 
@@ -767,7 +817,7 @@ Content of the grouped dataset
     :name
     [1, 2, ], :group-id #tech.ml.dataset.column<int64>[2]
     :group-id
-    [0, 1, ], :data #tech.ml.dataset.column<object>[2]
+    [0, 1, ], :data #tech.ml.dataset.column<dataset>[2]
     :data
     [Group: 1 [5 4]:
 
@@ -850,7 +900,8 @@ Grouped datasets are printed as follows by default.
 
 ------------------------------------------------------------------------
 
-To get groups as sequence or a map can be done from grouped dataset using `groups->seq` and `groups->map` functions.
+To get groups as sequence or a map can be done from grouped dataset
+using `groups->seq` and `groups->map` functions.
 
 Groups as seq can be obtained by just accessing `:data` column.
 
@@ -934,7 +985,8 @@ Groups as map
 
 ------------------------------------------------------------------------
 
-Grouping by more than one column. You can see that group names are maps. When ungrouping is done these maps are used to restore column names.
+Grouping by more than one column. You can see that group names are maps.
+When ungrouping is done these maps are used to restore column names.
 
 ``` clojure
 (api/group-by DS [:V1 :V3] {:result-type :as-seq})
@@ -983,7 +1035,8 @@ Group: {:V3 1.5, :V1 2} \[1 4\]:
 
 ------------------------------------------------------------------------
 
-Grouping can be done by providing just row indexes. This way you can assign the same row to more than one group.
+Grouping can be done by providing just row indexes. This way you can
+assign the same row to more than one group.
 
 ``` clojure
 (api/group-by DS {"group-a" [1 2 1 2]
@@ -1012,7 +1065,9 @@ Group: group-b \[4 4\]:
 
 ------------------------------------------------------------------------
 
-You can group by a result of grouping function which gets row as map and should return group name. When map is used as a group name, ungrouping restore original column names.
+You can group by a result of grouping function which gets row as map and
+should return group name. When map is used as a group name, ungrouping
+restore original column names.
 
 ``` clojure
 (api/group-by DS (fn [row] (* (:V1 row)
@@ -1135,7 +1190,8 @@ Group: \[2 1.0\] \[2 4\]:
 
 ------------------------------------------------------------------------
 
-`tech.ml.dataset` provides an option to limit columns which are passed to grouping functions. It's done for performance purposes.
+`tech.ml.dataset` provides an option to limit columns which are passed
+to grouping functions. It’s done for performance purposes.
 
 ``` clojure
 (api/group-by DS identity {:result-type :as-seq
@@ -1165,18 +1221,29 @@ Group: {:V1 2} \[4 4\]:
 
 #### Ungrouping
 
-Ungrouping simply concats all the groups into the dataset. Following options are possible
+Ungrouping simply concats all the groups into the dataset. Following
+options are possible
 
--   `:order?` - order groups according to the group name ascending order. Default: `false`
--   `:add-group-as-column` - should group name become a column? If yes column is created with provided name (or `:$group-name` if argument is `true`). Default: `nil`.
--   `:add-group-id-as-column` - should group id become a column? If yes column is created with provided name (or `:$group-id` if argument is `true`). Default: `nil`.
--   `:dataset-name` - to name resulting dataset. Default: `nil` (\_unnamed)
+-   `:order?` - order groups according to the group name ascending
+    order. Default: `false`
+-   `:add-group-as-column` - should group name become a column? If yes
+    column is created with provided name (or `:$group-name` if argument
+    is `true`). Default: `nil`.
+-   `:add-group-id-as-column` - should group id become a column? If yes
+    column is created with provided name (or `:$group-id` if argument is
+    `true`). Default: `nil`.
+-   `:dataset-name` - to name resulting dataset. Default: `nil`
+    (\_unnamed)
 
-If group name is a map, it will be splitted into separate columns. Be sure that groups (subdatasets) doesn't contain the same columns already.
+If group name is a map, it will be splitted into separate columns. Be
+sure that groups (subdatasets) doesn’t contain the same columns already.
 
-If group name is a vector, it will be splitted into separate columns. If you want to name them, set vector of target column names as `:add-group-as-column` argument.
+If group name is a vector, it will be splitted into separate columns. If
+you want to name them, set vector of target column names as
+`:add-group-as-column` argument.
 
-After ungrouping, order of the rows is kept within the groups but groups are ordered according to the internal storage.
+After ungrouping, order of the rows is kept within the groups but groups
+are ordered according to the internal storage.
 
 ------------------------------------------------------------------------
 
@@ -1254,7 +1321,7 @@ Ordered by V3 descending \[9 4\]:
 
 ------------------------------------------------------------------------
 
-Let's add group name and id as additional columns
+Let’s add group name and id as additional columns
 
 ``` clojure
 (-> DS
@@ -1265,21 +1332,21 @@ Let's add group name and id as additional columns
 
 \_unnamed \[9 6\]:
 
-| :$group-name | :$group-id | :V1 | :V2 | :V3 | :V4 |
-|--------------|------------|-----|-----|-----|-----|
-| false        | 0          | 2   | 4   | 0.5 | A   |
-| false        | 0          | 1   | 5   | 1.0 | B   |
-| false        | 0          | 2   | 6   | 1.5 | C   |
-| false        | 0          | 1   | 7   | 0.5 | A   |
-| false        | 0          | 2   | 8   | 1.0 | B   |
-| false        | 0          | 1   | 9   | 1.5 | C   |
-| true         | 1          | 1   | 1   | 0.5 | A   |
-| true         | 1          | 2   | 2   | 1.0 | B   |
-| true         | 1          | 1   | 3   | 1.5 | C   |
+| :*g**r**o**u**p* − *n**a**m**e*\|:group-id | :V1 | :V2 | :V3 | :V4 |     |
+|--------------------------------------------|-----|-----|-----|-----|-----|
+| false                                      | 0   | 2   | 4   | 0.5 | A   |
+| false                                      | 0   | 1   | 5   | 1.0 | B   |
+| false                                      | 0   | 2   | 6   | 1.5 | C   |
+| false                                      | 0   | 1   | 7   | 0.5 | A   |
+| false                                      | 0   | 2   | 8   | 1.0 | B   |
+| false                                      | 0   | 1   | 9   | 1.5 | C   |
+| true                                       | 1   | 1   | 1   | 0.5 | A   |
+| true                                       | 1   | 2   | 2   | 1.0 | B   |
+| true                                       | 1   | 1   | 3   | 1.5 | C   |
 
 ------------------------------------------------------------------------
 
-Let's assign different column names
+Let’s assign different column names
 
 ``` clojure
 (-> DS
@@ -1304,7 +1371,8 @@ Let's assign different column names
 
 ------------------------------------------------------------------------
 
-If we group by map, we can automatically create new columns out of group names.
+If we group by map, we can automatically create new columns out of group
+names.
 
 ``` clojure
 (-> DS
@@ -1318,15 +1386,15 @@ If we group by map, we can automatically create new columns out of group names.
 
 | V1 and V3 multiplied | V4 as lowercase | :V1 | :V2 | :V3 | :V4 |
 |----------------------|-----------------|-----|-----|-----|-----|
-| 1.000                | a               | 2   | 4   | 0.5 | A   |
-| 0.5000               | a               | 1   | 1   | 0.5 | A   |
-| 0.5000               | a               | 1   | 7   | 0.5 | A   |
-| 1.000                | b               | 1   | 5   | 1.0 | B   |
-| 2.000                | b               | 2   | 2   | 1.0 | B   |
-| 2.000                | b               | 2   | 8   | 1.0 | B   |
-| 3.000                | c               | 2   | 6   | 1.5 | C   |
-| 1.500                | c               | 1   | 3   | 1.5 | C   |
-| 1.500                | c               | 1   | 9   | 1.5 | C   |
+| 1.0                  | a               | 2   | 4   | 0.5 | A   |
+| 0.5                  | a               | 1   | 1   | 0.5 | A   |
+| 0.5                  | a               | 1   | 7   | 0.5 | A   |
+| 1.0                  | b               | 1   | 5   | 1.0 | B   |
+| 2.0                  | b               | 2   | 2   | 1.0 | B   |
+| 2.0                  | b               | 2   | 8   | 1.0 | B   |
+| 3.0                  | c               | 2   | 6   | 1.5 | C   |
+| 1.5                  | c               | 1   | 3   | 1.5 | C   |
+| 1.5                  | c               | 1   | 9   | 1.5 | C   |
 
 ------------------------------------------------------------------------
 
@@ -1345,15 +1413,15 @@ We can add group names without separation
 
 | just map                                            | :V1 | :V2 | :V3 | :V4 |
 |-----------------------------------------------------|-----|-----|-----|-----|
-| {"V1 and V3 multiplied" 1.0, "V4 as lowercase" "a"} | 2   | 4   | 0.5 | A   |
-| {"V1 and V3 multiplied" 0.5, "V4 as lowercase" "a"} | 1   | 1   | 0.5 | A   |
-| {"V1 and V3 multiplied" 0.5, "V4 as lowercase" "a"} | 1   | 7   | 0.5 | A   |
-| {"V1 and V3 multiplied" 1.0, "V4 as lowercase" "b"} | 1   | 5   | 1.0 | B   |
-| {"V1 and V3 multiplied" 2.0, "V4 as lowercase" "b"} | 2   | 2   | 1.0 | B   |
-| {"V1 and V3 multiplied" 2.0, "V4 as lowercase" "b"} | 2   | 8   | 1.0 | B   |
-| {"V1 and V3 multiplied" 3.0, "V4 as lowercase" "c"} | 2   | 6   | 1.5 | C   |
-| {"V1 and V3 multiplied" 1.5, "V4 as lowercase" "c"} | 1   | 3   | 1.5 | C   |
-| {"V1 and V3 multiplied" 1.5, "V4 as lowercase" "c"} | 1   | 9   | 1.5 | C   |
+| {“V1 and V3 multiplied” 1.0, “V4 as lowercase” “a”} | 2   | 4   | 0.5 | A   |
+| {“V1 and V3 multiplied” 0.5, “V4 as lowercase” “a”} | 1   | 1   | 0.5 | A   |
+| {“V1 and V3 multiplied” 0.5, “V4 as lowercase” “a”} | 1   | 7   | 0.5 | A   |
+| {“V1 and V3 multiplied” 1.0, “V4 as lowercase” “b”} | 1   | 5   | 1.0 | B   |
+| {“V1 and V3 multiplied” 2.0, “V4 as lowercase” “b”} | 2   | 2   | 1.0 | B   |
+| {“V1 and V3 multiplied” 2.0, “V4 as lowercase” “b”} | 2   | 8   | 1.0 | B   |
+| {“V1 and V3 multiplied” 3.0, “V4 as lowercase” “c”} | 2   | 6   | 1.5 | C   |
+| {“V1 and V3 multiplied” 1.5, “V4 as lowercase” “c”} | 1   | 3   | 1.5 | C   |
+| {“V1 and V3 multiplied” 1.5, “V4 as lowercase” “c”} | 1   | 9   | 1.5 | C   |
 
 ------------------------------------------------------------------------
 
@@ -1369,19 +1437,19 @@ The same applies to group names as sequences
 
 | :abc-0 | :abc-1 | :V1 | :V2 | :V3 | :V4 |
 |--------|--------|-----|-----|-----|-----|
-| 1      | 1.000  | 1   | 5   | 1.0 | B   |
-| 1      | 0.5000 | 1   | 1   | 0.5 | A   |
-| 1      | 0.5000 | 1   | 7   | 0.5 | A   |
-| 2      | 1.500  | 2   | 6   | 1.5 | C   |
-| 1      | 1.500  | 1   | 3   | 1.5 | C   |
-| 1      | 1.500  | 1   | 9   | 1.5 | C   |
-| 2      | 0.5000 | 2   | 4   | 0.5 | A   |
-| 2      | 1.000  | 2   | 2   | 1.0 | B   |
-| 2      | 1.000  | 2   | 8   | 1.0 | B   |
+| 1      | 1.0    | 1   | 5   | 1.0 | B   |
+| 1      | 0.5    | 1   | 1   | 0.5 | A   |
+| 1      | 0.5    | 1   | 7   | 0.5 | A   |
+| 2      | 1.5    | 2   | 6   | 1.5 | C   |
+| 1      | 1.5    | 1   | 3   | 1.5 | C   |
+| 1      | 1.5    | 1   | 9   | 1.5 | C   |
+| 2      | 0.5    | 2   | 4   | 0.5 | A   |
+| 2      | 1.0    | 2   | 2   | 1.0 | B   |
+| 2      | 1.0    | 2   | 8   | 1.0 | B   |
 
 ------------------------------------------------------------------------
 
-Let's provide column names
+Let’s provide column names
 
 ``` clojure
 (-> DS
@@ -1391,17 +1459,17 @@ Let's provide column names
 
 \_unnamed \[9 6\]:
 
-| v1  | v3     | :V1 | :V2 | :V3 | :V4 |
-|-----|--------|-----|-----|-----|-----|
-| 1   | 1.000  | 1   | 5   | 1.0 | B   |
-| 1   | 0.5000 | 1   | 1   | 0.5 | A   |
-| 1   | 0.5000 | 1   | 7   | 0.5 | A   |
-| 2   | 1.500  | 2   | 6   | 1.5 | C   |
-| 1   | 1.500  | 1   | 3   | 1.5 | C   |
-| 1   | 1.500  | 1   | 9   | 1.5 | C   |
-| 2   | 0.5000 | 2   | 4   | 0.5 | A   |
-| 2   | 1.000  | 2   | 2   | 1.0 | B   |
-| 2   | 1.000  | 2   | 8   | 1.0 | B   |
+| v1  | v3  | :V1 | :V2 | :V3 | :V4 |
+|-----|-----|-----|-----|-----|-----|
+| 1   | 1.0 | 1   | 5   | 1.0 | B   |
+| 1   | 0.5 | 1   | 1   | 0.5 | A   |
+| 1   | 0.5 | 1   | 7   | 0.5 | A   |
+| 2   | 1.5 | 2   | 6   | 1.5 | C   |
+| 1   | 1.5 | 1   | 3   | 1.5 | C   |
+| 1   | 1.5 | 1   | 9   | 1.5 | C   |
+| 2   | 0.5 | 2   | 4   | 0.5 | A   |
+| 2   | 1.0 | 2   | 2   | 1.0 | B   |
+| 2   | 1.0 | 2   | 8   | 1.0 | B   |
 
 ------------------------------------------------------------------------
 
@@ -1447,9 +1515,12 @@ To check if dataset is grouped or not just use `grouped?` function.
 
 ------------------------------------------------------------------------
 
-If you want to remove grouping annotation (to make all the functions work as with regular dataset) you can use `unmark-group` or `as-regular-dataset` (alias) functions.
+If you want to remove grouping annotation (to make all the functions
+work as with regular dataset) you can use `unmark-group` or
+`as-regular-dataset` (alias) functions.
 
-It can be important when you want to remove some groups (rows) from grouped dataset using `drop-rows` or something like that.
+It can be important when you want to remove some groups (rows) from
+grouped dataset using `drop-rows` or something like that.
 
 ``` clojure
 (-> DS
@@ -1464,7 +1535,9 @@ It can be important when you want to remove some groups (rows) from grouped data
 
 This is considered internal.
 
-If you want to implement your own mapping function on grouped dataset you can call `process-group-data` and pass function operating on datasets. Result should be a dataset to have ungrouping working.
+If you want to implement your own mapping function on grouped dataset
+you can call `process-group-data` and pass function operating on
+datasets. Result should be a dataset to have ungrouping working.
 
 ``` clojure
 (-> DS
@@ -1482,24 +1555,29 @@ If you want to implement your own mapping function on grouped dataset you can ca
 
 ### Columns
 
-Column is a special `tech.ml.dataset` structure based on `tech.ml.datatype` library. For our purposes we cat treat columns as typed and named sequence bound to particular dataset.
+Column is a special `tech.ml.dataset` structure based on
+`tech.ml.datatype` library. For our purposes we cat treat columns as
+typed and named sequence bound to particular dataset.
 
 Type of the data is inferred from a sequence during column creation.
 
 #### Names
 
-To select dataset columns or column names `columns-selector` is used. `columns-selector` can be one of the following:
+To select dataset columns or column names `columns-selector` is used.
+`columns-selector` can be one of the following:
 
 -   `:all` keyword - selects all columns
 -   column name - for single column
 -   sequence of column names - for collection of columns
 -   regex - to apply pattern on column names or datatype
 -   filter predicate - to filter column names or datatype
--   `type` namespaced keyword for specific datatype or group of datatypes
+-   `type` namespaced keyword for specific datatype or group of
+    datatypes
 
 Column name can be anything.
 
-`column-names` function returns names according to `columns-selector` and optional `meta-field`. `meta-field` is one of the following:
+`column-names` function returns names according to `columns-selector`
+and optional `meta-field`. `meta-field` is one of the following:
 
 -   `:name` (default) - to operate on column names
 -   `:datatype` - to operated on column types
@@ -1532,7 +1610,9 @@ or
 
     (:V1 :V2 :V3 :V4)
 
-In case you want to select column which has name `:all` (or is sequence or map), put it into a vector. Below code returns empty sequence since there is no such column in the dataset.
+In case you want to select column which has name `:all` (or is sequence
+or map), put it into a vector. Below code returns empty sequence since
+there is no such column in the dataset.
 
 ``` clojure
 (api/column-names DS [:all])
@@ -1542,7 +1622,7 @@ In case you want to select column which has name `:all` (or is sequence or map),
 
 ------------------------------------------------------------------------
 
-Obviously selecting single name returns it's name if available
+Obviously selecting single name returns it’s name if available
 
 ``` clojure
 (api/column-names DS :V1)
@@ -1574,7 +1654,9 @@ Select names based on regex, columns ends with `1` or `4`
 
 ------------------------------------------------------------------------
 
-Select names based on regex operating on type of the column (to check what are the column types, call `(api/info DS :columns)`. Here we want to get integer columns only.
+Select names based on regex operating on type of the column (to check
+what are the column types, call `(api/info DS :columns)`. Here we want
+to get integer columns only.
 
 ``` clojure
 (api/column-names DS #"^:int.*" :datatype)
@@ -1592,7 +1674,8 @@ or
 
 ------------------------------------------------------------------------
 
-And finally we can use predicate to select names. Let's select double precision columns.
+And finally we can use predicate to select names. Let’s select double
+precision columns.
 
 ``` clojure
 (api/column-names DS #{:float64} :datatype)
@@ -1610,7 +1693,8 @@ or
 
 ------------------------------------------------------------------------
 
-If you want to select all columns but given, use `complement` function. Works only on a predicate.
+If you want to select all columns but given, use `complement` function.
+Works only on a predicate.
 
 ``` clojure
 (api/column-names DS (complement #{:V1}))
@@ -1624,7 +1708,9 @@ If you want to select all columns but given, use `complement` function. Works on
 
 ------------------------------------------------------------------------
 
-You can select column names based on all column metadata at once by using `:all` metadata selector. Below we want to select column names ending with `1` which have `long` datatype.
+You can select column names based on all column metadata at once by
+using `:all` metadata selector. Below we want to select column names
+ending with `1` which have `long` datatype.
 
 ``` clojure
 (api/column-names DS (fn [meta]
@@ -1636,7 +1722,9 @@ You can select column names based on all column metadata at once by using `:all`
 
 #### Select
 
-`select-columns` creates dataset with columns selected by `columns-selector` as described above. Function works on regular and grouped dataset.
+`select-columns` creates dataset with columns selected by
+`columns-selector` as described above. Function works on regular and
+grouped dataset.
 
 ------------------------------------------------------------------------
 
@@ -1684,7 +1772,8 @@ Select all but `:V1` columns
 
 ------------------------------------------------------------------------
 
-If we have grouped data set, column selection is applied to every group separately.
+If we have grouped data set, column selection is applied to every group
+separately.
 
 ``` clojure
 (-> DS
@@ -1764,7 +1853,8 @@ Drop all columns but `:V1` and `:V2`
 
 ------------------------------------------------------------------------
 
-If we have grouped data set, column selection is applied to every group separately. Selected columns are dropped.
+If we have grouped data set, column selection is applied to every group
+separately. Selected columns are dropped.
 
 ``` clojure
 (-> DS
@@ -1796,7 +1886,8 @@ If we have grouped data set, column selection is applied to every group separate
 
 #### Rename
 
-If you want to rename colums use `rename-columns` and pass map where keys are old names, values new ones.
+If you want to rename colums use `rename-columns` and pass map where
+keys are old names, values new ones.
 
 You can also pass mapping function with optional columns-selector
 
@@ -1809,17 +1900,17 @@ You can also pass mapping function with optional columns-selector
 
 \_unnamed \[9 4\]:
 
-| v1  | v2  | \[1 2 3\] | <java.lang.Object@4d0980bb> |
-|-----|-----|-----------|-----------------------------|
-| 1   | 1   | 0.5       | A                           |
-| 2   | 2   | 1.0       | B                           |
-| 1   | 3   | 1.5       | C                           |
-| 2   | 4   | 0.5       | A                           |
-| 1   | 5   | 1.0       | B                           |
-| 2   | 6   | 1.5       | C                           |
-| 1   | 7   | 0.5       | A                           |
-| 2   | 8   | 1.0       | B                           |
-| 1   | 9   | 1.5       | C                           |
+| v1  | v2  | \[1 2 3\] | <a href="mailto:java.lang.Object@1fc387bb" class="email">java.lang.Object@1fc387bb</a> |
+|-----|-----|-----------|----------------------------------------------------------------------------------------|
+| 1   | 1   | 0.5       | A                                                                                      |
+| 2   | 2   | 1.0       | B                                                                                      |
+| 1   | 3   | 1.5       | C                                                                                      |
+| 2   | 4   | 0.5       | A                                                                                      |
+| 1   | 5   | 1.0       | B                                                                                      |
+| 2   | 6   | 1.5       | C                                                                                      |
+| 1   | 7   | 0.5       | A                                                                                      |
+| 2   | 8   | 1.0       | B                                                                                      |
+| 1   | 9   | 1.5       | C                                                                                      |
 
 ------------------------------------------------------------------------
 
@@ -1881,33 +1972,39 @@ Function works on grouped dataset
 
 {1 Group: 1 \[5 4\]:
 
-| v1  | v2  | \[1 2 3\] | <java.lang.Object@68049e89> |
-|-----|-----|-----------|-----------------------------|
-| 1   | 1   | 0.5       | A                           |
-| 1   | 3   | 1.5       | C                           |
-| 1   | 5   | 1.0       | B                           |
-| 1   | 7   | 0.5       | A                           |
-| 1   | 9   | 1.5       | C                           |
+| v1  | v2  | \[1 2 3\] | <a href="mailto:java.lang.Object@5ecbce13" class="email">java.lang.Object@5ecbce13</a> |
+|-----|-----|-----------|----------------------------------------------------------------------------------------|
+| 1   | 1   | 0.5       | A                                                                                      |
+| 1   | 3   | 1.5       | C                                                                                      |
+| 1   | 5   | 1.0       | B                                                                                      |
+| 1   | 7   | 0.5       | A                                                                                      |
+| 1   | 9   | 1.5       | C                                                                                      |
 
 , 2 Group: 2 \[4 4\]:
 
-| v1  | v2  | \[1 2 3\] | <java.lang.Object@68049e89> |
-|-----|-----|-----------|-----------------------------|
-| 2   | 2   | 1.0       | B                           |
-| 2   | 4   | 0.5       | A                           |
-| 2   | 6   | 1.5       | C                           |
-| 2   | 8   | 1.0       | B                           |
+| v1  | v2  | \[1 2 3\] | <a href="mailto:java.lang.Object@5ecbce13" class="email">java.lang.Object@5ecbce13</a> |
+|-----|-----|-----------|----------------------------------------------------------------------------------------|
+| 2   | 2   | 1.0       | B                                                                                      |
+| 2   | 4   | 0.5       | A                                                                                      |
+| 2   | 6   | 1.5       | C                                                                                      |
+| 2   | 8   | 1.0       | B                                                                                      |
 
 }
 
 #### Add or update
 
-To add (or replace existing) column call `add-or-replace-column` function. Function accepts:
+To add (or replace existing) column call `add-or-replace-column`
+function. Function accepts:
 
 -   `ds` - a dataset
--   `column-name` - if it's existing column name, column will be replaced
--   `column` - can be column (from other dataset), sequence, single value or function. Too big columns are always trimmed. Too small are cycled or extended with missing values (according to `size-strategy` argument)
--   `size-strategy` (optional) - when new column is shorter than dataset row count, following strategies are applied:
+-   `column-name` - if it’s existing column name, column will be
+    replaced
+-   `column` - can be column (from other dataset), sequence, single
+    value or function. Too big columns are always trimmed. Too small are
+    cycled or extended with missing values (according to `size-strategy`
+    argument)
+-   `size-strategy` (optional) - when new column is shorter than dataset
+    row count, following strategies are applied:
 -   `:cycle` (default) - repeat data
     -   `:na` - append missing values
     -   `:strict` - throws an exception when sizes mismatch
@@ -1948,15 +2045,15 @@ Replace one column (column is trimmed)
 
 | :V1    | :V2 | :V3 | :V4 |
 |--------|-----|-----|-----|
-| 0.8061 | 1   | 0.5 | A   |
-| 0.1754 | 2   | 1.0 | B   |
-| 0.9765 | 3   | 1.5 | C   |
-| 0.2792 | 4   | 0.5 | A   |
-| 0.8198 | 5   | 1.0 | B   |
-| 0.1498 | 6   | 1.5 | C   |
-| 0.4329 | 7   | 0.5 | A   |
-| 0.2318 | 8   | 1.0 | B   |
-| 0.6968 | 9   | 1.5 | C   |
+| 0.3605 | 1   | 0.5 | A   |
+| 0.1272 | 2   | 1.0 | B   |
+| 0.7146 | 3   | 1.5 | C   |
+| 0.5689 | 4   | 0.5 | A   |
+| 0.8455 | 5   | 1.0 | B   |
+| 0.9450 | 6   | 1.5 | C   |
+| 0.8507 | 7   | 0.5 | A   |
+| 0.4759 | 8   | 1.0 | B   |
+| 0.6512 | 9   | 1.5 | C   |
 
 ------------------------------------------------------------------------
 
@@ -1982,7 +2079,8 @@ Copy column
 
 ------------------------------------------------------------------------
 
-When function is used, argument is whole dataset and the result should be column, sequence or single value
+When function is used, argument is whole dataset and the result should
+be column, sequence or single value
 
 ``` clojure
 (api/add-or-replace-column DS :row-count api/row-count) 
@@ -2004,7 +2102,8 @@ When function is used, argument is whole dataset and the result should be column
 
 ------------------------------------------------------------------------
 
-Above example run on grouped dataset, applies function on each group separately.
+Above example run on grouped dataset, applies function on each group
+separately.
 
 ``` clojure
 (-> DS
@@ -2029,7 +2128,9 @@ Above example run on grouped dataset, applies function on each group separately.
 
 ------------------------------------------------------------------------
 
-When column which is added is longer than row count in dataset, column is trimmed. When column is shorter, it's cycled or missing values are appended.
+When column which is added is longer than row count in dataset, column
+is trimmed. When column is shorter, it’s cycled or missing values are
+appended.
 
 ``` clojure
 (api/add-or-replace-column DS :V5 [:r :b])
@@ -2067,7 +2168,8 @@ When column which is added is longer than row count in dataset, column is trimme
 | 2   | 8   | 1.0 | B   |     |
 | 1   | 9   | 1.5 | C   |     |
 
-Exception is thrown when `:strict` strategy is used and column size is not equal row count
+Exception is thrown when `:strict` strategy is used and column size is
+not equal row count
 
 ``` clojure
 (try
@@ -2104,7 +2206,7 @@ Tha same applies for grouped dataset
 
 ------------------------------------------------------------------------
 
-Let's use other column to fill groups
+Let’s use other column to fill groups
 
 ``` clojure
 (-> DS
@@ -2129,7 +2231,9 @@ Let's use other column to fill groups
 
 ------------------------------------------------------------------------
 
-In case you want to add or update several columns you can call `add-or-replace-columns` and provide map where keys are column names, vals are columns.
+In case you want to add or update several columns you can call
+`add-or-replace-columns` and provide map where keys are column names,
+vals are columns.
 
 ``` clojure
 (api/add-or-replace-columns DS {:V1 #(map inc (% :V1))
@@ -2153,7 +2257,8 @@ In case you want to add or update several columns you can call `add-or-replace-c
 
 #### Update
 
-If you want to modify specific column(s) you can call `update-columns`. Arguments:
+If you want to modify specific column(s) you can call `update-columns`.
+Arguments:
 
 -   dataset
 -   one of:
@@ -2209,7 +2314,8 @@ Apply dec/inc on numerical columns
 
 ------------------------------------------------------------------------
 
-You can also assing function to a column by packing operations into the map.
+You can also assing function to a column by packing operations into the
+map.
 
 ``` clojure
 (api/update-columns DS {:V1 reverse
@@ -2220,19 +2326,21 @@ You can also assing function to a column by packing operations into the map.
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 1   | 6   | 0.5 | A   |
-| 2   | 5   | 1.0 | B   |
-| 1   | 7   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 3   | 1.0 | B   |
-| 2   | 9   | 1.5 | C   |
 | 1   | 8   | 0.5 | A   |
-| 2   | 1   | 1.0 | B   |
-| 1   | 2   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 6   | 1.5 | C   |
+| 2   | 7   | 0.5 | A   |
+| 1   | 1   | 1.0 | B   |
+| 2   | 4   | 1.5 | C   |
+| 1   | 9   | 0.5 | A   |
+| 2   | 3   | 1.0 | B   |
+| 1   | 5   | 1.5 | C   |
 
 #### Map
 
-The other way of creating or updating column is to map rows as regular `map` function. The arity of mapping function should be the same as number of selected columns.
+The other way of creating or updating column is to map rows as regular
+`map` function. The arity of mapping function should be the same as
+number of selected columns.
 
 Arguments:
 
@@ -2243,7 +2351,7 @@ Arguments:
 
 ------------------------------------------------------------------------
 
-Let's add numerical columns together
+Let’s add numerical columns together
 
 ``` clojure
 (api/map-columns DS
@@ -2295,7 +2403,8 @@ The same works on grouped dataset
 
 #### Reorder
 
-To reorder columns use columns selectors to choose what columns go first. The unseleted columns are appended to the end.
+To reorder columns use columns selectors to choose what columns go
+first. The unseleted columns are appended to the end.
 
 ``` clojure
 (api/reorder-columns DS :V4 [:V3 :V2] :V1)
@@ -2317,7 +2426,9 @@ To reorder columns use columns selectors to choose what columns go first. The un
 
 ------------------------------------------------------------------------
 
-This function doesn't let you select meta field, so you have to call `column-names` in such case. Below we want to add integer columns at the end.
+This function doesn’t let you select meta field, so you have to call
+`column-names` in such case. Below we want to add integer columns at the
+end.
 
 ``` clojure
 (api/reorder-columns DS (api/column-names DS (complement #{:int64}) :datatype))
@@ -2339,14 +2450,19 @@ This function doesn't let you select meta field, so you have to call `column-nam
 
 #### Type conversion
 
-To convert column into given datatype can be done using `convert-types` function. Not all the types can be converted automatically also some types require slow parsing (every conversion from string). In case where conversion is not possible you can pass conversion function.
+To convert column into given datatype can be done using `convert-types`
+function. Not all the types can be converted automatically also some
+types require slow parsing (every conversion from string). In case where
+conversion is not possible you can pass conversion function.
 
 Arguments:
 
 -   `ds` - dataset
 -   Two options:
-    -   `coltype-map` in case when you want to convert several columns, keys are column names, vals are new types
-    -   `column-selector` and `new-types` - column name and new datatype (or datatypes as sequence)
+    -   `coltype-map` in case when you want to convert several columns,
+        keys are column names, vals are new types
+    -   `column-selector` and `new-types` - column name and new datatype
+        (or datatypes as sequence)
 
 `new-types` can be:
 
@@ -2355,7 +2471,9 @@ Arguments:
 
 After conversion additional infomation is given on problematic values.
 
-The other conversion is casting column into java array (`->array`) of the type column or provided as argument. Grouped dataset returns sequence of arrays.
+The other conversion is casting column into java array (`->array`) of
+the type column or provided as argument. Grouped dataset returns
+sequence of arrays.
 
 ------------------------------------------------------------------------
 
@@ -2378,7 +2496,8 @@ Basic conversion
 
 ------------------------------------------------------------------------
 
-Using custom converter. Let's treat `:V4` as haxadecimal values. See that this way we can map column to any value.
+Using custom converter. Let’s treat `:V4` as haxadecimal values. See
+that this way we can map column to any value.
 
 ``` clojure
 (-> DS
@@ -2469,7 +2588,7 @@ Double array conversion.
 (api/->array DS :V1)
 ```
 
-    #object["[J" 0x6c36d954 "[J@6c36d954"]
+    #object["[J" 0x30e19343 "[J@30e19343"]
 
 ------------------------------------------------------------------------
 
@@ -2481,7 +2600,7 @@ Function also works on grouped dataset
     (api/->array :V2))
 ```
 
-    (#object["[J" 0x3e844fae "[J@3e844fae"] #object["[J" 0x19f42ed3 "[J@19f42ed3"] #object["[J" 0x3565a4d6 "[J@3565a4d6"])
+    (#object["[J" 0x16ce7ac3 "[J@16ce7ac3"] #object["[J" 0x5e013a7d "[J@5e013a7d"] #object["[J" 0x36e57e6d "[J@36e57e6d"])
 
 ------------------------------------------------------------------------
 
@@ -2492,24 +2611,29 @@ You can also cast the type to the other one (if casting is possible):
 (api/->array DS :V1 :float32)
 ```
 
-    #object["[Ljava.lang.String;" 0x494497ba "[Ljava.lang.String;@494497ba"]
-    #object["[F" 0x52403c39 "[F@52403c39"]
+    #object["[Ljava.lang.String;" 0x236793b2 "[Ljava.lang.String;@236793b2"]
+    #object["[F" 0x38631d5c "[F@38631d5c"]
 
 ### Rows
 
 Rows can be selected or dropped using various selectors:
 
--   row id(s) - row index as number or seqence of numbers (first row has index `0`, second `1` and so on)
+-   row id(s) - row index as number or seqence of numbers (first row has
+    index `0`, second `1` and so on)
 -   sequence of true/false values
 -   filter by predicate (argument is row as a map)
 
-When predicate is used you may want to limit columns passed to the function (`select-keys` option).
+When predicate is used you may want to limit columns passed to the
+function (`select-keys` option).
 
-Additionally you may want to precalculate some values which will be visible for predicate as additional columns. It's done internally by calling `add-or-replace-columns` on a dataset. `:pre` is used as a column definitions.
+Additionally you may want to precalculate some values which will be
+visible for predicate as additional columns. It’s done internally by
+calling `add-or-replace-columns` on a dataset. `:pre` is used as a
+column definitions.
 
 #### Select
 
-Select fourth row
+Select fifth row
 
 ``` clojure
 (api/select-rows DS 4)
@@ -2570,7 +2694,8 @@ Select rows using predicate
 
 ------------------------------------------------------------------------
 
-The same works on grouped dataset, let's select first row from every group.
+The same works on grouped dataset, let’s select first row from every
+group.
 
 ``` clojure
 (-> DS
@@ -2588,7 +2713,8 @@ The same works on grouped dataset, let's select first row from every group.
 
 ------------------------------------------------------------------------
 
-If you want to select `:V2` values which are lower than or equal mean in grouped dataset you have to precalculate it using `:pre`.
+If you want to select `:V2` values which are lower than or equal mean in
+grouped dataset you have to precalculate it using `:pre`.
 
 ``` clojure
 (-> DS
@@ -2611,7 +2737,8 @@ If you want to select `:V2` values which are lower than or equal mean in grouped
 
 #### Drop
 
-`drop-rows` removes rows, and accepts exactly the same parameters as `select-rows`
+`drop-rows` removes rows, and accepts exactly the same parameters as
+`select-rows`
 
 ------------------------------------------------------------------------
 
@@ -2635,9 +2762,12 @@ Drop values lower than or equal `:V2` column mean in grouped dataset.
 
 #### Other
 
-There are several function to select first, last, random rows, or display head, tail of the dataset. All functions work on grouped dataset.
+There are several function to select first, last, random rows, or
+display head, tail of the dataset. All functions work on grouped
+dataset.
 
-All random functions accept `:seed` as an option if you want to fix returned result.
+All random functions accept `:seed` as an option if you want to fix
+returned result.
 
 ------------------------------------------------------------------------
 
@@ -2679,7 +2809,7 @@ Random row (single)
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 1   | 1   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
 
 ------------------------------------------------------------------------
 
@@ -2707,15 +2837,15 @@ Random `n` (default: row count) rows with repetition.
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 1   | 5   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 9   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
 | 1   | 1   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
 | 1   | 5   | 1.0 | B   |
 | 2   | 4   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
 
 ------------------------------------------------------------------------
 
@@ -2729,11 +2859,11 @@ Five random rows with repetition
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 1   | 1   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
 
 ------------------------------------------------------------------------
 
@@ -2748,10 +2878,10 @@ Five random, non-repeating rows
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
 | 2   | 4   | 0.5 | A   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
 
 ------------------------------------------------------------------------
 
@@ -2783,15 +2913,15 @@ Shuffle dataset
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 2   | 4   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 1   | 0.5 | A   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
 
 ------------------------------------------------------------------------
 
@@ -2853,9 +2983,13 @@ Last `n` rows (default 5)
 
 ------------------------------------------------------------------------
 
-`by-rank` calculates rank on column(s). It's base on [R rank()](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/rank) with addition of `:dense` (default) tie strategy which give consecutive rank numbering.
+`by-rank` calculates rank on column(s). It’s base on [R
+rank()](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/rank)
+with addition of `:dense` (default) tie strategy which give consecutive
+rank numbering.
 
-`:desc?` options (default: `true`) sorts input with descending order, giving top values under `0` value.
+`:desc?` options (default: `true`) sorts input with descending order,
+giving top values under `0` value.
 
 `rank` is zero based and is defined at `tablecloth.api.utils` namespace.
 
@@ -2915,37 +3049,43 @@ Select 5 random rows from each group
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 1   | 7   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
-| 2   | 8   | 1.0 | B   |
-| 2   | 2   | 1.0 | B   |
 | 2   | 2   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
 
 ### Aggregate
 
 Aggregating is a function which produces single row out of dataset.
 
-Aggregator is a function or sequence or map of functions which accept dataset as an argument and result single value, sequence of values or map.
+Aggregator is a function or sequence or map of functions which accept
+dataset as an argument and result single value, sequence of values or
+map.
 
-Where map is given as an input or result, keys are treated as column names.
+Where map is given as an input or result, keys are treated as column
+names.
 
-Grouped dataset is ungrouped after aggreation. This can be turned off by setting `:ungroup` to false. In case you want to pass additional ungrouping parameters add them to the options.
+Grouped dataset is ungrouped after aggreation. This can be turned off by
+setting `:ungroup` to false. In case you want to pass additional
+ungrouping parameters add them to the options.
 
-By default resulting column names are prefixed with `summary` prefix (set it with `:default-column-name-prefix` option).
+By default resulting column names are prefixed with `summary` prefix
+(set it with `:default-column-name-prefix` option).
 
 ------------------------------------------------------------------------
 
-Let's calculate mean of some columns
+Let’s calculate mean of some columns
 
 ``` clojure
 (api/aggregate DS #(reduce + (% :V2)))
@@ -2959,7 +3099,7 @@ Let's calculate mean of some columns
 
 ------------------------------------------------------------------------
 
-Let's give resulting column a name.
+Let’s give resulting column a name.
 
 ``` clojure
 (api/aggregate DS {:sum-of-V2 #(reduce + (% :V2))})
@@ -2999,11 +3139,11 @@ You can combine all variants and rename default prefix
 
 <table>
 <colgroup>
-<col width="17%" />
-<col width="17%" />
-<col width="17%" />
-<col width="23%" />
-<col width="24%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 23%" />
+<col style="width: 24%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3041,12 +3181,12 @@ Processing grouped dataset
 
 <table>
 <colgroup>
-<col width="6%" />
-<col width="16%" />
-<col width="16%" />
-<col width="16%" />
-<col width="21%" />
-<col width="22%" />
+<col style="width: 5%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 21%" />
+<col style="width: 23%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3086,7 +3226,8 @@ Processing grouped dataset
 </tbody>
 </table>
 
-Result of aggregating is automatically ungrouped, you can skip this step by stetting `:ungroup` option to `false`.
+Result of aggregating is automatically ungrouped, you can skip this step
+by stetting `:ungroup` option to `false`.
 
 ``` clojure
 (-> DS
@@ -3107,7 +3248,9 @@ Result of aggregating is automatically ungrouped, you can skip this step by stet
 
 #### Column
 
-You can perform columnar aggreagation also. `aggregate-columns` selects columns and apply aggregating function (or sequence of functions) for each column separately.
+You can perform columnar aggreagation also. `aggregate-columns` selects
+columns and apply aggregating function (or sequence of functions) for
+each column separately.
 
 ``` clojure
 (api/aggregate-columns DS [:V1 :V2 :V3] #(reduce + %))
@@ -3151,7 +3294,8 @@ You can perform columnar aggreagation also. `aggregate-columns` selects columns 
 
 ### Order
 
-Ordering can be done by column(s) or any function operating on row. Possible order can be:
+Ordering can be done by column(s) or any function operating on row.
+Possible order can be:
 
 -   `:asc` for ascending order (default)
 -   `:desc` for descending order
@@ -3285,7 +3429,8 @@ Use different orders for columns
 
 ------------------------------------------------------------------------
 
-Custom function can be used to provied ordering key. Here order by `:V4` descending, then by product of other columns ascending.
+Custom function can be used to provied ordering key. Here order by `:V4`
+descending, then by product of other columns ascending.
 
 ``` clojure
 (api/order-by DS [:V4 (fn [row] (* (:V1 row)
@@ -3309,7 +3454,10 @@ Custom function can be used to provied ordering key. Here order by `:V4` descend
 
 ------------------------------------------------------------------------
 
-Custom comparator also can be used in case objects are not comparable by default. Let's define artificial one: if Euclidean distance is lower than 2, compare along `z` else along `x` and `y`. We use first three columns for that.
+Custom comparator also can be used in case objects are not comparable by
+default. Let’s define artificial one: if Euclidean distance is lower
+than 2, compare along `z` else along `x` and `y`. We use first three
+columns for that.
 
 ``` clojure
 (defn dist
@@ -3347,7 +3495,10 @@ Custom comparator also can be used in case objects are not comparable by default
 
 ### Unique
 
-Remove rows which contains the same data. By default `unique-by` removes duplicates from whole dataset. You can also pass list of columns or functions (similar as in `group-by`) to remove duplicates limited by them. Default strategy is to keep the first row. More strategies below.
+Remove rows which contains the same data. By default `unique-by` removes
+duplicates from whole dataset. You can also pass list of columns or
+functions (similar as in `group-by`) to remove duplicates limited by
+them. Default strategy is to keep the first row. More strategies below.
 
 `unique-by` works on groups
 
@@ -3471,7 +3622,8 @@ There are 4 strategies defined:
 -   `:first` - select first row (default)
 -   `:last` - select last row
 -   `:random` - select random row
--   any function - apply function to a columns which are subject of uniqueness
+-   any function - apply function to a columns which are subject of
+    uniqueness
 
 ------------------------------------------------------------------------
 
@@ -3500,8 +3652,8 @@ Random
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 2   | 6   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
 
 ------------------------------------------------------------------------
 
@@ -3547,9 +3699,9 @@ Group by function and apply functions
 
 | :V1       | :V2       | :V3             | :V4             |
 |-----------|-----------|-----------------|-----------------|
-| \[1 2 1\] | \[3 6 9\] | \[1.5 1.5 1.5\] | \["C" "C" "C"\] |
-| \[1 2 1\] | \[1 4 7\] | \[0.5 0.5 0.5\] | \["A" "A" "A"\] |
-| \[2 1 2\] | \[2 5 8\] | \[1.0 1.0 1.0\] | \["B" "B" "B"\] |
+| \[1 2 1\] | \[3 6 9\] | \[1.5 1.5 1.5\] | \[“C” “C” “C”\] |
+| \[1 2 1\] | \[1 4 7\] | \[0.5 0.5 0.5\] | \[“A” “A” “A”\] |
+| \[2 1 2\] | \[2 5 8\] | \[1.0 1.0 1.0\] | \[“B” “B” “B”\] |
 
 ------------------------------------------------------------------------
 
@@ -3566,20 +3718,21 @@ Grouped dataset
 
 | :from-V1 | :V1     | :V2     | :V3         | :V4         |
 |----------|---------|---------|-------------|-------------|
-| 1        | \[1 1\] | \[3 9\] | \[1.5 1.5\] | \["C" "C"\] |
-| 1        | \[1 1\] | \[1 7\] | \[0.5 0.5\] | \["A" "A"\] |
-| 1        | \[1\]   | \[5\]   | \[1.0\]     | \["B"\]     |
-| 2        | \[2\]   | \[6\]   | \[1.5\]     | \["C"\]     |
-| 2        | \[2\]   | \[4\]   | \[0.5\]     | \["A"\]     |
-| 2        | \[2 2\] | \[2 8\] | \[1.0 1.0\] | \["B" "B"\] |
+| 1        | \[1 1\] | \[3 9\] | \[1.5 1.5\] | \[“C” “C”\] |
+| 1        | \[1 1\] | \[1 7\] | \[0.5 0.5\] | \[“A” “A”\] |
+| 1        | \[1\]   | \[5\]   | \[1.0\]     | \[“B”\]     |
+| 2        | \[2\]   | \[6\]   | \[1.5\]     | \[“C”\]     |
+| 2        | \[2\]   | \[4\]   | \[0.5\]     | \[“A”\]     |
+| 2        | \[2 2\] | \[2 8\] | \[1.0 1.0\] | \[“B” “B”\] |
 
 ### Missing
 
-When dataset contains missing values you can select or drop rows with missing values or replace them using some strategy.
+When dataset contains missing values you can select or drop rows with
+missing values or replace them using some strategy.
 
 `column-selector` can be used to limit considered columns
 
-Let's define dataset which contains missing values
+Let’s define dataset which contains missing values
 
 ``` clojure
 (def DSm (api/dataset {:V1 (take 9 (cycle [1 2 nil]))
@@ -3718,7 +3871,8 @@ The same with grouped dataset
 
 #### Replace
 
-Missing values can be replaced using several strategies. `replace-missing` accepts:
+Missing values can be replaced using several strategies.
+`replace-missing` accepts:
 
 -   dataset
 -   column selector, default: `:all`
@@ -3732,11 +3886,13 @@ Strategies are:
 
 -   `:value` - replace with given value
 -   `:up` - copy values up and then down for missing values at the end
--   `:down` - copy values down and then up for missing values at the beginning
+-   `:down` - copy values down and then up for missing values at the
+    beginning
 -   `:mid` - copy values around known values
--   `:lerp` - trying to lineary approximate values, works for numbers and datetime, otherwise applies `:mid`
+-   `:lerp` - trying to lineary approximate values, works for numbers
+    and datetime, otherwise applies `:mid`
 
-Let's define special dataset here:
+Let’s define special dataset here:
 
 ``` clojure
 (def DSm2 (api/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
@@ -3909,7 +4065,8 @@ Replace missing with a function (mean)
 
 ------------------------------------------------------------------------
 
-Using `:down` strategy, fills gaps with values from above. You can see that if missings are at the beginning, the are filled with first value
+Using `:down` strategy, fills gaps with values from above. You can see
+that if missings are at the beginning, the are filled with first value
 
 ``` clojure
 (api/replace-missing DSm2 [:a :b] :down)
@@ -4062,12 +4219,14 @@ nil
 
 #### Inject
 
-When your column contains not continuous data range you can fill up with lacking values. Arguments:
+When your column contains not continuous data range you can fill up with
+lacking values. Arguments:
 
 -   dataset
 -   column name
 -   expected step (`max-span`, milliseconds in case of datetime column)
--   (optional) `missing-strategy` - how to replace missing, default `:down` (set to `nil` if none)
+-   (optional) `missing-strategy` - how to replace missing, default
+    `:down` (set to `nil` if none)
 -   (optional) `missing-value` - optional value for replace missing
 
 ------------------------------------------------------------------------
@@ -4094,10 +4253,13 @@ When your column contains not continuous data range you can fill up with lacking
 
 ### Join/Separate Columns
 
-Joining or separating columns are operations which can help to tidy messy dataset.
+Joining or separating columns are operations which can help to tidy
+messy dataset.
 
--   `join-columns` joins content of the columns (as string concatenation or other structure) and stores it in new column
--   `separate-column` splits content of the columns into set of new columns
+-   `join-columns` joins content of the columns (as string concatenation
+    or other structure) and stores it in new column
+-   `separate-column` splits content of the columns into set of new
+    columns
 
 #### Join
 
@@ -4107,7 +4269,8 @@ Joining or separating columns are operations which can help to tidy messy datase
 -   column selector (as in `select-columns`)
 -   options
     -   `:separator` (default `"-"`)
-    -   `:drop-columns?` - whether to drop source columns or not (default `true`)
+    -   `:drop-columns?` - whether to drop source columns or not
+        (default `true`)
     -   `:result-type`
         -   `:map` - packs data into map
         -   `:seq` - packs data into sequence
@@ -4161,7 +4324,7 @@ Without dropping source columns.
 
 ------------------------------------------------------------------------
 
-Let's replace missing value with "NA" string.
+Let’s replace missing value with “NA” string.
 
 ``` clojure
 (api/join-columns DSm :joined [:V1 :V2 :V4] {:missing-subst "NA"})
@@ -4239,15 +4402,15 @@ The other types of results, map:
 
 | :V3 | :joined                   |
 |-----|---------------------------|
-| 0.5 | {:V1 1, :V2 1, :V4 "A"}   |
-| 1.0 | {:V1 2, :V2 2, :V4 "B"}   |
-|     | {:V1 nil, :V2 3, :V4 "C"} |
-| 1.5 | {:V1 1, :V2 4, :V4 "A"}   |
-| 0.5 | {:V1 2, :V2 5, :V4 "B"}   |
-| 1.0 | {:V1 nil, :V2 6, :V4 "C"} |
-|     | {:V1 1, :V2 7, :V4 "A"}   |
-| 1.5 | {:V1 2, :V2 8, :V4 "B"}   |
-| 0.5 | {:V1 nil, :V2 9, :V4 "C"} |
+| 0.5 | {:V1 1, :V2 1, :V4 “A”}   |
+| 1.0 | {:V1 2, :V2 2, :V4 “B”}   |
+|     | {:V1 nil, :V2 3, :V4 “C”} |
+| 1.5 | {:V1 1, :V2 4, :V4 “A”}   |
+| 0.5 | {:V1 2, :V2 5, :V4 “B”}   |
+| 1.0 | {:V1 nil, :V2 6, :V4 “C”} |
+|     | {:V1 1, :V2 7, :V4 “A”}   |
+| 1.5 | {:V1 2, :V2 8, :V4 “B”}   |
+| 0.5 | {:V1 nil, :V2 9, :V4 “C”} |
 
 ------------------------------------------------------------------------
 
@@ -4261,15 +4424,15 @@ Sequence
 
 | :V3 | :joined     |
 |-----|-------------|
-| 0.5 | (1 1 "A")   |
-| 1.0 | (2 2 "B")   |
-|     | (nil 3 "C") |
-| 1.5 | (1 4 "A")   |
-| 0.5 | (2 5 "B")   |
-| 1.0 | (nil 6 "C") |
-|     | (1 7 "A")   |
-| 1.5 | (2 8 "B")   |
-| 0.5 | (nil 9 "C") |
+| 0.5 | (1 1 “A”)   |
+| 1.0 | (2 2 “B”)   |
+|     | (nil 3 “C”) |
+| 1.5 | (1 4 “A”)   |
+| 0.5 | (2 5 “B”)   |
+| 1.0 | (nil 6 “C”) |
+|     | (1 7 “A”)   |
+| 1.5 | (2 8 “B”)   |
+| 0.5 | (nil 9 “C”) |
 
 ------------------------------------------------------------------------
 
@@ -4379,20 +4542,25 @@ df
 
 #### Separate
 
-Column can be also separated into several other columns using string as separator, regex or custom function. Arguments:
+Column can be also separated into several other columns using string as
+separator, regex or custom function. Arguments:
 
 -   dataset
 -   source column
 -   target columns
 -   separator as:
-    -   string - it's converted to regular expression and passed to `clojure.string/split` function
+    -   string - it’s converted to regular expression and passed to
+        `clojure.string/split` function
     -   regex
     -   or custom function (default: identity)
 -   options
-    -   `:drop-columns?` - whether drop source column or not (default: `true`)
-    -   `:missing-subst` - values which should be treated as missing, can be set, sequence, value or function (default: `""`)
+    -   `:drop-columns?` - whether drop source column or not (default:
+        `true`)
+    -   `:missing-subst` - values which should be treated as missing,
+        can be set, sequence, value or function (default: `""`)
 
-Custom function (as separator) should return seqence of values for given value.
+Custom function (as separator) should return seqence of values for given
+value.
 
 ------------------------------------------------------------------------
 
@@ -4539,7 +4707,8 @@ Join and separate together.
 
 ##### Tidyr examples
 
-[separate source](https://tidyr.tidyverse.org/reference/separate.html) [extract source](https://tidyr.tidyverse.org/reference/extract.html)
+[separate source](https://tidyr.tidyverse.org/reference/separate.html)
+[extract source](https://tidyr.tidyverse.org/reference/extract.html)
 
 ``` clojure
 (def df-separate (api/dataset {:x [nil "a.b" "a.d" "b.c"]}))
@@ -4623,7 +4792,8 @@ df-extract
 
 ------------------------------------------------------------------------
 
-You can drop columns after separation by setting `nil` as a name. We need second value here.
+You can drop columns after separation by setting `nil` as a name. We
+need second value here.
 
 ``` clojure
 (api/separate-column df-separate :x [nil :B] "\\.")
@@ -4745,9 +4915,12 @@ Only `a,b,c,d` strings
 
 ### Fold/Unroll Rows
 
-To pack or unpack the data into single value you can use `fold-by` and `unroll` functions.
+To pack or unpack the data into single value you can use `fold-by` and
+`unroll` functions.
 
-`fold-by` groups dataset and packs columns data from each group separately into desired datastructure (like vector or sequence). `unroll` does the opposite.
+`fold-by` groups dataset and packs columns data from each group
+separately into desired datastructure (like vector or sequence).
+`unroll` does the opposite.
 
 #### Fold-by
 
@@ -4759,14 +4932,14 @@ Group-by and pack columns into vector
 
 \_unnamed \[6 4\]:
 
-| :V4 | :V3    | :V1 | :V2     |
-|-----|--------|-----|---------|
-| B   | 1.000  | 1   | \[5\]   |
-| C   | 1.500  | 2   | \[6\]   |
-| C   | 1.500  | 1   | \[3 9\] |
-| A   | 0.5000 | 1   | \[1 7\] |
-| B   | 1.000  | 2   | \[2 8\] |
-| A   | 0.5000 | 2   | \[4\]   |
+| :V4 | :V3 | :V1 | :V2     |
+|-----|-----|-----|---------|
+| B   | 1.0 | 1   | \[5\]   |
+| C   | 1.5 | 2   | \[6\]   |
+| C   | 1.5 | 1   | \[3 9\] |
+| A   | 0.5 | 1   | \[1 7\] |
+| B   | 1.0 | 2   | \[2 8\] |
+| A   | 0.5 | 2   | \[4\]   |
 
 ------------------------------------------------------------------------
 
@@ -4838,12 +5011,16 @@ This works also on grouped dataset
 
 #### Unroll
 
-`unroll` unfolds sequences stored in data, multiplying other ones when necessary. You can unroll more than one column at once (folded data should have the same size!).
+`unroll` unfolds sequences stored in data, multiplying other ones when
+necessary. You can unroll more than one column at once (folded data
+should have the same size!).
 
 Options:
 
--   `:indexes?` if true (or column name), information about index of unrolled sequence is added.
--   `:datatypes` list of datatypes which should be applied to restored columns, a map
+-   `:indexes?` if true (or column name), information about index of
+    unrolled sequence is added.
+-   `:datatypes` list of datatypes which should be applied to restored
+    columns, a map
 
 ------------------------------------------------------------------------
 
@@ -4977,7 +5154,7 @@ You can also force datatypes
 
 | :name | :size | :datatype | :categorical? |
 |-------|-------|-----------|---------------|
-| :V1   | 9     | :object   |               |
+| :V1   | 9     | :int64    |               |
 | :V2   | 9     | :int16    |               |
 | :V3   | 9     | :float32  |               |
 | :V4   | 9     | :string   | true          |
@@ -5015,7 +5192,9 @@ Reshaping data provides two types of operations:
 -   `pivot->longer` - converting columns to rows
 -   `pivot->wider` - converting rows to columns
 
-Both functions are inspired on [tidyr](https://tidyr.tidyverse.org/articles/pivot.html) R package and provide almost the same functionality.
+Both functions are inspired on
+[tidyr](https://tidyr.tidyverse.org/articles/pivot.html) R package and
+provide almost the same functionality.
 
 All examples are taken from mentioned above documentation.
 
@@ -5023,24 +5202,31 @@ Both functions work only on regular dataset.
 
 #### Longer
 
-`pivot->longer` converts columns to rows. Column names are treated as data.
+`pivot->longer` converts columns to rows. Column names are treated as
+data.
 
 Arguments:
 
 -   dataset
 -   columns selector
 -   options:
-    -   `:target-columns` - names of the columns created or columns pattern (see below) (default: `:$column`)
-    -   `:value-column-name` - name of the column for values (default: `:$value`)
-    -   `:splitter` - string, regular expression or function which splits source column names into data
+    -   `:target-columns` - names of the columns created or columns
+        pattern (see below) (default: `:$column`)
+    -   `:value-column-name` - name of the column for values (default:
+        `:$value`)
+    -   `:splitter` - string, regular expression or function which
+        splits source column names into data
     -   `:drop-missing?` - remove rows with missing? (default: `:true`)
     -   `:datatypes` - map of target columns data types
 
 `:target-columns` - can be:
 
 -   column name - source columns names are put there as a data
--   column names as seqence - source columns names after split are put separately into `:target-columns` as data
--   pattern - is a sequence of names, where some of the names are `nil`. `nil` is replaced by a name taken from splitter and such column is used for values.
+-   column names as seqence - source columns names after split are put
+    separately into `:target-columns` as data
+-   pattern - is a sequence of names, where some of the names are `nil`.
+    `nil` is replaced by a name taken from splitter and such column is
+    used for values.
 
 ------------------------------------------------------------------------
 
@@ -5058,17 +5244,17 @@ data/relig\_income.csv \[18 11\]:
 
 <table>
 <colgroup>
-<col width="19%" />
-<col width="5%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="8%" />
-<col width="8%" />
-<col width="5%" />
-<col width="15%" />
+<col style="width: 20%" />
+<col style="width: 5%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 5%" />
+<col style="width: 16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -5082,7 +5268,7 @@ data/relig\_income.csv \[18 11\]:
 <th>$75-100k</th>
 <th>$100-150k</th>
 <th>&gt;150k</th>
-<th>Don't know/refused</th>
+<th>Don’t know/refused</th>
 </tr>
 </thead>
 <tbody>
@@ -5191,7 +5377,7 @@ data/relig\_income.csv \[18 11\]:
 <td>339</td>
 </tr>
 <tr class="odd">
-<td>Jehovah's Witness</td>
+<td>Jehovah’s Witness</td>
 <td>20</td>
 <td>27</td>
 <td>24</td>
@@ -5329,37 +5515,38 @@ data/relig\_income.csv \[18 11\]:
 
 data/relig\_income.csv \[180 3\]:
 
-| religion                | :$column           | :$value |
-|-------------------------|--------------------|---------|
-| Agnostic                | &lt;$10k           | 27      |
-| Atheist                 | &lt;$10k           | 12      |
-| Buddhist                | &lt;$10k           | 27      |
-| Catholic                | &lt;$10k           | 418     |
-| Don’t know/refused      | &lt;$10k           | 15      |
-| Evangelical Prot        | &lt;$10k           | 575     |
-| Hindu                   | &lt;$10k           | 1       |
-| Historically Black Prot | &lt;$10k           | 228     |
-| Jehovah's Witness       | &lt;$10k           | 20      |
-| Jewish                  | &lt;$10k           | 19      |
-| Mainline Prot           | &lt;$10k           | 289     |
-| Mormon                  | &lt;$10k           | 29      |
-| Muslim                  | &lt;$10k           | 6       |
-| Orthodox                | &lt;$10k           | 13      |
-| Other Christian         | &lt;$10k           | 9       |
-| Other Faiths            | &lt;$10k           | 20      |
-| Other World Religions   | &lt;$10k           | 5       |
-| Unaffiliated            | &lt;$10k           | 217     |
-| Agnostic                | Don't know/refused | 96      |
-| Atheist                 | Don't know/refused | 76      |
-| Buddhist                | Don't know/refused | 54      |
-| Catholic                | Don't know/refused | 1489    |
-| Don’t know/refused      | Don't know/refused | 116     |
-| Evangelical Prot        | Don't know/refused | 1529    |
-| Hindu                   | Don't know/refused | 37      |
+| religion                | :*c**o**l**u**m**n*\|:value |      |
+|-------------------------|-----------------------------|------|
+| Agnostic                | &lt;$10k                    | 27   |
+| Atheist                 | &lt;$10k                    | 12   |
+| Buddhist                | &lt;$10k                    | 27   |
+| Catholic                | &lt;$10k                    | 418  |
+| Don’t know/refused      | &lt;$10k                    | 15   |
+| Evangelical Prot        | &lt;$10k                    | 575  |
+| Hindu                   | &lt;$10k                    | 1    |
+| Historically Black Prot | &lt;$10k                    | 228  |
+| Jehovah’s Witness       | &lt;$10k                    | 20   |
+| Jewish                  | &lt;$10k                    | 19   |
+| Mainline Prot           | &lt;$10k                    | 289  |
+| Mormon                  | &lt;$10k                    | 29   |
+| Muslim                  | &lt;$10k                    | 6    |
+| Orthodox                | &lt;$10k                    | 13   |
+| Other Christian         | &lt;$10k                    | 9    |
+| Other Faiths            | &lt;$10k                    | 20   |
+| Other World Religions   | &lt;$10k                    | 5    |
+| Unaffiliated            | &lt;$10k                    | 217  |
+| Agnostic                | Don’t know/refused          | 96   |
+| Atheist                 | Don’t know/refused          | 76   |
+| Buddhist                | Don’t know/refused          | 54   |
+| Catholic                | Don’t know/refused          | 1489 |
+| Don’t know/refused      | Don’t know/refused          | 116  |
+| Evangelical Prot        | Don’t know/refused          | 1529 |
+| Hindu                   | Don’t know/refused          | 37   |
 
 ------------------------------------------------------------------------
 
-Convert only columns starting with `"wk"` and pack them into `:week` column, values go to `:rank` column
+Convert only columns starting with `"wk"` and pack them into `:week`
+column, values go to `:rank` column
 
 ``` clojure
 (def bilboard (-> (api/dataset "data/billboard.csv.gz")
@@ -5375,33 +5562,33 @@ Convert only columns starting with `"wk"` and pack them into `:week` column, val
 
 data/billboard.csv.gz \[317 13\]:
 
-| artist               | track                   | date.entered | wk1 | wk2 | wk3 | wk4 | wk5 | wk6 | wk7 | wk8 | wk9 | wk10 |
-|----------------------|-------------------------|--------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|------|
-| 2 Pac                | Baby Don't Cry (Keep... | 2000-02-26   | 87  | 82  | 72  | 77  | 87  | 94  | 99  |     |     |      |
-| 2Ge+her              | The Hardest Part Of ... | 2000-09-02   | 91  | 87  | 92  |     |     |     |     |     |     |      |
-| 3 Doors Down         | Kryptonite              | 2000-04-08   | 81  | 70  | 68  | 67  | 66  | 57  | 54  | 53  | 51  | 51   |
-| 3 Doors Down         | Loser                   | 2000-10-21   | 76  | 76  | 72  | 69  | 67  | 65  | 55  | 59  | 62  | 61   |
-| 504 Boyz             | Wobble Wobble           | 2000-04-15   | 57  | 34  | 25  | 17  | 17  | 31  | 36  | 49  | 53  | 57   |
-| 98^0                 | Give Me Just One Nig... | 2000-08-19   | 51  | 39  | 34  | 26  | 26  | 19  | 2   | 2   | 3   | 6    |
-| A\*Teens             | Dancing Queen           | 2000-07-08   | 97  | 97  | 96  | 95  | 100 |     |     |     |     |      |
-| Aaliyah              | I Don't Wanna           | 2000-01-29   | 84  | 62  | 51  | 41  | 38  | 35  | 35  | 38  | 38  | 36   |
-| Aaliyah              | Try Again               | 2000-03-18   | 59  | 53  | 38  | 28  | 21  | 18  | 16  | 14  | 12  | 10   |
-| Adams, Yolanda       | Open My Heart           | 2000-08-26   | 76  | 76  | 74  | 69  | 68  | 67  | 61  | 58  | 57  | 59   |
-| Adkins, Trace        | More                    | 2000-04-29   | 84  | 84  | 75  | 73  | 73  | 69  | 68  | 65  | 73  | 83   |
-| Aguilera, Christina  | Come On Over Baby (A... | 2000-08-05   | 57  | 47  | 45  | 29  | 23  | 18  | 11  | 9   | 9   | 11   |
-| Aguilera, Christina  | I Turn To You           | 2000-04-15   | 50  | 39  | 30  | 28  | 21  | 19  | 20  | 17  | 17  | 17   |
-| Aguilera, Christina  | What A Girl Wants       | 1999-11-27   | 71  | 51  | 28  | 18  | 13  | 13  | 11  | 1   | 1   | 2    |
-| Alice Deejay         | Better Off Alone        | 2000-04-08   | 79  | 65  | 53  | 48  | 45  | 36  | 34  | 29  | 27  | 30   |
-| Allan, Gary          | Smoke Rings In The D... | 2000-01-22   | 80  | 78  | 76  | 77  | 92  |     |     |     |     |      |
-| Amber                | Sexual                  | 1999-07-17   | 99  | 99  | 96  | 96  | 100 | 93  | 93  | 96  |     |      |
-| Anastacia            | I'm Outta Love          | 2000-04-01   | 92  |     |     | 95  |     |     |     |     |     |      |
-| Anthony, Marc        | My Baby You             | 2000-09-16   | 82  | 76  | 76  | 70  | 82  | 81  | 74  | 80  | 76  | 76   |
-| Anthony, Marc        | You Sang To Me          | 2000-02-26   | 77  | 54  | 50  | 43  | 30  | 27  | 21  | 18  | 15  | 13   |
-| Avant                | My First Love           | 2000-11-04   | 70  | 62  | 56  | 43  | 39  | 33  | 26  | 26  | 26  | 31   |
-| Avant                | Separated               | 2000-04-29   | 62  | 32  | 30  | 23  | 26  | 30  | 35  | 32  | 32  | 25   |
-| BBMak                | Back Here               | 2000-04-29   | 99  | 86  | 60  | 52  | 38  | 34  | 28  | 21  | 18  | 18   |
-| Backstreet Boys, The | Shape Of My Heart       | 2000-10-14   | 39  | 25  | 24  | 15  | 12  | 12  | 10  | 9   | 10  | 12   |
-| Backstreet Boys, The | Show Me The Meaning ... | 2000-01-01   | 74  | 62  | 55  | 25  | 16  | 14  | 12  | 10  | 12  | 9    |
+| artist               | track                 | date.entered | wk1 | wk2 | wk3 | wk4 | wk5 | wk6 | wk7 | wk8 | wk9 | wk10 |
+|----------------------|-----------------------|--------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|------|
+| 2 Pac                | Baby Don’t Cry (Keep… | 2000-02-26   | 87  | 82  | 72  | 77  | 87  | 94  | 99  |     |     |      |
+| 2Ge+her              | The Hardest Part Of … | 2000-09-02   | 91  | 87  | 92  |     |     |     |     |     |     |      |
+| 3 Doors Down         | Kryptonite            | 2000-04-08   | 81  | 70  | 68  | 67  | 66  | 57  | 54  | 53  | 51  | 51   |
+| 3 Doors Down         | Loser                 | 2000-10-21   | 76  | 76  | 72  | 69  | 67  | 65  | 55  | 59  | 62  | 61   |
+| 504 Boyz             | Wobble Wobble         | 2000-04-15   | 57  | 34  | 25  | 17  | 17  | 31  | 36  | 49  | 53  | 57   |
+| 98^0                 | Give Me Just One Nig… | 2000-08-19   | 51  | 39  | 34  | 26  | 26  | 19  | 2   | 2   | 3   | 6    |
+| A\*Teens             | Dancing Queen         | 2000-07-08   | 97  | 97  | 96  | 95  | 100 |     |     |     |     |      |
+| Aaliyah              | I Don’t Wanna         | 2000-01-29   | 84  | 62  | 51  | 41  | 38  | 35  | 35  | 38  | 38  | 36   |
+| Aaliyah              | Try Again             | 2000-03-18   | 59  | 53  | 38  | 28  | 21  | 18  | 16  | 14  | 12  | 10   |
+| Adams, Yolanda       | Open My Heart         | 2000-08-26   | 76  | 76  | 74  | 69  | 68  | 67  | 61  | 58  | 57  | 59   |
+| Adkins, Trace        | More                  | 2000-04-29   | 84  | 84  | 75  | 73  | 73  | 69  | 68  | 65  | 73  | 83   |
+| Aguilera, Christina  | Come On Over Baby (A… | 2000-08-05   | 57  | 47  | 45  | 29  | 23  | 18  | 11  | 9   | 9   | 11   |
+| Aguilera, Christina  | I Turn To You         | 2000-04-15   | 50  | 39  | 30  | 28  | 21  | 19  | 20  | 17  | 17  | 17   |
+| Aguilera, Christina  | What A Girl Wants     | 1999-11-27   | 71  | 51  | 28  | 18  | 13  | 13  | 11  | 1   | 1   | 2    |
+| Alice Deejay         | Better Off Alone      | 2000-04-08   | 79  | 65  | 53  | 48  | 45  | 36  | 34  | 29  | 27  | 30   |
+| Allan, Gary          | Smoke Rings In The D… | 2000-01-22   | 80  | 78  | 76  | 77  | 92  |     |     |     |     |      |
+| Amber                | Sexual                | 1999-07-17   | 99  | 99  | 96  | 96  | 100 | 93  | 93  | 96  |     |      |
+| Anastacia            | I’m Outta Love        | 2000-04-01   | 92  |     |     | 95  |     |     |     |     |     |      |
+| Anthony, Marc        | My Baby You           | 2000-09-16   | 82  | 76  | 76  | 70  | 82  | 81  | 74  | 80  | 76  | 76   |
+| Anthony, Marc        | You Sang To Me        | 2000-02-26   | 77  | 54  | 50  | 43  | 30  | 27  | 21  | 18  | 15  | 13   |
+| Avant                | My First Love         | 2000-11-04   | 70  | 62  | 56  | 43  | 39  | 33  | 26  | 26  | 26  | 31   |
+| Avant                | Separated             | 2000-04-29   | 62  | 32  | 30  | 23  | 26  | 30  | 35  | 32  | 32  | 25   |
+| BBMak                | Back Here             | 2000-04-29   | 99  | 86  | 60  | 52  | 38  | 34  | 28  | 21  | 18  | 18   |
+| Backstreet Boys, The | Shape Of My Heart     | 2000-10-14   | 39  | 25  | 24  | 15  | 12  | 12  | 10  | 9   | 10  | 12   |
+| Backstreet Boys, The | Show Me The Meaning … | 2000-01-01   | 74  | 62  | 55  | 25  | 16  | 14  | 12  | 10  | 12  | 9    |
 
 ``` clojure
 (api/pivot->longer bilboard #(clojure.string/starts-with? % "wk") {:target-columns :week
@@ -5410,33 +5597,33 @@ data/billboard.csv.gz \[317 13\]:
 
 data/billboard.csv.gz \[5307 5\]:
 
-| artist              | track                   | date.entered | :week | :rank |
-|---------------------|-------------------------|--------------|-------|-------|
-| 3 Doors Down        | Kryptonite              | 2000-04-08   | wk35  | 4     |
-| Braxton, Toni       | He Wasn't Man Enough    | 2000-03-18   | wk35  | 34    |
-| Creed               | Higher                  | 1999-09-11   | wk35  | 22    |
-| Creed               | With Arms Wide Open     | 2000-05-13   | wk35  | 5     |
-| Hill, Faith         | Breathe                 | 1999-11-06   | wk35  | 8     |
-| Joe                 | I Wanna Know            | 2000-01-01   | wk35  | 5     |
-| Lonestar            | Amazed                  | 1999-06-05   | wk35  | 14    |
-| Vertical Horizon    | Everything You Want     | 2000-01-22   | wk35  | 27    |
-| matchbox twenty     | Bent                    | 2000-04-29   | wk35  | 33    |
-| Creed               | Higher                  | 1999-09-11   | wk55  | 21    |
-| Lonestar            | Amazed                  | 1999-06-05   | wk55  | 22    |
-| 3 Doors Down        | Kryptonite              | 2000-04-08   | wk19  | 18    |
-| 3 Doors Down        | Loser                   | 2000-10-21   | wk19  | 73    |
-| 98^0                | Give Me Just One Nig... | 2000-08-19   | wk19  | 93    |
-| Aaliyah             | I Don't Wanna           | 2000-01-29   | wk19  | 83    |
-| Aaliyah             | Try Again               | 2000-03-18   | wk19  | 3     |
-| Adams, Yolanda      | Open My Heart           | 2000-08-26   | wk19  | 79    |
-| Aguilera, Christina | Come On Over Baby (A... | 2000-08-05   | wk19  | 23    |
-| Aguilera, Christina | I Turn To You           | 2000-04-15   | wk19  | 29    |
-| Aguilera, Christina | What A Girl Wants       | 1999-11-27   | wk19  | 18    |
-| Alice Deejay        | Better Off Alone        | 2000-04-08   | wk19  | 79    |
-| Amber               | Sexual                  | 1999-07-17   | wk19  | 95    |
-| Anthony, Marc       | My Baby You             | 2000-09-16   | wk19  | 91    |
-| Anthony, Marc       | You Sang To Me          | 2000-02-26   | wk19  | 9     |
-| Avant               | My First Love           | 2000-11-04   | wk19  | 81    |
+| artist              | track                 | date.entered | :week | :rank |
+|---------------------|-----------------------|--------------|-------|-------|
+| 3 Doors Down        | Kryptonite            | 2000-04-08   | wk35  | 4     |
+| Braxton, Toni       | He Wasn’t Man Enough  | 2000-03-18   | wk35  | 34    |
+| Creed               | Higher                | 1999-09-11   | wk35  | 22    |
+| Creed               | With Arms Wide Open   | 2000-05-13   | wk35  | 5     |
+| Hill, Faith         | Breathe               | 1999-11-06   | wk35  | 8     |
+| Joe                 | I Wanna Know          | 2000-01-01   | wk35  | 5     |
+| Lonestar            | Amazed                | 1999-06-05   | wk35  | 14    |
+| Vertical Horizon    | Everything You Want   | 2000-01-22   | wk35  | 27    |
+| matchbox twenty     | Bent                  | 2000-04-29   | wk35  | 33    |
+| Creed               | Higher                | 1999-09-11   | wk55  | 21    |
+| Lonestar            | Amazed                | 1999-06-05   | wk55  | 22    |
+| 3 Doors Down        | Kryptonite            | 2000-04-08   | wk19  | 18    |
+| 3 Doors Down        | Loser                 | 2000-10-21   | wk19  | 73    |
+| 98^0                | Give Me Just One Nig… | 2000-08-19   | wk19  | 93    |
+| Aaliyah             | I Don’t Wanna         | 2000-01-29   | wk19  | 83    |
+| Aaliyah             | Try Again             | 2000-03-18   | wk19  | 3     |
+| Adams, Yolanda      | Open My Heart         | 2000-08-26   | wk19  | 79    |
+| Aguilera, Christina | Come On Over Baby (A… | 2000-08-05   | wk19  | 23    |
+| Aguilera, Christina | I Turn To You         | 2000-04-15   | wk19  | 29    |
+| Aguilera, Christina | What A Girl Wants     | 1999-11-27   | wk19  | 18    |
+| Alice Deejay        | Better Off Alone      | 2000-04-08   | wk19  | 79    |
+| Amber               | Sexual                | 1999-07-17   | wk19  | 95    |
+| Anthony, Marc       | My Baby You           | 2000-09-16   | wk19  | 91    |
+| Anthony, Marc       | You Sang To Me        | 2000-02-26   | wk19  | 9     |
+| Avant               | My First Love         | 2000-11-04   | wk19  | 81    |
 
 ------------------------------------------------------------------------
 
@@ -5451,37 +5638,38 @@ We can create numerical column out of column names
 
 data/billboard.csv.gz \[5307 5\]:
 
-| artist              | track                   | date.entered | :week | :rank |
-|---------------------|-------------------------|--------------|-------|-------|
-| 3 Doors Down        | Kryptonite              | 2000-04-08   | 46    | 21    |
-| Creed               | Higher                  | 1999-09-11   | 46    | 7     |
-| Creed               | With Arms Wide Open     | 2000-05-13   | 46    | 37    |
-| Hill, Faith         | Breathe                 | 1999-11-06   | 46    | 31    |
-| Lonestar            | Amazed                  | 1999-06-05   | 46    | 5     |
-| 3 Doors Down        | Kryptonite              | 2000-04-08   | 51    | 42    |
-| Creed               | Higher                  | 1999-09-11   | 51    | 14    |
-| Hill, Faith         | Breathe                 | 1999-11-06   | 51    | 49    |
-| Lonestar            | Amazed                  | 1999-06-05   | 51    | 12    |
-| 2 Pac               | Baby Don't Cry (Keep... | 2000-02-26   | 6     | 94    |
-| 3 Doors Down        | Kryptonite              | 2000-04-08   | 6     | 57    |
-| 3 Doors Down        | Loser                   | 2000-10-21   | 6     | 65    |
-| 504 Boyz            | Wobble Wobble           | 2000-04-15   | 6     | 31    |
-| 98^0                | Give Me Just One Nig... | 2000-08-19   | 6     | 19    |
-| Aaliyah             | I Don't Wanna           | 2000-01-29   | 6     | 35    |
-| Aaliyah             | Try Again               | 2000-03-18   | 6     | 18    |
-| Adams, Yolanda      | Open My Heart           | 2000-08-26   | 6     | 67    |
-| Adkins, Trace       | More                    | 2000-04-29   | 6     | 69    |
-| Aguilera, Christina | Come On Over Baby (A... | 2000-08-05   | 6     | 18    |
-| Aguilera, Christina | I Turn To You           | 2000-04-15   | 6     | 19    |
-| Aguilera, Christina | What A Girl Wants       | 1999-11-27   | 6     | 13    |
-| Alice Deejay        | Better Off Alone        | 2000-04-08   | 6     | 36    |
-| Amber               | Sexual                  | 1999-07-17   | 6     | 93    |
-| Anthony, Marc       | My Baby You             | 2000-09-16   | 6     | 81    |
-| Anthony, Marc       | You Sang To Me          | 2000-02-26   | 6     | 27    |
+| artist              | track                 | date.entered | :week | :rank |
+|---------------------|-----------------------|--------------|-------|-------|
+| 3 Doors Down        | Kryptonite            | 2000-04-08   | 46    | 21    |
+| Creed               | Higher                | 1999-09-11   | 46    | 7     |
+| Creed               | With Arms Wide Open   | 2000-05-13   | 46    | 37    |
+| Hill, Faith         | Breathe               | 1999-11-06   | 46    | 31    |
+| Lonestar            | Amazed                | 1999-06-05   | 46    | 5     |
+| 3 Doors Down        | Kryptonite            | 2000-04-08   | 51    | 42    |
+| Creed               | Higher                | 1999-09-11   | 51    | 14    |
+| Hill, Faith         | Breathe               | 1999-11-06   | 51    | 49    |
+| Lonestar            | Amazed                | 1999-06-05   | 51    | 12    |
+| 2 Pac               | Baby Don’t Cry (Keep… | 2000-02-26   | 6     | 94    |
+| 3 Doors Down        | Kryptonite            | 2000-04-08   | 6     | 57    |
+| 3 Doors Down        | Loser                 | 2000-10-21   | 6     | 65    |
+| 504 Boyz            | Wobble Wobble         | 2000-04-15   | 6     | 31    |
+| 98^0                | Give Me Just One Nig… | 2000-08-19   | 6     | 19    |
+| Aaliyah             | I Don’t Wanna         | 2000-01-29   | 6     | 35    |
+| Aaliyah             | Try Again             | 2000-03-18   | 6     | 18    |
+| Adams, Yolanda      | Open My Heart         | 2000-08-26   | 6     | 67    |
+| Adkins, Trace       | More                  | 2000-04-29   | 6     | 69    |
+| Aguilera, Christina | Come On Over Baby (A… | 2000-08-05   | 6     | 18    |
+| Aguilera, Christina | I Turn To You         | 2000-04-15   | 6     | 19    |
+| Aguilera, Christina | What A Girl Wants     | 1999-11-27   | 6     | 13    |
+| Alice Deejay        | Better Off Alone      | 2000-04-08   | 6     | 36    |
+| Amber               | Sexual                | 1999-07-17   | 6     | 93    |
+| Anthony, Marc       | My Baby You           | 2000-09-16   | 6     | 81    |
+| Anthony, Marc       | You Sang To Me        | 2000-02-26   | 6     | 27    |
 
 ------------------------------------------------------------------------
 
-When column names contain observation data, such column names can be splitted and data can be restored into separate columns.
+When column names contain observation data, such column names can be
+splitted and data can be restored into separate columns.
 
 ``` clojure
 (def who (api/dataset "data/who.csv.gz"))
@@ -5498,16 +5686,16 @@ data/who.csv.gz \[7240 10\]:
 
 <table style="width:100%;">
 <colgroup>
-<col width="11%" />
-<col width="5%" />
-<col width="5%" />
-<col width="5%" />
-<col width="11%" />
-<col width="12%" />
-<col width="12%" />
-<col width="12%" />
-<col width="12%" />
-<col width="12%" />
+<col style="width: 11%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -5865,7 +6053,11 @@ data/who.csv.gz \[76046 8\]:
 
 ------------------------------------------------------------------------
 
-When data contains multiple observations per row, we can use splitter and pattern for target columns to create new columns and put values there. In following dataset we have two obseravations `dob` and `gender` for two childs. We want to put child infomation into the column and leave dob and gender for values.
+When data contains multiple observations per row, we can use splitter
+and pattern for target columns to create new columns and put values
+there. In following dataset we have two obseravations `dob` and `gender`
+for two childs. We want to put child infomation into the column and
+leave dob and gender for values.
 
 ``` clojure
 (def family (api/dataset "data/family.csv"))
@@ -5988,10 +6180,10 @@ pnl
 
 | :x  | :a  | :b  | :y1        | :y2        | :z1 | :z2 |
 |-----|-----|-----|------------|------------|-----|-----|
-| 1   | 1   | 0   | 0.46128368 | 0.75303248 | 3   | -2  |
-| 2   | 1   | 1   | 0.10068881 | 0.61701881 | 3   | -2  |
-| 3   | 0   | 1   | 0.61062333 | 0.37413861 | 3   | -2  |
-| 4   | 0   | 1   | 0.83496423 | 0.93306543 | 3   | -2  |
+| 1   | 1   | 0   | 0.22208178 | 0.58734746 | 3   | -2  |
+| 2   | 1   | 1   | 0.22793789 | 0.41074027 | 3   | -2  |
+| 3   | 0   | 1   | 0.51882433 | 0.37600116 | 3   | -2  |
+| 4   | 0   | 1   | 0.47240644 | 0.49970331 | 3   | -2  |
 
 ``` clojure
 (api/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
@@ -6002,14 +6194,14 @@ pnl
 
 | :x  | :a  | :b  | :times | y          | z   |
 |-----|-----|-----|--------|------------|-----|
-| 1   | 1   | 0   | 1      | 0.46128368 | 3   |
-| 2   | 1   | 1   | 1      | 0.10068881 | 3   |
-| 3   | 0   | 1   | 1      | 0.61062333 | 3   |
-| 4   | 0   | 1   | 1      | 0.83496423 | 3   |
-| 1   | 1   | 0   | 2      | 0.75303248 | -2  |
-| 2   | 1   | 1   | 2      | 0.61701881 | -2  |
-| 3   | 0   | 1   | 2      | 0.37413861 | -2  |
-| 4   | 0   | 1   | 2      | 0.93306543 | -2  |
+| 1   | 1   | 0   | 1      | 0.22208178 | 3   |
+| 2   | 1   | 1   | 1      | 0.22793789 | 3   |
+| 3   | 0   | 1   | 1      | 0.51882433 | 3   |
+| 4   | 0   | 1   | 1      | 0.47240644 | 3   |
+| 1   | 1   | 0   | 2      | 0.58734746 | -2  |
+| 2   | 1   | 1   | 2      | 0.41074027 | -2  |
+| 3   | 0   | 1   | 2      | 0.37600116 | -2  |
+| 4   | 0   | 1   | 2      | 0.49970331 | -2  |
 
 #### Wider
 
@@ -6018,14 +6210,22 @@ pnl
 Arguments:
 
 -   dataset
--   `columns-selector` - values from selected columns are converted to new columns
+-   `columns-selector` - values from selected columns are converted to
+    new columns
 -   `value-columns` - what are values
 
-When multiple columns are used as columns selector, names are joined using `:concat-columns-with` option. `:concat-columns-with` can be a string or function (default: "\_"). Function accepts sequence of names.
+When multiple columns are used as columns selector, names are joined
+using `:concat-columns-with` option. `:concat-columns-with` can be a
+string or function (default: "\_"). Function accepts sequence of names.
 
-When `columns-selector` creates non unique set of values, they are folded using `:fold-fn` (default: `vec`) option.
+When `columns-selector` creates non unique set of values, they are
+folded using `:fold-fn` (default: `vec`) option.
 
-When `value-columns` is a sequence, multiple observations as columns are created appending value column names into new columns. Column names are joined using `:concat-value-with` option. `:concat-value-with` can be a string or function (default: "-"). Function accepts current column name and value.
+When `value-columns` is a sequence, multiple observations as columns are
+created appending value column names into new columns. Column names are
+joined using `:concat-value-with` option. `:concat-value-with` can be a
+string or function (default: “-”). Function accepts current column name
+and value.
 
 ------------------------------------------------------------------------
 
@@ -6099,7 +6299,8 @@ data/fish\_encounters.csv \[19 12\]:
 
 ------------------------------------------------------------------------
 
-If selected columns contain multiple values, such values should be folded.
+If selected columns contain multiple values, such values should be
+folded.
 
 ``` clojure
 (def warpbreaks (api/dataset "data/warpbreaks.csv"))
@@ -6139,7 +6340,8 @@ data/warpbreaks.csv \[54 3\]:
 | 43     | A    | H       |
 | 28     | A    | H       |
 
-Let's see how many values are for each type of `wool` and `tension` groups
+Let’s see how many values are for each type of `wool` and `tension`
+groups
 
 ``` clojure
 (-> warpbreaks
@@ -6182,11 +6384,11 @@ We can also calculate mean (aggreate values)
 
 data/warpbreaks.csv \[3 3\]:
 
-| tension | B     | A           |
-|---------|-------|-------------|
-| H       | 18.78 | 24.55555556 |
-| M       | 28.78 | 24.00000000 |
-| L       | 28.22 | 44.55555556 |
+| tension | B           | A           |
+|---------|-------------|-------------|
+| H       | 18.77777778 | 24.55555556 |
+| M       | 28.77777778 | 24.00000000 |
+| L       | 28.22222222 | 44.55555556 |
 
 ------------------------------------------------------------------------
 
@@ -6262,7 +6464,7 @@ Joined with custom function
 
 data/production.csv \[15 4\]:
 
-| year | \["A" "AI"\] | \["B" "EI"\] | \["B" "AI"\] |
+| year | \[“A” “AI”\] | \[“B” “EI”\] | \[“B” “AI”\] |
 |------|--------------|--------------|--------------|
 | 2000 | 1.63727158   | 1.40470848   | -0.02617661  |
 | 2001 | 0.15870784   | -0.59618369  | -0.68863576  |
@@ -6368,21 +6570,21 @@ data/us\_rent\_income.csv \[52 6\]:
 
 <table>
 <colgroup>
-<col width="7%" />
-<col width="20%" />
-<col width="19%" />
-<col width="15%" />
-<col width="21%" />
-<col width="16%" />
+<col style="width: 6%" />
+<col style="width: 20%" />
+<col style="width: 19%" />
+<col style="width: 14%" />
+<col style="width: 21%" />
+<col style="width: 16%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>GEOID</th>
 <th>NAME</th>
-<th>[&quot;rent&quot; &quot;estimate&quot;]</th>
-<th>[&quot;rent&quot; &quot;moe&quot;]</th>
-<th>[&quot;income&quot; &quot;estimate&quot;]</th>
-<th>[&quot;income&quot; &quot;moe&quot;]</th>
+<th>[“rent” “estimate”]</th>
+<th>[“rent” “moe”]</th>
+<th>[“income” “estimate”]</th>
+<th>[“income” “moe”]</th>
 </tr>
 </thead>
 <tbody>
@@ -6603,14 +6805,14 @@ contacts
 
 data/contacts.csv \[6 3\]:
 
-| field   | value             | person\_id |
-|---------|-------------------|------------|
-| name    | Jiena McLellan    | 1          |
-| company | Toyota            | 1          |
-| name    | John Smith        | 2          |
-| company | google            | 2          |
-| email   | <john@google.com> | 2          |
-| name    | Huxley Ratcliffe  | 3          |
+| field   | value                                                              | person\_id |
+|---------|--------------------------------------------------------------------|------------|
+| name    | Jiena McLellan                                                     | 1          |
+| company | Toyota                                                             | 1          |
+| name    | John Smith                                                         | 2          |
+| company | google                                                             | 2          |
+| email   | <a href="mailto:john@google.com" class="email">john@google.com</a> | 2          |
+| name    | Huxley Ratcliffe                                                   | 3          |
 
 ``` clojure
 (api/pivot->wider contacts "field" "value" {:drop-missing? false})
@@ -6618,11 +6820,11 @@ data/contacts.csv \[6 3\]:
 
 data/contacts.csv \[3 4\]:
 
-| person\_id | email             | name             | company |
-|------------|-------------------|------------------|---------|
-| 1          |                   | Jiena McLellan   | Toyota  |
-| 2          | <john@google.com> | John Smith       | google  |
-| 3          |                   | Huxley Ratcliffe |         |
+| person\_id | email                                                              | name             | company |
+|------------|--------------------------------------------------------------------|------------------|---------|
+| 1          |                                                                    | Jiena McLellan   | Toyota  |
+| 2          | <a href="mailto:john@google.com" class="email">john@google.com</a> | John Smith       | google  |
+| 3          |                                                                    | Huxley Ratcliffe |         |
 
 #### Reshaping
 
@@ -6647,14 +6849,14 @@ data/world\_bank\_pop.csv.gz \[1056 8\]:
 
 <table style="width:100%;">
 <colgroup>
-<col width="7%" />
-<col width="10%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
+<col style="width: 7%" />
+<col style="width: 10%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -7068,7 +7270,8 @@ multi
 | 3   | D        |          |          |
 | 4   | B        | D        |          |
 
-Step 1 - convert all choices into rows and add artificial column to all values which are not missing.
+Step 1 - convert all choices into rows and add artificial column to all
+values which are not missing.
 
 ``` clojure
 (def multi2 (-> multi
@@ -7082,16 +7285,16 @@ multi2
 
 \_unnamed \[8 4\]:
 
-| :id | :$column | :$value | :checked |
-|-----|----------|---------|----------|
-| 1   | :choice1 | A       | true     |
-| 2   | :choice1 | C       | true     |
-| 3   | :choice1 | D       | true     |
-| 4   | :choice1 | B       | true     |
-| 1   | :choice2 | B       | true     |
-| 2   | :choice2 | B       | true     |
-| 4   | :choice2 | D       | true     |
-| 1   | :choice3 | C       | true     |
+| :id | :*c**o**l**u**m**n*\|:value | :checked |      |
+|-----|-----------------------------|----------|------|
+| 1   | :choice1                    | A        | true |
+| 2   | :choice1                    | C        | true |
+| 3   | :choice1                    | D        | true |
+| 4   | :choice1                    | B        | true |
+| 1   | :choice2                    | B        | true |
+| 2   | :choice2                    | B        | true |
+| 4   | :choice2                    | D        | true |
+| 1   | :choice3                    | C        | true |
 
 Step 2 - Convert back to wide form with actual choices as columns
 
@@ -7217,7 +7420,9 @@ data/construction.csv \[9 9\]:
 
 ------------------------------------------------------------------------
 
-Various operations on stocks, examples taken from [gather](https://tidyr.tidyverse.org/reference/gather.html) and [spread](https://tidyr.tidyverse.org/reference/spread.html) manuals.
+Various operations on stocks, examples taken from
+[gather](https://tidyr.tidyverse.org/reference/gather.html) and
+[spread](https://tidyr.tidyverse.org/reference/spread.html) manuals.
 
 ``` clojure
 (def stocks-tidyr (api/dataset "data/stockstidyr.csv"))
@@ -7304,7 +7509,8 @@ data/stockstidyr.csv \[10 4\]:
 | 2009-01-09 | -6.80878830 | 0.40257136  | 1.96407898  |
 | 2009-01-10 | -2.55909321 | -0.64383500 | 2.68618382  |
 
-Convert to wide form on time column (let's limit values to a couple of rows)
+Convert to wide form on time column (let’s limit values to a couple of
+rows)
 
 ``` clojure
 (-> stocks-long
@@ -7324,19 +7530,23 @@ data/stockstidyr.csv \[3 6\]:
 
 Dataset join and concatenation functions.
 
-Joins accept left-side and right-side datasets and columns selector. Options are the same as in `tech.ml.dataset` functions.
+Joins accept left-side and right-side datasets and columns selector.
+Options are the same as in `tech.ml.dataset` functions.
 
-The difference between `tech.ml.dataset` join functions are: arguments order (first datasets) and possibility to join on multiple columns.
+The difference between `tech.ml.dataset` join functions are: arguments
+order (first datasets) and possibility to join on multiple columns.
 
 Additionally set operations are defined: `intersect` and `difference`.
 
 To concat two datasets rowwise you can choose:
 
--   `concat` - concats rows for matching columns, the number of columns should be equal.
+-   `concat` - concats rows for matching columns, the number of columns
+    should be equal.
 -   `union` - like concat but returns unique values
 -   `bind` - concats rows add missing, empty columns
 
-To add two datasets columnwise use `bind`. The number of rows should be equal.
+To add two datasets columnwise use `bind`. The number of rows should be
+equal.
 
 Datasets used in examples:
 
@@ -7962,31 +8172,31 @@ null \[27 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 1   | 9   | 1.5 | C   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
-| 2   | 2   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 6   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 4   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
 
 #### Union
 
@@ -8029,15 +8239,15 @@ union \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 2   | 8   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
 | 2   | 6   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
 | 1   | 3   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
 
 #### Bind
 
@@ -8170,7 +8380,8 @@ difference \[1 1\]:
 Functions
 ---------
 
-This API doesn't provide any statistical, numerical or date/time functions. Use below namespaces:
+This API doesn’t provide any statistical, numerical or date/time
+functions. Use below namespaces:
 
 | Namespace                              | functions                                 |
 |----------------------------------------|-------------------------------------------|
@@ -8192,7 +8403,8 @@ Other examples
 stocks
 ```
 
-<https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv> \[560 3\]:
+<a href="https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv" class="uri">https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv</a>
+\[560 3\]:
 
 | :symbol | :date      | :price |
 |---------|------------|--------|
@@ -8301,9 +8513,12 @@ stocks
 
 ### data.table
 
-Below you can find comparizon between functionality of `data.table` and Clojure dataset API. I leave it without comments, please refer original document explaining details:
+Below you can find comparizon between functionality of `data.table` and
+Clojure dataset API. I leave it without comments, please refer original
+document explaining details:
 
-[Introduction to `data.table`](https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html)
+[Introduction to
+`data.table`](https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html)
 
 R
 
@@ -8340,7 +8555,8 @@ Clojure
 (api/head flights 6)
 ```
 
-<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv> \[6 11\]:
+<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+\[6 11\]:
 
 | year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
 |------|-------|-----|------------|------------|---------|--------|------|-----------|----------|------|
@@ -8464,7 +8680,8 @@ Clojure
     (api/head 6))
 ```
 
-<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv> \[6 11\]:
+<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+\[6 11\]:
 
 | year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
 |------|-------|-----|------------|------------|---------|--------|------|-----------|----------|------|
@@ -8497,7 +8714,8 @@ Clojure
 (api/select-rows flights (range 2))
 ```
 
-<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv> \[2 11\]:
+<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+\[2 11\]:
 
 | year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
 |------|-------|-----|------------|------------|---------|--------|------|-----------|----------|------|
@@ -8532,7 +8750,8 @@ Clojure
     (api/head 6))
 ```
 
-<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv> \[6 11\]:
+<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+\[6 11\]:
 
 | year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
 |------|-------|-----|------------|------------|---------|--------|------|-----------|----------|------|
@@ -8592,7 +8811,8 @@ Clojure
     (api/head 6))
 ```
 
-<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv> \[6 1\]:
+<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+\[6 1\]:
 
 | arr\_delay |
 |------------|
@@ -8631,7 +8851,8 @@ Clojure
     (api/head 6))
 ```
 
-<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv> \[6 2\]:
+<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+\[6 2\]:
 
 | dep\_delay | arr\_delay |
 |------------|------------|
@@ -8671,7 +8892,8 @@ Clojure
     (api/head 6))
 ```
 
-<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv> \[6 2\]:
+<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+\[6 2\]:
 
 | delay\_arr | delay\_arr |
 |------------|------------|
@@ -8824,7 +9046,8 @@ Clojure
     (api/head 6))
 ```
 
-<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv> \[6 9\]:
+<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+\[6 9\]:
 
 | year | month | day | carrier | origin | dest | air\_time | distance | hour |
 |------|-------|-----|---------|--------|------|-----------|----------|------|
@@ -8870,7 +9093,7 @@ Clojure
 | EWR    | 87400 |
 | JFK    | 81483 |
 
-##### How can we calculate the number of trips for each origin airport for carrier code "AA"?
+##### How can we calculate the number of trips for each origin airport for carrier code “AA”?
 
 R
 
@@ -8904,7 +9127,7 @@ Clojure
 | EWR    | 2649  |
 | JFK    | 11923 |
 
-##### How can we get the total number of trips for each `origin`, `dest` pair for carrier code "AA"?
+##### How can we get the total number of trips for each `origin`, `dest` pair for carrier code “AA”?
 
 R
 
@@ -8945,7 +9168,7 @@ Clojure
 | JFK    | AUS  | 297  |
 | JFK    | STT  | 229  |
 
-##### How can we get the average arrival and departure delay for each `orig`,`dest` pair for each month for carrier code "AA"?
+##### How can we get the average arrival and departure delay for each `orig`,`dest` pair for each month for carrier code “AA”?
 
 R
 
@@ -9151,14 +9374,14 @@ DT
 | a   | 5   | 11  | 17  |
 | c   | 6   | 12  | 18  |
 
-{"a" Group: a \[2 4\]:
+{“a” Group: a \[2 4\]:
 
 | :ID | :a  | :b  | :c  |
 |-----|-----|-----|-----|
 | a   | 4   | 10  | 16  |
 | a   | 5   | 11  | 17  |
 
-, "b" Group: b \[3 4\]:
+, “b” Group: b \[3 4\]:
 
 | :ID | :a  | :b  | :c  |
 |-----|-----|-----|-----|
@@ -9166,7 +9389,7 @@ DT
 | b   | 2   | 8   | 14  |
 | b   | 3   | 9   | 15  |
 
-, "c" Group: c \[1 4\]:
+, “c” Group: c \[1 4\]:
 
 | :ID | :a  | :b  | :c  |
 |-----|-----|-----|-----|
@@ -9330,11 +9553,11 @@ R
 kable(DT[, .(val = list(c(a,b))), by = ID])
 ```
 
-| ID  | val                 |
-|:----|:--------------------|
-| b   | c(1, 2, 3, 7, 8, 9) |
-| a   | c(4, 5, 10, 11)     |
-| c   | c(6, 12)            |
+| ID  | val              |
+|:----|:-----------------|
+| b   | 1, 2, 3, 7, 8, 9 |
+| a   | 4, 5, 10, 11     |
+| c   | 6, 12            |
 
 ------------------------------------------------------------------------
 
@@ -9357,9 +9580,12 @@ Clojure
 
 ### API tour
 
-Below snippets are taken from [A data.table and dplyr tour](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/) written by Atrebas (permission granted).
+Below snippets are taken from [A data.table and dplyr
+tour](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/)
+written by Atrebas (permission granted).
 
-I keep structure and subtitles but I skip `data.table` and `dplyr` examples.
+I keep structure and subtitles but I skip `data.table` and `dplyr`
+examples.
 
 Example data
 
@@ -9551,9 +9777,9 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 2   | 2   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
 
 ``` clojure
 (api/random DS (/ (api/row-count DS) 2)) ;; fraction of random rows
@@ -9563,11 +9789,11 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 |-----|-----|-----|-----|
-| 1   | 7   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
 | 2   | 4   | 0.5 | A   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 6   | 1.5 | C   |
 
 ``` clojure
 (api/by-rank DS :V1 zero?) ;; take top n entries
@@ -10409,14 +10635,14 @@ By several groups
 
 \_unnamed \[6 3\]:
 
-| :V4 | :V1   | :sumV2 |
-|-----|-------|--------|
-| A   | 4.000 | 4.0    |
-| A   | 1.000 | 7.0    |
-| B   | 1.000 | 5.0    |
-| B   | 4.000 | 8.0    |
-| C   | 4.000 | 6.0    |
-| C   | 1.000 | 9.0    |
+| :V4 | :V1 | :sumV2 |
+|-----|-----|--------|
+| A   | 4.0 | 4.0    |
+| A   | 1.0 | 7.0    |
+| B   | 1.0 | 5.0    |
+| B   | 4.0 | 8.0    |
+| C   | 4.0 | 6.0    |
+| C   | 1.0 | 9.0    |
 
 ------------------------------------------------------------------------
 
@@ -10882,15 +11108,15 @@ Use multiple expressions
 
 <table style="width:100%;">
 <colgroup>
-<col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="11%" />
-<col width="6%" />
-<col width="11%" />
-<col width="6%" />
-<col width="20%" />
-<col width="11%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 9%" />
+<col style="width: 11%" />
+<col style="width: 5%" />
+<col style="width: 11%" />
+<col style="width: 5%" />
+<col style="width: 20%" />
+<col style="width: 11%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -10942,7 +11168,7 @@ Expression chaining using &gt;
 (-> DS
     (api/group-by [:V4])
     (api/aggregate {:V1sum #(dfn/sum (% :V1))})
-    (api/select-rows #(> (:V1sum %) 5) ))
+    (api/select-rows #(>= (:V1sum %) 5)))
 ```
 
 \_unnamed \[3 2\]:
@@ -11212,7 +11438,8 @@ Subset using multiple keys/indices
 
 Replace values
 
-There is no mutating operations `tech.ml.dataset` or easy way to set value.
+There is no mutating operations `tech.ml.dataset` or easy way to set
+value.
 
 ``` clojure
 (def DS (api/update-columns DS :V2 #(map-indexed (fn [idx v]
@@ -11769,7 +11996,7 @@ Split
 (api/group-by DS :V4 {:result-type :as-map})
 ```
 
-{"A" Group: A \[3 3\]:
+{“A” Group: A \[3 3\]:
 
 | :V4 | :V1 | :V2 |
 |-----|-----|-----|
@@ -11777,7 +12004,7 @@ Split
 | A   | 0   | 4   |
 | A   | 0   | 7   |
 
-, "B" Group: B \[3 3\]:
+, “B” Group: B \[3 3\]:
 
 | :V4 | :V1 | :V2 |
 |-----|-----|-----|
@@ -11785,7 +12012,7 @@ Split
 | B   | 4   | 8   |
 | B   | 1   | 5   |
 
-, "C" Group: C \[3 3\]:
+, “C” Group: C \[3 3\]:
 
 | :V4 | :V1 | :V2 |
 |-----|-----|-----|
@@ -12038,10 +12265,10 @@ Adds a list column with rows from y matching x (nest-join)
 
 | XY  | X1  | Id  | Y1      | right.XY      |
 |-----|-----|-----|---------|---------------|
-| x4  | 3   | B   | \[3 5\] | \["y3" "y5"\] |
+| x4  | 3   | B   | \[3 5\] | \[“y3” “y5”\] |
 | x6  | 5   | C   | \[\]    | \[\]          |
 | x8  | 7   | C   | \[\]    | \[\]          |
-| x2  | 1   | A   | \[1\]   | \["y1"\]      |
+| x2  | 1   | A   | \[1\]   | \[“y1”\]      |
 
 ------------------------------------------------------------------------
 

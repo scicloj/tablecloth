@@ -81,12 +81,12 @@
 (defn unique-by
   ([ds] (unique-by ds (ds/column-names ds)))
   ([ds columns-selector] (unique-by ds columns-selector nil))
-  ([ds columns-selector {:keys [strategy select-keys]
+  ([ds columns-selector {:keys [strategy select-keys parallel?]
                          :or {strategy :first}
                          :as options}]
    (let [selected-keys (column-names ds select-keys)
          ufn (unique-by-fn strategy columns-selector selected-keys options)]
 
      (if (grouped? ds)
-       (process-group-data ds #(maybe-skip-unique % ufn))
+       (process-group-data ds #(maybe-skip-unique % ufn) parallel?)
        (maybe-skip-unique ds ufn)))))

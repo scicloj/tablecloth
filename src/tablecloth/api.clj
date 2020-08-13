@@ -1,7 +1,6 @@
 (ns tablecloth.api
   (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle])
-  (:require [tech.parallel.utils :as exporter]
-            [tech.ml.dataset :as ds]))
+  (:require [tech.parallel.utils :as exporter]))
 
 (exporter/export-symbols tech.v2.datatype
                          clone)
