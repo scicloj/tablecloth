@@ -2,7 +2,7 @@
 title: "Dplyr-like API for tech.ml.dataset"
 output:
     md_document:
-        variant: markdown_github
+        variant: gfm
 ---
 
 ```{r setup, include=FALSE}
@@ -94,7 +94,7 @@ Please refer [detailed documentation with examples](https://scicloj.github.io/ta
 ## TODO
 
 * tests
-* more information about data manipulation
+* dataset manipulation (`tech.v2.datatype.functional`) functions
 
 ## Licence
 

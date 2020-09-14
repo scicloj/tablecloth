@@ -1,6 +1,5 @@
 (ns tablecloth.api.reshape-test
   (:require [tablecloth.api :as api]
-            [tablecloth.api.reshape :as sut]
             [clojure.test :refer [deftest is are]]
             [tech.v2.datatype.functional :as dfn]
             [clojure.string :refer [starts-with?]]))
@@ -10,7 +9,7 @@
 (deftest pivot-longer-basic
   (let [ds (-> {:x [1 2] :y [3 4]}
                (api/dataset)
-               (sut/pivot->longer))]
+               (api/pivot->longer))]
     (is (= '(:$column :$value) (api/column-names ds)))
     (are [v n] (= v (seq (ds n)))
       [:x :x :y :y] :$column
@@ -19,7 +18,7 @@
 (deftest pivot-longer-column-names
   (let [ds (-> {:x [1 2] :y [3 4]}
                (api/dataset)
-               (sut/pivot->longer :all {:target-columns :colname
+               (api/pivot->longer :all {:target-columns :colname
                                         :value-column-name :v}))]
     (is (= '(:colname :v) (api/column-names ds)))
     (are [v n] (= v (seq (ds n)))
@@ -29,7 +28,7 @@
 (deftest pivot-longer-datatypes
   (let [ds (-> {:x [1 2] :y [3 4]}
                (api/dataset)
-               (sut/pivot->longer :all {:datatypes {:$column [:object (comp symbol name)]
+               (api/pivot->longer :all {:datatypes {:$column [:object (comp symbol name)]
                                                     :$value [:float32 double]}}))]
     (is (= '(:$column :$value) (api/column-names ds)))
     (are [v n] (= v (seq (ds n)))
@@ -39,7 +38,7 @@
 (deftest pivot-longer-keep-column
   (let [ds (-> {:x [1 2] :y 2 :z [1 2]}
                (api/dataset)
-               (sut/pivot->longer [:y :z]))]
+               (api/pivot->longer [:y :z]))]
     (is (= '(:x :$column :$value) (api/column-names ds)))
     (are [v n] (= v (seq (ds n)))
       [1 2 1 2] :x
@@ -49,8 +48,8 @@
 (deftest pivot-longer-missing
   (let [ds (-> {:x [1 nil] :y [nil 2]}
                (api/dataset))
-        ds-drop (sut/pivot->longer ds)
-        ds-keep (sut/pivot->longer ds :all {:drop-missing? false})]
+        ds-drop (api/pivot->longer ds)
+        ds-keep (api/pivot->longer ds :all {:drop-missing? false})]
     (are [v d n] (= v (seq (d n)))
       [:x :y] ds-drop :$column
       [1 2] ds-drop :$value
@@ -63,9 +62,9 @@
                 "x_2" [2 4]
                 "y_2" ["a" "b"]}
                (api/dataset))
-        ds-drop (sut/pivot->longer ds string? {:target-columns [nil "n"]
+        ds-drop (api/pivot->longer ds string? {:target-columns [nil "n"]
                                                :splitter "_"})
-        ds-keep (sut/pivot->longer ds string? {:target-columns [nil "n"]
+        ds-keep (api/pivot->longer ds string? {:target-columns [nil "n"]
                                                :splitter "_"
                                                :drop-missing? false})]
     (are [v d n] (= v (seq (d n)))
@@ -87,7 +86,7 @@
                 "y_2" [5 11]
                 "x_2" [6 12]}
                (api/dataset)
-               (sut/pivot->longer string? {:target-columns [nil :n]
+               (api/pivot->longer string? {:target-columns [nil :n]
                                            :splitter "_"}))]
     (is (= [:id :n "z" "y" "x"] (api/column-names ds)))
     (are [v n] (= v (seq (ds n)))
@@ -106,7 +105,7 @@
                 "y_2" [5 11]
                 "x_2" [6 12]}
                (api/dataset)
-               (sut/pivot->longer string? {:target-columns [nil :n]
+               (api/pivot->longer string? {:target-columns [nil :n]
                                            :splitter #"(.)_(.)"}))]
     (is (= [:id :n "z" "y" "x"] (api/column-names ds)))
     (are [v n] (= v (seq (ds n)))
@@ -122,7 +121,7 @@
                 [:x 2] [2 4]
                 [:y 2] ["a" "b"]}
                (api/dataset)
-               (sut/pivot->longer vector? {:target-columns [nil :n]
+               (api/pivot->longer vector? {:target-columns [nil :n]
                                            :splitter identity}))]
     (are [v n] (= v (seq (ds n)))
       ["A" "B"] :id
@@ -136,7 +135,7 @@
                 {:a :x :b 2} [2 4]
                 {:a :y :b 2} ["a" "b"]}
                (api/dataset)
-               (sut/pivot->longer map? {:target-columns [nil :n]
+               (api/pivot->longer map? {:target-columns [nil :n]
                                         :splitter (juxt :a :b)}))]
     (are [v n] (= v (seq (ds n)))
       ["A" "B"] :id
@@ -150,7 +149,7 @@
   (let [ds (-> {:key ["x" "y" "z"]
                 :val [1 2 3]}
                (api/dataset)
-               (sut/pivot->wider :key :val))]
+               (api/pivot->wider :key :val))]
     (are [v n] (= v (first (ds n)))
       1 "x"
       2 "y"
@@ -161,7 +160,7 @@
                 :key ["x" "y"]
                 :val [1 2]}
                (api/dataset)
-               (sut/pivot->wider :key :val))]
+               (api/pivot->wider :key :val))]
     (is (= [:a "x" "y"] (api/column-names ds)))
     (are [v n] (= v (first (ds n)))
       1 :a
@@ -173,7 +172,7 @@
                 :key ["x" "y"]
                 :val [1 2]}
                (api/dataset)
-               (sut/pivot->wider :key :val {:drop-missing? false}))]
+               (api/pivot->wider :key :val {:drop-missing? false}))]
     (is (= [:a "x" "y"] (api/column-names ds)))
     (are [v n] (= v (seq (ds n)))
       [2 1] :a
@@ -186,7 +185,7 @@
                 :a [1 2]
                 :b [1 2]}
                (api/dataset)
-               (sut/pivot->wider [:x :y] [:a :b] {:concat-columns-with ""
+               (api/pivot->wider [:x :y] [:a :b] {:concat-columns-with ""
                                                   :concat-value-with "_"}))]
     (is (= ["Y2_a" "Y2_b" "X1_a" "X1_b"] (api/column-names ds)))
     (is (= [[2 2 1 1]] (api/rows ds)))))
@@ -196,7 +195,7 @@
                 :key ["x" "x" "x"]
                 :val [1 2 3]}
                (api/dataset)
-               (sut/pivot->wider :key :val {:fold-fn vec}))]
+               (api/pivot->wider :key :val {:fold-fn vec}))]
     (is (= [[3] [1 2]] (seq (ds "x"))))))
 
 (deftest pivot-wider-multiple-summarize
@@ -204,7 +203,7 @@
                 :key ["x" "x" "x"]
                 :val [1 10 100]}
                (api/dataset)
-               (sut/pivot->wider :key :val {:fold-fn dfn/sum}))]
+               (api/pivot->wider :key :val {:fold-fn dfn/sum}))]
     (is (= [100.0 11.0] (seq (ds "x"))))))
 
 (deftest pivot-wider-multiple-values
@@ -213,7 +212,7 @@
                 :a [1 2]
                 :b [3 4]}
                (api/dataset)
-               (sut/pivot->wider :var [:a :b]))]
+               (api/pivot->wider :var [:a :b]))]
     (is (= [{:row 1, "x-b" 3, "y-a" 2, "x-a" 1, "y-b" 4}] (api/rows ds :as-maps)))))
 
 (deftest pivot-wider-multiple-values-no-row
@@ -221,7 +220,7 @@
                 :a [1 2]
                 :b [3 4]}
                (api/dataset)
-               (sut/pivot->wider :var [:a :b]))]
+               (api/pivot->wider :var [:a :b]))]
     (is (= [{"x-b" 3, "y-a" 2, "x-a" 1, "y-b" 4}] (api/rows ds :as-maps)))))
 
 ;; construction case
@@ -233,14 +232,14 @@
 
 (deftest pivot-revert
   (let [ds (-> construction
-               (sut/pivot->longer #"^[125NWS].*|Midwest" {:target-columns [:units :region]
+               (api/pivot->longer #"^[125NWS].*|Midwest" {:target-columns [:units :region]
                                                           :splitter (fn [col-name]
                                                                       (if (re-matches #"^[125].*" col-name)
                                                                         [(construction-unit-map col-name) nil]
                                                                         [nil col-name]))
                                                           :value-column-name :n
                                                           :drop-missing? false})
-               (sut/pivot->wider [:units :region] :n {:drop-missing? false})
+               (api/pivot->wider [:units :region] :n {:drop-missing? false})
                (api/rename-columns (zipmap (vals construction-unit-map)
                                            (keys construction-unit-map))))]
     (is (= (api/row-count ds) (api/row-count construction)))

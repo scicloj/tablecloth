@@ -1,7 +1,31 @@
+<style type="text/css">
+.github-corner:hover.octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
+table { width: auto !important; margin-right: auto; margin-left: 2%; }
+h1, h2, h3, h4, h5, h6 { padding-top: 16px; border-bottom: 1px solid; }
+pre.sourceCode { position: relative; }
+pre.clojure::before {
+    content: "Clojure";
+    opacity: 0.2;
+    font-size: 150%;
+    position: absolute;
+    text-align: right;
+    right: 8px;
+    bottom: 0px;
+}
+pre.r::before {
+    content: "R";
+    opacity: 0.2;
+    font-size: 150%;
+    position: absolute;
+    text-align: right;
+    right: 8px;
+    bottom: 0px;
+}
+</style>
+
 <a href="https://github.com/scicloj/tablecloth" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#d9230f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
-Introduction
-------------
+## Introduction
 
 [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) is a
 great and fast library which brings columnar dataset to the Clojure.
@@ -19,22 +43,22 @@ During conversions of the examples I’ve come up how to reorganized
 existing `tech.ml.dataset` functions into simple to use API. The main
 goals were:
 
--   Focus on dataset manipulation functionality, leaving other parts of
+  - Focus on dataset manipulation functionality, leaving other parts of
     `tech.ml` like pipelines, datatypes, readers, ML, etc.
--   Single entry point for common operations - one function dispatching
+  - Single entry point for common operations - one function dispatching
     on given arguments.
--   `group-by` results with special kind of dataset - a dataset
+  - `group-by` results with special kind of dataset - a dataset
     containing subsets created after grouping as a column.
--   Most operations recognize regular dataset and grouped dataset and
+  - Most operations recognize regular dataset and grouped dataset and
     process data accordingly.
--   One function form to enable thread-first on dataset.
+  - One function form to enable thread-first on dataset.
 
 If you want to know more about `tech.ml.dataset` and `tech.ml.datatype`
 please refer their documentation:
 
--   [Datatype](https://github.com/techascent/tech.datatype/blob/master/docs/cheatsheet.md)
--   [Date/time](https://github.com/techascent/tech.datatype/blob/master/docs/datetime.md)
--   [Dataset](https://github.com/techascent/tech.ml.dataset/blob/master/docs/walkthrough.md)
+  - [Datatype](https://github.com/techascent/tech.datatype/blob/master/docs/cheatsheet.md)
+  - [Date/time](https://github.com/techascent/tech.datatype/blob/master/docs/datetime.md)
+  - [Dataset](https://github.com/techascent/tech.ml.dataset/blob/master/docs/walkthrough.md)
 
 [SOURCE CODE](https://github.com/scicloj/tablecloth)
 
@@ -58,7 +82,7 @@ DS
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
@@ -69,8 +93,7 @@ DS
 | 2   | 8   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
 
-Functionality
--------------
+## Functionality
 
 ### Dataset
 
@@ -84,30 +107,30 @@ integers, floats, string, boolean, date/time, objects etc.
 Dataset can be created from various of types of Clojure structures and
 files:
 
--   single values
--   sequence of maps
--   map of sequences or values
--   sequence of columns (taken from other dataset or created manually)
--   sequence of pairs
--   file types: raw/gzipped csv/tsv, json, xls(x) taken from local file
+  - single values
+  - sequence of maps
+  - map of sequences or values
+  - sequence of columns (taken from other dataset or created manually)
+  - sequence of pairs
+  - file types: raw/gzipped csv/tsv, json, xls(x) taken from local file
     system or URL
--   input stream
+  - input stream
 
 `api/dataset` accepts:
 
--   data
--   options (see documentation of `tech.ml.dataset/->dataset` function
+  - data
+  - options (see documentation of `tech.ml.dataset/->dataset` function
     for full list):
-    -   `:dataset-name` - name of the dataset
-    -   `:num-rows` - number of rows to read from file
-    -   `:header-row?` - indication if first row in file is a header
-    -   `:key-fn` - function applied to column names (eg. `keyword`, to
+      - `:dataset-name` - name of the dataset
+      - `:num-rows` - number of rows to read from file
+      - `:header-row?` - indication if first row in file is a header
+      - `:key-fn` - function applied to column names (eg. `keyword`, to
         convert column names to keywords)
-    -   `:separator` - column separator
-    -   `:single-value-column-name` - name of the column when single
+      - `:separator` - column separator
+      - `:single-value-column-name` - name of the column when single
         value is provided
 
-------------------------------------------------------------------------
+-----
 
 Empty dataset.
 
@@ -117,7 +140,7 @@ Empty dataset.
 
     _unnamed [0 0]
 
-------------------------------------------------------------------------
+-----
 
 Dataset from single value.
 
@@ -128,10 +151,10 @@ Dataset from single value.
 \_unnamed \[1 1\]:
 
 | :$value |
-|---------|
+| ------- |
 | 999     |
 
-------------------------------------------------------------------------
+-----
 
 Set column name for single value. Also set the dataset name.
 
@@ -144,16 +167,16 @@ Set column name for single value. Also set the dataset name.
 \_unnamed \[1 1\]:
 
 | my-single-value |
-|-----------------|
+| --------------- |
 | 999             |
 
 Single value \[1 1\]:
 
 | 0   |
-|-----|
+| --- |
 | 999 |
 
-------------------------------------------------------------------------
+-----
 
 Sequence of pairs (first = column name, second = value(s)).
 
@@ -163,11 +186,11 @@ Sequence of pairs (first = column name, second = value(s)).
 
 \_unnamed \[1 3\]:
 
-| :A  | :B  | :C  |
-|-----|-----|-----|
-| 33  | 5   | :a  |
+| :A | :B | :C |
+| -- | -- | -- |
+| 33 | 5  | :a |
 
-------------------------------------------------------------------------
+-----
 
 Not sequential values are repeated row-count number of times.
 
@@ -177,16 +200,16 @@ Not sequential values are repeated row-count number of times.
 
 \_unnamed \[6 3\]:
 
-| :A  | :B  | :C  |
-|-----|-----|-----|
-| 1   | X   | :a  |
-| 2   | X   | :a  |
-| 3   | X   | :a  |
-| 4   | X   | :a  |
-| 5   | X   | :a  |
-| 6   | X   | :a  |
+| :A | :B | :C |
+| -- | -- | -- |
+| 1  | X  | :a |
+| 2  | X  | :a |
+| 3  | X  | :a |
+| 4  | X  | :a |
+| 5  | X  | :a |
+| 6  | X  | :a |
 
-------------------------------------------------------------------------
+-----
 
 Dataset created from map (keys = column names, vals = value(s)). Works
 the same as sequence of pairs.
@@ -199,27 +222,27 @@ the same as sequence of pairs.
 
 \_unnamed \[1 1\]:
 
-| :A  |
-|-----|
-| 33  |
+| :A |
+| -- |
+| 33 |
 
 \_unnamed \[3 1\]:
 
-| :A  |
-|-----|
-| 1   |
-| 2   |
-| 3   |
+| :A |
+| -- |
+| 1  |
+| 2  |
+| 3  |
 
 \_unnamed \[3 2\]:
 
-| :A  | :B  |
-|-----|-----|
-| 3   | X   |
-| 4   | X   |
-| 5   | X   |
+| :A | :B |
+| -- | -- |
+| 3  | X  |
+| 4  | X  |
+| 5  | X  |
 
-------------------------------------------------------------------------
+-----
 
 You can put any value inside a column
 
@@ -229,12 +252,12 @@ You can put any value inside a column
 
 \_unnamed \[2 2\]:
 
-| :A        | :B  |
-|-----------|-----|
-| \[3 4 5\] | X   |
-| \[:a :b\] | X   |
+| :A        | :B |
+| --------- | -- |
+| \[3 4 5\] | X  |
+| \[:a :b\] | X  |
 
-------------------------------------------------------------------------
+-----
 
 Sequence of maps
 
@@ -245,19 +268,19 @@ Sequence of maps
 
 \_unnamed \[2 2\]:
 
-| :a  | :b  |
-|-----|-----|
-| 1   | 3   |
-| 99  | 2   |
+| :a | :b |
+| -- | -- |
+| 1  | 3  |
+| 99 | 2  |
 
 \_unnamed \[2 2\]:
 
-| :a  | :b        |
-|-----|-----------|
-| 1   | \[1 2 3\] |
-| 2   | \[3 4\]   |
+| :a | :b        |
+| -- | --------- |
+| 1  | \[1 2 3\] |
+| 2  | \[3 4\]   |
 
-------------------------------------------------------------------------
+-----
 
 Missing values are marked by `nil`
 
@@ -267,13 +290,13 @@ Missing values are marked by `nil`
 
 \_unnamed \[3 2\]:
 
-| :a  | :b  |
-|-----|-----|
-|     | 1   |
-| 3   | 4   |
-| 11  |     |
+| :a | :b |
+| -- | -- |
+|    | 1  |
+| 3  | 4  |
+| 11 |    |
 
-------------------------------------------------------------------------
+-----
 
 Import CSV file
 
@@ -284,14 +307,14 @@ Import CSV file
 data/family.csv \[5 5\]:
 
 | family | dob\_child1 | dob\_child2 | gender\_child1 | gender\_child2 |
-|--------|-------------|-------------|----------------|----------------|
+| ------ | ----------- | ----------- | -------------- | -------------- |
 | 1      | 1998-11-26  | 2000-01-29  | 1              | 2              |
 | 2      | 1996-06-22  |             | 2              |                |
 | 3      | 2002-07-11  | 2004-04-05  | 2              | 2              |
 | 4      | 2004-10-10  | 2009-08-27  | 1              | 1              |
 | 5      | 2000-12-05  | 2005-02-28  | 2              | 1              |
 
-------------------------------------------------------------------------
+-----
 
 Import from URL
 
@@ -303,11 +326,11 @@ Import from URL
 ds
 ```
 
-<a href="https://vega.github.io/vega-lite/examples/data/seattle-weather.csv" class="uri">https://vega.github.io/vega-lite/examples/data/seattle-weather.csv</a>
+<https://vega.github.io/vega-lite/examples/data/seattle-weather.csv>
 \[1461 6\]:
 
 | date       | precipitation | temp\_max | temp\_min | wind | weather |
-|------------|---------------|-----------|-----------|------|---------|
+| ---------- | ------------- | --------- | --------- | ---- | ------- |
 | 2012-01-01 | 0.0           | 12.8      | 5.0       | 4.7  | drizzle |
 | 2012-01-02 | 10.9          | 10.6      | 2.8       | 4.5  | rain    |
 | 2012-01-03 | 0.8           | 11.7      | 7.2       | 2.3  | rain    |
@@ -318,16 +341,16 @@ ds
 | 2012-01-08 | 0.0           | 10.0      | 2.8       | 2.0  | sun     |
 | 2012-01-09 | 4.3           | 9.4       | 5.0       | 3.4  | rain    |
 | 2012-01-10 | 1.0           | 6.1       | 0.6       | 3.4  | rain    |
-| 2012-01-11 | 0.0           | 6.1       | -1.1      | 5.1  | sun     |
-| 2012-01-12 | 0.0           | 6.1       | -1.7      | 1.9  | sun     |
-| 2012-01-13 | 0.0           | 5.0       | -2.8      | 1.3  | sun     |
+| 2012-01-11 | 0.0           | 6.1       | \-1.1     | 5.1  | sun     |
+| 2012-01-12 | 0.0           | 6.1       | \-1.7     | 1.9  | sun     |
+| 2012-01-13 | 0.0           | 5.0       | \-2.8     | 1.3  | sun     |
 | 2012-01-14 | 4.1           | 4.4       | 0.6       | 5.3  | snow    |
-| 2012-01-15 | 5.3           | 1.1       | -3.3      | 3.2  | snow    |
-| 2012-01-16 | 2.5           | 1.7       | -2.8      | 5.0  | snow    |
+| 2012-01-15 | 5.3           | 1.1       | \-3.3     | 3.2  | snow    |
+| 2012-01-16 | 2.5           | 1.7       | \-2.8     | 5.0  | snow    |
 | 2012-01-17 | 8.1           | 3.3       | 0.0       | 5.6  | snow    |
-| 2012-01-18 | 19.8          | 0.0       | -2.8      | 5.0  | snow    |
-| 2012-01-19 | 15.2          | -1.1      | -2.8      | 1.6  | snow    |
-| 2012-01-20 | 13.5          | 7.2       | -1.1      | 2.3  | snow    |
+| 2012-01-18 | 19.8          | 0.0       | \-2.8     | 5.0  | snow    |
+| 2012-01-19 | 15.2          | \-1.1     | \-2.8     | 1.6  | snow    |
+| 2012-01-20 | 13.5          | 7.2       | \-1.1     | 2.3  | snow    |
 | 2012-01-21 | 3.0           | 8.3       | 3.3       | 8.2  | rain    |
 | 2012-01-22 | 6.1           | 6.7       | 2.2       | 4.8  | rain    |
 | 2012-01-23 | 0.0           | 8.3       | 1.1       | 3.6  | rain    |
@@ -339,11 +362,13 @@ ds
 Export dataset to a file or output stream can be done by calling
 `api/write-csv!`. Function accepts:
 
--   dataset
--   file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and
+  - dataset
+  - file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and
     `.tsv.gz` or output stream
--   options:
-    -   `:separator` - string or separator char.
+  - options:
+      - `:separator` - string or separator char.
+
+<!-- end list -->
 
 ``` clojure
 (api/write-csv! ds "output.tsv.gz")
@@ -368,7 +393,7 @@ Export dataset to a file or output stream can be done by calling
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
@@ -384,7 +409,7 @@ Export dataset to a file or output stream can be done by calling
 Summary functions about the dataset like number of rows, columns and
 basic stats.
 
-------------------------------------------------------------------------
+-----
 
 Number of rows
 
@@ -394,7 +419,7 @@ Number of rows
 
     1461
 
-------------------------------------------------------------------------
+-----
 
 Number of columns
 
@@ -402,9 +427,11 @@ Number of columns
 (api/column-count ds)
 ```
 
-    6
+``` 
+6
+```
 
-------------------------------------------------------------------------
+-----
 
 Shape of the dataset, \[row count, column count\]
 
@@ -414,14 +441,16 @@ Shape of the dataset, \[row count, column count\]
 
     [1461 6]
 
-------------------------------------------------------------------------
+-----
 
 General info about dataset. There are three variants:
 
--   default - containing information about columns with basic statistics
-    -   `:basic` - just name, row and column count and information if
+  - default - containing information about columns with basic statistics
+      - `:basic` - just name, row and column count and information if
         dataset is a result of `group-by` operation
-    -   `:columns` - columns’ metadata
+      - `:columns` - columns’ metadata
+
+<!-- end list -->
 
 ``` clojure
 (api/info ds)
@@ -429,145 +458,30 @@ General info about dataset. There are three variants:
 (api/info ds :columns)
 ```
 
-<a href="https://vega.github.io/vega-lite/examples/data/seattle-weather.csv" class="uri">https://vega.github.io/vega-lite/examples/data/seattle-weather.csv</a>:
+<https://vega.github.io/vega-lite/examples/data/seattle-weather.csv>:
 descriptive-stats \[6 10\]:
 
-<table style="width:100%;">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 14%" />
-<col style="width: 7%" />
-<col style="width: 8%" />
-<col style="width: 8%" />
-<col style="width: 8%" />
-<col style="width: 5%" />
-<col style="width: 8%" />
-<col style="width: 15%" />
-<col style="width: 12%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>:col-name</th>
-<th>:datatype</th>
-<th>:n-valid</th>
-<th>:n-missing</th>
-<th>:min</th>
-<th>:mean</th>
-<th>:mode</th>
-<th>:max</th>
-<th>:standard-deviation</th>
-<th>:skew</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>date</td>
-<td>:packed-local-date</td>
-<td>1461</td>
-<td>0</td>
-<td>2012-01-01</td>
-<td>2013-12-31</td>
-<td></td>
-<td>2015-12-31</td>
-<td>3.64520463E+10</td>
-<td>1.98971418E-17</td>
-</tr>
-<tr class="even">
-<td>precipitation</td>
-<td>:float64</td>
-<td>1461</td>
-<td>0</td>
-<td>0.000</td>
-<td>3.029</td>
-<td></td>
-<td>55.90</td>
-<td>6.68019432E+00</td>
-<td>3.50564372E+00</td>
-</tr>
-<tr class="odd">
-<td>temp_max</td>
-<td>:float64</td>
-<td>1461</td>
-<td>0</td>
-<td>-1.600</td>
-<td>16.44</td>
-<td></td>
-<td>35.60</td>
-<td>7.34975810E+00</td>
-<td>2.80929992E-01</td>
-</tr>
-<tr class="even">
-<td>temp_min</td>
-<td>:float64</td>
-<td>1461</td>
-<td>0</td>
-<td>-7.100</td>
-<td>8.235</td>
-<td></td>
-<td>18.30</td>
-<td>5.02300418E+00</td>
-<td>-2.49458552E-01</td>
-</tr>
-<tr class="odd">
-<td>weather</td>
-<td>:string</td>
-<td>1461</td>
-<td>0</td>
-<td></td>
-<td></td>
-<td>rain</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>wind</td>
-<td>:float64</td>
-<td>1461</td>
-<td>0</td>
-<td>0.4000</td>
-<td>3.241</td>
-<td></td>
-<td>9.500</td>
-<td>1.43782506E+00</td>
-<td>8.91667519E-01</td>
-</tr>
-</tbody>
-</table>
+| :col-name     | :datatype          | :n-valid | :n-missing | :min       | :mean      | :mode | :max       | :standard-deviation | :skew            |
+| ------------- | ------------------ | -------- | ---------- | ---------- | ---------- | ----- | ---------- | ------------------- | ---------------- |
+| date          | :packed-local-date | 1461     | 0          | 2012-01-01 | 2013-12-31 |       | 2015-12-31 | 3.64520463E+10      | 1.98971418E-17   |
+| precipitation | :float64           | 1461     | 0          | 0.000      | 3.029      |       | 55.90      | 6.68019432E+00      | 3.50564372E+00   |
+| temp\_max     | :float64           | 1461     | 0          | \-1.600    | 16.44      |       | 35.60      | 7.34975810E+00      | 2.80929992E-01   |
+| temp\_min     | :float64           | 1461     | 0          | \-7.100    | 8.235      |       | 18.30      | 5.02300418E+00      | \-2.49458552E-01 |
+| weather       | :string            | 1461     | 0          |            |            | rain  |            |                     |                  |
+| wind          | :float64           | 1461     | 0          | 0.4000     | 3.241      |       | 9.500      | 1.43782506E+00      | 8.91667519E-01   |
 
-<a href="https://vega.github.io/vega-lite/examples/data/seattle-weather.csv" class="uri">https://vega.github.io/vega-lite/examples/data/seattle-weather.csv</a>
+<https://vega.github.io/vega-lite/examples/data/seattle-weather.csv>
 :basic info \[1 4\]:
 
-<table>
-<colgroup>
-<col style="width: 70%" />
-<col style="width: 11%" />
-<col style="width: 7%" />
-<col style="width: 10%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>:name</th>
-<th>:grouped?</th>
-<th>:rows</th>
-<th>:columns</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="https://vega.github.io/vega-lite/examples/data/seattle-weather.csv" class="uri">https://vega.github.io/vega-lite/examples/data/seattle-weather.csv</a></td>
-<td>false</td>
-<td>1461</td>
-<td>6</td>
-</tr>
-</tbody>
-</table>
+| :name                                                                | :grouped? | :rows | :columns |
+| -------------------------------------------------------------------- | --------- | ----- | -------- |
+| <https://vega.github.io/vega-lite/examples/data/seattle-weather.csv> | false     | 1461  | 6        |
 
-<a href="https://vega.github.io/vega-lite/examples/data/seattle-weather.csv" class="uri">https://vega.github.io/vega-lite/examples/data/seattle-weather.csv</a>
+<https://vega.github.io/vega-lite/examples/data/seattle-weather.csv>
 :column info \[6 4\]:
 
 | :name         | :size | :datatype          | :categorical? |
-|---------------|-------|--------------------|---------------|
+| ------------- | ----- | ------------------ | ------------- |
 | date          | 1461  | :packed-local-date |               |
 | precipitation | 1461  | :float64           |               |
 | temp\_max     | 1461  | :float64           |               |
@@ -575,7 +489,7 @@ descriptive-stats \[6 10\]:
 | wind          | 1461  | :float64           |               |
 | weather       | 1461  | :string            | true          |
 
-------------------------------------------------------------------------
+-----
 
 Getting a dataset name
 
@@ -585,7 +499,7 @@ Getting a dataset name
 
     "https://vega.github.io/vega-lite/examples/data/seattle-weather.csv"
 
-------------------------------------------------------------------------
+-----
 
 Setting a dataset name (operation is immutable).
 
@@ -603,7 +517,7 @@ Get columns and rows as sequences. `column`, `columns` and `rows` treat
 grouped dataset as regular one. See `Groups` to read more about grouped
 datasets.
 
-------------------------------------------------------------------------
+-----
 
 Select column.
 
@@ -619,7 +533,7 @@ Select column.
     date
     [2012-01-01, 2012-01-02, 2012-01-03, 2012-01-04, 2012-01-05, 2012-01-06, 2012-01-07, 2012-01-08, 2012-01-09, 2012-01-10, 2012-01-11, 2012-01-12, 2012-01-13, 2012-01-14, 2012-01-15, 2012-01-16, 2012-01-17, 2012-01-18, 2012-01-19, 2012-01-20, ...]
 
-------------------------------------------------------------------------
+-----
 
 Columns as sequence
 
@@ -633,7 +547,7 @@ Columns as sequence
     precipitation
     [0.000, 10.90, 0.8000, 20.30, 1.300, 2.500, 0.000, 0.000, 4.300, 1.000, 0.000, 0.000, 0.000, 4.100, 5.300, 2.500, 8.100, 19.80, 15.20, 13.50, ...])
 
-------------------------------------------------------------------------
+-----
 
 Columns as map
 
@@ -643,7 +557,7 @@ Columns as map
 
     ("date" "precipitation" "temp_max" "temp_min" "wind" "weather")
 
-------------------------------------------------------------------------
+-----
 
 Rows as sequence of sequences
 
@@ -651,9 +565,9 @@ Rows as sequence of sequences
 (take 2 (api/rows ds))
 ```
 
-    ([#object[java.time.LocalDate 0x1aa9abea "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x5c10a75a "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
+    ([#object[java.time.LocalDate 0x46e1a983 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x4a6b2716 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
 
-------------------------------------------------------------------------
+-----
 
 Rows as sequence of maps
 
@@ -661,13 +575,13 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (api/rows ds :as-maps)))
 ```
 
-    ({"date" #object[java.time.LocalDate 0x676da9f9 "2012-01-01"],
+    ({"date" #object[java.time.LocalDate 0x3904276c "2012-01-01"],
       "precipitation" 0.0,
       "temp_min" 5.0,
       "weather" "drizzle",
       "temp_max" 12.8,
       "wind" 4.7}
-     {"date" #object[java.time.LocalDate 0x6cc14040 "2012-01-02"],
+     {"date" #object[java.time.LocalDate 0x4e1341b7 "2012-01-02"],
       "precipitation" 10.9,
       "temp_min" 2.8,
       "weather" "rain",
@@ -686,7 +600,7 @@ important is `:print-line-policy` which can be one of the: `:single`,
 ```
 
     _unnamed [2 3]:
-
+    
     | :name | :group-id |                                                                                                                                                                                                                                                             :data |
     |-------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
     |     1 |         0 | Group: 1 [5 4]:<br><br>\| :V1 \| :V2 \| :V3 \| :V4 \|<br>\|-----\|-----\|-----\|-----\|<br>\|   1 \|   1 \| 0.5 \|   A \|<br>\|   1 \|   3 \| 1.5 \|   C \|<br>\|   1 \|   5 \| 1.0 \|   B \|<br>\|   1 \|   7 \| 0.5 \|   A \|<br>\|   1 \|   9 \| 1.5 \|   C \| |
@@ -697,7 +611,7 @@ important is `:print-line-policy` which can be one of the: `:single`,
 ```
 
     _unnamed [2 3]:
-
+    
     | :name | :group-id |                          :data |
     |-------|-----------|--------------------------------|
     |     1 |         0 | Group: 1 [5 4]:                |
@@ -723,7 +637,7 @@ important is `:print-line-policy` which can be one of the: `:single`,
 ```
 
     _unnamed [2 3]:
-
+    
     | :name | :group-id |           :data |
     |-------|-----------|-----------------|
     |     1 |         0 | Group: 1 [5 4]: |
@@ -739,9 +653,9 @@ of grouping.
 Grouped dataset is annotated in by `:grouped?` meta tag and consist
 following columns:
 
--   `:name` - group name or structure
--   `:group-id` - integer assigned to the group
--   `:data` - groups as datasets
+  - `:name` - group name or structure
+  - `:group-id` - integer assigned to the group
+  - `:data` - groups as datasets
 
 Almost all functions recognize type of the dataset (grouped or not) and
 operate accordingly.
@@ -752,17 +666,17 @@ You can’t apply reshaping or join/concat functions on grouped datasets.
 
 Grouping is done by calling `group-by` function with arguments:
 
--   `ds` - dataset
--   `grouping-selector` - what to use for grouping
--   options:
-    -   `:result-type` - what to return:
-        -   `:as-dataset` (default) - return grouped dataset
-        -   `:as-indexes` - return rows ids (row number from original
+  - `ds` - dataset
+  - `grouping-selector` - what to use for grouping
+  - options:
+      - `:result-type` - what to return:
+          - `:as-dataset` (default) - return grouped dataset
+          - `:as-indexes` - return rows ids (row number from original
             dataset)
-        -   `:as-map` - return map with group names as keys and
+          - `:as-map` - return map with group names as keys and
             subdataset as values
-        -   `:as-seq` - return sequens of subdatasets
-    -   `:select-keys` - list of the columns passed to a grouping
+          - `:as-seq` - return sequens of subdatasets
+      - `:select-keys` - list of the columns passed to a grouping
         selector function
 
 All subdatasets (groups) have set name as the group name, additionally
@@ -770,17 +684,17 @@ All subdatasets (groups) have set name as the group name, additionally
 
 Grouping can be done by:
 
--   single column name
--   seq of column names
--   map of keys (group names) and row indexes
--   value returned by function taking row as map (limited to
+  - single column name
+  - seq of column names
+  - map of keys (group names) and row indexes
+  - value returned by function taking row as map (limited to
     `:select-keys`)
 
 Note: currently dataset inside dataset is printed recursively so it
 renders poorly from markdown. So I will use `:as-seq` result type to
 show just group names and groups.
 
-------------------------------------------------------------------------
+-----
 
 List of columns in grouped dataset
 
@@ -792,7 +706,7 @@ List of columns in grouped dataset
 
     (:V1 :V2 :V3 :V4)
 
-------------------------------------------------------------------------
+-----
 
 List of columns in grouped dataset treated as regular dataset
 
@@ -805,7 +719,7 @@ List of columns in grouped dataset treated as regular dataset
 
     (:name :group-id :data)
 
-------------------------------------------------------------------------
+-----
 
 Content of the grouped dataset
 
@@ -820,7 +734,7 @@ Content of the grouped dataset
     [0, 1, ], :data #tech.ml.dataset.column<dataset>[2]
     :data
     [Group: 1 [5 4]:
-
+    
     | :V1 | :V2 | :V3 | :V4 |
     |-----|-----|-----|-----|
     |   1 |   1 | 0.5 |   A |
@@ -829,7 +743,7 @@ Content of the grouped dataset
     |   1 |   7 | 0.5 |   A |
     |   1 |   9 | 1.5 |   C |
     , Group: 2 [4 4]:
-
+    
     | :V1 | :V2 | :V3 | :V4 |
     |-----|-----|-----|-----|
     |   2 |   2 | 1.0 |   B |
@@ -838,7 +752,7 @@ Content of the grouped dataset
     |   2 |   8 | 1.0 |   B |
     , ]}
 
-------------------------------------------------------------------------
+-----
 
 Grouped dataset as map
 
@@ -855,7 +769,7 @@ Grouped dataset as map
 (Group: 1 \[5 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
 | 1   | 5   | 1.0 | B   |
@@ -865,7 +779,7 @@ Grouped dataset as map
 Group: 2 \[4 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 2   | 4   | 0.5 | A   |
 | 2   | 6   | 1.5 | C   |
@@ -873,7 +787,7 @@ Group: 2 \[4 4\]:
 
 )
 
-------------------------------------------------------------------------
+-----
 
 Group dataset as map of indexes (row ids)
 
@@ -883,7 +797,7 @@ Group dataset as map of indexes (row ids)
 
     {1 [0 2 4 6 8], 2 [1 3 5 7]}
 
-------------------------------------------------------------------------
+-----
 
 Grouped datasets are printed as follows by default.
 
@@ -894,11 +808,11 @@ Grouped datasets are printed as follows by default.
 \_unnamed \[2 3\]:
 
 | :name | :group-id | :data             |
-|-------|-----------|-------------------|
+| ----- | --------- | ----------------- |
 | 1     | 0         | Group: 1 \[5 4\]: |
 | 2     | 1         | Group: 2 \[4 4\]: |
 
-------------------------------------------------------------------------
+-----
 
 To get groups as sequence or a map can be done from grouped dataset
 using `groups->seq` and `groups->map` functions.
@@ -917,17 +831,17 @@ I will use temporary dataset here.
 
 (Group: 1 \[2 2\]:
 
-| a   | b   |
-|-----|-----|
-| 1   | a   |
-| 1   | b   |
+| a | b |
+| - | - |
+| 1 | a |
+| 1 | b |
 
 Group: 2 \[2 2\]:
 
-| a   | b   |
-|-----|-----|
-| 2   | c   |
-| 2   | d   |
+| a | b |
+| - | - |
+| 2 | c |
+| 2 | d |
 
 )
 
@@ -941,21 +855,21 @@ Group: 2 \[2 2\]:
 
 (Group: 1 \[2 2\]:
 
-| a   | b   |
-|-----|-----|
-| 1   | a   |
-| 1   | b   |
+| a | b |
+| - | - |
+| 1 | a |
+| 1 | b |
 
 Group: 2 \[2 2\]:
 
-| a   | b   |
-|-----|-----|
-| 2   | c   |
-| 2   | d   |
+| a | b |
+| - | - |
+| 2 | c |
+| 2 | d |
 
 )
 
-------------------------------------------------------------------------
+-----
 
 Groups as map
 
@@ -969,21 +883,21 @@ Groups as map
 
 {1 Group: 1 \[2 2\]:
 
-| a   | b   |
-|-----|-----|
-| 1   | a   |
-| 1   | b   |
+| a | b |
+| - | - |
+| 1 | a |
+| 1 | b |
 
 , 2 Group: 2 \[2 2\]:
 
-| a   | b   |
-|-----|-----|
-| 2   | c   |
-| 2   | d   |
+| a | b |
+| - | - |
+| 2 | c |
+| 2 | d |
 
 }
 
-------------------------------------------------------------------------
+-----
 
 Grouping by more than one column. You can see that group names are maps.
 When ungrouping is done these maps are used to restore column names.
@@ -995,45 +909,45 @@ When ungrouping is done these maps are used to restore column names.
 (Group: {:V3 1.0, :V1 1} \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 5   | 1.0 | B   |
 
 Group: {:V3 0.5, :V1 1} \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 
 Group: {:V3 0.5, :V1 2} \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 4   | 0.5 | A   |
 
 Group: {:V3 1.0, :V1 2} \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
 
 Group: {:V3 1.5, :V1 1} \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
 
 Group: {:V3 1.5, :V1 2} \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 6   | 1.5 | C   |
 
 )
 
-------------------------------------------------------------------------
+-----
 
 Grouping can be done by providing just row indexes. This way you can
 assign the same row to more than one group.
@@ -1046,7 +960,7 @@ assign the same row to more than one group.
 (Group: group-a \[4 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
@@ -1055,7 +969,7 @@ assign the same row to more than one group.
 Group: group-b \[4 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 6   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
@@ -1063,7 +977,7 @@ Group: group-b \[4 4\]:
 
 )
 
-------------------------------------------------------------------------
+-----
 
 You can group by a result of grouping function which gets row as map and
 should return group name. When map is used as a group name, ungrouping
@@ -1077,40 +991,40 @@ restore original column names.
 (Group: 1.0 \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 4   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
 
 Group: 2.0 \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
 
 Group: 0.5 \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 
 Group: 3.0 \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 6   | 1.5 | C   |
 
 Group: 1.5 \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
 
 )
 
-------------------------------------------------------------------------
+-----
 
 You can use any predicate on column to split dataset into two groups.
 
@@ -1121,7 +1035,7 @@ You can use any predicate on column to split dataset into two groups.
 (Group: false \[6 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
 | 1   | 5   | 1.0 | B   |
@@ -1132,14 +1046,14 @@ You can use any predicate on column to split dataset into two groups.
 Group: true \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 
 )
 
-------------------------------------------------------------------------
+-----
 
 `juxt` is also helpful
 
@@ -1150,45 +1064,45 @@ Group: true \[3 4\]:
 (Group: \[1 1.0\] \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 5   | 1.0 | B   |
 
 Group: \[1 0.5\] \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 
 Group: \[2 1.5\] \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 6   | 1.5 | C   |
 
 Group: \[1 1.5\] \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
 
 Group: \[2 0.5\] \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 4   | 0.5 | A   |
 
 Group: \[2 1.0\] \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
 
 )
 
-------------------------------------------------------------------------
+-----
 
 `tech.ml.dataset` provides an option to limit columns which are passed
 to grouping functions. It’s done for performance purposes.
@@ -1201,7 +1115,7 @@ to grouping functions. It’s done for performance purposes.
 (Group: {:V1 1} \[5 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
 | 1   | 5   | 1.0 | B   |
@@ -1211,7 +1125,7 @@ to grouping functions. It’s done for performance purposes.
 Group: {:V1 2} \[4 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 2   | 4   | 0.5 | A   |
 | 2   | 6   | 1.5 | C   |
@@ -1224,15 +1138,15 @@ Group: {:V1 2} \[4 4\]:
 Ungrouping simply concats all the groups into the dataset. Following
 options are possible
 
--   `:order?` - order groups according to the group name ascending
+  - `:order?` - order groups according to the group name ascending
     order. Default: `false`
--   `:add-group-as-column` - should group name become a column? If yes
+  - `:add-group-as-column` - should group name become a column? If yes
     column is created with provided name (or `:$group-name` if argument
     is `true`). Default: `nil`.
--   `:add-group-id-as-column` - should group id become a column? If yes
+  - `:add-group-id-as-column` - should group id become a column? If yes
     column is created with provided name (or `:$group-id` if argument is
     `true`). Default: `nil`.
--   `:dataset-name` - to name resulting dataset. Default: `nil`
+  - `:dataset-name` - to name resulting dataset. Default: `nil`
     (\_unnamed)
 
 If group name is a map, it will be splitted into separate columns. Be
@@ -1245,7 +1159,7 @@ you want to name them, set vector of target column names as
 After ungrouping, order of the rows is kept within the groups but groups
 are ordered according to the internal storage.
 
-------------------------------------------------------------------------
+-----
 
 Grouping and ungrouping.
 
@@ -1258,7 +1172,7 @@ Grouping and ungrouping.
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 1   | 5   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
@@ -1269,7 +1183,7 @@ Grouping and ungrouping.
 | 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Groups sorted by group name and named.
 
@@ -1283,7 +1197,7 @@ Groups sorted by group name and named.
 Ordered by V3 \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
@@ -1294,7 +1208,7 @@ Ordered by V3 \[9 4\]:
 | 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Groups sorted descending by group name and named.
 
@@ -1308,7 +1222,7 @@ Groups sorted descending by group name and named.
 Ordered by V3 descending \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
@@ -1319,7 +1233,7 @@ Ordered by V3 descending \[9 4\]:
 | 2   | 4   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Let’s add group name and id as additional columns
 
@@ -1332,19 +1246,19 @@ Let’s add group name and id as additional columns
 
 \_unnamed \[9 6\]:
 
-| :*g**r**o**u**p* − *n**a**m**e*\|:group-id | :V1 | :V2 | :V3 | :V4 |     |
-|--------------------------------------------|-----|-----|-----|-----|-----|
-| false                                      | 0   | 2   | 4   | 0.5 | A   |
-| false                                      | 0   | 1   | 5   | 1.0 | B   |
-| false                                      | 0   | 2   | 6   | 1.5 | C   |
-| false                                      | 0   | 1   | 7   | 0.5 | A   |
-| false                                      | 0   | 2   | 8   | 1.0 | B   |
-| false                                      | 0   | 1   | 9   | 1.5 | C   |
-| true                                       | 1   | 1   | 1   | 0.5 | A   |
-| true                                       | 1   | 2   | 2   | 1.0 | B   |
-| true                                       | 1   | 1   | 3   | 1.5 | C   |
+| :\(group-name | :\)group-id | :V1 | :V2 | :V3 | :V4 |   |
+| --------------------------- | --- | --- | --- | --- | - |
+| false                       | 0   | 2   | 4   | 0.5 | A |
+| false                       | 0   | 1   | 5   | 1.0 | B |
+| false                       | 0   | 2   | 6   | 1.5 | C |
+| false                       | 0   | 1   | 7   | 0.5 | A |
+| false                       | 0   | 2   | 8   | 1.0 | B |
+| false                       | 0   | 1   | 9   | 1.5 | C |
+| true                        | 1   | 1   | 1   | 0.5 | A |
+| true                        | 1   | 2   | 2   | 1.0 | B |
+| true                        | 1   | 1   | 3   | 1.5 | C |
 
-------------------------------------------------------------------------
+-----
 
 Let’s assign different column names
 
@@ -1358,7 +1272,7 @@ Let’s assign different column names
 \_unnamed \[9 6\]:
 
 | Is V2 less than 4? | group id | :V1 | :V2 | :V3 | :V4 |
-|--------------------|----------|-----|-----|-----|-----|
+| ------------------ | -------- | --- | --- | --- | --- |
 | false              | 0        | 2   | 4   | 0.5 | A   |
 | false              | 0        | 1   | 5   | 1.0 | B   |
 | false              | 0        | 2   | 6   | 1.5 | C   |
@@ -1369,7 +1283,7 @@ Let’s assign different column names
 | true               | 1        | 2   | 2   | 1.0 | B   |
 | true               | 1        | 1   | 3   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 If we group by map, we can automatically create new columns out of group
 names.
@@ -1385,7 +1299,7 @@ names.
 \_unnamed \[9 6\]:
 
 | V1 and V3 multiplied | V4 as lowercase | :V1 | :V2 | :V3 | :V4 |
-|----------------------|-----------------|-----|-----|-----|-----|
+| -------------------- | --------------- | --- | --- | --- | --- |
 | 1.0                  | a               | 2   | 4   | 0.5 | A   |
 | 0.5                  | a               | 1   | 1   | 0.5 | A   |
 | 0.5                  | a               | 1   | 7   | 0.5 | A   |
@@ -1396,7 +1310,7 @@ names.
 | 1.5                  | c               | 1   | 3   | 1.5 | C   |
 | 1.5                  | c               | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 We can add group names without separation
 
@@ -1412,7 +1326,7 @@ We can add group names without separation
 \_unnamed \[9 5\]:
 
 | just map                                            | :V1 | :V2 | :V3 | :V4 |
-|-----------------------------------------------------|-----|-----|-----|-----|
+| --------------------------------------------------- | --- | --- | --- | --- |
 | {“V1 and V3 multiplied” 1.0, “V4 as lowercase” “a”} | 2   | 4   | 0.5 | A   |
 | {“V1 and V3 multiplied” 0.5, “V4 as lowercase” “a”} | 1   | 1   | 0.5 | A   |
 | {“V1 and V3 multiplied” 0.5, “V4 as lowercase” “a”} | 1   | 7   | 0.5 | A   |
@@ -1423,7 +1337,7 @@ We can add group names without separation
 | {“V1 and V3 multiplied” 1.5, “V4 as lowercase” “c”} | 1   | 3   | 1.5 | C   |
 | {“V1 and V3 multiplied” 1.5, “V4 as lowercase” “c”} | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 The same applies to group names as sequences
 
@@ -1436,7 +1350,7 @@ The same applies to group names as sequences
 \_unnamed \[9 6\]:
 
 | :abc-0 | :abc-1 | :V1 | :V2 | :V3 | :V4 |
-|--------|--------|-----|-----|-----|-----|
+| ------ | ------ | --- | --- | --- | --- |
 | 1      | 1.0    | 1   | 5   | 1.0 | B   |
 | 1      | 0.5    | 1   | 1   | 0.5 | A   |
 | 1      | 0.5    | 1   | 7   | 0.5 | A   |
@@ -1447,7 +1361,7 @@ The same applies to group names as sequences
 | 2      | 1.0    | 2   | 2   | 1.0 | B   |
 | 2      | 1.0    | 2   | 8   | 1.0 | B   |
 
-------------------------------------------------------------------------
+-----
 
 Let’s provide column names
 
@@ -1459,19 +1373,19 @@ Let’s provide column names
 
 \_unnamed \[9 6\]:
 
-| v1  | v3  | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|-----|-----|
-| 1   | 1.0 | 1   | 5   | 1.0 | B   |
-| 1   | 0.5 | 1   | 1   | 0.5 | A   |
-| 1   | 0.5 | 1   | 7   | 0.5 | A   |
-| 2   | 1.5 | 2   | 6   | 1.5 | C   |
-| 1   | 1.5 | 1   | 3   | 1.5 | C   |
-| 1   | 1.5 | 1   | 9   | 1.5 | C   |
-| 2   | 0.5 | 2   | 4   | 0.5 | A   |
-| 2   | 1.0 | 2   | 2   | 1.0 | B   |
-| 2   | 1.0 | 2   | 8   | 1.0 | B   |
+| v1 | v3  | :V1 | :V2 | :V3 | :V4 |
+| -- | --- | --- | --- | --- | --- |
+| 1  | 1.0 | 1   | 5   | 1.0 | B   |
+| 1  | 0.5 | 1   | 1   | 0.5 | A   |
+| 1  | 0.5 | 1   | 7   | 0.5 | A   |
+| 2  | 1.5 | 2   | 6   | 1.5 | C   |
+| 1  | 1.5 | 1   | 3   | 1.5 | C   |
+| 1  | 1.5 | 1   | 9   | 1.5 | C   |
+| 2  | 0.5 | 2   | 4   | 0.5 | A   |
+| 2  | 1.0 | 2   | 2   | 1.0 | B   |
+| 2  | 1.0 | 2   | 8   | 1.0 | B   |
 
-------------------------------------------------------------------------
+-----
 
 Also we can supress separation
 
@@ -1486,7 +1400,7 @@ Also we can supress separation
 \_unnamed \[9 5\]:
 
 | :$group-name | :V1 | :V2 | :V3 | :V4 |
-|--------------|-----|-----|-----|-----|
+| ------------ | --- | --- | --- | --- |
 | \[1 1.0\]    | 1   | 5   | 1.0 | B   |
 | \[1 0.5\]    | 1   | 1   | 0.5 | A   |
 | \[1 0.5\]    | 1   | 7   | 0.5 | A   |
@@ -1513,7 +1427,7 @@ To check if dataset is grouped or not just use `grouped?` function.
 
     true
 
-------------------------------------------------------------------------
+-----
 
 If you want to remove grouping annotation (to make all the functions
 work as with regular dataset) you can use `unmark-group` or
@@ -1531,7 +1445,7 @@ grouped dataset using `drop-rows` or something like that.
 
     nil
 
-------------------------------------------------------------------------
+-----
 
 This is considered internal.
 
@@ -1549,7 +1463,7 @@ datasets. Result should be a dataset to have ungrouping working.
 \_unnamed \[2 3\]:
 
 | :name | :group-id | :data          |
-|-------|-----------|----------------|
+| ----- | --------- | -------------- |
 | 1     | 0         | Shape: \[5 4\] |
 | 2     | 1         | Shape: \[4 4\] |
 
@@ -1566,12 +1480,12 @@ Type of the data is inferred from a sequence during column creation.
 To select dataset columns or column names `columns-selector` is used.
 `columns-selector` can be one of the following:
 
--   `:all` keyword - selects all columns
--   column name - for single column
--   sequence of column names - for collection of columns
--   regex - to apply pattern on column names or datatype
--   filter predicate - to filter column names or datatype
--   `type` namespaced keyword for specific datatype or group of
+  - `:all` keyword - selects all columns
+  - column name - for single column
+  - sequence of column names - for collection of columns
+  - regex - to apply pattern on column names or datatype
+  - filter predicate - to filter column names or datatype
+  - `type` namespaced keyword for specific datatype or group of
     datatypes
 
 Column name can be anything.
@@ -1579,20 +1493,20 @@ Column name can be anything.
 `column-names` function returns names according to `columns-selector`
 and optional `meta-field`. `meta-field` is one of the following:
 
--   `:name` (default) - to operate on column names
--   `:datatype` - to operated on column types
--   `:all` - if you want to process all metadata
+  - `:name` (default) - to operate on column names
+  - `:datatype` - to operated on column types
+  - `:all` - if you want to process all metadata
 
 Datatype groups are:
 
--   `:type/numerical` - any numerical type
--   `:type/float` - floating point number (`:float32` and `:float64`)
--   `:type/integer` - any integer
--   `:type/datetime` - any datetime type
+  - `:type/numerical` - any numerical type
+  - `:type/float` - floating point number (`:float32` and `:float64`)
+  - `:type/integer` - any integer
+  - `:type/datetime` - any datetime type
 
 If qualified keyword starts with `:!type`, complement set is used.
 
-------------------------------------------------------------------------
+-----
 
 To select all column names you can use `column-names` function.
 
@@ -1618,9 +1532,11 @@ there is no such column in the dataset.
 (api/column-names DS [:all])
 ```
 
-    ()
+``` 
+()
+```
 
-------------------------------------------------------------------------
+-----
 
 Obviously selecting single name returns it’s name if available
 
@@ -1632,7 +1548,7 @@ Obviously selecting single name returns it’s name if available
     (:V1)
     ()
 
-------------------------------------------------------------------------
+-----
 
 Select sequence of column names.
 
@@ -1642,7 +1558,7 @@ Select sequence of column names.
 
     (:V1 :V3 :V4)
 
-------------------------------------------------------------------------
+-----
 
 Select names based on regex, columns ends with `1` or `4`
 
@@ -1652,7 +1568,7 @@ Select names based on regex, columns ends with `1` or `4`
 
     (:V1 :V4)
 
-------------------------------------------------------------------------
+-----
 
 Select names based on regex operating on type of the column (to check
 what are the column types, call `(api/info DS :columns)`. Here we want
@@ -1672,7 +1588,7 @@ or
 
     (:V1 :V2)
 
-------------------------------------------------------------------------
+-----
 
 And finally we can use predicate to select names. Let’s select double
 precision columns.
@@ -1691,7 +1607,7 @@ or
 
     (:V3)
 
-------------------------------------------------------------------------
+-----
 
 If you want to select all columns but given, use `complement` function.
 Works only on a predicate.
@@ -1706,7 +1622,7 @@ Works only on a predicate.
     (:V1 :V2 :V4)
     (:V1 :V2 :V4)
 
-------------------------------------------------------------------------
+-----
 
 You can select column names based on all column metadata at once by
 using `:all` metadata selector. Below we want to select column names
@@ -1726,7 +1642,7 @@ ending with `1` which have `long` datatype.
 `columns-selector` as described above. Function works on regular and
 grouped dataset.
 
-------------------------------------------------------------------------
+-----
 
 Select only float64 columns
 
@@ -1737,7 +1653,7 @@ Select only float64 columns
 \_unnamed \[9 1\]:
 
 | :V3 |
-|-----|
+| --- |
 | 0.5 |
 | 1.0 |
 | 1.5 |
@@ -1748,7 +1664,7 @@ Select only float64 columns
 | 1.0 |
 | 1.5 |
 
-------------------------------------------------------------------------
+-----
 
 Select all but `:V1` columns
 
@@ -1759,7 +1675,7 @@ Select all but `:V1` columns
 \_unnamed \[9 3\]:
 
 | :V2 | :V3 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 0.5 | A   |
 | 2   | 1.0 | B   |
 | 3   | 1.5 | C   |
@@ -1770,7 +1686,7 @@ Select all but `:V1` columns
 | 8   | 1.0 | B   |
 | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 If we have grouped data set, column selection is applied to every group
 separately.
@@ -1785,7 +1701,7 @@ separately.
 {1 Group: 1 \[5 2\]:
 
 | :V2 | :V3 |
-|-----|-----|
+| --- | --- |
 | 1   | 0.5 |
 | 3   | 1.5 |
 | 5   | 1.0 |
@@ -1795,7 +1711,7 @@ separately.
 , 2 Group: 2 \[4 2\]:
 
 | :V2 | :V3 |
-|-----|-----|
+| --- | --- |
 | 2   | 1.0 |
 | 4   | 0.5 |
 | 6   | 1.5 |
@@ -1807,7 +1723,7 @@ separately.
 
 `drop-columns` creates dataset with removed columns.
 
-------------------------------------------------------------------------
+-----
 
 Drop float64 columns
 
@@ -1818,7 +1734,7 @@ Drop float64 columns
 \_unnamed \[9 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 1   | A   |
 | 2   | 2   | B   |
 | 1   | 3   | C   |
@@ -1829,7 +1745,7 @@ Drop float64 columns
 | 2   | 8   | B   |
 | 1   | 9   | C   |
 
-------------------------------------------------------------------------
+-----
 
 Drop all columns but `:V1` and `:V2`
 
@@ -1840,7 +1756,7 @@ Drop all columns but `:V1` and `:V2`
 \_unnamed \[9 2\]:
 
 | :V1 | :V2 |
-|-----|-----|
+| --- | --- |
 | 1   | 1   |
 | 2   | 2   |
 | 1   | 3   |
@@ -1851,7 +1767,7 @@ Drop all columns but `:V1` and `:V2`
 | 2   | 8   |
 | 1   | 9   |
 
-------------------------------------------------------------------------
+-----
 
 If we have grouped data set, column selection is applied to every group
 separately. Selected columns are dropped.
@@ -1866,7 +1782,7 @@ separately. Selected columns are dropped.
 {1 Group: 1 \[5 2\]:
 
 | :V1 | :V4 |
-|-----|-----|
+| --- | --- |
 | 1   | A   |
 | 1   | C   |
 | 1   | B   |
@@ -1876,7 +1792,7 @@ separately. Selected columns are dropped.
 , 2 Group: 2 \[4 2\]:
 
 | :V1 | :V4 |
-|-----|-----|
+| --- | --- |
 | 2   | B   |
 | 2   | A   |
 | 2   | C   |
@@ -1900,19 +1816,19 @@ You can also pass mapping function with optional columns-selector
 
 \_unnamed \[9 4\]:
 
-| v1  | v2  | \[1 2 3\] | <a href="mailto:java.lang.Object@1fc387bb" class="email">java.lang.Object@1fc387bb</a> |
-|-----|-----|-----------|----------------------------------------------------------------------------------------|
-| 1   | 1   | 0.5       | A                                                                                      |
-| 2   | 2   | 1.0       | B                                                                                      |
-| 1   | 3   | 1.5       | C                                                                                      |
-| 2   | 4   | 0.5       | A                                                                                      |
-| 1   | 5   | 1.0       | B                                                                                      |
-| 2   | 6   | 1.5       | C                                                                                      |
-| 1   | 7   | 0.5       | A                                                                                      |
-| 2   | 8   | 1.0       | B                                                                                      |
-| 1   | 9   | 1.5       | C                                                                                      |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@5d8c0443> |
+| -- | -- | --------- | --------------------------- |
+| 1  | 1  | 0.5       | A                           |
+| 2  | 2  | 1.0       | B                           |
+| 1  | 3  | 1.5       | C                           |
+| 2  | 4  | 0.5       | A                           |
+| 1  | 5  | 1.0       | B                           |
+| 2  | 6  | 1.5       | C                           |
+| 1  | 7  | 0.5       | A                           |
+| 2  | 8  | 1.0       | B                           |
+| 1  | 9  | 1.5       | C                           |
 
-------------------------------------------------------------------------
+-----
 
 Map all names with function
 
@@ -1922,19 +1838,19 @@ Map all names with function
 
 \_unnamed \[9 4\]:
 
-| 1   | 2   | 3   | 4   |
-|-----|-----|-----|-----|
-| 1   | 1   | 0.5 | A   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
+| 1 | 2 | 3   | 4 |
+| - | - | --- | - |
+| 1 | 1 | 0.5 | A |
+| 2 | 2 | 1.0 | B |
+| 1 | 3 | 1.5 | C |
+| 2 | 4 | 0.5 | A |
+| 1 | 5 | 1.0 | B |
+| 2 | 6 | 1.5 | C |
+| 1 | 7 | 0.5 | A |
+| 2 | 8 | 1.0 | B |
+| 1 | 9 | 1.5 | C |
 
-------------------------------------------------------------------------
+-----
 
 Map selected names with function
 
@@ -1944,19 +1860,19 @@ Map selected names with function
 
 \_unnamed \[9 4\]:
 
-| 1   | :V2 | 3   | :V4 |
-|-----|-----|-----|-----|
-| 1   | 1   | 0.5 | A   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
+| 1 | :V2 | 3   | :V4 |
+| - | --- | --- | --- |
+| 1 | 1   | 0.5 | A   |
+| 2 | 2   | 1.0 | B   |
+| 1 | 3   | 1.5 | C   |
+| 2 | 4   | 0.5 | A   |
+| 1 | 5   | 1.0 | B   |
+| 2 | 6   | 1.5 | C   |
+| 1 | 7   | 0.5 | A   |
+| 2 | 8   | 1.0 | B   |
+| 1 | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Function works on grouped dataset
 
@@ -1972,22 +1888,22 @@ Function works on grouped dataset
 
 {1 Group: 1 \[5 4\]:
 
-| v1  | v2  | \[1 2 3\] | <a href="mailto:java.lang.Object@5ecbce13" class="email">java.lang.Object@5ecbce13</a> |
-|-----|-----|-----------|----------------------------------------------------------------------------------------|
-| 1   | 1   | 0.5       | A                                                                                      |
-| 1   | 3   | 1.5       | C                                                                                      |
-| 1   | 5   | 1.0       | B                                                                                      |
-| 1   | 7   | 0.5       | A                                                                                      |
-| 1   | 9   | 1.5       | C                                                                                      |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@15ede5d7> |
+| -- | -- | --------- | --------------------------- |
+| 1  | 1  | 0.5       | A                           |
+| 1  | 3  | 1.5       | C                           |
+| 1  | 5  | 1.0       | B                           |
+| 1  | 7  | 0.5       | A                           |
+| 1  | 9  | 1.5       | C                           |
 
 , 2 Group: 2 \[4 4\]:
 
-| v1  | v2  | \[1 2 3\] | <a href="mailto:java.lang.Object@5ecbce13" class="email">java.lang.Object@5ecbce13</a> |
-|-----|-----|-----------|----------------------------------------------------------------------------------------|
-| 2   | 2   | 1.0       | B                                                                                      |
-| 2   | 4   | 0.5       | A                                                                                      |
-| 2   | 6   | 1.5       | C                                                                                      |
-| 2   | 8   | 1.0       | B                                                                                      |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@15ede5d7> |
+| -- | -- | --------- | --------------------------- |
+| 2  | 2  | 1.0       | B                           |
+| 2  | 4  | 0.5       | A                           |
+| 2  | 6  | 1.5       | C                           |
+| 2  | 8  | 1.0       | B                           |
 
 }
 
@@ -1996,22 +1912,22 @@ Function works on grouped dataset
 To add (or replace existing) column call `add-or-replace-column`
 function. Function accepts:
 
--   `ds` - a dataset
--   `column-name` - if it’s existing column name, column will be
+  - `ds` - a dataset
+  - `column-name` - if it’s existing column name, column will be
     replaced
--   `column` - can be column (from other dataset), sequence, single
+  - `column` - can be column (from other dataset), sequence, single
     value or function. Too big columns are always trimmed. Too small are
     cycled or extended with missing values (according to `size-strategy`
     argument)
--   `size-strategy` (optional) - when new column is shorter than dataset
+  - `size-strategy` (optional) - when new column is shorter than dataset
     row count, following strategies are applied:
--   `:cycle` (default) - repeat data
-    -   `:na` - append missing values
-    -   `:strict` - throws an exception when sizes mismatch
+  - `:cycle` (default) - repeat data
+      - `:na` - append missing values
+      - `:strict` - throws an exception when sizes mismatch
 
 Function works on grouped dataset.
 
-------------------------------------------------------------------------
+-----
 
 Add single value as column
 
@@ -2022,7 +1938,7 @@ Add single value as column
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :V5 |
-|-----|-----|-----|-----|-----|
+| --- | --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   | X   |
 | 2   | 2   | 1.0 | B   | X   |
 | 1   | 3   | 1.5 | C   | X   |
@@ -2033,7 +1949,7 @@ Add single value as column
 | 2   | 8   | 1.0 | B   | X   |
 | 1   | 9   | 1.5 | C   | X   |
 
-------------------------------------------------------------------------
+-----
 
 Replace one column (column is trimmed)
 
@@ -2044,18 +1960,18 @@ Replace one column (column is trimmed)
 \_unnamed \[9 4\]:
 
 | :V1    | :V2 | :V3 | :V4 |
-|--------|-----|-----|-----|
-| 0.3605 | 1   | 0.5 | A   |
-| 0.1272 | 2   | 1.0 | B   |
-| 0.7146 | 3   | 1.5 | C   |
-| 0.5689 | 4   | 0.5 | A   |
-| 0.8455 | 5   | 1.0 | B   |
-| 0.9450 | 6   | 1.5 | C   |
-| 0.8507 | 7   | 0.5 | A   |
-| 0.4759 | 8   | 1.0 | B   |
-| 0.6512 | 9   | 1.5 | C   |
+| ------ | --- | --- | --- |
+| 0.2627 | 1   | 0.5 | A   |
+| 0.3026 | 2   | 1.0 | B   |
+| 0.8210 | 3   | 1.5 | C   |
+| 0.7352 | 4   | 0.5 | A   |
+| 0.1309 | 5   | 1.0 | B   |
+| 0.4219 | 6   | 1.5 | C   |
+| 0.9242 | 7   | 0.5 | A   |
+| 0.3036 | 8   | 1.0 | B   |
+| 0.2681 | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Copy column
 
@@ -2066,7 +1982,7 @@ Copy column
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :V5 |
-|-----|-----|-----|-----|-----|
+| --- | --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   | 1   |
 | 2   | 2   | 1.0 | B   | 2   |
 | 1   | 3   | 1.5 | C   | 1   |
@@ -2077,7 +1993,7 @@ Copy column
 | 2   | 8   | 1.0 | B   | 2   |
 | 1   | 9   | 1.5 | C   | 1   |
 
-------------------------------------------------------------------------
+-----
 
 When function is used, argument is whole dataset and the result should
 be column, sequence or single value
@@ -2089,7 +2005,7 @@ be column, sequence or single value
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :row-count |
-|-----|-----|-----|-----|------------|
+| --- | --- | --- | --- | ---------- |
 | 1   | 1   | 0.5 | A   | 9          |
 | 2   | 2   | 1.0 | B   | 9          |
 | 1   | 3   | 1.5 | C   | 9          |
@@ -2100,7 +2016,7 @@ be column, sequence or single value
 | 2   | 8   | 1.0 | B   | 9          |
 | 1   | 9   | 1.5 | C   | 9          |
 
-------------------------------------------------------------------------
+-----
 
 Above example run on grouped dataset, applies function on each group
 separately.
@@ -2115,7 +2031,7 @@ separately.
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :row-count |
-|-----|-----|-----|-----|------------|
+| --- | --- | --- | --- | ---------- |
 | 1   | 1   | 0.5 | A   | 5          |
 | 1   | 3   | 1.5 | C   | 5          |
 | 1   | 5   | 1.0 | B   | 5          |
@@ -2126,7 +2042,7 @@ separately.
 | 2   | 6   | 1.5 | C   | 4          |
 | 2   | 8   | 1.0 | B   | 4          |
 
-------------------------------------------------------------------------
+-----
 
 When column which is added is longer than row count in dataset, column
 is trimmed. When column is shorter, it’s cycled or missing values are
@@ -2139,7 +2055,7 @@ appended.
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :V5 |
-|-----|-----|-----|-----|-----|
+| --- | --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   | :r  |
 | 2   | 2   | 1.0 | B   | :b  |
 | 1   | 3   | 1.5 | C   | :r  |
@@ -2157,7 +2073,7 @@ appended.
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :V5 |
-|-----|-----|-----|-----|-----|
+| --- | --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   | :r  |
 | 2   | 2   | 1.0 | B   | :b  |
 | 1   | 3   | 1.5 | C   |     |
@@ -2179,7 +2095,7 @@ not equal row count
 
     "Exception caught: Column size (2) should be exactly the same as dataset row count (9)"
 
-------------------------------------------------------------------------
+-----
 
 Tha same applies for grouped dataset
 
@@ -2193,7 +2109,7 @@ Tha same applies for grouped dataset
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :V5 |
-|-----|-----|-----|-----|-----|
+| --- | --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   | :r  |
 | 1   | 5   | 1.0 | B   | :b  |
 | 2   | 8   | 1.0 | B   |     |
@@ -2204,7 +2120,7 @@ Tha same applies for grouped dataset
 | 2   | 6   | 1.5 | C   | :b  |
 | 1   | 9   | 1.5 | C   |     |
 
-------------------------------------------------------------------------
+-----
 
 Let’s use other column to fill groups
 
@@ -2218,7 +2134,7 @@ Let’s use other column to fill groups
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :V5 |
-|-----|-----|-----|-----|-----|
+| --- | --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   | 1   |
 | 1   | 5   | 1.0 | B   | 2   |
 | 2   | 8   | 1.0 | B   | 3   |
@@ -2229,7 +2145,7 @@ Let’s use other column to fill groups
 | 2   | 6   | 1.5 | C   | 2   |
 | 1   | 9   | 1.5 | C   | 3   |
 
-------------------------------------------------------------------------
+-----
 
 In case you want to add or update several columns you can call
 `add-or-replace-columns` and provide map where keys are column names,
@@ -2244,7 +2160,7 @@ vals are columns.
 \_unnamed \[9 6\]:
 
 | :V1 | :V2 | :V3 | :V4 | :V5 | :V6 |
-|-----|-----|-----|-----|-----|-----|
+| --- | --- | --- | --- | --- | --- |
 | 2   | 1   | 0.5 | A   | :A  | 11  |
 | 3   | 2   | 1.0 | B   | :B  | 11  |
 | 2   | 3   | 1.5 | C   | :C  | 11  |
@@ -2260,14 +2176,14 @@ vals are columns.
 If you want to modify specific column(s) you can call `update-columns`.
 Arguments:
 
--   dataset
--   one of:
-    -   `columns-selector` and function (or sequence of functions)
-    -   map where keys are column names and vals are function
+  - dataset
+  - one of:
+      - `columns-selector` and function (or sequence of functions)
+      - map where keys are column names and vals are function
 
 Functions accept column and have to return column or sequence
 
-------------------------------------------------------------------------
+-----
 
 Reverse of columns
 
@@ -2278,7 +2194,7 @@ Reverse of columns
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3    | :V4 |
-|-----|-----|--------|-----|
+| --- | --- | ------ | --- |
 | 1   | 9   | 1.500  | C   |
 | 2   | 8   | 1.000  | B   |
 | 1   | 7   | 0.5000 | A   |
@@ -2289,7 +2205,7 @@ Reverse of columns
 | 2   | 2   | 1.000  | B   |
 | 1   | 1   | 0.5000 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Apply dec/inc on numerical columns
 
@@ -2300,19 +2216,19 @@ Apply dec/inc on numerical columns
 
 \_unnamed \[9 4\]:
 
-| :V1 | :V2 | :V3     | :V4 |
-|-----|-----|---------|-----|
-| 0   | 2   | -0.5000 | A   |
-| 1   | 3   | 0.000   | B   |
-| 0   | 4   | 0.5000  | C   |
-| 1   | 5   | -0.5000 | A   |
-| 0   | 6   | 0.000   | B   |
-| 1   | 7   | 0.5000  | C   |
-| 0   | 8   | -0.5000 | A   |
-| 1   | 9   | 0.000   | B   |
-| 0   | 10  | 0.5000  | C   |
+| :V1 | :V2 | :V3      | :V4 |
+| --- | --- | -------- | --- |
+| 0   | 2   | \-0.5000 | A   |
+| 1   | 3   | 0.000    | B   |
+| 0   | 4   | 0.5000   | C   |
+| 1   | 5   | \-0.5000 | A   |
+| 0   | 6   | 0.000    | B   |
+| 1   | 7   | 0.5000   | C   |
+| 0   | 8   | \-0.5000 | A   |
+| 1   | 9   | 0.000    | B   |
+| 0   | 10  | 0.5000   | C   |
 
-------------------------------------------------------------------------
+-----
 
 You can also assing function to a column by packing operations into the
 map.
@@ -2325,16 +2241,16 @@ map.
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
-| 1   | 8   | 0.5 | A   |
+| --- | --- | --- | --- |
+| 1   | 3   | 0.5 | A   |
+| 2   | 9   | 1.0 | B   |
+| 1   | 8   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
-| 1   | 6   | 1.5 | C   |
-| 2   | 7   | 0.5 | A   |
-| 1   | 1   | 1.0 | B   |
-| 2   | 4   | 1.5 | C   |
-| 1   | 9   | 0.5 | A   |
-| 2   | 3   | 1.0 | B   |
-| 1   | 5   | 1.5 | C   |
+| 1   | 7   | 1.5 | C   |
 
 #### Map
 
@@ -2344,12 +2260,12 @@ number of selected columns.
 
 Arguments:
 
--   `ds` - dataset
--   `column-name` - target column name
--   `columns-selector` - columns selected
--   `map-fn` - mapping function
+  - `ds` - dataset
+  - `column-name` - target column name
+  - `columns-selector` - columns selected
+  - `map-fn` - mapping function
 
-------------------------------------------------------------------------
+-----
 
 Let’s add numerical columns together
 
@@ -2364,7 +2280,7 @@ Let’s add numerical columns together
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :sum-of-numbers |
-|-----|-----|-----|-----|-----------------|
+| --- | --- | --- | --- | --------------- |
 | 1   | 1   | 0.5 | A   | 2.5             |
 | 2   | 2   | 1.0 | B   | 5.0             |
 | 1   | 3   | 1.5 | C   | 5.5             |
@@ -2390,7 +2306,7 @@ The same works on grouped dataset
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :sum-of-numbers |
-|-----|-----|-----|-----|-----------------|
+| --- | --- | --- | --- | --------------- |
 | 1   | 1   | 0.5 | A   | 2.5             |
 | 2   | 4   | 0.5 | A   | 6.5             |
 | 1   | 7   | 0.5 | A   | 8.5             |
@@ -2413,7 +2329,7 @@ first. The unseleted columns are appended to the end.
 \_unnamed \[9 4\]:
 
 | :V4 | :V2 | :V3 | :V1 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | A   | 1   | 0.5 | 1   |
 | B   | 2   | 1.0 | 2   |
 | C   | 3   | 1.5 | 1   |
@@ -2424,7 +2340,7 @@ first. The unseleted columns are appended to the end.
 | B   | 8   | 1.0 | 2   |
 | C   | 9   | 1.5 | 1   |
 
-------------------------------------------------------------------------
+-----
 
 This function doesn’t let you select meta field, so you have to call
 `column-names` in such case. Below we want to add integer columns at the
@@ -2437,7 +2353,7 @@ end.
 \_unnamed \[9 4\]:
 
 | :V3 | :V4 | :V1 | :V2 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 0.5 | A   | 1   | 1   |
 | 1.0 | B   | 2   | 2   |
 | 1.5 | C   | 1   | 3   |
@@ -2457,17 +2373,17 @@ conversion is not possible you can pass conversion function.
 
 Arguments:
 
--   `ds` - dataset
--   Two options:
-    -   `coltype-map` in case when you want to convert several columns,
+  - `ds` - dataset
+  - Two options:
+      - `coltype-map` in case when you want to convert several columns,
         keys are column names, vals are new types
-    -   `column-selector` and `new-types` - column name and new datatype
+      - `column-selector` and `new-types` - column name and new datatype
         (or datatypes as sequence)
 
 `new-types` can be:
 
--   a type like `:int64` or `:string` or sequence of types
--   or sequence of pair of datetype and conversion function
+  - a type like `:int64` or `:string` or sequence of types
+  - or sequence of pair of datetype and conversion function
 
 After conversion additional infomation is given on problematic values.
 
@@ -2475,7 +2391,7 @@ The other conversion is casting column into java array (`->array`) of
 the type column or provided as argument. Grouped dataset returns
 sequence of arrays.
 
-------------------------------------------------------------------------
+-----
 
 Basic conversion
 
@@ -2488,13 +2404,13 @@ Basic conversion
 \_unnamed :column info \[4 6\]:
 
 | :name | :size | :datatype | :unparsed-indexes | :unparsed-data | :categorical? |
-|-------|-------|-----------|-------------------|----------------|---------------|
+| ----- | ----- | --------- | ----------------- | -------------- | ------------- |
 | :V1   | 9     | :float64  | {}                | \[\]           |               |
 | :V2   | 9     | :int64    |                   |                |               |
 | :V3   | 9     | :float64  |                   |                |               |
 | :V4   | 9     | :string   |                   |                | true          |
 
-------------------------------------------------------------------------
+-----
 
 Using custom converter. Let’s treat `:V4` as haxadecimal values. See
 that this way we can map column to any value.
@@ -2507,7 +2423,7 @@ that this way we can map column to any value.
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | 10  |
 | 2   | 2   | 1.0 | 11  |
 | 1   | 3   | 1.5 | 12  |
@@ -2518,7 +2434,7 @@ that this way we can map column to any value.
 | 2   | 8   | 1.0 | 11  |
 | 1   | 9   | 1.5 | 12  |
 
-------------------------------------------------------------------------
+-----
 
 You can process several columns at once
 
@@ -2534,13 +2450,13 @@ You can process several columns at once
 \_unnamed :column info \[4 5\]:
 
 | :name | :size | :datatype | :unparsed-indexes | :unparsed-data |
-|-------|-------|-----------|-------------------|----------------|
+| ----- | ----- | --------- | ----------------- | -------------- |
 | :V1   | 9     | :float64  | {}                | \[\]           |
 | :V2   | 9     | :object   | {}                | \[\]           |
 | :V3   | 9     | :boolean  | {}                | \[\]           |
 | :V4   | 9     | :object   |                   |                |
 
-------------------------------------------------------------------------
+-----
 
 Convert one type into another
 
@@ -2553,13 +2469,13 @@ Convert one type into another
 \_unnamed :column info \[4 6\]:
 
 | :name | :size | :datatype | :unparsed-indexes | :unparsed-data | :categorical? |
-|-------|-------|-----------|-------------------|----------------|---------------|
+| ----- | ----- | --------- | ----------------- | -------------- | ------------- |
 | :V1   | 9     | :int16    | {}                | \[\]           |               |
 | :V2   | 9     | :int16    | {}                | \[\]           |               |
 | :V3   | 9     | :int16    | {}                | \[\]           |               |
 | :V4   | 9     | :string   |                   |                | true          |
 
-------------------------------------------------------------------------
+-----
 
 Function works on the grouped dataset
 
@@ -2574,13 +2490,13 @@ Function works on the grouped dataset
 \_unnamed :column info \[4 6\]:
 
 | :name | :size | :datatype | :unparsed-indexes | :unparsed-data | :categorical? |
-|-------|-------|-----------|-------------------|----------------|---------------|
+| ----- | ----- | --------- | ----------------- | -------------- | ------------- |
 | :V1   | 9     | :float32  | {}                | \[\]           |               |
 | :V2   | 9     | :int64    |                   |                |               |
 | :V3   | 9     | :float64  |                   |                |               |
 | :V4   | 9     | :string   |                   |                | true          |
 
-------------------------------------------------------------------------
+-----
 
 Double array conversion.
 
@@ -2588,9 +2504,9 @@ Double array conversion.
 (api/->array DS :V1)
 ```
 
-    #object["[J" 0x30e19343 "[J@30e19343"]
+    #object["[J" 0x5511dfe7 "[J@5511dfe7"]
 
-------------------------------------------------------------------------
+-----
 
 Function also works on grouped dataset
 
@@ -2600,9 +2516,9 @@ Function also works on grouped dataset
     (api/->array :V2))
 ```
 
-    (#object["[J" 0x16ce7ac3 "[J@16ce7ac3"] #object["[J" 0x5e013a7d "[J@5e013a7d"] #object["[J" 0x36e57e6d "[J@36e57e6d"])
+    (#object["[J" 0x24ab4dc5 "[J@24ab4dc5"] #object["[J" 0x5e77709d "[J@5e77709d"] #object["[J" 0x2a63c928 "[J@2a63c928"])
 
-------------------------------------------------------------------------
+-----
 
 You can also cast the type to the other one (if casting is possible):
 
@@ -2611,17 +2527,17 @@ You can also cast the type to the other one (if casting is possible):
 (api/->array DS :V1 :float32)
 ```
 
-    #object["[Ljava.lang.String;" 0x236793b2 "[Ljava.lang.String;@236793b2"]
-    #object["[F" 0x38631d5c "[F@38631d5c"]
+    #object["[Ljava.lang.String;" 0x61833f6b "[Ljava.lang.String;@61833f6b"]
+    #object["[F" 0x7a87b3cd "[F@7a87b3cd"]
 
 ### Rows
 
 Rows can be selected or dropped using various selectors:
 
--   row id(s) - row index as number or seqence of numbers (first row has
+  - row id(s) - row index as number or seqence of numbers (first row has
     index `0`, second `1` and so on)
--   sequence of true/false values
--   filter by predicate (argument is row as a map)
+  - sequence of true/false values
+  - filter by predicate (argument is row as a map)
 
 When predicate is used you may want to limit columns passed to the
 function (`select-keys` option).
@@ -2642,10 +2558,10 @@ Select fifth row
 \_unnamed \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 5   | 1.0 | B   |
 
-------------------------------------------------------------------------
+-----
 
 Select 3 rows
 
@@ -2656,12 +2572,12 @@ Select 3 rows
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 1   | 5   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Select rows using sequence of true/false values
 
@@ -2672,11 +2588,11 @@ Select rows using sequence of true/false values
 \_unnamed \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Select rows using predicate
 
@@ -2687,12 +2603,12 @@ Select rows using predicate
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 The same works on grouped dataset, let’s select first row from every
 group.
@@ -2707,11 +2623,11 @@ group.
 \_unnamed \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 
-------------------------------------------------------------------------
+-----
 
 If you want to select `:V2` values which are lower than or equal mean in
 grouped dataset you have to precalculate it using `:pre`.
@@ -2727,7 +2643,7 @@ grouped dataset you have to precalculate it using `:pre`.
 \_unnamed \[6 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
@@ -2740,7 +2656,7 @@ grouped dataset you have to precalculate it using `:pre`.
 `drop-rows` removes rows, and accepts exactly the same parameters as
 `select-rows`
 
-------------------------------------------------------------------------
+-----
 
 Drop values lower than or equal `:V2` column mean in grouped dataset.
 
@@ -2755,7 +2671,7 @@ Drop values lower than or equal `:V2` column mean in grouped dataset.
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 7   | 0.5 | A   |
 | 2   | 8   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
@@ -2769,7 +2685,7 @@ dataset.
 All random functions accept `:seed` as an option if you want to fix
 returned result.
 
-------------------------------------------------------------------------
+-----
 
 First row
 
@@ -2780,10 +2696,10 @@ First row
 \_unnamed \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Last row
 
@@ -2794,10 +2710,10 @@ Last row
 \_unnamed \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Random row (single)
 
@@ -2808,10 +2724,10 @@ Random row (single)
 \_unnamed \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
-| 1   | 7   | 0.5 | A   |
+| --- | --- | --- | --- |
+| 2   | 6   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Random row (single) with seed
 
@@ -2822,10 +2738,10 @@ Random row (single) with seed
 \_unnamed \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 6   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Random `n` (default: row count) rows with repetition.
 
@@ -2836,18 +2752,18 @@ Random `n` (default: row count) rows with repetition.
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
+| 1   | 5   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
 | 1   | 1   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 2   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Five random rows with repetition
 
@@ -2858,14 +2774,14 @@ Five random rows with repetition
 \_unnamed \[5 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 9   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Five random, non-repeating rows
 
@@ -2876,14 +2792,14 @@ Five random, non-repeating rows
 \_unnamed \[5 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
-| 2   | 4   | 0.5 | A   |
-| 1   | 9   | 1.5 | C   |
+| --- | --- | --- | --- |
+| 2   | 6   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
 | 2   | 2   | 1.0 | B   |
-| 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Five random, with seed
 
@@ -2894,14 +2810,14 @@ Five random, with seed
 \_unnamed \[5 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 6   | 1.5 | C   |
 | 1   | 5   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
 | 1   | 1   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Shuffle dataset
 
@@ -2912,18 +2828,18 @@ Shuffle dataset
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
-| 1   | 7   | 0.5 | A   |
+| --- | --- | --- | --- |
+| 2   | 4   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 1   | 0.5 | A   |
-| 2   | 6   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Shuffle with seed
 
@@ -2934,7 +2850,7 @@ Shuffle with seed
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 5   | 1.0 | B   |
 | 2   | 2   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
@@ -2945,7 +2861,7 @@ Shuffle with seed
 | 1   | 1   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 First `n` rows (default 5)
 
@@ -2956,14 +2872,14 @@ First `n` rows (default 5)
 \_unnamed \[5 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
 
-------------------------------------------------------------------------
+-----
 
 Last `n` rows (default 5)
 
@@ -2974,14 +2890,14 @@ Last `n` rows (default 5)
 \_unnamed \[5 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 5   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
 | 1   | 7   | 0.5 | A   |
 | 2   | 8   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 `by-rank` calculates rank on column(s). It’s base on [R
 rank()](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/rank)
@@ -2993,7 +2909,7 @@ giving top values under `0` value.
 
 `rank` is zero based and is defined at `tablecloth.api.utils` namespace.
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/by-rank DS :V3 zero?) ;; most V3 values
@@ -3002,7 +2918,7 @@ giving top values under `0` value.
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
@@ -3014,12 +2930,12 @@ giving top values under `0` value.
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Rank also works on multiple columns
 
@@ -3030,11 +2946,11 @@ Rank also works on multiple columns
 \_unnamed \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Select 5 random rows from each group
 
@@ -3048,22 +2964,22 @@ Select 5 random rows from each group
 \_unnamed \[15 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
 | 1   | 5   | 1.0 | B   |
 | 2   | 2   | 1.0 | B   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
 | 1   | 5   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
 
 ### Aggregate
 
@@ -3083,7 +2999,7 @@ ungrouping parameters add them to the options.
 By default resulting column names are prefixed with `summary` prefix
 (set it with `:default-column-name-prefix` option).
 
-------------------------------------------------------------------------
+-----
 
 Let’s calculate mean of some columns
 
@@ -3094,10 +3010,10 @@ Let’s calculate mean of some columns
 \_unnamed \[1 1\]:
 
 | :summary |
-|----------|
+| -------- |
 | 45       |
 
-------------------------------------------------------------------------
+-----
 
 Let’s give resulting column a name.
 
@@ -3108,10 +3024,10 @@ Let’s give resulting column a name.
 \_unnamed \[1 1\]:
 
 | :sum-of-V2 |
-|------------|
+| ---------- |
 | 45         |
 
-------------------------------------------------------------------------
+-----
 
 Sequential result is spread into separate columns
 
@@ -3122,10 +3038,10 @@ Sequential result is spread into separate columns
 \_unnamed \[1 5\]:
 
 | :summary-0 | :summary-1 | :summary-2 | :summary-3 | :summary-4 |
-|------------|------------|------------|------------|------------|
+| ---------- | ---------- | ---------- | ---------- | ---------- |
 | 1          | 2          | 3          | 4          | 5          |
 
-------------------------------------------------------------------------
+-----
 
 You can combine all variants and rename default prefix
 
@@ -3137,35 +3053,11 @@ You can combine all variants and rename default prefix
 
 \_unnamed \[1 5\]:
 
-<table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 23%" />
-<col style="width: 24%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>:V2-value-0-0</th>
-<th>:V2-value-0-1</th>
-<th>:V2-value-0-2</th>
-<th>:V2-value-1-sum-v1</th>
-<th>:V2-value-1-prod-v3</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>2</td>
-<td>3</td>
-<td>13</td>
-<td>0.421875</td>
-</tr>
-</tbody>
-</table>
+| :V2-value-0-0 | :V2-value-0-1 | :V2-value-0-2 | :V2-value-1-sum-v1 | :V2-value-1-prod-v3 |
+| ------------- | ------------- | ------------- | ------------------ | ------------------- |
+| 1             | 2             | 3             | 13                 | 0.421875            |
 
-------------------------------------------------------------------------
+-----
 
 Processing grouped dataset
 
@@ -3179,52 +3071,11 @@ Processing grouped dataset
 
 \_unnamed \[3 6\]:
 
-<table>
-<colgroup>
-<col style="width: 5%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 21%" />
-<col style="width: 23%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>:V4</th>
-<th>:V2-value-0-0</th>
-<th>:V2-value-0-1</th>
-<th>:V2-value-0-2</th>
-<th>:V2-value-1-sum-v1</th>
-<th>:V2-value-1-prod-v3</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>B</td>
-<td>2</td>
-<td>5</td>
-<td>8</td>
-<td>5</td>
-<td>1.000</td>
-</tr>
-<tr class="even">
-<td>C</td>
-<td>3</td>
-<td>6</td>
-<td>9</td>
-<td>4</td>
-<td>3.375</td>
-</tr>
-<tr class="odd">
-<td>A</td>
-<td>1</td>
-<td>4</td>
-<td>7</td>
-<td>4</td>
-<td>0.125</td>
-</tr>
-</tbody>
-</table>
+| :V4 | :V2-value-0-0 | :V2-value-0-1 | :V2-value-0-2 | :V2-value-1-sum-v1 | :V2-value-1-prod-v3 |
+| --- | ------------- | ------------- | ------------- | ------------------ | ------------------- |
+| B   | 2             | 5             | 8             | 5                  | 1.000               |
+| C   | 3             | 6             | 9             | 4                  | 3.375               |
+| A   | 1             | 4             | 7             | 4                  | 0.125               |
 
 Result of aggregating is automatically ungrouped, you can skip this step
 by stetting `:ungroup` option to `false`.
@@ -3241,7 +3092,7 @@ by stetting `:ungroup` option to `false`.
 \_unnamed \[3 3\]:
 
 | :name     | :group-id | :data              |
-|-----------|-----------|--------------------|
+| --------- | --------- | ------------------ |
 | {:V3 1.0} | 0         | \_unnamed \[1 5\]: |
 | {:V3 0.5} | 1         | \_unnamed \[1 5\]: |
 | {:V3 1.5} | 2         | \_unnamed \[1 5\]: |
@@ -3259,10 +3110,10 @@ each column separately.
 \_unnamed \[1 3\]:
 
 | :V1 | :V2 | :V3 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 13  | 45  | 9.0 |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/aggregate-columns DS [:V1 :V2 :V3] [#(reduce + %)
@@ -3273,10 +3124,10 @@ each column separately.
 \_unnamed \[1 3\]:
 
 | :V1 | :V2 | :V3      |
-|-----|-----|----------|
+| --- | --- | -------- |
 | 13  | 9   | 0.421875 |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (-> DS
@@ -3287,7 +3138,7 @@ each column separately.
 \_unnamed \[3 4\]:
 
 | :V4 | :V1 | :V2 | :V3 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | B   | 5   | 15  | 3.0 |
 | C   | 4   | 18  | 4.5 |
 | A   | 4   | 12  | 1.5 |
@@ -3297,13 +3148,13 @@ each column separately.
 Ordering can be done by column(s) or any function operating on row.
 Possible order can be:
 
--   `:asc` for ascending order (default)
--   `:desc` for descending order
--   custom comparator
+  - `:asc` for ascending order (default)
+  - `:desc` for descending order
+  - custom comparator
 
 `:select-keys` limits row map provided to ordering functions.
 
-------------------------------------------------------------------------
+-----
 
 Order by single column, ascending
 
@@ -3314,7 +3165,7 @@ Order by single column, ascending
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
 | 1   | 5   | 1.0 | B   |
@@ -3325,7 +3176,7 @@ Order by single column, ascending
 | 2   | 8   | 1.0 | B   |
 | 2   | 2   | 1.0 | B   |
 
-------------------------------------------------------------------------
+-----
 
 Descending order
 
@@ -3336,7 +3187,7 @@ Descending order
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 2   | 4   | 0.5 | A   |
 | 2   | 6   | 1.5 | C   |
@@ -3347,7 +3198,7 @@ Descending order
 | 1   | 1   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Order by two columns
 
@@ -3358,7 +3209,7 @@ Order by two columns
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
 | 1   | 5   | 1.0 | B   |
@@ -3369,7 +3220,7 @@ Order by two columns
 | 2   | 6   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
 
-------------------------------------------------------------------------
+-----
 
 Use different orders for columns
 
@@ -3380,7 +3231,7 @@ Use different orders for columns
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 9   | 1.5 | C   |
 | 1   | 7   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
@@ -3398,7 +3249,7 @@ Use different orders for columns
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 8   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
@@ -3416,7 +3267,7 @@ Use different orders for columns
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 4   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
@@ -3427,7 +3278,7 @@ Use different orders for columns
 | 1   | 3   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Custom function can be used to provied ordering key. Here order by `:V4`
 descending, then by product of other columns ascending.
@@ -3441,7 +3292,7 @@ descending, then by product of other columns ascending.
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
@@ -3452,7 +3303,7 @@ descending, then by product of other columns ascending.
 | 2   | 8   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Custom comparator also can be used in case objects are not comparable by
 default. Let’s define artificial one: if Euclidean distance is lower
@@ -3482,7 +3333,7 @@ columns for that.
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
 | 1   | 7   | 0.5 | A   |
@@ -3502,7 +3353,7 @@ them. Default strategy is to keep the first row. More strategies below.
 
 `unique-by` works on groups
 
-------------------------------------------------------------------------
+-----
 
 Remove duplicates from whole dataset
 
@@ -3513,7 +3364,7 @@ Remove duplicates from whole dataset
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
@@ -3524,7 +3375,7 @@ Remove duplicates from whole dataset
 | 2   | 8   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Remove duplicates from each group selected by column.
 
@@ -3535,11 +3386,11 @@ Remove duplicates from each group selected by column.
 \_unnamed \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 
-------------------------------------------------------------------------
+-----
 
 Pair of columns
 
@@ -3550,7 +3401,7 @@ Pair of columns
 \_unnamed \[6 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
@@ -3558,7 +3409,7 @@ Pair of columns
 | 1   | 5   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Also function can be used, split dataset by modulo 3 on columns `:V2`
 
@@ -3569,12 +3420,12 @@ Also function can be used, split dataset by modulo 3 on columns `:V2`
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 The same can be achived with `group-by`
 
@@ -3588,12 +3439,12 @@ The same can be achived with `group-by`
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 
-------------------------------------------------------------------------
+-----
 
 Grouped dataset
 
@@ -3607,7 +3458,7 @@ Grouped dataset
 \_unnamed \[6 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
@@ -3619,13 +3470,13 @@ Grouped dataset
 
 There are 4 strategies defined:
 
--   `:first` - select first row (default)
--   `:last` - select last row
--   `:random` - select random row
--   any function - apply function to a columns which are subject of
+  - `:first` - select first row (default)
+  - `:last` - select last row
+  - `:random` - select random row
+  - any function - apply function to a columns which are subject of
     uniqueness
 
-------------------------------------------------------------------------
+-----
 
 Last
 
@@ -3636,11 +3487,11 @@ Last
 \_unnamed \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 8   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Random
 
@@ -3651,11 +3502,11 @@ Random
 \_unnamed \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
-| 2   | 2   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
+| --- | --- | --- | --- |
+| 2   | 8   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Pack columns into vector
 
@@ -3666,12 +3517,12 @@ Pack columns into vector
 \_unnamed \[3 3\]:
 
 | :V1       | :V2       | :V3             |
-|-----------|-----------|-----------------|
+| --------- | --------- | --------------- |
 | \[2 1 2\] | \[2 5 8\] | \[1.0 1.0 1.0\] |
 | \[1 2 1\] | \[3 6 9\] | \[1.5 1.5 1.5\] |
 | \[1 2 1\] | \[1 4 7\] | \[0.5 0.5 0.5\] |
 
-------------------------------------------------------------------------
+-----
 
 Sum columns
 
@@ -3682,12 +3533,12 @@ Sum columns
 \_unnamed \[3 3\]:
 
 | :V1 | :V2 | :V3 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 5   | 15  | 3.0 |
 | 4   | 18  | 4.5 |
 | 4   | 12  | 1.5 |
 
-------------------------------------------------------------------------
+-----
 
 Group by function and apply functions
 
@@ -3698,12 +3549,12 @@ Group by function and apply functions
 \_unnamed \[3 4\]:
 
 | :V1       | :V2       | :V3             | :V4             |
-|-----------|-----------|-----------------|-----------------|
+| --------- | --------- | --------------- | --------------- |
 | \[1 2 1\] | \[3 6 9\] | \[1.5 1.5 1.5\] | \[“C” “C” “C”\] |
 | \[1 2 1\] | \[1 4 7\] | \[0.5 0.5 0.5\] | \[“A” “A” “A”\] |
 | \[2 1 2\] | \[2 5 8\] | \[1.0 1.0 1.0\] | \[“B” “B” “B”\] |
 
-------------------------------------------------------------------------
+-----
 
 Grouped dataset
 
@@ -3717,7 +3568,7 @@ Grouped dataset
 \_unnamed \[6 5\]:
 
 | :from-V1 | :V1     | :V2     | :V3         | :V4         |
-|----------|---------|---------|-------------|-------------|
+| -------- | ------- | ------- | ----------- | ----------- |
 | 1        | \[1 1\] | \[3 9\] | \[1.5 1.5\] | \[“C” “C”\] |
 | 1        | \[1 1\] | \[1 7\] | \[0.5 0.5\] | \[“A” “A”\] |
 | 1        | \[1\]   | \[5\]   | \[1.0\]     | \[“B”\]     |
@@ -3748,7 +3599,7 @@ DSm
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 |     | 3   |     | C   |
@@ -3770,13 +3621,13 @@ Select rows with missing values
 \_unnamed \[4 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 |     | 3   |     | C   |
 |     | 6   | 1.0 | C   |
 | 1   | 7   |     | A   |
 |     | 9   | 0.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Select rows with missing values in `:V1`
 
@@ -3787,12 +3638,12 @@ Select rows with missing values in `:V1`
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 |     | 3   |     | C   |
 |     | 6   | 1.0 | C   |
 |     | 9   | 0.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 The same with grouped dataset
 
@@ -3806,7 +3657,7 @@ The same with grouped dataset
 \_unnamed \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 7   |     | A   |
 |     | 3   |     | C   |
 
@@ -3821,14 +3672,14 @@ Drop rows with missing values
 \_unnamed \[5 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 4   | 1.5 | A   |
 | 2   | 5   | 0.5 | B   |
 | 2   | 8   | 1.5 | B   |
 
-------------------------------------------------------------------------
+-----
 
 Drop rows with missing values in `:V1`
 
@@ -3839,7 +3690,7 @@ Drop rows with missing values in `:V1`
 \_unnamed \[6 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 4   | 1.5 | A   |
@@ -3847,7 +3698,7 @@ Drop rows with missing values in `:V1`
 | 1   | 7   |     | A   |
 | 2   | 8   | 1.5 | B   |
 
-------------------------------------------------------------------------
+-----
 
 The same with grouped dataset
 
@@ -3861,7 +3712,7 @@ The same with grouped dataset
 \_unnamed \[6 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 4   | 1.5 | A   |
 | 1   | 7   |     | A   |
@@ -3874,22 +3725,22 @@ The same with grouped dataset
 Missing values can be replaced using several strategies.
 `replace-missing` accepts:
 
--   dataset
--   column selector, default: `:all`
--   strategy, default: `:mid`
--   value (optional)
-    -   single value
-    -   sequence of values (cycled)
-    -   function, applied on column(s) with stripped missings
+  - dataset
+  - column selector, default: `:all`
+  - strategy, default: `:mid`
+  - value (optional)
+      - single value
+      - sequence of values (cycled)
+      - function, applied on column(s) with stripped missings
 
 Strategies are:
 
--   `:value` - replace with given value
--   `:up` - copy values up and then down for missing values at the end
--   `:down` - copy values down and then up for missing values at the
+  - `:value` - replace with given value
+  - `:up` - copy values up and then down for missing values at the end
+  - `:down` - copy values down and then up for missing values at the
     beginning
--   `:mid` - copy values around known values
--   `:lerp` - trying to lineary approximate values, works for numbers
+  - `:mid` - copy values around known values
+  - `:lerp` - trying to lineary approximate values, works for numbers
     and datetime, otherwise applies `:mid`
 
 Let’s define special dataset here:
@@ -3905,25 +3756,25 @@ DSm2
 
 \_unnamed \[15 2\]:
 
-| :a   | :b  |
-|------|-----|
-|      | 2   |
-|      | 2   |
-|      | 2   |
-| 1.0  |     |
-| 2.0  |     |
-|      |     |
-|      |     |
-|      |     |
-|      |     |
-|      | 13  |
-| 4.0  |     |
-|      | 3   |
-| 11.0 | 4   |
-|      | 5   |
-|      | 5   |
+| :a   | :b |
+| ---- | -- |
+|      | 2  |
+|      | 2  |
+|      | 2  |
+| 1.0  |    |
+| 2.0  |    |
+|      |    |
+|      |    |
+|      |    |
+|      |    |
+|      | 13 |
+| 4.0  |    |
+|      | 3  |
+| 11.0 | 4  |
+|      | 5  |
+|      | 5  |
 
-------------------------------------------------------------------------
+-----
 
 Replace missing with default strategy for all columns
 
@@ -3933,25 +3784,25 @@ Replace missing with default strategy for all columns
 
 \_unnamed \[15 2\]:
 
-| :a   | :b  |
-|------|-----|
-| 1.0  | 2   |
-| 1.0  | 2   |
-| 1.0  | 2   |
-| 1.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 13  |
-| 2.0  | 13  |
-| 4.0  | 13  |
-| 4.0  | 13  |
-| 4.0  | 13  |
-| 4.0  | 3   |
-| 11.0 | 4   |
-| 11.0 | 5   |
-| 11.0 | 5   |
+| :a   | :b |
+| ---- | -- |
+| 1.0  | 2  |
+| 1.0  | 2  |
+| 1.0  | 2  |
+| 1.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 13 |
+| 2.0  | 13 |
+| 4.0  | 13 |
+| 4.0  | 13 |
+| 4.0  | 13 |
+| 4.0  | 3  |
+| 11.0 | 4  |
+| 11.0 | 5  |
+| 11.0 | 5  |
 
-------------------------------------------------------------------------
+-----
 
 Replace missing with single value in whole dataset
 
@@ -3962,7 +3813,7 @@ Replace missing with single value in whole dataset
 \_unnamed \[15 2\]:
 
 | :a    | :b  |
-|-------|-----|
+| ----- | --- |
 | 999.0 | 2   |
 | 999.0 | 2   |
 | 999.0 | 2   |
@@ -3979,7 +3830,7 @@ Replace missing with single value in whole dataset
 | 999.0 | 5   |
 | 999.0 | 5   |
 
-------------------------------------------------------------------------
+-----
 
 Replace missing with single value in `:a` column
 
@@ -3989,25 +3840,25 @@ Replace missing with single value in `:a` column
 
 \_unnamed \[15 2\]:
 
-| :a    | :b  |
-|-------|-----|
-| 999.0 | 2   |
-| 999.0 | 2   |
-| 999.0 | 2   |
-| 1.0   |     |
-| 2.0   |     |
-| 999.0 |     |
-| 999.0 |     |
-| 999.0 |     |
-| 999.0 |     |
-| 999.0 | 13  |
-| 4.0   |     |
-| 999.0 | 3   |
-| 11.0  | 4   |
-| 999.0 | 5   |
-| 999.0 | 5   |
+| :a    | :b |
+| ----- | -- |
+| 999.0 | 2  |
+| 999.0 | 2  |
+| 999.0 | 2  |
+| 1.0   |    |
+| 2.0   |    |
+| 999.0 |    |
+| 999.0 |    |
+| 999.0 |    |
+| 999.0 |    |
+| 999.0 | 13 |
+| 4.0   |    |
+| 999.0 | 3  |
+| 11.0  | 4  |
+| 999.0 | 5  |
+| 999.0 | 5  |
 
-------------------------------------------------------------------------
+-----
 
 Replace missing with sequence in `:a` column
 
@@ -4017,25 +3868,25 @@ Replace missing with sequence in `:a` column
 
 \_unnamed \[15 2\]:
 
-| :a     | :b  |
-|--------|-----|
-| -999.0 | 2   |
-| -998.0 | 2   |
-| -997.0 | 2   |
-| 1.0    |     |
-| 2.0    |     |
-| -999.0 |     |
-| -998.0 |     |
-| -997.0 |     |
-| -999.0 |     |
-| -998.0 | 13  |
-| 4.0    |     |
-| -997.0 | 3   |
-| 11.0   | 4   |
-| -999.0 | 5   |
-| -998.0 | 5   |
+| :a      | :b |
+| ------- | -- |
+| \-999.0 | 2  |
+| \-998.0 | 2  |
+| \-997.0 | 2  |
+| 1.0     |    |
+| 2.0     |    |
+| \-999.0 |    |
+| \-998.0 |    |
+| \-997.0 |    |
+| \-999.0 |    |
+| \-998.0 | 13 |
+| 4.0     |    |
+| \-997.0 | 3  |
+| 11.0    | 4  |
+| \-999.0 | 5  |
+| \-998.0 | 5  |
 
-------------------------------------------------------------------------
+-----
 
 Replace missing with a function (mean)
 
@@ -4045,25 +3896,25 @@ Replace missing with a function (mean)
 
 \_unnamed \[15 2\]:
 
-| :a   | :b  |
-|------|-----|
-| 4.5  | 2   |
-| 4.5  | 2   |
-| 4.5  | 2   |
-| 1.0  |     |
-| 2.0  |     |
-| 4.5  |     |
-| 4.5  |     |
-| 4.5  |     |
-| 4.5  |     |
-| 4.5  | 13  |
-| 4.0  |     |
-| 4.5  | 3   |
-| 11.0 | 4   |
-| 4.5  | 5   |
-| 4.5  | 5   |
+| :a   | :b |
+| ---- | -- |
+| 4.5  | 2  |
+| 4.5  | 2  |
+| 4.5  | 2  |
+| 1.0  |    |
+| 2.0  |    |
+| 4.5  |    |
+| 4.5  |    |
+| 4.5  |    |
+| 4.5  |    |
+| 4.5  | 13 |
+| 4.0  |    |
+| 4.5  | 3  |
+| 11.0 | 4  |
+| 4.5  | 5  |
+| 4.5  | 5  |
 
-------------------------------------------------------------------------
+-----
 
 Using `:down` strategy, fills gaps with values from above. You can see
 that if missings are at the beginning, the are filled with first value
@@ -4074,25 +3925,25 @@ that if missings are at the beginning, the are filled with first value
 
 \_unnamed \[15 2\]:
 
-| :a   | :b  |
-|------|-----|
-| 1.0  | 2   |
-| 1.0  | 2   |
-| 1.0  | 2   |
-| 1.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 13  |
-| 4.0  | 13  |
-| 4.0  | 3   |
-| 11.0 | 4   |
-| 11.0 | 5   |
-| 11.0 | 5   |
+| :a   | :b |
+| ---- | -- |
+| 1.0  | 2  |
+| 1.0  | 2  |
+| 1.0  | 2  |
+| 1.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 13 |
+| 4.0  | 13 |
+| 4.0  | 3  |
+| 11.0 | 4  |
+| 11.0 | 5  |
+| 11.0 | 5  |
 
-------------------------------------------------------------------------
+-----
 
 To fix above issue you can provide value
 
@@ -4102,25 +3953,25 @@ To fix above issue you can provide value
 
 \_unnamed \[15 2\]:
 
-| :a    | :b  |
-|-------|-----|
-| 999.0 | 2   |
-| 999.0 | 2   |
-| 999.0 | 2   |
-| 1.0   | 2   |
-| 2.0   | 2   |
-| 2.0   | 2   |
-| 2.0   | 2   |
-| 2.0   | 2   |
-| 2.0   | 2   |
-| 2.0   | 13  |
-| 4.0   | 13  |
-| 4.0   | 3   |
-| 11.0  | 4   |
-| 11.0  | 5   |
-| 11.0  | 5   |
+| :a    | :b |
+| ----- | -- |
+| 999.0 | 2  |
+| 999.0 | 2  |
+| 999.0 | 2  |
+| 1.0   | 2  |
+| 2.0   | 2  |
+| 2.0   | 2  |
+| 2.0   | 2  |
+| 2.0   | 2  |
+| 2.0   | 2  |
+| 2.0   | 13 |
+| 4.0   | 13 |
+| 4.0   | 3  |
+| 11.0  | 4  |
+| 11.0  | 5  |
+| 11.0  | 5  |
 
-------------------------------------------------------------------------
+-----
 
 The same applies for `:up` strategy which is opposite direction.
 
@@ -4130,25 +3981,25 @@ The same applies for `:up` strategy which is opposite direction.
 
 \_unnamed \[15 2\]:
 
-| :a   | :b  |
-|------|-----|
-| 1.0  | 2   |
-| 1.0  | 2   |
-| 1.0  | 2   |
-| 1.0  | 13  |
-| 2.0  | 13  |
-| 4.0  | 13  |
-| 4.0  | 13  |
-| 4.0  | 13  |
-| 4.0  | 13  |
-| 4.0  | 13  |
-| 4.0  | 3   |
-| 11.0 | 3   |
-| 11.0 | 4   |
-| 11.0 | 5   |
-| 11.0 | 5   |
+| :a   | :b |
+| ---- | -- |
+| 1.0  | 2  |
+| 1.0  | 2  |
+| 1.0  | 2  |
+| 1.0  | 13 |
+| 2.0  | 13 |
+| 4.0  | 13 |
+| 4.0  | 13 |
+| 4.0  | 13 |
+| 4.0  | 13 |
+| 4.0  | 13 |
+| 4.0  | 3  |
+| 11.0 | 3  |
+| 11.0 | 4  |
+| 11.0 | 5  |
+| 11.0 | 5  |
 
-------------------------------------------------------------------------
+-----
 
 We can use a function which is applied after applying `:up` or `:down`
 
@@ -4158,25 +4009,25 @@ We can use a function which is applied after applying `:up` or `:down`
 
 \_unnamed \[15 2\]:
 
-| :a   | :b  |
-|------|-----|
-| 4.5  | 2   |
-| 4.5  | 2   |
-| 4.5  | 2   |
-| 1.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 2   |
-| 2.0  | 13  |
-| 4.0  | 13  |
-| 4.0  | 3   |
-| 11.0 | 4   |
-| 11.0 | 5   |
-| 11.0 | 5   |
+| :a   | :b |
+| ---- | -- |
+| 4.5  | 2  |
+| 4.5  | 2  |
+| 4.5  | 2  |
+| 1.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 2  |
+| 2.0  | 13 |
+| 4.0  | 13 |
+| 4.0  | 3  |
+| 11.0 | 4  |
+| 11.0 | 5  |
+| 11.0 | 5  |
 
-------------------------------------------------------------------------
+-----
 
 Lerp tries to apply linear interpolation of the values
 
@@ -4186,25 +4037,25 @@ Lerp tries to apply linear interpolation of the values
 
 \_unnamed \[15 2\]:
 
-| :a          | :b  |
-|-------------|-----|
-| 1.00000000  | 2   |
-| 1.00000000  | 2   |
-| 1.00000000  | 2   |
-| 1.00000000  | 4   |
-| 2.00000000  | 5   |
-| 2.33333333  | 7   |
-| 2.66666667  | 8   |
-| 3.00000000  | 10  |
-| 3.33333333  | 11  |
-| 3.66666667  | 13  |
-| 4.00000000  | 8   |
-| 7.50000000  | 3   |
-| 11.00000000 | 4   |
-| 11.00000000 | 5   |
-| 11.00000000 | 5   |
+| :a          | :b |
+| ----------- | -- |
+| 1.00000000  | 2  |
+| 1.00000000  | 2  |
+| 1.00000000  | 2  |
+| 1.00000000  | 4  |
+| 2.00000000  | 5  |
+| 2.33333333  | 7  |
+| 2.66666667  | 8  |
+| 3.00000000  | 10 |
+| 3.33333333  | 11 |
+| 3.66666667  | 13 |
+| 4.00000000  | 8  |
+| 7.50000000  | 3  |
+| 11.00000000 | 4  |
+| 11.00000000 | 5  |
+| 11.00000000 | 5  |
 
-------------------------------------------------------------------------
+-----
 
 Lerp works also on dates
 
@@ -4222,14 +4073,14 @@ nil
 When your column contains not continuous data range you can fill up with
 lacking values. Arguments:
 
--   dataset
--   column name
--   expected step (`max-span`, milliseconds in case of datetime column)
--   (optional) `missing-strategy` - how to replace missing, default
+  - dataset
+  - column name
+  - expected step (`max-span`, milliseconds in case of datetime column)
+  - (optional) `missing-strategy` - how to replace missing, default
     `:down` (set to `nil` if none)
--   (optional) `missing-value` - optional value for replace missing
+  - (optional) `missing-value` - optional value for replace missing
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (-> (api/dataset {:a [1 2 9]
@@ -4239,46 +4090,46 @@ lacking values. Arguments:
 
 \_unnamed \[9 2\]:
 
-| :a  | :b  |
-|-----|-----|
-| 1.0 | :a  |
-| 2.0 | :b  |
-| 3.0 | :b  |
-| 4.0 | :b  |
-| 5.0 | :b  |
-| 6.0 | :b  |
-| 7.0 | :b  |
-| 8.0 | :b  |
-| 9.0 | :c  |
+| :a  | :b |
+| --- | -- |
+| 1.0 | :a |
+| 2.0 | :b |
+| 3.0 | :b |
+| 4.0 | :b |
+| 5.0 | :b |
+| 6.0 | :b |
+| 7.0 | :b |
+| 8.0 | :b |
+| 9.0 | :c |
 
 ### Join/Separate Columns
 
 Joining or separating columns are operations which can help to tidy
 messy dataset.
 
--   `join-columns` joins content of the columns (as string concatenation
+  - `join-columns` joins content of the columns (as string concatenation
     or other structure) and stores it in new column
--   `separate-column` splits content of the columns into set of new
+  - `separate-column` splits content of the columns into set of new
     columns
 
 #### Join
 
 `join-columns` accepts:
 
--   dataset
--   column selector (as in `select-columns`)
--   options
-    -   `:separator` (default `"-"`)
-    -   `:drop-columns?` - whether to drop source columns or not
+  - dataset
+  - column selector (as in `select-columns`)
+  - options
+      - `:separator` (default `"-"`)
+      - `:drop-columns?` - whether to drop source columns or not
         (default `true`)
-    -   `:result-type`
-        -   `:map` - packs data into map
-        -   `:seq` - packs data into sequence
-        -   `:string` - join strings with separator (default)
-        -   or custom function which gets row as a vector
-    -   `:missing-subst` - substitution for missing value
+      - `:result-type`
+          - `:map` - packs data into map
+          - `:seq` - packs data into sequence
+          - `:string` - join strings with separator (default)
+          - or custom function which gets row as a vector
+      - `:missing-subst` - substitution for missing value
 
-------------------------------------------------------------------------
+-----
 
 Default usage. Create `:joined` column out of other columns.
 
@@ -4289,7 +4140,7 @@ Default usage. Create `:joined` column out of other columns.
 \_unnamed \[9 2\]:
 
 | :V3 | :joined |
-|-----|---------|
+| --- | ------- |
 | 0.5 | 1-1-A   |
 | 1.0 | 2-2-B   |
 |     | 3-C     |
@@ -4300,7 +4151,7 @@ Default usage. Create `:joined` column out of other columns.
 | 1.5 | 2-8-B   |
 | 0.5 | 9-C     |
 
-------------------------------------------------------------------------
+-----
 
 Without dropping source columns.
 
@@ -4311,7 +4162,7 @@ Without dropping source columns.
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :joined |
-|-----|-----|-----|-----|---------|
+| --- | --- | --- | --- | ------- |
 | 1   | 1   | 0.5 | A   | 1-1-A   |
 | 2   | 2   | 1.0 | B   | 2-2-B   |
 |     | 3   |     | C   | 3-C     |
@@ -4322,7 +4173,7 @@ Without dropping source columns.
 | 2   | 8   | 1.5 | B   | 2-8-B   |
 |     | 9   | 0.5 | C   | 9-C     |
 
-------------------------------------------------------------------------
+-----
 
 Let’s replace missing value with “NA” string.
 
@@ -4333,7 +4184,7 @@ Let’s replace missing value with “NA” string.
 \_unnamed \[9 2\]:
 
 | :V3 | :joined |
-|-----|---------|
+| --- | ------- |
 | 0.5 | 1-1-A   |
 | 1.0 | 2-2-B   |
 |     | NA-3-C  |
@@ -4344,7 +4195,7 @@ Let’s replace missing value with “NA” string.
 | 1.5 | 2-8-B   |
 | 0.5 | NA-9-C  |
 
-------------------------------------------------------------------------
+-----
 
 We can use custom separator.
 
@@ -4356,7 +4207,7 @@ We can use custom separator.
 \_unnamed \[9 2\]:
 
 | :V3 | :joined |
-|-----|---------|
+| --- | ------- |
 | 0.5 | 1/1/A   |
 | 1.0 | 2/2/B   |
 |     | ./3/C   |
@@ -4367,7 +4218,7 @@ We can use custom separator.
 | 1.5 | 2/8/B   |
 | 0.5 | ./9/C   |
 
-------------------------------------------------------------------------
+-----
 
 Or even sequence of separators.
 
@@ -4379,7 +4230,7 @@ Or even sequence of separators.
 \_unnamed \[9 2\]:
 
 | :V3 | :joined |
-|-----|---------|
+| --- | ------- |
 | 0.5 | 1-1/A   |
 | 1.0 | 2-2/B   |
 |     | .-3/C   |
@@ -4390,7 +4241,7 @@ Or even sequence of separators.
 | 1.5 | 2-8/B   |
 | 0.5 | .-9/C   |
 
-------------------------------------------------------------------------
+-----
 
 The other types of results, map:
 
@@ -4401,7 +4252,7 @@ The other types of results, map:
 \_unnamed \[9 2\]:
 
 | :V3 | :joined                   |
-|-----|---------------------------|
+| --- | ------------------------- |
 | 0.5 | {:V1 1, :V2 1, :V4 “A”}   |
 | 1.0 | {:V1 2, :V2 2, :V4 “B”}   |
 |     | {:V1 nil, :V2 3, :V4 “C”} |
@@ -4412,7 +4263,7 @@ The other types of results, map:
 | 1.5 | {:V1 2, :V2 8, :V4 “B”}   |
 | 0.5 | {:V1 nil, :V2 9, :V4 “C”} |
 
-------------------------------------------------------------------------
+-----
 
 Sequence
 
@@ -4423,7 +4274,7 @@ Sequence
 \_unnamed \[9 2\]:
 
 | :V3 | :joined     |
-|-----|-------------|
+| --- | ----------- |
 | 0.5 | (1 1 “A”)   |
 | 1.0 | (2 2 “B”)   |
 |     | (nil 3 “C”) |
@@ -4434,7 +4285,7 @@ Sequence
 | 1.5 | (2 8 “B”)   |
 | 0.5 | (nil 9 “C”) |
 
-------------------------------------------------------------------------
+-----
 
 Custom function, calculate hash
 
@@ -4444,19 +4295,19 @@ Custom function, calculate hash
 
 \_unnamed \[9 2\]:
 
-| :V3 | :joined     |
-|-----|-------------|
-| 0.5 | 535226087   |
-| 1.0 | 1128801549  |
-|     | -1842240303 |
-| 1.5 | 2022347171  |
-| 0.5 | 1884312041  |
-| 1.0 | -1555412370 |
-|     | 1640237355  |
-| 1.5 | -967279152  |
-| 0.5 | 1128367958  |
+| :V3 | :joined      |
+| --- | ------------ |
+| 0.5 | 535226087    |
+| 1.0 | 1128801549   |
+|     | \-1842240303 |
+| 1.5 | 2022347171   |
+| 0.5 | 1884312041   |
+| 1.0 | \-1555412370 |
+|     | 1640237355   |
+| 1.5 | \-967279152  |
+| 0.5 | 1128367958   |
 
-------------------------------------------------------------------------
+-----
 
 Grouped dataset
 
@@ -4470,7 +4321,7 @@ Grouped dataset
 \_unnamed \[9 2\]:
 
 | :V3 | :joined |
-|-----|---------|
+| --- | ------- |
 | 0.5 | 1-1-A   |
 | 1.5 | 1-4-A   |
 |     | 1-7-A   |
@@ -4481,7 +4332,7 @@ Grouped dataset
 | 1.0 | 6-C     |
 | 0.5 | 9-C     |
 
-------------------------------------------------------------------------
+-----
 
 ##### Tidyr examples
 
@@ -4500,14 +4351,14 @@ df
 
 \_unnamed \[4 2\]:
 
-| :x  | :y  |
-|-----|-----|
-| a   | b   |
-| a   |     |
-|     | b   |
-|     |     |
+| :x | :y |
+| -- | -- |
+| a  | b  |
+| a  |    |
+|    | b  |
+|    |    |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/join-columns df "z" [:x :y] {:drop-columns? false
@@ -4517,14 +4368,14 @@ df
 
 \_unnamed \[4 3\]:
 
-| :x  | :y  | z      |
-|-----|-----|--------|
-| a   | b   | a\_b   |
-| a   |     | a\_NA  |
-|     | b   | NA\_b  |
-|     |     | NA\_NA |
+| :x | :y | z      |
+| -- | -- | ------ |
+| a  | b  | a\_b   |
+| a  |    | a\_NA  |
+|    | b  | NA\_b  |
+|    |    | NA\_NA |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/join-columns df "z" [:x :y] {:drop-columns? false
@@ -4533,36 +4384,36 @@ df
 
 \_unnamed \[4 3\]:
 
-| :x  | :y  | z    |
-|-----|-----|------|
-| a   | b   | a\_b |
-| a   |     | a    |
-|     | b   | b    |
-|     |     |      |
+| :x | :y | z    |
+| -- | -- | ---- |
+| a  | b  | a\_b |
+| a  |    | a    |
+|    | b  | b    |
+|    |    |      |
 
 #### Separate
 
 Column can be also separated into several other columns using string as
 separator, regex or custom function. Arguments:
 
--   dataset
--   source column
--   target columns
--   separator as:
-    -   string - it’s converted to regular expression and passed to
+  - dataset
+  - source column
+  - target columns
+  - separator as:
+      - string - it’s converted to regular expression and passed to
         `clojure.string/split` function
-    -   regex
-    -   or custom function (default: identity)
--   options
-    -   `:drop-columns?` - whether drop source column or not (default:
+      - regex
+      - or custom function (default: identity)
+  - options
+      - `:drop-columns?` - whether drop source column or not (default:
         `true`)
-    -   `:missing-subst` - values which should be treated as missing,
+      - `:missing-subst` - values which should be treated as missing,
         can be set, sequence, value or function (default: `""`)
 
 Custom function (as separator) should return seqence of values for given
 value.
 
-------------------------------------------------------------------------
+-----
 
 Separate float into integer and factional values
 
@@ -4575,7 +4426,7 @@ Separate float into integer and factional values
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :int-part | :frac-part | :V4 |
-|-----|-----|-----------|------------|-----|
+| --- | --- | --------- | ---------- | --- |
 | 1   | 1   | 0         | 0.5        | A   |
 | 2   | 2   | 1         | 0.0        | B   |
 | 1   | 3   | 1         | 0.5        | C   |
@@ -4586,7 +4437,7 @@ Separate float into integer and factional values
 | 2   | 8   | 1         | 0.0        | B   |
 | 1   | 9   | 1         | 0.5        | C   |
 
-------------------------------------------------------------------------
+-----
 
 Source column can be kept
 
@@ -4599,7 +4450,7 @@ Source column can be kept
 \_unnamed \[9 6\]:
 
 | :V1 | :V2 | :V3 | :int-part | :frac-part | :V4 |
-|-----|-----|-----|-----------|------------|-----|
+| --- | --- | --- | --------- | ---------- | --- |
 | 1   | 1   | 0.5 | 0         | 0.5        | A   |
 | 2   | 2   | 1.0 | 1         | 0.0        | B   |
 | 1   | 3   | 1.5 | 1         | 0.5        | C   |
@@ -4610,7 +4461,7 @@ Source column can be kept
 | 2   | 8   | 1.0 | 1         | 0.0        | B   |
 | 1   | 9   | 1.5 | 1         | 0.5        | C   |
 
-------------------------------------------------------------------------
+-----
 
 We can treat `0` or `0.0` as missing value
 
@@ -4623,7 +4474,7 @@ We can treat `0` or `0.0` as missing value
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :int-part | :frac-part | :V4 |
-|-----|-----|-----------|------------|-----|
+| --- | --- | --------- | ---------- | --- |
 | 1   | 1   |           | 0.5        | A   |
 | 2   | 2   | 1         |            | B   |
 | 1   | 3   | 1         | 0.5        | C   |
@@ -4634,7 +4485,7 @@ We can treat `0` or `0.0` as missing value
 | 2   | 8   | 1         |            | B   |
 | 1   | 9   | 1         | 0.5        | C   |
 
-------------------------------------------------------------------------
+-----
 
 Works on grouped dataset
 
@@ -4650,7 +4501,7 @@ Works on grouped dataset
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :int-part | :fract-part | :V4 |
-|-----|-----|-----------|-------------|-----|
+| --- | --- | --------- | ----------- | --- |
 | 1   | 1   | 0         | 0.5         | A   |
 | 2   | 4   | 0         | 0.5         | A   |
 | 1   | 7   | 0         | 0.5         | A   |
@@ -4661,7 +4512,7 @@ Works on grouped dataset
 | 2   | 6   | 1         | 0.5         | C   |
 | 1   | 9   | 1         | 0.5         | C   |
 
-------------------------------------------------------------------------
+-----
 
 Join and separate together.
 
@@ -4674,7 +4525,7 @@ Join and separate together.
 \_unnamed \[9 4\]:
 
 | :V3 | :v1 | :v2 | :v4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 0.5 | 1   | 1   | A   |
 | 1.0 | 2   | 2   | B   |
 |     |     | 3   | C   |
@@ -4694,7 +4545,7 @@ Join and separate together.
 \_unnamed \[9 4\]:
 
 | :V3 | :v1 | :v2 | :v4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 0.5 | 1   | 1   | A   |
 | 1.0 | 2   | 2   | B   |
 |     |     | 3   | C   |
@@ -4729,7 +4580,7 @@ df-separate
 \_unnamed \[4 1\]:
 
 | :x  |
-|-----|
+| --- |
 |     |
 | a.b |
 | a.d |
@@ -4742,7 +4593,7 @@ df-separate2
 \_unnamed \[4 1\]:
 
 | :x    |
-|-------|
+| ----- |
 | a     |
 | a b   |
 |       |
@@ -4755,7 +4606,7 @@ df-separate3
 \_unnamed \[4 1\]:
 
 | :x  |
-|-----|
+| --- |
 | a?b |
 |     |
 | a.b |
@@ -4768,14 +4619,14 @@ df-extract
 \_unnamed \[5 1\]:
 
 | :x  |
-|-----|
+| --- |
 |     |
 | a-b |
 | a-d |
 | b-c |
 | d-e |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/separate-column df-separate :x [:A :B] "\\.")
@@ -4783,14 +4634,14 @@ df-extract
 
 \_unnamed \[4 2\]:
 
-| :A  | :B  |
-|-----|-----|
-|     |     |
-| a   | b   |
-| a   | d   |
-| b   | c   |
+| :A | :B |
+| -- | -- |
+|    |    |
+| a  | b  |
+| a  | d  |
+| b  | c  |
 
-------------------------------------------------------------------------
+-----
 
 You can drop columns after separation by setting `nil` as a name. We
 need second value here.
@@ -4801,14 +4652,14 @@ need second value here.
 
 \_unnamed \[4 1\]:
 
-| :B  |
-|-----|
-|     |
-| b   |
-| d   |
-| c   |
+| :B |
+| -- |
+|    |
+| b  |
+| d  |
+| c  |
 
-------------------------------------------------------------------------
+-----
 
 Extra data is dropped
 
@@ -4818,14 +4669,14 @@ Extra data is dropped
 
 \_unnamed \[4 2\]:
 
-| a   | b   |
-|-----|-----|
-| a   |     |
-| a   | b   |
-|     |     |
-| a   | b   |
+| a | b |
+| - | - |
+| a |   |
+| a | b |
+|   |   |
+| a | b |
 
-------------------------------------------------------------------------
+-----
 
 Split with regular expression
 
@@ -4835,14 +4686,14 @@ Split with regular expression
 
 \_unnamed \[4 2\]:
 
-| a   | b   |
-|-----|-----|
-| a   | b   |
-|     |     |
-| a   | b   |
-| b   | c   |
+| a | b |
+| - | - |
+| a | b |
+|   |   |
+| a | b |
+| b | c |
 
-------------------------------------------------------------------------
+-----
 
 Or just regular expression to extract values
 
@@ -4852,14 +4703,14 @@ Or just regular expression to extract values
 
 \_unnamed \[4 2\]:
 
-| a   | b   |
-|-----|-----|
-| a   | b   |
-|     |     |
-| a   | b   |
-| b   | c   |
+| a | b |
+| - | - |
+| a | b |
+|   |   |
+| a | b |
+| b | c |
 
-------------------------------------------------------------------------
+-----
 
 Extract first value only
 
@@ -4869,15 +4720,15 @@ Extract first value only
 
 \_unnamed \[5 1\]:
 
-| A   |
-|-----|
-|     |
-| a   |
-| a   |
-| b   |
-| d   |
+| A |
+| - |
+|   |
+| a |
+| a |
+| b |
+| d |
 
-------------------------------------------------------------------------
+-----
 
 Split with regex
 
@@ -4887,15 +4738,15 @@ Split with regex
 
 \_unnamed \[5 2\]:
 
-| A   | B   |
-|-----|-----|
-|     |     |
-| a   | b   |
-| a   | d   |
-| b   | c   |
-| d   | e   |
+| A | B |
+| - | - |
+|   |   |
+| a | b |
+| a | d |
+| b | c |
+| d | e |
 
-------------------------------------------------------------------------
+-----
 
 Only `a,b,c,d` strings
 
@@ -4905,13 +4756,13 @@ Only `a,b,c,d` strings
 
 \_unnamed \[5 2\]:
 
-| A   | B   |
-|-----|-----|
-|     |     |
-| a   | b   |
-| a   | d   |
-| b   | c   |
-|     |     |
+| A | B |
+| - | - |
+|   |   |
+| a | b |
+| a | d |
+| b | c |
+|   |   |
 
 ### Fold/Unroll Rows
 
@@ -4933,7 +4784,7 @@ Group-by and pack columns into vector
 \_unnamed \[6 4\]:
 
 | :V4 | :V3 | :V1 | :V2     |
-|-----|-----|-----|---------|
+| --- | --- | --- | ------- |
 | B   | 1.0 | 1   | \[5\]   |
 | C   | 1.5 | 2   | \[6\]   |
 | C   | 1.5 | 1   | \[3 9\] |
@@ -4941,7 +4792,7 @@ Group-by and pack columns into vector
 | B   | 1.0 | 2   | \[2 8\] |
 | A   | 0.5 | 2   | \[4\]   |
 
-------------------------------------------------------------------------
+-----
 
 You can pack several columns at once.
 
@@ -4952,12 +4803,12 @@ You can pack several columns at once.
 \_unnamed \[3 4\]:
 
 | :V4 | :V1       | :V2       | :V3             |
-|-----|-----------|-----------|-----------------|
+| --- | --------- | --------- | --------------- |
 | B   | \[2 1 2\] | \[2 5 8\] | \[1.0 1.0 1.0\] |
 | C   | \[1 2 1\] | \[3 6 9\] | \[1.5 1.5 1.5\] |
 | A   | \[1 2 1\] | \[1 4 7\] | \[0.5 0.5 0.5\] |
 
-------------------------------------------------------------------------
+-----
 
 You can use custom packing function
 
@@ -4968,7 +4819,7 @@ You can use custom packing function
 \_unnamed \[3 4\]:
 
 | :V4 | :V1     | :V2     | :V3           |
-|-----|---------|---------|---------------|
+| --- | ------- | ------- | ------------- |
 | B   | (2 1 2) | (2 5 8) | (1.0 1.0 1.0) |
 | C   | (1 2 1) | (3 6 9) | (1.5 1.5 1.5) |
 | A   | (1 2 1) | (1 4 7) | (0.5 0.5 0.5) |
@@ -4982,12 +4833,12 @@ or
 \_unnamed \[3 4\]:
 
 | :V4 | :V1     | :V2       | :V3     |
-|-----|---------|-----------|---------|
+| --- | ------- | --------- | ------- |
 | B   | \#{1 2} | \#{2 5 8} | \#{1.0} |
 | C   | \#{1 2} | \#{6 3 9} | \#{1.5} |
 | A   | \#{1 2} | \#{7 1 4} | \#{0.5} |
 
-------------------------------------------------------------------------
+-----
 
 This works also on grouped dataset
 
@@ -5001,7 +4852,7 @@ This works also on grouped dataset
 \_unnamed \[6 4\]:
 
 | :V4 | :V1     | :V2     | :V3         |
-|-----|---------|---------|-------------|
+| --- | ------- | ------- | ----------- |
 | B   | \[1\]   | \[5\]   | \[1.0\]     |
 | C   | \[1 1\] | \[3 9\] | \[1.5 1.5\] |
 | A   | \[1 1\] | \[1 7\] | \[0.5 0.5\] |
@@ -5013,16 +4864,16 @@ This works also on grouped dataset
 
 `unroll` unfolds sequences stored in data, multiplying other ones when
 necessary. You can unroll more than one column at once (folded data
-should have the same size!).
+should have the same size\!).
 
 Options:
 
--   `:indexes?` if true (or column name), information about index of
+  - `:indexes?` if true (or column name), information about index of
     unrolled sequence is added.
--   `:datatypes` list of datatypes which should be applied to restored
+  - `:datatypes` list of datatypes which should be applied to restored
     columns, a map
 
-------------------------------------------------------------------------
+-----
 
 Unroll one column
 
@@ -5033,7 +4884,7 @@ Unroll one column
 \_unnamed \[9 4\]:
 
 | :V4 | :V2       | :V3             | :V1 |
-|-----|-----------|-----------------|-----|
+| --- | --------- | --------------- | --- |
 | B   | \[2 5 8\] | \[1.0 1.0 1.0\] | 2   |
 | B   | \[2 5 8\] | \[1.0 1.0 1.0\] | 1   |
 | B   | \[2 5 8\] | \[1.0 1.0 1.0\] | 2   |
@@ -5044,7 +4895,7 @@ Unroll one column
 | A   | \[1 4 7\] | \[0.5 0.5 0.5\] | 2   |
 | A   | \[1 4 7\] | \[0.5 0.5 0.5\] | 1   |
 
-------------------------------------------------------------------------
+-----
 
 Unroll all folded columns
 
@@ -5055,7 +4906,7 @@ Unroll all folded columns
 \_unnamed \[9 4\]:
 
 | :V4 | :V1 | :V2 | :V3    |
-|-----|-----|-----|--------|
+| --- | --- | --- | ------ |
 | B   | 2   | 2   | 1.000  |
 | B   | 1   | 5   | 1.000  |
 | B   | 2   | 8   | 1.000  |
@@ -5066,7 +4917,7 @@ Unroll all folded columns
 | A   | 2   | 4   | 0.5000 |
 | A   | 1   | 7   | 0.5000 |
 
-------------------------------------------------------------------------
+-----
 
 Unroll one by one leads to cartesian product
 
@@ -5080,7 +4931,7 @@ Unroll one by one leads to cartesian product
 \_unnamed \[15 4\]:
 
 | :V4 | :V1 | :V2 | :V3    |
-|-----|-----|-----|--------|
+| --- | --- | --- | ------ |
 | C   | 2   | 6   | 1.500  |
 | A   | 1   | 1   | 0.5000 |
 | A   | 1   | 1   | 0.5000 |
@@ -5097,7 +4948,7 @@ Unroll one by one leads to cartesian product
 | B   | 2   | 8   | 1.000  |
 | B   | 2   | 8   | 1.000  |
 
-------------------------------------------------------------------------
+-----
 
 You can add indexes
 
@@ -5108,7 +4959,7 @@ You can add indexes
 \_unnamed \[9 5\]:
 
 | :V1 | :indexes | :V2 | :V3    | :V4 |
-|-----|----------|-----|--------|-----|
+| --- | -------- | --- | ------ | --- |
 | 1   | 0        | 1   | 0.5000 | A   |
 | 1   | 1        | 3   | 1.500  | C   |
 | 1   | 2        | 5   | 1.000  | B   |
@@ -5126,7 +4977,7 @@ You can add indexes
 \_unnamed \[9 5\]:
 
 | :V1 | vector idx | :V2 | :V3    | :V4 |
-|-----|------------|-----|--------|-----|
+| --- | ---------- | --- | ------ | --- |
 | 1   | 0          | 1   | 0.5000 | A   |
 | 1   | 1          | 3   | 1.500  | C   |
 | 1   | 2          | 5   | 1.000  | B   |
@@ -5137,7 +4988,7 @@ You can add indexes
 | 2   | 2          | 6   | 1.500  | C   |
 | 2   | 3          | 8   | 1.000  | B   |
 
-------------------------------------------------------------------------
+-----
 
 You can also force datatypes
 
@@ -5153,13 +5004,13 @@ You can also force datatypes
 \_unnamed :column info \[4 4\]:
 
 | :name | :size | :datatype | :categorical? |
-|-------|-------|-----------|---------------|
+| ----- | ----- | --------- | ------------- |
 | :V1   | 9     | :int64    |               |
 | :V2   | 9     | :int16    |               |
 | :V3   | 9     | :float32  |               |
 | :V4   | 9     | :string   | true          |
 
-------------------------------------------------------------------------
+-----
 
 This works also on grouped dataset
 
@@ -5174,7 +5025,7 @@ This works also on grouped dataset
 \_unnamed \[9 5\]:
 
 | :V4 | :V1 | :V2     | :indexes | :V3    |
-|-----|-----|---------|----------|--------|
+| --- | --- | ------- | -------- | ------ |
 | A   | 1   | \[1 7\] | 0        | 0.5000 |
 | A   | 1   | \[1 7\] | 1        | 0.5000 |
 | B   | 1   | \[5\]   | 0        | 1.000  |
@@ -5189,8 +5040,8 @@ This works also on grouped dataset
 
 Reshaping data provides two types of operations:
 
--   `pivot->longer` - converting columns to rows
--   `pivot->wider` - converting rows to columns
+  - `pivot->longer` - converting columns to rows
+  - `pivot->wider` - converting rows to columns
 
 Both functions are inspired on
 [tidyr](https://tidyr.tidyverse.org/articles/pivot.html) R package and
@@ -5207,28 +5058,28 @@ data.
 
 Arguments:
 
--   dataset
--   columns selector
--   options:
-    -   `:target-columns` - names of the columns created or columns
+  - dataset
+  - columns selector
+  - options:
+      - `:target-columns` - names of the columns created or columns
         pattern (see below) (default: `:$column`)
-    -   `:value-column-name` - name of the column for values (default:
+      - `:value-column-name` - name of the column for values (default:
         `:$value`)
-    -   `:splitter` - string, regular expression or function which
+      - `:splitter` - string, regular expression or function which
         splits source column names into data
-    -   `:drop-missing?` - remove rows with missing? (default: `:true`)
-    -   `:datatypes` - map of target columns data types
+      - `:drop-missing?` - remove rows with missing? (default: `:true`)
+      - `:datatypes` - map of target columns data types
 
 `:target-columns` - can be:
 
--   column name - source columns names are put there as a data
--   column names as seqence - source columns names after split are put
+  - column name - source columns names are put there as a data
+  - column names as seqence - source columns names after split are put
     separately into `:target-columns` as data
--   pattern - is a sequence of names, where some of the names are `nil`.
+  - pattern - is a sequence of names, where some of the names are `nil`.
     `nil` is replaced by a name taken from splitter and such column is
     used for values.
 
-------------------------------------------------------------------------
+-----
 
 Create rows from all columns but `"religion"`.
 
@@ -5242,272 +5093,26 @@ relig-income
 
 data/relig\_income.csv \[18 11\]:
 
-<table>
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 5%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 8%" />
-<col style="width: 8%" />
-<col style="width: 5%" />
-<col style="width: 16%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>religion</th>
-<th>&lt;$10k</th>
-<th>$10-20k</th>
-<th>$20-30k</th>
-<th>$30-40k</th>
-<th>$40-50k</th>
-<th>$50-75k</th>
-<th>$75-100k</th>
-<th>$100-150k</th>
-<th>&gt;150k</th>
-<th>Don’t know/refused</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Agnostic</td>
-<td>27</td>
-<td>34</td>
-<td>60</td>
-<td>81</td>
-<td>76</td>
-<td>137</td>
-<td>122</td>
-<td>109</td>
-<td>84</td>
-<td>96</td>
-</tr>
-<tr class="even">
-<td>Atheist</td>
-<td>12</td>
-<td>27</td>
-<td>37</td>
-<td>52</td>
-<td>35</td>
-<td>70</td>
-<td>73</td>
-<td>59</td>
-<td>74</td>
-<td>76</td>
-</tr>
-<tr class="odd">
-<td>Buddhist</td>
-<td>27</td>
-<td>21</td>
-<td>30</td>
-<td>34</td>
-<td>33</td>
-<td>58</td>
-<td>62</td>
-<td>39</td>
-<td>53</td>
-<td>54</td>
-</tr>
-<tr class="even">
-<td>Catholic</td>
-<td>418</td>
-<td>617</td>
-<td>732</td>
-<td>670</td>
-<td>638</td>
-<td>1116</td>
-<td>949</td>
-<td>792</td>
-<td>633</td>
-<td>1489</td>
-</tr>
-<tr class="odd">
-<td>Don’t know/refused</td>
-<td>15</td>
-<td>14</td>
-<td>15</td>
-<td>11</td>
-<td>10</td>
-<td>35</td>
-<td>21</td>
-<td>17</td>
-<td>18</td>
-<td>116</td>
-</tr>
-<tr class="even">
-<td>Evangelical Prot</td>
-<td>575</td>
-<td>869</td>
-<td>1064</td>
-<td>982</td>
-<td>881</td>
-<td>1486</td>
-<td>949</td>
-<td>723</td>
-<td>414</td>
-<td>1529</td>
-</tr>
-<tr class="odd">
-<td>Hindu</td>
-<td>1</td>
-<td>9</td>
-<td>7</td>
-<td>9</td>
-<td>11</td>
-<td>34</td>
-<td>47</td>
-<td>48</td>
-<td>54</td>
-<td>37</td>
-</tr>
-<tr class="even">
-<td>Historically Black Prot</td>
-<td>228</td>
-<td>244</td>
-<td>236</td>
-<td>238</td>
-<td>197</td>
-<td>223</td>
-<td>131</td>
-<td>81</td>
-<td>78</td>
-<td>339</td>
-</tr>
-<tr class="odd">
-<td>Jehovah’s Witness</td>
-<td>20</td>
-<td>27</td>
-<td>24</td>
-<td>24</td>
-<td>21</td>
-<td>30</td>
-<td>15</td>
-<td>11</td>
-<td>6</td>
-<td>37</td>
-</tr>
-<tr class="even">
-<td>Jewish</td>
-<td>19</td>
-<td>19</td>
-<td>25</td>
-<td>25</td>
-<td>30</td>
-<td>95</td>
-<td>69</td>
-<td>87</td>
-<td>151</td>
-<td>162</td>
-</tr>
-<tr class="odd">
-<td>Mainline Prot</td>
-<td>289</td>
-<td>495</td>
-<td>619</td>
-<td>655</td>
-<td>651</td>
-<td>1107</td>
-<td>939</td>
-<td>753</td>
-<td>634</td>
-<td>1328</td>
-</tr>
-<tr class="even">
-<td>Mormon</td>
-<td>29</td>
-<td>40</td>
-<td>48</td>
-<td>51</td>
-<td>56</td>
-<td>112</td>
-<td>85</td>
-<td>49</td>
-<td>42</td>
-<td>69</td>
-</tr>
-<tr class="odd">
-<td>Muslim</td>
-<td>6</td>
-<td>7</td>
-<td>9</td>
-<td>10</td>
-<td>9</td>
-<td>23</td>
-<td>16</td>
-<td>8</td>
-<td>6</td>
-<td>22</td>
-</tr>
-<tr class="even">
-<td>Orthodox</td>
-<td>13</td>
-<td>17</td>
-<td>23</td>
-<td>32</td>
-<td>32</td>
-<td>47</td>
-<td>38</td>
-<td>42</td>
-<td>46</td>
-<td>73</td>
-</tr>
-<tr class="odd">
-<td>Other Christian</td>
-<td>9</td>
-<td>7</td>
-<td>11</td>
-<td>13</td>
-<td>13</td>
-<td>14</td>
-<td>18</td>
-<td>14</td>
-<td>12</td>
-<td>18</td>
-</tr>
-<tr class="even">
-<td>Other Faiths</td>
-<td>20</td>
-<td>33</td>
-<td>40</td>
-<td>46</td>
-<td>49</td>
-<td>63</td>
-<td>46</td>
-<td>40</td>
-<td>41</td>
-<td>71</td>
-</tr>
-<tr class="odd">
-<td>Other World Religions</td>
-<td>5</td>
-<td>2</td>
-<td>3</td>
-<td>4</td>
-<td>2</td>
-<td>7</td>
-<td>3</td>
-<td>4</td>
-<td>4</td>
-<td>8</td>
-</tr>
-<tr class="even">
-<td>Unaffiliated</td>
-<td>217</td>
-<td>299</td>
-<td>374</td>
-<td>365</td>
-<td>341</td>
-<td>528</td>
-<td>407</td>
-<td>321</td>
-<td>258</td>
-<td>597</td>
-</tr>
-</tbody>
-</table>
+| religion                | \<$10k | $10-20k | $20-30k | $30-40k | $40-50k | $50-75k | $75-100k | $100-150k | \>150k | Don’t know/refused |
+| ----------------------- | ------ | ------- | ------- | ------- | ------- | ------- | -------- | --------- | ------ | ------------------ |
+| Agnostic                | 27     | 34      | 60      | 81      | 76      | 137     | 122      | 109       | 84     | 96                 |
+| Atheist                 | 12     | 27      | 37      | 52      | 35      | 70      | 73       | 59        | 74     | 76                 |
+| Buddhist                | 27     | 21      | 30      | 34      | 33      | 58      | 62       | 39        | 53     | 54                 |
+| Catholic                | 418    | 617     | 732     | 670     | 638     | 1116    | 949      | 792       | 633    | 1489               |
+| Don’t know/refused      | 15     | 14      | 15      | 11      | 10      | 35      | 21       | 17        | 18     | 116                |
+| Evangelical Prot        | 575    | 869     | 1064    | 982     | 881     | 1486    | 949      | 723       | 414    | 1529               |
+| Hindu                   | 1      | 9       | 7       | 9       | 11      | 34      | 47       | 48        | 54     | 37                 |
+| Historically Black Prot | 228    | 244     | 236     | 238     | 197     | 223     | 131      | 81        | 78     | 339                |
+| Jehovah’s Witness       | 20     | 27      | 24      | 24      | 21      | 30      | 15       | 11        | 6      | 37                 |
+| Jewish                  | 19     | 19      | 25      | 25      | 30      | 95      | 69       | 87        | 151    | 162                |
+| Mainline Prot           | 289    | 495     | 619     | 655     | 651     | 1107    | 939      | 753       | 634    | 1328               |
+| Mormon                  | 29     | 40      | 48      | 51      | 56      | 112     | 85       | 49        | 42     | 69                 |
+| Muslim                  | 6      | 7       | 9       | 10      | 9       | 23      | 16       | 8         | 6      | 22                 |
+| Orthodox                | 13     | 17      | 23      | 32      | 32      | 47      | 38       | 42        | 46     | 73                 |
+| Other Christian         | 9      | 7       | 11      | 13      | 13      | 14      | 18       | 14        | 12     | 18                 |
+| Other Faiths            | 20     | 33      | 40      | 46      | 49      | 63      | 46       | 40        | 41     | 71                 |
+| Other World Religions   | 5      | 2       | 3       | 4       | 2       | 7       | 3        | 4         | 4      | 8                  |
+| Unaffiliated            | 217    | 299     | 374     | 365     | 341     | 528     | 407      | 321       | 258    | 597                |
 
 ``` clojure
 (api/pivot->longer relig-income (complement #{"religion"}))
@@ -5515,35 +5120,35 @@ data/relig\_income.csv \[18 11\]:
 
 data/relig\_income.csv \[180 3\]:
 
-| religion                | :*c**o**l**u**m**n*\|:value |      |
-|-------------------------|-----------------------------|------|
-| Agnostic                | &lt;$10k                    | 27   |
-| Atheist                 | &lt;$10k                    | 12   |
-| Buddhist                | &lt;$10k                    | 27   |
-| Catholic                | &lt;$10k                    | 418  |
-| Don’t know/refused      | &lt;$10k                    | 15   |
-| Evangelical Prot        | &lt;$10k                    | 575  |
-| Hindu                   | &lt;$10k                    | 1    |
-| Historically Black Prot | &lt;$10k                    | 228  |
-| Jehovah’s Witness       | &lt;$10k                    | 20   |
-| Jewish                  | &lt;$10k                    | 19   |
-| Mainline Prot           | &lt;$10k                    | 289  |
-| Mormon                  | &lt;$10k                    | 29   |
-| Muslim                  | &lt;$10k                    | 6    |
-| Orthodox                | &lt;$10k                    | 13   |
-| Other Christian         | &lt;$10k                    | 9    |
-| Other Faiths            | &lt;$10k                    | 20   |
-| Other World Religions   | &lt;$10k                    | 5    |
-| Unaffiliated            | &lt;$10k                    | 217  |
-| Agnostic                | Don’t know/refused          | 96   |
-| Atheist                 | Don’t know/refused          | 76   |
-| Buddhist                | Don’t know/refused          | 54   |
-| Catholic                | Don’t know/refused          | 1489 |
-| Don’t know/refused      | Don’t know/refused          | 116  |
-| Evangelical Prot        | Don’t know/refused          | 1529 |
-| Hindu                   | Don’t know/refused          | 37   |
+| religion                | :\(column | :\)value |      |
+| ----------------------- | -------------------- | ---- |
+| Agnostic                | \<$10k               | 27   |
+| Atheist                 | \<$10k               | 12   |
+| Buddhist                | \<$10k               | 27   |
+| Catholic                | \<$10k               | 418  |
+| Don’t know/refused      | \<$10k               | 15   |
+| Evangelical Prot        | \<$10k               | 575  |
+| Hindu                   | \<$10k               | 1    |
+| Historically Black Prot | \<$10k               | 228  |
+| Jehovah’s Witness       | \<$10k               | 20   |
+| Jewish                  | \<$10k               | 19   |
+| Mainline Prot           | \<$10k               | 289  |
+| Mormon                  | \<$10k               | 29   |
+| Muslim                  | \<$10k               | 6    |
+| Orthodox                | \<$10k               | 13   |
+| Other Christian         | \<$10k               | 9    |
+| Other Faiths            | \<$10k               | 20   |
+| Other World Religions   | \<$10k               | 5    |
+| Unaffiliated            | \<$10k               | 217  |
+| Agnostic                | Don’t know/refused   | 96   |
+| Atheist                 | Don’t know/refused   | 76   |
+| Buddhist                | Don’t know/refused   | 54   |
+| Catholic                | Don’t know/refused   | 1489 |
+| Don’t know/refused      | Don’t know/refused   | 116  |
+| Evangelical Prot        | Don’t know/refused   | 1529 |
+| Hindu                   | Don’t know/refused   | 37   |
 
-------------------------------------------------------------------------
+-----
 
 Convert only columns starting with `"wk"` and pack them into `:week`
 column, values go to `:rank` column
@@ -5563,7 +5168,7 @@ column, values go to `:rank` column
 data/billboard.csv.gz \[317 13\]:
 
 | artist               | track                 | date.entered | wk1 | wk2 | wk3 | wk4 | wk5 | wk6 | wk7 | wk8 | wk9 | wk10 |
-|----------------------|-----------------------|--------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|------|
+| -------------------- | --------------------- | ------------ | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---- |
 | 2 Pac                | Baby Don’t Cry (Keep… | 2000-02-26   | 87  | 82  | 72  | 77  | 87  | 94  | 99  |     |     |      |
 | 2Ge+her              | The Hardest Part Of … | 2000-09-02   | 91  | 87  | 92  |     |     |     |     |     |     |      |
 | 3 Doors Down         | Kryptonite            | 2000-04-08   | 81  | 70  | 68  | 67  | 66  | 57  | 54  | 53  | 51  | 51   |
@@ -5598,7 +5203,7 @@ data/billboard.csv.gz \[317 13\]:
 data/billboard.csv.gz \[5307 5\]:
 
 | artist              | track                 | date.entered | :week | :rank |
-|---------------------|-----------------------|--------------|-------|-------|
+| ------------------- | --------------------- | ------------ | ----- | ----- |
 | 3 Doors Down        | Kryptonite            | 2000-04-08   | wk35  | 4     |
 | Braxton, Toni       | He Wasn’t Man Enough  | 2000-03-18   | wk35  | 34    |
 | Creed               | Higher                | 1999-09-11   | wk35  | 22    |
@@ -5625,7 +5230,7 @@ data/billboard.csv.gz \[5307 5\]:
 | Anthony, Marc       | You Sang To Me        | 2000-02-26   | wk19  | 9     |
 | Avant               | My First Love         | 2000-11-04   | wk19  | 81    |
 
-------------------------------------------------------------------------
+-----
 
 We can create numerical column out of column names
 
@@ -5639,7 +5244,7 @@ We can create numerical column out of column names
 data/billboard.csv.gz \[5307 5\]:
 
 | artist              | track                 | date.entered | :week | :rank |
-|---------------------|-----------------------|--------------|-------|-------|
+| ------------------- | --------------------- | ------------ | ----- | ----- |
 | 3 Doors Down        | Kryptonite            | 2000-04-08   | 46    | 21    |
 | Creed               | Higher                | 1999-09-11   | 46    | 7     |
 | Creed               | With Arms Wide Open   | 2000-05-13   | 46    | 37    |
@@ -5666,7 +5271,7 @@ data/billboard.csv.gz \[5307 5\]:
 | Anthony, Marc       | My Baby You           | 2000-09-16   | 6     | 81    |
 | Anthony, Marc       | You Sang To Me        | 2000-02-26   | 6     | 27    |
 
-------------------------------------------------------------------------
+-----
 
 When column names contain observation data, such column names can be
 splitted and data can be restored into separate columns.
@@ -5684,336 +5289,33 @@ splitted and data can be restored into separate columns.
 
 data/who.csv.gz \[7240 10\]:
 
-<table style="width:100%;">
-<colgroup>
-<col style="width: 11%" />
-<col style="width: 5%" />
-<col style="width: 5%" />
-<col style="width: 5%" />
-<col style="width: 11%" />
-<col style="width: 12%" />
-<col style="width: 12%" />
-<col style="width: 12%" />
-<col style="width: 12%" />
-<col style="width: 12%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>country</th>
-<th>iso2</th>
-<th>iso3</th>
-<th>year</th>
-<th>new_sp_m014</th>
-<th>new_sp_m1524</th>
-<th>new_sp_m2534</th>
-<th>new_sp_m3544</th>
-<th>new_sp_m4554</th>
-<th>new_sp_m5564</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1980</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1981</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1982</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1983</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1984</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1985</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1986</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1987</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1988</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1989</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1990</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1991</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1992</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1993</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1994</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1995</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1996</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1997</td>
-<td>0</td>
-<td>10</td>
-<td>6</td>
-<td>3</td>
-<td>5</td>
-<td>2</td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1998</td>
-<td>30</td>
-<td>129</td>
-<td>128</td>
-<td>90</td>
-<td>89</td>
-<td>64</td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>1999</td>
-<td>8</td>
-<td>55</td>
-<td>55</td>
-<td>47</td>
-<td>34</td>
-<td>21</td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>2000</td>
-<td>52</td>
-<td>228</td>
-<td>183</td>
-<td>149</td>
-<td>129</td>
-<td>94</td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>2001</td>
-<td>129</td>
-<td>379</td>
-<td>349</td>
-<td>274</td>
-<td>204</td>
-<td>139</td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>2002</td>
-<td>90</td>
-<td>476</td>
-<td>481</td>
-<td>368</td>
-<td>246</td>
-<td>241</td>
-</tr>
-<tr class="even">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>2003</td>
-<td>127</td>
-<td>511</td>
-<td>436</td>
-<td>284</td>
-<td>256</td>
-<td>288</td>
-</tr>
-<tr class="odd">
-<td>Afghanistan</td>
-<td>AF</td>
-<td>AFG</td>
-<td>2004</td>
-<td>139</td>
-<td>537</td>
-<td>568</td>
-<td>360</td>
-<td>358</td>
-<td>386</td>
-</tr>
-</tbody>
-</table>
+| country     | iso2 | iso3 | year | new\_sp\_m014 | new\_sp\_m1524 | new\_sp\_m2534 | new\_sp\_m3544 | new\_sp\_m4554 | new\_sp\_m5564 |
+| ----------- | ---- | ---- | ---- | ------------- | -------------- | -------------- | -------------- | -------------- | -------------- |
+| Afghanistan | AF   | AFG  | 1980 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1981 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1982 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1983 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1984 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1985 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1986 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1987 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1988 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1989 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1990 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1991 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1992 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1993 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1994 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1995 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1996 |               |                |                |                |                |                |
+| Afghanistan | AF   | AFG  | 1997 | 0             | 10             | 6              | 3              | 5              | 2              |
+| Afghanistan | AF   | AFG  | 1998 | 30            | 129            | 128            | 90             | 89             | 64             |
+| Afghanistan | AF   | AFG  | 1999 | 8             | 55             | 55             | 47             | 34             | 21             |
+| Afghanistan | AF   | AFG  | 2000 | 52            | 228            | 183            | 149            | 129            | 94             |
+| Afghanistan | AF   | AFG  | 2001 | 129           | 379            | 349            | 274            | 204            | 139            |
+| Afghanistan | AF   | AFG  | 2002 | 90            | 476            | 481            | 368            | 246            | 241            |
+| Afghanistan | AF   | AFG  | 2003 | 127           | 511            | 436            | 284            | 256            | 288            |
+| Afghanistan | AF   | AFG  | 2004 | 139           | 537            | 568            | 360            | 358            | 386            |
 
 ``` clojure
 (api/pivot->longer who #(clojure.string/starts-with? % "new") {:target-columns [:diagnosis :gender :age]
@@ -6024,7 +5326,7 @@ data/who.csv.gz \[7240 10\]:
 data/who.csv.gz \[76046 8\]:
 
 | country                           | iso2 | iso3 | year | :diagnosis | :gender | :age | :count |
-|-----------------------------------|------|------|------|------------|---------|------|--------|
+| --------------------------------- | ---- | ---- | ---- | ---------- | ------- | ---- | ------ |
 | Albania                           | AL   | ALB  | 2013 | rel        | m       | 1524 | 60     |
 | Algeria                           | DZ   | DZA  | 2013 | rel        | m       | 1524 | 1021   |
 | Andorra                           | AD   | AND  | 2013 | rel        | m       | 1524 | 0      |
@@ -6051,7 +5353,7 @@ data/who.csv.gz \[76046 8\]:
 | Bosnia and Herzegovina            | BA   | BIH  | 2013 | rel        | m       | 1524 | 57     |
 | Botswana                          | BW   | BWA  | 2013 | rel        | m       | 1524 | 423    |
 
-------------------------------------------------------------------------
+-----
 
 When data contains multiple observations per row, we can use splitter
 and pattern for target columns to create new columns and put values
@@ -6070,7 +5372,7 @@ family
 data/family.csv \[5 5\]:
 
 | family | dob\_child1 | dob\_child2 | gender\_child1 | gender\_child2 |
-|--------|-------------|-------------|----------------|----------------|
+| ------ | ----------- | ----------- | -------------- | -------------- |
 | 1      | 1998-11-26  | 2000-01-29  | 1              | 2              |
 | 2      | 1996-06-22  |             | 2              |                |
 | 3      | 2002-07-11  | 2004-04-05  | 2              | 2              |
@@ -6086,7 +5388,7 @@ data/family.csv \[5 5\]:
 data/family.csv \[9 4\]:
 
 | family | :child | dob        | gender |
-|--------|--------|------------|--------|
+| ------ | ------ | ---------- | ------ |
 | 1      | child1 | 1998-11-26 | 1      |
 | 2      | child1 | 1996-06-22 | 2      |
 | 3      | child1 | 2002-07-11 | 2      |
@@ -6097,7 +5399,7 @@ data/family.csv \[9 4\]:
 | 4      | child2 | 2009-08-27 | 1      |
 | 5      | child2 | 2005-02-28 | 1      |
 
-------------------------------------------------------------------------
+-----
 
 Similar here, we have two observations: `x` and `y` in four groups.
 
@@ -6111,19 +5413,19 @@ anscombe
 
 data/anscombe.csv \[11 8\]:
 
-| x1  | x2  | x3  | x4  | y1    | y2   | y3    | y4    |
-|-----|-----|-----|-----|-------|------|-------|-------|
-| 10  | 10  | 10  | 8   | 8.04  | 9.14 | 7.46  | 6.58  |
-| 8   | 8   | 8   | 8   | 6.95  | 8.14 | 6.77  | 5.76  |
-| 13  | 13  | 13  | 8   | 7.58  | 8.74 | 12.74 | 7.71  |
-| 9   | 9   | 9   | 8   | 8.81  | 8.77 | 7.11  | 8.84  |
-| 11  | 11  | 11  | 8   | 8.33  | 9.26 | 7.81  | 8.47  |
-| 14  | 14  | 14  | 8   | 9.96  | 8.10 | 8.84  | 7.04  |
-| 6   | 6   | 6   | 8   | 7.24  | 6.13 | 6.08  | 5.25  |
-| 4   | 4   | 4   | 19  | 4.26  | 3.10 | 5.39  | 12.50 |
-| 12  | 12  | 12  | 8   | 10.84 | 9.13 | 8.15  | 5.56  |
-| 7   | 7   | 7   | 8   | 4.82  | 7.26 | 6.42  | 7.91  |
-| 5   | 5   | 5   | 8   | 5.68  | 4.74 | 5.73  | 6.89  |
+| x1 | x2 | x3 | x4 | y1    | y2   | y3    | y4    |
+| -- | -- | -- | -- | ----- | ---- | ----- | ----- |
+| 10 | 10 | 10 | 8  | 8.04  | 9.14 | 7.46  | 6.58  |
+| 8  | 8  | 8  | 8  | 6.95  | 8.14 | 6.77  | 5.76  |
+| 13 | 13 | 13 | 8  | 7.58  | 8.74 | 12.74 | 7.71  |
+| 9  | 9  | 9  | 8  | 8.81  | 8.77 | 7.11  | 8.84  |
+| 11 | 11 | 11 | 8  | 8.33  | 9.26 | 7.81  | 8.47  |
+| 14 | 14 | 14 | 8  | 9.96  | 8.10 | 8.84  | 7.04  |
+| 6  | 6  | 6  | 8  | 7.24  | 6.13 | 6.08  | 5.25  |
+| 4  | 4  | 4  | 19 | 4.26  | 3.10 | 5.39  | 12.50 |
+| 12 | 12 | 12 | 8  | 10.84 | 9.13 | 8.15  | 5.56  |
+| 7  | 7  | 7  | 8  | 4.82  | 7.26 | 6.42  | 7.91  |
+| 5  | 5  | 5  | 8  | 5.68  | 4.74 | 5.73  | 6.89  |
 
 ``` clojure
 (api/pivot->longer anscombe :all {:splitter #"(.)(.)"
@@ -6132,35 +5434,35 @@ data/anscombe.csv \[11 8\]:
 
 data/anscombe.csv \[44 3\]:
 
-| :set | x   | y     |
-|------|-----|-------|
-| 1    | 10  | 8.04  |
-| 1    | 8   | 6.95  |
-| 1    | 13  | 7.58  |
-| 1    | 9   | 8.81  |
-| 1    | 11  | 8.33  |
-| 1    | 14  | 9.96  |
-| 1    | 6   | 7.24  |
-| 1    | 4   | 4.26  |
-| 1    | 12  | 10.84 |
-| 1    | 7   | 4.82  |
-| 1    | 5   | 5.68  |
-| 2    | 10  | 9.14  |
-| 2    | 8   | 8.14  |
-| 2    | 13  | 8.74  |
-| 2    | 9   | 8.77  |
-| 2    | 11  | 9.26  |
-| 2    | 14  | 8.10  |
-| 2    | 6   | 6.13  |
-| 2    | 4   | 3.10  |
-| 2    | 12  | 9.13  |
-| 2    | 7   | 7.26  |
-| 2    | 5   | 4.74  |
-| 3    | 10  | 7.46  |
-| 3    | 8   | 6.77  |
-| 3    | 13  | 12.74 |
+| :set | x  | y     |
+| ---- | -- | ----- |
+| 1    | 10 | 8.04  |
+| 1    | 8  | 6.95  |
+| 1    | 13 | 7.58  |
+| 1    | 9  | 8.81  |
+| 1    | 11 | 8.33  |
+| 1    | 14 | 9.96  |
+| 1    | 6  | 7.24  |
+| 1    | 4  | 4.26  |
+| 1    | 12 | 10.84 |
+| 1    | 7  | 4.82  |
+| 1    | 5  | 5.68  |
+| 2    | 10 | 9.14  |
+| 2    | 8  | 8.14  |
+| 2    | 13 | 8.74  |
+| 2    | 9  | 8.77  |
+| 2    | 11 | 9.26  |
+| 2    | 14 | 8.10  |
+| 2    | 6  | 6.13  |
+| 2    | 4  | 3.10  |
+| 2    | 12 | 9.13  |
+| 2    | 7  | 7.26  |
+| 2    | 5  | 4.74  |
+| 3    | 10 | 7.46  |
+| 3    | 8  | 6.77  |
+| 3    | 13 | 12.74 |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (def pnl (api/dataset {:x [1 2 3 4]
@@ -6178,12 +5480,12 @@ pnl
 
 \_unnamed \[4 7\]:
 
-| :x  | :a  | :b  | :y1        | :y2        | :z1 | :z2 |
-|-----|-----|-----|------------|------------|-----|-----|
-| 1   | 1   | 0   | 0.22208178 | 0.58734746 | 3   | -2  |
-| 2   | 1   | 1   | 0.22793789 | 0.41074027 | 3   | -2  |
-| 3   | 0   | 1   | 0.51882433 | 0.37600116 | 3   | -2  |
-| 4   | 0   | 1   | 0.47240644 | 0.49970331 | 3   | -2  |
+| :x | :a | :b | :y1        | :y2        | :z1 | :z2 |
+| -- | -- | -- | ---------- | ---------- | --- | --- |
+| 1  | 1  | 0  | 0.36450455 | 0.29553840 | 3   | \-2 |
+| 2  | 1  | 1  | 0.65915084 | 0.04278049 | 3   | \-2 |
+| 3  | 0  | 1  | 0.09601714 | 0.47046666 | 3   | \-2 |
+| 4  | 0  | 1  | 0.58065968 | 0.56720331 | 3   | \-2 |
 
 ``` clojure
 (api/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
@@ -6192,16 +5494,16 @@ pnl
 
 \_unnamed \[8 6\]:
 
-| :x  | :a  | :b  | :times | y          | z   |
-|-----|-----|-----|--------|------------|-----|
-| 1   | 1   | 0   | 1      | 0.22208178 | 3   |
-| 2   | 1   | 1   | 1      | 0.22793789 | 3   |
-| 3   | 0   | 1   | 1      | 0.51882433 | 3   |
-| 4   | 0   | 1   | 1      | 0.47240644 | 3   |
-| 1   | 1   | 0   | 2      | 0.58734746 | -2  |
-| 2   | 1   | 1   | 2      | 0.41074027 | -2  |
-| 3   | 0   | 1   | 2      | 0.37600116 | -2  |
-| 4   | 0   | 1   | 2      | 0.49970331 | -2  |
+| :x | :a | :b | :times | y          | z   |
+| -- | -- | -- | ------ | ---------- | --- |
+| 1  | 1  | 0  | 1      | 0.36450455 | 3   |
+| 2  | 1  | 1  | 1      | 0.65915084 | 3   |
+| 3  | 0  | 1  | 1      | 0.09601714 | 3   |
+| 4  | 0  | 1  | 1      | 0.58065968 | 3   |
+| 1  | 1  | 0  | 2      | 0.29553840 | \-2 |
+| 2  | 1  | 1  | 2      | 0.04278049 | \-2 |
+| 3  | 0  | 1  | 2      | 0.47046666 | \-2 |
+| 4  | 0  | 1  | 2      | 0.56720331 | \-2 |
 
 #### Wider
 
@@ -6209,10 +5511,10 @@ pnl
 
 Arguments:
 
--   dataset
--   `columns-selector` - values from selected columns are converted to
+  - dataset
+  - `columns-selector` - values from selected columns are converted to
     new columns
--   `value-columns` - what are values
+  - `value-columns` - what are values
 
 When multiple columns are used as columns selector, names are joined
 using `:concat-columns-with` option. `:concat-columns-with` can be a
@@ -6227,7 +5529,7 @@ joined using `:concat-value-with` option. `:concat-value-with` can be a
 string or function (default: “-”). Function accepts current column name
 and value.
 
-------------------------------------------------------------------------
+-----
 
 Use `station` as a name source for columns and `seen` for values
 
@@ -6242,7 +5544,7 @@ fish
 data/fish\_encounters.csv \[114 3\]:
 
 | fish | station  | seen |
-|------|----------|------|
+| ---- | -------- | ---- |
 | 4842 | Release  | 1    |
 | 4842 | I80\_1   | 1    |
 | 4842 | Lisbon   | 1    |
@@ -6276,7 +5578,7 @@ data/fish\_encounters.csv \[114 3\]:
 data/fish\_encounters.csv \[19 12\]:
 
 | fish | Rstr | Base\_TD | I80\_1 | Release | MAE | BCE2 | MAW | BCW2 | BCE | Lisbon | BCW |
-|------|------|----------|--------|---------|-----|------|-----|------|-----|--------|-----|
+| ---- | ---- | -------- | ------ | ------- | --- | ---- | --- | ---- | --- | ------ | --- |
 | 4842 | 1    | 1        | 1      | 1       | 1   | 1    | 1   | 1    | 1   | 1      | 1   |
 | 4843 | 1    | 1        | 1      | 1       | 1   | 1    | 1   | 1    | 1   | 1      | 1   |
 | 4844 | 1    | 1        | 1      | 1       | 1   | 1    | 1   | 1    | 1   | 1      | 1   |
@@ -6297,7 +5599,7 @@ data/fish\_encounters.csv \[19 12\]:
 | 4859 | 1    | 1        | 1      | 1       |     |      |     |      |     | 1      |     |
 | 4863 |      |          | 1      | 1       |     |      |     |      |     |        |     |
 
-------------------------------------------------------------------------
+-----
 
 If selected columns contain multiple values, such values should be
 folded.
@@ -6313,7 +5615,7 @@ warpbreaks
 data/warpbreaks.csv \[54 3\]:
 
 | breaks | wool | tension |
-|--------|------|---------|
+| ------ | ---- | ------- |
 | 26     | A    | L       |
 | 30     | A    | L       |
 | 54     | A    | L       |
@@ -6351,14 +5653,14 @@ groups
 
 \_unnamed \[6 3\]:
 
-| wool | tension | :n  |
-|------|---------|-----|
-| A    | H       | 9   |
-| B    | H       | 9   |
-| A    | L       | 9   |
-| A    | M       | 9   |
-| B    | L       | 9   |
-| B    | M       | 9   |
+| wool | tension | :n |
+| ---- | ------- | -- |
+| A    | H       | 9  |
+| B    | H       | 9  |
+| A    | L       | 9  |
+| A    | M       | 9  |
+| B    | L       | 9  |
+| B    | M       | 9  |
 
 ``` clojure
 (-> warpbreaks
@@ -6369,7 +5671,7 @@ groups
 data/warpbreaks.csv \[3 3\]:
 
 | tension | B                              | A                              |
-|---------|--------------------------------|--------------------------------|
+| ------- | ------------------------------ | ------------------------------ |
 | M       | \[42 26 19 16 39 28 21 39 29\] | \[18 21 29 17 12 18 35 30 36\] |
 | H       | \[20 21 24 17 13 15 15 16 28\] | \[36 21 24 18 10 43 28 15 26\] |
 | L       | \[27 14 29 19 29 31 41 20 44\] | \[26 30 54 25 70 52 51 26 67\] |
@@ -6385,12 +5687,12 @@ We can also calculate mean (aggreate values)
 data/warpbreaks.csv \[3 3\]:
 
 | tension | B           | A           |
-|---------|-------------|-------------|
+| ------- | ----------- | ----------- |
 | H       | 18.77777778 | 24.55555556 |
 | M       | 28.77777778 | 24.00000000 |
 | L       | 28.22222222 | 44.55555556 |
 
-------------------------------------------------------------------------
+-----
 
 Multiple source columns, joined with default separator.
 
@@ -6404,33 +5706,33 @@ production
 
 data/production.csv \[45 4\]:
 
-| product | country | year | production  |
-|---------|---------|------|-------------|
-| A       | AI      | 2000 | 1.63727158  |
-| A       | AI      | 2001 | 0.15870784  |
-| A       | AI      | 2002 | -1.56797745 |
-| A       | AI      | 2003 | -0.44455509 |
-| A       | AI      | 2004 | -0.07133701 |
-| A       | AI      | 2005 | 1.61183090  |
-| A       | AI      | 2006 | -0.70434682 |
-| A       | AI      | 2007 | -1.53550542 |
-| A       | AI      | 2008 | 0.83907155  |
-| A       | AI      | 2009 | -0.37424110 |
-| A       | AI      | 2010 | -0.71158926 |
-| A       | AI      | 2011 | 1.12805634  |
-| A       | AI      | 2012 | 1.45718247  |
-| A       | AI      | 2013 | -1.55934101 |
-| A       | AI      | 2014 | -0.11695838 |
-| B       | AI      | 2000 | -0.02617661 |
-| B       | AI      | 2001 | -0.68863576 |
-| B       | AI      | 2002 | 0.06248741  |
-| B       | AI      | 2003 | -0.72339686 |
-| B       | AI      | 2004 | 0.47248952  |
-| B       | AI      | 2005 | -0.94173861 |
-| B       | AI      | 2006 | -0.34782108 |
-| B       | AI      | 2007 | 0.52425284  |
-| B       | AI      | 2008 | 1.83230937  |
-| B       | AI      | 2009 | 0.10706491  |
+| product | country | year | production   |
+| ------- | ------- | ---- | ------------ |
+| A       | AI      | 2000 | 1.63727158   |
+| A       | AI      | 2001 | 0.15870784   |
+| A       | AI      | 2002 | \-1.56797745 |
+| A       | AI      | 2003 | \-0.44455509 |
+| A       | AI      | 2004 | \-0.07133701 |
+| A       | AI      | 2005 | 1.61183090   |
+| A       | AI      | 2006 | \-0.70434682 |
+| A       | AI      | 2007 | \-1.53550542 |
+| A       | AI      | 2008 | 0.83907155   |
+| A       | AI      | 2009 | \-0.37424110 |
+| A       | AI      | 2010 | \-0.71158926 |
+| A       | AI      | 2011 | 1.12805634   |
+| A       | AI      | 2012 | 1.45718247   |
+| A       | AI      | 2013 | \-1.55934101 |
+| A       | AI      | 2014 | \-0.11695838 |
+| B       | AI      | 2000 | \-0.02617661 |
+| B       | AI      | 2001 | \-0.68863576 |
+| B       | AI      | 2002 | 0.06248741   |
+| B       | AI      | 2003 | \-0.72339686 |
+| B       | AI      | 2004 | 0.47248952   |
+| B       | AI      | 2005 | \-0.94173861 |
+| B       | AI      | 2006 | \-0.34782108 |
+| B       | AI      | 2007 | 0.52425284   |
+| B       | AI      | 2008 | 1.83230937   |
+| B       | AI      | 2009 | 0.10706491   |
 
 ``` clojure
 (api/pivot->wider production ["product" "country"] "production")
@@ -6438,23 +5740,23 @@ data/production.csv \[45 4\]:
 
 data/production.csv \[15 4\]:
 
-| year | A\_AI       | B\_EI       | B\_AI       |
-|------|-------------|-------------|-------------|
-| 2000 | 1.63727158  | 1.40470848  | -0.02617661 |
-| 2001 | 0.15870784  | -0.59618369 | -0.68863576 |
-| 2002 | -1.56797745 | -0.26568579 | 0.06248741  |
-| 2003 | -0.44455509 | 0.65257808  | -0.72339686 |
-| 2004 | -0.07133701 | 0.62564999  | 0.47248952  |
-| 2005 | 1.61183090  | -1.34530299 | -0.94173861 |
-| 2006 | -0.70434682 | -0.97184975 | -0.34782108 |
-| 2007 | -1.53550542 | -1.69715821 | 0.52425284  |
-| 2008 | 0.83907155  | 0.04556128  | 1.83230937  |
-| 2009 | -0.37424110 | 1.19315043  | 0.10706491  |
-| 2010 | -0.71158926 | -1.60557503 | -0.32903664 |
-| 2011 | 1.12805634  | -0.77235497 | -1.78319121 |
-| 2012 | 1.45718247  | -2.50262738 | 0.61125798  |
-| 2013 | -1.55934101 | -1.62753769 | -0.78526092 |
-| 2014 | -0.11695838 | 0.03329645  | 0.97843635  |
+| year | A\_AI        | B\_EI        | B\_AI        |
+| ---- | ------------ | ------------ | ------------ |
+| 2000 | 1.63727158   | 1.40470848   | \-0.02617661 |
+| 2001 | 0.15870784   | \-0.59618369 | \-0.68863576 |
+| 2002 | \-1.56797745 | \-0.26568579 | 0.06248741   |
+| 2003 | \-0.44455509 | 0.65257808   | \-0.72339686 |
+| 2004 | \-0.07133701 | 0.62564999   | 0.47248952   |
+| 2005 | 1.61183090   | \-1.34530299 | \-0.94173861 |
+| 2006 | \-0.70434682 | \-0.97184975 | \-0.34782108 |
+| 2007 | \-1.53550542 | \-1.69715821 | 0.52425284   |
+| 2008 | 0.83907155   | 0.04556128   | 1.83230937   |
+| 2009 | \-0.37424110 | 1.19315043   | 0.10706491   |
+| 2010 | \-0.71158926 | \-1.60557503 | \-0.32903664 |
+| 2011 | 1.12805634   | \-0.77235497 | \-1.78319121 |
+| 2012 | 1.45718247   | \-2.50262738 | 0.61125798   |
+| 2013 | \-1.55934101 | \-1.62753769 | \-0.78526092 |
+| 2014 | \-0.11695838 | 0.03329645   | 0.97843635   |
 
 Joined with custom function
 
@@ -6465,24 +5767,24 @@ Joined with custom function
 data/production.csv \[15 4\]:
 
 | year | \[“A” “AI”\] | \[“B” “EI”\] | \[“B” “AI”\] |
-|------|--------------|--------------|--------------|
-| 2000 | 1.63727158   | 1.40470848   | -0.02617661  |
-| 2001 | 0.15870784   | -0.59618369  | -0.68863576  |
-| 2002 | -1.56797745  | -0.26568579  | 0.06248741   |
-| 2003 | -0.44455509  | 0.65257808   | -0.72339686  |
-| 2004 | -0.07133701  | 0.62564999   | 0.47248952   |
-| 2005 | 1.61183090   | -1.34530299  | -0.94173861  |
-| 2006 | -0.70434682  | -0.97184975  | -0.34782108  |
-| 2007 | -1.53550542  | -1.69715821  | 0.52425284   |
+| ---- | ------------ | ------------ | ------------ |
+| 2000 | 1.63727158   | 1.40470848   | \-0.02617661 |
+| 2001 | 0.15870784   | \-0.59618369 | \-0.68863576 |
+| 2002 | \-1.56797745 | \-0.26568579 | 0.06248741   |
+| 2003 | \-0.44455509 | 0.65257808   | \-0.72339686 |
+| 2004 | \-0.07133701 | 0.62564999   | 0.47248952   |
+| 2005 | 1.61183090   | \-1.34530299 | \-0.94173861 |
+| 2006 | \-0.70434682 | \-0.97184975 | \-0.34782108 |
+| 2007 | \-1.53550542 | \-1.69715821 | 0.52425284   |
 | 2008 | 0.83907155   | 0.04556128   | 1.83230937   |
-| 2009 | -0.37424110  | 1.19315043   | 0.10706491   |
-| 2010 | -0.71158926  | -1.60557503  | -0.32903664  |
-| 2011 | 1.12805634   | -0.77235497  | -1.78319121  |
-| 2012 | 1.45718247   | -2.50262738  | 0.61125798   |
-| 2013 | -1.55934101  | -1.62753769  | -0.78526092  |
-| 2014 | -0.11695838  | 0.03329645   | 0.97843635   |
+| 2009 | \-0.37424110 | 1.19315043   | 0.10706491   |
+| 2010 | \-0.71158926 | \-1.60557503 | \-0.32903664 |
+| 2011 | 1.12805634   | \-0.77235497 | \-1.78319121 |
+| 2012 | 1.45718247   | \-2.50262738 | 0.61125798   |
+| 2013 | \-1.55934101 | \-1.62753769 | \-0.78526092 |
+| 2014 | \-0.11695838 | 0.03329645   | 0.97843635   |
 
-------------------------------------------------------------------------
+-----
 
 Multiple value columns
 
@@ -6497,7 +5799,7 @@ income
 data/us\_rent\_income.csv \[104 5\]:
 
 | GEOID | NAME                 | variable | estimate | moe |
-|-------|----------------------|----------|----------|-----|
+| ----- | -------------------- | -------- | -------- | --- |
 | 1     | Alabama              | income   | 24476    | 136 |
 | 1     | Alabama              | rent     | 747      | 3   |
 | 2     | Alaska               | income   | 32940    | 508 |
@@ -6531,7 +5833,7 @@ data/us\_rent\_income.csv \[104 5\]:
 data/us\_rent\_income.csv \[52 6\]:
 
 | GEOID | NAME                 | rent-estimate | rent-moe | income-estimate | income-moe |
-|-------|----------------------|---------------|----------|-----------------|------------|
+| ----- | -------------------- | ------------- | -------- | --------------- | ---------- |
 | 1     | Alabama              | 747           | 3        | 24476           | 136        |
 | 2     | Alaska               | 1200          | 13       | 32940           | 508        |
 | 4     | Arizona              | 972           | 4        | 27517           | 148        |
@@ -6568,230 +5870,35 @@ Value concatenated by custom function
 
 data/us\_rent\_income.csv \[52 6\]:
 
-<table>
-<colgroup>
-<col style="width: 6%" />
-<col style="width: 20%" />
-<col style="width: 19%" />
-<col style="width: 14%" />
-<col style="width: 21%" />
-<col style="width: 16%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>GEOID</th>
-<th>NAME</th>
-<th>[“rent” “estimate”]</th>
-<th>[“rent” “moe”]</th>
-<th>[“income” “estimate”]</th>
-<th>[“income” “moe”]</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>Alabama</td>
-<td>747</td>
-<td>3</td>
-<td>24476</td>
-<td>136</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>Alaska</td>
-<td>1200</td>
-<td>13</td>
-<td>32940</td>
-<td>508</td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td>Arizona</td>
-<td>972</td>
-<td>4</td>
-<td>27517</td>
-<td>148</td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td>Arkansas</td>
-<td>709</td>
-<td>5</td>
-<td>23789</td>
-<td>165</td>
-</tr>
-<tr class="odd">
-<td>6</td>
-<td>California</td>
-<td>1358</td>
-<td>3</td>
-<td>29454</td>
-<td>109</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>Colorado</td>
-<td>1125</td>
-<td>5</td>
-<td>32401</td>
-<td>109</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>Connecticut</td>
-<td>1123</td>
-<td>5</td>
-<td>35326</td>
-<td>195</td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>Delaware</td>
-<td>1076</td>
-<td>10</td>
-<td>31560</td>
-<td>247</td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>District of Columbia</td>
-<td>1424</td>
-<td>17</td>
-<td>43198</td>
-<td>681</td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>Florida</td>
-<td>1077</td>
-<td>3</td>
-<td>25952</td>
-<td>70</td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>Georgia</td>
-<td>927</td>
-<td>3</td>
-<td>27024</td>
-<td>106</td>
-</tr>
-<tr class="even">
-<td>15</td>
-<td>Hawaii</td>
-<td>1507</td>
-<td>18</td>
-<td>32453</td>
-<td>218</td>
-</tr>
-<tr class="odd">
-<td>16</td>
-<td>Idaho</td>
-<td>792</td>
-<td>7</td>
-<td>25298</td>
-<td>208</td>
-</tr>
-<tr class="even">
-<td>17</td>
-<td>Illinois</td>
-<td>952</td>
-<td>3</td>
-<td>30684</td>
-<td>83</td>
-</tr>
-<tr class="odd">
-<td>18</td>
-<td>Indiana</td>
-<td>782</td>
-<td>3</td>
-<td>27247</td>
-<td>117</td>
-</tr>
-<tr class="even">
-<td>19</td>
-<td>Iowa</td>
-<td>740</td>
-<td>4</td>
-<td>30002</td>
-<td>143</td>
-</tr>
-<tr class="odd">
-<td>20</td>
-<td>Kansas</td>
-<td>801</td>
-<td>5</td>
-<td>29126</td>
-<td>208</td>
-</tr>
-<tr class="even">
-<td>21</td>
-<td>Kentucky</td>
-<td>713</td>
-<td>4</td>
-<td>24702</td>
-<td>159</td>
-</tr>
-<tr class="odd">
-<td>22</td>
-<td>Louisiana</td>
-<td>825</td>
-<td>4</td>
-<td>25086</td>
-<td>155</td>
-</tr>
-<tr class="even">
-<td>23</td>
-<td>Maine</td>
-<td>808</td>
-<td>7</td>
-<td>26841</td>
-<td>187</td>
-</tr>
-<tr class="odd">
-<td>24</td>
-<td>Maryland</td>
-<td>1311</td>
-<td>5</td>
-<td>37147</td>
-<td>152</td>
-</tr>
-<tr class="even">
-<td>25</td>
-<td>Massachusetts</td>
-<td>1173</td>
-<td>5</td>
-<td>34498</td>
-<td>199</td>
-</tr>
-<tr class="odd">
-<td>26</td>
-<td>Michigan</td>
-<td>824</td>
-<td>3</td>
-<td>26987</td>
-<td>82</td>
-</tr>
-<tr class="even">
-<td>27</td>
-<td>Minnesota</td>
-<td>906</td>
-<td>4</td>
-<td>32734</td>
-<td>189</td>
-</tr>
-<tr class="odd">
-<td>28</td>
-<td>Mississippi</td>
-<td>740</td>
-<td>5</td>
-<td>22766</td>
-<td>194</td>
-</tr>
-</tbody>
-</table>
+| GEOID | NAME                 | \[“rent” “estimate”\] | \[“rent” “moe”\] | \[“income” “estimate”\] | \[“income” “moe”\] |
+| ----- | -------------------- | --------------------- | ---------------- | ----------------------- | ------------------ |
+| 1     | Alabama              | 747                   | 3                | 24476                   | 136                |
+| 2     | Alaska               | 1200                  | 13               | 32940                   | 508                |
+| 4     | Arizona              | 972                   | 4                | 27517                   | 148                |
+| 5     | Arkansas             | 709                   | 5                | 23789                   | 165                |
+| 6     | California           | 1358                  | 3                | 29454                   | 109                |
+| 8     | Colorado             | 1125                  | 5                | 32401                   | 109                |
+| 9     | Connecticut          | 1123                  | 5                | 35326                   | 195                |
+| 10    | Delaware             | 1076                  | 10               | 31560                   | 247                |
+| 11    | District of Columbia | 1424                  | 17               | 43198                   | 681                |
+| 12    | Florida              | 1077                  | 3                | 25952                   | 70                 |
+| 13    | Georgia              | 927                   | 3                | 27024                   | 106                |
+| 15    | Hawaii               | 1507                  | 18               | 32453                   | 218                |
+| 16    | Idaho                | 792                   | 7                | 25298                   | 208                |
+| 17    | Illinois             | 952                   | 3                | 30684                   | 83                 |
+| 18    | Indiana              | 782                   | 3                | 27247                   | 117                |
+| 19    | Iowa                 | 740                   | 4                | 30002                   | 143                |
+| 20    | Kansas               | 801                   | 5                | 29126                   | 208                |
+| 21    | Kentucky             | 713                   | 4                | 24702                   | 159                |
+| 22    | Louisiana            | 825                   | 4                | 25086                   | 155                |
+| 23    | Maine                | 808                   | 7                | 26841                   | 187                |
+| 24    | Maryland             | 1311                  | 5                | 37147                   | 152                |
+| 25    | Massachusetts        | 1173                  | 5                | 34498                   | 199                |
+| 26    | Michigan             | 824                   | 3                | 26987                   | 82                 |
+| 27    | Minnesota            | 906                   | 4                | 32734                   | 189                |
+| 28    | Mississippi          | 740                   | 5                | 22766                   | 194                |
 
-------------------------------------------------------------------------
+-----
 
 Reshape contact data
 
@@ -6805,14 +5912,14 @@ contacts
 
 data/contacts.csv \[6 3\]:
 
-| field   | value                                                              | person\_id |
-|---------|--------------------------------------------------------------------|------------|
-| name    | Jiena McLellan                                                     | 1          |
-| company | Toyota                                                             | 1          |
-| name    | John Smith                                                         | 2          |
-| company | google                                                             | 2          |
-| email   | <a href="mailto:john@google.com" class="email">john@google.com</a> | 2          |
-| name    | Huxley Ratcliffe                                                   | 3          |
+| field   | value             | person\_id |
+| ------- | ----------------- | ---------- |
+| name    | Jiena McLellan    | 1          |
+| company | Toyota            | 1          |
+| name    | John Smith        | 2          |
+| company | google            | 2          |
+| email   | <john@google.com> | 2          |
+| name    | Huxley Ratcliffe  | 3          |
 
 ``` clojure
 (api/pivot->wider contacts "field" "value" {:drop-missing? false})
@@ -6820,17 +5927,17 @@ data/contacts.csv \[6 3\]:
 
 data/contacts.csv \[3 4\]:
 
-| person\_id | email                                                              | name             | company |
-|------------|--------------------------------------------------------------------|------------------|---------|
-| 1          |                                                                    | Jiena McLellan   | Toyota  |
-| 2          | <a href="mailto:john@google.com" class="email">john@google.com</a> | John Smith       | google  |
-| 3          |                                                                    | Huxley Ratcliffe |         |
+| person\_id | email             | name             | company |
+| ---------- | ----------------- | ---------------- | ------- |
+| 1          |                   | Jiena McLellan   | Toyota  |
+| 2          | <john@google.com> | John Smith       | google  |
+| 3          |                   | Huxley Ratcliffe |         |
 
 #### Reshaping
 
 A couple of `tidyr` examples of more complex reshaping.
 
-------------------------------------------------------------------------
+-----
 
 [World bank](https://tidyr.tidyverse.org/articles/pivot.html#world-bank)
 
@@ -6847,282 +5954,33 @@ A couple of `tidyr` examples of more complex reshaping.
 
 data/world\_bank\_pop.csv.gz \[1056 8\]:
 
-<table style="width:100%;">
-<colgroup>
-<col style="width: 7%" />
-<col style="width: 10%" />
-<col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 13%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>country</th>
-<th>indicator</th>
-<th>2000</th>
-<th>2001</th>
-<th>2002</th>
-<th>2003</th>
-<th>2004</th>
-<th>2005</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>ABW</td>
-<td>SP.URB.TOTL</td>
-<td>4.24440000E+04</td>
-<td>4.30480000E+04</td>
-<td>4.36700000E+04</td>
-<td>4.42460000E+04</td>
-<td>4.46690000E+04</td>
-<td>4.48890000E+04</td>
-</tr>
-<tr class="even">
-<td>ABW</td>
-<td>SP.URB.GROW</td>
-<td>1.18263237E+00</td>
-<td>1.41302122E+00</td>
-<td>1.43455953E+00</td>
-<td>1.31036044E+00</td>
-<td>9.51477684E-01</td>
-<td>4.91302715E-01</td>
-</tr>
-<tr class="odd">
-<td>ABW</td>
-<td>SP.POP.TOTL</td>
-<td>9.08530000E+04</td>
-<td>9.28980000E+04</td>
-<td>9.49920000E+04</td>
-<td>9.70170000E+04</td>
-<td>9.87370000E+04</td>
-<td>1.00031000E+05</td>
-</tr>
-<tr class="even">
-<td>ABW</td>
-<td>SP.POP.GROW</td>
-<td>2.05502678E+00</td>
-<td>2.22593013E+00</td>
-<td>2.22905605E+00</td>
-<td>2.10935434E+00</td>
-<td>1.75735287E+00</td>
-<td>1.30203884E+00</td>
-</tr>
-<tr class="odd">
-<td>AFG</td>
-<td>SP.URB.TOTL</td>
-<td>4.43629900E+06</td>
-<td>4.64805500E+06</td>
-<td>4.89295100E+06</td>
-<td>5.15568600E+06</td>
-<td>5.42677000E+06</td>
-<td>5.69182300E+06</td>
-</tr>
-<tr class="even">
-<td>AFG</td>
-<td>SP.URB.GROW</td>
-<td>3.91222846E+00</td>
-<td>4.66283822E+00</td>
-<td>5.13467454E+00</td>
-<td>5.23045853E+00</td>
-<td>5.12439302E+00</td>
-<td>4.76864700E+00</td>
-</tr>
-<tr class="odd">
-<td>AFG</td>
-<td>SP.POP.TOTL</td>
-<td>2.00937560E+07</td>
-<td>2.09664630E+07</td>
-<td>2.19799230E+07</td>
-<td>2.30648510E+07</td>
-<td>2.41189790E+07</td>
-<td>2.50707980E+07</td>
-</tr>
-<tr class="even">
-<td>AFG</td>
-<td>SP.POP.GROW</td>
-<td>3.49465874E+00</td>
-<td>4.25150411E+00</td>
-<td>4.72052846E+00</td>
-<td>4.81804112E+00</td>
-<td>4.46891840E+00</td>
-<td>3.87047016E+00</td>
-</tr>
-<tr class="odd">
-<td>AGO</td>
-<td>SP.URB.TOTL</td>
-<td>8.23476600E+06</td>
-<td>8.70800000E+06</td>
-<td>9.21878700E+06</td>
-<td>9.76519700E+06</td>
-<td>1.03435060E+07</td>
-<td>1.09494240E+07</td>
-</tr>
-<tr class="even">
-<td>AGO</td>
-<td>SP.URB.GROW</td>
-<td>5.43749411E+00</td>
-<td>5.58771954E+00</td>
-<td>5.70013237E+00</td>
-<td>5.75812711E+00</td>
-<td>5.75341450E+00</td>
-<td>5.69279690E+00</td>
-</tr>
-<tr class="odd">
-<td>AGO</td>
-<td>SP.POP.TOTL</td>
-<td>1.64409240E+07</td>
-<td>1.69832660E+07</td>
-<td>1.75726490E+07</td>
-<td>1.82033690E+07</td>
-<td>1.88657160E+07</td>
-<td>1.95525420E+07</td>
-</tr>
-<tr class="even">
-<td>AGO</td>
-<td>SP.POP.GROW</td>
-<td>3.03294342E+00</td>
-<td>3.24549139E+00</td>
-<td>3.41151529E+00</td>
-<td>3.52630277E+00</td>
-<td>3.57396197E+00</td>
-<td>3.57589970E+00</td>
-</tr>
-<tr class="odd">
-<td>ALB</td>
-<td>SP.URB.TOTL</td>
-<td>1.28939100E+06</td>
-<td>1.29858400E+06</td>
-<td>1.32722000E+06</td>
-<td>1.35484800E+06</td>
-<td>1.38182800E+06</td>
-<td>1.40729800E+06</td>
-</tr>
-<tr class="even">
-<td>ALB</td>
-<td>SP.URB.GROW</td>
-<td>7.42478629E-01</td>
-<td>7.10442618E-01</td>
-<td>2.18120890E+00</td>
-<td>2.06027418E+00</td>
-<td>1.97179894E+00</td>
-<td>1.82642936E+00</td>
-</tr>
-<tr class="odd">
-<td>ALB</td>
-<td>SP.POP.TOTL</td>
-<td>3.08902700E+06</td>
-<td>3.06017300E+06</td>
-<td>3.05101000E+06</td>
-<td>3.03961600E+06</td>
-<td>3.02693900E+06</td>
-<td>3.01148700E+06</td>
-</tr>
-<tr class="even">
-<td>ALB</td>
-<td>SP.POP.GROW</td>
-<td>-6.37356834E-01</td>
-<td>-9.38470428E-01</td>
-<td>-2.99876697E-01</td>
-<td>-3.74149169E-01</td>
-<td>-4.17931378E-01</td>
-<td>-5.11790116E-01</td>
-</tr>
-<tr class="odd">
-<td>AND</td>
-<td>SP.URB.TOTL</td>
-<td>6.04170000E+04</td>
-<td>6.19910000E+04</td>
-<td>6.41940000E+04</td>
-<td>6.67470000E+04</td>
-<td>6.91920000E+04</td>
-<td>7.12050000E+04</td>
-</tr>
-<tr class="even">
-<td>AND</td>
-<td>SP.URB.GROW</td>
-<td>1.27931383E+00</td>
-<td>2.57186909E+00</td>
-<td>3.49205352E+00</td>
-<td>3.89996041E+00</td>
-<td>3.59758966E+00</td>
-<td>2.86777917E+00</td>
-</tr>
-<tr class="odd">
-<td>AND</td>
-<td>SP.POP.TOTL</td>
-<td>6.53900000E+04</td>
-<td>6.73410000E+04</td>
-<td>7.00490000E+04</td>
-<td>7.31820000E+04</td>
-<td>7.62440000E+04</td>
-<td>7.88670000E+04</td>
-</tr>
-<tr class="even">
-<td>AND</td>
-<td>SP.POP.GROW</td>
-<td>1.57216555E+00</td>
-<td>2.93999221E+00</td>
-<td>3.94257335E+00</td>
-<td>4.37544919E+00</td>
-<td>4.09892348E+00</td>
-<td>3.38241655E+00</td>
-</tr>
-<tr class="odd">
-<td>ARB</td>
-<td>SP.URB.TOTL</td>
-<td>1.49981223E+08</td>
-<td>1.53924351E+08</td>
-<td>1.57985738E+08</td>
-<td>1.62267754E+08</td>
-<td>1.66820459E+08</td>
-<td>1.71813698E+08</td>
-</tr>
-<tr class="even">
-<td>ARB</td>
-<td>SP.URB.GROW</td>
-<td>2.59956290E+00</td>
-<td>2.62908111E+00</td>
-<td>2.63856042E+00</td>
-<td>2.71038136E+00</td>
-<td>2.80567450E+00</td>
-<td>2.99318143E+00</td>
-</tr>
-<tr class="odd">
-<td>ARB</td>
-<td>SP.POP.TOTL</td>
-<td>2.83832016E+08</td>
-<td>2.89850357E+08</td>
-<td>2.96026575E+08</td>
-<td>3.02434519E+08</td>
-<td>3.09162029E+08</td>
-<td>3.16264728E+08</td>
-</tr>
-<tr class="even">
-<td>ARB</td>
-<td>SP.POP.GROW</td>
-<td>2.11148598E+00</td>
-<td>2.12038835E+00</td>
-<td>2.13082988E+00</td>
-<td>2.16465160E+00</td>
-<td>2.22445177E+00</td>
-<td>2.29740341E+00</td>
-</tr>
-<tr class="odd">
-<td>ARE</td>
-<td>SP.URB.TOTL</td>
-<td>2.53138600E+06</td>
-<td>2.68261100E+06</td>
-<td>2.84320800E+06</td>
-<td>3.04862700E+06</td>
-<td>3.34683000E+06</td>
-<td>3.76723900E+06</td>
-</tr>
-</tbody>
-</table>
+| country | indicator   | 2000             | 2001             | 2002             | 2003             | 2004             | 2005             |
+| ------- | ----------- | ---------------- | ---------------- | ---------------- | ---------------- | ---------------- | ---------------- |
+| ABW     | SP.URB.TOTL | 4.24440000E+04   | 4.30480000E+04   | 4.36700000E+04   | 4.42460000E+04   | 4.46690000E+04   | 4.48890000E+04   |
+| ABW     | SP.URB.GROW | 1.18263237E+00   | 1.41302122E+00   | 1.43455953E+00   | 1.31036044E+00   | 9.51477684E-01   | 4.91302715E-01   |
+| ABW     | SP.POP.TOTL | 9.08530000E+04   | 9.28980000E+04   | 9.49920000E+04   | 9.70170000E+04   | 9.87370000E+04   | 1.00031000E+05   |
+| ABW     | SP.POP.GROW | 2.05502678E+00   | 2.22593013E+00   | 2.22905605E+00   | 2.10935434E+00   | 1.75735287E+00   | 1.30203884E+00   |
+| AFG     | SP.URB.TOTL | 4.43629900E+06   | 4.64805500E+06   | 4.89295100E+06   | 5.15568600E+06   | 5.42677000E+06   | 5.69182300E+06   |
+| AFG     | SP.URB.GROW | 3.91222846E+00   | 4.66283822E+00   | 5.13467454E+00   | 5.23045853E+00   | 5.12439302E+00   | 4.76864700E+00   |
+| AFG     | SP.POP.TOTL | 2.00937560E+07   | 2.09664630E+07   | 2.19799230E+07   | 2.30648510E+07   | 2.41189790E+07   | 2.50707980E+07   |
+| AFG     | SP.POP.GROW | 3.49465874E+00   | 4.25150411E+00   | 4.72052846E+00   | 4.81804112E+00   | 4.46891840E+00   | 3.87047016E+00   |
+| AGO     | SP.URB.TOTL | 8.23476600E+06   | 8.70800000E+06   | 9.21878700E+06   | 9.76519700E+06   | 1.03435060E+07   | 1.09494240E+07   |
+| AGO     | SP.URB.GROW | 5.43749411E+00   | 5.58771954E+00   | 5.70013237E+00   | 5.75812711E+00   | 5.75341450E+00   | 5.69279690E+00   |
+| AGO     | SP.POP.TOTL | 1.64409240E+07   | 1.69832660E+07   | 1.75726490E+07   | 1.82033690E+07   | 1.88657160E+07   | 1.95525420E+07   |
+| AGO     | SP.POP.GROW | 3.03294342E+00   | 3.24549139E+00   | 3.41151529E+00   | 3.52630277E+00   | 3.57396197E+00   | 3.57589970E+00   |
+| ALB     | SP.URB.TOTL | 1.28939100E+06   | 1.29858400E+06   | 1.32722000E+06   | 1.35484800E+06   | 1.38182800E+06   | 1.40729800E+06   |
+| ALB     | SP.URB.GROW | 7.42478629E-01   | 7.10442618E-01   | 2.18120890E+00   | 2.06027418E+00   | 1.97179894E+00   | 1.82642936E+00   |
+| ALB     | SP.POP.TOTL | 3.08902700E+06   | 3.06017300E+06   | 3.05101000E+06   | 3.03961600E+06   | 3.02693900E+06   | 3.01148700E+06   |
+| ALB     | SP.POP.GROW | \-6.37356834E-01 | \-9.38470428E-01 | \-2.99876697E-01 | \-3.74149169E-01 | \-4.17931378E-01 | \-5.11790116E-01 |
+| AND     | SP.URB.TOTL | 6.04170000E+04   | 6.19910000E+04   | 6.41940000E+04   | 6.67470000E+04   | 6.91920000E+04   | 7.12050000E+04   |
+| AND     | SP.URB.GROW | 1.27931383E+00   | 2.57186909E+00   | 3.49205352E+00   | 3.89996041E+00   | 3.59758966E+00   | 2.86777917E+00   |
+| AND     | SP.POP.TOTL | 6.53900000E+04   | 6.73410000E+04   | 7.00490000E+04   | 7.31820000E+04   | 7.62440000E+04   | 7.88670000E+04   |
+| AND     | SP.POP.GROW | 1.57216555E+00   | 2.93999221E+00   | 3.94257335E+00   | 4.37544919E+00   | 4.09892348E+00   | 3.38241655E+00   |
+| ARB     | SP.URB.TOTL | 1.49981223E+08   | 1.53924351E+08   | 1.57985738E+08   | 1.62267754E+08   | 1.66820459E+08   | 1.71813698E+08   |
+| ARB     | SP.URB.GROW | 2.59956290E+00   | 2.62908111E+00   | 2.63856042E+00   | 2.71038136E+00   | 2.80567450E+00   | 2.99318143E+00   |
+| ARB     | SP.POP.TOTL | 2.83832016E+08   | 2.89850357E+08   | 2.96026575E+08   | 3.02434519E+08   | 3.09162029E+08   | 3.16264728E+08   |
+| ARB     | SP.POP.GROW | 2.11148598E+00   | 2.12038835E+00   | 2.13082988E+00   | 2.16465160E+00   | 2.22445177E+00   | 2.29740341E+00   |
+| ARE     | SP.URB.TOTL | 2.53138600E+06   | 2.68261100E+06   | 2.84320800E+06   | 3.04862700E+06   | 3.34683000E+06   | 3.76723900E+06   |
 
 Step 1 - convert years column into values
 
@@ -7138,33 +5996,33 @@ pop2
 
 data/world\_bank\_pop.csv.gz \[19008 4\]:
 
-| country | indicator   | year | value           |
-|---------|-------------|------|-----------------|
-| ABW     | SP.URB.TOTL | 2013 | 4.43600000E+04  |
-| ABW     | SP.URB.GROW | 2013 | 6.69503994E-01  |
-| ABW     | SP.POP.TOTL | 2013 | 1.03187000E+05  |
-| ABW     | SP.POP.GROW | 2013 | 5.92914005E-01  |
-| AFG     | SP.URB.TOTL | 2013 | 7.73396400E+06  |
-| AFG     | SP.URB.GROW | 2013 | 4.19297967E+00  |
-| AFG     | SP.POP.TOTL | 2013 | 3.17316880E+07  |
-| AFG     | SP.POP.GROW | 2013 | 3.31522413E+00  |
-| AGO     | SP.URB.TOTL | 2013 | 1.61194910E+07  |
-| AGO     | SP.URB.GROW | 2013 | 4.72272270E+00  |
-| AGO     | SP.POP.TOTL | 2013 | 2.59983400E+07  |
-| AGO     | SP.POP.GROW | 2013 | 3.53182419E+00  |
-| ALB     | SP.URB.TOTL | 2013 | 1.60350500E+06  |
-| ALB     | SP.URB.GROW | 2013 | 1.74363937E+00  |
-| ALB     | SP.POP.TOTL | 2013 | 2.89509200E+06  |
-| ALB     | SP.POP.GROW | 2013 | -1.83211385E-01 |
-| AND     | SP.URB.TOTL | 2013 | 7.15270000E+04  |
-| AND     | SP.URB.GROW | 2013 | -2.11923331E+00 |
-| AND     | SP.POP.TOTL | 2013 | 8.07880000E+04  |
-| AND     | SP.POP.GROW | 2013 | -2.01331401E+00 |
-| ARB     | SP.URB.TOTL | 2013 | 2.18605128E+08  |
-| ARB     | SP.URB.GROW | 2013 | 2.78289395E+00  |
-| ARB     | SP.POP.TOTL | 2013 | 3.81702086E+08  |
-| ARB     | SP.POP.GROW | 2013 | 2.24884429E+00  |
-| ARE     | SP.URB.TOTL | 2013 | 7.66126800E+06  |
+| country | indicator   | year | value            |
+| ------- | ----------- | ---- | ---------------- |
+| ABW     | SP.URB.TOTL | 2013 | 4.43600000E+04   |
+| ABW     | SP.URB.GROW | 2013 | 6.69503994E-01   |
+| ABW     | SP.POP.TOTL | 2013 | 1.03187000E+05   |
+| ABW     | SP.POP.GROW | 2013 | 5.92914005E-01   |
+| AFG     | SP.URB.TOTL | 2013 | 7.73396400E+06   |
+| AFG     | SP.URB.GROW | 2013 | 4.19297967E+00   |
+| AFG     | SP.POP.TOTL | 2013 | 3.17316880E+07   |
+| AFG     | SP.POP.GROW | 2013 | 3.31522413E+00   |
+| AGO     | SP.URB.TOTL | 2013 | 1.61194910E+07   |
+| AGO     | SP.URB.GROW | 2013 | 4.72272270E+00   |
+| AGO     | SP.POP.TOTL | 2013 | 2.59983400E+07   |
+| AGO     | SP.POP.GROW | 2013 | 3.53182419E+00   |
+| ALB     | SP.URB.TOTL | 2013 | 1.60350500E+06   |
+| ALB     | SP.URB.GROW | 2013 | 1.74363937E+00   |
+| ALB     | SP.POP.TOTL | 2013 | 2.89509200E+06   |
+| ALB     | SP.POP.GROW | 2013 | \-1.83211385E-01 |
+| AND     | SP.URB.TOTL | 2013 | 7.15270000E+04   |
+| AND     | SP.URB.GROW | 2013 | \-2.11923331E+00 |
+| AND     | SP.POP.TOTL | 2013 | 8.07880000E+04   |
+| AND     | SP.POP.GROW | 2013 | \-2.01331401E+00 |
+| ARB     | SP.URB.TOTL | 2013 | 2.18605128E+08   |
+| ARB     | SP.URB.GROW | 2013 | 2.78289395E+00   |
+| ARB     | SP.POP.TOTL | 2013 | 3.81702086E+08   |
+| ARB     | SP.POP.GROW | 2013 | 2.24884429E+00   |
+| ARE     | SP.URB.TOTL | 2013 | 7.66126800E+06   |
 
 Step 2 - separate `"indicate"` column
 
@@ -7180,33 +6038,33 @@ pop3
 
 data/world\_bank\_pop.csv.gz \[19008 5\]:
 
-| country | area | variable | year | value           |
-|---------|------|----------|------|-----------------|
-| ABW     | URB  | TOTL     | 2013 | 4.43600000E+04  |
-| ABW     | URB  | GROW     | 2013 | 6.69503994E-01  |
-| ABW     | POP  | TOTL     | 2013 | 1.03187000E+05  |
-| ABW     | POP  | GROW     | 2013 | 5.92914005E-01  |
-| AFG     | URB  | TOTL     | 2013 | 7.73396400E+06  |
-| AFG     | URB  | GROW     | 2013 | 4.19297967E+00  |
-| AFG     | POP  | TOTL     | 2013 | 3.17316880E+07  |
-| AFG     | POP  | GROW     | 2013 | 3.31522413E+00  |
-| AGO     | URB  | TOTL     | 2013 | 1.61194910E+07  |
-| AGO     | URB  | GROW     | 2013 | 4.72272270E+00  |
-| AGO     | POP  | TOTL     | 2013 | 2.59983400E+07  |
-| AGO     | POP  | GROW     | 2013 | 3.53182419E+00  |
-| ALB     | URB  | TOTL     | 2013 | 1.60350500E+06  |
-| ALB     | URB  | GROW     | 2013 | 1.74363937E+00  |
-| ALB     | POP  | TOTL     | 2013 | 2.89509200E+06  |
-| ALB     | POP  | GROW     | 2013 | -1.83211385E-01 |
-| AND     | URB  | TOTL     | 2013 | 7.15270000E+04  |
-| AND     | URB  | GROW     | 2013 | -2.11923331E+00 |
-| AND     | POP  | TOTL     | 2013 | 8.07880000E+04  |
-| AND     | POP  | GROW     | 2013 | -2.01331401E+00 |
-| ARB     | URB  | TOTL     | 2013 | 2.18605128E+08  |
-| ARB     | URB  | GROW     | 2013 | 2.78289395E+00  |
-| ARB     | POP  | TOTL     | 2013 | 3.81702086E+08  |
-| ARB     | POP  | GROW     | 2013 | 2.24884429E+00  |
-| ARE     | URB  | TOTL     | 2013 | 7.66126800E+06  |
+| country | area | variable | year | value            |
+| ------- | ---- | -------- | ---- | ---------------- |
+| ABW     | URB  | TOTL     | 2013 | 4.43600000E+04   |
+| ABW     | URB  | GROW     | 2013 | 6.69503994E-01   |
+| ABW     | POP  | TOTL     | 2013 | 1.03187000E+05   |
+| ABW     | POP  | GROW     | 2013 | 5.92914005E-01   |
+| AFG     | URB  | TOTL     | 2013 | 7.73396400E+06   |
+| AFG     | URB  | GROW     | 2013 | 4.19297967E+00   |
+| AFG     | POP  | TOTL     | 2013 | 3.17316880E+07   |
+| AFG     | POP  | GROW     | 2013 | 3.31522413E+00   |
+| AGO     | URB  | TOTL     | 2013 | 1.61194910E+07   |
+| AGO     | URB  | GROW     | 2013 | 4.72272270E+00   |
+| AGO     | POP  | TOTL     | 2013 | 2.59983400E+07   |
+| AGO     | POP  | GROW     | 2013 | 3.53182419E+00   |
+| ALB     | URB  | TOTL     | 2013 | 1.60350500E+06   |
+| ALB     | URB  | GROW     | 2013 | 1.74363937E+00   |
+| ALB     | POP  | TOTL     | 2013 | 2.89509200E+06   |
+| ALB     | POP  | GROW     | 2013 | \-1.83211385E-01 |
+| AND     | URB  | TOTL     | 2013 | 7.15270000E+04   |
+| AND     | URB  | GROW     | 2013 | \-2.11923331E+00 |
+| AND     | POP  | TOTL     | 2013 | 8.07880000E+04   |
+| AND     | POP  | GROW     | 2013 | \-2.01331401E+00 |
+| ARB     | URB  | TOTL     | 2013 | 2.18605128E+08   |
+| ARB     | URB  | GROW     | 2013 | 2.78289395E+00   |
+| ARB     | POP  | TOTL     | 2013 | 3.81702086E+08   |
+| ARB     | POP  | GROW     | 2013 | 2.24884429E+00   |
+| ARE     | URB  | TOTL     | 2013 | 7.66126800E+06   |
 
 Step 3 - Make columns based on `"variable"` values.
 
@@ -7216,37 +6074,37 @@ Step 3 - Make columns based on `"variable"` values.
 
 data/world\_bank\_pop.csv.gz \[9504 5\]:
 
-| country | area | year | GROW        | TOTL           |
-|---------|------|------|-------------|----------------|
-| ABW     | URB  | 2013 | 0.66950399  | 4.43600000E+04 |
-| ABW     | POP  | 2013 | 0.59291401  | 1.03187000E+05 |
-| AFG     | URB  | 2013 | 4.19297967  | 7.73396400E+06 |
-| AFG     | POP  | 2013 | 3.31522413  | 3.17316880E+07 |
-| AGO     | URB  | 2013 | 4.72272270  | 1.61194910E+07 |
-| AGO     | POP  | 2013 | 3.53182419  | 2.59983400E+07 |
-| ALB     | URB  | 2013 | 1.74363937  | 1.60350500E+06 |
-| ALB     | POP  | 2013 | -0.18321138 | 2.89509200E+06 |
-| AND     | URB  | 2013 | -2.11923331 | 7.15270000E+04 |
-| AND     | POP  | 2013 | -2.01331401 | 8.07880000E+04 |
-| ARB     | URB  | 2013 | 2.78289395  | 2.18605128E+08 |
-| ARB     | POP  | 2013 | 2.24884429  | 3.81702086E+08 |
-| ARE     | URB  | 2013 | 1.55515587  | 7.66126800E+06 |
-| ARE     | POP  | 2013 | 1.18180499  | 9.00626300E+06 |
-| ARG     | URB  | 2013 | 1.18764913  | 3.88172560E+07 |
-| ARG     | POP  | 2013 | 1.04727675  | 4.25399250E+07 |
-| ARM     | URB  | 2013 | 0.28102719  | 1.82765600E+06 |
-| ARM     | POP  | 2013 | 0.40125198  | 2.89350900E+06 |
-| ASM     | URB  | 2013 | 0.05797582  | 4.83100000E+04 |
-| ASM     | POP  | 2013 | 0.13931989  | 5.53070000E+04 |
-| ATG     | URB  | 2013 | 0.38383110  | 2.47980000E+04 |
-| ATG     | POP  | 2013 | 1.07605830  | 9.78240000E+04 |
-| AUS     | URB  | 2013 | 1.87536404  | 1.97902080E+07 |
-| AUS     | POP  | 2013 | 1.75833808  | 2.31459010E+07 |
-| AUT     | URB  | 2013 | 0.91956020  | 4.86199100E+06 |
+| country | area | year | GROW         | TOTL           |
+| ------- | ---- | ---- | ------------ | -------------- |
+| ABW     | URB  | 2013 | 0.66950399   | 4.43600000E+04 |
+| ABW     | POP  | 2013 | 0.59291401   | 1.03187000E+05 |
+| AFG     | URB  | 2013 | 4.19297967   | 7.73396400E+06 |
+| AFG     | POP  | 2013 | 3.31522413   | 3.17316880E+07 |
+| AGO     | URB  | 2013 | 4.72272270   | 1.61194910E+07 |
+| AGO     | POP  | 2013 | 3.53182419   | 2.59983400E+07 |
+| ALB     | URB  | 2013 | 1.74363937   | 1.60350500E+06 |
+| ALB     | POP  | 2013 | \-0.18321138 | 2.89509200E+06 |
+| AND     | URB  | 2013 | \-2.11923331 | 7.15270000E+04 |
+| AND     | POP  | 2013 | \-2.01331401 | 8.07880000E+04 |
+| ARB     | URB  | 2013 | 2.78289395   | 2.18605128E+08 |
+| ARB     | POP  | 2013 | 2.24884429   | 3.81702086E+08 |
+| ARE     | URB  | 2013 | 1.55515587   | 7.66126800E+06 |
+| ARE     | POP  | 2013 | 1.18180499   | 9.00626300E+06 |
+| ARG     | URB  | 2013 | 1.18764913   | 3.88172560E+07 |
+| ARG     | POP  | 2013 | 1.04727675   | 4.25399250E+07 |
+| ARM     | URB  | 2013 | 0.28102719   | 1.82765600E+06 |
+| ARM     | POP  | 2013 | 0.40125198   | 2.89350900E+06 |
+| ASM     | URB  | 2013 | 0.05797582   | 4.83100000E+04 |
+| ASM     | POP  | 2013 | 0.13931989   | 5.53070000E+04 |
+| ATG     | URB  | 2013 | 0.38383110   | 2.47980000E+04 |
+| ATG     | POP  | 2013 | 1.07605830   | 9.78240000E+04 |
+| AUS     | URB  | 2013 | 1.87536404   | 1.97902080E+07 |
+| AUS     | POP  | 2013 | 1.75833808   | 2.31459010E+07 |
+| AUT     | URB  | 2013 | 0.91956020   | 4.86199100E+06 |
 
-------------------------------------------------------------------------
+-----
 
-------------------------------------------------------------------------
+-----
 
 [Multi-choice](https://tidyr.tidyverse.org/articles/pivot.html#multi-choice)
 
@@ -7264,7 +6122,7 @@ multi
 \_unnamed \[4 4\]:
 
 | :id | :choice1 | :choice2 | :choice3 |
-|-----|----------|----------|----------|
+| --- | -------- | -------- | -------- |
 | 1   | A        | B        | C        |
 | 2   | C        | B        |          |
 | 3   | D        |          |          |
@@ -7285,16 +6143,16 @@ multi2
 
 \_unnamed \[8 4\]:
 
-| :id | :*c**o**l**u**m**n*\|:value | :checked |      |
-|-----|-----------------------------|----------|------|
-| 1   | :choice1                    | A        | true |
-| 2   | :choice1                    | C        | true |
-| 3   | :choice1                    | D        | true |
-| 4   | :choice1                    | B        | true |
-| 1   | :choice2                    | B        | true |
-| 2   | :choice2                    | B        | true |
-| 4   | :choice2                    | D        | true |
-| 1   | :choice3                    | C        | true |
+| :id | :\(column | :\)value | :checked |      |
+| --- | -------------------- | -------- | ---- |
+| 1   | :choice1             | A        | true |
+| 2   | :choice1             | C        | true |
+| 3   | :choice1             | D        | true |
+| 4   | :choice1             | B        | true |
+| 1   | :choice2             | B        | true |
+| 2   | :choice2             | B        | true |
+| 4   | :choice2             | D        | true |
+| 1   | :choice3             | C        | true |
 
 Step 2 - Convert back to wide form with actual choices as columns
 
@@ -7308,15 +6166,15 @@ Step 2 - Convert back to wide form with actual choices as columns
 \_unnamed \[4 5\]:
 
 | :id | A    | B    | C    | D    |
-|-----|------|------|------|------|
+| --- | ---- | ---- | ---- | ---- |
 | 1   | true | true | true |      |
 | 2   |      | true | true |      |
 | 3   |      |      |      | true |
 | 4   |      | true |      | true |
 
-------------------------------------------------------------------------
+-----
 
-------------------------------------------------------------------------
+-----
 
 [Construction](https://tidyr.tidyverse.org/articles/pivot.html#by-hand)
 
@@ -7334,7 +6192,7 @@ construction
 data/construction.csv \[9 9\]:
 
 | Year | Month     | 1 unit | 2 to 4 units | 5 units or more | Northeast | Midwest | South | West |
-|------|-----------|--------|--------------|-----------------|-----------|---------|-------|------|
+| ---- | --------- | ------ | ------------ | --------------- | --------- | ------- | ----- | ---- |
 | 2018 | January   | 859    |              | 348             | 114       | 169     | 596   | 339  |
 | 2018 | February  | 882    |              | 400             | 138       | 160     | 655   | 336  |
 | 2018 | March     | 862    |              | 356             | 150       | 154     | 595   | 330  |
@@ -7361,7 +6219,7 @@ Conversion 1 - Group two column types
 data/construction.csv \[63 5\]:
 
 | Year | Month     | :units | :region | :n  |
-|------|-----------|--------|---------|-----|
+| ---- | --------- | ------ | ------- | --- |
 | 2018 | January   | 1      |         | 859 |
 | 2018 | February  | 1      |         | 882 |
 | 2018 | March     | 1      |         | 862 |
@@ -7407,7 +6265,7 @@ Conversion 2 - Convert to longer form and back and rename columns
 data/construction.csv \[9 9\]:
 
 | Year | Month     | Midwest | 5 units or more | 2 to 4 units | Northeast | South | 1 unit | West |
-|------|-----------|---------|-----------------|--------------|-----------|-------|--------|------|
+| ---- | --------- | ------- | --------------- | ------------ | --------- | ----- | ------ | ---- |
 | 2018 | January   | 169     | 348             |              | 114       | 596   | 859    | 339  |
 | 2018 | February  | 160     | 400             |              | 138       | 655   | 882    | 336  |
 | 2018 | March     | 154     | 356             |              | 150       | 595   | 862    | 330  |
@@ -7418,7 +6276,7 @@ data/construction.csv \[9 9\]:
 | 2018 | August    | 205     | 286             |              | 90        | 649   | 939    | 286  |
 | 2018 | September | 175     | 304             |              | 117       | 560   | 835    | 296  |
 
-------------------------------------------------------------------------
+-----
 
 Various operations on stocks, examples taken from
 [gather](https://tidyr.tidyverse.org/reference/gather.html) and
@@ -7434,18 +6292,18 @@ stocks-tidyr
 
 data/stockstidyr.csv \[10 4\]:
 
-| time       | X           | Y           | Z           |
-|------------|-------------|-------------|-------------|
-| 2009-01-01 | 1.30989806  | -1.89040193 | -1.77946880 |
-| 2009-01-02 | -0.29993804 | -1.82473090 | 2.39892513  |
-| 2009-01-03 | 0.53647501  | -1.03606860 | -3.98697977 |
-| 2009-01-04 | -1.88390802 | -0.52178390 | -2.83065490 |
-| 2009-01-05 | -0.96052361 | -2.21683349 | 1.43715171  |
-| 2009-01-06 | -1.18528966 | -2.89350924 | 3.39784140  |
-| 2009-01-07 | -0.85207056 | -2.16794818 | -1.20108258 |
-| 2009-01-08 | 0.25234172  | -0.32854117 | -1.53160473 |
-| 2009-01-09 | 0.40257136  | 1.96407898  | -6.80878830 |
-| 2009-01-10 | -0.64383500 | 2.68618382  | -2.55909321 |
+| time       | X            | Y            | Z            |
+| ---------- | ------------ | ------------ | ------------ |
+| 2009-01-01 | 1.30989806   | \-1.89040193 | \-1.77946880 |
+| 2009-01-02 | \-0.29993804 | \-1.82473090 | 2.39892513   |
+| 2009-01-03 | 0.53647501   | \-1.03606860 | \-3.98697977 |
+| 2009-01-04 | \-1.88390802 | \-0.52178390 | \-2.83065490 |
+| 2009-01-05 | \-0.96052361 | \-2.21683349 | 1.43715171   |
+| 2009-01-06 | \-1.18528966 | \-2.89350924 | 3.39784140   |
+| 2009-01-07 | \-0.85207056 | \-2.16794818 | \-1.20108258 |
+| 2009-01-08 | 0.25234172   | \-0.32854117 | \-1.53160473 |
+| 2009-01-09 | 0.40257136   | 1.96407898   | \-6.80878830 |
+| 2009-01-10 | \-0.64383500 | 2.68618382   | \-2.55909321 |
 
 Convert to longer form
 
@@ -7460,33 +6318,33 @@ stocks-long
 
 data/stockstidyr.csv \[30 3\]:
 
-| time       | :stocks | :price      |
-|------------|---------|-------------|
-| 2009-01-01 | X       | 1.30989806  |
-| 2009-01-02 | X       | -0.29993804 |
-| 2009-01-03 | X       | 0.53647501  |
-| 2009-01-04 | X       | -1.88390802 |
-| 2009-01-05 | X       | -0.96052361 |
-| 2009-01-06 | X       | -1.18528966 |
-| 2009-01-07 | X       | -0.85207056 |
-| 2009-01-08 | X       | 0.25234172  |
-| 2009-01-09 | X       | 0.40257136  |
-| 2009-01-10 | X       | -0.64383500 |
-| 2009-01-01 | Y       | -1.89040193 |
-| 2009-01-02 | Y       | -1.82473090 |
-| 2009-01-03 | Y       | -1.03606860 |
-| 2009-01-04 | Y       | -0.52178390 |
-| 2009-01-05 | Y       | -2.21683349 |
-| 2009-01-06 | Y       | -2.89350924 |
-| 2009-01-07 | Y       | -2.16794818 |
-| 2009-01-08 | Y       | -0.32854117 |
-| 2009-01-09 | Y       | 1.96407898  |
-| 2009-01-10 | Y       | 2.68618382  |
-| 2009-01-01 | Z       | -1.77946880 |
-| 2009-01-02 | Z       | 2.39892513  |
-| 2009-01-03 | Z       | -3.98697977 |
-| 2009-01-04 | Z       | -2.83065490 |
-| 2009-01-05 | Z       | 1.43715171  |
+| time       | :stocks | :price       |
+| ---------- | ------- | ------------ |
+| 2009-01-01 | X       | 1.30989806   |
+| 2009-01-02 | X       | \-0.29993804 |
+| 2009-01-03 | X       | 0.53647501   |
+| 2009-01-04 | X       | \-1.88390802 |
+| 2009-01-05 | X       | \-0.96052361 |
+| 2009-01-06 | X       | \-1.18528966 |
+| 2009-01-07 | X       | \-0.85207056 |
+| 2009-01-08 | X       | 0.25234172   |
+| 2009-01-09 | X       | 0.40257136   |
+| 2009-01-10 | X       | \-0.64383500 |
+| 2009-01-01 | Y       | \-1.89040193 |
+| 2009-01-02 | Y       | \-1.82473090 |
+| 2009-01-03 | Y       | \-1.03606860 |
+| 2009-01-04 | Y       | \-0.52178390 |
+| 2009-01-05 | Y       | \-2.21683349 |
+| 2009-01-06 | Y       | \-2.89350924 |
+| 2009-01-07 | Y       | \-2.16794818 |
+| 2009-01-08 | Y       | \-0.32854117 |
+| 2009-01-09 | Y       | 1.96407898   |
+| 2009-01-10 | Y       | 2.68618382   |
+| 2009-01-01 | Z       | \-1.77946880 |
+| 2009-01-02 | Z       | 2.39892513   |
+| 2009-01-03 | Z       | \-3.98697977 |
+| 2009-01-04 | Z       | \-2.83065490 |
+| 2009-01-05 | Z       | 1.43715171   |
 
 Convert back to wide form
 
@@ -7496,18 +6354,18 @@ Convert back to wide form
 
 data/stockstidyr.csv \[10 4\]:
 
-| time       | Z           | X           | Y           |
-|------------|-------------|-------------|-------------|
-| 2009-01-01 | -1.77946880 | 1.30989806  | -1.89040193 |
-| 2009-01-02 | 2.39892513  | -0.29993804 | -1.82473090 |
-| 2009-01-03 | -3.98697977 | 0.53647501  | -1.03606860 |
-| 2009-01-04 | -2.83065490 | -1.88390802 | -0.52178390 |
-| 2009-01-05 | 1.43715171  | -0.96052361 | -2.21683349 |
-| 2009-01-06 | 3.39784140  | -1.18528966 | -2.89350924 |
-| 2009-01-07 | -1.20108258 | -0.85207056 | -2.16794818 |
-| 2009-01-08 | -1.53160473 | 0.25234172  | -0.32854117 |
-| 2009-01-09 | -6.80878830 | 0.40257136  | 1.96407898  |
-| 2009-01-10 | -2.55909321 | -0.64383500 | 2.68618382  |
+| time       | Z            | X            | Y            |
+| ---------- | ------------ | ------------ | ------------ |
+| 2009-01-01 | \-1.77946880 | 1.30989806   | \-1.89040193 |
+| 2009-01-02 | 2.39892513   | \-0.29993804 | \-1.82473090 |
+| 2009-01-03 | \-3.98697977 | 0.53647501   | \-1.03606860 |
+| 2009-01-04 | \-2.83065490 | \-1.88390802 | \-0.52178390 |
+| 2009-01-05 | 1.43715171   | \-0.96052361 | \-2.21683349 |
+| 2009-01-06 | 3.39784140   | \-1.18528966 | \-2.89350924 |
+| 2009-01-07 | \-1.20108258 | \-0.85207056 | \-2.16794818 |
+| 2009-01-08 | \-1.53160473 | 0.25234172   | \-0.32854117 |
+| 2009-01-09 | \-6.80878830 | 0.40257136   | 1.96407898   |
+| 2009-01-10 | \-2.55909321 | \-0.64383500 | 2.68618382   |
 
 Convert to wide form on time column (let’s limit values to a couple of
 rows)
@@ -7520,11 +6378,11 @@ rows)
 
 data/stockstidyr.csv \[3 6\]:
 
-| :stocks | 2009-01-05  | 2009-01-07  | 2009-01-01  | 2009-01-03 | 2009-01-09  |
-|---------|-------------|-------------|-------------|------------|-------------|
-| X       | -0.96052361 |             | 1.30989806  |            | 0.40257136  |
-| Z       | 1.43715171  |             | -1.77946880 |            | -6.80878830 |
-| Y       |             | -2.16794818 |             | -1.0360686 |             |
+| :stocks | 2009-01-05   | 2009-01-07   | 2009-01-01   | 2009-01-03  | 2009-01-09   |
+| ------- | ------------ | ------------ | ------------ | ----------- | ------------ |
+| X       | \-0.96052361 |              | 1.30989806   |             | 0.40257136   |
+| Z       | 1.43715171   |              | \-1.77946880 |             | \-6.80878830 |
+| Y       |              | \-2.16794818 |              | \-1.0360686 |              |
 
 ### Join/Concat Datasets
 
@@ -7540,10 +6398,10 @@ Additionally set operations are defined: `intersect` and `difference`.
 
 To concat two datasets rowwise you can choose:
 
--   `concat` - concats rows for matching columns, the number of columns
+  - `concat` - concats rows for matching columns, the number of columns
     should be equal.
--   `union` - like concat but returns unique values
--   `bind` - concats rows add missing, empty columns
+  - `union` - like concat but returns unique values
+  - `bind` - concats rows add missing, empty columns
 
 To add two datasets columnwise use `bind`. The number of rows should be
 equal.
@@ -7567,31 +6425,31 @@ ds2
 
 \_unnamed \[9 3\]:
 
-| :a  | :b  | :c  |
-|-----|-----|-----|
-| 1   | 101 | a   |
-| 2   | 102 | b   |
-| 1   | 103 | s   |
-| 2   | 104 |     |
-| 3   | 105 | t   |
-| 4   | 106 | r   |
-|     | 107 | a   |
-|     | 108 | c   |
-| 4   | 109 | t   |
+| :a | :b  | :c |
+| -- | --- | -- |
+| 1  | 101 | a  |
+| 2  | 102 | b  |
+| 1  | 103 | s  |
+| 2  | 104 |    |
+| 3  | 105 | t  |
+| 4  | 106 | r  |
+|    | 107 | a  |
+|    | 108 | c  |
+| 4  | 109 | t  |
 
 \_unnamed \[9 4\]:
 
-| :a  | :b  | :c  | :d  |
-|-----|-----|-----|-----|
-|     | 110 | d   | X   |
-| 1   | 109 | a   | X   |
-| 2   | 108 | t   | X   |
-| 5   | 107 | a   | X   |
-| 4   | 106 | t   | X   |
-| 3   | 105 | a   | X   |
-| 2   | 104 | b   | X   |
-| 1   | 103 | l   | X   |
-|     | 102 | e   | X   |
+| :a | :b  | :c | :d |
+| -- | --- | -- | -- |
+|    | 110 | d  | X  |
+| 1  | 109 | a  | X  |
+| 2  | 108 | t  | X  |
+| 5  | 107 | a  | X  |
+| 4  | 106 | t  | X  |
+| 3  | 105 | a  | X  |
+| 2  | 104 | b  | X  |
+| 1  | 103 | l  | X  |
+|    | 102 | e  | X  |
 
 #### Left
 
@@ -7601,19 +6459,19 @@ ds2
 
 left-outer-join \[9 7\]:
 
-| :b  | :a  | :c  | :right.b | :right.a | :right.c | :d  |
-|-----|-----|-----|----------|----------|----------|-----|
-| 109 | 4   | t   | 109      | 1        | a        | X   |
-| 108 |     | c   | 108      | 2        | t        | X   |
-| 107 |     | a   | 107      | 5        | a        | X   |
-| 106 | 4   | r   | 106      | 4        | t        | X   |
-| 105 | 3   | t   | 105      | 3        | a        | X   |
-| 104 | 2   |     | 104      | 2        | b        | X   |
-| 103 | 1   | s   | 103      | 1        | l        | X   |
-| 102 | 2   | b   | 102      |          | e        | X   |
-| 101 | 1   | a   |          |          |          |     |
+| :b  | :a | :c | :right.b | :right.a | :right.c | :d |
+| --- | -- | -- | -------- | -------- | -------- | -- |
+| 109 | 4  | t  | 109      | 1        | a        | X  |
+| 108 |    | c  | 108      | 2        | t        | X  |
+| 107 |    | a  | 107      | 5        | a        | X  |
+| 106 | 4  | r  | 106      | 4        | t        | X  |
+| 105 | 3  | t  | 105      | 3        | a        | X  |
+| 104 | 2  |    | 104      | 2        | b        | X  |
+| 103 | 1  | s  | 103      | 1        | l        | X  |
+| 102 | 2  | b  | 102      |          | e        | X  |
+| 101 | 1  | a  |          |          |          |    |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/left-join ds2 ds1 :b)
@@ -7621,19 +6479,19 @@ left-outer-join \[9 7\]:
 
 left-outer-join \[9 7\]:
 
-| :b  | :a  | :c  | :d  | :right.b | :right.a | :right.c |
-|-----|-----|-----|-----|----------|----------|----------|
-| 102 |     | e   | X   | 102      | 2        | b        |
-| 103 | 1   | l   | X   | 103      | 1        | s        |
-| 104 | 2   | b   | X   | 104      | 2        |          |
-| 105 | 3   | a   | X   | 105      | 3        | t        |
-| 106 | 4   | t   | X   | 106      | 4        | r        |
-| 107 | 5   | a   | X   | 107      |          | a        |
-| 108 | 2   | t   | X   | 108      |          | c        |
-| 109 | 1   | a   | X   | 109      | 4        | t        |
-| 110 |     | d   | X   |          |          |          |
+| :b  | :a | :c | :d | :right.b | :right.a | :right.c |
+| --- | -- | -- | -- | -------- | -------- | -------- |
+| 102 |    | e  | X  | 102      | 2        | b        |
+| 103 | 1  | l  | X  | 103      | 1        | s        |
+| 104 | 2  | b  | X  | 104      | 2        |          |
+| 105 | 3  | a  | X  | 105      | 3        | t        |
+| 106 | 4  | t  | X  | 106      | 4        | r        |
+| 107 | 5  | a  | X  | 107      |          | a        |
+| 108 | 2  | t  | X  | 108      |          | c        |
+| 109 | 1  | a  | X  | 109      | 4        | t        |
+| 110 |    | d  | X  |          |          |          |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/left-join ds1 ds2 [:a :b])
@@ -7641,19 +6499,19 @@ left-outer-join \[9 7\]:
 
 left-outer-join \[9 7\]:
 
-| :a  | :b  | :c  | :right.a | :right.b | :right.c | :d  |
-|-----|-----|-----|----------|----------|----------|-----|
-| 4   | 106 | r   | 4        | 106      | t        | X   |
-| 3   | 105 | t   | 3        | 105      | a        | X   |
-| 2   | 104 |     | 2        | 104      | b        | X   |
-| 1   | 103 | s   | 1        | 103      | l        | X   |
-| 2   | 102 | b   |          |          |          |     |
-|     | 108 | c   |          |          |          |     |
-|     | 107 | a   |          |          |          |     |
-| 1   | 101 | a   |          |          |          |     |
-| 4   | 109 | t   |          |          |          |     |
+| :a | :b  | :c | :right.a | :right.b | :right.c | :d |
+| -- | --- | -- | -------- | -------- | -------- | -- |
+| 4  | 106 | r  | 4        | 106      | t        | X  |
+| 3  | 105 | t  | 3        | 105      | a        | X  |
+| 2  | 104 |    | 2        | 104      | b        | X  |
+| 1  | 103 | s  | 1        | 103      | l        | X  |
+| 2  | 102 | b  |          |          |          |    |
+|    | 108 | c  |          |          |          |    |
+|    | 107 | a  |          |          |          |    |
+| 1  | 101 | a  |          |          |          |    |
+| 4  | 109 | t  |          |          |          |    |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/left-join ds2 ds1 [:a :b])
@@ -7661,17 +6519,17 @@ left-outer-join \[9 7\]:
 
 left-outer-join \[9 7\]:
 
-| :a  | :b  | :c  | :d  | :right.a | :right.b | :right.c |
-|-----|-----|-----|-----|----------|----------|----------|
-| 1   | 103 | l   | X   | 1        | 103      | s        |
-| 2   | 104 | b   | X   | 2        | 104      |          |
-| 3   | 105 | a   | X   | 3        | 105      | t        |
-| 4   | 106 | t   | X   | 4        | 106      | r        |
-| 2   | 108 | t   | X   |          |          |          |
-| 1   | 109 | a   | X   |          |          |          |
-| 5   | 107 | a   | X   |          |          |          |
-|     | 110 | d   | X   |          |          |          |
-|     | 102 | e   | X   |          |          |          |
+| :a | :b  | :c | :d | :right.a | :right.b | :right.c |
+| -- | --- | -- | -- | -------- | -------- | -------- |
+| 1  | 103 | l  | X  | 1        | 103      | s        |
+| 2  | 104 | b  | X  | 2        | 104      |          |
+| 3  | 105 | a  | X  | 3        | 105      | t        |
+| 4  | 106 | t  | X  | 4        | 106      | r        |
+| 2  | 108 | t  | X  |          |          |          |
+| 1  | 109 | a  | X  |          |          |          |
+| 5  | 107 | a  | X  |          |          |          |
+|    | 110 | d  | X  |          |          |          |
+|    | 102 | e  | X  |          |          |          |
 
 #### Right
 
@@ -7681,19 +6539,19 @@ left-outer-join \[9 7\]:
 
 right-outer-join \[9 7\]:
 
-| :b  | :a  | :c  | :right.b | :right.a | :right.c | :d  |
-|-----|-----|-----|----------|----------|----------|-----|
-| 109 | 4   | t   | 109      | 1        | a        | X   |
-| 108 |     | c   | 108      | 2        | t        | X   |
-| 107 |     | a   | 107      | 5        | a        | X   |
-| 106 | 4   | r   | 106      | 4        | t        | X   |
-| 105 | 3   | t   | 105      | 3        | a        | X   |
-| 104 | 2   |     | 104      | 2        | b        | X   |
-| 103 | 1   | s   | 103      | 1        | l        | X   |
-| 102 | 2   | b   | 102      |          | e        | X   |
-|     |     |     | 110      |          | d        | X   |
+| :b  | :a | :c | :right.b | :right.a | :right.c | :d |
+| --- | -- | -- | -------- | -------- | -------- | -- |
+| 109 | 4  | t  | 109      | 1        | a        | X  |
+| 108 |    | c  | 108      | 2        | t        | X  |
+| 107 |    | a  | 107      | 5        | a        | X  |
+| 106 | 4  | r  | 106      | 4        | t        | X  |
+| 105 | 3  | t  | 105      | 3        | a        | X  |
+| 104 | 2  |    | 104      | 2        | b        | X  |
+| 103 | 1  | s  | 103      | 1        | l        | X  |
+| 102 | 2  | b  | 102      |          | e        | X  |
+|     |    |    | 110      |          | d        | X  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/right-join ds2 ds1 :b)
@@ -7701,19 +6559,19 @@ right-outer-join \[9 7\]:
 
 right-outer-join \[9 7\]:
 
-| :b  | :a  | :c  | :d  | :right.b | :right.a | :right.c |
-|-----|-----|-----|-----|----------|----------|----------|
-| 102 |     | e   | X   | 102      | 2        | b        |
-| 103 | 1   | l   | X   | 103      | 1        | s        |
-| 104 | 2   | b   | X   | 104      | 2        |          |
-| 105 | 3   | a   | X   | 105      | 3        | t        |
-| 106 | 4   | t   | X   | 106      | 4        | r        |
-| 107 | 5   | a   | X   | 107      |          | a        |
-| 108 | 2   | t   | X   | 108      |          | c        |
-| 109 | 1   | a   | X   | 109      | 4        | t        |
-|     |     |     |     | 101      | 1        | a        |
+| :b  | :a | :c | :d | :right.b | :right.a | :right.c |
+| --- | -- | -- | -- | -------- | -------- | -------- |
+| 102 |    | e  | X  | 102      | 2        | b        |
+| 103 | 1  | l  | X  | 103      | 1        | s        |
+| 104 | 2  | b  | X  | 104      | 2        |          |
+| 105 | 3  | a  | X  | 105      | 3        | t        |
+| 106 | 4  | t  | X  | 106      | 4        | r        |
+| 107 | 5  | a  | X  | 107      |          | a        |
+| 108 | 2  | t  | X  | 108      |          | c        |
+| 109 | 1  | a  | X  | 109      | 4        | t        |
+|     |    |    |    | 101      | 1        | a        |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/right-join ds1 ds2 [:a :b])
@@ -7721,19 +6579,19 @@ right-outer-join \[9 7\]:
 
 right-outer-join \[9 7\]:
 
-| :a  | :b  | :c  | :right.a | :right.b | :right.c | :d  |
-|-----|-----|-----|----------|----------|----------|-----|
-| 4   | 106 | r   | 4        | 106      | t        | X   |
-| 3   | 105 | t   | 3        | 105      | a        | X   |
-| 2   | 104 |     | 2        | 104      | b        | X   |
-| 1   | 103 | s   | 1        | 103      | l        | X   |
-|     |     |     |          | 110      | d        | X   |
-|     |     |     | 1        | 109      | a        | X   |
-|     |     |     | 2        | 108      | t        | X   |
-|     |     |     | 5        | 107      | a        | X   |
-|     |     |     |          | 102      | e        | X   |
+| :a | :b  | :c | :right.a | :right.b | :right.c | :d |
+| -- | --- | -- | -------- | -------- | -------- | -- |
+| 4  | 106 | r  | 4        | 106      | t        | X  |
+| 3  | 105 | t  | 3        | 105      | a        | X  |
+| 2  | 104 |    | 2        | 104      | b        | X  |
+| 1  | 103 | s  | 1        | 103      | l        | X  |
+|    |     |    |          | 110      | d        | X  |
+|    |     |    | 1        | 109      | a        | X  |
+|    |     |    | 2        | 108      | t        | X  |
+|    |     |    | 5        | 107      | a        | X  |
+|    |     |    |          | 102      | e        | X  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/right-join ds2 ds1 [:a :b])
@@ -7741,17 +6599,17 @@ right-outer-join \[9 7\]:
 
 right-outer-join \[9 7\]:
 
-| :a  | :b  | :c  | :d  | :right.a | :right.b | :right.c |
-|-----|-----|-----|-----|----------|----------|----------|
-| 1   | 103 | l   | X   | 1        | 103      | s        |
-| 2   | 104 | b   | X   | 2        | 104      |          |
-| 3   | 105 | a   | X   | 3        | 105      | t        |
-| 4   | 106 | t   | X   | 4        | 106      | r        |
-|     |     |     |     | 1        | 101      | a        |
-|     |     |     |     | 2        | 102      | b        |
-|     |     |     |     |          | 107      | a        |
-|     |     |     |     |          | 108      | c        |
-|     |     |     |     | 4        | 109      | t        |
+| :a | :b  | :c | :d | :right.a | :right.b | :right.c |
+| -- | --- | -- | -- | -------- | -------- | -------- |
+| 1  | 103 | l  | X  | 1        | 103      | s        |
+| 2  | 104 | b  | X  | 2        | 104      |          |
+| 3  | 105 | a  | X  | 3        | 105      | t        |
+| 4  | 106 | t  | X  | 4        | 106      | r        |
+|    |     |    |    | 1        | 101      | a        |
+|    |     |    |    | 2        | 102      | b        |
+|    |     |    |    |          | 107      | a        |
+|    |     |    |    |          | 108      | c        |
+|    |     |    |    | 4        | 109      | t        |
 
 #### Inner
 
@@ -7761,18 +6619,18 @@ right-outer-join \[9 7\]:
 
 inner-join \[8 6\]:
 
-| :b  | :a  | :c  | :right.a | :right.c | :d  |
-|-----|-----|-----|----------|----------|-----|
-| 109 | 4   | t   | 1        | a        | X   |
-| 108 |     | c   | 2        | t        | X   |
-| 107 |     | a   | 5        | a        | X   |
-| 106 | 4   | r   | 4        | t        | X   |
-| 105 | 3   | t   | 3        | a        | X   |
-| 104 | 2   |     | 2        | b        | X   |
-| 103 | 1   | s   | 1        | l        | X   |
-| 102 | 2   | b   |          | e        | X   |
+| :b  | :a | :c | :right.a | :right.c | :d |
+| --- | -- | -- | -------- | -------- | -- |
+| 109 | 4  | t  | 1        | a        | X  |
+| 108 |    | c  | 2        | t        | X  |
+| 107 |    | a  | 5        | a        | X  |
+| 106 | 4  | r  | 4        | t        | X  |
+| 105 | 3  | t  | 3        | a        | X  |
+| 104 | 2  |    | 2        | b        | X  |
+| 103 | 1  | s  | 1        | l        | X  |
+| 102 | 2  | b  |          | e        | X  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/inner-join ds2 ds1 :b)
@@ -7780,18 +6638,18 @@ inner-join \[8 6\]:
 
 inner-join \[8 6\]:
 
-| :b  | :a  | :c  | :d  | :right.a | :right.c |
-|-----|-----|-----|-----|----------|----------|
-| 102 |     | e   | X   | 2        | b        |
-| 103 | 1   | l   | X   | 1        | s        |
-| 104 | 2   | b   | X   | 2        |          |
-| 105 | 3   | a   | X   | 3        | t        |
-| 106 | 4   | t   | X   | 4        | r        |
-| 107 | 5   | a   | X   |          | a        |
-| 108 | 2   | t   | X   |          | c        |
-| 109 | 1   | a   | X   | 4        | t        |
+| :b  | :a | :c | :d | :right.a | :right.c |
+| --- | -- | -- | -- | -------- | -------- |
+| 102 |    | e  | X  | 2        | b        |
+| 103 | 1  | l  | X  | 1        | s        |
+| 104 | 2  | b  | X  | 2        |          |
+| 105 | 3  | a  | X  | 3        | t        |
+| 106 | 4  | t  | X  | 4        | r        |
+| 107 | 5  | a  | X  |          | a        |
+| 108 | 2  | t  | X  |          | c        |
+| 109 | 1  | a  | X  | 4        | t        |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/inner-join ds1 ds2 [:a :b])
@@ -7799,14 +6657,14 @@ inner-join \[8 6\]:
 
 inner-join \[4 7\]:
 
-| :a  | :b  | :c  | :right.a | :right.b | :right.c | :d  |
-|-----|-----|-----|----------|----------|----------|-----|
-| 4   | 106 | r   | 4        | 106      | t        | X   |
-| 3   | 105 | t   | 3        | 105      | a        | X   |
-| 2   | 104 |     | 2        | 104      | b        | X   |
-| 1   | 103 | s   | 1        | 103      | l        | X   |
+| :a | :b  | :c | :right.a | :right.b | :right.c | :d |
+| -- | --- | -- | -------- | -------- | -------- | -- |
+| 4  | 106 | r  | 4        | 106      | t        | X  |
+| 3  | 105 | t  | 3        | 105      | a        | X  |
+| 2  | 104 |    | 2        | 104      | b        | X  |
+| 1  | 103 | s  | 1        | 103      | l        | X  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/inner-join ds2 ds1 [:a :b])
@@ -7814,12 +6672,12 @@ inner-join \[4 7\]:
 
 inner-join \[4 7\]:
 
-| :a  | :b  | :c  | :d  | :right.a | :right.b | :right.c |
-|-----|-----|-----|-----|----------|----------|----------|
-| 1   | 103 | l   | X   | 1        | 103      | s        |
-| 2   | 104 | b   | X   | 2        | 104      |          |
-| 3   | 105 | a   | X   | 3        | 105      | t        |
-| 4   | 106 | t   | X   | 4        | 106      | r        |
+| :a | :b  | :c | :d | :right.a | :right.b | :right.c |
+| -- | --- | -- | -- | -------- | -------- | -------- |
+| 1  | 103 | l  | X  | 1        | 103      | s        |
+| 2  | 104 | b  | X  | 2        | 104      |          |
+| 3  | 105 | a  | X  | 3        | 105      | t        |
+| 4  | 106 | t  | X  | 4        | 106      | r        |
 
 #### Full
 
@@ -7831,20 +6689,20 @@ Join keeping all rows
 
 full-join \[10 7\]:
 
-| :b  | :a  | :c  | :right.b | :right.a | :right.c | :d  |
-|-----|-----|-----|----------|----------|----------|-----|
-| 109 | 4   | t   | 109      | 1        | a        | X   |
-| 108 |     | c   | 108      | 2        | t        | X   |
-| 107 |     | a   | 107      | 5        | a        | X   |
-| 106 | 4   | r   | 106      | 4        | t        | X   |
-| 105 | 3   | t   | 105      | 3        | a        | X   |
-| 104 | 2   |     | 104      | 2        | b        | X   |
-| 103 | 1   | s   | 103      | 1        | l        | X   |
-| 102 | 2   | b   | 102      |          | e        | X   |
-| 101 | 1   | a   |          |          |          |     |
-|     |     |     | 110      |          | d        | X   |
+| :b  | :a | :c | :right.b | :right.a | :right.c | :d |
+| --- | -- | -- | -------- | -------- | -------- | -- |
+| 109 | 4  | t  | 109      | 1        | a        | X  |
+| 108 |    | c  | 108      | 2        | t        | X  |
+| 107 |    | a  | 107      | 5        | a        | X  |
+| 106 | 4  | r  | 106      | 4        | t        | X  |
+| 105 | 3  | t  | 105      | 3        | a        | X  |
+| 104 | 2  |    | 104      | 2        | b        | X  |
+| 103 | 1  | s  | 103      | 1        | l        | X  |
+| 102 | 2  | b  | 102      |          | e        | X  |
+| 101 | 1  | a  |          |          |          |    |
+|     |    |    | 110      |          | d        | X  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/full-join ds2 ds1 :b)
@@ -7852,20 +6710,20 @@ full-join \[10 7\]:
 
 full-join \[10 7\]:
 
-| :b  | :a  | :c  | :d  | :right.b | :right.a | :right.c |
-|-----|-----|-----|-----|----------|----------|----------|
-| 102 |     | e   | X   | 102      | 2        | b        |
-| 103 | 1   | l   | X   | 103      | 1        | s        |
-| 104 | 2   | b   | X   | 104      | 2        |          |
-| 105 | 3   | a   | X   | 105      | 3        | t        |
-| 106 | 4   | t   | X   | 106      | 4        | r        |
-| 107 | 5   | a   | X   | 107      |          | a        |
-| 108 | 2   | t   | X   | 108      |          | c        |
-| 109 | 1   | a   | X   | 109      | 4        | t        |
-| 110 |     | d   | X   |          |          |          |
-|     |     |     |     | 101      | 1        | a        |
+| :b  | :a | :c | :d | :right.b | :right.a | :right.c |
+| --- | -- | -- | -- | -------- | -------- | -------- |
+| 102 |    | e  | X  | 102      | 2        | b        |
+| 103 | 1  | l  | X  | 103      | 1        | s        |
+| 104 | 2  | b  | X  | 104      | 2        |          |
+| 105 | 3  | a  | X  | 105      | 3        | t        |
+| 106 | 4  | t  | X  | 106      | 4        | r        |
+| 107 | 5  | a  | X  | 107      |          | a        |
+| 108 | 2  | t  | X  | 108      |          | c        |
+| 109 | 1  | a  | X  | 109      | 4        | t        |
+| 110 |    | d  | X  |          |          |          |
+|     |    |    |    | 101      | 1        | a        |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/full-join ds1 ds2 [:a :b])
@@ -7873,24 +6731,24 @@ full-join \[10 7\]:
 
 full-join \[14 7\]:
 
-| :a  | :b  | :c  | :right.a | :right.b | :right.c | :d  |
-|-----|-----|-----|----------|----------|----------|-----|
-| 4   | 106 | r   | 4        | 106      | t        | X   |
-| 3   | 105 | t   | 3        | 105      | a        | X   |
-| 2   | 104 |     | 2        | 104      | b        | X   |
-| 1   | 103 | s   | 1        | 103      | l        | X   |
-| 2   | 102 | b   |          |          |          |     |
-|     | 108 | c   |          |          |          |     |
-|     | 107 | a   |          |          |          |     |
-| 1   | 101 | a   |          |          |          |     |
-| 4   | 109 | t   |          |          |          |     |
-|     |     |     |          | 110      | d        | X   |
-|     |     |     | 1        | 109      | a        | X   |
-|     |     |     | 2        | 108      | t        | X   |
-|     |     |     | 5        | 107      | a        | X   |
-|     |     |     |          | 102      | e        | X   |
+| :a | :b  | :c | :right.a | :right.b | :right.c | :d |
+| -- | --- | -- | -------- | -------- | -------- | -- |
+| 4  | 106 | r  | 4        | 106      | t        | X  |
+| 3  | 105 | t  | 3        | 105      | a        | X  |
+| 2  | 104 |    | 2        | 104      | b        | X  |
+| 1  | 103 | s  | 1        | 103      | l        | X  |
+| 2  | 102 | b  |          |          |          |    |
+|    | 108 | c  |          |          |          |    |
+|    | 107 | a  |          |          |          |    |
+| 1  | 101 | a  |          |          |          |    |
+| 4  | 109 | t  |          |          |          |    |
+|    |     |    |          | 110      | d        | X  |
+|    |     |    | 1        | 109      | a        | X  |
+|    |     |    | 2        | 108      | t        | X  |
+|    |     |    | 5        | 107      | a        | X  |
+|    |     |    |          | 102      | e        | X  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/full-join ds2 ds1 [:a :b])
@@ -7898,22 +6756,22 @@ full-join \[14 7\]:
 
 full-join \[14 7\]:
 
-| :a  | :b  | :c  | :d  | :right.a | :right.b | :right.c |
-|-----|-----|-----|-----|----------|----------|----------|
-| 1   | 103 | l   | X   | 1        | 103      | s        |
-| 2   | 104 | b   | X   | 2        | 104      |          |
-| 3   | 105 | a   | X   | 3        | 105      | t        |
-| 4   | 106 | t   | X   | 4        | 106      | r        |
-| 2   | 108 | t   | X   |          |          |          |
-| 1   | 109 | a   | X   |          |          |          |
-| 5   | 107 | a   | X   |          |          |          |
-|     | 110 | d   | X   |          |          |          |
-|     | 102 | e   | X   |          |          |          |
-|     |     |     |     | 1        | 101      | a        |
-|     |     |     |     | 2        | 102      | b        |
-|     |     |     |     |          | 107      | a        |
-|     |     |     |     |          | 108      | c        |
-|     |     |     |     | 4        | 109      | t        |
+| :a | :b  | :c | :d | :right.a | :right.b | :right.c |
+| -- | --- | -- | -- | -------- | -------- | -------- |
+| 1  | 103 | l  | X  | 1        | 103      | s        |
+| 2  | 104 | b  | X  | 2        | 104      |          |
+| 3  | 105 | a  | X  | 3        | 105      | t        |
+| 4  | 106 | t  | X  | 4        | 106      | r        |
+| 2  | 108 | t  | X  |          |          |          |
+| 1  | 109 | a  | X  |          |          |          |
+| 5  | 107 | a  | X  |          |          |          |
+|    | 110 | d  | X  |          |          |          |
+|    | 102 | e  | X  |          |          |          |
+|    |     |    |    | 1        | 101      | a        |
+|    |     |    |    | 2        | 102      | b        |
+|    |     |    |    |          | 107      | a        |
+|    |     |    |    |          | 108      | c        |
+|    |     |    |    | 4        | 109      | t        |
 
 #### Semi
 
@@ -7925,15 +6783,15 @@ Return rows from ds1 matching ds2
 
 semi-join \[5 3\]:
 
-| :b  | :a  | :c  |
-|-----|-----|-----|
-| 109 | 4   | t   |
-| 106 | 4   | r   |
-| 105 | 3   | t   |
-| 104 | 2   |     |
-| 103 | 1   | s   |
+| :b  | :a | :c |
+| --- | -- | -- |
+| 109 | 4  | t  |
+| 106 | 4  | r  |
+| 105 | 3  | t  |
+| 104 | 2  |    |
+| 103 | 1  | s  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/semi-join ds2 ds1 :b)
@@ -7941,15 +6799,15 @@ semi-join \[5 3\]:
 
 semi-join \[5 4\]:
 
-| :b  | :a  | :c  | :d  |
-|-----|-----|-----|-----|
-| 103 | 1   | l   | X   |
-| 104 | 2   | b   | X   |
-| 105 | 3   | a   | X   |
-| 106 | 4   | t   | X   |
-| 109 | 1   | a   | X   |
+| :b  | :a | :c | :d |
+| --- | -- | -- | -- |
+| 103 | 1  | l  | X  |
+| 104 | 2  | b  | X  |
+| 105 | 3  | a  | X  |
+| 106 | 4  | t  | X  |
+| 109 | 1  | a  | X  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/semi-join ds1 ds2 [:a :b])
@@ -7957,14 +6815,14 @@ semi-join \[5 4\]:
 
 semi-join \[4 3\]:
 
-| :a  | :b  | :c  |
-|-----|-----|-----|
-| 4   | 106 | r   |
-| 3   | 105 | t   |
-| 2   | 104 |     |
-| 1   | 103 | s   |
+| :a | :b  | :c |
+| -- | --- | -- |
+| 4  | 106 | r  |
+| 3  | 105 | t  |
+| 2  | 104 |    |
+| 1  | 103 | s  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/semi-join ds2 ds1 [:a :b])
@@ -7972,12 +6830,12 @@ semi-join \[4 3\]:
 
 semi-join \[4 4\]:
 
-| :a  | :b  | :c  | :d  |
-|-----|-----|-----|-----|
-| 1   | 103 | l   | X   |
-| 2   | 104 | b   | X   |
-| 3   | 105 | a   | X   |
-| 4   | 106 | t   | X   |
+| :a | :b  | :c | :d |
+| -- | --- | -- | -- |
+| 1  | 103 | l  | X  |
+| 2  | 104 | b  | X  |
+| 3  | 105 | a  | X  |
+| 4  | 106 | t  | X  |
 
 #### Anti
 
@@ -7989,14 +6847,14 @@ Return rows from ds1 not matching ds2
 
 anti-join \[4 3\]:
 
-| :b  | :a  | :c  |
-|-----|-----|-----|
-| 108 |     | c   |
-| 107 |     | a   |
-| 102 | 2   | b   |
-| 101 | 1   | a   |
+| :b  | :a | :c |
+| --- | -- | -- |
+| 108 |    | c  |
+| 107 |    | a  |
+| 102 | 2  | b  |
+| 101 | 1  | a  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/anti-join ds2 ds1 :b)
@@ -8004,14 +6862,14 @@ anti-join \[4 3\]:
 
 anti-join \[4 4\]:
 
-| :b  | :a  | :c  | :d  |
-|-----|-----|-----|-----|
-| 102 |     | e   | X   |
-| 107 | 5   | a   | X   |
-| 108 | 2   | t   | X   |
-| 110 |     | d   | X   |
+| :b  | :a | :c | :d |
+| --- | -- | -- | -- |
+| 102 |    | e  | X  |
+| 107 | 5  | a  | X  |
+| 108 | 2  | t  | X  |
+| 110 |    | d  | X  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/anti-join ds1 ds2 [:a :b])
@@ -8019,15 +6877,15 @@ anti-join \[4 4\]:
 
 anti-join \[5 3\]:
 
-| :a  | :b  | :c  |
-|-----|-----|-----|
-| 2   | 102 | b   |
-|     | 108 | c   |
-|     | 107 | a   |
-| 1   | 101 | a   |
-| 4   | 109 | t   |
+| :a | :b  | :c |
+| -- | --- | -- |
+| 2  | 102 | b  |
+|    | 108 | c  |
+|    | 107 | a  |
+| 1  | 101 | a  |
+| 4  | 109 | t  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/anti-join ds2 ds1 [:a :b])
@@ -8035,13 +6893,13 @@ anti-join \[5 3\]:
 
 anti-join \[5 4\]:
 
-| :a  | :b  | :c  | :d  |
-|-----|-----|-----|-----|
-| 2   | 108 | t   | X   |
-| 1   | 109 | a   | X   |
-| 5   | 107 | a   | X   |
-|     | 110 | d   | X   |
-|     | 102 | e   | X   |
+| :a | :b  | :c | :d |
+| -- | --- | -- | -- |
+| 2  | 108 | t  | X  |
+| 1  | 109 | a  | X  |
+| 5  | 107 | a  | X  |
+|    | 110 | d  | X  |
+|    | 102 | e  | X  |
 
 #### asof
 
@@ -8059,33 +6917,33 @@ right-ds
 
 \_unnamed \[3 2\]:
 
-| :a  | :left-val |
-|-----|-----------|
-| 1   | a         |
-| 5   | b         |
-| 10  | c         |
+| :a | :left-val |
+| -- | --------- |
+| 1  | a         |
+| 5  | b         |
+| 10 | c         |
 
 \_unnamed \[5 2\]:
 
-| :a  | :right-val |
-|-----|------------|
-| 1   | :a         |
-| 2   | :b         |
-| 3   | :c         |
-| 6   | :d         |
-| 7   | :e         |
+| :a | :right-val |
+| -- | ---------- |
+| 1  | :a         |
+| 2  | :b         |
+| 3  | :c         |
+| 6  | :d         |
+| 7  | :e         |
 
 ``` clojure
 (api/asof-join left-ds right-ds :a)
 ```
 
-asof-&lt;= \[3 4\]:
+asof-\<= \[3 4\]:
 
-| :a  | :left-val | :right.a | :right-val |
-|-----|-----------|----------|------------|
-| 1   | a         | 1        | :a         |
-| 5   | b         | 6        | :d         |
-| 10  | c         |          |            |
+| :a | :left-val | :right.a | :right-val |
+| -- | --------- | -------- | ---------- |
+| 1  | a         | 1        | :a         |
+| 5  | b         | 6        | :d         |
+| 10 | c         |          |            |
 
 ``` clojure
 (api/asof-join left-ds right-ds :a {:asof-op :nearest})
@@ -8093,23 +6951,23 @@ asof-&lt;= \[3 4\]:
 
 asof-nearest \[3 4\]:
 
-| :a  | :left-val | :right.a | :right-val |
-|-----|-----------|----------|------------|
-| 1   | a         | 1        | :a         |
-| 5   | b         | 6        | :d         |
-| 10  | c         | 7        | :e         |
+| :a | :left-val | :right.a | :right-val |
+| -- | --------- | -------- | ---------- |
+| 1  | a         | 1        | :a         |
+| 5  | b         | 6        | :d         |
+| 10 | c         | 7        | :e         |
 
 ``` clojure
 (api/asof-join left-ds right-ds :a {:asof-op :>=})
 ```
 
-asof-&gt;= \[3 4\]:
+asof-\>= \[3 4\]:
 
-| :a  | :left-val | :right.a | :right-val |
-|-----|-----------|----------|------------|
-| 1   | a         | 1        | :a         |
-| 5   | b         | 3        | :c         |
-| 10  | c         | 7        | :e         |
+| :a | :left-val | :right.a | :right-val |
+| -- | --------- | -------- | ---------- |
+| 1  | a         | 1        | :a         |
+| 5  | b         | 3        | :c         |
+| 10 | c         | 7        | :e         |
 
 #### Concat
 
@@ -8121,19 +6979,19 @@ asof-&gt;= \[3 4\]:
 
 null \[9 3\]:
 
-| :a  | :b  | :c  |
-|-----|-----|-----|
-| 1   | 101 | a   |
-| 2   | 102 | b   |
-| 1   | 103 | s   |
-| 2   | 104 |     |
-| 3   | 105 | t   |
-| 4   | 106 | r   |
-|     | 107 | a   |
-|     | 108 | c   |
-| 4   | 109 | t   |
+| :a | :b  | :c |
+| -- | --- | -- |
+| 1  | 101 | a  |
+| 2  | 102 | b  |
+| 1  | 103 | s  |
+| 2  | 104 |    |
+| 3  | 105 | t  |
+| 4  | 106 | r  |
+|    | 107 | a  |
+|    | 108 | c  |
+| 4  | 109 | t  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/concat ds1 (api/drop-columns ds2 :d))
@@ -8141,28 +6999,28 @@ null \[9 3\]:
 
 null \[18 3\]:
 
-| :a  | :b  | :c  |
-|-----|-----|-----|
-| 1   | 101 | a   |
-| 2   | 102 | b   |
-| 1   | 103 | s   |
-| 2   | 104 |     |
-| 3   | 105 | t   |
-| 4   | 106 | r   |
-|     | 107 | a   |
-|     | 108 | c   |
-| 4   | 109 | t   |
-|     | 110 | d   |
-| 1   | 109 | a   |
-| 2   | 108 | t   |
-| 5   | 107 | a   |
-| 4   | 106 | t   |
-| 3   | 105 | a   |
-| 2   | 104 | b   |
-| 1   | 103 | l   |
-|     | 102 | e   |
+| :a | :b  | :c |
+| -- | --- | -- |
+| 1  | 101 | a  |
+| 2  | 102 | b  |
+| 1  | 103 | s  |
+| 2  | 104 |    |
+| 3  | 105 | t  |
+| 4  | 106 | r  |
+|    | 107 | a  |
+|    | 108 | c  |
+| 4  | 109 | t  |
+|    | 110 | d  |
+| 1  | 109 | a  |
+| 2  | 108 | t  |
+| 5  | 107 | a  |
+| 4  | 106 | t  |
+| 3  | 105 | a  |
+| 2  | 104 | b  |
+| 1  | 103 | l  |
+|    | 102 | e  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (apply api/concat (repeatedly 3 #(api/random DS)))
@@ -8171,32 +7029,32 @@ null \[18 3\]:
 null \[27 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
-| 2   | 2   | 1.0 | B   |
-| 1   | 1   | 0.5 | A   |
-| 1   | 3   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
+| --- | --- | --- | --- |
 | 2   | 6   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
 | 2   | 4   | 0.5 | A   |
-| 2   | 2   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 5   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 1   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
 
 #### Union
 
@@ -8208,28 +7066,28 @@ The same as `concat` but returns unique rows
 
 union \[18 3\]:
 
-| :a  | :b  | :c  |
-|-----|-----|-----|
-|     | 110 | d   |
-| 1   | 109 | a   |
-| 2   | 108 | t   |
-| 5   | 107 | a   |
-| 4   | 106 | t   |
-| 3   | 105 | a   |
-| 2   | 104 | b   |
-| 1   | 103 | l   |
-|     | 102 | e   |
-| 1   | 101 | a   |
-| 2   | 102 | b   |
-| 1   | 103 | s   |
-| 2   | 104 |     |
-| 3   | 105 | t   |
-| 4   | 106 | r   |
-|     | 107 | a   |
-|     | 108 | c   |
-| 4   | 109 | t   |
+| :a | :b  | :c |
+| -- | --- | -- |
+|    | 110 | d  |
+| 1  | 109 | a  |
+| 2  | 108 | t  |
+| 5  | 107 | a  |
+| 4  | 106 | t  |
+| 3  | 105 | a  |
+| 2  | 104 | b  |
+| 1  | 103 | l  |
+|    | 102 | e  |
+| 1  | 101 | a  |
+| 2  | 102 | b  |
+| 1  | 103 | s  |
+| 2  | 104 |    |
+| 3  | 105 | t  |
+| 4  | 106 | r  |
+|    | 107 | a  |
+|    | 108 | c  |
+| 4  | 109 | t  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (apply api/union (repeatedly 10 #(api/random DS)))
@@ -8238,16 +7096,16 @@ union \[18 3\]:
 union \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
-| 2   | 2   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 1   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
 
 #### Bind
 
@@ -8259,28 +7117,28 @@ union \[9 4\]:
 
 null \[18 4\]:
 
-| :a  | :b  | :c  | :d  |
-|-----|-----|-----|-----|
-| 1   | 101 | a   |     |
-| 2   | 102 | b   |     |
-| 1   | 103 | s   |     |
-| 2   | 104 |     |     |
-| 3   | 105 | t   |     |
-| 4   | 106 | r   |     |
-|     | 107 | a   |     |
-|     | 108 | c   |     |
-| 4   | 109 | t   |     |
-|     | 110 | d   | X   |
-| 1   | 109 | a   | X   |
-| 2   | 108 | t   | X   |
-| 5   | 107 | a   | X   |
-| 4   | 106 | t   | X   |
-| 3   | 105 | a   | X   |
-| 2   | 104 | b   | X   |
-| 1   | 103 | l   | X   |
-|     | 102 | e   | X   |
+| :a | :b  | :c | :d |
+| -- | --- | -- | -- |
+| 1  | 101 | a  |    |
+| 2  | 102 | b  |    |
+| 1  | 103 | s  |    |
+| 2  | 104 |    |    |
+| 3  | 105 | t  |    |
+| 4  | 106 | r  |    |
+|    | 107 | a  |    |
+|    | 108 | c  |    |
+| 4  | 109 | t  |    |
+|    | 110 | d  | X  |
+| 1  | 109 | a  | X  |
+| 2  | 108 | t  | X  |
+| 5  | 107 | a  | X  |
+| 4  | 106 | t  | X  |
+| 3  | 105 | a  | X  |
+| 2  | 104 | b  | X  |
+| 1  | 103 | l  | X  |
+|    | 102 | e  | X  |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/bind ds2 ds1)
@@ -8288,26 +7146,26 @@ null \[18 4\]:
 
 null \[18 4\]:
 
-| :a  | :b  | :c  | :d  |
-|-----|-----|-----|-----|
-|     | 110 | d   | X   |
-| 1   | 109 | a   | X   |
-| 2   | 108 | t   | X   |
-| 5   | 107 | a   | X   |
-| 4   | 106 | t   | X   |
-| 3   | 105 | a   | X   |
-| 2   | 104 | b   | X   |
-| 1   | 103 | l   | X   |
-|     | 102 | e   | X   |
-| 1   | 101 | a   |     |
-| 2   | 102 | b   |     |
-| 1   | 103 | s   |     |
-| 2   | 104 |     |     |
-| 3   | 105 | t   |     |
-| 4   | 106 | r   |     |
-|     | 107 | a   |     |
-|     | 108 | c   |     |
-| 4   | 109 | t   |     |
+| :a | :b  | :c | :d |
+| -- | --- | -- | -- |
+|    | 110 | d  | X  |
+| 1  | 109 | a  | X  |
+| 2  | 108 | t  | X  |
+| 5  | 107 | a  | X  |
+| 4  | 106 | t  | X  |
+| 3  | 105 | a  | X  |
+| 2  | 104 | b  | X  |
+| 1  | 103 | l  | X  |
+|    | 102 | e  | X  |
+| 1  | 101 | a  |    |
+| 2  | 102 | b  |    |
+| 1  | 103 | s  |    |
+| 2  | 104 |    |    |
+| 3  | 105 | t  |    |
+| 4  | 106 | r  |    |
+|    | 107 | a  |    |
+|    | 108 | c  |    |
+| 4  | 109 | t  |    |
 
 #### Append
 
@@ -8319,17 +7177,17 @@ null \[18 4\]:
 
 \_unnamed \[9 7\]:
 
-| :a  | :b  | :c  | :a  | :b  | :c  | :d  |
-|-----|-----|-----|-----|-----|-----|-----|
-| 1   | 101 | a   |     | 110 | d   | X   |
-| 2   | 102 | b   | 1   | 109 | a   | X   |
-| 1   | 103 | s   | 2   | 108 | t   | X   |
-| 2   | 104 |     | 5   | 107 | a   | X   |
-| 3   | 105 | t   | 4   | 106 | t   | X   |
-| 4   | 106 | r   | 3   | 105 | a   | X   |
-|     | 107 | a   | 2   | 104 | b   | X   |
-|     | 108 | c   | 1   | 103 | l   | X   |
-| 4   | 109 | t   |     | 102 | e   | X   |
+| :a | :b  | :c | :a | :b  | :c | :d |
+| -- | --- | -- | -- | --- | -- | -- |
+| 1  | 101 | a  |    | 110 | d  | X  |
+| 2  | 102 | b  | 1  | 109 | a  | X  |
+| 1  | 103 | s  | 2  | 108 | t  | X  |
+| 2  | 104 |    | 5  | 107 | a  | X  |
+| 3  | 105 | t  | 4  | 106 | t  | X  |
+| 4  | 106 | r  | 3  | 105 | a  | X  |
+|    | 107 | a  | 2  | 104 | b  | X  |
+|    | 108 | c  | 1  | 103 | l  | X  |
+| 4  | 109 | t  |    | 102 | e  | X  |
 
 #### Intersection
 
@@ -8341,7 +7199,7 @@ null \[18 4\]:
 intersection \[8 1\]:
 
 | :b  |
-|-----|
+| --- |
 | 109 |
 | 108 |
 | 107 |
@@ -8361,10 +7219,10 @@ intersection \[8 1\]:
 difference \[1 1\]:
 
 | :b  |
-|-----|
+| --- |
 | 101 |
 
-------------------------------------------------------------------------
+-----
 
 ``` clojure
 (api/difference (api/select-columns ds2 :b)
@@ -8374,24 +7232,22 @@ difference \[1 1\]:
 difference \[1 1\]:
 
 | :b  |
-|-----|
+| --- |
 | 110 |
 
-Functions
----------
+## Functions
 
 This API doesn’t provide any statistical, numerical or date/time
 functions. Use below namespaces:
 
 | Namespace                              | functions                                 |
-|----------------------------------------|-------------------------------------------|
+| -------------------------------------- | ----------------------------------------- |
 | `tech.v2.datatype.functional`          | primitive oprations, reducers, statistics |
 | `tech.v2.datatype.datetime`            | date/time converters                      |
 | `tech.v2.datatype.datetime.operations` | date/time functions                       |
 | `tech.ml.dataset.pipeline`             | pipeline operations                       |
 
-Other examples
---------------
+## Other examples
 
 ### Stocks
 
@@ -8403,11 +7259,11 @@ Other examples
 stocks
 ```
 
-<a href="https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv" class="uri">https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv</a>
+<https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv>
 \[560 3\]:
 
 | :symbol | :date      | :price |
-|---------|------------|--------|
+| ------- | ---------- | ------ |
 | MSFT    | 2000-01-01 | 39.81  |
 | MSFT    | 2000-02-01 | 36.35  |
 | MSFT    | 2000-03-01 | 43.22  |
@@ -8446,7 +7302,7 @@ stocks
 \_unnamed \[51 3\]:
 
 | :symbol | :year | :summary     |
-|---------|-------|--------------|
+| ------- | ----- | ------------ |
 | AAPL    | 2000  | 21.74833333  |
 | AAPL    | 2001  | 10.17583333  |
 | AAPL    | 2002  | 9.40833333   |
@@ -8484,7 +7340,7 @@ stocks
 \_unnamed \[51 3\]:
 
 | :symbol | :year | :summary     |
-|---------|-------|--------------|
+| ------- | ----- | ------------ |
 | AMZN    | 2007  | 69.95250000  |
 | AMZN    | 2008  | 69.01500000  |
 | AMZN    | 2009  | 90.73083333  |
@@ -8531,16 +7387,16 @@ flights <- fread("https://raw.githubusercontent.com/Rdatatable/data.table/master
 kable(head(flights))
 ```
 
-|  year|  month|  day|  dep\_delay|  arr\_delay| carrier | origin | dest |  air\_time|  distance|  hour|
-|-----:|------:|----:|-----------:|-----------:|:--------|:-------|:-----|----------:|---------:|-----:|
-|  2014|      1|    1|          14|          13| AA      | JFK    | LAX  |        359|      2475|     9|
-|  2014|      1|    1|          -3|          13| AA      | JFK    | LAX  |        363|      2475|    11|
-|  2014|      1|    1|           2|           9| AA      | JFK    | LAX  |        351|      2475|    19|
-|  2014|      1|    1|          -8|         -26| AA      | LGA    | PBI  |        157|      1035|     7|
-|  2014|      1|    1|           2|           1| AA      | JFK    | LAX  |        350|      2475|    13|
-|  2014|      1|    1|           4|           0| AA      | EWR    | LAX  |        339|      2454|    18|
+| year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
+| ---: | ----: | --: | ---------: | ---------: | :------ | :----- | :--- | --------: | -------: | ---: |
+| 2014 |     1 |   1 |         14 |         13 | AA      | JFK    | LAX  |       359 |     2475 |    9 |
+| 2014 |     1 |   1 |        \-3 |         13 | AA      | JFK    | LAX  |       363 |     2475 |   11 |
+| 2014 |     1 |   1 |          2 |          9 | AA      | JFK    | LAX  |       351 |     2475 |   19 |
+| 2014 |     1 |   1 |        \-8 |       \-26 | AA      | LGA    | PBI  |       157 |     1035 |    7 |
+| 2014 |     1 |   1 |          2 |          1 | AA      | JFK    | LAX  |       350 |     2475 |   13 |
+| 2014 |     1 |   1 |          4 |          0 | AA      | EWR    | LAX  |       339 |     2454 |   18 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8555,15 +7411,15 @@ Clojure
 (api/head flights 6)
 ```
 
-<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv>
 \[6 11\]:
 
 | year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
-|------|-------|-----|------------|------------|---------|--------|------|-----------|----------|------|
+| ---- | ----- | --- | ---------- | ---------- | ------- | ------ | ---- | --------- | -------- | ---- |
 | 2014 | 1     | 1   | 14         | 13         | AA      | JFK    | LAX  | 359       | 2475     | 9    |
-| 2014 | 1     | 1   | -3         | 13         | AA      | JFK    | LAX  | 363       | 2475     | 11   |
+| 2014 | 1     | 1   | \-3        | 13         | AA      | JFK    | LAX  | 363       | 2475     | 11   |
 | 2014 | 1     | 1   | 2          | 9          | AA      | JFK    | LAX  | 351       | 2475     | 19   |
-| 2014 | 1     | 1   | -8         | -26        | AA      | LGA    | PBI  | 157       | 1035     | 7    |
+| 2014 | 1     | 1   | \-8        | \-26       | AA      | LGA    | PBI  | 157       | 1035     | 7    |
 | 2014 | 1     | 1   | 2          | 1          | AA      | JFK    | LAX  | 350       | 2475     | 13   |
 | 2014 | 1     | 1   | 4          | 0          | AA      | EWR    | LAX  | 339       | 2454     | 18   |
 
@@ -8579,7 +7435,7 @@ dim(flights)
 
     [1] 253316     11
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8604,14 +7460,14 @@ DT = data.table(
 kable(DT)
 ```
 
-| ID  |    a|    b|    c|
-|:----|----:|----:|----:|
-| b   |    1|    7|   13|
-| b   |    2|    8|   14|
-| b   |    3|    9|   15|
-| a   |    4|   10|   16|
-| a   |    5|   11|   17|
-| c   |    6|   12|   18|
+| ID | a |  b |  c |
+| :- | -: | -: | -: |
+| b  | 1 |  7 | 13 |
+| b  | 2 |  8 | 14 |
+| b  | 3 |  9 | 15 |
+| a  | 4 | 10 | 16 |
+| a  | 5 | 11 | 17 |
+| c  | 6 | 12 | 18 |
 
 ``` r
 class(DT$ID)
@@ -8619,7 +7475,7 @@ class(DT$ID)
 
     [1] "character"
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8636,14 +7492,14 @@ DT
 
 \_unnamed \[6 4\]:
 
-| :ID | :a  | :b  | :c  |
-|-----|-----|-----|-----|
-| b   | 1   | 7   | 13  |
-| b   | 2   | 8   | 14  |
-| b   | 3   | 9   | 15  |
-| a   | 4   | 10  | 16  |
-| a   | 5   | 11  | 17  |
-| c   | 6   | 12  | 18  |
+| :ID | :a | :b | :c |
+| --- | -- | -- | -- |
+| b   | 1  | 7  | 13 |
+| b   | 2  | 8  | 14 |
+| b   | 3  | 9  | 15 |
+| a   | 4  | 10 | 16 |
+| a   | 5  | 11 | 17 |
+| c   | 6  | 12 | 18 |
 
 ``` clojure
 (-> :ID DT meta :datatype)
@@ -8660,16 +7516,16 @@ ans <- flights[origin == "JFK" & month == 6L]
 kable(head(ans))
 ```
 
-|  year|  month|  day|  dep\_delay|  arr\_delay| carrier | origin | dest |  air\_time|  distance|  hour|
-|-----:|------:|----:|-----------:|-----------:|:--------|:-------|:-----|----------:|---------:|-----:|
-|  2014|      6|    1|          -9|          -5| AA      | JFK    | LAX  |        324|      2475|     8|
-|  2014|      6|    1|         -10|         -13| AA      | JFK    | LAX  |        329|      2475|    12|
-|  2014|      6|    1|          18|          -1| AA      | JFK    | LAX  |        326|      2475|     7|
-|  2014|      6|    1|          -6|         -16| AA      | JFK    | LAX  |        320|      2475|    10|
-|  2014|      6|    1|          -4|         -45| AA      | JFK    | LAX  |        326|      2475|    18|
-|  2014|      6|    1|          -6|         -23| AA      | JFK    | LAX  |        329|      2475|    14|
+| year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
+| ---: | ----: | --: | ---------: | ---------: | :------ | :----- | :--- | --------: | -------: | ---: |
+| 2014 |     6 |   1 |        \-9 |        \-5 | AA      | JFK    | LAX  |       324 |     2475 |    8 |
+| 2014 |     6 |   1 |       \-10 |       \-13 | AA      | JFK    | LAX  |       329 |     2475 |   12 |
+| 2014 |     6 |   1 |         18 |        \-1 | AA      | JFK    | LAX  |       326 |     2475 |    7 |
+| 2014 |     6 |   1 |        \-6 |       \-16 | AA      | JFK    | LAX  |       320 |     2475 |   10 |
+| 2014 |     6 |   1 |        \-4 |       \-45 | AA      | JFK    | LAX  |       326 |     2475 |   18 |
+| 2014 |     6 |   1 |        \-6 |       \-23 | AA      | JFK    | LAX  |       329 |     2475 |   14 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8680,17 +7536,17 @@ Clojure
     (api/head 6))
 ```
 
-<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv>
 \[6 11\]:
 
 | year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
-|------|-------|-----|------------|------------|---------|--------|------|-----------|----------|------|
-| 2014 | 6     | 1   | -9         | -5         | AA      | JFK    | LAX  | 324       | 2475     | 8    |
-| 2014 | 6     | 1   | -10        | -13        | AA      | JFK    | LAX  | 329       | 2475     | 12   |
-| 2014 | 6     | 1   | 18         | -1         | AA      | JFK    | LAX  | 326       | 2475     | 7    |
-| 2014 | 6     | 1   | -6         | -16        | AA      | JFK    | LAX  | 320       | 2475     | 10   |
-| 2014 | 6     | 1   | -4         | -45        | AA      | JFK    | LAX  | 326       | 2475     | 18   |
-| 2014 | 6     | 1   | -6         | -23        | AA      | JFK    | LAX  | 329       | 2475     | 14   |
+| ---- | ----- | --- | ---------- | ---------- | ------- | ------ | ---- | --------- | -------- | ---- |
+| 2014 | 6     | 1   | \-9        | \-5        | AA      | JFK    | LAX  | 324       | 2475     | 8    |
+| 2014 | 6     | 1   | \-10       | \-13       | AA      | JFK    | LAX  | 329       | 2475     | 12   |
+| 2014 | 6     | 1   | 18         | \-1        | AA      | JFK    | LAX  | 326       | 2475     | 7    |
+| 2014 | 6     | 1   | \-6        | \-16       | AA      | JFK    | LAX  | 320       | 2475     | 10   |
+| 2014 | 6     | 1   | \-4        | \-45       | AA      | JFK    | LAX  | 326       | 2475     | 18   |
+| 2014 | 6     | 1   | \-6        | \-23       | AA      | JFK    | LAX  | 329       | 2475     | 14   |
 
 ##### Get the first two rows from `flights`.
 
@@ -8701,12 +7557,12 @@ ans <- flights[1:2]
 kable(ans)
 ```
 
-|  year|  month|  day|  dep\_delay|  arr\_delay| carrier | origin | dest |  air\_time|  distance|  hour|
-|-----:|------:|----:|-----------:|-----------:|:--------|:-------|:-----|----------:|---------:|-----:|
-|  2014|      1|    1|          14|          13| AA      | JFK    | LAX  |        359|      2475|     9|
-|  2014|      1|    1|          -3|          13| AA      | JFK    | LAX  |        363|      2475|    11|
+| year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
+| ---: | ----: | --: | ---------: | ---------: | :------ | :----- | :--- | --------: | -------: | ---: |
+| 2014 |     1 |   1 |         14 |         13 | AA      | JFK    | LAX  |       359 |     2475 |    9 |
+| 2014 |     1 |   1 |        \-3 |         13 | AA      | JFK    | LAX  |       363 |     2475 |   11 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8714,13 +7570,13 @@ Clojure
 (api/select-rows flights (range 2))
 ```
 
-<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv>
 \[2 11\]:
 
 | year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
-|------|-------|-----|------------|------------|---------|--------|------|-----------|----------|------|
+| ---- | ----- | --- | ---------- | ---------- | ------- | ------ | ---- | --------- | -------- | ---- |
 | 2014 | 1     | 1   | 14         | 13         | AA      | JFK    | LAX  | 359       | 2475     | 9    |
-| 2014 | 1     | 1   | -3         | 13         | AA      | JFK    | LAX  | 363       | 2475     | 11   |
+| 2014 | 1     | 1   | \-3        | 13         | AA      | JFK    | LAX  | 363       | 2475     | 11   |
 
 ##### Sort `flights` first by column `origin` in ascending order, and then by `dest` in descending order
 
@@ -8731,16 +7587,16 @@ ans <- flights[order(origin, -dest)]
 kable(head(ans))
 ```
 
-|  year|  month|  day|  dep\_delay|  arr\_delay| carrier | origin | dest |  air\_time|  distance|  hour|
-|-----:|------:|----:|-----------:|-----------:|:--------|:-------|:-----|----------:|---------:|-----:|
-|  2014|      1|    5|           6|          49| EV      | EWR    | XNA  |        195|      1131|     8|
-|  2014|      1|    6|           7|          13| EV      | EWR    | XNA  |        190|      1131|     8|
-|  2014|      1|    7|          -6|         -13| EV      | EWR    | XNA  |        179|      1131|     8|
-|  2014|      1|    8|          -7|         -12| EV      | EWR    | XNA  |        184|      1131|     8|
-|  2014|      1|    9|          16|           7| EV      | EWR    | XNA  |        181|      1131|     8|
-|  2014|      1|   13|          66|          66| EV      | EWR    | XNA  |        188|      1131|     9|
+| year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
+| ---: | ----: | --: | ---------: | ---------: | :------ | :----- | :--- | --------: | -------: | ---: |
+| 2014 |     1 |   5 |          6 |         49 | EV      | EWR    | XNA  |       195 |     1131 |    8 |
+| 2014 |     1 |   6 |          7 |         13 | EV      | EWR    | XNA  |       190 |     1131 |    8 |
+| 2014 |     1 |   7 |        \-6 |       \-13 | EV      | EWR    | XNA  |       179 |     1131 |    8 |
+| 2014 |     1 |   8 |        \-7 |       \-12 | EV      | EWR    | XNA  |       184 |     1131 |    8 |
+| 2014 |     1 |   9 |         16 |          7 | EV      | EWR    | XNA  |       181 |     1131 |    8 |
+| 2014 |     1 |  13 |         66 |         66 | EV      | EWR    | XNA  |       188 |     1131 |    9 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8750,16 +7606,16 @@ Clojure
     (api/head 6))
 ```
 
-<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv>
 \[6 11\]:
 
 | year | month | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
-|------|-------|-----|------------|------------|---------|--------|------|-----------|----------|------|
-| 2014 | 6     | 3   | -6         | -38        | EV      | EWR    | XNA  | 154       | 1131     | 6    |
-| 2014 | 1     | 20  | -9         | -17        | EV      | EWR    | XNA  | 177       | 1131     | 8    |
-| 2014 | 3     | 19  | -6         | 10         | EV      | EWR    | XNA  | 201       | 1131     | 6    |
+| ---- | ----- | --- | ---------- | ---------- | ------- | ------ | ---- | --------- | -------- | ---- |
+| 2014 | 6     | 3   | \-6        | \-38       | EV      | EWR    | XNA  | 154       | 1131     | 6    |
+| 2014 | 1     | 20  | \-9        | \-17       | EV      | EWR    | XNA  | 177       | 1131     | 8    |
+| 2014 | 3     | 19  | \-6        | 10         | EV      | EWR    | XNA  | 201       | 1131     | 6    |
 | 2014 | 2     | 3   | 231        | 268        | EV      | EWR    | XNA  | 184       | 1131     | 12   |
-| 2014 | 4     | 25  | -8         | -32        | EV      | EWR    | XNA  | 159       | 1131     | 6    |
+| 2014 | 4     | 25  | \-8        | \-32       | EV      | EWR    | XNA  | 159       | 1131     | 6    |
 | 2014 | 2     | 19  | 21         | 10         | EV      | EWR    | XNA  | 176       | 1131     | 8    |
 
 ##### Select `arr_delay` column, but return it as a vector
@@ -8773,7 +7629,7 @@ head(ans)
 
     [1]  13  13   9 -26   1   0
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8792,16 +7648,16 @@ ans <- flights[, list(arr_delay)]
 kable(head(ans))
 ```
 
-|  arr\_delay|
-|-----------:|
-|          13|
-|          13|
-|           9|
-|         -26|
-|           1|
-|           0|
+| arr\_delay |
+| ---------: |
+|         13 |
+|         13 |
+|          9 |
+|       \-26 |
+|          1 |
+|          0 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8811,15 +7667,15 @@ Clojure
     (api/head 6))
 ```
 
-<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv>
 \[6 1\]:
 
 | arr\_delay |
-|------------|
+| ---------- |
 | 13         |
 | 13         |
 | 9          |
-| -26        |
+| \-26       |
 | 1          |
 | 0          |
 
@@ -8832,16 +7688,16 @@ ans <- flights[, .(arr_delay, dep_delay)]
 kable(head(ans))
 ```
 
-|  arr\_delay|  dep\_delay|
-|-----------:|-----------:|
-|          13|          14|
-|          13|          -3|
-|           9|           2|
-|         -26|          -8|
-|           1|           2|
-|           0|           4|
+| arr\_delay | dep\_delay |
+| ---------: | ---------: |
+|         13 |         14 |
+|         13 |        \-3 |
+|          9 |          2 |
+|       \-26 |        \-8 |
+|          1 |          2 |
+|          0 |          4 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8851,15 +7707,15 @@ Clojure
     (api/head 6))
 ```
 
-<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv>
 \[6 2\]:
 
 | dep\_delay | arr\_delay |
-|------------|------------|
+| ---------- | ---------- |
 | 14         | 13         |
-| -3         | 13         |
+| \-3        | 13         |
 | 2          | 9          |
-| -8         | -26        |
+| \-8        | \-26       |
 | 2          | 1          |
 | 4          | 0          |
 
@@ -8872,16 +7728,16 @@ ans <- flights[, .(delay_arr = arr_delay, delay_dep = dep_delay)]
 kable(head(ans))
 ```
 
-|  delay\_arr|  delay\_dep|
-|-----------:|-----------:|
-|          13|          14|
-|          13|          -3|
-|           9|           2|
-|         -26|          -8|
-|           1|           2|
-|           0|           4|
+| delay\_arr | delay\_dep |
+| ---------: | ---------: |
+|         13 |         14 |
+|         13 |        \-3 |
+|          9 |          2 |
+|       \-26 |        \-8 |
+|          1 |          2 |
+|          0 |          4 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8892,19 +7748,19 @@ Clojure
     (api/head 6))
 ```
 
-<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv>
 \[6 2\]:
 
 | delay\_arr | delay\_arr |
-|------------|------------|
+| ---------- | ---------- |
 | 14         | 13         |
-| -3         | 13         |
+| \-3        | 13         |
 | 2          | 9          |
-| -8         | -26        |
+| \-8        | \-26       |
 | 2          | 1          |
 | 4          | 0          |
 
-##### How many trips have had total delay &lt; 0?
+##### How many trips have had total delay \< 0?
 
 R
 
@@ -8915,7 +7771,7 @@ ans
 
     [1] 141814
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8947,11 +7803,11 @@ ans <- flights[origin == "JFK" & month == 6L,
 kable(ans)
 ```
 
-|    m\_arr|    m\_dep|
-|---------:|---------:|
-|  5.839349|  9.807884|
+|   m\_arr |   m\_dep |
+| -------: | -------: |
+| 5.839349 | 9.807884 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -8966,7 +7822,7 @@ Clojure
 \_unnamed \[1 2\]:
 
 | :m\_arr    | :m\_dep    |
-|------------|------------|
+| ---------- | ---------- |
 | 5.83934932 | 9.80788411 |
 
 ##### How many trips have been made in 2014 from “JFK” airport in the month of June?
@@ -8989,7 +7845,7 @@ ans
 
     [1] 8422
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9002,7 +7858,7 @@ Clojure
 
     8422
 
-##### deselect columns using - or !
+##### deselect columns using - or \!
 
 R
 
@@ -9011,14 +7867,14 @@ ans <- flights[, !c("arr_delay", "dep_delay")]
 kable(head(ans))
 ```
 
-|  year|  month|  day| carrier | origin | dest |  air\_time|  distance|  hour|
-|-----:|------:|----:|:--------|:-------|:-----|----------:|---------:|-----:|
-|  2014|      1|    1| AA      | JFK    | LAX  |        359|      2475|     9|
-|  2014|      1|    1| AA      | JFK    | LAX  |        363|      2475|    11|
-|  2014|      1|    1| AA      | JFK    | LAX  |        351|      2475|    19|
-|  2014|      1|    1| AA      | LGA    | PBI  |        157|      1035|     7|
-|  2014|      1|    1| AA      | JFK    | LAX  |        350|      2475|    13|
-|  2014|      1|    1| AA      | EWR    | LAX  |        339|      2454|    18|
+| year | month | day | carrier | origin | dest | air\_time | distance | hour |
+| ---: | ----: | --: | :------ | :----- | :--- | --------: | -------: | ---: |
+| 2014 |     1 |   1 | AA      | JFK    | LAX  |       359 |     2475 |    9 |
+| 2014 |     1 |   1 | AA      | JFK    | LAX  |       363 |     2475 |   11 |
+| 2014 |     1 |   1 | AA      | JFK    | LAX  |       351 |     2475 |   19 |
+| 2014 |     1 |   1 | AA      | LGA    | PBI  |       157 |     1035 |    7 |
+| 2014 |     1 |   1 | AA      | JFK    | LAX  |       350 |     2475 |   13 |
+| 2014 |     1 |   1 | AA      | EWR    | LAX  |       339 |     2454 |   18 |
 
 or
 
@@ -9027,16 +7883,16 @@ ans <- flights[, -c("arr_delay", "dep_delay")]
 kable(head(ans))
 ```
 
-|  year|  month|  day| carrier | origin | dest |  air\_time|  distance|  hour|
-|-----:|------:|----:|:--------|:-------|:-----|----------:|---------:|-----:|
-|  2014|      1|    1| AA      | JFK    | LAX  |        359|      2475|     9|
-|  2014|      1|    1| AA      | JFK    | LAX  |        363|      2475|    11|
-|  2014|      1|    1| AA      | JFK    | LAX  |        351|      2475|    19|
-|  2014|      1|    1| AA      | LGA    | PBI  |        157|      1035|     7|
-|  2014|      1|    1| AA      | JFK    | LAX  |        350|      2475|    13|
-|  2014|      1|    1| AA      | EWR    | LAX  |        339|      2454|    18|
+| year | month | day | carrier | origin | dest | air\_time | distance | hour |
+| ---: | ----: | --: | :------ | :----- | :--- | --------: | -------: | ---: |
+| 2014 |     1 |   1 | AA      | JFK    | LAX  |       359 |     2475 |    9 |
+| 2014 |     1 |   1 | AA      | JFK    | LAX  |       363 |     2475 |   11 |
+| 2014 |     1 |   1 | AA      | JFK    | LAX  |       351 |     2475 |   19 |
+| 2014 |     1 |   1 | AA      | LGA    | PBI  |       157 |     1035 |    7 |
+| 2014 |     1 |   1 | AA      | JFK    | LAX  |       350 |     2475 |   13 |
+| 2014 |     1 |   1 | AA      | EWR    | LAX  |       339 |     2454 |   18 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9046,11 +7902,11 @@ Clojure
     (api/head 6))
 ```
 
-<a href="https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv" class="uri">https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv</a>
+<https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv>
 \[6 9\]:
 
 | year | month | day | carrier | origin | dest | air\_time | distance | hour |
-|------|-------|-----|---------|--------|------|-----------|----------|------|
+| ---- | ----- | --- | ------- | ------ | ---- | --------- | -------- | ---- |
 | 2014 | 1     | 1   | AA      | JFK    | LAX  | 359       | 2475     | 9    |
 | 2014 | 1     | 1   | AA      | JFK    | LAX  | 363       | 2475     | 11   |
 | 2014 | 1     | 1   | AA      | JFK    | LAX  | 351       | 2475     | 19   |
@@ -9069,13 +7925,13 @@ ans <- flights[, .(.N), by = .(origin)]
 kable(ans)
 ```
 
-| origin |      N|
-|:-------|------:|
-| JFK    |  81483|
-| LGA    |  84433|
-| EWR    |  87400|
+| origin |     N |
+| :----- | ----: |
+| JFK    | 81483 |
+| LGA    | 84433 |
+| EWR    | 87400 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9088,7 +7944,7 @@ Clojure
 \_unnamed \[3 2\]:
 
 | origin | :N    |
-|--------|-------|
+| ------ | ----- |
 | LGA    | 84433 |
 | EWR    | 87400 |
 | JFK    | 81483 |
@@ -9102,13 +7958,13 @@ ans <- flights[carrier == "AA", .N, by = origin]
 kable(ans)
 ```
 
-| origin |      N|
-|:-------|------:|
-| JFK    |  11923|
-| LGA    |  11730|
-| EWR    |   2649|
+| origin |     N |
+| :----- | ----: |
+| JFK    | 11923 |
+| LGA    | 11730 |
+| EWR    |  2649 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9122,7 +7978,7 @@ Clojure
 \_unnamed \[3 2\]:
 
 | origin | :N    |
-|--------|-------|
+| ------ | ----- |
 | LGA    | 11730 |
 | EWR    | 2649  |
 | JFK    | 11923 |
@@ -9136,16 +7992,16 @@ ans <- flights[carrier == "AA", .N, by = .(origin, dest)]
 kable(head(ans))
 ```
 
-| origin | dest |     N|
-|:-------|:-----|-----:|
-| JFK    | LAX  |  3387|
-| LGA    | PBI  |   245|
-| EWR    | LAX  |    62|
-| JFK    | MIA  |  1876|
-| JFK    | SEA  |   298|
-| EWR    | MIA  |   848|
+| origin | dest |    N |
+| :----- | :--- | ---: |
+| JFK    | LAX  | 3387 |
+| LGA    | PBI  |  245 |
+| EWR    | LAX  |   62 |
+| JFK    | MIA  | 1876 |
+| JFK    | SEA  |  298 |
+| EWR    | MIA  |  848 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9160,7 +8016,7 @@ Clojure
 \_unnamed \[6 3\]:
 
 | origin | dest | :N   |
-|--------|------|------|
+| ------ | ---- | ---- |
 | JFK    | MIA  | 1876 |
 | LGA    | PBI  | 245  |
 | JFK    | SEA  | 298  |
@@ -9179,20 +8035,20 @@ ans <- flights[carrier == "AA",
 kable(head(ans,10))
 ```
 
-| origin | dest |  month|         V1|          V2|
-|:-------|:-----|------:|----------:|-----------:|
-| JFK    | LAX  |      1|   6.590361|  14.2289157|
-| LGA    | PBI  |      1|  -7.758621|   0.3103448|
-| EWR    | LAX  |      1|   1.366667|   7.5000000|
-| JFK    | MIA  |      1|  15.720670|  18.7430168|
-| JFK    | SEA  |      1|  14.357143|  30.7500000|
-| EWR    | MIA  |      1|  11.011236|  12.1235955|
-| JFK    | SFO  |      1|  19.252252|  28.6396396|
-| JFK    | BOS  |      1|  12.919643|  15.2142857|
-| JFK    | ORD  |      1|  31.586207|  40.1724138|
-| JFK    | IAH  |      1|  28.857143|  14.2857143|
+| origin | dest | month |         V1 |         V2 |
+| :----- | :--- | ----: | ---------: | ---------: |
+| JFK    | LAX  |     1 |   6.590361 | 14.2289157 |
+| LGA    | PBI  |     1 | \-7.758621 |  0.3103448 |
+| EWR    | LAX  |     1 |   1.366667 |  7.5000000 |
+| JFK    | MIA  |     1 |  15.720670 | 18.7430168 |
+| JFK    | SEA  |     1 |  14.357143 | 30.7500000 |
+| EWR    | MIA  |     1 |  11.011236 | 12.1235955 |
+| JFK    | SFO  |     1 |  19.252252 | 28.6396396 |
+| JFK    | BOS  |     1 |  12.919643 | 15.2142857 |
+| JFK    | ORD  |     1 |  31.586207 | 40.1724138 |
+| JFK    | IAH  |     1 |  28.857143 | 14.2857143 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9207,18 +8063,18 @@ Clojure
 
 \_unnamed \[10 5\]:
 
-| month | origin | dest | :summary-0  | :summary-1  |
-|-------|--------|------|-------------|-------------|
-| 9     | LGA    | DFW  | -8.78772379 | -0.25575448 |
-| 10    | LGA    | DFW  | 3.50000000  | 4.55276382  |
-| 1     | JFK    | AUS  | 25.20000000 | 27.60000000 |
-| 4     | JFK    | AUS  | 4.36666667  | -0.13333333 |
-| 5     | JFK    | AUS  | 6.76666667  | 14.73333333 |
-| 2     | JFK    | AUS  | 26.26923077 | 21.50000000 |
-| 3     | JFK    | AUS  | 8.19354839  | 2.70967742  |
-| 8     | JFK    | AUS  | 20.41935484 | 20.77419355 |
-| 1     | EWR    | LAX  | 1.36666667  | 7.50000000  |
-| 9     | JFK    | AUS  | 16.26666667 | 14.36666667 |
+| month | origin | dest | :summary-0   | :summary-1   |
+| ----- | ------ | ---- | ------------ | ------------ |
+| 9     | LGA    | DFW  | \-8.78772379 | \-0.25575448 |
+| 10    | LGA    | DFW  | 3.50000000   | 4.55276382   |
+| 1     | JFK    | AUS  | 25.20000000  | 27.60000000  |
+| 4     | JFK    | AUS  | 4.36666667   | \-0.13333333 |
+| 5     | JFK    | AUS  | 6.76666667   | 14.73333333  |
+| 2     | JFK    | AUS  | 26.26923077  | 21.50000000  |
+| 3     | JFK    | AUS  | 8.19354839   | 2.70967742   |
+| 8     | JFK    | AUS  | 20.41935484  | 20.77419355  |
+| 1     | EWR    | LAX  | 1.36666667   | 7.50000000   |
+| 9     | JFK    | AUS  | 16.26666667  | 14.36666667  |
 
 ##### So how can we directly order by all the grouping variables?
 
@@ -9231,20 +8087,20 @@ ans <- flights[carrier == "AA",
 kable(head(ans,10))
 ```
 
-| origin | dest |  month|         V1|         V2|
-|:-------|:-----|------:|----------:|----------:|
-| EWR    | DFW  |      1|   6.427673|  10.012579|
-| EWR    | DFW  |      2|  10.536765|  11.345588|
-| EWR    | DFW  |      3|  12.865031|   8.079755|
-| EWR    | DFW  |      4|  17.792683|  12.920732|
-| EWR    | DFW  |      5|  18.487805|  18.682927|
-| EWR    | DFW  |      6|  37.005952|  38.744048|
-| EWR    | DFW  |      7|  20.250000|  21.154762|
-| EWR    | DFW  |      8|  16.936046|  22.069767|
-| EWR    | DFW  |      9|   5.865031|  13.055215|
-| EWR    | DFW  |     10|  18.813665|  18.894410|
+| origin | dest | month |        V1 |        V2 |
+| :----- | :--- | ----: | --------: | --------: |
+| EWR    | DFW  |     1 |  6.427673 | 10.012579 |
+| EWR    | DFW  |     2 | 10.536765 | 11.345588 |
+| EWR    | DFW  |     3 | 12.865031 |  8.079755 |
+| EWR    | DFW  |     4 | 17.792683 | 12.920732 |
+| EWR    | DFW  |     5 | 18.487805 | 18.682927 |
+| EWR    | DFW  |     6 | 37.005952 | 38.744048 |
+| EWR    | DFW  |     7 | 20.250000 | 21.154762 |
+| EWR    | DFW  |     8 | 16.936046 | 22.069767 |
+| EWR    | DFW  |     9 |  5.865031 | 13.055215 |
+| EWR    | DFW  |    10 | 18.813665 | 18.894410 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9261,7 +8117,7 @@ Clojure
 \_unnamed \[10 5\]:
 
 | month | origin | dest | :summary-0  | :summary-1  |
-|-------|--------|------|-------------|-------------|
+| ----- | ------ | ---- | ----------- | ----------- |
 | 1     | EWR    | DFW  | 6.42767296  | 10.01257862 |
 | 2     | EWR    | DFW  | 10.53676471 | 11.34558824 |
 | 3     | EWR    | DFW  | 12.86503067 | 8.07975460  |
@@ -9282,14 +8138,14 @@ ans <- flights[, .N, .(dep_delay>0, arr_delay>0)]
 kable(ans)
 ```
 
-| dep\_delay | arr\_delay |       N|
-|:-----------|:-----------|-------:|
-| TRUE       | TRUE       |   72836|
-| FALSE      | TRUE       |   34583|
-| FALSE      | FALSE      |  119304|
-| TRUE       | FALSE      |   26593|
+| dep\_delay | arr\_delay |      N |
+| :--------- | :--------- | -----: |
+| TRUE       | TRUE       |  72836 |
+| FALSE      | TRUE       |  34583 |
+| FALSE      | FALSE      | 119304 |
+| TRUE       | FALSE      |  26593 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9304,7 +8160,7 @@ Clojure
 \_unnamed \[4 3\]:
 
 | :dep\_delay | :arr\_delay | :N     |
-|-------------|-------------|--------|
+| ----------- | ----------- | ------ |
 | true        | false       | 26593  |
 | false       | true        | 34583  |
 | false       | false       | 119304 |
@@ -9318,28 +8174,30 @@ R
 kable(DT)
 ```
 
-| ID  |    a|    b|    c|
-|:----|----:|----:|----:|
-| b   |    1|    7|   13|
-| b   |    2|    8|   14|
-| b   |    3|    9|   15|
-| a   |    4|   10|   16|
-| a   |    5|   11|   17|
-| c   |    6|   12|   18|
+| ID | a |  b |  c |
+| :- | -: | -: | -: |
+| b  | 1 |  7 | 13 |
+| b  | 2 |  8 | 14 |
+| b  | 3 |  9 | 15 |
+| a  | 4 | 10 | 16 |
+| a  | 5 | 11 | 17 |
+| c  | 6 | 12 | 18 |
 
 ``` r
 DT[, print(.SD), by = ID]
 ```
 
-       a b  c
-    1: 1 7 13
-    2: 2 8 14
-    3: 3 9 15
-       a  b  c
-    1: 4 10 16
-    2: 5 11 17
-       a  b  c
-    1: 6 12 18
+``` 
+   a b  c
+1: 1 7 13
+2: 2 8 14
+3: 3 9 15
+   a  b  c
+1: 4 10 16
+2: 5 11 17
+   a  b  c
+1: 6 12 18
+```
 
     Empty data.table (0 rows and 1 cols): ID
 
@@ -9347,13 +8205,13 @@ DT[, print(.SD), by = ID]
 kable(DT[, lapply(.SD, mean), by = ID])
 ```
 
-| ID  |    a|     b|     c|
-|:----|----:|-----:|-----:|
-| b   |  2.0|   8.0|  14.0|
-| a   |  4.5|  10.5|  16.5|
-| c   |  6.0|  12.0|  18.0|
+| ID |   a |    b |    c |
+| :- | --: | ---: | ---: |
+| b  | 2.0 |  8.0 | 14.0 |
+| a  | 4.5 | 10.5 | 16.5 |
+| c  | 6.0 | 12.0 | 18.0 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9365,35 +8223,35 @@ DT
 
 \_unnamed \[6 4\]:
 
-| :ID | :a  | :b  | :c  |
-|-----|-----|-----|-----|
-| b   | 1   | 7   | 13  |
-| b   | 2   | 8   | 14  |
-| b   | 3   | 9   | 15  |
-| a   | 4   | 10  | 16  |
-| a   | 5   | 11  | 17  |
-| c   | 6   | 12  | 18  |
+| :ID | :a | :b | :c |
+| --- | -- | -- | -- |
+| b   | 1  | 7  | 13 |
+| b   | 2  | 8  | 14 |
+| b   | 3  | 9  | 15 |
+| a   | 4  | 10 | 16 |
+| a   | 5  | 11 | 17 |
+| c   | 6  | 12 | 18 |
 
 {“a” Group: a \[2 4\]:
 
-| :ID | :a  | :b  | :c  |
-|-----|-----|-----|-----|
-| a   | 4   | 10  | 16  |
-| a   | 5   | 11  | 17  |
+| :ID | :a | :b | :c |
+| --- | -- | -- | -- |
+| a   | 4  | 10 | 16 |
+| a   | 5  | 11 | 17 |
 
 , “b” Group: b \[3 4\]:
 
-| :ID | :a  | :b  | :c  |
-|-----|-----|-----|-----|
-| b   | 1   | 7   | 13  |
-| b   | 2   | 8   | 14  |
-| b   | 3   | 9   | 15  |
+| :ID | :a | :b | :c |
+| --- | -- | -- | -- |
+| b   | 1  | 7  | 13 |
+| b   | 2  | 8  | 14 |
+| b   | 3  | 9  | 15 |
 
 , “c” Group: c \[1 4\]:
 
-| :ID | :a  | :b  | :c  |
-|-----|-----|-----|-----|
-| c   | 6   | 12  | 18  |
+| :ID | :a | :b | :c |
+| --- | -- | -- | -- |
+| c   | 6  | 12 | 18 |
 
 }
 
@@ -9406,7 +8264,7 @@ DT
 \_unnamed \[3 4\]:
 
 | :ID | :a  | :b   | :c   |
-|-----|-----|------|------|
+| --- | --- | ---- | ---- |
 | a   | 4.5 | 10.5 | 16.5 |
 | b   | 2.0 | 8.0  | 14.0 |
 | c   | 6.0 | 12.0 | 18.0 |
@@ -9422,16 +8280,16 @@ kable(head(flights[carrier == "AA",                         ## Only on trips wit
                    .SDcols = c("arr_delay", "dep_delay")])) ## for just those specified in .SDcols
 ```
 
-| origin | dest |  month|  arr\_delay|  dep\_delay|
-|:-------|:-----|------:|-----------:|-----------:|
-| JFK    | LAX  |      1|    6.590361|  14.2289157|
-| LGA    | PBI  |      1|   -7.758621|   0.3103448|
-| EWR    | LAX  |      1|    1.366667|   7.5000000|
-| JFK    | MIA  |      1|   15.720670|  18.7430168|
-| JFK    | SEA  |      1|   14.357143|  30.7500000|
-| EWR    | MIA  |      1|   11.011236|  12.1235955|
+| origin | dest | month | arr\_delay | dep\_delay |
+| :----- | :--- | ----: | ---------: | ---------: |
+| JFK    | LAX  |     1 |   6.590361 | 14.2289157 |
+| LGA    | PBI  |     1 | \-7.758621 |  0.3103448 |
+| EWR    | LAX  |     1 |   1.366667 |  7.5000000 |
+| JFK    | MIA  |     1 |  15.720670 | 18.7430168 |
+| JFK    | SEA  |     1 |  14.357143 | 30.7500000 |
+| EWR    | MIA  |     1 |  11.011236 | 12.1235955 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9445,14 +8303,14 @@ Clojure
 
 \_unnamed \[6 5\]:
 
-| month | origin | dest | dep\_delay  | arr\_delay  |
-|-------|--------|------|-------------|-------------|
-| 9     | LGA    | DFW  | -0.25575448 | -8.78772379 |
-| 10    | LGA    | DFW  | 4.55276382  | 3.50000000  |
-| 1     | JFK    | AUS  | 27.60000000 | 25.20000000 |
-| 4     | JFK    | AUS  | -0.13333333 | 4.36666667  |
-| 5     | JFK    | AUS  | 14.73333333 | 6.76666667  |
-| 2     | JFK    | AUS  | 21.50000000 | 26.26923077 |
+| month | origin | dest | dep\_delay   | arr\_delay   |
+| ----- | ------ | ---- | ------------ | ------------ |
+| 9     | LGA    | DFW  | \-0.25575448 | \-8.78772379 |
+| 10    | LGA    | DFW  | 4.55276382   | 3.50000000   |
+| 1     | JFK    | AUS  | 27.60000000  | 25.20000000  |
+| 4     | JFK    | AUS  | \-0.13333333 | 4.36666667   |
+| 5     | JFK    | AUS  | 14.73333333  | 6.76666667   |
+| 2     | JFK    | AUS  | 21.50000000  | 26.26923077  |
 
 ##### How can we return the first two rows for each month?
 
@@ -9463,16 +8321,16 @@ ans <- flights[, head(.SD, 2), by = month]
 kable(head(ans))
 ```
 
-|  month|  year|  day|  dep\_delay|  arr\_delay| carrier | origin | dest |  air\_time|  distance|  hour|
-|------:|-----:|----:|-----------:|-----------:|:--------|:-------|:-----|----------:|---------:|-----:|
-|      1|  2014|    1|          14|          13| AA      | JFK    | LAX  |        359|      2475|     9|
-|      1|  2014|    1|          -3|          13| AA      | JFK    | LAX  |        363|      2475|    11|
-|      2|  2014|    1|          -1|           1| AA      | JFK    | LAX  |        358|      2475|     8|
-|      2|  2014|    1|          -5|           3| AA      | JFK    | LAX  |        358|      2475|    11|
-|      3|  2014|    1|         -11|          36| AA      | JFK    | LAX  |        375|      2475|     8|
-|      3|  2014|    1|          -3|          14| AA      | JFK    | LAX  |        368|      2475|    11|
+| month | year | day | dep\_delay | arr\_delay | carrier | origin | dest | air\_time | distance | hour |
+| ----: | ---: | --: | ---------: | ---------: | :------ | :----- | :--- | --------: | -------: | ---: |
+|     1 | 2014 |   1 |         14 |         13 | AA      | JFK    | LAX  |       359 |     2475 |    9 |
+|     1 | 2014 |   1 |        \-3 |         13 | AA      | JFK    | LAX  |       363 |     2475 |   11 |
+|     2 | 2014 |   1 |        \-1 |          1 | AA      | JFK    | LAX  |       358 |     2475 |    8 |
+|     2 | 2014 |   1 |        \-5 |          3 | AA      | JFK    | LAX  |       358 |     2475 |   11 |
+|     3 | 2014 |   1 |       \-11 |         36 | AA      | JFK    | LAX  |       375 |     2475 |    8 |
+|     3 | 2014 |   1 |        \-3 |         14 | AA      | JFK    | LAX  |       368 |     2475 |   11 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9487,13 +8345,13 @@ Clojure
 \_unnamed \[6 11\]:
 
 | dep\_delay | origin | air\_time | hour | arr\_delay | dest | distance | year | month | day | carrier |
-|------------|--------|-----------|------|------------|------|----------|------|-------|-----|---------|
-| -8         | LGA    | 113       | 18   | -23        | BNA  | 764      | 2014 | 4     | 1   | MQ      |
-| -8         | LGA    | 71        | 18   | -11        | RDU  | 431      | 2014 | 4     | 1   | MQ      |
+| ---------- | ------ | --------- | ---- | ---------- | ---- | -------- | ---- | ----- | --- | ------- |
+| \-8        | LGA    | 113       | 18   | \-23       | BNA  | 764      | 2014 | 4     | 1   | MQ      |
+| \-8        | LGA    | 71        | 18   | \-11       | RDU  | 431      | 2014 | 4     | 1   | MQ      |
 | 43         | JFK    | 288       | 17   | 5          | LAS  | 2248     | 2014 | 5     | 1   | AA      |
-| -1         | JFK    | 330       | 7    | -38        | SFO  | 2586     | 2014 | 5     | 1   | AA      |
-| -9         | JFK    | 324       | 8    | -5         | LAX  | 2475     | 2014 | 6     | 1   | AA      |
-| -10        | JFK    | 329       | 12   | -13        | LAX  | 2475     | 2014 | 6     | 1   | AA      |
+| \-1        | JFK    | 330       | 7    | \-38       | SFO  | 2586     | 2014 | 5     | 1   | AA      |
+| \-9        | JFK    | 324       | 8    | \-5        | LAX  | 2475     | 2014 | 6     | 1   | AA      |
+| \-10       | JFK    | 329       | 12   | \-13       | LAX  | 2475     | 2014 | 6     | 1   | AA      |
 
 ##### How can we concatenate columns a and b for each group in ID?
 
@@ -9503,22 +8361,22 @@ R
 kable(DT[, .(val = c(a,b)), by = ID])
 ```
 
-| ID  |  val|
-|:----|----:|
-| b   |    1|
-| b   |    2|
-| b   |    3|
-| b   |    7|
-| b   |    8|
-| b   |    9|
-| a   |    4|
-| a   |    5|
-| a   |   10|
-| a   |   11|
-| c   |    6|
-| c   |   12|
+| ID | val |
+| :- | --: |
+| b  |   1 |
+| b  |   2 |
+| b  |   3 |
+| b  |   7 |
+| b  |   8 |
+| b  |   9 |
+| a  |   4 |
+| a  |   5 |
+| a  |  10 |
+| a  |  11 |
+| c  |   6 |
+| c  |  12 |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9531,7 +8389,7 @@ Clojure
 \_unnamed \[12 2\]:
 
 | :ID | :val |
-|-----|------|
+| --- | ---- |
 | b   | 1    |
 | b   | 2    |
 | b   | 3    |
@@ -9553,13 +8411,13 @@ R
 kable(DT[, .(val = list(c(a,b))), by = ID])
 ```
 
-| ID  | val              |
-|:----|:-----------------|
-| b   | 1, 2, 3, 7, 8, 9 |
-| a   | 4, 5, 10, 11     |
-| c   | 6, 12            |
+| ID | val              |
+| :- | :--------------- |
+| b  | 1, 2, 3, 7, 8, 9 |
+| a  | 4, 5, 10, 11     |
+| c  | 6, 12            |
 
-------------------------------------------------------------------------
+-----
 
 Clojure
 
@@ -9573,7 +8431,7 @@ Clojure
 \_unnamed \[3 2\]:
 
 | :ID | :val            |
-|-----|-----------------|
+| --- | --------------- |
 | a   | \[4 5 10 11\]   |
 | b   | \[1 2 3 7 8 9\] |
 | c   | \[6 12\]        |
@@ -9611,7 +8469,7 @@ DS
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
@@ -9635,11 +8493,11 @@ Filter rows using indices
 \_unnamed \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Discard rows using negative indices
 
@@ -9652,13 +8510,13 @@ In Clojure API we have separate function for that: `drop-rows`.
 \_unnamed \[4 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Filter rows using a logical expression
 
@@ -9669,7 +8527,7 @@ Filter rows using a logical expression
 \_unnamed \[4 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 6   | 1.5 | C   |
 | 1   | 7   | 0.5 | A   |
 | 2   | 8   | 1.0 | B   |
@@ -9682,7 +8540,7 @@ Filter rows using a logical expression
 \_unnamed \[6 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
@@ -9690,7 +8548,7 @@ Filter rows using a logical expression
 | 1   | 7   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Filter rows using multiple conditions
 
@@ -9702,11 +8560,11 @@ Filter rows using multiple conditions
 \_unnamed \[2 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Filter unique rows
 
@@ -9717,7 +8575,7 @@ Filter unique rows
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
@@ -9735,7 +8593,7 @@ Filter unique rows
 \_unnamed \[6 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
@@ -9743,7 +8601,7 @@ Filter unique rows
 | 1   | 5   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Discard rows with missing values
 
@@ -9754,7 +8612,7 @@ Discard rows with missing values
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
@@ -9765,7 +8623,7 @@ Discard rows with missing values
 | 2   | 8   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Other filters
 
@@ -9776,10 +8634,10 @@ Other filters
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
-| 1   | 7   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
+| --- | --- | --- | --- |
+| 1   | 1   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
 
 ``` clojure
 (api/random DS (/ (api/row-count DS) 2)) ;; fraction of random rows
@@ -9788,12 +8646,12 @@ Other filters
 \_unnamed \[5 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
-| 2   | 8   | 1.0 | B   |
+| --- | --- | --- | --- |
+| 1   | 3   | 1.5 | C   |
 | 1   | 1   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
 
 ``` clojure
 (api/by-rank DS :V1 zero?) ;; take top n entries
@@ -9802,13 +8660,13 @@ Other filters
 \_unnamed \[4 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 2   | 4   | 0.5 | A   |
 | 2   | 6   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
 
-------------------------------------------------------------------------
+-----
 
 Convenience functions
 
@@ -9819,7 +8677,7 @@ Convenience functions
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
 | 1   | 5   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
@@ -9831,7 +8689,7 @@ Convenience functions
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
@@ -9843,7 +8701,7 @@ Convenience functions
 \_unnamed \[1 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 2   | 4   | 0.5 | A   |
 
 ``` clojure
@@ -9853,7 +8711,7 @@ Convenience functions
 \_unnamed \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
@@ -9871,7 +8729,7 @@ Sort rows by column
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
@@ -9882,7 +8740,7 @@ Sort rows by column
 | 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Sort rows in decreasing order
 
@@ -9893,7 +8751,7 @@ Sort rows in decreasing order
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
@@ -9904,7 +8762,7 @@ Sort rows in decreasing order
 | 2   | 4   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
 
-------------------------------------------------------------------------
+-----
 
 Sort rows based on several columns
 
@@ -9915,7 +8773,7 @@ Sort rows based on several columns
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 9   | 1.5 | C   |
 | 1   | 7   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
@@ -9945,7 +8803,7 @@ Select one column using an index (not recommended)
 \_unnamed \[9 1\]:
 
 | :V3 |
-|-----|
+| --- |
 | 0.5 |
 | 1.0 |
 | 1.5 |
@@ -9956,7 +8814,7 @@ Select one column using an index (not recommended)
 | 1.0 |
 | 1.5 |
 
-------------------------------------------------------------------------
+-----
 
 Select one column using column name
 
@@ -9967,7 +8825,7 @@ Select one column using column name
 \_unnamed \[9 1\]:
 
 | :V2 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 3   |
@@ -9985,7 +8843,7 @@ Select one column using column name
 \_unnamed \[9 1\]:
 
 | :V2 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 3   |
@@ -10004,7 +8862,7 @@ Select one column using column name
     :V2
     [1, 2, 3, 4, 5, 6, 7, 8, 9, ]
 
-------------------------------------------------------------------------
+-----
 
 Select several columns
 
@@ -10015,7 +8873,7 @@ Select several columns
 \_unnamed \[9 3\]:
 
 | :V2 | :V3 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 0.5 | A   |
 | 2   | 1.0 | B   |
 | 3   | 1.5 | C   |
@@ -10026,7 +8884,7 @@ Select several columns
 | 8   | 1.0 | B   |
 | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Exclude columns
 
@@ -10037,7 +8895,7 @@ Exclude columns
 \_unnamed \[9 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 1   |
@@ -10055,7 +8913,7 @@ Exclude columns
 \_unnamed \[9 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 1   |
@@ -10066,7 +8924,7 @@ Exclude columns
 | 2   |
 | 1   |
 
-------------------------------------------------------------------------
+-----
 
 Other seletions
 
@@ -10079,7 +8937,7 @@ Other seletions
 \_unnamed \[9 2\]:
 
 | :V1 | :V2 |
-|-----|-----|
+| --- | --- |
 | 1   | 1   |
 | 2   | 2   |
 | 1   | 3   |
@@ -10097,7 +8955,7 @@ Other seletions
 \_unnamed \[9 4\]:
 
 | :V4 | :V1 | :V2 | :V3 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | A   | 1   | 1   | 0.5 |
 | B   | 2   | 2   | 1.0 |
 | C   | 1   | 3   | 1.5 |
@@ -10115,7 +8973,7 @@ Other seletions
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
@@ -10133,7 +8991,7 @@ Other seletions
 \_unnamed \[9 1\]:
 
 | :V3 |
-|-----|
+| --- |
 | 0.5 |
 | 1.0 |
 | 1.5 |
@@ -10151,7 +9009,7 @@ Other seletions
 \_unnamed \[9 1\]:
 
 | :V2 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 3   |
@@ -10169,7 +9027,7 @@ Other seletions
 \_unnamed \[9 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 1   |
@@ -10187,7 +9045,7 @@ Other seletions
 \_unnamed \[9 3\]:
 
 | :V1 | :V3 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 0.5 | A   |
 | 2   | 1.0 | B   |
 | 1   | 1.5 | C   |
@@ -10206,7 +9064,9 @@ Summarise one column
 (reduce + (DS :V1)) ;; using pure Clojure, as value
 ```
 
-    13
+``` 
+13
+```
 
 ``` clojure
 (api/aggregate-columns DS :V1 dfn/sum) ;; as dataset
@@ -10215,7 +9075,7 @@ Summarise one column
 \_unnamed \[1 1\]:
 
 | :V1  |
-|------|
+| ---- |
 | 13.0 |
 
 ``` clojure
@@ -10225,10 +9085,10 @@ Summarise one column
 \_unnamed \[1 1\]:
 
 | :sumV1 |
-|--------|
+| ------ |
 | 13.0   |
 
-------------------------------------------------------------------------
+-----
 
 Summarize several columns
 
@@ -10240,7 +9100,7 @@ Summarize several columns
 \_unnamed \[1 2\]:
 
 | :summary-0 | :summary-1 |
-|------------|------------|
+| ---------- | ---------- |
 | 13.0       | 0.4330127  |
 
 ``` clojure
@@ -10251,10 +9111,10 @@ Summarize several columns
 \_unnamed \[1 2\]:
 
 | :V1  | :V3       |
-|------|-----------|
+| ---- | --------- |
 | 13.0 | 0.4330127 |
 
-------------------------------------------------------------------------
+-----
 
 Summarise several columns and assign column names
 
@@ -10266,10 +9126,10 @@ Summarise several columns and assign column names
 \_unnamed \[1 2\]:
 
 | :sumv1 | :sdv3     |
-|--------|-----------|
+| ------ | --------- |
 | 13.0   | 0.4330127 |
 
-------------------------------------------------------------------------
+-----
 
 Summarise a subset of rows
 
@@ -10282,7 +9142,7 @@ Summarise a subset of rows
 \_unnamed \[1 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 6.0 |
 
 ##### Additional helpers
@@ -10296,7 +9156,7 @@ Summarise a subset of rows
 \_unnamed \[1 1\]:
 
 | :V3 |
-|-----|
+| --- |
 | 0.5 |
 
 ``` clojure
@@ -10308,7 +9168,7 @@ Summarise a subset of rows
 \_unnamed \[1 1\]:
 
 | :V3 |
-|-----|
+| --- |
 | 1.5 |
 
 ``` clojure
@@ -10320,7 +9180,7 @@ Summarise a subset of rows
 \_unnamed \[1 1\]:
 
 | :V3 |
-|-----|
+| --- |
 | 1.0 |
 
 ``` clojure
@@ -10331,7 +9191,7 @@ Summarise a subset of rows
 \_unnamed \[1 1\]:
 
 | :V3 |
-|-----|
+| --- |
 | 1.0 |
 
 ``` clojure
@@ -10343,7 +9203,7 @@ Summarise a subset of rows
 \_unnamed \[1 1\]:
 
 | :summary |
-|----------|
+| -------- |
 | 3        |
 
 ``` clojure
@@ -10352,7 +9212,9 @@ Summarise a subset of rows
     (api/row-count)) ;; number of unique rows in `:V4` column, as value
 ```
 
-    3
+``` 
+3
+```
 
 ``` clojure
 (-> DS
@@ -10360,7 +9222,9 @@ Summarise a subset of rows
     (api/row-count)) ;; number of unique rows in dataset, as value
 ```
 
-    9
+``` 
+9
+```
 
 ##### Add/update/delete columns
 
@@ -10373,7 +9237,7 @@ Modify a column
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 4   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
@@ -10395,7 +9259,7 @@ DS
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1.0 | 1   | 0.5 | A   |
 | 4.0 | 2   | 1.0 | B   |
 | 1.0 | 3   | 1.5 | C   |
@@ -10406,7 +9270,7 @@ DS
 | 4.0 | 8   | 1.0 | B   |
 | 1.0 | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Add one column
 
@@ -10417,7 +9281,7 @@ Add one column
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :v5        |
-|-----|-----|-----|-----|------------|
+| --- | --- | --- | --- | ---------- |
 | 1.0 | 1   | 0.5 | A   | 0.00000000 |
 | 4.0 | 2   | 1.0 | B   | 1.38629436 |
 | 1.0 | 3   | 1.5 | C   | 0.00000000 |
@@ -10439,7 +9303,7 @@ DS
 \_unnamed \[9 5\]:
 
 | :V1 | :V2 | :V3 | :V4 | :v5        |
-|-----|-----|-----|-----|------------|
+| --- | --- | --- | --- | ---------- |
 | 1.0 | 1   | 0.5 | A   | 0.00000000 |
 | 4.0 | 2   | 1.0 | B   | 1.38629436 |
 | 1.0 | 3   | 1.5 | C   | 0.00000000 |
@@ -10450,7 +9314,7 @@ DS
 | 4.0 | 8   | 1.0 | B   | 1.38629436 |
 | 1.0 | 9   | 1.5 | C   | 0.00000000 |
 
-------------------------------------------------------------------------
+-----
 
 Add several columns
 
@@ -10466,7 +9330,7 @@ DS
 \_unnamed \[9 7\]:
 
 | :V1 | :V2 | :V3 | :V4 | :v5        | :v6 | :v7 |
-|-----|-----|-----|-----|------------|-----|-----|
+| --- | --- | --- | --- | ---------- | --- | --- |
 | 1.0 | 1   | 0.5 | A   | 0.00000000 | 1.0 | X   |
 | 4.0 | 2   | 1.0 | B   | 1.38629436 | 2.0 | X   |
 | 1.0 | 3   | 1.5 | C   | 0.00000000 | 1.0 | X   |
@@ -10477,7 +9341,7 @@ DS
 | 4.0 | 8   | 1.0 | B   | 1.38629436 | 2.0 | X   |
 | 1.0 | 9   | 1.5 | C   | 0.00000000 | 1.0 | X   |
 
-------------------------------------------------------------------------
+-----
 
 Create one column and remove the others
 
@@ -10488,7 +9352,7 @@ Create one column and remove the others
 \_unnamed \[9 1\]:
 
 | :v8 |
-|-----|
+| --- |
 | 1.5 |
 | 2.0 |
 | 2.5 |
@@ -10499,7 +9363,7 @@ Create one column and remove the others
 | 2.0 |
 | 2.5 |
 
-------------------------------------------------------------------------
+-----
 
 Remove one column
 
@@ -10514,7 +9378,7 @@ DS
 \_unnamed \[9 6\]:
 
 | :V1 | :V2 | :V3 | :V4 | :v6 | :v7 |
-|-----|-----|-----|-----|-----|-----|
+| --- | --- | --- | --- | --- | --- |
 | 1.0 | 1   | 0.5 | A   | 1.0 | X   |
 | 4.0 | 2   | 1.0 | B   | 2.0 | X   |
 | 1.0 | 3   | 1.5 | C   | 1.0 | X   |
@@ -10525,7 +9389,7 @@ DS
 | 4.0 | 8   | 1.0 | B   | 2.0 | X   |
 | 1.0 | 9   | 1.5 | C   | 1.0 | X   |
 
-------------------------------------------------------------------------
+-----
 
 Remove several columns
 
@@ -10540,7 +9404,7 @@ DS
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
-|-----|-----|-----|-----|
+| --- | --- | --- | --- |
 | 1.0 | 1   | 0.5 | A   |
 | 4.0 | 2   | 1.0 | B   |
 | 1.0 | 3   | 1.5 | C   |
@@ -10551,7 +9415,7 @@ DS
 | 4.0 | 8   | 1.0 | B   |
 | 1.0 | 9   | 1.5 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Remove columns using a vector of colnames
 
@@ -10568,7 +9432,7 @@ DS
 \_unnamed \[9 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1.0 | 1   | A   |
 | 4.0 | 2   | B   |
 | 1.0 | 3   | C   |
@@ -10579,7 +9443,7 @@ DS
 | 4.0 | 8   | B   |
 | 1.0 | 9   | C   |
 
-------------------------------------------------------------------------
+-----
 
 Replace values for rows matching a condition
 
@@ -10594,7 +9458,7 @@ DS
 \_unnamed \[9 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1.0 | 0   | A   |
 | 4.0 | 0   | B   |
 | 1.0 | 0   | C   |
@@ -10618,12 +9482,12 @@ By group
 \_unnamed \[3 2\]:
 
 | :V4 | :sumV2 |
-|-----|--------|
+| --- | ------ |
 | B   | 13.0   |
 | C   | 15.0   |
 | A   | 11.0   |
 
-------------------------------------------------------------------------
+-----
 
 By several groups
 
@@ -10636,7 +9500,7 @@ By several groups
 \_unnamed \[6 3\]:
 
 | :V4 | :V1 | :sumV2 |
-|-----|-----|--------|
+| --- | --- | ------ |
 | A   | 4.0 | 4.0    |
 | A   | 1.0 | 7.0    |
 | B   | 1.0 | 5.0    |
@@ -10644,7 +9508,7 @@ By several groups
 | C   | 4.0 | 6.0    |
 | C   | 1.0 | 9.0    |
 
-------------------------------------------------------------------------
+-----
 
 Calling function in by
 
@@ -10658,12 +9522,12 @@ Calling function in by
 \_unnamed \[3 2\]:
 
 | :$group-name | :sumV1 |
-|--------------|--------|
+| ------------ | ------ |
 | a            | 6.0    |
 | b            | 9.0    |
 | c            | 6.0    |
 
-------------------------------------------------------------------------
+-----
 
 Assigning column name in by
 
@@ -10677,7 +9541,7 @@ Assigning column name in by
 \_unnamed \[3 2\]:
 
 | :abc | :sumV1 |
-|------|--------|
+| ---- | ------ |
 | a    | 6.0    |
 | b    | 9.0    |
 | c    | 6.0    |
@@ -10692,12 +9556,12 @@ Assigning column name in by
 \_unnamed \[3 2\]:
 
 | :abc | :sumV1 |
-|------|--------|
+| ---- | ------ |
 | a    | 6.0    |
 | b    | 9.0    |
 | c    | 6.0    |
 
-------------------------------------------------------------------------
+-----
 
 Using a condition in by
 
@@ -10710,11 +9574,11 @@ Using a condition in by
 \_unnamed \[2 2\]:
 
 | :$group-name | :summary |
-|--------------|----------|
+| ------------ | -------- |
 | false        | 15.0     |
 | true         | 6.0      |
 
-------------------------------------------------------------------------
+-----
 
 By on a subset of rows
 
@@ -10728,12 +9592,12 @@ By on a subset of rows
 \_unnamed \[3 2\]:
 
 | :$group-name | :sumV1 |
-|--------------|--------|
+| ------------ | ------ |
 | A            | 5.0    |
 | B            | 5.0    |
 | C            | 1.0    |
 
-------------------------------------------------------------------------
+-----
 
 Count number of observations for each group
 
@@ -10746,12 +9610,12 @@ Count number of observations for each group
 \_unnamed \[3 2\]:
 
 | :$group-name | :summary |
-|--------------|----------|
+| ------------ | -------- |
 | A            | 3        |
 | B            | 3        |
 | C            | 3        |
 
-------------------------------------------------------------------------
+-----
 
 Add a column with number of observations for each group
 
@@ -10764,19 +9628,19 @@ Add a column with number of observations for each group
 
 \_unnamed \[9 4\]:
 
-| :V1 | :V2 | :V4 | :n  |
-|-----|-----|-----|-----|
-| 4.0 | 0   | B   | 4   |
-| 4.0 | 4   | A   | 4   |
-| 4.0 | 6   | C   | 4   |
-| 4.0 | 8   | B   | 4   |
-| 1.0 | 0   | A   | 5   |
-| 1.0 | 0   | C   | 5   |
-| 1.0 | 5   | B   | 5   |
-| 1.0 | 7   | A   | 5   |
-| 1.0 | 9   | C   | 5   |
+| :V1 | :V2 | :V4 | :n |
+| --- | --- | --- | -- |
+| 4.0 | 0   | B   | 4  |
+| 4.0 | 4   | A   | 4  |
+| 4.0 | 6   | C   | 4  |
+| 4.0 | 8   | B   | 4  |
+| 1.0 | 0   | A   | 5  |
+| 1.0 | 0   | C   | 5  |
+| 1.0 | 5   | B   | 5  |
+| 1.0 | 7   | A   | 5  |
+| 1.0 | 9   | C   | 5  |
 
-------------------------------------------------------------------------
+-----
 
 Retrieve the first/last/nth observation for each group
 
@@ -10789,7 +9653,7 @@ Retrieve the first/last/nth observation for each group
 \_unnamed \[3 2\]:
 
 | :V4 | :V2 |
-|-----|-----|
+| --- | --- |
 | B   | 0   |
 | C   | 0   |
 | A   | 0   |
@@ -10803,7 +9667,7 @@ Retrieve the first/last/nth observation for each group
 \_unnamed \[3 2\]:
 
 | :V4 | :V2 |
-|-----|-----|
+| --- | --- |
 | B   | 8   |
 | C   | 9   |
 | A   | 7   |
@@ -10817,7 +9681,7 @@ Retrieve the first/last/nth observation for each group
 \_unnamed \[3 2\]:
 
 | :V4 | :V2 |
-|-----|-----|
+| --- | --- |
 | B   | 5   |
 | C   | 6   |
 | A   | 4   |
@@ -10836,10 +9700,10 @@ Summarise all the columns
 \_unnamed \[1 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 4.0 | 9   | C   |
 
-------------------------------------------------------------------------
+-----
 
 Summarise several columns
 
@@ -10850,10 +9714,10 @@ Summarise several columns
 \_unnamed \[1 2\]:
 
 | :V1        | :V2        |
-|------------|------------|
+| ---------- | ---------- |
 | 2.33333333 | 4.33333333 |
 
-------------------------------------------------------------------------
+-----
 
 Summarise several columns by group
 
@@ -10866,12 +9730,12 @@ Summarise several columns by group
 \_unnamed \[3 3\]:
 
 | :V4 | :V1 | :V2        |
-|-----|-----|------------|
+| --- | --- | ---------- |
 | B   | 3.0 | 4.33333333 |
 | C   | 2.0 | 5.00000000 |
 | A   | 2.0 | 3.66666667 |
 
-------------------------------------------------------------------------
+-----
 
 Summarise with more than one function by group
 
@@ -10886,7 +9750,7 @@ Summarise with more than one function by group
 \_unnamed \[3 5\]:
 
 | :V4 | :V1-sum | :V1-mean | :V2-sum | :V2-mean   |
-|-----|---------|----------|---------|------------|
+| --- | ------- | -------- | ------- | ---------- |
 | B   | 9.0     | 3.0      | 13.0    | 4.33333333 |
 | C   | 6.0     | 2.0      | 15.0    | 5.00000000 |
 | A   | 6.0     | 2.0      | 11.0    | 3.66666667 |
@@ -10902,10 +9766,10 @@ Summarise using a condition
 \_unnamed \[1 2\]:
 
 | :V1        | :V2        |
-|------------|------------|
+| ---------- | ---------- |
 | 2.33333333 | 4.33333333 |
 
-------------------------------------------------------------------------
+-----
 
 Modify all the columns
 
@@ -10916,7 +9780,7 @@ Modify all the columns
 \_unnamed \[9 3\]:
 
 | :V1   | :V2 | :V4 |
-|-------|-----|-----|
+| ----- | --- | --- |
 | 1.000 | 9   | C   |
 | 4.000 | 8   | B   |
 | 1.000 | 7   | A   |
@@ -10927,7 +9791,7 @@ Modify all the columns
 | 4.000 | 0   | B   |
 | 1.000 | 0   | A   |
 
-------------------------------------------------------------------------
+-----
 
 Modify several columns (dropping the others)
 
@@ -10940,7 +9804,7 @@ Modify several columns (dropping the others)
 \_unnamed \[9 2\]:
 
 | :V1 | :V2        |
-|-----|------------|
+| --- | ---------- |
 | 1.0 | 0.00000000 |
 | 2.0 | 0.00000000 |
 | 1.0 | 0.00000000 |
@@ -10960,7 +9824,7 @@ Modify several columns (dropping the others)
 \_unnamed \[9 2\]:
 
 | :V1         | :V2           |
-|-------------|---------------|
+| ----------- | ------------- |
 | 2.71828183  | 1.00000000    |
 | 54.59815003 | 1.00000000    |
 | 2.71828183  | 1.00000000    |
@@ -10971,7 +9835,7 @@ Modify several columns (dropping the others)
 | 54.59815003 | 2980.95798704 |
 | 2.71828183  | 8103.08392758 |
 
-------------------------------------------------------------------------
+-----
 
 Modify several columns (keeping the others)
 
@@ -10986,7 +9850,7 @@ DS
 \_unnamed \[9 3\]:
 
 | :V1 | :V2        | :V4 |
-|-----|------------|-----|
+| --- | ---------- | --- |
 | 1.0 | 0.00000000 | A   |
 | 2.0 | 0.00000000 | B   |
 | 1.0 | 0.00000000 | C   |
@@ -11008,7 +9872,7 @@ DS
 \_unnamed \[9 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1.0 | 0.0 | A   |
 | 4.0 | 0.0 | B   |
 | 1.0 | 0.0 | C   |
@@ -11019,7 +9883,7 @@ DS
 | 4.0 | 8.0 | B   |
 | 1.0 | 9.0 | C   |
 
-------------------------------------------------------------------------
+-----
 
 Modify columns using a condition (dropping the others)
 
@@ -11031,19 +9895,19 @@ Modify columns using a condition (dropping the others)
 
 \_unnamed \[9 2\]:
 
-| :V1 | :V2  |
-|-----|------|
-| 0.0 | -1.0 |
-| 3.0 | -1.0 |
-| 0.0 | -1.0 |
-| 3.0 | 3.0  |
-| 0.0 | 4.0  |
-| 3.0 | 5.0  |
-| 0.0 | 6.0  |
-| 3.0 | 7.0  |
-| 0.0 | 8.0  |
+| :V1 | :V2   |
+| --- | ----- |
+| 0.0 | \-1.0 |
+| 3.0 | \-1.0 |
+| 0.0 | \-1.0 |
+| 3.0 | 3.0   |
+| 0.0 | 4.0   |
+| 3.0 | 5.0   |
+| 0.0 | 6.0   |
+| 3.0 | 7.0   |
+| 0.0 | 8.0   |
 
-------------------------------------------------------------------------
+-----
 
 Modify columns using a condition (keeping the others)
 
@@ -11058,7 +9922,7 @@ DS
 \_unnamed \[9 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 0   | A   |
 | 4   | 0   | B   |
 | 1   | 0   | C   |
@@ -11069,7 +9933,7 @@ DS
 | 4   | 8   | B   |
 | 1   | 9   | C   |
 
-------------------------------------------------------------------------
+-----
 
 Use a complex expression
 
@@ -11084,7 +9948,7 @@ Use a complex expression
 \_unnamed \[6 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 4   | X   | B   |
 | 1   | X   | B   |
 | 1   | X   | C   |
@@ -11092,7 +9956,7 @@ Use a complex expression
 | 1   | X   | A   |
 | 4   | X   | A   |
 
-------------------------------------------------------------------------
+-----
 
 Use multiple expressions
 
@@ -11106,63 +9970,27 @@ Use multiple expressions
 
 (1 4 1 4 1 4 1 4 1) \_unnamed: descriptive-stats \[1 9\]:
 
-<table style="width:100%;">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 10%" />
-<col style="width: 9%" />
-<col style="width: 11%" />
-<col style="width: 5%" />
-<col style="width: 11%" />
-<col style="width: 5%" />
-<col style="width: 20%" />
-<col style="width: 11%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>:col-name</th>
-<th>:datatype</th>
-<th>:n-valid</th>
-<th>:n-missing</th>
-<th>:min</th>
-<th>:mean</th>
-<th>:max</th>
-<th>:standard-deviation</th>
-<th>:skew</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>:V1</td>
-<td>:int32</td>
-<td>9</td>
-<td>0</td>
-<td>1.0</td>
-<td>2.33333333</td>
-<td>4.0</td>
-<td>1.58113883</td>
-<td>0.27105237</td>
-</tr>
-</tbody>
-</table>
+| :col-name | :datatype | :n-valid | :n-missing | :min | :mean      | :max | :standard-deviation | :skew      |
+| --------- | --------- | -------- | ---------- | ---- | ---------- | ---- | ------------------- | ---------- |
+| :V1       | :int32    | 9        | 0          | 1.0  | 2.33333333 | 4.0  | 1.58113883          | 0.27105237 |
 
 \_unnamed \[9 2\]:
 
-| :A  | :B   |
-|-----|------|
-| 1   | 39.0 |
-| 2   | 42.0 |
-| 3   | 39.0 |
-| 4   | 42.0 |
-| 5   | 39.0 |
-| 6   | 42.0 |
-| 7   | 39.0 |
-| 8   | 42.0 |
-| 9   | 39.0 |
+| :A | :B   |
+| -- | ---- |
+| 1  | 39.0 |
+| 2  | 42.0 |
+| 3  | 39.0 |
+| 4  | 42.0 |
+| 5  | 39.0 |
+| 6  | 42.0 |
+| 7  | 39.0 |
+| 8  | 42.0 |
+| 9  | 39.0 |
 
 ##### Chain expressions
 
-Expression chaining using &gt;
+Expression chaining using \>
 
 ``` clojure
 (-> DS
@@ -11174,7 +10002,7 @@ Expression chaining using &gt;
 \_unnamed \[3 2\]:
 
 | :V4 | :V1sum |
-|-----|--------|
+| --- | ------ |
 | B   | 9.0    |
 | C   | 6.0    |
 | A   | 6.0    |
@@ -11189,7 +10017,7 @@ Expression chaining using &gt;
 \_unnamed \[3 2\]:
 
 | :V4 | :V1sum |
-|-----|--------|
+| --- | ------ |
 | B   | 9.0    |
 | C   | 6.0    |
 | A   | 6.0    |
@@ -11209,7 +10037,7 @@ DS
 \_unnamed \[9 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 0   | A   |
 | 4   | 4   | A   |
 | 1   | 7   | A   |
@@ -11229,7 +10057,7 @@ Select the matching rows
 \_unnamed \[3 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 0   | A   |
 | 4   | 4   | A   |
 | 1   | 7   | A   |
@@ -11241,7 +10069,7 @@ Select the matching rows
 \_unnamed \[6 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 0   | A   |
 | 4   | 4   | A   |
 | 1   | 7   | A   |
@@ -11249,7 +10077,7 @@ Select the matching rows
 | 4   | 5   | C   |
 | 1   | 9   | C   |
 
-------------------------------------------------------------------------
+-----
 
 Select the first matching row
 
@@ -11262,7 +10090,7 @@ Select the first matching row
 \_unnamed \[1 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 4   | 0   | B   |
 
 ``` clojure
@@ -11274,11 +10102,11 @@ Select the first matching row
 \_unnamed \[2 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 4   | 0   | B   |
 | 1   | 0   | C   |
 
-------------------------------------------------------------------------
+-----
 
 Select the last matching row
 
@@ -11291,10 +10119,10 @@ Select the last matching row
 \_unnamed \[1 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 7   | A   |
 
-------------------------------------------------------------------------
+-----
 
 Nomatch argument
 
@@ -11305,12 +10133,12 @@ Nomatch argument
 \_unnamed \[3 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 0   | A   |
 | 4   | 4   | A   |
 | 1   | 7   | A   |
 
-------------------------------------------------------------------------
+-----
 
 Apply a function on the matching rows
 
@@ -11324,10 +10152,10 @@ Apply a function on the matching rows
 \_unnamed \[1 1\]:
 
 | :V1-sum |
-|---------|
+| ------- |
 | 12.0    |
 
-------------------------------------------------------------------------
+-----
 
 Modify values for matching rows
 
@@ -11344,7 +10172,7 @@ DS
 \_unnamed \[9 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 0   | 0   | A   |
 | 0   | 4   | A   |
 | 0   | 7   | A   |
@@ -11355,7 +10183,7 @@ DS
 | 4   | 5   | C   |
 | 1   | 9   | C   |
 
-------------------------------------------------------------------------
+-----
 
 Use keys in by
 
@@ -11369,11 +10197,11 @@ Use keys in by
 \_unnamed \[2 2\]:
 
 | :V4 | :V1 |
-|-----|-----|
+| --- | --- |
 | C   | 6.0 |
 | A   | 0.0 |
 
-------------------------------------------------------------------------
+-----
 
 Set keys/indices for multiple columns (ordered)
 
@@ -11384,7 +10212,7 @@ Set keys/indices for multiple columns (ordered)
 \_unnamed \[9 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 0   | 0   | A   |
 | 0   | 4   | A   |
 | 0   | 7   | A   |
@@ -11395,7 +10223,7 @@ Set keys/indices for multiple columns (ordered)
 | 1   | 9   | C   |
 | 4   | 5   | C   |
 
-------------------------------------------------------------------------
+-----
 
 Subset using multiple keys/indices
 
@@ -11408,7 +10236,7 @@ Subset using multiple keys/indices
 \_unnamed \[2 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 0   | C   |
 | 1   | 9   | C   |
 
@@ -11421,7 +10249,7 @@ Subset using multiple keys/indices
 \_unnamed \[3 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 1   | 5   | B   |
 | 1   | 0   | C   |
 | 1   | 9   | C   |
@@ -11453,7 +10281,7 @@ DS
 \_unnamed \[9 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 0   | 3   | A   |
 | 0   | 4   | A   |
 | 0   | 7   | A   |
@@ -11464,7 +10292,7 @@ DS
 | 4   | 5   | C   |
 | 1   | 9   | C   |
 
-------------------------------------------------------------------------
+-----
 
 Reorder rows
 
@@ -11479,7 +10307,7 @@ DS
 \_unnamed \[9 3\]:
 
 | :V1 | :V2 | :V4 |
-|-----|-----|-----|
+| --- | --- | --- |
 | 0   | 3   | A   |
 | 0   | 4   | A   |
 | 0   | 7   | A   |
@@ -11490,7 +10318,7 @@ DS
 | 1   | 0   | C   |
 | 1   | 9   | C   |
 
-------------------------------------------------------------------------
+-----
 
 Modify colnames
 
@@ -11504,23 +10332,23 @@ DS
 
 \_unnamed \[9 3\]:
 
-| :V1 | v2  | :V4 |
-|-----|-----|-----|
-| 0   | 3   | A   |
-| 0   | 4   | A   |
-| 0   | 7   | A   |
-| 4   | 0   | B   |
-| 4   | 8   | B   |
-| 1   | 5   | B   |
-| 4   | 5   | C   |
-| 1   | 0   | C   |
-| 1   | 9   | C   |
+| :V1 | v2 | :V4 |
+| --- | -- | --- |
+| 0   | 3  | A   |
+| 0   | 4  | A   |
+| 0   | 7  | A   |
+| 4   | 0  | B   |
+| 4   | 8  | B   |
+| 1   | 5  | B   |
+| 4   | 5  | C   |
+| 1   | 0  | C   |
+| 1   | 9  | C   |
 
 ``` clojure
 (def DS (api/rename-columns DS {"v2" :V2})) ;; revert back
 ```
 
-------------------------------------------------------------------------
+-----
 
 Reorder columns
 
@@ -11535,7 +10363,7 @@ DS
 \_unnamed \[9 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | A   | 0   | 3   |
 | A   | 0   | 4   |
 | A   | 0   | 7   |
@@ -11560,7 +10388,7 @@ Select first/last/… row by group
 \_unnamed \[3 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | A   | 0   | 3   |
 | B   | 4   | 0   |
 | C   | 4   | 5   |
@@ -11575,7 +10403,7 @@ Select first/last/… row by group
 \_unnamed \[6 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | A   | 0   | 3   |
 | A   | 0   | 7   |
 | B   | 4   | 0   |
@@ -11593,7 +10421,7 @@ Select first/last/… row by group
 \_unnamed \[6 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | A   | 0   | 4   |
 | A   | 0   | 7   |
 | B   | 4   | 8   |
@@ -11601,7 +10429,7 @@ Select first/last/… row by group
 | C   | 1   | 0   |
 | C   | 1   | 9   |
 
-------------------------------------------------------------------------
+-----
 
 Select rows using a nested query
 
@@ -11616,7 +10444,7 @@ Select rows using a nested query
 \_unnamed \[3 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | A   | 0   | 3   |
 | B   | 4   | 0   |
 | C   | 1   | 0   |
@@ -11632,7 +10460,7 @@ Add a group counter column
 \_unnamed \[9 4\]:
 
 | :Grp | :V4 | :V1 | :V2 |
-|------|-----|-----|-----|
+| ---- | --- | --- | --- |
 | 0    | A   | 0   | 3   |
 | 0    | A   | 0   | 4   |
 | 0    | A   | 0   | 7   |
@@ -11643,7 +10471,7 @@ Add a group counter column
 | 3    | B   | 4   | 8   |
 | 4    | C   | 4   | 5   |
 
-------------------------------------------------------------------------
+-----
 
 Get row number of first (and last) observation by group
 
@@ -11658,7 +10486,7 @@ Get row number of first (and last) observation by group
 \_unnamed \[9 2\]:
 
 | :V4 | :row-id |
-|-----|---------|
+| --- | ------- |
 | A   | 0       |
 | A   | 1       |
 | A   | 2       |
@@ -11681,7 +10509,7 @@ Get row number of first (and last) observation by group
 \_unnamed \[3 2\]:
 
 | :V4 | :row-id |
-|-----|---------|
+| --- | ------- |
 | A   | 0       |
 | B   | 3       |
 | C   | 6       |
@@ -11698,7 +10526,7 @@ Get row number of first (and last) observation by group
 \_unnamed \[6 2\]:
 
 | :V4 | :row-id |
-|-----|---------|
+| --- | ------- |
 | A   | 0       |
 | A   | 2       |
 | B   | 3       |
@@ -11706,7 +10534,7 @@ Get row number of first (and last) observation by group
 | C   | 6       |
 | C   | 8       |
 
-------------------------------------------------------------------------
+-----
 
 Handle list-columns by group
 
@@ -11719,7 +10547,7 @@ Handle list-columns by group
 \_unnamed \[3 2\]:
 
 | :V4 | :V1       |
-|-----|-----------|
+| --- | --------- |
 | B   | \[4 4 1\] |
 | C   | \[4 1 1\] |
 | A   | \[0 0 0\] |
@@ -11733,12 +10561,12 @@ Handle list-columns by group
 \_unnamed \[3 3\]:
 
 | :name | :group-id | :data             |
-|-------|-----------|-------------------|
+| ----- | --------- | ----------------- |
 | A     | 0         | Group: A \[3 3\]: |
 | B     | 1         | Group: B \[3 3\]: |
 | C     | 2         | Group: C \[3 3\]: |
 
-------------------------------------------------------------------------
+-----
 
 Grouping sets (multiple by at once)
 
@@ -11756,7 +10584,7 @@ Write data to a csv file
 
     nil
 
-------------------------------------------------------------------------
+-----
 
 Write data to a tab-delimited file
 
@@ -11774,7 +10602,7 @@ or
 
     nil
 
-------------------------------------------------------------------------
+-----
 
 Read a csv / tab-delimited file
 
@@ -11785,7 +10613,7 @@ Read a csv / tab-delimited file
 DF.csv \[9 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | A   | 0   | 3   |
 | A   | 0   | 4   |
 | A   | 0   | 7   |
@@ -11803,7 +10631,7 @@ DF.csv \[9 3\]:
 DF.txt \[9 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | A   | 0   | 3   |
 | A   | 0   | 4   |
 | A   | 0   | 7   |
@@ -11821,7 +10649,7 @@ DF.txt \[9 3\]:
 DF.tsv \[9 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | A   | 0   | 3   |
 | A   | 0   | 4   |
 | A   | 0   | 7   |
@@ -11832,7 +10660,7 @@ DF.tsv \[9 3\]:
 | C   | 1   | 0   |
 | C   | 1   | 9   |
 
-------------------------------------------------------------------------
+-----
 
 Read a csv file selecting / droping columns
 
@@ -11844,7 +10672,7 @@ Read a csv file selecting / droping columns
 DF.csv \[9 2\]:
 
 | :V1 | :V4 |
-|-----|-----|
+| --- | --- |
 | 0   | A   |
 | 0   | A   |
 | 0   | A   |
@@ -11863,7 +10691,7 @@ DF.csv \[9 2\]:
 DF.csv \[9 2\]:
 
 | :V1 | :V2 |
-|-----|-----|
+| --- | --- |
 | 0   | 3   |
 | 0   | 4   |
 | 0   | 7   |
@@ -11874,7 +10702,7 @@ DF.csv \[9 2\]:
 | 1   | 0   |
 | 1   | 9   |
 
-------------------------------------------------------------------------
+-----
 
 Read and rbind several files
 
@@ -11884,26 +10712,26 @@ Read and rbind several files
 
 null \[18 3\]:
 
-| V4  | V1  | V2  |
-|-----|-----|-----|
-| A   | 0   | 3   |
-| A   | 0   | 4   |
-| A   | 0   | 7   |
-| B   | 4   | 0   |
-| B   | 4   | 8   |
-| B   | 1   | 5   |
-| C   | 4   | 5   |
-| C   | 1   | 0   |
-| C   | 1   | 9   |
-| A   | 0   | 3   |
-| A   | 0   | 4   |
-| A   | 0   | 7   |
-| B   | 4   | 0   |
-| B   | 4   | 8   |
-| B   | 1   | 5   |
-| C   | 4   | 5   |
-| C   | 1   | 0   |
-| C   | 1   | 9   |
+| V4 | V1 | V2 |
+| -- | -- | -- |
+| A  | 0  | 3  |
+| A  | 0  | 4  |
+| A  | 0  | 7  |
+| B  | 4  | 0  |
+| B  | 4  | 8  |
+| B  | 1  | 5  |
+| C  | 4  | 5  |
+| C  | 1  | 0  |
+| C  | 1  | 9  |
+| A  | 0  | 3  |
+| A  | 0  | 4  |
+| A  | 0  | 7  |
+| B  | 4  | 0  |
+| B  | 4  | 8  |
+| B  | 1  | 5  |
+| C  | 4  | 5  |
+| C  | 1  | 0  |
+| C  | 1  | 9  |
 
 ##### Reshape data
 
@@ -11921,7 +10749,7 @@ mDS
 \_unnamed \[18 3\]:
 
 | :V4 | :variable | :value |
-|-----|-----------|--------|
+| --- | --------- | ------ |
 | A   | :V1       | 0      |
 | A   | :V1       | 0      |
 | A   | :V1       | 0      |
@@ -11941,7 +10769,7 @@ mDS
 | C   | :V2       | 0      |
 | C   | :V2       | 9      |
 
-------------------------------------------------------------------------
+-----
 
 Cast data (from long to wide)
 
@@ -11954,7 +10782,7 @@ Cast data (from long to wide)
 \_unnamed \[3 3\]:
 
 | :V4 | V1        | V2        |
-|-----|-----------|-----------|
+| --- | --------- | --------- |
 | B   | \[4 4 1\] | \[0 8 5\] |
 | A   | \[0 0 0\] | \[3 4 7\] |
 | C   | \[4 1 1\] | \[5 0 9\] |
@@ -11968,7 +10796,7 @@ Cast data (from long to wide)
 \_unnamed \[3 3\]:
 
 | :V4 | V1        | V2        |
-|-----|-----------|-----------|
+| --- | --------- | --------- |
 | B   | \[4 4 1\] | \[0 8 5\] |
 | A   | \[0 0 0\] | \[3 4 7\] |
 | C   | \[4 1 1\] | \[5 0 9\] |
@@ -11983,12 +10811,12 @@ Cast data (from long to wide)
 \_unnamed \[3 3\]:
 
 | :V4 | true | false                   |
-|-----|------|-------------------------|
+| --- | ---- | ----------------------- |
 | C   | :V2  | \[:V1 :V1 :V1 :V2 :V2\] |
 | A   | :V2  | \[:V1 :V1 :V1 :V2 :V2\] |
 | B   | :V2  | \[:V1 :V1 :V1 :V2 :V2\] |
 
-------------------------------------------------------------------------
+-----
 
 Split
 
@@ -11999,7 +10827,7 @@ Split
 {“A” Group: A \[3 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | A   | 0   | 3   |
 | A   | 0   | 4   |
 | A   | 0   | 7   |
@@ -12007,7 +10835,7 @@ Split
 , “B” Group: B \[3 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | B   | 4   | 0   |
 | B   | 4   | 8   |
 | B   | 1   | 5   |
@@ -12015,14 +10843,14 @@ Split
 , “C” Group: C \[3 3\]:
 
 | :V4 | :V1 | :V2 |
-|-----|-----|-----|
+| --- | --- | --- |
 | C   | 4   | 5   |
 | C   | 1   | 0   |
 | C   | 1   | 9   |
 
 }
 
-------------------------------------------------------------------------
+-----
 
 Split and transpose a vector/column
 
@@ -12035,7 +10863,7 @@ Split and transpose a vector/column
 \_unnamed \[3 2\]:
 
 | :V1 | :V2 |
-|-----|-----|
+| --- | --- |
 | A   | a   |
 | B   | b   |
 | C   | c   |
@@ -12061,21 +10889,21 @@ x y
 
 \_unnamed \[4 3\]:
 
-| Id  | X1  | XY  |
-|-----|-----|-----|
-| A   | 1   | x2  |
-| B   | 3   | x4  |
-| C   | 5   | x6  |
-| C   | 7   | x8  |
+| Id | X1 | XY |
+| -- | -- | -- |
+| A  | 1  | x2 |
+| B  | 3  | x4 |
+| C  | 5  | x6 |
+| C  | 7  | x8 |
 
 \_unnamed \[4 3\]:
 
-| Id  | Y1  | XY  |
-|-----|-----|-----|
-| A   | 1   | y1  |
-| B   | 3   | y3  |
-| B   | 5   | y5  |
-| D   | 7   | y7  |
+| Id | Y1 | XY |
+| -- | -- | -- |
+| A  | 1  | y1 |
+| B  | 3  | y3 |
+| B  | 5  | y5 |
+| D  | 7  | y7 |
 
 ##### Join
 
@@ -12087,15 +10915,15 @@ Join matching rows from y to x
 
 left-outer-join \[5 6\]:
 
-| Id  | X1  | XY  | right.Id | Y1  | right.XY |
-|-----|-----|-----|----------|-----|----------|
-| A   | 1   | x2  | A        | 1   | y1       |
-| B   | 3   | x4  | B        | 3   | y3       |
-| B   | 3   | x4  | B        | 5   | y5       |
-| C   | 5   | x6  |          |     |          |
-| C   | 7   | x8  |          |     |          |
+| Id | X1 | XY | right.Id | Y1 | right.XY |
+| -- | -- | -- | -------- | -- | -------- |
+| A  | 1  | x2 | A        | 1  | y1       |
+| B  | 3  | x4 | B        | 3  | y3       |
+| B  | 3  | x4 | B        | 5  | y5       |
+| C  | 5  | x6 |          |    |          |
+| C  | 7  | x8 |          |    |          |
 
-------------------------------------------------------------------------
+-----
 
 Join matching rows from x to y
 
@@ -12105,14 +10933,14 @@ Join matching rows from x to y
 
 right-outer-join \[4 6\]:
 
-| Id  | X1  | XY  | right.Id | Y1  | right.XY |
-|-----|-----|-----|----------|-----|----------|
-| A   | 1   | x2  | A        | 1   | y1       |
-| B   | 3   | x4  | B        | 3   | y3       |
-| B   | 3   | x4  | B        | 5   | y5       |
-|     |     |     | D        | 7   | y7       |
+| Id | X1 | XY | right.Id | Y1 | right.XY |
+| -- | -- | -- | -------- | -- | -------- |
+| A  | 1  | x2 | A        | 1  | y1       |
+| B  | 3  | x4 | B        | 3  | y3       |
+| B  | 3  | x4 | B        | 5  | y5       |
+|    |    |    | D        | 7  | y7       |
 
-------------------------------------------------------------------------
+-----
 
 Join matching rows from both x and y
 
@@ -12122,13 +10950,13 @@ Join matching rows from both x and y
 
 inner-join \[3 5\]:
 
-| Id  | X1  | XY  | Y1  | right.XY |
-|-----|-----|-----|-----|----------|
-| A   | 1   | x2  | 1   | y1       |
-| B   | 3   | x4  | 3   | y3       |
-| B   | 3   | x4  | 5   | y5       |
+| Id | X1 | XY | Y1 | right.XY |
+| -- | -- | -- | -- | -------- |
+| A  | 1  | x2 | 1  | y1       |
+| B  | 3  | x4 | 3  | y3       |
+| B  | 3  | x4 | 5  | y5       |
 
-------------------------------------------------------------------------
+-----
 
 Join keeping all the rows
 
@@ -12138,16 +10966,16 @@ Join keeping all the rows
 
 full-join \[6 6\]:
 
-| Id  | X1  | XY  | right.Id | Y1  | right.XY |
-|-----|-----|-----|----------|-----|----------|
-| A   | 1   | x2  | A        | 1   | y1       |
-| B   | 3   | x4  | B        | 3   | y3       |
-| B   | 3   | x4  | B        | 5   | y5       |
-| C   | 5   | x6  |          |     |          |
-| C   | 7   | x8  |          |     |          |
-|     |     |     | D        | 7   | y7       |
+| Id | X1 | XY | right.Id | Y1 | right.XY |
+| -- | -- | -- | -------- | -- | -------- |
+| A  | 1  | x2 | A        | 1  | y1       |
+| B  | 3  | x4 | B        | 3  | y3       |
+| B  | 3  | x4 | B        | 5  | y5       |
+| C  | 5  | x6 |          |    |          |
+| C  | 7  | x8 |          |    |          |
+|    |    |    | D        | 7  | y7       |
 
-------------------------------------------------------------------------
+-----
 
 Return rows from x matching y
 
@@ -12157,12 +10985,12 @@ Return rows from x matching y
 
 semi-join \[2 3\]:
 
-| Id  | X1  | XY  |
-|-----|-----|-----|
-| A   | 1   | x2  |
-| B   | 3   | x4  |
+| Id | X1 | XY |
+| -- | -- | -- |
+| A  | 1  | x2 |
+| B  | 3  | x4 |
 
-------------------------------------------------------------------------
+-----
 
 Return rows from x not matching y
 
@@ -12172,10 +11000,10 @@ Return rows from x not matching y
 
 anti-join \[2 3\]:
 
-| Id  | X1  | XY  |
-|-----|-----|-----|
-| C   | 5   | x6  |
-| C   | 7   | x8  |
+| Id | X1 | XY |
+| -- | -- | -- |
+| C  | 5  | x6 |
+| C  | 7  | x8 |
 
 ##### More joins
 
@@ -12189,12 +11017,12 @@ Select columns while joining
 
 right-outer-join \[4 4\]:
 
-| Id  | X1  | right.Id | XY  |
-|-----|-----|----------|-----|
-| A   | 1   | A        | y1  |
-| B   | 3   | B        | y3  |
-| B   | 3   | B        | y5  |
-|     |     | D        | y7  |
+| Id | X1 | right.Id | XY |
+| -- | -- | -------- | -- |
+| A  | 1  | A        | y1 |
+| B  | 3  | B        | y3 |
+| B  | 3  | B        | y5 |
+|    |    | D        | y7 |
 
 ``` clojure
 (api/right-join (api/select-columns x ["Id" "XY"])
@@ -12204,12 +11032,12 @@ right-outer-join \[4 4\]:
 
 right-outer-join \[4 4\]:
 
-| Id  | XY  | right.Id | right.XY |
-|-----|-----|----------|----------|
-| A   | x2  | A        | y1       |
-| B   | x4  | B        | y3       |
-| B   | x4  | B        | y5       |
-|     |     | D        | y7       |
+| Id | XY | right.Id | right.XY |
+| -- | -- | -------- | -------- |
+| A  | x2 | A        | y1       |
+| B  | x4 | B        | y3       |
+| B  | x4 | B        | y5       |
+|    |    | D        | y7       |
 
 Aggregate columns while joining
 
@@ -12226,7 +11054,7 @@ Aggregate columns while joining
 right-outer-join \[4 2\]:
 
 | right.Id | X1Y1 |
-|----------|------|
+| -------- | ---- |
 | A        | 1.0  |
 | B        | 24.0 |
 | C        | NaN  |
@@ -12244,14 +11072,14 @@ Update columns while joining
 
 right-outer-join \[4 4\]:
 
-| SqX1 | right.Id | Y1  | XY  |
-|------|----------|-----|-----|
-| 1    | A        | 1   | y1  |
-| 9    | B        | 3   | y3  |
-| 9    | B        | 5   | y5  |
-|      | D        | 7   | y7  |
+| SqX1 | right.Id | Y1 | XY |
+| ---- | -------- | -- | -- |
+| 1    | A        | 1  | y1 |
+| 9    | B        | 3  | y3 |
+| 9    | B        | 5  | y5 |
+|      | D        | 7  | y7 |
 
-------------------------------------------------------------------------
+-----
 
 Adds a list column with rows from y matching x (nest-join)
 
@@ -12263,18 +11091,18 @@ Adds a list column with rows from y matching x (nest-join)
 
 \_unnamed \[4 5\]:
 
-| XY  | X1  | Id  | Y1      | right.XY      |
-|-----|-----|-----|---------|---------------|
-| x4  | 3   | B   | \[3 5\] | \[“y3” “y5”\] |
-| x6  | 5   | C   | \[\]    | \[\]          |
-| x8  | 7   | C   | \[\]    | \[\]          |
-| x2  | 1   | A   | \[1\]   | \[“y1”\]      |
+| XY | X1 | Id | Y1      | right.XY      |
+| -- | -- | -- | ------- | ------------- |
+| x4 | 3  | B  | \[3 5\] | \[“y3” “y5”\] |
+| x6 | 5  | C  | \[\]    | \[\]          |
+| x8 | 7  | C  | \[\]    | \[\]          |
+| x2 | 1  | A  | \[1\]   | \[“y1”\]      |
 
-------------------------------------------------------------------------
+-----
 
 Some joins are skipped
 
-------------------------------------------------------------------------
+-----
 
 Cross join
 
@@ -12290,7 +11118,7 @@ cjds
 \_unnamed \[1 2\]:
 
 | :V1       | :V2     |
-|-----------|---------|
+| --------- | ------- |
 | \[2 1 1\] | \[3 2\] |
 
 ``` clojure
@@ -12300,7 +11128,7 @@ cjds
 \_unnamed \[6 2\]:
 
 | :V1 | :V2 |
-|-----|-----|
+| --- | --- |
 | 2   | 3   |
 | 2   | 2   |
 | 1   | 3   |
@@ -12316,7 +11144,7 @@ cjds
 \_unnamed \[4 2\]:
 
 | :V1 | :V2 |
-|-----|-----|
+| --- | --- |
 | 2   | 3   |
 | 2   | 2   |
 | 1   | 3   |
@@ -12338,7 +11166,7 @@ x y z
 \_unnamed \[3 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 3   |
@@ -12346,7 +11174,7 @@ x y z
 \_unnamed \[3 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 4   |
 | 5   |
 | 6   |
@@ -12354,12 +11182,12 @@ x y z
 \_unnamed \[3 2\]:
 
 | :V1 | :V2 |
-|-----|-----|
+| --- | --- |
 | 7   | 0   |
 | 8   | 0   |
 | 9   | 0   |
 
-------------------------------------------------------------------------
+-----
 
 Bind rows
 
@@ -12370,7 +11198,7 @@ Bind rows
 null \[6 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 3   |
@@ -12385,7 +11213,7 @@ null \[6 1\]:
 null \[6 2\]:
 
 | :V1 | :V2 |
-|-----|-----|
+| --- | --- |
 | 1   |     |
 | 2   |     |
 | 3   |     |
@@ -12393,7 +11221,7 @@ null \[6 2\]:
 | 8   | 0   |
 | 9   | 0   |
 
-------------------------------------------------------------------------
+-----
 
 Bind rows using a list
 
@@ -12406,7 +11234,7 @@ Bind rows using a list
 null \[6 2\]:
 
 | :V1 | :id |
-|-----|-----|
+| --- | --- |
 | 1   | 0   |
 | 2   | 0   |
 | 3   | 0   |
@@ -12414,7 +11242,7 @@ null \[6 2\]:
 | 5   | 1   |
 | 6   | 1   |
 
-------------------------------------------------------------------------
+-----
 
 Bind columns
 
@@ -12425,7 +11253,7 @@ Bind columns
 \_unnamed \[3 2\]:
 
 | :V1 | :V1 |
-|-----|-----|
+| --- | --- |
 | 1   | 4   |
 | 2   | 5   |
 | 3   | 6   |
@@ -12444,7 +11272,7 @@ x y
 \_unnamed \[5 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 2   |
@@ -12454,14 +11282,14 @@ x y
 \_unnamed \[5 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 2   |
 | 2   |
 | 3   |
 | 4   |
 | 4   |
 
-------------------------------------------------------------------------
+-----
 
 Intersection
 
@@ -12472,11 +11300,11 @@ Intersection
 intersection \[2 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 2   |
 | 3   |
 
-------------------------------------------------------------------------
+-----
 
 Difference
 
@@ -12487,10 +11315,10 @@ Difference
 difference \[1 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 1   |
 
-------------------------------------------------------------------------
+-----
 
 Union
 
@@ -12501,7 +11329,7 @@ Union
 union \[4 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 3   |
@@ -12514,7 +11342,7 @@ union \[4 1\]:
 null \[10 1\]:
 
 | :V1 |
-|-----|
+| --- |
 | 1   |
 | 2   |
 | 2   |
@@ -12526,6 +11354,6 @@ null \[10 1\]:
 | 4   |
 | 4   |
 
-------------------------------------------------------------------------
+-----
 
 Equality not implemented

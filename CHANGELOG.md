@@ -1,5 +1,23 @@
 # Change Log
 
+## [4.04]
+
+`tech.ml.dataset` version 4.04
+
+### Added
+
+* tests: dataset
+
+### Changed
+
+* version number to match t.m.dataset version
+* documentation:
+    - gfm renderer for markdown
+    
+### Fixed
+
+* code block language alignment fix in css
+
 ## [1.0.0-pre-alpha9]
 
 `tech.ml.dataset` version 4.03

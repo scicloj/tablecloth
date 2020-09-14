@@ -12,3 +12,9 @@ pom.xml.asc
 .lein-failures
 .nrepl-port
 .cpcache/
+*.csv*
+*.tsv*
+*.nippy*
+*.log
+.R*
+*.txt*
