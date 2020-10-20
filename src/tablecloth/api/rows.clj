@@ -1,12 +1,12 @@
 (ns tablecloth.api.rows
   (:refer-clojure :exclude [shuffle rand-nth first last])
-  (:require [tech.ml.dataset :as ds]
+  (:require [tech.v3.dataset :as ds]
 
             [tablecloth.api.utils :refer [iterable-sequence? rank column-names]]
             [tablecloth.api.dataset :refer [rows]]
             [tablecloth.api.columns :refer [add-or-replace-columns select-columns]]
             [tablecloth.api.group-by :refer [grouped? process-group-data]]
-            [tech.v2.datatype.functional :as dfn]))
+            [tech.v3.datatype.argops :as aop]))
 
 (defn- find-indexes-from-seq
   "Find row indexes based on true/false values or indexes"
@@ -15,7 +15,7 @@
     rows-selector
     (->> rows-selector
          (take (ds/row-count ds))
-         (dfn/argfilter identity))))
+         (aop/argfilter identity))))
 
 (defn- find-indexes-from-fn
   "Filter rows"
@@ -23,7 +23,7 @@
   (->> (or selected-keys :all)
        (ds/select-columns ds)
        (ds/mapseq-reader)
-       (dfn/argfilter rows-selector)))
+       (aop/argfilter rows-selector)))
 
 (defn- find-indexes
   ([ds rows-selector] (find-indexes ds rows-selector nil))

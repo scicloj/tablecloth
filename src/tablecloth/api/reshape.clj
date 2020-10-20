@@ -1,8 +1,9 @@
 (ns tablecloth.api.reshape
   (:refer-clojure :exclude [group-by])
-  (:require [tech.ml.dataset :as ds]
-            [tech.ml.dataset.column :as col]
-            [tech.v2.datatype :as dtype]
+  (:require [tech.v3.dataset :as ds]
+            [tech.v3.dataset.join :as j]
+            [tech.v3.dataset.column :as col]
+            [tech.v3.datatype :as dtype]
             [clojure.string :as str]
             [clojure.set :refer [difference]]
 
@@ -72,9 +73,9 @@
   (let [new-cols (map (fn [[col-name maybe-column]]
                         (cond
                           (col/is-column? maybe-column) (col/set-name maybe-column col-name)
-                          (nil? maybe-column) (col/new-column col-name (dtype/const-reader maybe-column cnt {:datatype :object}) nil (range cnt))
+                          (nil? maybe-column) (col/new-column col-name (dtype/const-reader maybe-column cnt) nil (range cnt))
                           :else (let [v (maybe-number maybe-column)]
-                                  (col/new-column col-name (dtype/const-reader v cnt {:datatype (dtype/get-datatype v)}))))) m)]
+                                  (col/new-column col-name (dtype/const-reader v cnt))))) m)]
     (ds/append-columns ds new-cols)))
 
 (defn pivot->longer
@@ -91,10 +92,10 @@
          cols-to-add (keys (clojure.core/first groups))
          ds-template (drop-columns ds cols)
          cnt (ds/row-count ds)]
-     (as-> (ds/set-metadata (->> groups                                        
-                                 (map (partial pre-longer->target-columns ds-template cnt))
-                                 (apply ds/concat))
-                            (ds/metadata ds)) final-ds
+     (as-> (with-meta (->> groups                                        
+                           (map (partial pre-longer->target-columns ds-template cnt))
+                           (apply ds/concat))
+             (meta ds)) final-ds
        (cond-> final-ds
          drop-missing? (drop-missing cols-to-add)
          datatypes (convert-types datatypes)
@@ -110,7 +111,7 @@
 
 (defn- perform-join
   [join-ds curr-ds join-name]
-  (ds/left-join join-name curr-ds join-ds))
+  (j/left-join join-name curr-ds join-ds))
 
 (defn- process-column-name
   [concat-columns-with names]
@@ -156,30 +157,30 @@
               data))
         data))))
 
-(let [ds (ds/->dataset {:key ["x" "y" "z"]
-                        :val [1 2 3]})
-      columns-selector :key
-      value-columns :val
-      concat-columns-with "_" concat-value-with "-" drop-missing? true
-      col-names (column-names ds columns-selector) ;; columns to be unrolled
-      value-names (column-names ds value-columns) ;; columns to be used as values
-      single-value? (= (count value-names) 1) ;; maybe this is one column? (different name creation rely on this)
-      rest-cols (->> (clojure.core/concat col-names value-names)
-                     (set)
-                     (partial contains?)
-                     (complement)
-                     (column-names ds))
-      join-on-single? (= (count rest-cols) 1) ;; mayve this is one column? (different join column creation)
-      join-name (if join-on-single?
-                  (clojure.core/first rest-cols)
-                  "aaa") ;; generate join column name
+#_(let [ds (ds/->dataset {:key ["x" "y" "z"]
+                          :val [1 2 3]})
+        columns-selector :key
+        value-columns :val
+        concat-columns-with "_" concat-value-with "-" drop-missing? true
+        col-names (column-names ds columns-selector) ;; columns to be unrolled
+        value-names (column-names ds value-columns) ;; columns to be used as values
+        single-value? (= (count value-names) 1) ;; maybe this is one column? (different name creation rely on this)
+        rest-cols (->> (clojure.core/concat col-names value-names)
+                       (set)
+                       (partial contains?)
+                       (complement)
+                       (column-names ds))
+        join-on-single? (= (count rest-cols) 1) ;; mayve this is one column? (different join column creation)
+        join-name (if join-on-single?
+                    (clojure.core/first rest-cols)
+                    "aaa") ;; generate join column name
 
-      pre-ds (if join-on-single?
-               ds
-               (join-columns ds join-name rest-cols {:result-type :seq
-                                                     :drop-columns? true}))]
-  [col-names value-names single-value? rest-cols join-on-single? join-name pre-ds]
-  ((select-columns pre-ds join-name) join-name))
+        pre-ds (if join-on-single?
+                 ds
+                 (join-columns ds join-name rest-cols {:result-type :seq
+                                                       :drop-columns? true}))]
+    [col-names value-names single-value? rest-cols join-on-single? join-name pre-ds]
+    ((select-columns pre-ds join-name) join-name))
 
 (defn pivot->wider
   ([ds columns-selector value-columns] (pivot->wider ds columns-selector value-columns nil))

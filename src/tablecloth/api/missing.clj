@@ -1,5 +1,6 @@
 (ns tablecloth.api.missing
-  (:require [tech.ml.dataset :as ds]
+  (:require [tech.v3.dataset :as ds]
+            [tech.v3.dataset.math :as dm]
             
             [tablecloth.api.utils :refer [column-names]]
             [tablecloth.api.columns :refer [select-columns]]
@@ -48,6 +49,6 @@
   ([ds colname max-span missing-strategy missing-value]
    (if (grouped? ds)
      (process-group-data ds #(fill-range-replace % colname max-span missing-strategy missing-value))
-     (ds/fill-range-replace ds colname max-span missing-strategy missing-value))))
+     (dm/fill-range-replace ds colname max-span missing-strategy missing-value))))
 
 

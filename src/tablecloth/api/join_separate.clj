@@ -1,5 +1,5 @@
 (ns tablecloth.api.join-separate
-  (:require [tech.ml.dataset :as ds]
+  (:require [tech.v3.dataset :as ds]
             [clojure.string :as str]
 
             [tablecloth.api.utils :refer [iterable-sequence? column-names]]
@@ -54,7 +54,7 @@
                      curr
                      (conj curr colname (map #(replace-missing (nth % idx)) res)))) [])
          (apply array-map)
-         (ds/name-values-seq->dataset)
+         (ds/->dataset)
          (ds/columns))))
 
 

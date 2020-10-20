@@ -1,8 +1,8 @@
 (ns tablecloth.api.utils-test
   (:require [tablecloth.api :as api]
             [tablecloth.api.utils :as sut]
-            [tech.ml.dataset :as ds]
-            [tech.v2.datatype.readers.const :as const-rdr]
+            [tech.v3.dataset :as ds]
+            [tech.v3.datatype :as dtype]
             [clojure.string :as str]
             [clojure.test :refer [deftest is are]]))
 
@@ -19,7 +19,7 @@
     [] '() #{}
     (ds "country")
     (java.util.ArrayList.)
-    (const-rdr/make-const-reader 3 :int64 5))
+    (dtype/const-reader 3 5))
   (are [x] (not (sut/iterable-sequence? x))
     nil {}))
 

@@ -1,5 +1,5 @@
 (ns tablecloth.api.utils
-  (:require [tech.ml.dataset :as ds]
+  (:require [tech.v3.dataset :as ds]
             [tech.io :as tio]))
 
 ;;;;;;;;;;;;

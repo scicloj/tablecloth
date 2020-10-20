@@ -1,11 +1,11 @@
 (ns tablecloth.api.group-by
-  (:require [tech.ml.dataset :as ds]
-            [tech.ml.dataset.column :as col]
-            [tech.v2.datatype :as dtype]
+  (:refer-clojure :exclude [group-by])
+  (:require [tech.v3.dataset :as ds]
+            [tech.v3.dataset.column :as col]
+            [tech.v3.datatype :as dtype]
             
             [tablecloth.api.utils :refer [iterable-sequence? ->str column-names parallel-concat]]
-            [tablecloth.api.dataset :refer [dataset]])
-  (:refer-clojure :exclude [group-by]))
+            [tablecloth.api.dataset :refer [dataset]]))
 
 (defn grouped?
   "Is `dataset` represents grouped dataset (result of `group-by`)?"
@@ -31,9 +31,9 @@
   [ds grouping-selector selected-keys]
   (cond
     (map? grouping-selector) grouping-selector
-    (iterable-sequence? grouping-selector) (ds/group-by->indexes identity grouping-selector ds)
-    (fn? grouping-selector) (ds/group-by->indexes grouping-selector selected-keys ds)
-    :else (ds/group-by-column->indexes grouping-selector ds)))
+    (iterable-sequence? grouping-selector) (ds/group-by->indexes ds identity grouping-selector)
+    (fn? grouping-selector) (ds/group-by->indexes ds grouping-selector selected-keys)
+    :else (ds/group-by-column->indexes ds grouping-selector)))
 
 (defn- subdataset
   [ds id k idxs]
@@ -159,7 +159,7 @@
   "Convert group id to as seq of columns"
   [add-group-id-as-column count group-id]
   (when add-group-id-as-column
-    [(col/new-column (maybe-name add-group-id-as-column :$group-id) (dtype/const-reader group-id count {:datatype :int64}))]))
+    [(col/new-column (maybe-name add-group-id-as-column :$group-id) (dtype/const-reader group-id count))]))
 
 (defn- prepare-ds-for-ungrouping
   "Add optional group name and/or group-id as columns to a result of ungrouping."

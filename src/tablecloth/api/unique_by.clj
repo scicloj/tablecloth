@@ -1,14 +1,14 @@
 (ns tablecloth.api.unique-by
-  (:require [tech.ml.dataset :as ds]
-            [tech.v2.datatype.protocols :as dtype-proto]
+  (:require [tech.v3.dataset :as ds]
+            [tech.v3.datatype.protocols :as dtype-proto]
             
             [tablecloth.api.utils :refer [iterable-sequence? column-names]]
             [tablecloth.api.dataset :refer [dataset]]
             [tablecloth.api.columns :refer [select-columns]]
             [tablecloth.api.group-by :refer [grouped? process-group-data ungroup]]
-            [tech.ml.dataset.column :as col]
-            [tech.v2.datatype :as dtype]
-            [tech.v2.datatype.bitmap :as bitmap]))
+            [tech.v3.dataset.column :as col]
+            [tech.v3.datatype :as dtype]
+            [tech.v3.datatype.bitmap :as bitmap]))
 
 (defn- strategy-first [_ idxs] (clojure.core/first idxs))
 (defn- strategy-last [_ idxs] (clojure.core/last idxs))

@@ -1,8 +1,8 @@
 (ns tablecloth.api.dataset
-  (:require [tech.ml.dataset :as ds]
-            [tech.ml.dataset.column :as col]
-            [tech.ml.protocols.dataset :as prot]
-            [tech.ml.dataset.parse.name-values-seq :as nvs]
+  (:require [tech.v3.dataset :as ds]
+            [tech.v3.dataset.column :as col]
+            [tech.v3.protocols.dataset :as prot]
+            [tech.v3.dataset.print :as p]
             
             [tablecloth.api.utils :refer [iterable-sequence?]]))
 
@@ -45,7 +45,7 @@
           :as options}]
    (cond
      (dataset? data) data
-     (map? data) (nvs/parse-nvs (fix-map-dataset data) options)
+     (map? data) (ds/->dataset (fix-map-dataset data) options)
      (and (iterable-sequence? data)
           (every? iterable-sequence? data)
           (every? #(= 2 (count %)) data)) (dataset (apply array-map (mapcat identity data)) options)
@@ -99,5 +99,5 @@
      (ds/value-reader ds))))
 
 (defn print-dataset
-  ([ds] (println (ds/dataset->str ds)))
-  ([ds options] (println (ds/dataset->str ds options))))
+  ([ds] (println (p/dataset->str ds)))
+  ([ds options] (println (p/dataset->str ds options))))

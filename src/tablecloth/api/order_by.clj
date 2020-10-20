@@ -1,5 +1,5 @@
 (ns tablecloth.api.order-by
-  (:require [tech.ml.dataset :as ds]
+  (:require [tech.v3.dataset :as ds]
             
             [tablecloth.api.utils :refer [iterable-sequence? column-names]]
             [tablecloth.api.group-by :refer [grouped? process-group-data]]))

@@ -1,7 +1,7 @@
 (ns tablecloth.api.reshape-test
   (:require [tablecloth.api :as api]
             [clojure.test :refer [deftest is are]]
-            [tech.v2.datatype.functional :as dfn]
+            [tech.v3.datatype.functional :as dfn]
             [clojure.string :refer [starts-with?]]))
 
 ;; tidyr tests

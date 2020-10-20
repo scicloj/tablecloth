@@ -2,7 +2,7 @@
   (:require [tablecloth.common-test :refer [approx]]
             [tablecloth.api :as api]
             [clojure.test :refer [deftest is are]]
-            [tech.v2.datatype.functional :as dfn]))
+            [tech.v3.datatype.functional :as dfn]))
 
 (deftest empty-missing
   (let [empty-col (api/dataset {:a [nil nil]})]
@@ -11,6 +11,8 @@
     (is (= 2 (-> empty-col api/replace-missing api/select-missing api/row-count)))
     (is (= 0 (-> empty-col (api/replace-missing :a :value 0) api/select-missing api/row-count)))
     (is (= 2 (-> empty-col (api/replace-missing :a :value dfn/mean) api/select-missing api/row-count)))))
+
+(-> (api/dataset [{:a nil} {:a nil}]) api/select-missing)
 
 (def ds (api/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
                       :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
@@ -76,7 +78,7 @@
 (deftest strategy-value
   (are [xs cmd col] (= xs (-> ds cmd (api/column col) seq))
     [0.0 0.0 0.0 1.0 2.0 0.0 0.0 0.0 0.0 0.0 4.0 0.0 11.0 0.0 0.0]
-    (api/replace-missing :a :value 0) :a
+    (api/replace-missing :a :value 0.0) :a
     [4.5 4.5 4.5 1.0 2.0 4.5 4.5 4.5 4.5 4.5 4.0 4.5 11.0 4.5 4.5]
     (api/replace-missing :a :value dfn/mean) :a
     [-10.0 -20.0 -10.0 1.0 2.0 -20.0 -10.0 -20.0 -10.0 -20.0 4.0 -10.0 11.0 -20.0 -10.0]

@@ -1,7 +1,8 @@
 (ns tablecloth.api.join-concat-ds
   (:refer-clojure :exclude [concat])
-  (:require [tech.ml.dataset :as ds]
-            [tech.ml.dataset.column :as col]
+  (:require [tech.v3.dataset :as ds]
+            [tech.v3.dataset.join :as j]
+            [tech.v3.dataset.column :as col]
 
             [clojure.set :as s]
             
@@ -39,9 +40,9 @@
                  (~impl (first cols#) ~'ds-left ~'ds-right opts#)
                  (multi-join ~'ds-left ~'ds-right ~impl cols# opts#))))))))
 
-(make-join-fns [[left-join ds/left-join]
-                [right-join ds/right-join]
-                [inner-join ds/inner-join]])
+(make-join-fns [[left-join j/left-join]
+                [right-join j/right-join]
+                [inner-join j/inner-join]])
 
 
 (defn full-join
@@ -76,7 +77,7 @@
 (defn asof-join
   ([ds-left ds-right colname] (asof-join ds-left ds-right colname nil))
   ([ds-left ds-right colname options]
-   (ds/left-join-asof colname ds-left ds-right options)))
+   (j/left-join-asof colname ds-left ds-right options)))
 
 ;; set operations
 

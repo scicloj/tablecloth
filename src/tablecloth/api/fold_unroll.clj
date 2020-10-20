@@ -1,5 +1,5 @@
 (ns tablecloth.api.fold-unroll
-  (:require [tech.ml.dataset :as ds]
+  (:require [tech.v3.dataset :as ds]
 
             [tablecloth.api.unique-by :refer [unique-by]]
             [tablecloth.api.columns :refer [select-columns reorder-columns]]

@@ -1,8 +1,8 @@
 (ns tablecloth.api.columns
   (:refer-clojure :exclude [group-by])
-  (:require [tech.ml.dataset :as ds]
-            [tech.ml.dataset.column :as col]
-            [tech.v2.datatype :as dtype]
+  (:require [tech.v3.dataset :as ds]
+            [tech.v3.dataset.column :as col]
+            [tech.v3.datatype :as dtype]
 
             [tablecloth.api.utils :refer [column-names iterable-sequence?]]
             [tablecloth.api.dataset :refer [dataset]]
@@ -148,12 +148,12 @@
        (process-group-data #(process-update-columns % lst))
        (process-update-columns ds lst)))))
 
-(defn map-columns
-  ([ds column-name map-fn] (map-columns ds column-name column-name map-fn))
-  ([ds column-name columns-selector map-fn]
-   (if (grouped? ds)
-     (process-group-data ds #(map-columns % column-name columns-selector map-fn))
-     (apply ds/column-map ds column-name map-fn (column-names ds columns-selector)))))
+#_(defn map-columns
+    ([ds column-name map-fn] (map-columns ds column-name column-name map-fn))
+    ([ds column-name columns-selector map-fn]
+     (if (grouped? ds)
+       (process-group-data ds #(map-columns % column-name columns-selector map-fn))
+       (apply ds/column-map ds column-name map-fn (column-names ds columns-selector)))))
 
 (defn reorder-columns
   "Reorder columns using column selector(s). When column names are incomplete, the missing will be attached at the end."
@@ -213,5 +213,5 @@
      (map  #(->array % colname datatype) (ds :data))
      (let [c (ds colname)]
        (if (and datatype (not= datatype (dtype/get-datatype c)))
-         (dtype/make-array-of-type datatype c)
+         (dtype/->array datatype c)
          (dtype/->array-copy c))))))
