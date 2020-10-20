@@ -1,12 +1,12 @@
 (ns tablecloth.api.rows
   (:refer-clojure :exclude [shuffle rand-nth first last])
   (:require [tech.v3.dataset :as ds]
+            [tech.v3.datatype.argops :as aop]
 
             [tablecloth.api.utils :refer [iterable-sequence? rank column-names]]
             [tablecloth.api.dataset :refer [rows]]
             [tablecloth.api.columns :refer [add-or-replace-columns select-columns]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data]]
-            [tech.v3.datatype.argops :as aop]))
+            [tablecloth.api.group-by :refer [grouped? process-group-data]]))
 
 (defn- find-indexes-from-seq
   "Find row indexes based on true/false values or indexes"
@@ -71,15 +71,15 @@
   ([ds] (head ds 5))
   ([ds n]
    (if (grouped? ds)
-     (process-group-data ds (partial ds/head n))
-     (ds/head n ds))))
+     (process-group-data ds #(ds/head % n))
+     (ds/head ds n))))
 
 (defn tail
   ([ds] (tail ds 5))
   ([ds n]
    (if (grouped? ds)
-     (process-group-data ds (partial ds/tail n))
-     (ds/tail n ds))))
+     (process-group-data ds #(ds/tail % n))
+     (ds/tail ds n))))
 
 (defn- shuffle-seq
   [seq rng]

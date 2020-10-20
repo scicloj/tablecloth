@@ -60,8 +60,8 @@ examples](https://scicloj.github.io/tablecloth/index.html)
     (api/dataset {:key-fn keyword})
     (api/group-by (fn [row]
                     {:symbol (:symbol row)
-                     :year (tech.v2.datatype.datetime.operations/get-years (:date row))}))
-    (api/aggregate #(tech.v2.datatype.functional/mean (% :price)))
+                     :year (tech.v3.datatype.datetime/long-temporal-field :years (:date row))}))
+    (api/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (api/order-by [:symbol :year])
     (api/head 10))
 ```
@@ -83,8 +83,8 @@ examples](https://scicloj.github.io/tablecloth/index.html)
 
 ## TODO
 
-  - tests
-  - dataset manipulation (`tech.v2.datatype.functional`) functions
+- tests
+- dataset manipulation (`tech.v2.datatype.functional`) functions
 
 ## Licence
 

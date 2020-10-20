@@ -360,7 +360,7 @@ ds
 #### Saving
 
 Export dataset to a file or output stream can be done by calling
-`api/write-csv!`. Function accepts:
+`api/write!`. Function accepts:
 
   - dataset
   - file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and
@@ -371,7 +371,7 @@ Export dataset to a file or output stream can be done by calling
 <!-- end list -->
 
 ``` clojure
-(api/write-csv! ds "output.tsv.gz")
+(api/write! ds "output.tsv.gz")
 (.exists (clojure.java.io/file "output.tsv.gz"))
 ```
 
@@ -463,7 +463,7 @@ descriptive-stats \[6 10\]:
 
 | :col-name     | :datatype          | :n-valid | :n-missing | :min       | :mean      | :mode | :max       | :standard-deviation | :skew            |
 | ------------- | ------------------ | -------- | ---------- | ---------- | ---------- | ----- | ---------- | ------------------- | ---------------- |
-| date          | :packed-local-date | 1461     | 0          | 2012-01-01 | 2013-12-31 |       | 2015-12-31 | 3.64520463E+10      | 1.98971418E-17   |
+| date          | :packed-local-date | 1461     | 0          | 2012-01-01 | 2013-12-31 |       | 2015-12-31 | 3.64520463E+10      | 1.30606880E-15   |
 | precipitation | :float64           | 1461     | 0          | 0.000      | 3.029      |       | 55.90      | 6.68019432E+00      | 3.50564372E+00   |
 | temp\_max     | :float64           | 1461     | 0          | \-1.600    | 16.44      |       | 35.60      | 7.34975810E+00      | 2.80929992E-01   |
 | temp\_min     | :float64           | 1461     | 0          | \-7.100    | 8.235      |       | 18.30      | 5.02300418E+00      | \-2.49458552E-01 |
@@ -480,14 +480,14 @@ descriptive-stats \[6 10\]:
 <https://vega.github.io/vega-lite/examples/data/seattle-weather.csv>
 :column info \[6 4\]:
 
-| :name         | :size | :datatype          | :categorical? |
-| ------------- | ----- | ------------------ | ------------- |
-| date          | 1461  | :packed-local-date |               |
-| precipitation | 1461  | :float64           |               |
-| temp\_max     | 1461  | :float64           |               |
-| temp\_min     | 1461  | :float64           |               |
-| wind          | 1461  | :float64           |               |
-| weather       | 1461  | :string            | true          |
+| :name         | :datatype          | :n-elems | :categorical? |
+| ------------- | ------------------ | -------- | ------------- |
+| date          | :packed-local-date | 1461     |               |
+| precipitation | :float64           | 1461     |               |
+| temp\_max     | :float64           | 1461     |               |
+| temp\_min     | :float64           | 1461     |               |
+| wind          | :float64           | 1461     |               |
+| weather       | :string            | 1461     | true          |
 
 -----
 
@@ -526,10 +526,10 @@ Select column.
 (api/column ds "date")
 ```
 
-    #tech.ml.dataset.column<float64>[1461]
+    #tech.v3.dataset.column<float64>[1461]
     wind
     [4.700, 4.500, 2.300, 4.700, 6.100, 2.200, 2.300, 2.000, 3.400, 3.400, 5.100, 1.900, 1.300, 5.300, 3.200, 5.000, 5.600, 5.000, 1.600, 2.300, ...]
-    #tech.ml.dataset.column<packed-local-date>[1461]
+    #tech.v3.dataset.column<packed-local-date>[1461]
     date
     [2012-01-01, 2012-01-02, 2012-01-03, 2012-01-04, 2012-01-05, 2012-01-06, 2012-01-07, 2012-01-08, 2012-01-09, 2012-01-10, 2012-01-11, 2012-01-12, 2012-01-13, 2012-01-14, 2012-01-15, 2012-01-16, 2012-01-17, 2012-01-18, 2012-01-19, 2012-01-20, ...]
 
@@ -541,9 +541,9 @@ Columns as sequence
 (take 2 (api/columns ds))
 ```
 
-    (#tech.ml.dataset.column<packed-local-date>[1461]
+    (#tech.v3.dataset.column<packed-local-date>[1461]
     date
-    [2012-01-01, 2012-01-02, 2012-01-03, 2012-01-04, 2012-01-05, 2012-01-06, 2012-01-07, 2012-01-08, 2012-01-09, 2012-01-10, 2012-01-11, 2012-01-12, 2012-01-13, 2012-01-14, 2012-01-15, 2012-01-16, 2012-01-17, 2012-01-18, 2012-01-19, 2012-01-20, ...] #tech.ml.dataset.column<float64>[1461]
+    [2012-01-01, 2012-01-02, 2012-01-03, 2012-01-04, 2012-01-05, 2012-01-06, 2012-01-07, 2012-01-08, 2012-01-09, 2012-01-10, 2012-01-11, 2012-01-12, 2012-01-13, 2012-01-14, 2012-01-15, 2012-01-16, 2012-01-17, 2012-01-18, 2012-01-19, 2012-01-20, ...] #tech.v3.dataset.column<float64>[1461]
     precipitation
     [0.000, 10.90, 0.8000, 20.30, 1.300, 2.500, 0.000, 0.000, 4.300, 1.000, 0.000, 0.000, 0.000, 4.100, 5.300, 2.500, 8.100, 19.80, 15.20, 13.50, ...])
 
@@ -565,7 +565,7 @@ Rows as sequence of sequences
 (take 2 (api/rows ds))
 ```
 
-    ([#object[java.time.LocalDate 0x46e1a983 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x4a6b2716 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
+    ([#object[java.time.LocalDate 0x55675e79 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x8294dea "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
 
 -----
 
@@ -575,13 +575,13 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (api/rows ds :as-maps)))
 ```
 
-    ({"date" #object[java.time.LocalDate 0x3904276c "2012-01-01"],
+    ({"date" #object[java.time.LocalDate 0x52d5174a "2012-01-01"],
       "precipitation" 0.0,
       "temp_min" 5.0,
       "weather" "drizzle",
       "temp_max" 12.8,
       "wind" 4.7}
-     {"date" #object[java.time.LocalDate 0x4e1341b7 "2012-01-02"],
+     {"date" #object[java.time.LocalDate 0x57239019 "2012-01-02"],
       "precipitation" 10.9,
       "temp_min" 2.8,
       "weather" "rain",
@@ -727,11 +727,11 @@ Content of the grouped dataset
 (api/columns (api/group-by DS :V1) :as-map)
 ```
 
-    {:name #tech.ml.dataset.column<int64>[2]
+    {:name #tech.v3.dataset.column<int64>[2]
     :name
-    [1, 2, ], :group-id #tech.ml.dataset.column<int64>[2]
+    [1, 2, ], :group-id #tech.v3.dataset.column<int64>[2]
     :group-id
-    [0, 1, ], :data #tech.ml.dataset.column<dataset>[2]
+    [0, 1, ], :data #tech.v3.dataset.column<dataset>[2]
     :data
     [Group: 1 [5 4]:
     
@@ -795,7 +795,9 @@ Group dataset as map of indexes (row ids)
 (api/group-by DS :V1 {:result-type :as-indexes})
 ```
 
-    {1 [0 2 4 6 8], 2 [1 3 5 7]}
+    {1 #list<int32>[5]
+    [0, 2, 4, 6, 8, ], 2 #list<int32>[4]
+    [1, 3, 5, 7, ]}
 
 -----
 
@@ -1602,7 +1604,7 @@ precision columns.
 or
 
 ``` clojure
-(api/column-names DS :type/float64 :datatype)
+(api/column-names DS :type/float64)
 ```
 
     (:V3)
@@ -1648,6 +1650,26 @@ Select only float64 columns
 
 ``` clojure
 (api/select-columns DS #(= :float64 %) :datatype)
+```
+
+\_unnamed \[9 1\]:
+
+| :V3 |
+| --- |
+| 0.5 |
+| 1.0 |
+| 1.5 |
+| 0.5 |
+| 1.0 |
+| 1.5 |
+| 0.5 |
+| 1.0 |
+| 1.5 |
+
+or
+
+``` clojure
+(api/select-columns DS :type/float64)
 ```
 
 \_unnamed \[9 1\]:
@@ -1745,6 +1767,26 @@ Drop float64 columns
 | 2   | 8   | B   |
 | 1   | 9   | C   |
 
+or
+
+``` clojure
+(api/drop-columns DS :type/float64)
+```
+
+\_unnamed \[9 3\]:
+
+| :V1 | :V2 | :V4 |
+| --- | --- | --- |
+| 1   | 1   | A   |
+| 2   | 2   | B   |
+| 1   | 3   | C   |
+| 2   | 4   | A   |
+| 1   | 5   | B   |
+| 2   | 6   | C   |
+| 1   | 7   | A   |
+| 2   | 8   | B   |
+| 1   | 9   | C   |
+
 -----
 
 Drop all columns but `:V1` and `:V2`
@@ -1816,7 +1858,7 @@ You can also pass mapping function with optional columns-selector
 
 \_unnamed \[9 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@5d8c0443> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@1f548007> |
 | -- | -- | --------- | --------------------------- |
 | 1  | 1  | 0.5       | A                           |
 | 2  | 2  | 1.0       | B                           |
@@ -1888,7 +1930,7 @@ Function works on grouped dataset
 
 {1 Group: 1 \[5 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@15ede5d7> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@4fa623be> |
 | -- | -- | --------- | --------------------------- |
 | 1  | 1  | 0.5       | A                           |
 | 1  | 3  | 1.5       | C                           |
@@ -1898,7 +1940,7 @@ Function works on grouped dataset
 
 , 2 Group: 2 \[4 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@15ede5d7> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@4fa623be> |
 | -- | -- | --------- | --------------------------- |
 | 2  | 2  | 1.0       | B                           |
 | 2  | 4  | 0.5       | A                           |
@@ -1961,15 +2003,15 @@ Replace one column (column is trimmed)
 
 | :V1    | :V2 | :V3 | :V4 |
 | ------ | --- | --- | --- |
-| 0.2627 | 1   | 0.5 | A   |
-| 0.3026 | 2   | 1.0 | B   |
-| 0.8210 | 3   | 1.5 | C   |
-| 0.7352 | 4   | 0.5 | A   |
-| 0.1309 | 5   | 1.0 | B   |
-| 0.4219 | 6   | 1.5 | C   |
-| 0.9242 | 7   | 0.5 | A   |
-| 0.3036 | 8   | 1.0 | B   |
-| 0.2681 | 9   | 1.5 | C   |
+| 0.4514 | 1   | 0.5 | A   |
+| 0.8761 | 2   | 1.0 | B   |
+| 0.3965 | 3   | 1.5 | C   |
+| 0.2430 | 4   | 0.5 | A   |
+| 0.5240 | 5   | 1.0 | B   |
+| 0.1982 | 6   | 1.5 | C   |
+| 0.4998 | 7   | 0.5 | A   |
+| 0.7085 | 8   | 1.0 | B   |
+| 0.7554 | 9   | 1.5 | C   |
 
 -----
 
@@ -2242,15 +2284,15 @@ map.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 3   | 0.5 | A   |
-| 2   | 9   | 1.0 | B   |
-| 1   | 8   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
-| 2   | 2   | 1.0 | B   |
+| 1   | 4   | 0.5 | A   |
+| 2   | 3   | 1.0 | B   |
 | 1   | 7   | 1.5 | C   |
+| 2   | 5   | 0.5 | A   |
+| 1   | 8   | 1.0 | B   |
+| 2   | 2   | 1.5 | C   |
+| 1   | 6   | 0.5 | A   |
+| 2   | 9   | 1.0 | B   |
+| 1   | 1   | 1.5 | C   |
 
 #### Map
 
@@ -2323,7 +2365,7 @@ To reorder columns use columns selectors to choose what columns go
 first. The unseleted columns are appended to the end.
 
 ``` clojure
-(api/reorder-columns DS :V4 [:V3 :V2] :V1)
+(api/reorder-columns DS :V4 [:V3 :V2])
 ```
 
 \_unnamed \[9 4\]:
@@ -2403,12 +2445,12 @@ Basic conversion
 
 \_unnamed :column info \[4 6\]:
 
-| :name | :size | :datatype | :unparsed-indexes | :unparsed-data | :categorical? |
-| ----- | ----- | --------- | ----------------- | -------------- | ------------- |
-| :V1   | 9     | :float64  | {}                | \[\]           |               |
-| :V2   | 9     | :int64    |                   |                |               |
-| :V3   | 9     | :float64  |                   |                |               |
-| :V4   | 9     | :string   |                   |                | true          |
+| :name | :datatype | :n-elems | :unparsed-indexes | :unparsed-data | :categorical? |
+| ----- | --------- | -------- | ----------------- | -------------- | ------------- |
+| :V1   | :float64  | 9        | {}                | \[\]           |               |
+| :V2   | :int64    | 9        |                   |                |               |
+| :V3   | :float64  | 9        |                   |                |               |
+| :V4   | :string   | 9        |                   |                | true          |
 
 -----
 
@@ -2449,12 +2491,12 @@ You can process several columns at once
 
 \_unnamed :column info \[4 5\]:
 
-| :name | :size | :datatype | :unparsed-indexes | :unparsed-data |
-| ----- | ----- | --------- | ----------------- | -------------- |
-| :V1   | 9     | :float64  | {}                | \[\]           |
-| :V2   | 9     | :object   | {}                | \[\]           |
-| :V3   | 9     | :boolean  | {}                | \[\]           |
-| :V4   | 9     | :object   |                   |                |
+| :name | :datatype | :n-elems | :unparsed-indexes | :unparsed-data |
+| ----- | --------- | -------- | ----------------- | -------------- |
+| :V1   | :float64  | 9        | {}                | \[\]           |
+| :V2   | :object   | 9        | {}                | \[\]           |
+| :V3   | :boolean  | 9        | {}                | \[\]           |
+| :V4   | :object   | 9        |                   |                |
 
 -----
 
@@ -2468,12 +2510,12 @@ Convert one type into another
 
 \_unnamed :column info \[4 6\]:
 
-| :name | :size | :datatype | :unparsed-indexes | :unparsed-data | :categorical? |
-| ----- | ----- | --------- | ----------------- | -------------- | ------------- |
-| :V1   | 9     | :int16    | {}                | \[\]           |               |
-| :V2   | 9     | :int16    | {}                | \[\]           |               |
-| :V3   | 9     | :int16    | {}                | \[\]           |               |
-| :V4   | 9     | :string   |                   |                | true          |
+| :name | :datatype | :n-elems | :unparsed-indexes | :unparsed-data | :categorical? |
+| ----- | --------- | -------- | ----------------- | -------------- | ------------- |
+| :V1   | :int16    | 9        | {}                | \[\]           |               |
+| :V2   | :int16    | 9        | {}                | \[\]           |               |
+| :V3   | :int16    | 9        | {}                | \[\]           |               |
+| :V4   | :string   | 9        |                   |                | true          |
 
 -----
 
@@ -2489,12 +2531,12 @@ Function works on the grouped dataset
 
 \_unnamed :column info \[4 6\]:
 
-| :name | :size | :datatype | :unparsed-indexes | :unparsed-data | :categorical? |
-| ----- | ----- | --------- | ----------------- | -------------- | ------------- |
-| :V1   | 9     | :float32  | {}                | \[\]           |               |
-| :V2   | 9     | :int64    |                   |                |               |
-| :V3   | 9     | :float64  |                   |                |               |
-| :V4   | 9     | :string   |                   |                | true          |
+| :name | :datatype | :n-elems | :unparsed-indexes | :unparsed-data | :categorical? |
+| ----- | --------- | -------- | ----------------- | -------------- | ------------- |
+| :V1   | :float32  | 9        | {}                | \[\]           |               |
+| :V2   | :int64    | 9        |                   |                |               |
+| :V3   | :float64  | 9        |                   |                |               |
+| :V4   | :string   | 9        |                   |                | true          |
 
 -----
 
@@ -2504,7 +2546,7 @@ Double array conversion.
 (api/->array DS :V1)
 ```
 
-    #object["[J" 0x5511dfe7 "[J@5511dfe7"]
+    #object["[J" 0x32125053 "[J@32125053"]
 
 -----
 
@@ -2516,7 +2558,7 @@ Function also works on grouped dataset
     (api/->array :V2))
 ```
 
-    (#object["[J" 0x24ab4dc5 "[J@24ab4dc5"] #object["[J" 0x5e77709d "[J@5e77709d"] #object["[J" 0x2a63c928 "[J@2a63c928"])
+    (#object["[J" 0x6a92165c "[J@6a92165c"] #object["[J" 0x1a1ea6ec "[J@1a1ea6ec"] #object["[J" 0x4fa78574 "[J@4fa78574"])
 
 -----
 
@@ -2527,8 +2569,8 @@ You can also cast the type to the other one (if casting is possible):
 (api/->array DS :V1 :float32)
 ```
 
-    #object["[Ljava.lang.String;" 0x61833f6b "[Ljava.lang.String;@61833f6b"]
-    #object["[F" 0x7a87b3cd "[F@7a87b3cd"]
+    #object["[Ljava.lang.String;" 0x245699d2 "[Ljava.lang.String;@245699d2"]
+    #object["[F" 0x3f5253bc "[F@3f5253bc"]
 
 ### Rows
 
@@ -2636,7 +2678,7 @@ grouped dataset you have to precalculate it using `:pre`.
 (-> DS
     (api/group-by :V4)
     (api/select-rows (fn [row] (<= (:V2 row) (:mean row)))
-                     {:pre {:mean #(tech.v2.datatype.functional/mean (% :V2))}})
+                     {:pre {:mean #(tech.v3.datatype.functional/mean (% :V2))}})
     (api/ungroup))
 ```
 
@@ -2664,7 +2706,7 @@ Drop values lower than or equal `:V2` column mean in grouped dataset.
 (-> DS
     (api/group-by :V4)
     (api/drop-rows (fn [row] (<= (:V2 row) (:mean row)))
-                   {:pre {:mean #(tech.v2.datatype.functional/mean (% :V2))}})
+                   {:pre {:mean #(tech.v3.datatype.functional/mean (% :V2))}})
     (api/ungroup))
 ```
 
@@ -2725,7 +2767,7 @@ Random row (single)
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 6   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
 
 -----
 
@@ -2753,15 +2795,15 @@ Random `n` (default: row count) rows with repetition.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 5   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
-| 2   | 6   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
-| 2   | 6   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
 
 -----
 
@@ -2775,11 +2817,11 @@ Five random rows with repetition
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 9   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
-| 2   | 8   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 5   | 1.0 | B   |
 
 -----
 
@@ -2793,11 +2835,11 @@ Five random, non-repeating rows
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 6   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
 
 -----
 
@@ -2829,15 +2871,15 @@ Shuffle dataset
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 4   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
 
 -----
 
@@ -2965,21 +3007,21 @@ Select 5 random rows from each group
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 1   | 0.5 | A   |
-| 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
 | 1   | 3   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
 
 ### Aggregate
 
@@ -3188,15 +3230,15 @@ Descending order
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 2   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
-| 2   | 6   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 1   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
 
 -----
 
@@ -3280,28 +3322,28 @@ Use different orders for columns
 
 -----
 
-Custom function can be used to provied ordering key. Here order by `:V4`
-descending, then by product of other columns ascending.
+Custom function can be used to provided ordering key. Here order by
+`:V4` descending, then by product of other columns ascending.
 
 ``` clojure
 (api/order-by DS [:V4 (fn [row] (* (:V1 row)
                                   (:V2 row)
-                                  (:V3 row)))] [:desc :asc] {:select-keys [:V1 :V2 :V3]})
+                                  (:V3 row)))] [:desc :asc])
 ```
 
 \_unnamed \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
+| 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 8   | 1.0 | B   |
 | 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
 
 -----
 
@@ -3503,8 +3545,8 @@ Random
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
 
 -----
 
@@ -3891,7 +3933,7 @@ Replace missing with sequence in `:a` column
 Replace missing with a function (mean)
 
 ``` clojure
-(api/replace-missing DSm2 :a :value tech.v2.datatype.functional/mean)
+(api/replace-missing DSm2 :a :value tech.v3.datatype.functional/mean)
 ```
 
 \_unnamed \[15 2\]:
@@ -4004,7 +4046,7 @@ The same applies for `:up` strategy which is opposite direction.
 We can use a function which is applied after applying `:up` or `:down`
 
 ``` clojure
-(api/replace-missing DSm2 [:a :b] :down tech.v2.datatype.functional/mean)
+(api/replace-missing DSm2 [:a :b] :down tech.v3.datatype.functional/mean)
 ```
 
 \_unnamed \[15 2\]:
@@ -4060,13 +4102,25 @@ Lerp tries to apply linear interpolation of the values
 Lerp works also on dates
 
 ``` clojure
-(comment (-> (api/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
-                                nil nil nil nil nil nil nil
-                                (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
-             (api/replace-missing :lerp)))
+(-> (api/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
+                       nil nil nil nil nil nil nil
+                       (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
+    (api/replace-missing :lerp))
 ```
 
-nil
+\_unnamed \[9 1\]:
+
+| :dt                     |
+| ----------------------- |
+| 2020-01-01T11:22:33     |
+| 2020-02-04T16:04:51.500 |
+| 2020-03-09T20:47:10     |
+| 2020-04-13T01:29:28.500 |
+| 2020-05-17T06:11:47     |
+| 2020-06-20T10:54:05.500 |
+| 2020-07-24T15:36:24     |
+| 2020-08-27T20:18:42.500 |
+| 2020-10-01T01:01:01     |
 
 #### Inject
 
@@ -5003,12 +5057,12 @@ You can also force datatypes
 
 \_unnamed :column info \[4 4\]:
 
-| :name | :size | :datatype | :categorical? |
-| ----- | ----- | --------- | ------------- |
-| :V1   | 9     | :int64    |               |
-| :V2   | 9     | :int16    |               |
-| :V3   | 9     | :float32  |               |
-| :V4   | 9     | :string   | true          |
+| :name | :datatype | :n-elems | :categorical? |
+| ----- | --------- | -------- | ------------- |
+| :V1   | :int64    | 9        |               |
+| :V2   | :int16    | 9        |               |
+| :V3   | :float32  | 9        |               |
+| :V4   | :string   | 9        | true          |
 
 -----
 
@@ -5482,10 +5536,10 @@ pnl
 
 | :x | :a | :b | :y1        | :y2        | :z1 | :z2 |
 | -- | -- | -- | ---------- | ---------- | --- | --- |
-| 1  | 1  | 0  | 0.36450455 | 0.29553840 | 3   | \-2 |
-| 2  | 1  | 1  | 0.65915084 | 0.04278049 | 3   | \-2 |
-| 3  | 0  | 1  | 0.09601714 | 0.47046666 | 3   | \-2 |
-| 4  | 0  | 1  | 0.58065968 | 0.56720331 | 3   | \-2 |
+| 1  | 1  | 0  | 0.00891228 | 0.43061096 | 3   | \-2 |
+| 2  | 1  | 1  | 0.60851769 | 0.11731835 | 3   | \-2 |
+| 3  | 0  | 1  | 0.90525886 | 0.02079779 | 3   | \-2 |
+| 4  | 0  | 1  | 0.73650258 | 0.64123109 | 3   | \-2 |
 
 ``` clojure
 (api/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
@@ -5496,14 +5550,14 @@ pnl
 
 | :x | :a | :b | :times | y          | z   |
 | -- | -- | -- | ------ | ---------- | --- |
-| 1  | 1  | 0  | 1      | 0.36450455 | 3   |
-| 2  | 1  | 1  | 1      | 0.65915084 | 3   |
-| 3  | 0  | 1  | 1      | 0.09601714 | 3   |
-| 4  | 0  | 1  | 1      | 0.58065968 | 3   |
-| 1  | 1  | 0  | 2      | 0.29553840 | \-2 |
-| 2  | 1  | 1  | 2      | 0.04278049 | \-2 |
-| 3  | 0  | 1  | 2      | 0.47046666 | \-2 |
-| 4  | 0  | 1  | 2      | 0.56720331 | \-2 |
+| 1  | 1  | 0  | 1      | 0.00891228 | 3   |
+| 2  | 1  | 1  | 1      | 0.60851769 | 3   |
+| 3  | 0  | 1  | 1      | 0.90525886 | 3   |
+| 4  | 0  | 1  | 1      | 0.73650258 | 3   |
+| 1  | 1  | 0  | 2      | 0.43061096 | \-2 |
+| 2  | 1  | 1  | 2      | 0.11731835 | \-2 |
+| 3  | 0  | 1  | 2      | 0.02079779 | \-2 |
+| 4  | 0  | 1  | 2      | 0.64123109 | \-2 |
 
 #### Wider
 
@@ -5681,7 +5735,7 @@ We can also calculate mean (aggreate values)
 ``` clojure
 (-> warpbreaks
     (api/reorder-columns ["wool" "tension" "breaks"])
-    (api/pivot->wider "wool" "breaks" {:fold-fn tech.v2.datatype.functional/mean}))
+    (api/pivot->wider "wool" "breaks" {:fold-fn tech.v3.datatype.functional/mean}))
 ```
 
 data/warpbreaks.csv \[3 3\]:
@@ -6349,23 +6403,10 @@ data/stockstidyr.csv \[30 3\]:
 Convert back to wide form
 
 ``` clojure
-(api/pivot->wider stocks-long :stocks :price)
+(comment (api/pivot->wider stocks-long :stocks :price))
 ```
 
-data/stockstidyr.csv \[10 4\]:
-
-| time       | Z            | X            | Y            |
-| ---------- | ------------ | ------------ | ------------ |
-| 2009-01-01 | \-1.77946880 | 1.30989806   | \-1.89040193 |
-| 2009-01-02 | 2.39892513   | \-0.29993804 | \-1.82473090 |
-| 2009-01-03 | \-3.98697977 | 0.53647501   | \-1.03606860 |
-| 2009-01-04 | \-2.83065490 | \-1.88390802 | \-0.52178390 |
-| 2009-01-05 | 1.43715171   | \-0.96052361 | \-2.21683349 |
-| 2009-01-06 | 3.39784140   | \-1.18528966 | \-2.89350924 |
-| 2009-01-07 | \-1.20108258 | \-0.85207056 | \-2.16794818 |
-| 2009-01-08 | \-1.53160473 | 0.25234172   | \-0.32854117 |
-| 2009-01-09 | \-6.80878830 | 0.40257136   | 1.96407898   |
-| 2009-01-10 | \-2.55909321 | \-0.64383500 | 2.68618382   |
+nil
 
 Convert to wide form on time column (let’s limit values to a couple of
 rows)
@@ -6977,7 +7018,7 @@ asof-\>= \[3 4\]:
 (api/concat ds1)
 ```
 
-null \[9 3\]:
+\_unnamed \[9 3\]:
 
 | :a | :b  | :c |
 | -- | --- | -- |
@@ -7030,31 +7071,31 @@ null \[27 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 6   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
 | 1   | 1   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
 | 2   | 2   | 1.0 | B   |
-| 2   | 2   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 4   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
 
 #### Union
 
@@ -7098,14 +7139,14 @@ union \[9 4\]:
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
 | 1   | 3   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
-| 2   | 2   | 1.0 | B   |
 | 1   | 5   | 1.0 | B   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
 | 2   | 6   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
 
 #### Bind
 
@@ -7240,12 +7281,10 @@ difference \[1 1\]:
 This API doesn’t provide any statistical, numerical or date/time
 functions. Use below namespaces:
 
-| Namespace                              | functions                                 |
-| -------------------------------------- | ----------------------------------------- |
-| `tech.v2.datatype.functional`          | primitive oprations, reducers, statistics |
-| `tech.v2.datatype.datetime`            | date/time converters                      |
-| `tech.v2.datatype.datetime.operations` | date/time functions                       |
-| `tech.ml.dataset.pipeline`             | pipeline operations                       |
+| Namespace                     | functions                                 |
+| ----------------------------- | ----------------------------------------- |
+| `tech.v3.datatype.functional` | primitive oprations, reducers, statistics |
+| `tech.v3.datatype.datetime`   | date/time converters and operations       |
 
 ## Other examples
 
@@ -7294,8 +7333,8 @@ stocks
 (-> stocks
     (api/group-by (fn [row]
                     {:symbol (:symbol row)
-                     :year (tech.v2.datatype.datetime.operations/get-years (:date row))}))
-    (api/aggregate #(tech.v2.datatype.functional/mean (% :price)))
+                     :year (tech.v3.datatype.datetime/long-temporal-field :years (:date row))}))
+    (api/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (api/order-by [:symbol :year]))
 ```
 
@@ -7331,8 +7370,8 @@ stocks
 
 ``` clojure
 (-> stocks
-    (api/group-by (juxt :symbol #(tech.v2.datatype.datetime.operations/get-years (% :date))))
-    (api/aggregate #(tech.v2.datatype.functional/mean (% :price)))
+    (api/group-by (juxt :symbol #(tech.v3.datatype.datetime/long-temporal-field :years (% :date))))
+    (api/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (api/rename-columns {:$group-name-0 :symbol
                          :$group-name-1 :year}))
 ```
@@ -7401,8 +7440,9 @@ kable(head(flights))
 Clojure
 
 ``` clojure
-(require '[tech.v2.datatype.functional :as dfn]
-         '[tech.v2.datatype :as dtype])
+(require '[tech.v3.datatype.functional :as dfn]
+         '[tech.v3.datatype.argops :as aops]
+         '[tech.v3.datatype :as dtype])
 
 (defonce flights (api/dataset "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"))
 ```
@@ -7777,7 +7817,7 @@ Clojure
 
 ``` clojure
 (->> (dfn/+ (flights "arr_delay") (flights "dep_delay"))
-     (dfn/argfilter #(< % 0.0))
+     (aops/argfilter #(< % 0.0))
      (dtype/ecount))
 ```
 
@@ -8460,7 +8500,7 @@ Example data
 ```
 
     true
-    tech.ml.dataset.impl.dataset.Dataset
+    tech.v3.dataset.impl.dataset.Dataset
 
 ``` clojure
 DS
@@ -8635,9 +8675,9 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 1   | 0.5 | A   |
-| 1   | 1   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
 
 ``` clojure
 (api/random DS (/ (api/row-count DS) 2)) ;; fraction of random rows
@@ -8647,11 +8687,11 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
+| 2   | 4   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
 | 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
 
 ``` clojure
 (api/by-rank DS :V1 zero?) ;; take top n entries
@@ -8752,15 +8792,15 @@ Sort rows in decreasing order
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 3   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 2   | 1.0 | B   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
 
 -----
 
@@ -8792,7 +8832,7 @@ Select one column using an index (not recommended)
 (nth (api/columns DS :as-seq) 2) ;; as column (iterable)
 ```
 
-    #tech.ml.dataset.column<float64>[9]
+    #tech.v3.dataset.column<float64>[9]
     :V3
     [0.5000, 1.000, 1.500, 0.5000, 1.000, 1.500, 0.5000, 1.000, 1.500, ]
 
@@ -8858,7 +8898,7 @@ Select one column using column name
 (DS :V2) ;; as column (iterable)
 ```
 
-    #tech.ml.dataset.column<int64>[9]
+    #tech.v3.dataset.column<int64>[9]
     :V2
     [1, 2, 3, 4, 5, 6, 7, 8, 9, ]
 
@@ -10018,9 +10058,9 @@ Expression chaining using \>
 
 | :V4 | :V1sum |
 | --- | ------ |
+| A   | 6.0    |
 | B   | 9.0    |
 | C   | 6.0    |
-| A   | 6.0    |
 
 ##### Indexing and Keys
 
@@ -10579,7 +10619,7 @@ Not available.
 Write data to a csv file
 
 ``` clojure
-(api/write-csv! DS "DF.csv")
+(api/write! DS "DF.csv")
 ```
 
     nil
@@ -10589,7 +10629,7 @@ Write data to a csv file
 Write data to a tab-delimited file
 
 ``` clojure
-(api/write-csv! DS "DF.txt" {:separator \tab})
+(comment (api/write-csv! DS "DF.txt" {:separator \tab}))
 ```
 
     nil
@@ -10597,7 +10637,7 @@ Write data to a tab-delimited file
 or
 
 ``` clojure
-(api/write-csv! DS "DF.tsv")
+(api/write! DS "DF.tsv")
 ```
 
     nil
@@ -10625,22 +10665,10 @@ DF.csv \[9 3\]:
 | C   | 1   | 9   |
 
 ``` clojure
-(api/dataset "DF.txt" {:key-fn keyword})
+(comment (api/dataset "DF.txt" {:key-fn keyword}))
 ```
 
-DF.txt \[9 3\]:
-
-| :V4 | :V1 | :V2 |
-| --- | --- | --- |
-| A   | 0   | 3   |
-| A   | 0   | 4   |
-| A   | 0   | 7   |
-| B   | 4   | 0   |
-| B   | 4   | 8   |
-| B   | 1   | 5   |
-| C   | 4   | 5   |
-| C   | 1   | 0   |
-| C   | 1   | 9   |
+nil
 
 ``` clojure
 (api/dataset "DF.tsv" {:key-fn keyword})
@@ -10776,45 +10804,45 @@ Cast data (from long to wide)
 ``` clojure
 (-> mDS
     (api/pivot->wider :variable :value {:fold-fn vec})
-    (api/update-columns [:V1 :V2] (partial map count)))
+    (api/update-columns ["V1" "V2"] (partial map count)))
 ```
 
 \_unnamed \[3 3\]:
 
-| :V4 | V1        | V2        |
-| --- | --------- | --------- |
-| B   | \[4 4 1\] | \[0 8 5\] |
-| A   | \[0 0 0\] | \[3 4 7\] |
-| C   | \[4 1 1\] | \[5 0 9\] |
+| :V4 | V1 | V2 |
+| --- | -- | -- |
+| B   | 3  | 3  |
+| A   | 3  | 3  |
+| C   | 3  | 3  |
 
 ``` clojure
 (-> mDS
     (api/pivot->wider :variable :value {:fold-fn vec})
-    (api/update-columns [:V1 :V2] (partial map dfn/sum)))
+    (api/update-columns ["V1" "V2"] (partial map dfn/sum)))
 ```
 
 \_unnamed \[3 3\]:
 
-| :V4 | V1        | V2        |
-| --- | --------- | --------- |
-| B   | \[4 4 1\] | \[0 8 5\] |
-| A   | \[0 0 0\] | \[3 4 7\] |
-| C   | \[4 1 1\] | \[5 0 9\] |
+| :V4 | V1    | V2    |
+| --- | ----- | ----- |
+| B   | 9.000 | 13.00 |
+| A   | 0.000 | 14.00 |
+| C   | 6.000 | 14.00 |
 
 ``` clojure
 (-> mDS
     (api/map-columns :value #(> % 5))
     (api/pivot->wider :value :variable {:fold-fn vec})
-    (api/update-columns [true false] (partial map #(if (sequential? %) (count %) 1))))
+    (api/update-columns ["true" "false"] (partial map #(if (sequential? %) (count %) 1))))
 ```
 
 \_unnamed \[3 3\]:
 
-| :V4 | true | false                   |
-| --- | ---- | ----------------------- |
-| C   | :V2  | \[:V1 :V1 :V1 :V2 :V2\] |
-| A   | :V2  | \[:V1 :V1 :V1 :V2 :V2\] |
-| B   | :V2  | \[:V1 :V1 :V1 :V2 :V2\] |
+| :V4 | true | false |
+| --- | ---- | ----- |
+| C   | 1    | 5     |
+| A   | 1    | 5     |
+| B   | 1    | 5     |
 
 -----
 

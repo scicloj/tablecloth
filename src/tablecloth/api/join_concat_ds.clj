@@ -50,28 +50,28 @@
   ([ds-left ds-right columns-selector options]
    (let [rj (right-join ds-left ds-right columns-selector options)]
      (-> (->> rj
-              (ds/concat (left-join ds-left ds-right columns-selector options))
-              (ds/unique-by identity))
+              (ds/concat (left-join ds-left ds-right columns-selector options)))
+         (ds/unique-by identity)
          (with-meta (assoc (meta rj) :name "full-join"))))))
 
 (defn semi-join
   ([ds-left ds-right columns-selector] (semi-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (let [lj (left-join ds-left ds-right columns-selector options)]
-     (-> (->> (-> lj
-                  (drop-missing)
-                  (drop-columns (vals (:right-column-names (meta lj)))))
-              (ds/unique-by identity))
+     (-> lj
+         (drop-missing)
+         (drop-columns (vals (:right-column-names (meta lj))))
+         (ds/unique-by identity)
          (vary-meta assoc :name "semi-join")))))
 
 (defn anti-join
   ([ds-left ds-right columns-selector] (anti-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (let [lj (left-join ds-left ds-right columns-selector options)]
-     (-> (->> (-> lj
-                  (select-missing)
-                  (drop-columns (vals (:right-column-names (meta lj)))))
-              (ds/unique-by identity))
+     (-> lj
+         (select-missing)
+         (drop-columns (vals (:right-column-names (meta lj))))
+         (ds/unique-by identity)
          (vary-meta assoc :name "anti-join")))))
 
 (defn asof-join
@@ -97,14 +97,16 @@
 
 (defn union
   [ds & datasets]
-  (-> (->> (apply ds/concat ds datasets)
-           (ds/unique-by identity))
+  (-> (apply ds/concat ds datasets)
+      (ds/unique-by identity)
       (vary-meta assoc :name "union")))
 
 (defn- add-empty-missing-column
   [ds name]
   (let [cnt (ds/row-count ds)]
-    (ds/add-column ds (col/new-column name (repeat cnt nil) nil (range cnt)))))
+    (->> (repeat cnt nil)
+         (col/new-column name)
+         (ds/add-column ds))))
 
 (defn- add-empty-missing-columns
   [ds-left ds-right]

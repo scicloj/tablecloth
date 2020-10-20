@@ -1,7 +1,7 @@
 (ns tablecloth.api.order-by
   (:require [tech.v3.dataset :as ds]
             
-            [tablecloth.api.utils :refer [iterable-sequence? column-names]]
+            [tablecloth.api.utils :refer [iterable-sequence?]]
             [tablecloth.api.group-by :refer [grouped? process-group-data]]))
 
 (set! *unchecked-math* :warn-on-boxed)
@@ -17,35 +17,42 @@
   [orders]
   (if-not (iterable-sequence? orders)
     (comparator->fn orders)
-    (if (every? #(= % :asc) orders)
-      compare
-      (let [comparators (mapv comparator->fn orders)]
-        (fn ^long [v1 v2]
-          (loop [v1 v1
-                 v2 v2
-                 cmptrs comparators]
-            (if-let [cmptr (first cmptrs)]
-              (let [^long c (cmptr (first v1) (first v2))]
-                (if-not (zero? c)
-                  c
-                  (recur (rest v1) (rest v2) (rest cmptrs))))
-              0)))))))
+    (cond
+      (every? #(= % :asc) orders) nil
+      (every? #(= % :desc) orders) #(compare %2 %1)
+      :else (let [comparators (mapv comparator->fn orders)]
+              (fn ^long [v1 v2]
+                (loop [v1 v1
+                       v2 v2
+                       cmptrs comparators]
+                  (if-let [cmptr (first cmptrs)]
+                    (let [^long c (cmptr (first v1) (first v2))]
+                      (if-not (zero? c)
+                        c
+                        (recur (rest v1) (rest v2) (rest cmptrs))))
+                    0)))))))
 
 (defn- sort-fn
-  [columns-or-fn selected-keys comp-fn]
+  [columns-or-fn comp-fn]
   (cond
-    (iterable-sequence? columns-or-fn) (fn [ds]
-                                         (ds/sort-by (apply juxt (map #(if (fn? %)
-                                                                         %
-                                                                         (fn [ds] (get ds %))) columns-or-fn))
-                                                     comp-fn
-                                                     selected-keys
-                                                     ds))
-    (fn? columns-or-fn) (fn [ds] (ds/sort-by columns-or-fn
-                                            comp-fn
-                                            selected-keys
-                                            ds))
-    :else (fn [ds] (ds/sort-by-column columns-or-fn comp-fn ds))))
+    (iterable-sequence? columns-or-fn) (if comp-fn
+                                         (fn [ds]
+                                           (ds/sort-by ds
+                                                       (apply juxt (map #(if (fn? %)
+                                                                           %
+                                                                           (fn [ds] (get ds %))) columns-or-fn))
+                                                       comp-fn))
+                                         (fn [ds]
+                                           (ds/sort-by ds
+                                                       (apply juxt (map #(if (fn? %)
+                                                                           %
+                                                                           (fn [ds] (get ds %))) columns-or-fn)))))
+    (fn? columns-or-fn) (if comp-fn
+                          (fn [ds] (ds/sort-by ds columns-or-fn comp-fn))
+                          (fn [ds] (ds/sort-by ds columns-or-fn)))
+    :else (if comp-fn
+            (fn [ds] (ds/sort-by-column ds columns-or-fn comp-fn))
+            (fn [ds] (ds/sort-by-column ds columns-or-fn)))))
 
 (defn order-by
   "Order dataset by:
@@ -59,14 +66,13 @@
   - custom comparator function"
   ([ds columns-or-fn] (order-by ds columns-or-fn nil))
   ([ds columns-or-fn comparators] (order-by ds columns-or-fn comparators nil))
-  ([ds columns-or-fn comparators {:keys [select-keys parallel?]}]
-   (let [selected-keys (column-names ds select-keys)
-         comparators (or comparators (if (iterable-sequence? columns-or-fn)
+  ([ds columns-or-fn comparators {:keys [parallel?]}]
+   (let [comparators (or comparators (if (iterable-sequence? columns-or-fn)
                                        (repeat (count columns-or-fn) :asc)
                                        [:asc]))
          sorting-fn (->> comparators
                          asc-desc-comparator
-                         (sort-fn columns-or-fn selected-keys))]
+                         (sort-fn columns-or-fn))]
      
      (if (grouped? ds)
        (process-group-data ds sorting-fn parallel?)

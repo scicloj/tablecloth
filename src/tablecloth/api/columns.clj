@@ -33,7 +33,8 @@
        :arglists '([ds] [ds columns-selector] [ds columns-selector meta-field])}
   select-columns (partial select-or-drop-columns ds/select-columns true))
 
-(def ^{:doc (select-or-drop-colums-docstring "Drop")}
+(def ^{:doc (select-or-drop-colums-docstring "Drop")
+       :arglists '([ds] [ds columns-selector] [ds columns-selector meta-field])}
   drop-columns (partial select-or-drop-columns ds/drop-columns false))
 
 ;;
@@ -144,7 +145,7 @@
          fns (if (iterable-sequence? update-functions)
                (cycle update-functions)
                (repeat update-functions))
-         lst (map vector col-names fns)]
+         lst  (map vector col-names fns)]
      (if (grouped? ds)
        (process-group-data #(process-update-columns % lst))
        (process-update-columns ds lst)))))
@@ -155,7 +156,7 @@
   ([ds column-name new-type columns-selector map-fn]
    (if (grouped? ds)
      (process-group-data ds #(map-columns % column-name columns-selector map-fn))
-     (add-or-replace-column ds column-name (apply col/column-map map-fn new-type (select-columns ds columns-selector))))))
+     (add-or-replace-column ds column-name (apply col/column-map map-fn new-type (ds/columns (select-columns ds columns-selector)))))))
 
 (defn reorder-columns
   "Reorder columns using column selector(s). When column names are incomplete, the missing will be attached at the end."

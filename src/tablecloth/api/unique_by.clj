@@ -64,13 +64,13 @@
         (iterable-sequence? columns-selector) (let [local-options (assoc local-options :column-name-seq columns-selector)]
                                                 (fn [ds]
                                                   (if (= (count columns-selector) 1)
-                                                    (ds/unique-by-column (clojure.core/first columns-selector) local-options ds)
-                                                    (ds/unique-by identity local-options ds))))
+                                                    (ds/unique-by-column ds local-options (clojure.core/first columns-selector))
+                                                    (ds/unique-by ds local-options #(select-keys % columns-selector)))))
         (fn? columns-selector) (let [local-options (if selected-keys
                                                      (assoc local-options :column-name-seq selected-keys)
                                                      local-options)]
-                                 (fn [ds] (ds/unique-by columns-selector local-options ds)))
-        :else (fn [ds] (ds/unique-by-column columns-selector local-options ds))))))
+                                 (fn [ds] (ds/unique-by ds local-options columns-selector)))
+        :else (fn [ds] (ds/unique-by-column ds local-options columns-selector ))))))
 
 (defn- maybe-skip-unique
   [ds ufn]

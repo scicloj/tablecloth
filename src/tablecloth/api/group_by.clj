@@ -5,8 +5,7 @@
             [tech.v3.datatype :as dtype]
             
             [tablecloth.api.utils :refer [iterable-sequence? ->str column-names parallel-concat]]
-            [tablecloth.api.dataset :refer [dataset]]
-            [tablecloth.api.columns :refer [select-columns]]))
+            [tablecloth.api.dataset :refer [dataset]]))
 
 (defn grouped?
   "Is `dataset` represents grouped dataset (result of `group-by`)?"
@@ -32,8 +31,10 @@
   [ds grouping-selector selected-keys]
   (cond
     (map? grouping-selector) grouping-selector
-    (iterable-sequence? grouping-selector) (ds/group-by->indexes (select-columns ds grouping-selector) identity)
-    (fn? grouping-selector) (ds/group-by->indexes (select-columns ds selected-keys) grouping-selector)
+    (iterable-sequence? grouping-selector) (ds/group-by->indexes
+                                            (ds/select-columns ds (column-names ds grouping-selector)) identity)
+    (fn? grouping-selector) (ds/group-by->indexes
+                             (ds/select-columns ds (column-names ds selected-keys)) grouping-selector)
     :else (ds/group-by-column->indexes ds grouping-selector)))
 
 (defn- subdataset
@@ -79,9 +80,9 @@
   - data - group as dataset"
   ([ds grouping-selector] (group-by ds grouping-selector nil))
   ([ds grouping-selector {:keys [select-keys result-type]
-                          :or {result-type :as-dataset}
+                          :or {result-type :as-dataset select-keys :all}
                           :as options}]
-   (let [selected-keys (when select-keys (column-names ds select-keys))
+   (let [selected-keys (column-names ds select-keys)
          group-indexes (find-group-indexes ds grouping-selector selected-keys)]
      (condp = result-type
        :as-indexes group-indexes

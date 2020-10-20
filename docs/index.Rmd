@@ -250,7 +250,7 @@ ds
 
 #### Saving
 
-Export dataset to a file or output stream can be done by calling `api/write-csv!`. Function accepts:
+Export dataset to a file or output stream can be done by calling `api/write!`. Function accepts:
 
 * dataset
 * file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and `.tsv.gz` or output stream
@@ -258,7 +258,7 @@ Export dataset to a file or output stream can be done by calling `api/write-csv!
     - `:separator` - string or separator char.
 
 ```{clojure}
-(api/write-csv! ds "output.tsv.gz")
+(api/write! ds "output.tsv.gz")
 (.exists (clojure.java.io/file "output.tsv.gz"))
 ```
 
@@ -392,7 +392,6 @@ Dataset is printed using `dataset->str` or `print-dataset` functions. Options ar
 ```{clojure stdout_only=TRUE}
 (api/print-dataset (api/group-by DS :V1) {:print-line-policy :single})
 ```
-
 
 ### Group-by
 
@@ -849,7 +848,7 @@ And finally we can use predicate to select names. Let's select double precision 
 or
 
 ```{clojure}
-(api/column-names DS :type/float64 :datatype)
+(api/column-names DS :type/float64)
 ```
 
 ---
@@ -883,6 +882,12 @@ Select only float64 columns
 ```{clojure results="asis"}
 (api/select-columns DS #(= :float64 %) :datatype)
 ```
+or
+
+```{clojure results="asis"}
+(api/select-columns DS :type/float64)
+```
+
 
 ---
 
@@ -913,6 +918,12 @@ Drop float64 columns
 
 ```{clojure results="asis"}
 (api/drop-columns DS #(= :float64 %) :datatype)
+```
+
+or
+
+```{clojure results="asis"}
+(api/drop-columns DS :type/float64)
 ```
 
 ---
@@ -1165,7 +1176,7 @@ The same works on grouped dataset
 To reorder columns use columns selectors to choose what columns go first. The unseleted columns are appended to the end.
 
 ```{clojure results="asis"}
-(api/reorder-columns DS :V4 [:V3 :V2] :V1)
+(api/reorder-columns DS :V4 [:V3 :V2])
 ```
 
 ---
@@ -1340,7 +1351,7 @@ If you want to select `:V2` values which are lower than or equal mean in grouped
 (-> DS
     (api/group-by :V4)
     (api/select-rows (fn [row] (<= (:V2 row) (:mean row)))
-                     {:pre {:mean #(tech.v2.datatype.functional/mean (% :V2))}})
+                     {:pre {:mean #(tech.v3.datatype.functional/mean (% :V2))}})
     (api/ungroup))
 ```
 
@@ -1356,7 +1367,7 @@ Drop values lower than or equal `:V2` column mean in grouped dataset.
 (-> DS
     (api/group-by :V4)
     (api/drop-rows (fn [row] (<= (:V2 row) (:mean row)))
-                   {:pre {:mean #(tech.v2.datatype.functional/mean (% :V2))}})
+                   {:pre {:mean #(tech.v3.datatype.functional/mean (% :V2))}})
     (api/ungroup))
 ```
 
@@ -1647,12 +1658,12 @@ Use different orders for columns
 
 ---
 
-Custom function can be used to provied ordering key. Here order by `:V4` descending, then by product of other columns ascending.
+Custom function can be used to provided ordering key. Here order by `:V4` descending, then by product of other columns ascending.
 
 ```{clojure results="asis"}
 (api/order-by DS [:V4 (fn [row] (* (:V1 row)
                                   (:V2 row)
-                                  (:V3 row)))] [:desc :asc] {:select-keys [:V1 :V2 :V3]})
+                                  (:V3 row)))] [:desc :asc])
 ```
 
 ---
@@ -1938,7 +1949,7 @@ Replace missing with sequence in `:a` column
 Replace missing with a function (mean)
 
 ```{clojure results="asis"}
-(api/replace-missing DSm2 :a :value tech.v2.datatype.functional/mean)
+(api/replace-missing DSm2 :a :value tech.v3.datatype.functional/mean)
 ```
 
 ---
@@ -1970,7 +1981,7 @@ The same applies for `:up` strategy which is opposite direction.
 We can use a function which is applied after applying `:up` or `:down`
 
 ```{clojure results="asis"}
-(api/replace-missing DSm2 [:a :b] :down tech.v2.datatype.functional/mean)
+(api/replace-missing DSm2 [:a :b] :down tech.v3.datatype.functional/mean)
 ```
 
 ---
@@ -1986,10 +1997,10 @@ Lerp tries to apply linear interpolation of the values
 Lerp works also on dates
 
 ```{clojure results="asis"}
-(comment (-> (api/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
-                                nil nil nil nil nil nil nil
-                                (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
-             (api/replace-missing :lerp)))
+(-> (api/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
+                       nil nil nil nil nil nil nil
+                       (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
+    (api/replace-missing :lerp))
 ```
 
 #### Inject
@@ -2652,7 +2663,7 @@ We can also calculate mean (aggreate values)
 ```{clojure results="asis"}
 (-> warpbreaks
     (api/reorder-columns ["wool" "tension" "breaks"])
-    (api/pivot->wider "wool" "breaks" {:fold-fn tech.v2.datatype.functional/mean}))
+    (api/pivot->wider "wool" "breaks" {:fold-fn tech.v3.datatype.functional/mean}))
 ```
 
 ---
@@ -2878,7 +2889,7 @@ stocks-long
 Convert back to wide form
 
 ```{clojure results="asis"}
-(api/pivot->wider stocks-long :stocks :price)
+(comment (api/pivot->wider stocks-long :stocks :price))
 ```
 
 Convert to wide form on time column (let's limit values to a couple of rows)
@@ -3183,10 +3194,8 @@ This API doesn't provide any statistical, numerical or date/time functions. Use 
 
 | Namespace | functions |
 |-----------|-----------|
-| `tech.v2.datatype.functional` | primitive oprations, reducers, statistics |
-| `tech.v2.datatype.datetime` | date/time converters |
-| `tech.v2.datatype.datetime.operations` | date/time functions |
-| `tech.ml.dataset.pipeline` | pipeline operations |
+| `tech.v3.datatype.functional` | primitive oprations, reducers, statistics |
+| `tech.v3.datatype.datetime` | date/time converters and operations|
 
 ## Other examples
 
@@ -3204,15 +3213,15 @@ stocks
 (-> stocks
     (api/group-by (fn [row]
                     {:symbol (:symbol row)
-                     :year (tech.v2.datatype.datetime.operations/get-years (:date row))}))
-    (api/aggregate #(tech.v2.datatype.functional/mean (% :price)))
+                     :year (tech.v3.datatype.datetime/long-temporal-field :years (:date row))}))
+    (api/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (api/order-by [:symbol :year]))
 ```
 
 ```{clojure results="asis"}
 (-> stocks
-    (api/group-by (juxt :symbol #(tech.v2.datatype.datetime.operations/get-years (% :date))))
-    (api/aggregate #(tech.v2.datatype.functional/mean (% :price)))
+    (api/group-by (juxt :symbol #(tech.v3.datatype.datetime/long-temporal-field :years (% :date))))
+    (api/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (api/rename-columns {:$group-name-0 :symbol
                          :$group-name-1 :year}))
 ```
@@ -3239,8 +3248,9 @@ kable(head(flights))
 Clojure
 
 ```{clojure results="hide"}
-(require '[tech.v2.datatype.functional :as dfn]
-         '[tech.v2.datatype :as dtype])
+(require '[tech.v3.datatype.functional :as dfn]
+         '[tech.v3.datatype.argops :as aops]
+         '[tech.v3.datatype :as dtype])
 
 (defonce flights (api/dataset "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"))
 ```
@@ -3449,7 +3459,7 @@ Clojure
 
 ```{clojure}
 (->> (dfn/+ (flights "arr_delay") (flights "dep_delay"))
-     (dfn/argfilter #(< % 0.0))
+     (aops/argfilter #(< % 0.0))
      (dtype/ecount))
 ```
 
@@ -4757,7 +4767,7 @@ Not available.
 Write data to a csv file
 
 ```{clojure}
-(api/write-csv! DS "DF.csv")
+(api/write! DS "DF.csv")
 ```
 
 ---
@@ -4765,13 +4775,13 @@ Write data to a csv file
 Write data to a tab-delimited file
 
 ```{clojure}
-(api/write-csv! DS "DF.txt" {:separator \tab})
+(comment (api/write-csv! DS "DF.txt" {:separator \tab}))
 ```
 
 or
 
 ```{clojure}
-(api/write-csv! DS "DF.tsv")
+(api/write! DS "DF.tsv")
 ```
 
 ---
@@ -4783,7 +4793,7 @@ Read a csv / tab-delimited file
 ```
 
 ```{clojure results="asis"}
-(api/dataset "DF.txt" {:key-fn keyword})
+(comment (api/dataset "DF.txt" {:key-fn keyword}))
 ```
 
 ```{clojure results="asis"}
@@ -4832,20 +4842,20 @@ Cast data (from long to wide)
 ```{clojure results="asis"}
 (-> mDS
     (api/pivot->wider :variable :value {:fold-fn vec})
-    (api/update-columns [:V1 :V2] (partial map count)))
+    (api/update-columns ["V1" "V2"] (partial map count)))
 ```
 
 ```{clojure results="asis"}
 (-> mDS
     (api/pivot->wider :variable :value {:fold-fn vec})
-    (api/update-columns [:V1 :V2] (partial map dfn/sum)))
+    (api/update-columns ["V1" "V2"] (partial map dfn/sum)))
 ```
 
 ```{clojure results="asis"}
 (-> mDS
     (api/map-columns :value #(> % 5))
     (api/pivot->wider :value :variable {:fold-fn vec})
-    (api/update-columns [true false] (partial map #(if (sequential? %) (count %) 1))))
+    (api/update-columns ["true" "false"] (partial map #(if (sequential? %) (count %) 1))))
 ```
 
 ---

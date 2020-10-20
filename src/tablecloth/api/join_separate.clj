@@ -4,13 +4,13 @@
 
             [tablecloth.api.utils :refer [iterable-sequence? column-names]]
             [tablecloth.api.group-by :refer [grouped? process-group-data]]
-            [tablecloth.api.columns :refer [select-columns drop-columns]]))
+            [tablecloth.api.columns :refer [select-columns drop-columns add-or-replace-column]]))
 
 (defn- process-join-columns
   [ds target-column join-function col-names drop-columns?]
   (let [cols (select-columns ds col-names)
-        result (ds/add-or-update-column ds target-column (->> (ds/value-reader cols)
-                                                              (map join-function)))]
+        result (add-or-replace-column ds target-column (when (seq cols) (->> (ds/value-reader cols)
+                                                                             (map join-function))))]
     (if drop-columns? (drop-columns result col-names) result)))
 
 (defn join-columns
@@ -68,15 +68,14 @@
 
 (defn- process-separate-columns
   [ds column target-columns replace-missing separator-fn drop-column?]
-  (let [result (separate-column->columns (ds column) target-columns replace-missing separator-fn)
+  (let [result (seq (separate-column->columns (ds column) target-columns replace-missing separator-fn))
         [dataset-before dataset-after] (map (partial ds/select-columns ds)
                                             (split-with #(not= % column)
                                                         (ds/column-names ds)))]
-    (-> (if drop-column?
-          dataset-before
-          (ds/add-column dataset-before (ds column)))
-        (ds/append-columns result)
-        (ds/append-columns (ds/columns (ds/drop-columns dataset-after [column]))))))
+    (cond-> (ds/->dataset dataset-before)
+      (not drop-column?) (ds/add-column (ds column))
+      result (ds/append-columns result)
+      :else (ds/append-columns (ds/columns (ds/drop-columns dataset-after [column]))))))
 
 (defn separate-column
   ([ds column target-columns] (separate-column ds column target-columns identity))
