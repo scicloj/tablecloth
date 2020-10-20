@@ -1,5 +1,18 @@
 # Change Log
 
+## [5.0-SNAPSHOT]
+
+`tech.ml.dataset` version 5.0-alpha*
+
+### Added
+
+* `map-columns` accepts optional target datatype
+
+### Changed
+
+* `write-csv!` replaced by `write!` (`write-csv!` is marked as deprecated)
+* `info` field `:size` is replaced by `:n-elems`
+
 ## [4.04]
 
 `tech.ml.dataset` version 4.04

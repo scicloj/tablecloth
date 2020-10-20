@@ -29,7 +29,8 @@
   - map of names with new names (rename)
   - function which filter names (via column metadata)"))
 
-(def ^{:doc (select-or-drop-colums-docstring "Select")}
+(def ^{:doc (select-or-drop-colums-docstring "Select")
+       :arglists '([ds] [ds columns-selector] [ds columns-selector meta-field])}
   select-columns (partial select-or-drop-columns ds/select-columns true))
 
 (def ^{:doc (select-or-drop-colums-docstring "Drop")}
@@ -148,12 +149,13 @@
        (process-group-data #(process-update-columns % lst))
        (process-update-columns ds lst)))))
 
-#_(defn map-columns
-    ([ds column-name map-fn] (map-columns ds column-name column-name map-fn))
-    ([ds column-name columns-selector map-fn]
-     (if (grouped? ds)
-       (process-group-data ds #(map-columns % column-name columns-selector map-fn))
-       (apply ds/column-map ds column-name map-fn (column-names ds columns-selector)))))
+(defn map-columns
+  ([ds column-name map-fn] (map-columns ds column-name nil column-name map-fn))
+  ([ds column-name columns-selector map-fn] (map-columns ds column-name nil columns-selector map-fn))
+  ([ds column-name new-type columns-selector map-fn]
+   (if (grouped? ds)
+     (process-group-data ds #(map-columns % column-name columns-selector map-fn))
+     (add-or-replace-column ds column-name (apply col/column-map map-fn new-type (select-columns ds columns-selector))))))
 
 (defn reorder-columns
   "Reorder columns using column selector(s). When column names are incomplete, the missing will be attached at the end."

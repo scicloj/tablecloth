@@ -5,7 +5,8 @@
             [tech.v3.datatype :as dtype]
             
             [tablecloth.api.utils :refer [iterable-sequence? ->str column-names parallel-concat]]
-            [tablecloth.api.dataset :refer [dataset]]))
+            [tablecloth.api.dataset :refer [dataset]]
+            [tablecloth.api.columns :refer [select-columns]]))
 
 (defn grouped?
   "Is `dataset` represents grouped dataset (result of `group-by`)?"
@@ -31,8 +32,8 @@
   [ds grouping-selector selected-keys]
   (cond
     (map? grouping-selector) grouping-selector
-    (iterable-sequence? grouping-selector) (ds/group-by->indexes ds identity grouping-selector)
-    (fn? grouping-selector) (ds/group-by->indexes ds grouping-selector selected-keys)
+    (iterable-sequence? grouping-selector) (ds/group-by->indexes (select-columns ds grouping-selector) identity)
+    (fn? grouping-selector) (ds/group-by->indexes (select-columns ds selected-keys) grouping-selector)
     :else (ds/group-by-column->indexes ds grouping-selector)))
 
 (defn- subdataset

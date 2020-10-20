@@ -7,17 +7,16 @@
             [tablecloth.api.columns :refer [select-columns drop-columns]]))
 
 (defn- process-join-columns
-  [ds target-column join-function col-names options drop-columns?]
+  [ds target-column join-function col-names drop-columns?]
   (let [cols (select-columns ds col-names)
-        result (ds/add-or-update-column ds target-column (->> (ds/value-reader cols options)
+        result (ds/add-or-update-column ds target-column (->> (ds/value-reader cols)
                                                               (map join-function)))]
     (if drop-columns? (drop-columns result col-names) result)))
 
 (defn join-columns
   ([ds target-column columns-selector] (join-columns ds target-column columns-selector nil))
   ([ds target-column columns-selector {:keys [separator missing-subst drop-columns? result-type parallel?]
-                                       :or {separator "-" drop-columns? true result-type :string}
-                                       :as options}]
+                                       :or {separator "-" drop-columns? true result-type :string}}]
    
    (let [missing-subst-fn #(map (fn [v] (or v missing-subst)) %)
          col-names (column-names ds columns-selector)
@@ -40,8 +39,8 @@
                              missing-subst-fn)]
 
      (if (grouped? ds)
-       (process-group-data ds #(process-join-columns % target-column join-function col-names options drop-columns?) parallel?)
-       (process-join-columns ds target-column join-function col-names options drop-columns?)))))
+       (process-group-data ds #(process-join-columns % target-column join-function col-names drop-columns?) parallel?)
+       (process-join-columns ds target-column join-function col-names drop-columns?)))))
 
 ;;
 

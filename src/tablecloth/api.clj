@@ -12,9 +12,10 @@
                          dataset-name
                          column
                          has-column?
-                         ;; write-csv!
-                         ;; dataset->str
+                         write!
                          concat)
+
+(def ^{:deprecated "Use `write!` instead."} write-csv! write!)
 
 (exporter/export-symbols tech.v3.dataset.print
                          dataset->str)

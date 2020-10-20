@@ -194,7 +194,7 @@
                         (partial contains?)
                         (complement)
                         (column-names ds)) ;; the columns used in join
-         join-on-single? (= (count rest-cols) 1) ;; mayve this is one column? (different join column creation)
+         join-on-single? (= (count rest-cols) 1) ;; maybe this is one column? (different join column creation)
          join-name (if join-on-single?
                      (clojure.core/first rest-cols)
                      (gensym (apply str "^____" rest-cols))) ;; generate join column name

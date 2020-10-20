@@ -35,11 +35,11 @@
                       (api/shape)))))
 
 (deftest saving
-  (is (do (api/write-csv! DS "DS.tsv.gz")
+  (is (do (api/write! DS "DS.tsv.gz")
           (.exists (io/file "DS.tsv.gz"))))
   (is (-> (api/dataset "DS.tsv.gz")
           (api/dataset?)))
-  (is (do (api/write-csv! DS "DS.csv.gz")
+  (is (do (api/write! DS "DS.csv.gz")
           (.exists (io/file "DS.csv.gz"))))
   (is (-> (api/dataset "DS.csv.gz")
           (api/dataset?)))
@@ -67,9 +67,9 @@
   (is (= [{:name "DS", :columns 4, :rows 9, :grouped? false}]
          (-> (api/info DS :basic)
              (api/rows :as-maps))))
-  (is (= [{:name :V1, :size 9, :categorical? nil, :datatype :int64}
-          {:name :V2, :size 9, :categorical? nil, :datatype :int64}
-          {:name :V3, :size 9, :categorical? nil, :datatype :float64}
-          {:name :V4, :size 9, :categorical? true, :datatype :string}]
+  (is (= [{:name :V1, :n-elems 9, :categorical? nil, :datatype :int64}
+          {:name :V2, :n-elems 9, :categorical? nil, :datatype :int64}
+          {:name :V3, :n-elems 9, :categorical? nil, :datatype :float64}
+          {:name :V4, :n-elems 9, :categorical? true, :datatype :string}]
          (-> (api/info DS :columns)
              (api/rows :as-maps)))))
