@@ -2889,7 +2889,7 @@ stocks-long
 Convert back to wide form
 
 ```{clojure results="asis"}
-(comment (api/pivot->wider stocks-long :stocks :price))
+(api/pivot->wider stocks-long :stocks :price)
 ```
 
 Convert to wide form on time column (let's limit values to a couple of rows)
@@ -4775,7 +4775,7 @@ Write data to a csv file
 Write data to a tab-delimited file
 
 ```{clojure}
-(comment (api/write-csv! DS "DF.txt" {:separator \tab}))
+(api/write-csv! DS "DF.txt" {:separator \tab})
 ```
 
 or
@@ -4793,7 +4793,7 @@ Read a csv / tab-delimited file
 ```
 
 ```{clojure results="asis"}
-(comment (api/dataset "DF.txt" {:key-fn keyword}))
+(api/dataset "DF.txt" {:key-fn keyword})
 ```
 
 ```{clojure results="asis"}
