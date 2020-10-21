@@ -83,8 +83,7 @@ examples](https://scicloj.github.io/tablecloth/index.html)
 
 ## TODO
 
-- tests
-- dataset manipulation (`tech.v2.datatype.functional`) functions
+  - tests
 
 ## Licence
 
