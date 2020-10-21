@@ -46,6 +46,16 @@ knit_engines$set(clojure = function(options) {
 [![](https://api.travis-ci.org/scicloj/tablecloth.svg?branch=master)](https://travis-ci.org/github/scicloj/tablecloth)
 [![](https://img.shields.io/badge/zulip-discussion-yellowgreen)](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
 
+## Versions
+
+### tech.ml.dataset 4.x
+
+`[scicloj/tablecloth "4.04"]`
+
+### tech.ml.dataset 5.x
+
+`[scicloj/tablecloth "5.0-SNAPSHOT"]`
+
 ## Introduction
 
 [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) is a great and fast library which brings columnar dataset to the Clojure. Chris Nuernberger has been working on this library for last year as a part of bigger `tech.ml` stack.
