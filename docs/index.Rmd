@@ -84,6 +84,14 @@ knit_engines$set(clojure = function(options) {
     engine_output(options, options$code, out)})
 ```
 
+```{clojure include=FALSE}
+(def tech-ml-version (get-in (read-string (slurp "deps.edn")) [:deps 'techascent/tech.ml.dataset :mvn/version]))
+```
+
+```{clojure results="asis"}
+tech-ml-version
+```
+
 ## Introduction
 
 [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) is a great and fast library which brings columnar dataset to the Clojure. Chris Nuernberger has been working on this library for last year as a part of bigger `tech.ml` stack.
@@ -2158,13 +2166,13 @@ Column can be also separated into several other columns using string as separato
 
 * dataset
 * source column
-* target columns
+* target columns - can be `nil` or `:infer` if `separator` returns map
 * separator as:
     - string - it's converted to regular expression and passed to `clojure.string/split` function
     - regex
     - or custom function (default: identity)
 * options
-    - `:drop-columns?` - whether drop source column or not (default: `true`)
+    - `:drop-columns?` - whether drop source column(s) or not (default: `true`). When set to `:all` keeps only separation result.
     - `:missing-subst` - values which should be treated as missing, can be set, sequence, value or function (default: `""`)
 
 Custom function (as separator) should return seqence of values for given value.
@@ -2211,6 +2219,25 @@ Works on grouped dataset
                                                         (mod v 1.0)]))
     (api/ungroup))
 ```
+
+---
+
+Separate using separator returning sequence of maps
+
+```{clojure results="asis"}
+(api/separate-column DS :V3 (fn [^double v]
+                              {:int-part (int (quot v 1.0))
+                               :fract-part (mod v 1.0)}))
+```
+
+Keeping only separated columns
+
+```{clojure results="asis"}
+(api/separate-column DS :V3 nil (fn [^double v]
+                                  {:int-part (int (quot v 1.0))
+                                   :fract-part (mod v 1.0)}) {:drop-column? :all})
+```
+
 
 ---
 

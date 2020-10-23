@@ -46,15 +46,16 @@
 
 (defn- separate-column->columns
   [col target-columns replace-missing separator-fn]
-  (let [res (map separator-fn col)]
-    (->> (map-indexed vector target-columns)
-         (reduce (fn [curr [idx colname]]
-                   (if-not colname
-                     curr
-                     (conj curr colname (map #(replace-missing (nth % idx)) res)))) [])
-         (apply array-map)
-         (ds/->dataset)
-         (ds/columns))))
+  (let [res (pmap separator-fn col)]
+    (if-not (iterable-sequence? target-columns)
+      (ds/->dataset res) ;; ds/column->dataset functionality
+      (->> (map-indexed vector target-columns)
+           (reduce (fn [curr [idx colname]]
+                     (if-not colname
+                       curr
+                       (conj curr colname (map #(replace-missing (nth % idx)) res)))) [])
+           (apply array-map)
+           (ds/->dataset)))))
 
 
 (defn- prepare-missing-subst-fn
@@ -68,17 +69,19 @@
 
 (defn- process-separate-columns
   [ds column target-columns replace-missing separator-fn drop-column?]
-  (let [result (seq (separate-column->columns (ds column) target-columns replace-missing separator-fn))
-        [dataset-before dataset-after] (map (partial ds/select-columns ds)
-                                            (split-with #(not= % column)
-                                                        (ds/column-names ds)))]
-    (cond-> (ds/->dataset dataset-before)
-      (not drop-column?) (ds/add-column (ds column))
-      result (ds/append-columns result)
-      :else (ds/append-columns (ds/columns (ds/drop-columns dataset-after [column]))))))
+  (let [result (separate-column->columns (ds column) target-columns replace-missing separator-fn)]
+    (if (= drop-column? :all)
+      result
+      (let [[dataset-before dataset-after] (map (partial ds/select-columns ds)
+                                                (split-with #(not= % column)
+                                                            (ds/column-names ds)))]
+        (cond-> (ds/->dataset dataset-before)
+          (not drop-column?) (ds/add-column (ds column))
+          result (ds/append-columns (seq (ds/columns result)))
+          :else (ds/append-columns (ds/columns (ds/drop-columns dataset-after [column]))))))))
 
-(defn separate-column
-  ([ds column target-columns] (separate-column ds column target-columns identity))
+(defn separate-column  
+  ([ds column separator] (separate-column ds column nil separator))
   ([ds column target-columns separator] (separate-column ds column target-columns separator nil))
   ([ds column target-columns separator {:keys [missing-subst drop-column? parallel?]
                                         :or {missing-subst "" drop-column? true}}]

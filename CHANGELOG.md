@@ -7,11 +7,13 @@
 ### Added
 
 * `map-columns` accepts optional target datatype
+* `ds/column->dataset` functionality introduced in `separate-column`
 
 ### Changed
 
 * `write-csv!` replaced by `write!` (`write-csv!` is marked as deprecated)
 * `info` field `:size` is replaced by `:n-elems`
+* [breaking] `separate-column` 3-arity version accepts `separator` instead `target-columns` now
 
 ## [4.04]
 
