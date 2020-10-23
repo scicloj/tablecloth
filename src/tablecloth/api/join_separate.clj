@@ -84,7 +84,7 @@
   ([ds column separator] (separate-column ds column nil separator))
   ([ds column target-columns separator] (separate-column ds column target-columns separator nil))
   ([ds column target-columns separator {:keys [missing-subst drop-column? parallel?]
-                                        :or {missing-subst "" drop-column? true}}]
+                                        :or {missing-subst ""}}]
    (let [separator-fn (cond
                         (string? separator) (let [pat (re-pattern separator)]
                                               #(-> (str %)
@@ -97,7 +97,11 @@
                         :else separator)
          replace-missing (if missing-subst
                            (prepare-missing-subst-fn missing-subst)
-                           identity)]
+                           identity)
+         drop-column? (cond
+                        (not (nil? drop-column?)) drop-column?
+                        (not (iterable-sequence? target-columns)) :all
+                        :else true)]
      
      (if (grouped? ds)       
        (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?) parallel?)

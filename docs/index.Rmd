@@ -2172,7 +2172,7 @@ Column can be also separated into several other columns using string as separato
     - regex
     - or custom function (default: identity)
 * options
-    - `:drop-columns?` - whether drop source column(s) or not (default: `true`). When set to `:all` keeps only separation result.
+    - `:drop-columns?` - whether drop source column(s) or not (default: `true` or `:all` in case of empty `target-columns`). When set to `:all` keeps only separation result.
     - `:missing-subst` - values which should be treated as missing, can be set, sequence, value or function (default: `""`)
 
 Custom function (as separator) should return seqence of values for given value.
@@ -2222,7 +2222,7 @@ Works on grouped dataset
 
 ---
 
-Separate using separator returning sequence of maps
+Separate using separator returning sequence of maps, in this case we drop all other columns.
 
 ```{clojure results="asis"}
 (api/separate-column DS :V3 (fn [^double v]
@@ -2230,12 +2230,12 @@ Separate using separator returning sequence of maps
                                :fract-part (mod v 1.0)}))
 ```
 
-Keeping only separated columns
+Keeping all columns
 
 ```{clojure results="asis"}
 (api/separate-column DS :V3 nil (fn [^double v]
                                   {:int-part (int (quot v 1.0))
-                                   :fract-part (mod v 1.0)}) {:drop-column? :all})
+                                   :fract-part (mod v 1.0)}) {:drop-column? false})
 ```
 
 

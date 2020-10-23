@@ -571,7 +571,7 @@ Rows as sequence of sequences
 (take 2 (api/rows ds))
 ```
 
-    ([#object[java.time.LocalDate 0x46bbf6b3 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x4fcb3cf2 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
+    ([#object[java.time.LocalDate 0x41c7c04c "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x320bdc2c "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
 
 -----
 
@@ -581,13 +581,13 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (api/rows ds :as-maps)))
 ```
 
-    ({"date" #object[java.time.LocalDate 0x171fcba1 "2012-01-01"],
+    ({"date" #object[java.time.LocalDate 0x56f8067d "2012-01-01"],
       "precipitation" 0.0,
       "temp_min" 5.0,
       "weather" "drizzle",
       "temp_max" 12.8,
       "wind" 4.7}
-     {"date" #object[java.time.LocalDate 0x23f4c38e "2012-01-02"],
+     {"date" #object[java.time.LocalDate 0xed7bcdd "2012-01-02"],
       "precipitation" 10.9,
       "temp_min" 2.8,
       "weather" "rain",
@@ -1864,7 +1864,7 @@ You can also pass mapping function with optional columns-selector
 
 \_unnamed \[9 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@4c5435a1> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@4d81d165> |
 | -- | -- | --------- | --------------------------- |
 | 1  | 1  | 0.5       | A                           |
 | 2  | 2  | 1.0       | B                           |
@@ -1936,22 +1936,22 @@ Function works on grouped dataset
 
 {1 Group: 1 \[5 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@63181fb3> |
-| -- | -- | --------- | --------------------------- |
-| 1  | 1  | 0.5       | A                           |
-| 1  | 3  | 1.5       | C                           |
-| 1  | 5  | 1.0       | B                           |
-| 1  | 7  | 0.5       | A                           |
-| 1  | 9  | 1.5       | C                           |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@c406a59> |
+| -- | -- | --------- | -------------------------- |
+| 1  | 1  | 0.5       | A                          |
+| 1  | 3  | 1.5       | C                          |
+| 1  | 5  | 1.0       | B                          |
+| 1  | 7  | 0.5       | A                          |
+| 1  | 9  | 1.5       | C                          |
 
 , 2 Group: 2 \[4 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@63181fb3> |
-| -- | -- | --------- | --------------------------- |
-| 2  | 2  | 1.0       | B                           |
-| 2  | 4  | 0.5       | A                           |
-| 2  | 6  | 1.5       | C                           |
-| 2  | 8  | 1.0       | B                           |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@c406a59> |
+| -- | -- | --------- | -------------------------- |
+| 2  | 2  | 1.0       | B                          |
+| 2  | 4  | 0.5       | A                          |
+| 2  | 6  | 1.5       | C                          |
+| 2  | 8  | 1.0       | B                          |
 
 }
 
@@ -2009,15 +2009,15 @@ Replace one column (column is trimmed)
 
 | :V1    | :V2 | :V3 | :V4 |
 | ------ | --- | --- | --- |
-| 0.6521 | 1   | 0.5 | A   |
-| 0.3723 | 2   | 1.0 | B   |
-| 0.4092 | 3   | 1.5 | C   |
-| 0.6050 | 4   | 0.5 | A   |
-| 0.4086 | 5   | 1.0 | B   |
-| 0.3409 | 6   | 1.5 | C   |
-| 0.4996 | 7   | 0.5 | A   |
-| 0.9523 | 8   | 1.0 | B   |
-| 0.8567 | 9   | 1.5 | C   |
+| 0.3172 | 1   | 0.5 | A   |
+| 0.6540 | 2   | 1.0 | B   |
+| 0.9031 | 3   | 1.5 | C   |
+| 0.9320 | 4   | 0.5 | A   |
+| 0.9832 | 5   | 1.0 | B   |
+| 0.8158 | 6   | 1.5 | C   |
+| 0.7560 | 7   | 0.5 | A   |
+| 0.8109 | 8   | 1.0 | B   |
+| 0.2131 | 9   | 1.5 | C   |
 
 -----
 
@@ -2291,14 +2291,14 @@ map.
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
 | 1   | 4   | 0.5 | A   |
-| 2   | 5   | 1.0 | B   |
-| 1   | 7   | 1.5 | C   |
-| 2   | 8   | 0.5 | A   |
-| 1   | 6   | 1.0 | B   |
-| 2   | 9   | 1.5 | C   |
-| 1   | 3   | 0.5 | A   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 1   | 1.5 | C   |
+| 2   | 1   | 1.0 | B   |
+| 1   | 2   | 1.5 | C   |
+| 2   | 6   | 0.5 | A   |
+| 1   | 9   | 1.0 | B   |
+| 2   | 3   | 1.5 | C   |
+| 1   | 8   | 0.5 | A   |
+| 2   | 7   | 1.0 | B   |
+| 1   | 5   | 1.5 | C   |
 
 #### Map
 
@@ -2552,7 +2552,7 @@ Double array conversion.
 (api/->array DS :V1)
 ```
 
-    #object["[J" 0x14118d22 "[J@14118d22"]
+    #object["[J" 0x1b4e96cb "[J@1b4e96cb"]
 
 -----
 
@@ -2564,7 +2564,7 @@ Function also works on grouped dataset
     (api/->array :V2))
 ```
 
-    (#object["[J" 0x717b9b54 "[J@717b9b54"] #object["[J" 0x452dd34c "[J@452dd34c"] #object["[J" 0x3800d6ed "[J@3800d6ed"])
+    (#object["[J" 0xcca2e9c "[J@cca2e9c"] #object["[J" 0x7cb26df4 "[J@7cb26df4"] #object["[J" 0x38712b94 "[J@38712b94"])
 
 -----
 
@@ -2575,8 +2575,8 @@ You can also cast the type to the other one (if casting is possible):
 (api/->array DS :V1 :float32)
 ```
 
-    #object["[Ljava.lang.String;" 0x6ad55b83 "[Ljava.lang.String;@6ad55b83"]
-    #object["[F" 0x71d1962c "[F@71d1962c"]
+    #object["[Ljava.lang.String;" 0x4fe9402a "[Ljava.lang.String;@4fe9402a"]
+    #object["[F" 0x54ed2f09 "[F@54ed2f09"]
 
 ### Rows
 
@@ -2773,7 +2773,7 @@ Random row (single)
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 3   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
 
 -----
 
@@ -2801,15 +2801,15 @@ Random `n` (default: row count) rows with repetition.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 2   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
 | 2   | 4   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
 | 1   | 5   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 1   | 0.5 | A   |
 
 -----
 
@@ -2823,11 +2823,11 @@ Five random rows with repetition
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 3   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
-| 1   | 3   | 1.5 | C   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
 
 -----
 
@@ -2841,11 +2841,11 @@ Five random, non-repeating rows
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 7   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
 | 2   | 6   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 4   | 0.5 | A   |
 
 -----
 
@@ -2877,14 +2877,14 @@ Shuffle dataset
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
+| 2   | 8   | 1.0 | B   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 3   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
 | 1   | 5   | 1.0 | B   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
 | 1   | 1   | 0.5 | A   |
 
 -----
@@ -3015,19 +3015,19 @@ Select 5 random rows from each group
 | --- | --- | --- | --- |
 | 1   | 1   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
+| 2   | 4   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
 | 1   | 5   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
 
 ### Aggregate
 
@@ -3551,7 +3551,7 @@ Random
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 1   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
 
 -----
@@ -4466,8 +4466,8 @@ separator, regex or custom function. Arguments:
       - or custom function (default: identity)
   - options
       - `:drop-columns?` - whether drop source column(s) or not
-        (default: `true`). When set to `:all` keeps only separation
-        result.
+        (default: `true` or `:all` in case of empty `target-columns`).
+        When set to `:all` keeps only separation result.
       - `:missing-subst` - values which should be treated as missing,
         can be set, sequence, value or function (default: `""`)
 
@@ -4575,34 +4575,13 @@ Works on grouped dataset
 
 -----
 
-Separate using separator returning sequence of maps
+Separate using separator returning sequence of maps, in this case we
+drop all other columns.
 
 ``` clojure
 (api/separate-column DS :V3 (fn [^double v]
                               {:int-part (int (quot v 1.0))
                                :fract-part (mod v 1.0)}))
-```
-
-\_unnamed \[9 5\]:
-
-| :V1 | :V2 | :int-part | :fract-part | :V4 |
-| --- | --- | --------- | ----------- | --- |
-| 1   | 1   | 0         | 0.5         | A   |
-| 2   | 2   | 1         | 0.0         | B   |
-| 1   | 3   | 1         | 0.5         | C   |
-| 2   | 4   | 0         | 0.5         | A   |
-| 1   | 5   | 1         | 0.0         | B   |
-| 2   | 6   | 1         | 0.5         | C   |
-| 1   | 7   | 0         | 0.5         | A   |
-| 2   | 8   | 1         | 0.0         | B   |
-| 1   | 9   | 1         | 0.5         | C   |
-
-Keeping only separated columns
-
-``` clojure
-(api/separate-column DS :V3 nil (fn [^double v]
-                                  {:int-part (int (quot v 1.0))
-                                   :fract-part (mod v 1.0)}) {:drop-column? :all})
 ```
 
 \_unnamed \[9 2\]:
@@ -4618,6 +4597,28 @@ Keeping only separated columns
 | 0         | 0.5         |
 | 1         | 0.0         |
 | 1         | 0.5         |
+
+Keeping all columns
+
+``` clojure
+(api/separate-column DS :V3 nil (fn [^double v]
+                                  {:int-part (int (quot v 1.0))
+                                   :fract-part (mod v 1.0)}) {:drop-column? false})
+```
+
+\_unnamed \[9 6\]:
+
+| :V1 | :V2 | :V3 | :int-part | :fract-part | :V4 |
+| --- | --- | --- | --------- | ----------- | --- |
+| 1   | 1   | 0.5 | 0         | 0.5         | A   |
+| 2   | 2   | 1.0 | 1         | 0.0         | B   |
+| 1   | 3   | 1.5 | 1         | 0.5         | C   |
+| 2   | 4   | 0.5 | 0         | 0.5         | A   |
+| 1   | 5   | 1.0 | 1         | 0.0         | B   |
+| 2   | 6   | 1.5 | 1         | 0.5         | C   |
+| 1   | 7   | 0.5 | 0         | 0.5         | A   |
+| 2   | 8   | 1.0 | 1         | 0.0         | B   |
+| 1   | 9   | 1.5 | 1         | 0.5         | C   |
 
 -----
 
@@ -5589,10 +5590,10 @@ pnl
 
 | :x | :a | :b | :y1        | :y2        | :z1 | :z2 |
 | -- | -- | -- | ---------- | ---------- | --- | --- |
-| 1  | 1  | 0  | 0.80668582 | 0.27093039 | 3   | \-2 |
-| 2  | 1  | 1  | 0.94662821 | 0.45581510 | 3   | \-2 |
-| 3  | 0  | 1  | 0.54685978 | 0.06968096 | 3   | \-2 |
-| 4  | 0  | 1  | 0.71557803 | 0.48652720 | 3   | \-2 |
+| 1  | 1  | 0  | 0.09160042 | 0.39780304 | 3   | \-2 |
+| 2  | 1  | 1  | 0.82935186 | 0.91092767 | 3   | \-2 |
+| 3  | 0  | 1  | 0.12988828 | 0.08752333 | 3   | \-2 |
+| 4  | 0  | 1  | 0.95762364 | 0.49599950 | 3   | \-2 |
 
 ``` clojure
 (api/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
@@ -5603,14 +5604,14 @@ pnl
 
 | :x | :a | :b | :times | y          | z   |
 | -- | -- | -- | ------ | ---------- | --- |
-| 1  | 1  | 0  | 1      | 0.80668582 | 3   |
-| 2  | 1  | 1  | 1      | 0.94662821 | 3   |
-| 3  | 0  | 1  | 1      | 0.54685978 | 3   |
-| 4  | 0  | 1  | 1      | 0.71557803 | 3   |
-| 1  | 1  | 0  | 2      | 0.27093039 | \-2 |
-| 2  | 1  | 1  | 2      | 0.45581510 | \-2 |
-| 3  | 0  | 1  | 2      | 0.06968096 | \-2 |
-| 4  | 0  | 1  | 2      | 0.48652720 | \-2 |
+| 1  | 1  | 0  | 1      | 0.09160042 | 3   |
+| 2  | 1  | 1  | 1      | 0.82935186 | 3   |
+| 3  | 0  | 1  | 1      | 0.12988828 | 3   |
+| 4  | 0  | 1  | 1      | 0.95762364 | 3   |
+| 1  | 1  | 0  | 2      | 0.39780304 | \-2 |
+| 2  | 1  | 1  | 2      | 0.91092767 | \-2 |
+| 3  | 0  | 1  | 2      | 0.08752333 | \-2 |
+| 4  | 0  | 1  | 2      | 0.49599950 | \-2 |
 
 #### Wider
 
@@ -7138,30 +7139,30 @@ null \[27 4\]:
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
 | 1   | 5   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 1   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 3   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
 | 2   | 6   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
 
 #### Union
 
@@ -7204,15 +7205,15 @@ union \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 9   | 1.5 | C   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
+| 2   | 6   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
 | 2   | 2   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
 
 #### Bind
 
@@ -8741,9 +8742,9 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
+| 1   | 9   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
 
 ``` clojure
 (api/random DS (/ (api/row-count DS) 2)) ;; fraction of random rows
@@ -8754,10 +8755,10 @@ Other filters
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
 | 2   | 8   | 1.0 | B   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
 | 2   | 8   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 6   | 1.5 | C   |
 
 ``` clojure
 (api/by-rank DS :V1 zero?) ;; take top n entries
