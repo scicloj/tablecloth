@@ -17,7 +17,7 @@
   [ds]
   (vary-meta ds dissoc :grouped?))
 
-(defn- mark-as-group
+(defn mark-as-group
   "Add grouping tag"
   [ds]
   (vary-meta ds assoc
