@@ -73,10 +73,8 @@
         :else (fn [ds] (ds/unique-by-column columns-selector local-options ds))))))
 
 (defn- maybe-skip-unique
-  [ds ufn]
-  (if (= 1 (ds/row-count ds))
-    ds
-    (ufn ds)))
+  [ufn ds]
+  (if (= 1 (ds/row-count ds)) ds (ufn ds)))
 
 (defn unique-by
   ([ds] (unique-by ds (ds/column-names ds)))
@@ -85,8 +83,9 @@
                          :or {strategy :first}
                          :as options}]
    (let [selected-keys (column-names ds select-keys)
-         ufn (unique-by-fn strategy columns-selector selected-keys options)]
+         ufn (unique-by-fn strategy columns-selector selected-keys options)
+         ufn (if (fn? strategy) ufn (partial maybe-skip-unique ufn))]
 
      (if (grouped? ds)
-       (process-group-data ds #(maybe-skip-unique % ufn) parallel?)
-       (maybe-skip-unique ds ufn)))))
+       (process-group-data ds ufn parallel?)
+       (ufn ds)))))

@@ -1,5 +1,11 @@
 # Change Log
 
+## [4.04.1]
+
+### Fixed
+
+* do not skip 1-row DS when folding
+
 ## [4.04]
 
 `tech.ml.dataset` version 4.04
