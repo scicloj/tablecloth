@@ -1,6 +1,6 @@
 (ns tablecloth.api.utils
   (:require [tech.v3.dataset :as ds]
-            [tech.io :as tio]))
+            [tech.v3.io :as tio]))
 
 ;;;;;;;;;;;;
 ;; HELPERS

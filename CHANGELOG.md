@@ -15,6 +15,10 @@
 * `info` field `:size` is replaced by `:n-elems`
 * [breaking] `separate-column` 3-arity version accepts `separator` instead `target-columns` now
 
+### Fixed
+
+* do not skip 1-row DS when folding
+
 ## [4.04]
 
 `tech.ml.dataset` version 4.04
