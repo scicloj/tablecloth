@@ -18,6 +18,7 @@
 ### Fixed
 
 * do not skip 1-row DS when folding
+* do not attempt to fold empty dataset
 
 ## [4.04]
 

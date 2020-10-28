@@ -9,6 +9,11 @@
   (is (api/dataset? DS))
   (is (not (api/dataset? {}))))
 
+(deftest empty-ds
+  (is (api/empty-ds? (api/dataset)))
+  (is (api/empty-ds? (api/dataset {:a []})))
+  (is (not (api/empty-ds? DS))))
+
 (deftest dataset-creation
   (is (and (zero? (api/row-count (api/dataset)))
            (zero? (api/column-count (api/dataset)))))

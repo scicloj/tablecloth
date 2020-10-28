@@ -15,6 +15,10 @@
   [ds]
   (satisfies? prot/PColumnarDataset ds))
 
+(defn empty-ds?
+  [ds]
+  (zero? (ds/row-count ds)))
+
 (defn- fix-map-dataset
   "If map contains value which is not a sequence, convert it to a sequence."
   [map-ds]
