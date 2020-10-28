@@ -1,5 +1,11 @@
 # Change Log
 
+## [4.04.2]
+
+### Fixed
+
+* folding empty ds (#8)
+
 ## [4.04.1]
 
 ### Fixed

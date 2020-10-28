@@ -3,7 +3,7 @@
             [tech.v2.datatype.protocols :as dtype-proto]
             
             [tablecloth.api.utils :refer [iterable-sequence? column-names]]
-            [tablecloth.api.dataset :refer [dataset]]
+            [tablecloth.api.dataset :refer [dataset empty-ds?]]
             [tablecloth.api.columns :refer [select-columns]]
             [tablecloth.api.group-by :refer [grouped? process-group-data ungroup]]
             [tech.ml.dataset.column :as col]
@@ -76,6 +76,10 @@
   [ufn ds]
   (if (= 1 (ds/row-count ds)) ds (ufn ds)))
 
+(defn- maybe-empty
+  [ufn ds]
+  (if (empty-ds? ds) ds (ufn ds)))
+
 (defn unique-by
   ([ds] (unique-by ds (ds/column-names ds)))
   ([ds columns-selector] (unique-by ds columns-selector nil))
@@ -84,7 +88,7 @@
                          :as options}]
    (let [selected-keys (column-names ds select-keys)
          ufn (unique-by-fn strategy columns-selector selected-keys options)
-         ufn (if (fn? strategy) ufn (partial maybe-skip-unique ufn))]
+         ufn (partial maybe-empty (if (fn? strategy) ufn (partial maybe-skip-unique ufn)))]
 
      (if (grouped? ds)
        (process-group-data ds ufn parallel?)

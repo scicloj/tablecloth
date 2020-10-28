@@ -23,6 +23,7 @@
 
 (exporter/export-symbols tablecloth.api.dataset
                          dataset?
+                         empty-ds?
                          dataset
                          shape
                          info
