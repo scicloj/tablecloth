@@ -8,6 +8,7 @@
 
 * `map-columns` accepts optional target datatype
 * `ds/column->dataset` functionality introduced in `separate-column`
+* more datatypes included for conversion (`:text` among others)
 
 ### Changed
 

@@ -183,6 +183,7 @@
        :else (let [col (ds colname)]
                (condp = (dtype/get-datatype col)
                  :string (ds/add-or-update-column ds colname (col/parse-column new-type col))
+                 :text (ds/add-or-update-column ds colname (col/parse-column new-type col))
                  :object (if (string? (dtype/get-value col 0))
                            (-> (ds/column-cast ds colname :string)
                                (ds/column colname)
@@ -218,3 +219,4 @@
        (if (and datatype (not= datatype (dtype/get-datatype c)))
          (dtype/->array datatype c)
          (dtype/->array-copy c))))))
+

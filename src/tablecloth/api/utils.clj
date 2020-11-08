@@ -55,9 +55,13 @@
   {:datetime #{:zoned-date-time :local-date :local-time :local-date-time :instant :duration
                :packed-zoned-date-time :packed-local-date :packed-local-time
                :packed-local-date-time :packed-instant :packed-duration}
-   :integer #{:int16 :int32 :int64}
-   :float #{:float32 :float64}
-   :numerical #{:int16 :int32 :int64 :float32 :float64}})
+   :integer #{:int8 :int16 :int32 :int64 :uint8 :uint16 :uint32 :uint64
+              :long :int :short :byte}
+   :float #{:float32 :float64 :double :float}
+   :numerical #{:int8 :int16 :int32 :int64 :uint8 :uint16 :uint32 :uint64
+                :long :int :short :byte
+                :float32 :float64 :double :float}
+   :textual #{:text :string}})
 
 (defn type?
   [general-type datatype]
