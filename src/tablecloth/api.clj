@@ -1,7 +1,6 @@
 (ns tablecloth.api
   (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle])  
-  (:require [tech.v3.datatype.export-symbols :as exporter]
-            [tech.v3.dataset :as ds]))
+  (:require [tech.v3.datatype.export-symbols :as exporter]))
 
 (exporter/export-symbols tech.v3.datatype
                          clone)
@@ -128,3 +127,4 @@
 
 (def select (partial select-or-drop select-columns select-rows))
 (def drop (partial select-or-drop drop-columns drop-rows))
+

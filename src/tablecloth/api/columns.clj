@@ -138,17 +138,22 @@
   (reduce (fn [ds [c f]]
             (ds/update-column ds c f)) ds lst))
 
+(defn- do-update-columns
+  [ds lst]
+  (if (grouped? ds)
+    (process-group-data #(process-update-columns % lst))
+    (process-update-columns ds lst)))
+
 (defn update-columns
-  ([ds columns-map] (update-columns ds (keys columns-map) (vals columns-map)))
+  ([ds columns-map]
+   (do-update-columns ds (seq columns-map)))
   ([ds columns-selector update-functions]
    (let [col-names (column-names ds columns-selector)
          fns (if (iterable-sequence? update-functions)
                (cycle update-functions)
                (repeat update-functions))
-         lst  (map vector col-names fns)]
-     (if (grouped? ds)
-       (process-group-data #(process-update-columns % lst))
-       (process-update-columns ds lst)))))
+         lst (map vector col-names fns)]
+     (do-update-columns ds lst))))
 
 (defn map-columns
   ([ds column-name map-fn] (map-columns ds column-name nil column-name map-fn))
