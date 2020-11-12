@@ -2,6 +2,16 @@
 [![](https://api.travis-ci.org/scicloj/tablecloth.svg?branch=master)](https://travis-ci.org/github/scicloj/tablecloth)
 [![](https://img.shields.io/badge/zulip-discussion-yellowgreen)](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
 
+## Versions
+
+### tech.ml.dataset 4.x (4.0 branch)
+
+`[scicloj/tablecloth "4.04"]`
+
+### tech.ml.dataset 5.x (master branch)
+
+`[scicloj/tablecloth "5.0-SNAPSHOT"]`
+
 ## Introduction
 
 [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) is a
