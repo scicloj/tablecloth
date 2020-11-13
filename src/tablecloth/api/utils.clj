@@ -107,18 +107,18 @@
 
 ;; nippy
 
-(defn gzipped?
+(defn- gzipped?
   [filename]
   (re-matches #".+\.gz$" filename))
 
-(defn write-nippy!
+(defn ^:deprecated write-nippy!
   [ds filename]
   (let [f (if (gzipped? filename)
             (tio/gzip-output-stream! filename)
             filename)]
     (tio/put-nippy! f ds)))
 
-(defn read-nippy
+(defn ^:deprecated read-nippy
   [filename]
   (let [f (if (gzipped? filename)
             (tio/gzip-input-stream filename)

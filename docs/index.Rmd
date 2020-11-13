@@ -273,11 +273,11 @@ Export dataset to a file or output stream can be done by calling `api/write!`. F
 ##### Nippy
 
 ```{clojure}
-(api/write-nippy! DS "output.nippy.gz")
+(api/write! DS "output.nippy.gz")
 ```
 
 ```{clojure results="asis"}
-(api/read-nippy "output.nippy.gz")
+(api/dataset "output.nippy.gz")
 ```
 
 #### Dataset related functions
@@ -4802,7 +4802,7 @@ Write data to a csv file
 Write data to a tab-delimited file
 
 ```{clojure}
-(api/write-csv! DS "DF.txt" {:separator \tab})
+(api/write! DS "DF.txt" {:separator \tab})
 ```
 
 or

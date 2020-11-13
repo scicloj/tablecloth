@@ -1,5 +1,13 @@
 # Change Log
 
+## [5.00-beta-2]
+
+t.m.d update
+
+### Changed
+
+* `write-nippy!` and `read-nippy` are deprecated, replaced by `write!` and `dataset`
+
 ## [5.0-SNAPSHOT]
 
 `tech.ml.dataset` version 5.0-alpha*
