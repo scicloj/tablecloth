@@ -1,5 +1,5 @@
 ---
-title: "Dplyr-like API for tech.ml.dataset"
+title: "Dataset manipulation API for tech.ml.dataset library"
 author: GenerateMe
 date: "`r Sys.Date()`"
 output:

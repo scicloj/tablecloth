@@ -10,7 +10,7 @@
 
 ### tech.ml.dataset 5.x (master branch)
 
-`[scicloj/tablecloth "5.0-SNAPSHOT"]`
+`[scicloj/tablecloth "5.00-beta-3"]`
 
 ## Introduction
 
@@ -91,9 +91,57 @@ examples](https://scicloj.github.io/tablecloth/index.html)
 | AAPL    | 2008  | 138.48083333 |
 | AAPL    | 2009  | 150.39333333 |
 
+## Contributing
+
+`Tablecloth` is open for contribution. The best way to start is
+discussion on
+[Zulip](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api).
+
+### Development tools for documentation
+
+Documentation is written in RMarkdown, that means that you need R to
+create html/md/pdf files. Documentation contains around 600 code
+snippets which are run during build. There are two files:
+
+  - `README.Rmd`
+  - `docs/index.Rmd`
+
+Prepare following software:
+
+1.  Install [R](https://www.r-project.org/)
+2.  Install [rep](https://github.com/eraserhd/rep), nRepl client
+3.  Install `pandoc`
+4.  Run nRepl
+5.  Run R and install R packages:
+    `install.packages(c("rmarkdown","knitr"), dependencies=T)`
+6.  Load rmarkdown: `library(rmarkdown)`
+7.  Render readme: `render("README.Rmd","md_document")`
+8.  Render documentation: `render("docs/index.Rmd","all")`
+
+### Guideline
+
+1.  Before commiting changes please perform tests. I ususally do: `lein
+    do clean, check, test` and build documentation as described above
+    (which also tests whole library).
+2.  Keep API as simple as possible:
+      - first argument should be a dataset
+      - if parametrizations is complex, last argument should accept a
+        map with not obligatory function arguments
+      - avoid variadic associative destructuring for function arguments
+      - usually function should working on grouped dataset as well,
+        accept `parallel?` argument then (if applied).
+3.  Follow `potemkin` pattern and import functions to the API namespace
+    using `tech.v3.datatype.export-symbols/export-symbols` function
+4.  Functions which are composed out of API function to cover specific
+    case(s) should go to `tablecloth.utils` namespace.
+5.  Always update `README.Rmd`, `CHANGELOG.md`, `docs/index.Rmd`, tests
+    and function docs are highly welcomed
+6.  Always discuss changes and PRs first
+
 ## TODO
 
   - tests
+  - tutorials
 
 ## Licence
 
