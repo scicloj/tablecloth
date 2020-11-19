@@ -8,7 +8,9 @@
   (let [empty-col (api/dataset {:a [nil nil]})]
     (is (= 2 (-> empty-col api/select-missing api/row-count)))
     (is (= 0 (-> empty-col api/drop-missing api/row-count)))
-    (is (= 0 (-> empty-col (api/replace-missing :a :value 0) api/select-missing api/row-count)))))
+    (is (= 0 (-> empty-col (api/replace-missing :a :value 0) api/select-missing api/row-count)))
+    (is (= 2 (-> empty-col (api/replace-missing :a :value dfn/mean) api/select-missing api/row-count)))
+    (is (= 2 (-> empty-col api/replace-missing api/select-missing api/row-count)))))
 
 (def ds (api/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
                       :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))

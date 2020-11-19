@@ -1,12 +1,16 @@
 # Change Log
 
+## [5.00-beta-5]
+
+t.m.d update
+
 ## [5.00-beta-3]
 
 t.m.d update
 
 ### Changed
 
-* contribution guite in readme
+* contribution guide in readme
 
 ## [5.00-beta-2]
 
