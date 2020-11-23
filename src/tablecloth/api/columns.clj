@@ -174,6 +174,7 @@
                                         (partial contains?)
                                         (complement)))]
     (ds/select-columns ds (clojure.core/concat selected-cols rest-cols))))
+
 ;;
 
 (defn- process-convert-column-type

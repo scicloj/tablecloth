@@ -41,7 +41,7 @@
     ["year"] "year"
     ["year"] ["year"]
     ["iso2" "year"] #{"year" "iso2"}
-    ["country" "new_sp_m014"] ["new_sp_m014" "country"] ;; order of columns is kept
+    ["new_sp_m014" "country"] ["new_sp_m014" "country"]
     ["iso2" "iso3"] #(str/starts-with? % "iso")
     ["country"] {"country" nil} ;; only keys are used
     ["iso2" "iso3"] #"^i.*")
@@ -73,7 +73,7 @@
     ["year"] "year"
     ["year"] ["year"]
     ["iso2" "year"] #{"year" "iso2"}
-    ["country" "new_sp_m014"] ["new_sp_m014" "country"] ;; order of columns is kept
+    ["new_sp_m014" "country"] ["new_sp_m014" "country"]
     ["iso2" "iso3"] #(str/starts-with? % "iso")
     ["country"] {"country" nil} ;; only keys are used
     ["iso2" "iso3"] #"^i.*")

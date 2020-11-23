@@ -72,6 +72,8 @@
   (let [k (-> datatype-columns-selector name keyword)]
     (get type-sets k #{k})))
 
+(prepare-datatype-set :type/string)
+
 (defn- filter-column-names
   "Filter column names"
   [ds columns-selector meta-field]
@@ -84,6 +86,11 @@
          (filter (comp columns-selector field-fn))
          (map :name))))
 
+(defn- filter-column-names-with-order
+  [ds column-names meta-field]
+  (let [existing-names (set (filter-column-names ds (partial contains? (set column-names)) meta-field))]
+    (filter existing-names column-names)))
+
 (defn column-names
   ([ds] (column-names ds :all))
   ([ds columns-selector] (column-names ds columns-selector :name))
@@ -95,14 +102,14 @@
                   (= "type" (namespace columns-selector))) (column-names ds (prepare-datatype-set columns-selector) :datatype)
              (and (keyword? columns-selector)
                   (= "!type" (namespace columns-selector))) (column-names ds (complement (prepare-datatype-set columns-selector)) :datatype)
+             (and (not (set? columns-selector)) ;; huh
+                  (iterable-sequence? columns-selector)) (filter-column-names-with-order ds columns-selector meta-field)
+             (map? columns-selector) (filter-column-names-with-order ds (keys columns-selector) meta-field)
              :else (let [csel-fn (cond
                                    (set? columns-selector) #(contains? columns-selector %)
-                                   (map? columns-selector) (set (keys columns-selector))
-                                   (iterable-sequence? columns-selector) (set columns-selector)
                                    (instance? java.util.regex.Pattern columns-selector) #(re-matches columns-selector (str %))
                                    (fn? columns-selector) columns-selector
-                                   :else #{columns-selector})
-                         csel-fn (if (set? csel-fn) #(contains? csel-fn %) csel-fn)]
+                                   :else #(= % columns-selector))]
                      (filter-column-names ds csel-fn meta-field)))))))
 
 ;; nippy

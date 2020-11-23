@@ -1,5 +1,11 @@
 # Change Log
 
+## [5.00-beta-5a]
+
+### Fixed
+
+* column names should keep order for provided names (#9)
+
 ## [5.00-beta-5]
 
 t.m.d update
