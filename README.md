@@ -4,13 +4,13 @@
 
 ## Versions
 
+### tech.ml.dataset 5.x (master branch)
+
+`[scicloj/tablecloth "5.00-beta-5a"]`
+
 ### tech.ml.dataset 4.x (4.0 branch)
 
 `[scicloj/tablecloth "4.04"]`
-
-### tech.ml.dataset 5.x (master branch)
-
-`[scicloj/tablecloth "5.00-beta-3"]`
 
 ## Introduction
 
