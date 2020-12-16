@@ -1,4 +1,4 @@
-(defproject scicloj/tablecloth "5.00-beta-5a"
+(defproject scicloj/tablecloth "5.00-beta-21"
   :description "Dataset manipulation library built on the top of tech.ml.dataset."
   :url "https://github.com/scicloj/tablecloth"
   :license {:name "The MIT Licence"

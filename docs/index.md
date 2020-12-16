@@ -29,7 +29,7 @@ pre.r::before {
 tech-ml-version
 ```
 
-“5.00-beta-5”
+“5.00-beta-21”
 
 ## Introduction
 
@@ -571,7 +571,7 @@ Rows as sequence of sequences
 (take 2 (api/rows ds))
 ```
 
-    ([#object[java.time.LocalDate 0x5db0f72a "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x1e9844c2 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
+    ([#object[java.time.LocalDate 0x202b3228 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x3597fd63 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
 
 -----
 
@@ -581,13 +581,13 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (api/rows ds :as-maps)))
 ```
 
-    ({"date" #object[java.time.LocalDate 0x616c0d48 "2012-01-01"],
+    ({"date" #object[java.time.LocalDate 0x99ce67e "2012-01-01"],
       "precipitation" 0.0,
       "temp_min" 5.0,
       "weather" "drizzle",
       "temp_max" 12.8,
       "wind" 4.7}
-     {"date" #object[java.time.LocalDate 0x4159316e "2012-01-02"],
+     {"date" #object[java.time.LocalDate 0x5bbf1728 "2012-01-02"],
       "precipitation" 10.9,
       "temp_min" 2.8,
       "weather" "rain",
@@ -1864,7 +1864,7 @@ You can also pass mapping function with optional columns-selector
 
 \_unnamed \[9 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@557e711f> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@3757313f> |
 | -- | -- | --------- | --------------------------- |
 | 1  | 1  | 0.5       | A                           |
 | 2  | 2  | 1.0       | B                           |
@@ -1936,7 +1936,7 @@ Function works on grouped dataset
 
 {1 Group: 1 \[5 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@1fc47393> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@5a57e602> |
 | -- | -- | --------- | --------------------------- |
 | 1  | 1  | 0.5       | A                           |
 | 1  | 3  | 1.5       | C                           |
@@ -1946,7 +1946,7 @@ Function works on grouped dataset
 
 , 2 Group: 2 \[4 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@1fc47393> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@5a57e602> |
 | -- | -- | --------- | --------------------------- |
 | 2  | 2  | 1.0       | B                           |
 | 2  | 4  | 0.5       | A                           |
@@ -2007,17 +2007,17 @@ Replace one column (column is trimmed)
 
 \_unnamed \[9 4\]:
 
-| :V1    | :V2 | :V3 | :V4 |
-| ------ | --- | --- | --- |
-| 0.3897 | 1   | 0.5 | A   |
-| 0.9891 | 2   | 1.0 | B   |
-| 0.2057 | 3   | 1.5 | C   |
-| 0.4765 | 4   | 0.5 | A   |
-| 0.4795 | 5   | 1.0 | B   |
-| 0.2019 | 6   | 1.5 | C   |
-| 0.5150 | 7   | 0.5 | A   |
-| 0.9207 | 8   | 1.0 | B   |
-| 0.7754 | 9   | 1.5 | C   |
+| :V1     | :V2 | :V3 | :V4 |
+| ------- | --- | --- | --- |
+| 0.02303 | 1   | 0.5 | A   |
+| 0.6944  | 2   | 1.0 | B   |
+| 0.9117  | 3   | 1.5 | C   |
+| 0.2053  | 4   | 0.5 | A   |
+| 0.6505  | 5   | 1.0 | B   |
+| 0.9121  | 6   | 1.5 | C   |
+| 0.7431  | 7   | 0.5 | A   |
+| 0.4502  | 8   | 1.0 | B   |
+| 0.2407  | 9   | 1.5 | C   |
 
 -----
 
@@ -2290,15 +2290,15 @@ map.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 8   | 0.5 | A   |
-| 2   | 9   | 1.0 | B   |
-| 1   | 7   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
+| 1   | 5   | 0.5 | A   |
+| 2   | 6   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 1   | 0.5 | A   |
 | 1   | 3   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
+| 2   | 7   | 1.5 | C   |
 | 1   | 2   | 0.5 | A   |
-| 2   | 5   | 1.0 | B   |
-| 1   | 1   | 1.5 | C   |
+| 2   | 4   | 1.0 | B   |
+| 1   | 8   | 1.5 | C   |
 
 #### Map
 
@@ -2552,7 +2552,7 @@ Double array conversion.
 (api/->array DS :V1)
 ```
 
-    #object["[J" 0x12a6a7d3 "[J@12a6a7d3"]
+    #object["[J" 0x286a7321 "[J@286a7321"]
 
 -----
 
@@ -2564,7 +2564,7 @@ Function also works on grouped dataset
     (api/->array :V2))
 ```
 
-    (#object["[J" 0x4e8992e3 "[J@4e8992e3"] #object["[J" 0x41ca3a78 "[J@41ca3a78"] #object["[J" 0x3048ae5e "[J@3048ae5e"])
+    (#object["[J" 0x11d218e6 "[J@11d218e6"] #object["[J" 0x77f1cc3b "[J@77f1cc3b"] #object["[J" 0x3553d215 "[J@3553d215"])
 
 -----
 
@@ -2575,8 +2575,8 @@ You can also cast the type to the other one (if casting is possible):
 (api/->array DS :V1 :float32)
 ```
 
-    #object["[Ljava.lang.String;" 0x5f4b1471 "[Ljava.lang.String;@5f4b1471"]
-    #object["[F" 0x444ffd78 "[F@444ffd78"]
+    #object["[Ljava.lang.String;" 0x4a6a8b86 "[Ljava.lang.String;@4a6a8b86"]
+    #object["[F" 0x516e4165 "[F@516e4165"]
 
 ### Rows
 
@@ -2773,7 +2773,7 @@ Random row (single)
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 4   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
 
 -----
 
@@ -2801,15 +2801,15 @@ Random `n` (default: row count) rows with repetition.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
+| 1   | 7   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
 
 -----
 
@@ -2823,11 +2823,11 @@ Five random rows with repetition
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 9   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
 
 -----
 
@@ -2841,10 +2841,10 @@ Five random, non-repeating rows
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 8   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
 | 2   | 2   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
 
 -----
@@ -2877,15 +2877,15 @@ Shuffle dataset
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 1   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
 
 -----
 
@@ -3013,21 +3013,21 @@ Select 5 random rows from each group
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 4   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
 | 2   | 2   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
 | 1   | 5   | 1.0 | B   |
 | 1   | 9   | 1.5 | C   |
 | 1   | 3   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
 
 ### Aggregate
 
@@ -3551,8 +3551,8 @@ Random
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 1   | 0.5 | A   |
 | 2   | 6   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
 
 -----
 
@@ -3775,7 +3775,7 @@ Missing values can be replaced using several strategies.
 
   - dataset
   - column selector, default: `:all`
-  - strategy, default: `:mid`
+  - strategy, default: `:nearest`
   - value (optional)
       - single value
       - sequence of values (cycled)
@@ -3787,9 +3787,11 @@ Strategies are:
   - `:up` - copy values up and then down for missing values at the end
   - `:down` - copy values down and then up for missing values at the
     beginning
-  - `:mid` - copy values around known values
+  - `:mid` or `:nearest` - copy values around known values
+  - `:midpoint` - use average value from previous and next non-missing
   - `:lerp` - trying to lineary approximate values, works for numbers
-    and datetime, otherwise applies `:mid`
+    and datetime, otherwise applies `:nearest`. For numbers always
+    results in `float` datatype.
 
 Let’s define special dataset here:
 
@@ -4049,6 +4051,34 @@ The same applies for `:up` strategy which is opposite direction.
 
 -----
 
+The same applies for `:up` strategy which is opposite direction.
+
+``` clojure
+(api/replace-missing DSm2 [:a :b] :midpoint)
+```
+
+\_unnamed \[15 2\]:
+
+| :a   | :b   |
+| ---- | ---- |
+| 1.0  | 2.0  |
+| 1.0  | 2.0  |
+| 1.0  | 2.0  |
+| 1.0  | 7.5  |
+| 2.0  | 7.5  |
+| 3.0  | 7.5  |
+| 3.0  | 7.5  |
+| 3.0  | 7.5  |
+| 3.0  | 7.5  |
+| 3.0  | 13.0 |
+| 4.0  | 8.0  |
+| 7.5  | 3.0  |
+| 11.0 | 4.0  |
+| 11.0 | 5.0  |
+| 11.0 | 5.0  |
+
+-----
+
 We can use a function which is applied after applying `:up` or `:down`
 
 ``` clojure
@@ -4085,23 +4115,23 @@ Lerp tries to apply linear interpolation of the values
 
 \_unnamed \[15 2\]:
 
-| :a          | :b |
-| ----------- | -- |
-| 1.00000000  | 2  |
-| 1.00000000  | 2  |
-| 1.00000000  | 2  |
-| 1.00000000  | 4  |
-| 2.00000000  | 5  |
-| 2.33333333  | 7  |
-| 2.66666667  | 8  |
-| 3.00000000  | 10 |
-| 3.33333333  | 11 |
-| 3.66666667  | 13 |
-| 4.00000000  | 8  |
-| 7.50000000  | 3  |
-| 11.00000000 | 4  |
-| 11.00000000 | 5  |
-| 11.00000000 | 5  |
+| :a          | :b          |
+| ----------- | ----------- |
+| 1.00000000  | 2.00000000  |
+| 1.00000000  | 2.00000000  |
+| 1.00000000  | 2.00000000  |
+| 1.00000000  | 3.57142857  |
+| 2.00000000  | 5.14285714  |
+| 2.33333333  | 6.71428571  |
+| 2.66666667  | 8.28571429  |
+| 3.00000000  | 9.85714286  |
+| 3.33333333  | 11.42857143 |
+| 3.66666667  | 13.00000000 |
+| 4.00000000  | 8.00000000  |
+| 7.50000000  | 3.00000000  |
+| 11.00000000 | 4.00000000  |
+| 11.00000000 | 5.00000000  |
+| 11.00000000 | 5.00000000  |
 
 -----
 
@@ -5590,10 +5620,10 @@ pnl
 
 | :x | :a | :b | :y1        | :y2        | :z1 | :z2 |
 | -- | -- | -- | ---------- | ---------- | --- | --- |
-| 1  | 1  | 0  | 0.06087303 | 0.92853375 | 3   | \-2 |
-| 2  | 1  | 1  | 0.34732349 | 0.62083273 | 3   | \-2 |
-| 3  | 0  | 1  | 0.25693120 | 0.42227091 | 3   | \-2 |
-| 4  | 0  | 1  | 0.19703310 | 0.42986705 | 3   | \-2 |
+| 1  | 1  | 0  | 0.83193831 | 0.64998449 | 3   | \-2 |
+| 2  | 1  | 1  | 0.69349028 | 0.39254721 | 3   | \-2 |
+| 3  | 0  | 1  | 0.00467611 | 0.23569138 | 3   | \-2 |
+| 4  | 0  | 1  | 0.41949855 | 0.49179231 | 3   | \-2 |
 
 ``` clojure
 (api/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
@@ -5604,14 +5634,14 @@ pnl
 
 | :x | :a | :b | :times | y          | z   |
 | -- | -- | -- | ------ | ---------- | --- |
-| 1  | 1  | 0  | 1      | 0.06087303 | 3   |
-| 2  | 1  | 1  | 1      | 0.34732349 | 3   |
-| 3  | 0  | 1  | 1      | 0.25693120 | 3   |
-| 4  | 0  | 1  | 1      | 0.19703310 | 3   |
-| 1  | 1  | 0  | 2      | 0.92853375 | \-2 |
-| 2  | 1  | 1  | 2      | 0.62083273 | \-2 |
-| 3  | 0  | 1  | 2      | 0.42227091 | \-2 |
-| 4  | 0  | 1  | 2      | 0.42986705 | \-2 |
+| 1  | 1  | 0  | 1      | 0.83193831 | 3   |
+| 2  | 1  | 1  | 1      | 0.69349028 | 3   |
+| 3  | 0  | 1  | 1      | 0.00467611 | 3   |
+| 4  | 0  | 1  | 1      | 0.41949855 | 3   |
+| 1  | 1  | 0  | 2      | 0.64998449 | \-2 |
+| 2  | 1  | 1  | 2      | 0.39254721 | \-2 |
+| 3  | 0  | 1  | 2      | 0.23569138 | \-2 |
+| 4  | 0  | 1  | 2      | 0.49179231 | \-2 |
 
 #### Wider
 
@@ -7101,6 +7131,28 @@ asof-\>= \[3 4\]:
 
 -----
 
+`concat-copying` ensures all readers are evaluated.
+
+``` clojure
+(api/concat-copying ds1)
+```
+
+\_unnamed \[9 3\]:
+
+| :a | :b  | :c |
+| -- | --- | -- |
+| 1  | 101 | a  |
+| 2  | 102 | b  |
+| 1  | 103 | s  |
+| 2  | 104 |    |
+| 3  | 105 | t  |
+| 4  | 106 | r  |
+|    | 107 | a  |
+|    | 108 | c  |
+| 4  | 109 | t  |
+
+-----
+
 ``` clojure
 (api/concat ds1 (api/drop-columns ds2 :d))
 ```
@@ -7138,31 +7190,31 @@ null \[27 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 3   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
 | 1   | 7   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 1   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
 | 1   | 5   | 1.0 | B   |
 | 2   | 4   | 0.5 | A   |
+| 1   | 3   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
 | 1   | 7   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
-| 2   | 8   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 8   | 1.0 | B   |
+| 1   | 1   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
 
 #### Union
 
@@ -7205,15 +7257,15 @@ union \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
+| 2   | 6   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 3   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 1   | 0.5 | A   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 3   | 1.5 | C   |
 | 2   | 8   | 1.0 | B   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
 
 #### Bind
 
@@ -7342,6 +7394,344 @@ difference \[1 1\]:
 | :b  |
 | --- |
 | 110 |
+
+### Split into train/test
+
+In ML world very often you need to test given model and prepare
+collection of train and test datasets. `split` creates a lazy sequence
+of maps containing splitted dataset. Map contains two datasets under
+`:train` and `:test` keys.
+
+`split-type` can be one of the following:
+
+  - `:kfold` (default) - k-fold strategy, `:k` defines number of folds
+    (defaults to `5`), produces `k` splits
+  - `:bootstrap` - `:ratio` defines ratio of observations put into
+    result (defaults to `1.0`), produces `1` split
+  - `:holdout` - split into two parts with given ratio (defaults to
+    `2/3`), produces `1` split
+  - `:loo` - leave one out, produces the same number of splits as number
+    of observations
+
+Additionally you can provide:
+
+  - `:seed` - for random number generator
+  - `:repeats` - repeat procedure `:repeats` times
+  - `:partition-selector` - same as in `group-by` for stratified
+    splitting to reflect dataset structure in splits.
+
+In case of grouped dataset each group is processed separately, pairs of
+grouped dataset are returned.
+
+See
+[more](https://www.mitpressjournals.org/doi/pdf/10.1162/EVCO_a_00069)
+
+``` clojure
+(def for-splitting (api/dataset (map-indexed (fn [id v] {:id id
+                                                        :partition v
+                                                        :group (rand-nth [:g1 :g2 :g3])})
+                                             (concat (repeat 20 :a) (repeat 5 :b)))))
+```
+
+``` clojure
+for-splitting
+```
+
+\_unnamed \[25 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 0   | :a         | :g3    |
+| 1   | :a         | :g1    |
+| 2   | :a         | :g3    |
+| 3   | :a         | :g2    |
+| 4   | :a         | :g2    |
+| 5   | :a         | :g2    |
+| 6   | :a         | :g1    |
+| 7   | :a         | :g2    |
+| 8   | :a         | :g1    |
+| 9   | :a         | :g1    |
+| 10  | :a         | :g3    |
+| 11  | :a         | :g3    |
+| 12  | :a         | :g1    |
+| 13  | :a         | :g1    |
+| 14  | :a         | :g1    |
+| 15  | :a         | :g3    |
+| 16  | :a         | :g2    |
+| 17  | :a         | :g1    |
+| 18  | :a         | :g3    |
+| 19  | :a         | :g3    |
+| 20  | :b         | :g3    |
+| 21  | :b         | :g3    |
+| 22  | :b         | :g2    |
+| 23  | :b         | :g3    |
+| 24  | :b         | :g2    |
+
+#### k-Fold
+
+Returns `k=5` maps
+
+``` clojure
+(first (api/split for-splitting))
+```
+
+{:train \_unnamed \[20 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 12  | :a         | :g1    |
+| 4   | :a         | :g2    |
+| 9   | :a         | :g1    |
+| 11  | :a         | :g3    |
+| 8   | :a         | :g1    |
+| 1   | :a         | :g1    |
+| 19  | :a         | :g3    |
+| 3   | :a         | :g2    |
+| 17  | :a         | :g1    |
+| 24  | :b         | :g2    |
+| 22  | :b         | :g2    |
+| 13  | :a         | :g1    |
+| 2   | :a         | :g3    |
+| 0   | :a         | :g3    |
+| 16  | :a         | :g2    |
+| 23  | :b         | :g3    |
+| 21  | :b         | :g3    |
+| 15  | :a         | :g3    |
+| 18  | :a         | :g3    |
+| 10  | :a         | :g3    |
+
+, :test \_unnamed \[5 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 5   | :a         | :g2    |
+| 6   | :a         | :g1    |
+| 7   | :a         | :g2    |
+| 14  | :a         | :g1    |
+| 20  | :b         | :g3    |
+
+}
+
+Partition according to `:k` column to reflect it’s distribution
+
+``` clojure
+(first (api/split for-splitting :kfold {:partition-selector :partition}))
+```
+
+{:train Train set, \_unnamed \[20 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 23  | :b         | :g3    |
+| 24  | :b         | :g2    |
+| 21  | :b         | :g3    |
+| 20  | :b         | :g3    |
+| 10  | :a         | :g3    |
+| 18  | :a         | :g3    |
+| 7   | :a         | :g2    |
+| 17  | :a         | :g1    |
+| 15  | :a         | :g3    |
+| 11  | :a         | :g3    |
+| 8   | :a         | :g1    |
+| 12  | :a         | :g1    |
+| 19  | :a         | :g3    |
+| 4   | :a         | :g2    |
+| 16  | :a         | :g2    |
+| 14  | :a         | :g1    |
+| 6   | :a         | :g1    |
+| 0   | :a         | :g3    |
+| 5   | :a         | :g2    |
+| 13  | :a         | :g1    |
+
+, :test Test set, \_unnamed \[5 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 22  | :b         | :g2    |
+| 1   | :a         | :g1    |
+| 2   | :a         | :g3    |
+| 3   | :a         | :g2    |
+| 9   | :a         | :g1    |
+
+}
+
+#### Bootstrap
+
+``` clojure
+(api/split for-splitting :bootstrap)
+```
+
+({:train \_unnamed \[25 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 8   | :a         | :g1    |
+| 20  | :b         | :g3    |
+| 19  | :a         | :g3    |
+| 14  | :a         | :g1    |
+| 10  | :a         | :g3    |
+| 23  | :b         | :g3    |
+| 4   | :a         | :g2    |
+| 10  | :a         | :g3    |
+| 2   | :a         | :g3    |
+| 17  | :a         | :g1    |
+| 9   | :a         | :g1    |
+| 0   | :a         | :g3    |
+| 9   | :a         | :g1    |
+| 24  | :b         | :g2    |
+| 18  | :a         | :g3    |
+| 13  | :a         | :g1    |
+| 24  | :b         | :g2    |
+| 19  | :a         | :g3    |
+| 11  | :a         | :g3    |
+| 12  | :a         | :g1    |
+| 18  | :a         | :g3    |
+| 1   | :a         | :g1    |
+| 13  | :a         | :g1    |
+| 21  | :b         | :g3    |
+| 19  | :a         | :g3    |
+
+, :test \_unnamed \[7 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 3   | :a         | :g2    |
+| 5   | :a         | :g2    |
+| 6   | :a         | :g1    |
+| 7   | :a         | :g2    |
+| 15  | :a         | :g3    |
+| 16  | :a         | :g2    |
+| 22  | :b         | :g2    |
+
+})
+
+with repeats, to get 100 splits
+
+``` clojure
+(count (api/split for-splitting :bootstrap {:repeats 100}))
+```
+
+100
+
+#### Holdout
+
+with small ratio
+
+``` clojure
+(api/split for-splitting :holdout {:ratio 0.2})
+```
+
+({:train \_unnamed \[5 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 24  | :b         | :g2    |
+| 2   | :a         | :g3    |
+| 5   | :a         | :g2    |
+| 4   | :a         | :g2    |
+| 14  | :a         | :g1    |
+
+, :test \_unnamed \[20 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 0   | :a         | :g3    |
+| 1   | :a         | :g1    |
+| 3   | :a         | :g2    |
+| 6   | :a         | :g1    |
+| 7   | :a         | :g2    |
+| 8   | :a         | :g1    |
+| 9   | :a         | :g1    |
+| 10  | :a         | :g3    |
+| 11  | :a         | :g3    |
+| 12  | :a         | :g1    |
+| 13  | :a         | :g1    |
+| 15  | :a         | :g3    |
+| 16  | :a         | :g2    |
+| 17  | :a         | :g1    |
+| 18  | :a         | :g3    |
+| 19  | :a         | :g3    |
+| 20  | :b         | :g3    |
+| 21  | :b         | :g3    |
+| 22  | :b         | :g2    |
+| 23  | :b         | :g3    |
+
+})
+
+#### Leave One Out
+
+``` clojure
+(count (api/split for-splitting :loo))
+```
+
+25
+
+``` clojure
+(first (api/split for-splitting :loo))
+```
+
+{:train \_unnamed \[24 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 15  | :a         | :g3    |
+| 8   | :a         | :g1    |
+| 13  | :a         | :g1    |
+| 3   | :a         | :g2    |
+| 0   | :a         | :g3    |
+| 23  | :b         | :g3    |
+| 24  | :b         | :g2    |
+| 10  | :a         | :g3    |
+| 11  | :a         | :g3    |
+| 6   | :a         | :g1    |
+| 5   | :a         | :g2    |
+| 12  | :a         | :g1    |
+| 16  | :a         | :g2    |
+| 14  | :a         | :g1    |
+| 7   | :a         | :g2    |
+| 17  | :a         | :g1    |
+| 21  | :b         | :g3    |
+| 9   | :a         | :g1    |
+| 2   | :a         | :g3    |
+| 1   | :a         | :g1    |
+| 20  | :b         | :g3    |
+| 22  | :b         | :g2    |
+| 18  | :a         | :g3    |
+| 4   | :a         | :g2    |
+
+, :test \_unnamed \[1 3\]:
+
+| :id | :partition | :group |
+| --- | ---------- | ------ |
+| 19  | :a         | :g3    |
+
+}
+
+#### Grouped dataset with partitioning
+
+``` clojure
+(first (-> for-splitting
+           (api/group-by :group)
+           (api/split :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8})))
+```
+
+{:train \_unnamed \[3 3\]:
+
+| :name | :group-id | :data                          |
+| ----- | --------- | ------------------------------ |
+| :g1   | 0         | Train set, Group: :g1 \[7 3\]: |
+| :g2   | 1         | Train set, Group: :g2 \[6 3\]: |
+| :g3   | 2         | Train set, Group: :g3 \[9 3\]: |
+
+, :test \_unnamed \[3 3\]:
+
+| :name | :group-id | :data                         |
+| ----- | --------- | ----------------------------- |
+| :g1   | 0         | Test set, Group: :g1 \[2 3\]: |
+| :g2   | 1         | Test set, Group: :g2 \[2 3\]: |
+| :g3   | 2         | Test set, Group: :g3 \[5 3\]: |
+
+}
 
 ## Functions
 
@@ -8742,9 +9132,9 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 3   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
 
 ``` clojure
 (api/random DS (/ (api/row-count DS) 2)) ;; fraction of random rows
@@ -8754,11 +9144,11 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 6   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
-| 1   | 5   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
 
 ``` clojure
 (api/by-rank DS :V1 zero?) ;; take top n entries

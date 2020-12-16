@@ -1895,7 +1895,7 @@ Missing values can be replaced using several strategies. `replace-missing` accep
 
 * dataset
 * column selector, default: `:all`
-* strategy, default: `:mid`
+* strategy, default: `:nearest`
 * value (optional)
     - single value
     - sequence of values (cycled)
@@ -1906,8 +1906,9 @@ Strategies are:
 * `:value` - replace with given value
 * `:up` - copy values up and then down for missing values at the end
 * `:down` - copy values down and then up for missing values at the beginning
-* `:mid` - copy values around known values
-* `:lerp` - trying to lineary approximate values, works for numbers and datetime, otherwise applies `:mid`
+* `:mid` or `:nearest` - copy values around known values
+* `:midpoint` - use average value from previous and next non-missing
+* `:lerp` - trying to lineary approximate values, works for numbers and datetime, otherwise applies `:nearest`. For numbers always results in `float` datatype.
 
 Let's define special dataset here:
 
@@ -1982,6 +1983,14 @@ The same applies for `:up` strategy which is opposite direction.
 
 ```{clojure results="asis"}
 (api/replace-missing DSm2 [:a :b] :up)
+```
+
+---
+
+The same applies for `:up` strategy which is opposite direction.
+
+```{clojure results="asis"}
+(api/replace-missing DSm2 [:a :b] :midpoint)
 ```
 
 ---
@@ -3147,6 +3156,14 @@ right-ds
 
 ---
 
+`concat-copying` ensures all readers are evaluated.
+
+```{clojure results="asis"}
+(api/concat-copying ds1)
+```
+
+---
+
 ```{clojure results="asis"}
 (api/concat ds1 (api/drop-columns ds2 :d))
 ```
@@ -3212,6 +3229,90 @@ The same as `concat` but returns unique rows
 ```{clojure results="asis"}
 (api/difference (api/select-columns ds2 :b)
                 (api/select-columns ds1 :b))
+```
+
+### Split into train/test
+
+In ML world very often you need to test given model and prepare collection of train and test datasets. `split` creates a lazy sequence of maps containing splitted dataset. Map contains two datasets under `:train` and `:test` keys.
+
+`split-type` can be one of the following:
+
+* `:kfold` (default) - k-fold strategy, `:k` defines number of folds (defaults to `5`), produces `k` splits
+* `:bootstrap` - `:ratio` defines ratio of observations put into result (defaults to `1.0`), produces `1` split
+* `:holdout` - split into two parts with given ratio (defaults to `2/3`), produces `1` split
+* `:loo` - leave one out, produces the same number of splits as number of observations
+
+Additionally you can provide:
+
+* `:seed` - for random number generator
+* `:repeats` - repeat procedure `:repeats` times
+* `:partition-selector` - same as in `group-by` for stratified splitting to reflect dataset structure in splits.
+
+In case of grouped dataset each group is processed separately, pairs of grouped dataset are returned.
+
+See [more](https://www.mitpressjournals.org/doi/pdf/10.1162/EVCO_a_00069)
+
+```{clojure results="hide"}
+(def for-splitting (api/dataset (map-indexed (fn [id v] {:id id
+                                                        :partition v
+                                                        :group (rand-nth [:g1 :g2 :g3])})
+                                             (concat (repeat 20 :a) (repeat 5 :b)))))
+```
+
+```{clojure results="asis"}
+for-splitting
+```
+
+#### k-Fold 
+
+Returns `k=5` maps
+
+```{clojure results="asis"}
+(first (api/split for-splitting))
+```
+
+Partition according to `:k` column to reflect it's distribution
+
+```{clojure results="asis"}
+(first (api/split for-splitting :kfold {:partition-selector :partition}))
+```
+
+#### Bootstrap
+
+```{clojure results="asis"}
+(api/split for-splitting :bootstrap)
+```
+
+with repeats, to get 100 splits
+
+```{clojure results="asis"}
+(count (api/split for-splitting :bootstrap {:repeats 100}))
+```
+
+#### Holdout
+
+with small ratio
+
+```{clojure results="asis"}
+(api/split for-splitting :holdout {:ratio 0.2})
+```
+
+#### Leave One Out
+
+```{clojure results="asis"}
+(count (api/split for-splitting :loo))
+```
+
+```{clojure results="asis"}
+(first (api/split for-splitting :loo))
+```
+
+#### Grouped dataset with partitioning
+
+```{clojure results="asis"}
+(first (-> for-splitting
+           (api/group-by :group)
+           (api/split :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8})))
 ```
 
 

@@ -59,7 +59,7 @@
   (are [xs cmd col] (= xs (-> ds cmd (api/column col) (->> (map approx))))
     (map approx [1.0 1.0 1.0 1.0 2 (/ 7 3.0) (/ 8 3.0) 3.0 (/ 10 3.0) (/ 11 3.0) 4 7.5 11.0 11.0 11.0])
     (api/replace-missing :a :lerp) :a
-    (map approx [2 2 2 4 5 7 8 10 11 13 8 3 4 5 5])
+    (map approx [2.0 2.0 2.0 3.5714 5.1429 6.7143 8.2857 9.8571 11.4286 13.0 8.0 3.0 4.0 5.0 5.0])
     (api/replace-missing :b :lerp) :b))
 
 (deftest strategy-lerp-time
@@ -83,3 +83,4 @@
     (api/replace-missing :a :value [-10.0 -20.0]) :a
     [nil 100.0 nil 1.0 2.0 nil nil nil nil -100.0 4.0 nil 11.0 nil nil]
     (api/replace-missing :a :value {1 100.0 9 -100.0}) :a))
+

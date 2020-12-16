@@ -13,7 +13,8 @@
                          column
                          has-column?
                          write!
-                         concat)
+                         concat
+                         concat-copying)
 
 (def ^{:deprecated "Use `write!` instead."} write-csv! write!)
 
@@ -111,6 +112,8 @@
                          bind
                          append)
 
+(exporter/export-symbols tablecloth.api.split
+                         split)
 ;;
 
 (defn- select-or-drop

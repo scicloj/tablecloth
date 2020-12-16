@@ -1,5 +1,11 @@
 # Change Log
 
+## [5.00-beta-21]
+
+* `concat-copying` exposed.
+* `split` function for splitting into train-test pairs with `:kfold`, `:bootstrap`, `:loo` and `holdout` strategies + stratified versions
+* `replace-missing` with new strategy `:midpoint`
+
 ## [5.00-beta-5a]
 
 ### Fixed
