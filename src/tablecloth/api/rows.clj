@@ -59,10 +59,12 @@
   - seq of true/false
   - fn with predicate"))
 
-(def ^{:doc (select-or-drop-rows-docstring "Select")}
+(def ^{:doc (select-or-drop-rows-docstring "Select")
+       :arglists '([ds rows-selector] [ds rows-selector {:keys [select-keys pre result-type parallel?]}])}
   select-rows (partial select-or-drop-rows ds/select-rows))
 
-(def ^{:doc (select-or-drop-rows-docstring "Drop")}
+(def ^{:doc (select-or-drop-rows-docstring "Drop")
+       :arglists '([ds rows-selector] [ds rows-selector {:keys [select-keys pre result-type parallel?]}])}
   drop-rows (partial select-or-drop-rows ds/drop-rows))
 
 ;;

@@ -571,7 +571,7 @@ Rows as sequence of sequences
 (take 2 (api/rows ds))
 ```
 
-    ([#object[java.time.LocalDate 0x202b3228 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x3597fd63 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
+    ([#object[java.time.LocalDate 0x14a9bf6d "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x2ee168cb "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
 
 -----
 
@@ -581,13 +581,13 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (api/rows ds :as-maps)))
 ```
 
-    ({"date" #object[java.time.LocalDate 0x99ce67e "2012-01-01"],
+    ({"date" #object[java.time.LocalDate 0x76383f84 "2012-01-01"],
       "precipitation" 0.0,
       "temp_min" 5.0,
       "weather" "drizzle",
       "temp_max" 12.8,
       "wind" 4.7}
-     {"date" #object[java.time.LocalDate 0x5bbf1728 "2012-01-02"],
+     {"date" #object[java.time.LocalDate 0x3f9f1892 "2012-01-02"],
       "precipitation" 10.9,
       "temp_min" 2.8,
       "weather" "rain",
@@ -1864,7 +1864,7 @@ You can also pass mapping function with optional columns-selector
 
 \_unnamed \[9 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@3757313f> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@4d709fdc> |
 | -- | -- | --------- | --------------------------- |
 | 1  | 1  | 0.5       | A                           |
 | 2  | 2  | 1.0       | B                           |
@@ -1936,7 +1936,7 @@ Function works on grouped dataset
 
 {1 Group: 1 \[5 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@5a57e602> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@4f22a4bd> |
 | -- | -- | --------- | --------------------------- |
 | 1  | 1  | 0.5       | A                           |
 | 1  | 3  | 1.5       | C                           |
@@ -1946,7 +1946,7 @@ Function works on grouped dataset
 
 , 2 Group: 2 \[4 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@5a57e602> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@4f22a4bd> |
 | -- | -- | --------- | --------------------------- |
 | 2  | 2  | 1.0       | B                           |
 | 2  | 4  | 0.5       | A                           |
@@ -1970,8 +1970,8 @@ function. Function accepts:
   - `size-strategy` (optional) - when new column is shorter than dataset
     row count, following strategies are applied:
   - `:cycle` (default) - repeat data
-      - `:na` - append missing values
-      - `:strict` - throws an exception when sizes mismatch
+  - `:na` - append missing values
+  - `:strict` - throws an exception when sizes mismatch
 
 Function works on grouped dataset.
 
@@ -2007,17 +2007,17 @@ Replace one column (column is trimmed)
 
 \_unnamed \[9 4\]:
 
-| :V1     | :V2 | :V3 | :V4 |
-| ------- | --- | --- | --- |
-| 0.02303 | 1   | 0.5 | A   |
-| 0.6944  | 2   | 1.0 | B   |
-| 0.9117  | 3   | 1.5 | C   |
-| 0.2053  | 4   | 0.5 | A   |
-| 0.6505  | 5   | 1.0 | B   |
-| 0.9121  | 6   | 1.5 | C   |
-| 0.7431  | 7   | 0.5 | A   |
-| 0.4502  | 8   | 1.0 | B   |
-| 0.2407  | 9   | 1.5 | C   |
+| :V1    | :V2 | :V3 | :V4 |
+| ------ | --- | --- | --- |
+| 0.2402 | 1   | 0.5 | A   |
+| 0.2591 | 2   | 1.0 | B   |
+| 0.8694 | 3   | 1.5 | C   |
+| 0.2830 | 4   | 0.5 | A   |
+| 0.1711 | 5   | 1.0 | B   |
+| 0.4771 | 6   | 1.5 | C   |
+| 0.2531 | 7   | 0.5 | A   |
+| 0.2933 | 8   | 1.0 | B   |
+| 0.7635 | 9   | 1.5 | C   |
 
 -----
 
@@ -2290,15 +2290,15 @@ map.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 5   | 0.5 | A   |
-| 2   | 6   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 2   | 1   | 0.5 | A   |
-| 1   | 3   | 1.0 | B   |
-| 2   | 7   | 1.5 | C   |
-| 1   | 2   | 0.5 | A   |
-| 2   | 4   | 1.0 | B   |
+| 1   | 6   | 0.5 | A   |
+| 2   | 9   | 1.0 | B   |
 | 1   | 8   | 1.5 | C   |
+| 2   | 7   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 4   | 1.5 | C   |
+| 1   | 1   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
 
 #### Map
 
@@ -2552,7 +2552,7 @@ Double array conversion.
 (api/->array DS :V1)
 ```
 
-    #object["[J" 0x286a7321 "[J@286a7321"]
+    #object["[J" 0x3bd35aec "[J@3bd35aec"]
 
 -----
 
@@ -2564,7 +2564,7 @@ Function also works on grouped dataset
     (api/->array :V2))
 ```
 
-    (#object["[J" 0x11d218e6 "[J@11d218e6"] #object["[J" 0x77f1cc3b "[J@77f1cc3b"] #object["[J" 0x3553d215 "[J@3553d215"])
+    (#object["[J" 0x3cd0408 "[J@3cd0408"] #object["[J" 0x16f391a5 "[J@16f391a5"] #object["[J" 0x31b7e76d "[J@31b7e76d"])
 
 -----
 
@@ -2575,8 +2575,8 @@ You can also cast the type to the other one (if casting is possible):
 (api/->array DS :V1 :float32)
 ```
 
-    #object["[Ljava.lang.String;" 0x4a6a8b86 "[Ljava.lang.String;@4a6a8b86"]
-    #object["[F" 0x516e4165 "[F@516e4165"]
+    #object["[Ljava.lang.String;" 0x3de44239 "[Ljava.lang.String;@3de44239"]
+    #object["[F" 0x26e04814 "[F@26e04814"]
 
 ### Rows
 
@@ -2773,7 +2773,7 @@ Random row (single)
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 8   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
 
 -----
 
@@ -2801,14 +2801,14 @@ Random `n` (default: row count) rows with repetition.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 7   | 0.5 | A   |
-| 2   | 2   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
 | 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
+| 2   | 8   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
 | 1   | 3   | 1.5 | C   |
 
 -----
@@ -2823,11 +2823,11 @@ Five random rows with repetition
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 2   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 9   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 1   | 0.5 | A   |
 
 -----
 
@@ -2841,11 +2841,11 @@ Five random, non-repeating rows
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
+| 2   | 6   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
 | 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
 
 -----
 
@@ -2877,15 +2877,15 @@ Shuffle dataset
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 2   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
 | 2   | 6   | 1.5 | C   |
+| 2   | 2   | 1.0 | B   |
+| 2   | 4   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
 | 1   | 1   | 0.5 | A   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 9   | 1.5 | C   |
-| 2   | 8   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
 
 -----
 
@@ -3013,21 +3013,21 @@ Select 5 random rows from each group
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
 | 2   | 4   | 0.5 | A   |
-| 1   | 1   | 0.5 | A   |
 | 1   | 7   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
+| 2   | 2   | 1.0 | B   |
+| 1   | 5   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
-| 1   | 5   | 1.0 | B   |
+| 2   | 6   | 1.5 | C   |
 | 1   | 9   | 1.5 | C   |
 | 1   | 3   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
 | 2   | 6   | 1.5 | C   |
-| 2   | 6   | 1.5 | C   |
-| 1   | 3   | 1.5 | C   |
 
 ### Aggregate
 
@@ -3551,8 +3551,8 @@ Random
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 6   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
+| 2   | 8   | 1.0 | B   |
 
 -----
 
@@ -5620,10 +5620,10 @@ pnl
 
 | :x | :a | :b | :y1        | :y2        | :z1 | :z2 |
 | -- | -- | -- | ---------- | ---------- | --- | --- |
-| 1  | 1  | 0  | 0.83193831 | 0.64998449 | 3   | \-2 |
-| 2  | 1  | 1  | 0.69349028 | 0.39254721 | 3   | \-2 |
-| 3  | 0  | 1  | 0.00467611 | 0.23569138 | 3   | \-2 |
-| 4  | 0  | 1  | 0.41949855 | 0.49179231 | 3   | \-2 |
+| 1  | 1  | 0  | 0.22627748 | 0.47353774 | 3   | \-2 |
+| 2  | 1  | 1  | 0.46048551 | 0.71347458 | 3   | \-2 |
+| 3  | 0  | 1  | 0.97747629 | 0.88905361 | 3   | \-2 |
+| 4  | 0  | 1  | 0.64993097 | 0.72133765 | 3   | \-2 |
 
 ``` clojure
 (api/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
@@ -5634,14 +5634,14 @@ pnl
 
 | :x | :a | :b | :times | y          | z   |
 | -- | -- | -- | ------ | ---------- | --- |
-| 1  | 1  | 0  | 1      | 0.83193831 | 3   |
-| 2  | 1  | 1  | 1      | 0.69349028 | 3   |
-| 3  | 0  | 1  | 1      | 0.00467611 | 3   |
-| 4  | 0  | 1  | 1      | 0.41949855 | 3   |
-| 1  | 1  | 0  | 2      | 0.64998449 | \-2 |
-| 2  | 1  | 1  | 2      | 0.39254721 | \-2 |
-| 3  | 0  | 1  | 2      | 0.23569138 | \-2 |
-| 4  | 0  | 1  | 2      | 0.49179231 | \-2 |
+| 1  | 1  | 0  | 1      | 0.22627748 | 3   |
+| 2  | 1  | 1  | 1      | 0.46048551 | 3   |
+| 3  | 0  | 1  | 1      | 0.97747629 | 3   |
+| 4  | 0  | 1  | 1      | 0.64993097 | 3   |
+| 1  | 1  | 0  | 2      | 0.47353774 | \-2 |
+| 2  | 1  | 1  | 2      | 0.71347458 | \-2 |
+| 3  | 0  | 1  | 2      | 0.88905361 | \-2 |
+| 4  | 0  | 1  | 2      | 0.72133765 | \-2 |
 
 #### Wider
 
@@ -7191,30 +7191,30 @@ null \[27 4\]:
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
 | 2   | 6   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 1   | 0.5 | A   |
+| 2   | 2   | 1.0 | B   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
+| 1   | 9   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
+| 1   | 5   | 1.0 | B   |
+| 1   | 3   | 1.5 | C   |
 | 1   | 1   | 0.5 | A   |
 | 2   | 8   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 2   | 2   | 1.0 | B   |
-| 1   | 1   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
-| 1   | 5   | 1.0 | B   |
 | 1   | 3   | 1.5 | C   |
-| 1   | 1   | 0.5 | A   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
+| 1   | 7   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
-| 1   | 5   | 1.0 | B   |
-| 2   | 4   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
 | 2   | 4   | 0.5 | A   |
-| 1   | 9   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
-| 1   | 3   | 1.5 | C   |
-| 1   | 7   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
-| 1   | 9   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
-| 1   | 1   | 0.5 | A   |
+| 2   | 6   | 1.5 | C   |
 | 2   | 2   | 1.0 | B   |
+| 2   | 4   | 0.5 | A   |
 
 #### Union
 
@@ -7257,13 +7257,13 @@ union \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 2   | 6   | 1.5 | C   |
+| 2   | 4   | 0.5 | A   |
 | 1   | 9   | 1.5 | C   |
 | 1   | 3   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
+| 2   | 6   | 1.5 | C   |
+| 1   | 7   | 0.5 | A   |
 | 1   | 5   | 1.0 | B   |
 | 2   | 8   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
 | 2   | 2   | 1.0 | B   |
 
@@ -7442,30 +7442,30 @@ for-splitting
 | :id | :partition | :group |
 | --- | ---------- | ------ |
 | 0   | :a         | :g3    |
-| 1   | :a         | :g1    |
+| 1   | :a         | :g2    |
 | 2   | :a         | :g3    |
-| 3   | :a         | :g2    |
-| 4   | :a         | :g2    |
+| 3   | :a         | :g3    |
+| 4   | :a         | :g1    |
 | 5   | :a         | :g2    |
-| 6   | :a         | :g1    |
-| 7   | :a         | :g2    |
-| 8   | :a         | :g1    |
+| 6   | :a         | :g3    |
+| 7   | :a         | :g3    |
+| 8   | :a         | :g2    |
 | 9   | :a         | :g1    |
 | 10  | :a         | :g3    |
 | 11  | :a         | :g3    |
-| 12  | :a         | :g1    |
+| 12  | :a         | :g2    |
 | 13  | :a         | :g1    |
-| 14  | :a         | :g1    |
-| 15  | :a         | :g3    |
+| 14  | :a         | :g3    |
+| 15  | :a         | :g1    |
 | 16  | :a         | :g2    |
 | 17  | :a         | :g1    |
-| 18  | :a         | :g3    |
+| 18  | :a         | :g2    |
 | 19  | :a         | :g3    |
-| 20  | :b         | :g3    |
-| 21  | :b         | :g3    |
-| 22  | :b         | :g2    |
+| 20  | :b         | :g2    |
+| 21  | :b         | :g1    |
+| 22  | :b         | :g1    |
 | 23  | :b         | :g3    |
-| 24  | :b         | :g2    |
+| 24  | :b         | :g3    |
 
 #### k-Fold
 
@@ -7479,36 +7479,36 @@ Returns `k=5` maps
 
 | :id | :partition | :group |
 | --- | ---------- | ------ |
-| 12  | :a         | :g1    |
-| 4   | :a         | :g2    |
-| 9   | :a         | :g1    |
-| 11  | :a         | :g3    |
-| 8   | :a         | :g1    |
-| 1   | :a         | :g1    |
-| 19  | :a         | :g3    |
-| 3   | :a         | :g2    |
-| 17  | :a         | :g1    |
-| 24  | :b         | :g2    |
-| 22  | :b         | :g2    |
-| 13  | :a         | :g1    |
-| 2   | :a         | :g3    |
+| 12  | :a         | :g2    |
+| 8   | :a         | :g2    |
 | 0   | :a         | :g3    |
-| 16  | :a         | :g2    |
-| 23  | :b         | :g3    |
-| 21  | :b         | :g3    |
-| 15  | :a         | :g3    |
-| 18  | :a         | :g3    |
 | 10  | :a         | :g3    |
+| 20  | :b         | :g2    |
+| 1   | :a         | :g2    |
+| 13  | :a         | :g1    |
+| 5   | :a         | :g2    |
+| 7   | :a         | :g3    |
+| 17  | :a         | :g1    |
+| 16  | :a         | :g2    |
+| 6   | :a         | :g3    |
+| 18  | :a         | :g2    |
+| 9   | :a         | :g1    |
+| 24  | :b         | :g3    |
+| 4   | :a         | :g1    |
+| 15  | :a         | :g1    |
+| 23  | :b         | :g3    |
+| 2   | :a         | :g3    |
+| 11  | :a         | :g3    |
 
 , :test \_unnamed \[5 3\]:
 
 | :id | :partition | :group |
 | --- | ---------- | ------ |
-| 5   | :a         | :g2    |
-| 6   | :a         | :g1    |
-| 7   | :a         | :g2    |
-| 14  | :a         | :g1    |
-| 20  | :b         | :g3    |
+| 3   | :a         | :g3    |
+| 14  | :a         | :g3    |
+| 19  | :a         | :g3    |
+| 21  | :b         | :g1    |
+| 22  | :b         | :g1    |
 
 }
 
@@ -7522,36 +7522,36 @@ Partition according to `:k` column to reflect it’s distribution
 
 | :id | :partition | :group |
 | --- | ---------- | ------ |
+| 22  | :b         | :g1    |
+| 20  | :b         | :g2    |
 | 23  | :b         | :g3    |
-| 24  | :b         | :g2    |
-| 21  | :b         | :g3    |
-| 20  | :b         | :g3    |
-| 10  | :a         | :g3    |
-| 18  | :a         | :g3    |
-| 7   | :a         | :g2    |
-| 17  | :a         | :g1    |
-| 15  | :a         | :g3    |
-| 11  | :a         | :g3    |
-| 8   | :a         | :g1    |
-| 12  | :a         | :g1    |
-| 19  | :a         | :g3    |
-| 4   | :a         | :g2    |
-| 16  | :a         | :g2    |
-| 14  | :a         | :g1    |
-| 6   | :a         | :g1    |
+| 24  | :b         | :g3    |
+| 7   | :a         | :g3    |
+| 14  | :a         | :g3    |
 | 0   | :a         | :g3    |
-| 5   | :a         | :g2    |
+| 2   | :a         | :g3    |
+| 4   | :a         | :g1    |
+| 1   | :a         | :g2    |
+| 12  | :a         | :g2    |
+| 16  | :a         | :g2    |
+| 8   | :a         | :g2    |
 | 13  | :a         | :g1    |
+| 5   | :a         | :g2    |
+| 15  | :a         | :g1    |
+| 3   | :a         | :g3    |
+| 10  | :a         | :g3    |
+| 9   | :a         | :g1    |
+| 6   | :a         | :g3    |
 
 , :test Test set, \_unnamed \[5 3\]:
 
 | :id | :partition | :group |
 | --- | ---------- | ------ |
-| 22  | :b         | :g2    |
-| 1   | :a         | :g1    |
-| 2   | :a         | :g3    |
-| 3   | :a         | :g2    |
-| 9   | :a         | :g1    |
+| 21  | :b         | :g1    |
+| 11  | :a         | :g3    |
+| 17  | :a         | :g1    |
+| 18  | :a         | :g2    |
+| 19  | :a         | :g3    |
 
 }
 
@@ -7565,43 +7565,47 @@ Partition according to `:k` column to reflect it’s distribution
 
 | :id | :partition | :group |
 | --- | ---------- | ------ |
-| 8   | :a         | :g1    |
-| 20  | :b         | :g3    |
+| 0   | :a         | :g3    |
 | 19  | :a         | :g3    |
-| 14  | :a         | :g1    |
-| 10  | :a         | :g3    |
-| 23  | :b         | :g3    |
-| 4   | :a         | :g2    |
-| 10  | :a         | :g3    |
-| 2   | :a         | :g3    |
-| 17  | :a         | :g1    |
 | 9   | :a         | :g1    |
 | 0   | :a         | :g3    |
+| 10  | :a         | :g3    |
+| 7   | :a         | :g3    |
 | 9   | :a         | :g1    |
-| 24  | :b         | :g2    |
-| 18  | :a         | :g3    |
-| 13  | :a         | :g1    |
-| 24  | :b         | :g2    |
+| 5   | :a         | :g2    |
+| 3   | :a         | :g3    |
+| 9   | :a         | :g1    |
+| 12  | :a         | :g2    |
+| 9   | :a         | :g1    |
+| 15  | :a         | :g1    |
+| 23  | :b         | :g3    |
+| 23  | :b         | :g3    |
+| 0   | :a         | :g3    |
 | 19  | :a         | :g3    |
-| 11  | :a         | :g3    |
-| 12  | :a         | :g1    |
-| 18  | :a         | :g3    |
-| 1   | :a         | :g1    |
-| 13  | :a         | :g1    |
-| 21  | :b         | :g3    |
+| 2   | :a         | :g3    |
+| 8   | :a         | :g2    |
+| 4   | :a         | :g1    |
+| 10  | :a         | :g3    |
 | 19  | :a         | :g3    |
+| 19  | :a         | :g3    |
+| 13  | :a         | :g1    |
+| 23  | :b         | :g3    |
 
-, :test \_unnamed \[7 3\]:
+, :test \_unnamed \[11 3\]:
 
 | :id | :partition | :group |
 | --- | ---------- | ------ |
-| 3   | :a         | :g2    |
-| 5   | :a         | :g2    |
-| 6   | :a         | :g1    |
-| 7   | :a         | :g2    |
-| 15  | :a         | :g3    |
+| 1   | :a         | :g2    |
+| 6   | :a         | :g3    |
+| 11  | :a         | :g3    |
+| 14  | :a         | :g3    |
 | 16  | :a         | :g2    |
-| 22  | :b         | :g2    |
+| 17  | :a         | :g1    |
+| 18  | :a         | :g2    |
+| 20  | :b         | :g2    |
+| 21  | :b         | :g1    |
+| 22  | :b         | :g1    |
+| 24  | :b         | :g3    |
 
 })
 
@@ -7625,35 +7629,35 @@ with small ratio
 
 | :id | :partition | :group |
 | --- | ---------- | ------ |
-| 24  | :b         | :g2    |
-| 2   | :a         | :g3    |
-| 5   | :a         | :g2    |
-| 4   | :a         | :g2    |
-| 14  | :a         | :g1    |
+| 0   | :a         | :g3    |
+| 15  | :a         | :g1    |
+| 24  | :b         | :g3    |
+| 9   | :a         | :g1    |
+| 1   | :a         | :g2    |
 
 , :test \_unnamed \[20 3\]:
 
 | :id | :partition | :group |
 | --- | ---------- | ------ |
-| 0   | :a         | :g3    |
-| 1   | :a         | :g1    |
-| 3   | :a         | :g2    |
-| 6   | :a         | :g1    |
-| 7   | :a         | :g2    |
-| 8   | :a         | :g1    |
-| 9   | :a         | :g1    |
+| 2   | :a         | :g3    |
+| 3   | :a         | :g3    |
+| 4   | :a         | :g1    |
+| 5   | :a         | :g2    |
+| 6   | :a         | :g3    |
+| 7   | :a         | :g3    |
+| 8   | :a         | :g2    |
 | 10  | :a         | :g3    |
 | 11  | :a         | :g3    |
-| 12  | :a         | :g1    |
+| 12  | :a         | :g2    |
 | 13  | :a         | :g1    |
-| 15  | :a         | :g3    |
+| 14  | :a         | :g3    |
 | 16  | :a         | :g2    |
 | 17  | :a         | :g1    |
-| 18  | :a         | :g3    |
+| 18  | :a         | :g2    |
 | 19  | :a         | :g3    |
-| 20  | :b         | :g3    |
-| 21  | :b         | :g3    |
-| 22  | :b         | :g2    |
+| 20  | :b         | :g2    |
+| 21  | :b         | :g1    |
+| 22  | :b         | :g1    |
 | 23  | :b         | :g3    |
 
 })
@@ -7674,36 +7678,36 @@ with small ratio
 
 | :id | :partition | :group |
 | --- | ---------- | ------ |
-| 15  | :a         | :g3    |
-| 8   | :a         | :g1    |
-| 13  | :a         | :g1    |
-| 3   | :a         | :g2    |
-| 0   | :a         | :g3    |
-| 23  | :b         | :g3    |
-| 24  | :b         | :g2    |
-| 10  | :a         | :g3    |
-| 11  | :a         | :g3    |
-| 6   | :a         | :g1    |
-| 5   | :a         | :g2    |
-| 12  | :a         | :g1    |
+| 22  | :b         | :g1    |
+| 12  | :a         | :g2    |
 | 16  | :a         | :g2    |
-| 14  | :a         | :g1    |
-| 7   | :a         | :g2    |
+| 21  | :b         | :g1    |
+| 8   | :a         | :g2    |
+| 19  | :a         | :g3    |
+| 15  | :a         | :g1    |
+| 1   | :a         | :g2    |
+| 11  | :a         | :g3    |
 | 17  | :a         | :g1    |
-| 21  | :b         | :g3    |
+| 0   | :a         | :g3    |
+| 7   | :a         | :g3    |
+| 23  | :b         | :g3    |
+| 5   | :a         | :g2    |
+| 18  | :a         | :g2    |
+| 13  | :a         | :g1    |
+| 3   | :a         | :g3    |
+| 14  | :a         | :g3    |
+| 10  | :a         | :g3    |
+| 4   | :a         | :g1    |
 | 9   | :a         | :g1    |
+| 6   | :a         | :g3    |
 | 2   | :a         | :g3    |
-| 1   | :a         | :g1    |
-| 20  | :b         | :g3    |
-| 22  | :b         | :g2    |
-| 18  | :a         | :g3    |
-| 4   | :a         | :g2    |
+| 20  | :b         | :g2    |
 
 , :test \_unnamed \[1 3\]:
 
 | :id | :partition | :group |
 | --- | ---------- | ------ |
-| 19  | :a         | :g3    |
+| 24  | :b         | :g3    |
 
 }
 
@@ -7717,21 +7721,183 @@ with small ratio
 
 {:train \_unnamed \[3 3\]:
 
-| :name | :group-id | :data                          |
-| ----- | --------- | ------------------------------ |
-| :g1   | 0         | Train set, Group: :g1 \[7 3\]: |
-| :g2   | 1         | Train set, Group: :g2 \[6 3\]: |
-| :g3   | 2         | Train set, Group: :g3 \[9 3\]: |
+| :name | :group-id | :data                           |
+| ----- | --------- | ------------------------------- |
+| :g1   | 0         | Train set, Group: :g1 \[6 3\]:  |
+| :g2   | 1         | Train set, Group: :g2 \[6 3\]:  |
+| :g3   | 2         | Train set, Group: :g3 \[10 3\]: |
 
 , :test \_unnamed \[3 3\]:
 
 | :name | :group-id | :data                         |
 | ----- | --------- | ----------------------------- |
 | :g1   | 0         | Test set, Group: :g1 \[2 3\]: |
-| :g2   | 1         | Test set, Group: :g2 \[2 3\]: |
-| :g3   | 2         | Test set, Group: :g3 \[5 3\]: |
+| :g2   | 1         | Test set, Group: :g2 \[1 3\]: |
+| :g3   | 2         | Test set, Group: :g3 \[4 3\]: |
 
 }
+
+## Pipeline
+
+`tablecloth.pipeline` exports special versions of API which create
+functions operating only on dataset. These creates the possibility to
+chain operations and compose them easily.
+
+There are two ways to create pipelines:
+
+  - functional, as a composition of functions
+  - declarative, separating task declarations and concrete
+    parametrization.
+
+<!-- end list -->
+
+``` clojure
+(require '[tablecloth.pipeline :as pip])
+```
+
+### Functional
+
+To create composable function, call API function but defined in
+`tablecloth.pipeline` namespace and without `ds` argument.
+
+``` clojure
+(pip/select-columns :type/numerical)
+```
+
+\#function\[tablecloth.pipeline/select-columns/fn–61848\]
+
+Calling such function on a dataset gives a requested result.
+
+``` clojure
+((pip/select-columns :type/numerical) DS)
+```
+
+\_unnamed \[9 3\]:
+
+| :V1 | :V2 | :V3 |
+| --- | --- | --- |
+| 1   | 1   | 0.5 |
+| 2   | 2   | 1.0 |
+| 1   | 3   | 1.5 |
+| 2   | 4   | 0.5 |
+| 1   | 5   | 1.0 |
+| 2   | 6   | 1.5 |
+| 1   | 7   | 0.5 |
+| 2   | 8   | 1.0 |
+| 1   | 9   | 1.5 |
+
+Pipeline functions can be composed using a `comp` function or
+`pipeline`. The latter is just reversed `comp` to create the order from
+first operation to last.
+
+``` clojure
+(let [p (pip/pipeline (pip/group-by :V1)
+                      (pip/fold-by :V4)
+                      (pip/ungroup))]
+  (p DS))
+```
+
+\_unnamed \[6 4\]:
+
+| :V4 | :V1     | :V2     | :V3         |
+| --- | ------- | ------- | ----------- |
+| B   | \[1\]   | \[5\]   | \[1.0\]     |
+| C   | \[1 1\] | \[3 9\] | \[1.5 1.5\] |
+| A   | \[1 1\] | \[1 7\] | \[0.5 0.5\] |
+| B   | \[2 2\] | \[2 8\] | \[1.0 1.0\] |
+| C   | \[2\]   | \[6\]   | \[1.5\]     |
+| A   | \[2\]   | \[4\]   | \[0.5\]     |
+
+### Declarative
+
+To create a pipeline declarative way you can use `->pipeline` function
+and apply sequence of definition. Definition is simple a sequence where
+on the first position name of the operation is passed as a keyword, a
+symbol or var. The rest are operation parameters which are mostly the
+same as when calling a function.
+
+To help keeping pipeline declaration as a pure data structure you can
+use namespaced keywords to create reference to defined symbols. The
+special `ctx` namespace is used to refer to a values stored in an
+optional map passed as an argument to `->pipeline`.
+
+You can’t used `type` and `!type` namespaces for a symbol reference,
+because they are reserved for column type selectors.
+
+``` clojure
+(def pipeline-declaration [[:group-by :V1]
+                           [:unique-by ::unique-by-operation {:strategy :ctx/strategy}]
+                           [:ungroup {:add-group-as-column :from-V1}]])
+
+(def unique-by-operation (fn [m] (mod (:V2 m) 3)))
+
+(def pipeline-1 (pip/->pipeline {:strategy vec} pipeline-declaration))
+(def pipeline-2 (pip/->pipeline {:strategy set} pipeline-declaration))
+```
+
+``` clojure
+(pipeline-1 DS)
+```
+
+\_unnamed \[6 5\]:
+
+| :from-V1 | :V1     | :V2     | :V3         | :V4         |
+| -------- | ------- | ------- | ----------- | ----------- |
+| 1        | \[1 1\] | \[3 9\] | \[1.5 1.5\] | \[“C” “C”\] |
+| 1        | \[1 1\] | \[1 7\] | \[0.5 0.5\] | \[“A” “A”\] |
+| 1        | \[1\]   | \[5\]   | \[1.0\]     | \[“B”\]     |
+| 2        | \[2\]   | \[6\]   | \[1.5\]     | \[“C”\]     |
+| 2        | \[2\]   | \[4\]   | \[0.5\]     | \[“A”\]     |
+| 2        | \[2 2\] | \[2 8\] | \[1.0 1.0\] | \[“B” “B”\] |
+
+``` clojure
+(pipeline-2 DS)
+```
+
+\_unnamed \[6 5\]:
+
+| :from-V1 | :V1   | :V2     | :V3     | :V4     |
+| -------- | ----- | ------- | ------- | ------- |
+| 1        | \#{1} | \#{3 9} | \#{1.5} | \#{“C”} |
+| 1        | \#{1} | \#{7 1} | \#{0.5} | \#{“A”} |
+| 1        | \#{1} | \#{5}   | \#{1.0} | \#{“B”} |
+| 2        | \#{2} | \#{6}   | \#{1.5} | \#{“C”} |
+| 2        | \#{2} | \#{4}   | \#{0.5} | \#{“A”} |
+| 2        | \#{2} | \#{2 8} | \#{1.0} | \#{“B”} |
+
+### Custom operator
+
+Custom pipeline operator is just function which returns another function
+operating on a dataset.
+
+``` clojure
+(defn duplicate-columns
+  [column-selector]
+  (fn [ds]
+    (let [column-names (api/column-names ds column-selector)]
+      (reduce (fn [d n]
+                (api/add-or-replace-column d (str n "-copy") (d n))) ds column-names))))
+
+(def pipeline (pip/->pipeline [[::duplicate-columns :type/numerical]]))
+```
+
+``` clojure
+(pipeline DS)
+```
+
+\_unnamed \[9 7\]:
+
+| :V1 | :V2 | :V3 | :V4 | :V1-copy | :V2-copy | :V3-copy |
+| --- | --- | --- | --- | -------- | -------- | -------- |
+| 1   | 1   | 0.5 | A   | 1        | 1        | 0.5      |
+| 2   | 2   | 1.0 | B   | 2        | 2        | 1.0      |
+| 1   | 3   | 1.5 | C   | 1        | 3        | 1.5      |
+| 2   | 4   | 0.5 | A   | 2        | 4        | 0.5      |
+| 1   | 5   | 1.0 | B   | 1        | 5        | 1.0      |
+| 2   | 6   | 1.5 | C   | 2        | 6        | 1.5      |
+| 1   | 7   | 0.5 | A   | 1        | 7        | 0.5      |
+| 2   | 8   | 1.0 | B   | 2        | 8        | 1.0      |
+| 1   | 9   | 1.5 | C   | 1        | 9        | 1.5      |
 
 ## Functions
 
@@ -9133,8 +9299,8 @@ Other filters
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
 | 2   | 2   | 1.0 | B   |
-| 1   | 7   | 0.5 | A   |
 | 1   | 1   | 0.5 | A   |
+| 1   | 9   | 1.5 | C   |
 
 ``` clojure
 (api/random DS (/ (api/row-count DS) 2)) ;; fraction of random rows
@@ -9144,11 +9310,11 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 | --- | --- | --- | --- |
-| 1   | 9   | 1.5 | C   |
-| 2   | 2   | 1.0 | B   |
+| 1   | 7   | 0.5 | A   |
+| 2   | 4   | 0.5 | A   |
 | 1   | 3   | 1.5 | C   |
-| 2   | 4   | 0.5 | A   |
-| 2   | 4   | 0.5 | A   |
+| 2   | 6   | 1.5 | C   |
+| 2   | 6   | 1.5 | C   |
 
 ``` clojure
 (api/by-rank DS :V1 zero?) ;; take top n entries

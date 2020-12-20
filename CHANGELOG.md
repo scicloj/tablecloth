@@ -1,5 +1,9 @@
 # Change Log
 
+## [5.00-beta-21a]
+
+* `tablecloth.pipeline` for pipeline operations
+
 ## [5.00-beta-21]
 
 * `concat-copying` exposed.

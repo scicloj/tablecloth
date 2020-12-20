@@ -24,10 +24,12 @@
 
  `columns-selector` selects columns to look at missing values"))
 
-(def ^{:doc (select-or-drop-missing-docstring "Select")}
+(def ^{:doc (select-or-drop-missing-docstring "Select")
+       :arglists '([ds] [ds columns-selector])}
   select-missing (partial select-or-drop-missing ds/select-rows))
 
-(def ^{:doc (select-or-drop-missing-docstring "Drop")}
+(def ^{:doc (select-or-drop-missing-docstring "Drop")
+       :arglists '([ds] [ds columns-selector])}
   drop-missing (partial select-or-drop-missing ds/drop-rows))
 
 (defn replace-missing

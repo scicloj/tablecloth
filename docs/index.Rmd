@@ -1006,8 +1006,8 @@ To add (or replace existing) column call `add-or-replace-column` function. Funct
 * `column` - can be column (from other dataset), sequence, single value or function. Too big columns are always trimmed. Too small are cycled or extended with missing values (according to `size-strategy` argument)
 * `size-strategy` (optional) - when new column is shorter than dataset row count, following strategies are applied:
 - `:cycle` (default) - repeat data
-    - `:na` - append missing values
-    - `:strict` - throws an exception when sizes mismatch
+- `:na` - append missing values
+- `:strict` - throws an exception when sizes mismatch
 
 Function works on grouped dataset.
 
@@ -3315,6 +3315,87 @@ with small ratio
            (api/split :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8})))
 ```
 
+## Pipeline
+
+`tablecloth.pipeline` exports special versions of API which create functions operating only on dataset. These creates the possibility to chain operations and compose them easily.
+
+There are two ways to create pipelines:
+
+* functional, as a composition of functions
+* declarative, separating task declarations and concrete parametrization.
+
+```{clojure results="hide"}
+(require '[tablecloth.pipeline :as pip])
+```
+
+### Functional
+
+To create composable function, call API function but defined in `tablecloth.pipeline` namespace and without `ds` argument. 
+
+```{clojure results="asis"}
+(pip/select-columns :type/numerical)
+```
+
+Calling such function on a dataset gives a requested result.
+
+```{clojure results="asis"}
+((pip/select-columns :type/numerical) DS)
+```
+
+Pipeline functions can be composed using a `comp` function or `pipeline`. The latter is just reversed `comp` to create the order from first operation to last.
+
+```{clojure results="asis"}
+(let [p (pip/pipeline (pip/group-by :V1)
+                      (pip/fold-by :V4)
+                      (pip/ungroup))]
+  (p DS))
+```
+
+### Declarative
+
+To create a pipeline declarative way you can use `->pipeline` function and apply sequence of definition. Definition is simple a sequence where on the first position name of the operation is passed as a keyword, a symbol or var. The rest are operation parameters which are mostly the same as when calling a function. 
+
+To help keeping pipeline declaration as a pure data structure you can use namespaced keywords to create reference to defined symbols. The special `ctx` namespace is used to refer to a values stored in an optional map passed as an argument to `->pipeline`.
+
+You can't used `type` and `!type` namespaces for a symbol reference, because they are reserved for column type selectors.
+
+```{clojure results="hide"}
+(def pipeline-declaration [[:group-by :V1]
+                           [:unique-by ::unique-by-operation {:strategy :ctx/strategy}]
+                           [:ungroup {:add-group-as-column :from-V1}]])
+
+(def unique-by-operation (fn [m] (mod (:V2 m) 3)))
+
+(def pipeline-1 (pip/->pipeline {:strategy vec} pipeline-declaration))
+(def pipeline-2 (pip/->pipeline {:strategy set} pipeline-declaration))
+```
+
+```{clojure results="asis"}
+(pipeline-1 DS)
+```
+
+```{clojure results="asis"}
+(pipeline-2 DS)
+```
+
+### Custom operator
+
+Custom pipeline operator is just function which returns another function operating on a dataset.
+
+```{clojure results="hide"}
+(defn duplicate-columns
+  [column-selector]
+  (fn [ds]
+    (let [column-names (api/column-names ds column-selector)]
+      (reduce (fn [d n]
+                (api/add-or-replace-column d (str n "-copy") (d n))) ds column-names))))
+
+(def pipeline (pip/->pipeline [[::duplicate-columns :type/numerical]]))
+```
+
+```{clojure results="asis"}
+(pipeline DS)
+```
 
 ## Functions
 

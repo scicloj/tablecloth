@@ -72,8 +72,6 @@
   (let [k (-> datatype-columns-selector name keyword)]
     (get type-sets k #{k})))
 
-(prepare-datatype-set :type/string)
-
 (defn- filter-column-names
   "Filter column names"
   [ds columns-selector meta-field]

@@ -24,7 +24,10 @@
              :grouped? true
              :print-line-policy :single))
 
-(def as-regular-dataset unmark-group)
+(let [m (meta #'unmark-group)]
+  (def ^{:doc (:doc m)
+         :arglists (:arglists m)}
+    as-regular-dataset unmark-group))
 
 (defn- find-group-indexes
   "Calulate indexes for groups"

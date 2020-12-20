@@ -128,6 +128,14 @@
       (fs ds rows-selector)
       ds)))
 
-(def select (partial select-or-drop select-columns select-rows))
-(def drop (partial select-or-drop drop-columns drop-rows))
+(defn- select-or-drop-docstring
+  [op]
+  (str op " columns and rows."))
+
+(def ^{:doc (select-or-drop-docstring "Select")
+       :arglists '([ds columns-selector rows-selector])}
+  select (partial select-or-drop select-columns select-rows))
+(def ^{:doc (select-or-drop-docstring "Drop")
+       :arglists '([ds columns-selector rows-selector])}
+  drop (partial select-or-drop drop-columns drop-rows))
 
