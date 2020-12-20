@@ -3317,7 +3317,7 @@ with small ratio
 
 ## Pipeline
 
-`tablecloth.pipeline` exports special versions of API which create functions operating only on dataset. These creates the possibility to chain operations and compose them easily.
+`tablecloth.pipeline` exports special versions of API which create functions operating only on dataset. This creates the possibility to chain operations and compose them easily.
 
 There are two ways to create pipelines:
 
