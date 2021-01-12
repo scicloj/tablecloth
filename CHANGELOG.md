@@ -1,5 +1,9 @@
 # Change Log
 
+## [next]
+
+* `rows` new result: `:as-arrays` - convert rows to 2d double array
+
 ## [5.00-beta-21a]
 
 * `tablecloth.pipeline` for pipeline operations

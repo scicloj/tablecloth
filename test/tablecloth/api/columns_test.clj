@@ -1,6 +1,7 @@
 (ns tablecloth.api.columns-test
   (:require [tablecloth.api :as api]            
-            [clojure.test :refer [deftest is are]]))
+            [clojure.test :refer [deftest is are]]
+            [tech.v3.datatype :as dtype]))
 
 
 ;; https://github.com/scicloj/tablecloth/issues/9
@@ -23,3 +24,13 @@
   (is (= [:b :a :c :idx "z"] (-> dss
                                  (api/reorder-columns :b :a [:c :ids])
                                  (api/column-names)))))
+
+(deftest add-or-replace
+  (are [expected v] (= expected (-> {:x [1 2]}
+                                    (api/dataset)
+                                    (api/add-or-replace-column :y v)
+                                    :y
+                                    (dtype/get-datatype)))
+    :int64 1
+    :float64 1.0
+    :string "abc"))

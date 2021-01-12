@@ -113,7 +113,7 @@
     (dtype/reader? column) (prepare-add-or-replace-column-fn column-name (col/new-column column-name column) size-strategy)
     (iterable-sequence? column) #(fix-column-size fix-column-size-seq % column-name column size-strategy)
     (fn? column) #(add-or-replace-column % column-name (column %) size-strategy)
-    :else #(ds/add-or-update-column % column-name (repeat (ds/row-count %) column))))
+    :else #(ds/add-or-update-column % column-name (dtype/const-reader column (ds/row-count %)))))
 
 (defn add-or-replace-column
   "Add or update (modify) column under `column-name`.
@@ -225,4 +225,3 @@
        (if (and datatype (not= datatype (dtype/get-datatype c)))
          (dtype/->array datatype c)
          (dtype/->array-copy c))))))
-

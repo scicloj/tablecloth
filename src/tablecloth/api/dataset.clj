@@ -88,20 +88,25 @@
                 {:dataset-name (str nm " :basic info")})))))
 
 (defn columns
-  ([ds] (columns ds :as-seq))
+  ([ds] (columns ds :as-seqs))
   ([ds result-type]
    (let [cols (ds/columns ds)]
-     (if (= :as-map result-type)
-       (zipmap (ds/column-names ds) cols)
+     (case result-type
+       :as-map (zipmap (ds/column-names ds) cols)
+       :as-double-arrays (into-array (map double-array (ds/columns ds)))
+       :as-seqs cols
        cols))))
 
 (defn rows
-  ([ds] (rows ds :as-seq))
+  ([ds] (rows ds :as-seqs))
   ([ds result-type]
-   (if (= :as-maps result-type)
-     (ds/mapseq-reader ds)
+   (case result-type
+     :as-maps (ds/mapseq-reader ds)
+     :as-double-arrays (into-array (map double-array (ds/value-reader ds)))
+     :as-seqs (ds/value-reader ds)
      (ds/value-reader ds))))
 
 (defn print-dataset
   ([ds] (println (p/dataset->str ds)))
   ([ds options] (println (p/dataset->str ds options))))
+

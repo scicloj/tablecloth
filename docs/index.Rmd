@@ -344,6 +344,13 @@ Setting a dataset name (operation is immutable).
 
 Get columns and rows as sequences. `column`, `columns` and `rows` treat grouped dataset as regular one. See `Groups` to read more about grouped datasets. 
 
+Possible result types:
+
+- `:as-seq` or `:as-seqs` - sequence of seqences (default)
+- `:as-maps` - sequence of maps (rows)
+- `:as-map` - map of sequences (columns)
+- `:as-double-arrays` - array of double arrays 
+
 ---
 
 Select column.
@@ -375,6 +382,24 @@ Rows as sequence of sequences
 
 ```{clojure}
 (take 2 (api/rows ds))
+```
+
+---
+
+Select rows/columns as double-double-array
+
+```{clojure}
+(-> ds
+    (api/select-columns :type/numerical)
+    (api/head)
+    (api/rows :as-double-arrays))
+```
+
+```{clojure}
+(-> ds
+    (api/select-columns :type/numerical)
+    (api/head)
+    (api/columns :as-double-arrays))
 ```
 
 ---

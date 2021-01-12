@@ -66,7 +66,7 @@
           :datatype [:int64 :int64 :float64 :string]}
          (-> (api/info DS)
              (select-keys [:col-name :datatype]))))
-  (is (= '(:col-name :datatype :n-valid :n-missing :min :mean :mode :max :standard-deviation :skew)
+  (is (= '(:col-name :datatype :n-valid :n-missing :min :mean :mode :max :standard-deviation :skew :first :last)
          (-> (api/info DS)
              (api/column-names))))
   (is (= [{:name "DS", :columns 4, :rows 9, :grouped? false}]
@@ -78,3 +78,12 @@
           {:name :V4, :n-elems 9, :categorical? true, :datatype :string}]
          (-> (api/info DS :columns)
              (api/rows :as-maps)))))
+
+(deftest as-double-arrays
+  (are [f v] (= v (-> (api/dataset {:a [1 2 3]
+                                    :b [5 6 7]})
+                      (f :as-double-arrays)
+                      (->> (map seq))))
+    api/rows '((1.0 5.0) (2.0 6.0) (3.0 7.0))
+    api/columns '((1.0 2.0 3.0) (5.0 6.0 7.0))))
+
