@@ -1,14 +1,25 @@
 # Change Log
 
-## [next]
+## [5.00-beta-25]
 
-* `rows` new result: `:as-arrays` - convert rows to 2d double array
+### Added
+
+* `rows` and `columns` new result: `:as-double-arrays` - convert rows to 2d double array
+* dataset can be created from numerical arrays [discusson](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/dataset.20.3C-.3E.20jvm.20arrays)
+
+### Fixed
+
+* column from single value should create valid datatype (#10)
 
 ## [5.00-beta-21a]
+
+### Added
 
 * `tablecloth.pipeline` for pipeline operations
 
 ## [5.00-beta-21]
+
+### Added
 
 * `concat-copying` exposed.
 * `split` function for splitting into train-test pairs with `:kfold`, `:bootstrap`, `:loo` and `holdout` strategies + stratified versions

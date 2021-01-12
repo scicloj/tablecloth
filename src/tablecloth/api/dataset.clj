@@ -3,8 +3,10 @@
             [tech.v3.dataset.column :as col]
             [tech.v3.protocols.dataset :as prot]
             [tech.v3.dataset.print :as p]
+            [tech.v3.tensor :as tensor]
             
-            [tablecloth.api.utils :refer [iterable-sequence?]]))
+            [tablecloth.api.utils :refer [iterable-sequence?]]
+            [tech.v3.datatype :as dtype]))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; DATASET CREATION
@@ -31,6 +33,17 @@
     (apply array-map (interleave (keys map-ds)
                                  (map #(if (iterable-sequence? %) % (repeat c %)) (vals map-ds))))))
 
+(def ^:private numerical-classes (set (map #(Class/forName %) ["[[B" "[[S" "[[I" "[[J" "[[F" "[[D"])))
+
+(defn- from-tensor
+  [data column-names layout]
+  (let [f (if (= layout :as-columns) tensor/rows tensor/columns)] ;; it's opposite!
+    (->> data
+         (tensor/->tensor)
+         (f)
+         (map dtype/as-reader)
+         (zipmap column-names))))
+
 (defn dataset
   "Create `dataset`.
   
@@ -44,17 +57,22 @@
   ([] (ds/new-dataset nil))
   ([data]
    (dataset data nil))
-  ([data {:keys [single-value-column-name]
-          :or {single-value-column-name :$value}
+  ([data {:keys [single-value-column-name column-names layout]
+          :or {single-value-column-name :$value column-names (range) layout :as-columns}
           :as options}]
    (cond
      (dataset? data) data
      (map? data) (ds/->dataset (fix-map-dataset data) options)
      (and (iterable-sequence? data)
           (every? iterable-sequence? data)
-          (every? #(= 2 (count %)) data)) (dataset (apply array-map (mapcat identity data)) options)
+          (every? #(and (= 2 (count %))
+                        (or (keyword? (first %))
+                            (string? (first %)))) data)) (dataset (apply array-map (mapcat identity data)) options)
      (and (iterable-sequence? data)
           (every? col/is-column? data)) (ds/new-dataset options data)
+     (or (numerical-classes (class data))
+         (and (iterable-sequence? data)
+              (not-every? map? data))) (dataset (from-tensor data column-names layout))
      (not (seqable? data)) (ds/->dataset [{single-value-column-name data}] options)
      :else (ds/->dataset data options))))
 
@@ -109,4 +127,3 @@
 (defn print-dataset
   ([ds] (println (p/dataset->str ds)))
   ([ds options] (println (p/dataset->str ds options))))
-

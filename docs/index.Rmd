@@ -144,7 +144,8 @@ Dataset can be created from various of types of Clojure structures and files:
 * sequence of maps
 * map of sequences or values
 * sequence of columns (taken from other dataset or created manually)
-* sequence of pairs
+* sequence of pairs: `[string column-data]` or `[keyword column-data]`
+* array of native arrays
 * file types: raw/gzipped csv/tsv, json, xls(x) taken from local file system or URL
 * input stream
 
@@ -158,6 +159,8 @@ Dataset can be created from various of types of Clojure structures and files:
     - `:key-fn` - function applied to column names (eg. `keyword`, to convert column names to keywords)
     - `:separator` - column separator
     - `:single-value-column-name` - name of the column when single value is provided
+    - `:column-names` - in case you want to name columns - only works for sequential input (arrays)
+    - `:layout` - for numberical, native array of arrays - treat entries `:as-rows` or `:as-columns` (default)
 
 ---
 
@@ -234,6 +237,33 @@ Missing values are marked by `nil`
 
 ```{clojure results="asis"}
 (api/dataset [{:a nil :b 1} {:a 3 :b 4} {:a 11}])
+```
+
+---
+
+Reading from arrays, by default `:as-columns`
+
+```{clojure results="asis"}
+(-> (map int-array [[1 2] [3 4] [5 6]])
+    (into-array)
+    (api/dataset))
+```
+
+`:as-rows`
+
+```{clojure results="asis"}
+(-> (map int-array [[1 2] [3 4] [5 6]])
+    (into-array)
+    (api/dataset {:layout :as-rows}))
+```
+
+`:as-rows` with names
+
+```{clojure results="asis"}
+(-> (map int-array [[1 2] [3 4] [5 6]])
+    (into-array)
+    (api/dataset {:layout :as-rows
+                  :column-names [:a :b]}))
 ```
 
 ---
