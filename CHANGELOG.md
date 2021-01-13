@@ -1,5 +1,11 @@
 # Change Log
 
+## [5.00-beta-27]
+
+### Changed
+
+* re-implementation of numerical arrays path dataset creation
+
 ## [5.00-beta-25]
 
 ### Added

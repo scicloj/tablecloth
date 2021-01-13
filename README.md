@@ -6,7 +6,7 @@
 
 ### tech.ml.dataset 5.x (master branch)
 
-`[scicloj/tablecloth "5.00-beta-25"]`
+`[scicloj/tablecloth "5.00-beta-27"]`
 
 ### tech.ml.dataset 4.x (4.0 branch)
 

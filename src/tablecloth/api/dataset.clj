@@ -4,9 +4,9 @@
             [tech.v3.protocols.dataset :as prot]
             [tech.v3.dataset.print :as p]
             [tech.v3.tensor :as tensor]
+            [tech.v3.dataset.tensor :as ds-tensor]
             
-            [tablecloth.api.utils :refer [iterable-sequence?]]
-            [tech.v3.datatype :as dtype]))
+            [tablecloth.api.utils :refer [iterable-sequence?]]))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; DATASET CREATION
@@ -37,12 +37,12 @@
 
 (defn- from-tensor
   [data column-names layout]
-  (let [f (if (= layout :as-columns) tensor/rows tensor/columns)] ;; it's opposite!
-    (->> data
-         (tensor/->tensor)
-         (f)
-         (map dtype/as-reader)
-         (zipmap column-names))))
+  (let [t (tensor/->tensor data)
+        t (-> (if (= layout :as-columns) (tensor/transpose t [1 0]) t)
+              (ds-tensor/tensor->dataset))]
+    (if column-names
+      (ds/rename-columns t (zipmap (range (ds/column-count t)) column-names))
+      t)))
 
 (defn dataset
   "Create `dataset`.
@@ -58,7 +58,7 @@
   ([data]
    (dataset data nil))
   ([data {:keys [single-value-column-name column-names layout]
-          :or {single-value-column-name :$value column-names (range) layout :as-columns}
+          :or {single-value-column-name :$value layout :as-columns}
           :as options}]
    (cond
      (dataset? data) data
