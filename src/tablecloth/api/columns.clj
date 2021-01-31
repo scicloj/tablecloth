@@ -5,7 +5,7 @@
             [tech.v3.datatype :as dtype]
 
             [tablecloth.api.utils :refer [column-names iterable-sequence?]]
-            [tablecloth.api.dataset :refer [dataset]]
+            [tablecloth.api.dataset :refer [dataset empty-ds?]]
             [tablecloth.api.group-by :refer [grouped? process-group-data]]))
 
 (defn- select-or-drop-columns
@@ -100,9 +100,11 @@
 
 (defn- fix-column-size
   [f ds column-name column strategy]
-  (->> (ds/row-count ds)
-       (f column strategy)
-       (ds/add-or-update-column ds column-name)))
+  (if (empty-ds? ds)
+    (ds/add-or-update-column ds column-name column)
+    (->> (ds/row-count ds)
+         (f column strategy)
+         (ds/add-or-update-column ds column-name))))
 
 (declare add-or-replace-column)
 
@@ -224,4 +226,4 @@
      (let [c (ds colname)]
        (if (and datatype (not= datatype (dtype/get-datatype c)))
          (dtype/->array datatype c)
-         (dtype/->array-copy c))))))
+         (dtype/->array c))))))

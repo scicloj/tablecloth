@@ -119,7 +119,8 @@ Join the discussion on [Zulip](https://clojurians.zulipchat.com/#narrow/stream/2
 Let's require main namespace and define dataset used in most examples:
 
 ```{clojure results="hide"}
-(require '[tablecloth.api :as api])
+(require '[tablecloth.api :as api]
+         '[tech.v3.datatype.functional :as dfn])
 (def DS (api/dataset {:V1 (take 9 (cycle [1 2]))
                       :V2 (range 1 10)
                       :V3 (take 9 (cycle [0.5 1.0 1.5]))
@@ -161,6 +162,8 @@ Dataset can be created from various of types of Clojure structures and files:
     - `:single-value-column-name` - name of the column when single value is provided
     - `:column-names` - in case you want to name columns - only works for sequential input (arrays)
     - `:layout` - for numberical, native array of arrays - treat entries `:as-rows` or `:as-columns` (default)
+
+`api/let-dataset` accepts bindings `symbol`-`column-data` to simulate R's `tibble` function. Each binding is converted into a column. You can refer previous columns to in further bindings (as in `let`).
 
 ---
 
@@ -264,6 +267,16 @@ Reading from arrays, by default `:as-columns`
     (into-array)
     (api/dataset {:layout :as-rows
                   :column-names [:a :b]}))
+```
+
+---
+
+Create dataset using macro `let-dataset` to simulate R `tibble` function. Each binding is converted into a column.
+
+```{clojure results="asis"}
+(api/let-dataset [x (range 1 6)
+                  y 1
+                  z (dfn/+ x y)])
 ```
 
 ---

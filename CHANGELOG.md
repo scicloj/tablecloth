@@ -1,5 +1,15 @@
 # Change Log
 
+## [5.00-beta-28]
+
+### Added
+
+* `let-dataset` - to simulate `tibble` from R
+
+### Fixed
+
+* Adding a column to an empty dataset returned empty dataset
+
 ## [5.00-beta-27]
 
 ### Changed
