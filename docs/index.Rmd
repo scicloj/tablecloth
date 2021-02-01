@@ -106,11 +106,12 @@ During conversions of the examples I've come up how to reorganized existing `tec
 * Most operations recognize regular dataset and grouped dataset and process data accordingly.
 * One function form to enable thread-first on dataset.
 
-If you want to know more about `tech.ml.dataset` and `tech.ml.datatype` please refer their documentation:
+If you want to know more about `tech.ml.dataset` and `dtype-next` please refer their documentation:
 
-* [Datatype](https://github.com/techascent/tech.datatype/blob/master/docs/cheatsheet.md)
-* [Date/time](https://github.com/techascent/tech.datatype/blob/master/docs/datetime.md)
-* [Dataset](https://github.com/techascent/tech.ml.dataset/blob/master/docs/walkthrough.md)
+* [tech.ml.dataset walkthrough](https://techascent.github.io/tech.ml.dataset/walkthrough.html)
+* [dtype-next overview](https://cnuernber.github.io/dtype-next/overview.html)
+* [dtype-next cheatsheet](https://cnuernber.github.io/dtype-next/cheatsheet.html)
+
 
 [SOURCE CODE](https://github.com/scicloj/tablecloth)
 
