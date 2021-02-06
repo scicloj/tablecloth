@@ -30,7 +30,15 @@
 
 (defn pipeline
   [& ops]
-  (apply comp (reverse ops)))
+  (let [ops-with-uuid (map #(vector (java.util.UUID/randomUUID) %) ops)]
+    (fn [ctx]
+      (let [ctx (if (api/dataset? ctx)
+                  {:dataset ctx} ctx)]
+        (reduce (fn [curr-ctx [uuid op]]
+                  (-> curr-ctx
+                      (assoc :uuid uuid)
+                      (op)
+                      (dissoc :uuid))) ctx ops-with-uuid)))))
 
 (declare process-param)
 
@@ -70,6 +78,7 @@
                      (apply v nparams)))))
 
 
+;; TODO: remove before releasing
 ;; example
 
 
@@ -124,3 +133,31 @@
 (pipeline-1 DS)
 
 (pipeline-2 {:dataset DS})
+
+
+;; custom pipeline operation
+
+(defn transformation-returning-context []
+  (fn [{:keys [uuid] :as ctx}]
+    (if-let [my-data (ctx uuid)]
+      (do
+        (println "My stored data is: " my-data)
+        (update ctx uuid inc))
+      (assoc ctx uuid 0))))
+
+(def do-something
+  (pipeline (transformation-returning-context)
+            (transformation-returning-context)))
+
+(take 3 (rest (iterate do-something (api/dataset))))
+;; => ({:dataset _unnamed [0 0],
+;;      #uuid "b3d63d87-096b-4c17-8290-9f4fdd68d6a6" 0,
+;;      #uuid "95a154e8-cdf0-4f7c-80e7-d0d3e00e1463" 0}My stored data is:  0
+;;    My stored data is:  0
+;;     {:dataset _unnamed [0 0],
+;;      #uuid "b3d63d87-096b-4c17-8290-9f4fdd68d6a6" 1,
+;;      #uuid "95a154e8-cdf0-4f7c-80e7-d0d3e00e1463" 1}My stored data is:  1
+;;    My stored data is:  1
+;;     {:dataset _unnamed [0 0],
+;;      #uuid "b3d63d87-096b-4c17-8290-9f4fdd68d6a6" 2,
+;;      #uuid "95a154e8-cdf0-4f7c-80e7-d0d3e00e1463" 2})
