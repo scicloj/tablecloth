@@ -123,15 +123,12 @@
   (mm/pipeline (transformation-returning-context)
                (transformation-returning-context)))
 
-(take 3 (rest (iterate do-something {})))
-;; => ({:dataset _unnamed [0 0],
-;;      #uuid "b3d63d87-096b-4c17-8290-9f4fdd68d6a6" 0,
-;;      #uuid "95a154e8-cdf0-4f7c-80e7-d0d3e00e1463" 0}My stored data is:  0
+;; below hangs!!!
+#_(take 3 (rest (iterate do-something (api/dataset))))
+
+(take 3 (rest (iterate do-something {:metamorph/data (api/dataset)})))
+;; => ({:metamorph/data _unnamed [0 0], 0 0, 1 0}My stored data is:  0
 ;;    My stored data is:  0
-;;     {:dataset _unnamed [0 0],
-;;      #uuid "b3d63d87-096b-4c17-8290-9f4fdd68d6a6" 1,
-;;      #uuid "95a154e8-cdf0-4f7c-80e7-d0d3e00e1463" 1}My stored data is:  1
+;;     {:metamorph/data _unnamed [0 0], 0 1, 1 1}My stored data is:  1
 ;;    My stored data is:  1
-;;     {:dataset _unnamed [0 0],
-;;      #uuid "b3d63d87-096b-4c17-8290-9f4fdd68d6a6" 2,
-;;      #uuid "95a154e8-cdf0-4f7c-80e7-d0d3e00e1463" 2})
+;;     {:metamorph/data _unnamed [0 0], 0 2, 1 2})
