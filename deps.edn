@@ -3,4 +3,5 @@
         techascent/tech.ml.dataset       {:mvn/version "5.00-beta-29"}
         
         generateme/fastmath {:mvn/version "2.1.0"}
+        scicloj/metamorph {:mvn/version "0.1.0-alpha1"}
         }}
