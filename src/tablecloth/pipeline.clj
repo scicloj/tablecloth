@@ -16,7 +16,11 @@
                                       {:metamorph/data ds#} ds#)]
                            (assoc ctx# :metamorph/data (apply ~f (ctx# :metamorph/data) ~@a ~(rest r))))))))))
 
-(def ^:private excludes '#{dataset write-csv! let-dataset row-count column-count})
+(def ^:private excludes '#{dataset write-csv! write! read-nippy write-nippy! let-dataset row-count column-count
+                           set-dataset-name dataset-name column has-column?
+                           dataset->str column-names dataset? empty-ds? shape
+                           info columns rows print-dataset grouped? process-group-data groups->seq groups->map
+                           ->array split})
 
 (defmacro ^:private process-all-api-symbols
   []
