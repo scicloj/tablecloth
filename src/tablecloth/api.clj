@@ -54,6 +54,8 @@
                          rename-columns
                          add-or-replace-column
                          add-or-replace-columns
+                         add-column
+                         add-columns
                          map-columns
                          update-columns
                          reorder-columns
