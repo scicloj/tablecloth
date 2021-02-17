@@ -1,5 +1,11 @@
 # Change Log
 
+## [5.00-beta-29]
+
+### Changed
+
+* `add-or-replace-column(s)` replaced by `add-column(s)` (`add-or-replace-column(s)` is marked as deprecated)
+
 ## [5.00-beta-27]
 
 ### Changed

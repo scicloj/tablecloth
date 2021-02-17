@@ -115,24 +115,6 @@
     (fn? column) #(add-column % column-name (column %) size-strategy)
     :else #(ds/add-or-update-column % column-name (dtype/const-reader column (ds/row-count %)))))
 
-(defn ^:deprecated add-or-replace-column
-  "Add or update (modify) column under `column-name`.
-
-  `column` can be sequence of values or generator function (which gets `ds` as input)."
-  ([ds column-name column] (add-or-replace-column ds column-name column nil))
-  ([ds column-name column size-strategy]
-   (let [process-fn (prepare-add-column-fn column-name column (or size-strategy :cycle))]
-     
-     (if (grouped? ds)
-       (process-group-data ds process-fn)
-       (process-fn ds)))))
-
-(defn ^:deprecated add-or-replace-columns
-  "Add or updade (modify) columns defined in `columns-map` (mapping: name -> column) "
-  ([ds columns-map] (add-or-replace-columns ds columns-map nil))
-  ([ds columns-map size-strategy]
-   (reduce-kv (fn [ds k v] (add-or-replace-column ds k v size-strategy)) ds columns-map)))
-
 (defn add-column
   "Add or update (modify) column under `column-name`.
 
