@@ -1067,7 +1067,7 @@ Function works on grouped dataset
 
 #### Add or update
 
-To add (or replace existing) column call `add-or-replace-column` function. Function accepts:
+To add (or replace existing) column call `add-column` function. Function accepts:
 
 * `ds` - a dataset
 * `column-name` - if it's existing column name, column will be replaced
@@ -1084,7 +1084,7 @@ Function works on grouped dataset.
 Add single value as column
 
 ```{clojure results="asis"}
-(api/add-or-replace-column DS :V5 "X")
+(api/add-column DS :V5 "X")
 ```
 
 ---
@@ -1092,7 +1092,7 @@ Add single value as column
 Replace one column (column is trimmed)
 
 ```{clojure results="asis"}
-(api/add-or-replace-column DS :V1 (repeatedly rand))
+(api/add-column DS :V1 (repeatedly rand))
 ```
 
 ---
@@ -1100,7 +1100,7 @@ Replace one column (column is trimmed)
 Copy column
 
 ```{clojure results="asis"}
-(api/add-or-replace-column DS :V5 (DS :V1))
+(api/add-column DS :V5 (DS :V1))
 ```
 
 ---
@@ -1108,7 +1108,7 @@ Copy column
 When function is used, argument is whole dataset and the result should be column, sequence or single value
 
 ```{clojure results="asis"}
-(api/add-or-replace-column DS :row-count api/row-count) 
+(api/add-column DS :row-count api/row-count)
 ```
 
 ---
@@ -1118,7 +1118,7 @@ Above example run on grouped dataset, applies function on each group separately.
 ```{clojure results="asis"}
 (-> DS
     (api/group-by :V1)
-    (api/add-or-replace-column :row-count api/row-count)
+    (api/add-column :row-count api/row-count)
     (api/ungroup))
 ```
 
@@ -1127,18 +1127,18 @@ Above example run on grouped dataset, applies function on each group separately.
 When column which is added is longer than row count in dataset, column is trimmed. When column is shorter, it's cycled or missing values are appended.
 
 ```{clojure results="asis"}
-(api/add-or-replace-column DS :V5 [:r :b])
+(api/add-column DS :V5 [:r :b])
 ```
 
 ```{clojure results="asis"}
-(api/add-or-replace-column DS :V5 [:r :b] :na)
+(api/add-column DS :V5 [:r :b] :na)
 ```
 
 Exception is thrown when `:strict` strategy is used and column size is not equal row count
 
 ```{clojure}
 (try
-  (api/add-or-replace-column DS :V5 [:r :b] :strict)
+  (api/add-column DS :V5 [:r :b] :strict)
   (catch Exception e (str "Exception caught: "(ex-message e))))
 ```
 
@@ -1149,7 +1149,7 @@ Tha same applies for grouped dataset
 ```{clojure results="asis"}
 (-> DS
     (api/group-by :V3)
-    (api/add-or-replace-column :V5 [:r :b] :na)
+    (api/add-column :V5 [:r :b] :na)
     (api/ungroup))
 ```
 
@@ -1160,16 +1160,16 @@ Let's use other column to fill groups
 ```{clojure results="asis"}
 (-> DS
     (api/group-by :V3)
-    (api/add-or-replace-column :V5 (DS :V2))
+    (api/add-column :V5 (DS :V2))
     (api/ungroup))
 ```
 
 ---
 
-In case you want to add or update several columns you can call `add-or-replace-columns` and provide map where keys are column names, vals are columns.
+In case you want to add or update several columns you can call `add-columns` and provide map where keys are column names, vals are columns.
 
 ```{clojure results="asis"}
-(api/add-or-replace-columns DS {:V1 #(map inc (% :V1))
+(api/add-columns DS {:V1 #(map inc (% :V1))
                                :V5 #(map (comp keyword str) (% :V4))
                                :V6 11})
 ```
@@ -1374,7 +1374,7 @@ Rows can be selected or dropped using various selectors:
 
 When predicate is used you may want to limit columns passed to the function (`select-keys` option).
 
-Additionally you may want to precalculate some values which will be visible for predicate as additional columns. It's done internally by calling `add-or-replace-columns` on a dataset. `:pre` is used as a column definitions.
+Additionally you may want to precalculate some values which will be visible for predicate as additional columns. It's done internally by calling `add-columns` on a dataset. `:pre` is used as a column definitions.
 
 #### Select
 
@@ -2904,7 +2904,7 @@ Step 1 - convert all choices into rows and add artificial column to all values w
 ```{clojure results="hide"}
 (def multi2 (-> multi
                 (api/pivot->longer (complement #{:id}))
-                (api/add-or-replace-column :checked true)))
+                (api/add-column :checked true)))
 ```
 
 ```{clojure results="asis"}
@@ -3456,7 +3456,7 @@ Custom pipeline operator is just function which returns another function operati
   (fn [ds]
     (let [column-names (api/column-names ds column-selector)]
       (reduce (fn [d n]
-                (api/add-or-replace-column d (str n "-copy") (d n))) ds column-names))))
+                (api/add-column d (str n "-copy") (d n))) ds column-names))))
 
 (def pipeline (pip/->pipeline [[::duplicate-columns :type/numerical]]))
 ```
@@ -4399,7 +4399,7 @@ Modify a column
 ```
 
 ```{clojure results="hide"}
-(def DS (api/add-or-replace-column DS :V1 (dfn/pow (DS :V1) 2)))
+(def DS (api/add-column DS :V1 (dfn/pow (DS :V1) 2)))
 ```
 
 ```{clojure results="asis"}
@@ -4415,7 +4415,7 @@ Add one column
 ```
 
 ```{clojure results="hide"}
-(def DS (api/add-or-replace-column DS :v5 (dfn/log (DS :V1))))
+(def DS (api/add-column DS :v5 (dfn/log (DS :V1))))
 ```
 
 ```{clojure results="asis"}
@@ -4427,7 +4427,7 @@ DS
 Add several columns
 
 ```{clojure results="hide"}
-(def DS (api/add-or-replace-columns DS {:v6 (dfn/sqrt (DS :V1))
+(def DS (api/add-columns DS {:v6 (dfn/sqrt (DS :V1))
                                        :v7 "X"}))
 ```
 
@@ -4580,7 +4580,7 @@ Add a column with number of observations for each group
 ```{clojure results="asis"}
 (-> DS
     (api/group-by [:V1])
-    (api/add-or-replace-column :n api/row-count)
+    (api/add-column :n api/row-count)
     (api/ungroup))
 ```
 
@@ -4729,7 +4729,7 @@ Use a complex expression
 (-> DS
     (api/group-by [:V4])
     (api/head 2)
-    (api/add-or-replace-column :V2 "X")
+    (api/add-column :V2 "X")
     (api/ungroup))
 ```
 
@@ -4991,7 +4991,7 @@ Get row number of first (and last) observation by group
 
 ```{clojure results="asis"}
 (-> DS
-    (api/add-or-replace-column :row-id (range))
+    (api/add-column :row-id (range))
     (api/select-columns [:V4 :row-id])
     (api/group-by :V4)
     (api/ungroup))
@@ -4999,7 +4999,7 @@ Get row number of first (and last) observation by group
 
 ```{clojure results="asis"}
 (-> DS
-    (api/add-or-replace-column :row-id (range))
+    (api/add-column :row-id (range))
     (api/select-columns [:V4 :row-id])
     (api/group-by :V4)
     (api/first)
@@ -5008,7 +5008,7 @@ Get row number of first (and last) observation by group
 
 ```{clojure results="asis"}
 (-> DS
-    (api/add-or-replace-column :row-id (range))
+    (api/add-column :row-id (range))
     (api/select-columns [:V4 :row-id])
     (api/group-by :V4)
     (api/select-rows [0 2])
@@ -5243,7 +5243,7 @@ Aggregate columns while joining
     (api/group-by ["Id"])
     (api/aggregate {"sumY1" #(dfn/sum (% "Y1"))})
     (api/right-join x "Id")
-    (api/add-or-replace-column "X1Y1" (fn [ds] (dfn/* (ds "sumY1")
+    (api/add-column "X1Y1" (fn [ds] (dfn/* (ds "sumY1")
                                                     (ds "X1"))))
     (api/select-columns ["right.Id" "X1Y1"]))
 ```
@@ -5326,7 +5326,7 @@ Bind rows using a list
 
 ```{clojure results="asis"}
 (->> [x y]
-     (map-indexed #(api/add-or-replace-column %2 :id (repeat %1)))
+     (map-indexed #(api/add-column %2 :id (repeat %1)))
      (apply api/bind))
 ```
 

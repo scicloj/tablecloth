@@ -25,6 +25,7 @@
                                  (api/reorder-columns :b :a [:c :ids])
                                  (api/column-names)))))
 
+;; This test uses the add-or-replace-column function which is deprecated
 (deftest add-or-replace
   (are [expected v] (= expected (-> {:x [1 2]}
                                     (api/dataset)
@@ -34,3 +35,13 @@
     :int64 1
     :float64 1.0
     :string "abc"))
+
+(deftest add-column
+  (are [expected v] (= expected (-> {:x [1 2]}
+                                    (api/dataset)
+                                    (api/add-column :y v)
+                                    :y
+                                    (dtype/get-datatype)))
+                    :int64 1
+                    :float64 1.0
+                    :string "abc"))
