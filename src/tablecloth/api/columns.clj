@@ -135,6 +135,10 @@
   ([ds columns-map size-strategy]
    (reduce-kv (fn [ds k v] (add-column ds k v size-strategy)) ds columns-map)))
 
+(def ^{:deprecated "Use `add-column` instead."} add-or-replace-column add-column)
+
+(def ^{:deprecated "Use `add-columns` instead."} add-or-replace-columns add-columns)
+
 (defn- process-update-columns
   [ds lst]
   (reduce (fn [ds [c f]]
