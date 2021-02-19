@@ -6,7 +6,7 @@
 
 ### tech.ml.dataset 5.x (master branch)
 
-`[scicloj/tablecloth "5.00-beta-27"]`
+[![](https://img.shields.io/clojars/v/scicloj/tablecloth)](https://clojars.org/scicloj/tablecloth)
 
 ### tech.ml.dataset 4.x (4.0 branch)
 
