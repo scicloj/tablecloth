@@ -5,4 +5,8 @@
             :url "https://opensource.org/licenses/MIT"}
   :plugins [[lein-tools-deps "0.4.5"]]
   :middleware [lein-tools-deps.plugin/resolve-dependencies-with-deps-edn]
-  :lein-tools-deps/config {:config-files [:install :user :project]})
+  :lein-tools-deps/config {:config-files [:install :user :project]}
+  :profiles {:dev {:cloverage    {:runner :midje}
+                   :dependencies [[midje "1.9.9"]]
+                   :plugins      [[lein-midje "3.2.1"]
+                                  [lein-cloverage "1.1.2"]]}})

@@ -5,8 +5,8 @@
             [tech.v3.dataset.print :as p]
             [tech.v3.tensor :as tensor]
             [tech.v3.dataset.tensor :as ds-tensor]
-            
-            [tablecloth.api.utils :refer [iterable-sequence?]]))
+            [tablecloth.api.utils :refer [iterable-sequence?]]
+            [tablecloth.api.clone :as clone]))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; DATASET CREATION
@@ -57,24 +57,25 @@
   ([] (ds/new-dataset nil))
   ([data]
    (dataset data nil))
-  ([data {:keys [single-value-column-name column-names layout]
+  ([data {:keys [single-value-column-name column-names layout prevent-clone?]
           :or {single-value-column-name :$value layout :as-columns}
           :as options}]
-   (cond
-     (dataset? data) data
-     (map? data) (ds/->dataset (fix-map-dataset data) options)
-     (and (iterable-sequence? data)
-          (every? iterable-sequence? data)
-          (every? #(and (= 2 (count %))
-                        (or (keyword? (first %))
-                            (string? (first %)))) data)) (dataset (apply array-map (mapcat identity data)) options)
-     (and (iterable-sequence? data)
-          (every? col/is-column? data)) (ds/new-dataset options data)
-     (or (numerical-classes (class data))
-         (and (iterable-sequence? data)
-              (not-every? map? data))) (dataset (from-tensor data column-names layout))
-     (not (seqable? data)) (ds/->dataset [{single-value-column-name data}] options)
-     :else (ds/->dataset data options))))
+   (-> (cond
+      (dataset? data) data
+      (map? data) (ds/->dataset (fix-map-dataset data) options)
+      (and (iterable-sequence? data)
+           (every? iterable-sequence? data)
+           (every? #(and (= 2 (count %))
+                         (or (keyword? (first %))
+                             (string? (first %)))) data)) (dataset (apply array-map (mapcat identity data)) options)
+      (and (iterable-sequence? data)
+           (every? col/is-column? data)) (ds/new-dataset options data)
+      (or (numerical-classes (class data))
+          (and (iterable-sequence? data)
+               (not-every? map? data))) (dataset (from-tensor data column-names layout))
+      (not (seqable? data)) (ds/->dataset [{single-value-column-name data}] options)
+      :else (ds/->dataset data options))
+    (clone/clone-columns :all prevent-clone?))))
 
 (defn shape
   "Returns shape of the dataset [rows, cols]"
