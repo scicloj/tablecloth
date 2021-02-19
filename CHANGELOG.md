@@ -4,7 +4,13 @@
 
 ### Changed
 
-* `add-or-replace-column(s)` replaced by `add-column(s)` (`add-or-replace-column(s)` is marked as deprecated)
+* `add-or-replace-column(s)` replaced by `add-column(s)` (`add-or-replace-column(s)` is marked as deprecated) (#16)
+
+### Fixed
+
+* `mark-as-group` wasn't visible in API (#18)
+* `map-columns` didn't propagate `new-type` for grouped case (#20)
+* broken links (#14) in readme
 
 ## [5.00-beta-28]
 

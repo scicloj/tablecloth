@@ -41,6 +41,7 @@
                          ungroup
                          grouped?
                          unmark-group
+                         mark-as-group
                          as-regular-dataset
                          process-group-data
                          groups->seq

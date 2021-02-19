@@ -135,9 +135,10 @@
   ([ds columns-map size-strategy]
    (reduce-kv (fn [ds k v] (add-column ds k v size-strategy)) ds columns-map)))
 
-(def ^{:deprecated "Use `add-column` instead."} add-or-replace-column add-column)
-
-(def ^{:deprecated "Use `add-columns` instead."} add-or-replace-columns add-columns)
+(def ^{:deprecated "Use `add-column` instead."
+       :arglists '([ds column-name column] [ds column-name column size-strategy])} add-or-replace-column add-column)
+(def ^{:deprecated "Use `add-columns` instead."
+       :arglists '([ds columns-map] [ds columns-map size-strategy])} add-or-replace-columns add-columns)
 
 (defn- process-update-columns
   [ds lst]
@@ -166,7 +167,7 @@
   ([ds column-name columns-selector map-fn] (map-columns ds column-name nil columns-selector map-fn))
   ([ds column-name new-type columns-selector map-fn]
    (if (grouped? ds)
-     (process-group-data ds #(map-columns % column-name columns-selector map-fn))
+     (process-group-data ds #(map-columns % column-name new-type columns-selector map-fn))
      (add-column ds column-name (apply col/column-map map-fn new-type (ds/columns (select-columns ds columns-selector)))))))
 
 (defn reorder-columns

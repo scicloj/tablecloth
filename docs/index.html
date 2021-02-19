@@ -11,7 +11,7 @@
 
 <meta name="author" content="GenerateMe" />
 
-<meta name="date" content="2021-01-31" />
+<meta name="date" content="2021-02-19" />
 
 <title>Dataset manipulation API for tech.ml.dataset library</title>
 
@@ -1600,7 +1600,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Dataset manipulation API for tech.ml.dataset library</h1>
 <h4 class="author">GenerateMe</h4>
-<h4 class="date">2021-01-31</h4>
+<h4 class="date">2021-02-19</h4>
 
 </div>
 
@@ -1644,11 +1644,11 @@ pre.r::before {
 <li>Most operations recognize regular dataset and grouped dataset and process data accordingly.</li>
 <li>One function form to enable thread-first on dataset.</li>
 </ul>
-<p>If you want to know more about <code>tech.ml.dataset</code> and <code>tech.ml.datatype</code> please refer their documentation:</p>
+<p>If you want to know more about <code>tech.ml.dataset</code> and <code>dtype-next</code> please refer their documentation:</p>
 <ul>
-<li><a href="https://github.com/techascent/tech.datatype/blob/master/docs/cheatsheet.md">Datatype</a></li>
-<li><a href="https://github.com/techascent/tech.datatype/blob/master/docs/datetime.md">Date/time</a></li>
-<li><a href="https://github.com/techascent/tech.ml.dataset/blob/master/docs/walkthrough.md">Dataset</a></li>
+<li><a href="https://techascent.github.io/tech.ml.dataset/walkthrough.html">tech.ml.dataset walkthrough</a></li>
+<li><a href="https://cnuernber.github.io/dtype-next/overview.html">dtype-next overview</a></li>
+<li><a href="https://cnuernber.github.io/dtype-next/cheatsheet.html">dtype-next cheatsheet</a></li>
 </ul>
 <p><a href="https://github.com/scicloj/tablecloth">SOURCE CODE</a></p>
 <p>Join the discussion on <a href="https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api">Zulip</a></p>
@@ -2779,29 +2779,29 @@ precipitation
 <hr />
 <p>Rows as sequence of sequences</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb43-1" title="1">(<span class="kw">take</span> <span class="dv">2</span> (api/rows ds))</a></code></pre></div>
-<pre><code>([#object[java.time.LocalDate 0x2d08a21 &quot;2012-01-01&quot;] 0.0 12.8 5.0 4.7 &quot;drizzle&quot;] [#object[java.time.LocalDate 0xaa74fc8 &quot;2012-01-02&quot;] 10.9 10.6 2.8 4.5 &quot;rain&quot;])</code></pre>
+<pre><code>([#object[java.time.LocalDate 0x53719988 &quot;2012-01-01&quot;] 0.0 12.8 5.0 4.7 &quot;drizzle&quot;] [#object[java.time.LocalDate 0x74e85d87 &quot;2012-01-02&quot;] 10.9 10.6 2.8 4.5 &quot;rain&quot;])</code></pre>
 <hr />
 <p>Select rows/columns as double-double-array</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb45-1" title="1">(<span class="kw">-&gt;</span> ds</a>
 <a class="sourceLine" id="cb45-2" title="2">    (api/select-columns <span class="at">:type/numerical</span>)</a>
 <a class="sourceLine" id="cb45-3" title="3">    (api/head)</a>
 <a class="sourceLine" id="cb45-4" title="4">    (api/rows <span class="at">:as-double-arrays</span>))</a></code></pre></div>
-<pre><code>#object[&quot;[[D&quot; 0x79eae6be &quot;[[D@79eae6be&quot;]</code></pre>
+<pre><code>#object[&quot;[[D&quot; 0x48c69d68 &quot;[[D@48c69d68&quot;]</code></pre>
 <div class="sourceCode" id="cb47"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb47-1" title="1">(<span class="kw">-&gt;</span> ds</a>
 <a class="sourceLine" id="cb47-2" title="2">    (api/select-columns <span class="at">:type/numerical</span>)</a>
 <a class="sourceLine" id="cb47-3" title="3">    (api/head)</a>
 <a class="sourceLine" id="cb47-4" title="4">    (api/columns <span class="at">:as-double-arrays</span>))</a></code></pre></div>
-<pre><code>#object[&quot;[[D&quot; 0x6fb291e9 &quot;[[D@6fb291e9&quot;]</code></pre>
+<pre><code>#object[&quot;[[D&quot; 0x4447de4a &quot;[[D@4447de4a&quot;]</code></pre>
 <hr />
 <p>Rows as sequence of maps</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb49-1" title="1">(clojure.pprint/pprint (<span class="kw">take</span> <span class="dv">2</span> (api/rows ds <span class="at">:as-maps</span>)))</a></code></pre></div>
-<pre><code>({&quot;date&quot; #object[java.time.LocalDate 0x4ad688e7 &quot;2012-01-01&quot;],
+<pre><code>({&quot;date&quot; #object[java.time.LocalDate 0x3c2a7a3b &quot;2012-01-01&quot;],
   &quot;precipitation&quot; 0.0,
   &quot;temp_min&quot; 5.0,
   &quot;weather&quot; &quot;drizzle&quot;,
   &quot;temp_max&quot; 12.8,
   &quot;wind&quot; 4.7}
- {&quot;date&quot; #object[java.time.LocalDate 0x109681cd &quot;2012-01-02&quot;],
+ {&quot;date&quot; #object[java.time.LocalDate 0x5ca72cfa &quot;2012-01-02&quot;],
   &quot;precipitation&quot; 10.9,
   &quot;temp_min&quot; 2.8,
   &quot;weather&quot; &quot;rain&quot;,
@@ -5281,7 +5281,7 @@ precipitation
 <th>v1</th>
 <th>v2</th>
 <th>[1 2 3]</th>
-<th><a href="mailto:java.lang.Object@299d666f" class="email">java.lang.Object@299d666f</a></th>
+<th><a href="mailto:java.lang.Object@5bfcdc42" class="email">java.lang.Object@5bfcdc42</a></th>
 </tr>
 </thead>
 <tbody>
@@ -5497,7 +5497,7 @@ precipitation
 <th>v1</th>
 <th>v2</th>
 <th>[1 2 3]</th>
-<th><a href="mailto:java.lang.Object@77d72860" class="email">java.lang.Object@77d72860</a></th>
+<th><a href="mailto:java.lang.Object@512ff474" class="email">java.lang.Object@512ff474</a></th>
 </tr>
 </thead>
 <tbody>
@@ -5540,7 +5540,7 @@ precipitation
 <th>v1</th>
 <th>v2</th>
 <th>[1 2 3]</th>
-<th><a href="mailto:java.lang.Object@77d72860" class="email">java.lang.Object@77d72860</a></th>
+<th><a href="mailto:java.lang.Object@512ff474" class="email">java.lang.Object@512ff474</a></th>
 </tr>
 </thead>
 <tbody>
@@ -5574,7 +5574,7 @@ precipitation
 </div>
 <div id="add-or-update" class="section level4">
 <h4>Add or update</h4>
-<p>To add (or replace existing) column call <code>add-or-replace-column</code> function. Function accepts:</p>
+<p>To add (or replace existing) column call <code>add-column</code> function. Function accepts:</p>
 <ul>
 <li><code>ds</code> - a dataset</li>
 <li><code>column-name</code> - if it’s existing column name, column will be replaced</li>
@@ -5587,7 +5587,7 @@ precipitation
 <p>Function works on grouped dataset.</p>
 <hr />
 <p>Add single value as column</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb131-1" title="1">(api/add-or-replace-column DS <span class="at">:V5</span> <span class="st">&quot;X&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb131-1" title="1">(api/add-column DS <span class="at">:V5</span> <span class="st">&quot;X&quot;</span>)</a></code></pre></div>
 <p>_unnamed [9 5]:</p>
 <table>
 <thead>
@@ -5667,7 +5667,7 @@ precipitation
 </table>
 <hr />
 <p>Replace one column (column is trimmed)</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb132-1" title="1">(api/add-or-replace-column DS <span class="at">:V1</span> (<span class="kw">repeatedly</span> <span class="kw">rand</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb132-1" title="1">(api/add-column DS <span class="at">:V1</span> (<span class="kw">repeatedly</span> <span class="kw">rand</span>))</a></code></pre></div>
 <p>_unnamed [9 4]:</p>
 <table>
 <thead>
@@ -5680,55 +5680,55 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>0.8669</td>
+<td>0.9187</td>
 <td>1</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td>0.4380</td>
+<td>0.2433</td>
 <td>2</td>
 <td>1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td>0.4462</td>
+<td>0.4401</td>
 <td>3</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
-<td>0.2244</td>
+<td>0.09571</td>
 <td>4</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
-<td>0.7551</td>
+<td>0.07917</td>
 <td>5</td>
 <td>1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
-<td>0.6817</td>
+<td>0.04828</td>
 <td>6</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
-<td>0.5883</td>
+<td>0.5129</td>
 <td>7</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td>0.6051</td>
+<td>0.6220</td>
 <td>8</td>
 <td>1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td>0.1827</td>
+<td>0.4474</td>
 <td>9</td>
 <td>1.5</td>
 <td>C</td>
@@ -5737,7 +5737,7 @@ precipitation
 </table>
 <hr />
 <p>Copy column</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb133-1" title="1">(api/add-or-replace-column DS <span class="at">:V5</span> (DS <span class="at">:V1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb133-1" title="1">(api/add-column DS <span class="at">:V5</span> (DS <span class="at">:V1</span>))</a></code></pre></div>
 <p>_unnamed [9 5]:</p>
 <table>
 <thead>
@@ -5817,7 +5817,7 @@ precipitation
 </table>
 <hr />
 <p>When function is used, argument is whole dataset and the result should be column, sequence or single value</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb134-1" title="1">(api/add-or-replace-column DS <span class="at">:row-count</span> api/row-count) </a></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb134-1" title="1">(api/add-column DS <span class="at">:row-count</span> api/row-count)</a></code></pre></div>
 <p>_unnamed [9 5]:</p>
 <table>
 <thead>
@@ -5899,7 +5899,7 @@ precipitation
 <p>Above example run on grouped dataset, applies function on each group separately.</p>
 <div class="sourceCode" id="cb135"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb135-1" title="1">(<span class="kw">-&gt;</span> DS</a>
 <a class="sourceLine" id="cb135-2" title="2">    (api/group-by <span class="at">:V1</span>)</a>
-<a class="sourceLine" id="cb135-3" title="3">    (api/add-or-replace-column <span class="at">:row-count</span> api/row-count)</a>
+<a class="sourceLine" id="cb135-3" title="3">    (api/add-column <span class="at">:row-count</span> api/row-count)</a>
 <a class="sourceLine" id="cb135-4" title="4">    (api/ungroup))</a></code></pre></div>
 <p>_unnamed [9 5]:</p>
 <table>
@@ -5980,7 +5980,7 @@ precipitation
 </table>
 <hr />
 <p>When column which is added is longer than row count in dataset, column is trimmed. When column is shorter, it’s cycled or missing values are appended.</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb136-1" title="1">(api/add-or-replace-column DS <span class="at">:V5</span> [<span class="at">:r</span> <span class="at">:b</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb136-1" title="1">(api/add-column DS <span class="at">:V5</span> [<span class="at">:r</span> <span class="at">:b</span>])</a></code></pre></div>
 <p>_unnamed [9 5]:</p>
 <table>
 <thead>
@@ -6058,7 +6058,7 @@ precipitation
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb137"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb137-1" title="1">(api/add-or-replace-column DS <span class="at">:V5</span> [<span class="at">:r</span> <span class="at">:b</span>] <span class="at">:na</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb137-1" title="1">(api/add-column DS <span class="at">:V5</span> [<span class="at">:r</span> <span class="at">:b</span>] <span class="at">:na</span>)</a></code></pre></div>
 <p>_unnamed [9 5]:</p>
 <table>
 <thead>
@@ -6138,14 +6138,14 @@ precipitation
 </table>
 <p>Exception is thrown when <code>:strict</code> strategy is used and column size is not equal row count</p>
 <div class="sourceCode" id="cb138"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb138-1" title="1">(<span class="kw">try</span></a>
-<a class="sourceLine" id="cb138-2" title="2">  (api/add-or-replace-column DS <span class="at">:V5</span> [<span class="at">:r</span> <span class="at">:b</span>] <span class="at">:strict</span>)</a>
+<a class="sourceLine" id="cb138-2" title="2">  (api/add-column DS <span class="at">:V5</span> [<span class="at">:r</span> <span class="at">:b</span>] <span class="at">:strict</span>)</a>
 <a class="sourceLine" id="cb138-3" title="3">  (<span class="kw">catch</span> Exception <span class="kw">e</span> (<span class="kw">str</span> <span class="st">&quot;Exception caught: &quot;</span>(ex-message <span class="kw">e</span>))))</a></code></pre></div>
 <pre><code>&quot;Exception caught: Column size (2) should be exactly the same as dataset row count (9)&quot;</code></pre>
 <hr />
 <p>Tha same applies for grouped dataset</p>
 <div class="sourceCode" id="cb140"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb140-1" title="1">(<span class="kw">-&gt;</span> DS</a>
 <a class="sourceLine" id="cb140-2" title="2">    (api/group-by <span class="at">:V3</span>)</a>
-<a class="sourceLine" id="cb140-3" title="3">    (api/add-or-replace-column <span class="at">:V5</span> [<span class="at">:r</span> <span class="at">:b</span>] <span class="at">:na</span>)</a>
+<a class="sourceLine" id="cb140-3" title="3">    (api/add-column <span class="at">:V5</span> [<span class="at">:r</span> <span class="at">:b</span>] <span class="at">:na</span>)</a>
 <a class="sourceLine" id="cb140-4" title="4">    (api/ungroup))</a></code></pre></div>
 <p>_unnamed [9 5]:</p>
 <table>
@@ -6228,7 +6228,7 @@ precipitation
 <p>Let’s use other column to fill groups</p>
 <div class="sourceCode" id="cb141"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb141-1" title="1">(<span class="kw">-&gt;</span> DS</a>
 <a class="sourceLine" id="cb141-2" title="2">    (api/group-by <span class="at">:V3</span>)</a>
-<a class="sourceLine" id="cb141-3" title="3">    (api/add-or-replace-column <span class="at">:V5</span> (DS <span class="at">:V2</span>))</a>
+<a class="sourceLine" id="cb141-3" title="3">    (api/add-column <span class="at">:V5</span> (DS <span class="at">:V2</span>))</a>
 <a class="sourceLine" id="cb141-4" title="4">    (api/ungroup))</a></code></pre></div>
 <p>_unnamed [9 5]:</p>
 <table>
@@ -6308,8 +6308,8 @@ precipitation
 </tbody>
 </table>
 <hr />
-<p>In case you want to add or update several columns you can call <code>add-or-replace-columns</code> and provide map where keys are column names, vals are columns.</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb142-1" title="1">(api/add-or-replace-columns DS {<span class="at">:V1</span> #(<span class="kw">map</span> <span class="kw">inc</span> (<span class="va">%</span> <span class="at">:V1</span>))</a>
+<p>In case you want to add or update several columns you can call <code>add-columns</code> and provide map where keys are column names, vals are columns.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb142-1" title="1">(api/add-columns DS {<span class="at">:V1</span> #(<span class="kw">map</span> <span class="kw">inc</span> (<span class="va">%</span> <span class="at">:V1</span>))</a>
 <a class="sourceLine" id="cb142-2" title="2">                               <span class="at">:V5</span> #(<span class="kw">map</span> (<span class="kw">comp</span> <span class="kw">keyword</span> <span class="kw">str</span>) (<span class="va">%</span> <span class="at">:V4</span>))</a>
 <a class="sourceLine" id="cb142-3" title="3">                               <span class="at">:V6</span> <span class="dv">11</span>})</a></code></pre></div>
 <p>_unnamed [9 6]:</p>
@@ -6570,37 +6570,37 @@ precipitation
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>4</td>
+<td>1</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>1</td>
+<td>7</td>
 <td>1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
 <td>1</td>
-<td>9</td>
+<td>6</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>6</td>
+<td>5</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
 <td>1</td>
-<td>5</td>
+<td>9</td>
 <td>1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>7</td>
+<td>8</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
@@ -6618,7 +6618,7 @@ precipitation
 </tr>
 <tr class="odd">
 <td>1</td>
-<td>8</td>
+<td>4</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
@@ -7248,19 +7248,19 @@ precipitation
 <hr />
 <p>Double array conversion.</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb155-1" title="1">(api/-&gt;array DS <span class="at">:V1</span>)</a></code></pre></div>
-<pre><code>#object[&quot;[J&quot; 0x772f2cad &quot;[J@772f2cad&quot;]</code></pre>
+<pre><code>#object[&quot;[J&quot; 0xb5b3565 &quot;[J@b5b3565&quot;]</code></pre>
 <hr />
 <p>Function also works on grouped dataset</p>
 <div class="sourceCode" id="cb157"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb157-1" title="1">(<span class="kw">-&gt;</span> DS</a>
 <a class="sourceLine" id="cb157-2" title="2">    (api/group-by <span class="at">:V3</span>)</a>
 <a class="sourceLine" id="cb157-3" title="3">    (api/-&gt;array <span class="at">:V2</span>))</a></code></pre></div>
-<pre><code>(#object[&quot;[J&quot; 0xfceaaba &quot;[J@fceaaba&quot;] #object[&quot;[J&quot; 0x483cf551 &quot;[J@483cf551&quot;] #object[&quot;[J&quot; 0x33e11ecf &quot;[J@33e11ecf&quot;])</code></pre>
+<pre><code>(#object[&quot;[J&quot; 0x2ab31753 &quot;[J@2ab31753&quot;] #object[&quot;[J&quot; 0x1082ad41 &quot;[J@1082ad41&quot;] #object[&quot;[J&quot; 0xd0829b8 &quot;[J@d0829b8&quot;])</code></pre>
 <hr />
 <p>You can also cast the type to the other one (if casting is possible):</p>
 <div class="sourceCode" id="cb159"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb159-1" title="1">(api/-&gt;array DS <span class="at">:V4</span> <span class="at">:string</span>)</a>
 <a class="sourceLine" id="cb159-2" title="2">(api/-&gt;array DS <span class="at">:V1</span> <span class="at">:float32</span>)</a></code></pre></div>
-<pre><code>#object[&quot;[Ljava.lang.String;&quot; 0x3efc1c22 &quot;[Ljava.lang.String;@3efc1c22&quot;]
-#object[&quot;[F&quot; 0x3e3a7b7f &quot;[F@3e3a7b7f&quot;]</code></pre>
+<pre><code>#object[&quot;[Ljava.lang.String;&quot; 0x6b3d6ffb &quot;[Ljava.lang.String;@6b3d6ffb&quot;]
+#object[&quot;[F&quot; 0x6150857e &quot;[F@6150857e&quot;]</code></pre>
 </div>
 </div>
 <div id="rows" class="section level3">
@@ -7272,7 +7272,7 @@ precipitation
 <li>filter by predicate (argument is row as a map)</li>
 </ul>
 <p>When predicate is used you may want to limit columns passed to the function (<code>select-keys</code> option).</p>
-<p>Additionally you may want to precalculate some values which will be visible for predicate as additional columns. It’s done internally by calling <code>add-or-replace-columns</code> on a dataset. <code>:pre</code> is used as a column definitions.</p>
+<p>Additionally you may want to precalculate some values which will be visible for predicate as additional columns. It’s done internally by calling <code>add-columns</code> on a dataset. <code>:pre</code> is used as a column definitions.</p>
 <div id="select-1" class="section level4">
 <h4>Select</h4>
 <p>Select fifth row</p>
@@ -7585,10 +7585,10 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>9</td>
-<td>1.5</td>
-<td>C</td>
+<td>2</td>
+<td>4</td>
+<td>0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -7630,39 +7630,27 @@ precipitation
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>9</td>
-<td>1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>2</td>
+<td>5</td>
 <td>1.0</td>
 <td>B</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>2</td>
 <td>6</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
-<tr class="even">
-<td>2</td>
-<td>8</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
 <tr class="odd">
-<td>2</td>
-<td>4</td>
+<td>1</td>
+<td>1</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
 <td>1</td>
-<td>5</td>
-<td>1.0</td>
-<td>B</td>
+<td>3</td>
+<td>1.5</td>
+<td>C</td>
 </tr>
 <tr class="odd">
 <td>1</td>
@@ -7671,16 +7659,28 @@ precipitation
 <td>B</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>4</td>
+<td>1</td>
+<td>7</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
+<td>2</td>
+<td>2</td>
+<td>1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
 <td>1</td>
+<td>9</td>
+<td>1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
 <td>1</td>
-<td>0.5</td>
-<td>A</td>
+<td>5</td>
+<td>1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -7699,34 +7699,34 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
-<td>8</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>8</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4</td>
+<td>1</td>
+<td>7</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
 <td>1</td>
-<td>9</td>
-<td>1.5</td>
-<td>C</td>
+<td>1</td>
+<td>0.5</td>
+<td>A</td>
 </tr>
 <tr class="odd">
+<td>1</td>
+<td>7</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
 <td>2</td>
 <td>6</td>
 <td>1.5</td>
 <td>C</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>7</td>
+<td>0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -7746,21 +7746,9 @@ precipitation
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>3</td>
-<td>1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td>1</td>
 <td>9</td>
 <td>1.5</td>
 <td>C</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>4</td>
-<td>0.5</td>
-<td>A</td>
 </tr>
 <tr class="even">
 <td>2</td>
@@ -7771,6 +7759,18 @@ precipitation
 <tr class="odd">
 <td>1</td>
 <td>1</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>3</td>
+<td>1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>4</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
@@ -7837,46 +7837,10 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
-<td>4</td>
-<td>0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
 <td>1</td>
 <td>5</td>
 <td>1.0</td>
 <td>B</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>9</td>
-<td>1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>2</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>7</td>
-<td>0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>6</td>
-<td>1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>1</td>
-<td>0.5</td>
-<td>A</td>
 </tr>
 <tr class="even">
 <td>2</td>
@@ -7889,6 +7853,42 @@ precipitation
 <td>3</td>
 <td>1.5</td>
 <td>C</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>6</td>
+<td>1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>4</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>9</td>
+<td>1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>7</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>2</td>
+<td>1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -8176,7 +8176,19 @@ precipitation
 </tr>
 <tr class="even">
 <td>1</td>
+<td>1</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td>1</td>
 <td>7</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>4</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
@@ -8188,15 +8200,15 @@ precipitation
 </tr>
 <tr class="even">
 <td>1</td>
-<td>1</td>
-<td>0.5</td>
-<td>A</td>
+<td>5</td>
+<td>1.0</td>
+<td>B</td>
 </tr>
 <tr class="odd">
-<td>2</td>
-<td>4</td>
-<td>0.5</td>
-<td>A</td>
+<td>1</td>
+<td>5</td>
+<td>1.0</td>
+<td>B</td>
 </tr>
 <tr class="even">
 <td>2</td>
@@ -8211,32 +8223,20 @@ precipitation
 <td>B</td>
 </tr>
 <tr class="even">
-<td>1</td>
-<td>5</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
 <td>2</td>
 <td>2</td>
 <td>1.0</td>
 <td>B</td>
 </tr>
-<tr class="even">
-<td>1</td>
-<td>5</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
 <tr class="odd">
-<td>1</td>
-<td>9</td>
+<td>2</td>
+<td>6</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
 <td>1</td>
-<td>3</td>
+<td>9</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
@@ -8253,8 +8253,8 @@ precipitation
 <td>C</td>
 </tr>
 <tr class="odd">
-<td>1</td>
-<td>3</td>
+<td>2</td>
+<td>6</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
@@ -9437,16 +9437,16 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>3</td>
-<td>1.5</td>
-<td>C</td>
+<td>2</td>
+<td>2</td>
+<td>1.0</td>
+<td>B</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>6</td>
-<td>1.5</td>
-<td>C</td>
+<td>1</td>
+<td>7</td>
+<td>0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -15601,8 +15601,8 @@ precipitation
 <td>1</td>
 <td>1</td>
 <td>0</td>
-<td>0.81167883</td>
-<td>0.47751232</td>
+<td>0.66980726</td>
+<td>0.69003759</td>
 <td>3</td>
 <td>-2</td>
 </tr>
@@ -15610,8 +15610,8 @@ precipitation
 <td>2</td>
 <td>1</td>
 <td>1</td>
-<td>0.41416687</td>
-<td>0.13619996</td>
+<td>0.89049745</td>
+<td>0.31337159</td>
 <td>3</td>
 <td>-2</td>
 </tr>
@@ -15619,8 +15619,8 @@ precipitation
 <td>3</td>
 <td>0</td>
 <td>1</td>
-<td>0.11975648</td>
-<td>0.37571636</td>
+<td>0.57366318</td>
+<td>0.27030187</td>
 <td>3</td>
 <td>-2</td>
 </tr>
@@ -15628,8 +15628,8 @@ precipitation
 <td>4</td>
 <td>0</td>
 <td>1</td>
-<td>0.19129396</td>
-<td>0.12418381</td>
+<td>0.79934395</td>
+<td>0.80066736</td>
 <td>3</td>
 <td>-2</td>
 </tr>
@@ -15655,7 +15655,7 @@ precipitation
 <td>1</td>
 <td>0</td>
 <td>1</td>
-<td>0.81167883</td>
+<td>0.66980726</td>
 <td>3</td>
 </tr>
 <tr class="even">
@@ -15663,7 +15663,7 @@ precipitation
 <td>1</td>
 <td>1</td>
 <td>1</td>
-<td>0.41416687</td>
+<td>0.89049745</td>
 <td>3</td>
 </tr>
 <tr class="odd">
@@ -15671,7 +15671,7 @@ precipitation
 <td>0</td>
 <td>1</td>
 <td>1</td>
-<td>0.11975648</td>
+<td>0.57366318</td>
 <td>3</td>
 </tr>
 <tr class="even">
@@ -15679,7 +15679,7 @@ precipitation
 <td>0</td>
 <td>1</td>
 <td>1</td>
-<td>0.19129396</td>
+<td>0.79934395</td>
 <td>3</td>
 </tr>
 <tr class="odd">
@@ -15687,7 +15687,7 @@ precipitation
 <td>1</td>
 <td>0</td>
 <td>2</td>
-<td>0.47751232</td>
+<td>0.69003759</td>
 <td>-2</td>
 </tr>
 <tr class="even">
@@ -15695,7 +15695,7 @@ precipitation
 <td>1</td>
 <td>1</td>
 <td>2</td>
-<td>0.13619996</td>
+<td>0.31337159</td>
 <td>-2</td>
 </tr>
 <tr class="odd">
@@ -15703,7 +15703,7 @@ precipitation
 <td>0</td>
 <td>1</td>
 <td>2</td>
-<td>0.37571636</td>
+<td>0.27030187</td>
 <td>-2</td>
 </tr>
 <tr class="even">
@@ -15711,7 +15711,7 @@ precipitation
 <td>0</td>
 <td>1</td>
 <td>2</td>
-<td>0.12418381</td>
+<td>0.80066736</td>
 <td>-2</td>
 </tr>
 </tbody>
@@ -18385,7 +18385,7 @@ precipitation
 <p>Step 1 - convert all choices into rows and add artificial column to all values which are not missing.</p>
 <div class="sourceCode" id="cb333"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb333-1" title="1">(<span class="bu">def</span><span class="fu"> multi2 </span>(<span class="kw">-&gt;</span> multi</a>
 <a class="sourceLine" id="cb333-2" title="2">                (api/pivot-&gt;longer (<span class="kw">complement</span> #{<span class="at">:id</span>}))</a>
-<a class="sourceLine" id="cb333-3" title="3">                (api/add-or-replace-column <span class="at">:checked</span> <span class="va">true</span>)))</a></code></pre></div>
+<a class="sourceLine" id="cb333-3" title="3">                (api/add-column <span class="at">:checked</span> <span class="va">true</span>)))</a></code></pre></div>
 <div class="sourceCode" id="cb334"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb334-1" title="1">multi2</a></code></pre></div>
 <p>_unnamed [8 4]:</p>
 <table>
@@ -21725,76 +21725,28 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
-<td>2</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>2</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>8</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
 <td>1</td>
-<td>7</td>
+<td>1</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>2</td>
 <td>6</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
-<tr class="even">
-<td>1</td>
-<td>1</td>
-<td>0.5</td>
-<td>A</td>
-</tr>
 <tr class="odd">
-<td>2</td>
-<td>2</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
 <td>1</td>
 <td>5</td>
 <td>1.0</td>
 <td>B</td>
 </tr>
-<tr class="odd">
-<td>1</td>
-<td>1</td>
-<td>0.5</td>
-<td>A</td>
-</tr>
 <tr class="even">
-<td>1</td>
-<td>7</td>
-<td>0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>3</td>
+<td>2</td>
+<td>6</td>
 <td>1.5</td>
 <td>C</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>2</td>
-<td>1.0</td>
-<td>B</td>
 </tr>
 <tr class="odd">
 <td>1</td>
@@ -21804,21 +21756,9 @@ precipitation
 </tr>
 <tr class="even">
 <td>1</td>
-<td>1</td>
-<td>0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>8</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>1</td>
-<td>0.5</td>
-<td>A</td>
+<td>9</td>
+<td>1.5</td>
+<td>C</td>
 </tr>
 <tr class="odd">
 <td>1</td>
@@ -21833,10 +21773,34 @@ precipitation
 <td>A</td>
 </tr>
 <tr class="odd">
-<td>2</td>
-<td>6</td>
+<td>1</td>
+<td>7</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>3</td>
 <td>1.5</td>
 <td>C</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>7</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>4</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>5</td>
+<td>1.0</td>
+<td>B</td>
 </tr>
 <tr class="even">
 <td>1</td>
@@ -21845,8 +21809,32 @@ precipitation
 <td>A</td>
 </tr>
 <tr class="odd">
+<td>2</td>
+<td>8</td>
+<td>1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>8</td>
+<td>1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
 <td>1</td>
 <td>7</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>5</td>
+<td>1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
@@ -21864,15 +21852,27 @@ precipitation
 </tr>
 <tr class="even">
 <td>2</td>
+<td>6</td>
+<td>1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>2</td>
+<td>1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td>2</td>
 <td>4</td>
 <td>0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
 <td>1</td>
-<td>1</td>
-<td>0.5</td>
-<td>A</td>
+<td>9</td>
+<td>1.5</td>
+<td>C</td>
 </tr>
 </tbody>
 </table>
@@ -21997,10 +21997,22 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
+<td>2</td>
+<td>8</td>
+<td>1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
 <td>1</td>
 <td>7</td>
 <td>0.5</td>
 <td>A</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>5</td>
+<td>1.0</td>
+<td>B</td>
 </tr>
 <tr class="even">
 <td>2</td>
@@ -22009,46 +22021,34 @@ precipitation
 <td>A</td>
 </tr>
 <tr class="odd">
-<td>2</td>
-<td>8</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
 <td>1</td>
-<td>5</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>2</td>
-<td>1.0</td>
-<td>B</td>
+<td>1</td>
+<td>0.5</td>
+<td>A</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>6</td>
-<td>1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
 <td>1</td>
 <td>9</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
+<tr class="odd">
+<td>2</td>
+<td>6</td>
+<td>1.5</td>
+<td>C</td>
+</tr>
 <tr class="even">
+<td>2</td>
+<td>2</td>
+<td>1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
 <td>1</td>
 <td>3</td>
 <td>1.5</td>
 <td>C</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>1</td>
-<td>0.5</td>
-<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -22519,12 +22519,12 @@ precipitation
 <tr class="even">
 <td>1</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
 <td>2</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g3</td>
 </tr>
 <tr class="even">
 <td>3</td>
@@ -22534,7 +22534,7 @@ precipitation
 <tr class="odd">
 <td>4</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g1</td>
 </tr>
 <tr class="even">
 <td>5</td>
@@ -22544,22 +22544,22 @@ precipitation
 <tr class="odd">
 <td>6</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td>7</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 <tr class="odd">
 <td>8</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td>9</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
 <td>10</td>
@@ -22574,17 +22574,17 @@ precipitation
 <tr class="odd">
 <td>12</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td>13</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
 <td>14</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
 </tr>
 <tr class="even">
 <td>15</td>
@@ -22599,7 +22599,7 @@ precipitation
 <tr class="even">
 <td>17</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
 <td>18</td>
@@ -22609,17 +22609,17 @@ precipitation
 <tr class="even">
 <td>19</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
 <td>20</td>
 <td>:b</td>
-<td>:g1</td>
+<td>:g3</td>
 </tr>
 <tr class="even">
 <td>21</td>
 <td>:b</td>
-<td>:g2</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
 <td>22</td>
@@ -22634,7 +22634,7 @@ precipitation
 <tr class="odd">
 <td>24</td>
 <td>:b</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 </tbody>
 </table>
@@ -22653,104 +22653,104 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>13</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
-<td>15</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="odd">
-<td>21</td>
-<td>:b</td>
-<td>:g2</td>
-</tr>
-<tr class="even">
-<td>7</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
 <td>12</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="even">
-<td>20</td>
-<td>:b</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
-<td>16</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
-<td>23</td>
-<td>:b</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
-<td>8</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="even">
-<td>19</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="odd">
-<td>0</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="even">
-<td>22</td>
-<td>:b</td>
-<td>:g2</td>
-</tr>
-<tr class="odd">
-<td>17</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="odd">
-<td>4</td>
 <td>:a</td>
 <td>:g2</td>
 </tr>
 <tr class="even">
 <td>14</td>
 <td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>:a</td>
 <td>:g1</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>:a</td>
+<td>:g1</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="odd">
+<td>22</td>
+<td>:b</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="odd">
+<td>21</td>
+<td>:b</td>
+<td>:g1</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>:b</td>
+<td>:g3</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>19</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="odd">
+<td>24</td>
+<td>:b</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>:a</td>
+<td>:g1</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>:a</td>
+<td>:g2</td>
 </tr>
 </tbody>
 </table>
@@ -22772,20 +22772,20 @@ precipitation
 <tr class="even">
 <td>9</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
-<td>10</td>
+<td>11</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
 <tr class="even">
-<td>18</td>
+<td>13</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
-<td>24</td>
+<td>23</td>
 <td>:b</td>
 <td>:g1</td>
 </tr>
@@ -22805,29 +22805,39 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
+<td>24</td>
+<td>:b</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
 <td>22</td>
 <td>:b</td>
 <td>:g2</td>
 </tr>
-<tr class="even">
-<td>20</td>
-<td>:b</td>
-<td>:g1</td>
-</tr>
 <tr class="odd">
-<td>21</td>
-<td>:b</td>
-<td>:g2</td>
-</tr>
-<tr class="even">
 <td>23</td>
 <td>:b</td>
 <td>:g1</td>
 </tr>
+<tr class="even">
+<td>20</td>
+<td>:b</td>
+<td>:g3</td>
+</tr>
 <tr class="odd">
-<td>10</td>
+<td>17</td>
 <td>:a</td>
 <td>:g3</td>
+</tr>
+<tr class="even">
+<td>19</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>:a</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td>0</td>
@@ -22835,9 +22845,9 @@ precipitation
 <td>:g1</td>
 </tr>
 <tr class="odd">
-<td>17</td>
+<td>16</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g3</td>
 </tr>
 <tr class="even">
 <td>18</td>
@@ -22845,64 +22855,54 @@ precipitation
 <td>:g3</td>
 </tr>
 <tr class="odd">
-<td>16</td>
+<td>2</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
 <tr class="even">
-<td>7</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
-<td>6</td>
+<td>14</td>
 <td>:a</td>
 <td>:g3</td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td>:a</td>
-<td>:g2</td>
 </tr>
 <tr class="odd">
 <td>9</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="even">
-<td>12</td>
+<td>13</td>
 <td>:a</td>
 <td>:g1</td>
 </tr>
 <tr class="odd">
+<td>12</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
 <td>15</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
-<tr class="even">
-<td>5</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
 <tr class="odd">
-<td>14</td>
+<td>11</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="even">
+<td>1</td>
 <td>:a</td>
 <td>:g1</td>
 </tr>
-<tr class="even">
-<td>19</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
 <tr class="odd">
-<td>2</td>
+<td>4</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g1</td>
 </tr>
 <tr class="even">
 <td>8</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 </tbody>
 </table>
@@ -22917,27 +22917,27 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>24</td>
+<td>21</td>
 <td>:b</td>
 <td>:g1</td>
 </tr>
 <tr class="even">
-<td>1</td>
+<td>3</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 <tr class="odd">
-<td>4</td>
+<td>5</td>
 <td>:a</td>
 <td>:g2</td>
 </tr>
 <tr class="even">
-<td>11</td>
+<td>7</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 <tr class="odd">
-<td>13</td>
+<td>10</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
@@ -22959,8 +22959,68 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>11</td>
+<td>16</td>
 <td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="even">
+<td>21</td>
+<td>:b</td>
+<td>:g1</td>
+</tr>
+<tr class="odd">
+<td>22</td>
+<td>:b</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>:a</td>
+<td>:g1</td>
+</tr>
+<tr class="odd">
+<td>21</td>
+<td>:b</td>
+<td>:g1</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td>:b</td>
 <td>:g3</td>
 </tr>
 <tr class="even">
@@ -22969,123 +23029,63 @@ precipitation
 <td>:g3</td>
 </tr>
 <tr class="odd">
-<td>21</td>
-<td>:b</td>
-<td>:g2</td>
-</tr>
-<tr class="even">
-<td>15</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="odd">
-<td>21</td>
-<td>:b</td>
-<td>:g2</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
 <td>11</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
 <tr class="even">
-<td>19</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="odd">
-<td>23</td>
+<td>21</td>
 <td>:b</td>
 <td>:g1</td>
 </tr>
-<tr class="even">
-<td>15</td>
+<tr class="odd">
+<td>17</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
+<tr class="even">
+<td>9</td>
+<td>:a</td>
+<td>:g1</td>
+</tr>
 <tr class="odd">
-<td>3</td>
+<td>8</td>
 <td>:a</td>
 <td>:g2</td>
 </tr>
 <tr class="even">
-<td>0</td>
+<td>8</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>1</td>
 <td>:a</td>
 <td>:g1</td>
+</tr>
+<tr class="odd">
+<td>24</td>
+<td>:b</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>:a</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td>:a</td>
 <td>:g2</td>
 </tr>
-<tr class="even">
-<td>4</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="odd">
-<td>8</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="even">
-<td>19</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
-<td>17</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="odd">
-<td>10</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
-<td>21</td>
-<td>:b</td>
-<td>:g2</td>
-</tr>
-<tr class="odd">
-<td>10</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
-<td>13</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="odd">
-<td>16</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
-<td>0</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
 </tbody>
 </table>
-<p>, :test _unnamed [10 3]:</p>
+<p>, :test _unnamed [7 3]:</p>
 <table>
 <thead>
 <tr class="header">
@@ -23096,52 +23096,37 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
+<td>2</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
 <tr class="even">
-<td>2</td>
+<td>3</td>
 <td>:a</td>
 <td>:g2</td>
 </tr>
 <tr class="odd">
-<td>6</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
-<td>7</td>
+<td>4</td>
 <td>:a</td>
 <td>:g1</td>
 </tr>
-<tr class="odd">
-<td>9</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
 <tr class="even">
-<td>12</td>
+<td>13</td>
 <td>:a</td>
 <td>:g1</td>
 </tr>
 <tr class="odd">
 <td>14</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
 </tr>
 <tr class="even">
-<td>20</td>
-<td>:b</td>
-<td>:g1</td>
+<td>15</td>
+<td>:a</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
-<td>22</td>
-<td>:b</td>
-<td>:g2</td>
-</tr>
-<tr class="even">
-<td>24</td>
+<td>23</td>
 <td>:b</td>
 <td>:g1</td>
 </tr>
@@ -23167,29 +23152,29 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>16</td>
+<td>8</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
-<td>22</td>
+<td>21</td>
+<td>:b</td>
+<td>:g1</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>24</td>
 <td>:b</td>
 <td>:g2</td>
 </tr>
 <tr class="odd">
-<td>23</td>
-<td>:b</td>
-<td>:g1</td>
-</tr>
-<tr class="even">
-<td>0</td>
+<td>17</td>
 <td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
-<td>24</td>
-<td>:b</td>
-<td>:g1</td>
+<td>:g3</td>
 </tr>
 </tbody>
 </table>
@@ -23204,104 +23189,104 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
+<td>0</td>
+<td>:a</td>
+<td>:g1</td>
+</tr>
+<tr class="even">
 <td>1</td>
+<td>:a</td>
+<td>:g1</td>
+</tr>
+<tr class="odd">
+<td>2</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="odd">
 <td>3</td>
 <td>:a</td>
 <td>:g2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>4</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>5</td>
 <td>:a</td>
 <td>:g2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>6</td>
 <td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
-<td>8</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
 <td>9</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>10</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>11</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>12</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>13</td>
 <td>:a</td>
 <td>:g1</td>
 </tr>
 <tr class="odd">
-<td>13</td>
+<td>14</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
 <tr class="even">
-<td>14</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
 <td>15</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
-<tr class="even">
-<td>17</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
 <tr class="odd">
-<td>18</td>
+<td>16</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
 <tr class="even">
-<td>19</td>
+<td>18</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
-<td>20</td>
-<td>:b</td>
-<td>:g1</td>
+<td>19</td>
+<td>:a</td>
+<td>:g3</td>
 </tr>
 <tr class="even">
-<td>21</td>
+<td>20</td>
+<td>:b</td>
+<td>:g3</td>
+</tr>
+<tr class="odd">
+<td>22</td>
 <td>:b</td>
 <td>:g2</td>
+</tr>
+<tr class="even">
+<td>23</td>
+<td>:b</td>
+<td>:g1</td>
 </tr>
 </tbody>
 </table>
@@ -23323,34 +23308,24 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>0</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
 <td>18</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
-<tr class="odd">
-<td>2</td>
+<tr class="even">
+<td>12</td>
 <td>:a</td>
 <td>:g2</td>
 </tr>
-<tr class="even">
-<td>11</td>
+<tr class="odd">
+<td>14</td>
 <td>:a</td>
 <td>:g3</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td>:a</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
 <td>15</td>
@@ -23358,27 +23333,17 @@ precipitation
 <td>:g3</td>
 </tr>
 <tr class="even">
-<td>14</td>
-<td>:a</td>
-<td>:g1</td>
-</tr>
-<tr class="odd">
-<td>19</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td>:a</td>
-<td>:g2</td>
-</tr>
-<tr class="even">
 <td>5</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="odd">
+<td>22</td>
+<td>:b</td>
+<td>:g2</td>
+</tr>
+<tr class="even">
+<td>8</td>
 <td>:a</td>
 <td>:g2</td>
 </tr>
@@ -23388,39 +23353,39 @@ precipitation
 <td>:g1</td>
 </tr>
 <tr class="even">
-<td>21</td>
+<td>24</td>
 <td>:b</td>
 <td>:g2</td>
 </tr>
 <tr class="odd">
-<td>8</td>
+<td>0</td>
 <td>:a</td>
 <td>:g1</td>
 </tr>
 <tr class="even">
-<td>13</td>
+<td>1</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
-<td>6</td>
+<td>2</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
 <tr class="even">
-<td>10</td>
+<td>19</td>
 <td>:a</td>
 <td>:g3</td>
 </tr>
 <tr class="odd">
+<td>21</td>
+<td>:b</td>
+<td>:g1</td>
+</tr>
+<tr class="even">
 <td>9</td>
 <td>:a</td>
-<td>:g3</td>
-</tr>
-<tr class="even">
-<td>22</td>
-<td>:b</td>
-<td>:g2</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
 <td>16</td>
@@ -23428,17 +23393,37 @@ precipitation
 <td>:g3</td>
 </tr>
 <tr class="even">
-<td>20</td>
-<td>:b</td>
-<td>:g1</td>
+<td>17</td>
+<td>:a</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
-<td>7</td>
+<td>11</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>:a</td>
+<td>:g2</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>:a</td>
+<td>:g3</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>:b</td>
+<td>:g3</td>
+</tr>
+<tr class="odd">
+<td>4</td>
 <td>:a</td>
 <td>:g1</td>
 </tr>
 <tr class="even">
-<td>17</td>
+<td>6</td>
 <td>:a</td>
 <td>:g2</td>
 </tr>
@@ -23455,9 +23440,9 @@ precipitation
 </thead>
 <tbody>
 <tr class="odd">
-<td>24</td>
-<td>:b</td>
-<td>:g1</td>
+<td>7</td>
+<td>:a</td>
+<td>:g2</td>
 </tr>
 </tbody>
 </table>
@@ -23481,7 +23466,7 @@ precipitation
 <tr class="odd">
 <td>:g1</td>
 <td>0</td>
-<td>Train set, Group: :g1 [7 3]:</td>
+<td>Train set, Group: :g1 [6 3]:</td>
 </tr>
 <tr class="even">
 <td>:g2</td>
@@ -23491,7 +23476,7 @@ precipitation
 <tr class="odd">
 <td>:g3</td>
 <td>2</td>
-<td>Train set, Group: :g3 [8 3]:</td>
+<td>Train set, Group: :g3 [9 3]:</td>
 </tr>
 </tbody>
 </table>
@@ -23508,7 +23493,7 @@ precipitation
 <tr class="odd">
 <td>:g1</td>
 <td>0</td>
-<td>Test set, Group: :g1 [3 3]:</td>
+<td>Test set, Group: :g1 [2 3]:</td>
 </tr>
 <tr class="even">
 <td>:g2</td>
@@ -23539,7 +23524,7 @@ precipitation
 <h3>Functional</h3>
 <p>To create composable function, call API function but defined in <code>tablecloth.pipeline</code> namespace and without <code>ds</code> argument.</p>
 <div class="sourceCode" id="cb400"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb400-1" title="1">(pip/select-columns <span class="at">:type/numerical</span>)</a></code></pre></div>
-<p>#function[tablecloth.pipeline/select-columns/fn–42501]</p>
+<p>#function[tablecloth.pipeline/select-columns/fn–42453]</p>
 <p>Calling such function on a dataset gives a requested result.</p>
 <div class="sourceCode" id="cb401"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb401-1" title="1">((pip/select-columns <span class="at">:type/numerical</span>) DS)</a></code></pre></div>
 <p>_unnamed [9 3]:</p>
@@ -23790,7 +23775,7 @@ precipitation
 <a class="sourceLine" id="cb406-3" title="3">  (<span class="kw">fn</span> [ds]</a>
 <a class="sourceLine" id="cb406-4" title="4">    (<span class="kw">let</span> [column-names (api/column-names ds column-selector)]</a>
 <a class="sourceLine" id="cb406-5" title="5">      (<span class="kw">reduce</span> (<span class="kw">fn</span> [d n]</a>
-<a class="sourceLine" id="cb406-6" title="6">                (api/add-or-replace-column d (<span class="kw">str</span> n <span class="st">&quot;-copy&quot;</span>) (d n))) ds column-names))))</a>
+<a class="sourceLine" id="cb406-6" title="6">                (api/add-column d (<span class="kw">str</span> n <span class="st">&quot;-copy&quot;</span>) (d n))) ds column-names))))</a>
 <a class="sourceLine" id="cb406-7" title="7"></a>
 <a class="sourceLine" id="cb406-8" title="8">(<span class="bu">def</span><span class="fu"> pipeline </span>(pip/-&gt;pipeline [[<span class="at">::duplicate-columns</span> <span class="at">:type/numerical</span>]]))</a></code></pre></div>
 <div class="sourceCode" id="cb407"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb407-1" title="1">(pipeline DS)</a></code></pre></div>
@@ -27695,10 +27680,10 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td>2</td>
-<td>2</td>
-<td>1.0</td>
-<td>B</td>
+<td>1</td>
+<td>9</td>
+<td>1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
 <td>2</td>
@@ -27708,9 +27693,9 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 </tr>
 <tr class="odd">
 <td>2</td>
-<td>4</td>
-<td>0.5</td>
-<td>A</td>
+<td>2</td>
+<td>1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -27727,6 +27712,18 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
+<td>1</td>
+<td>3</td>
+<td>1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>4</td>
+<td>0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
 <td>2</td>
 <td>8</td>
 <td>1.0</td>
@@ -27739,20 +27736,8 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 <td>C</td>
 </tr>
 <tr class="odd">
-<td>2</td>
-<td>6</td>
-<td>1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>2</td>
-<td>1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
 <td>1</td>
-<td>3</td>
+<td>9</td>
 <td>1.5</td>
 <td>C</td>
 </tr>
@@ -29022,7 +29007,7 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb545"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb545-1" title="1">(<span class="bu">def</span><span class="fu"> DS </span>(api/add-or-replace-column DS <span class="at">:V1</span> (dfn/pow (DS <span class="at">:V1</span>) <span class="dv">2</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb545"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb545-1" title="1">(<span class="bu">def</span><span class="fu"> DS </span>(api/add-column DS <span class="at">:V1</span> (dfn/pow (DS <span class="at">:V1</span>) <span class="dv">2</span>)))</a></code></pre></div>
 <div class="sourceCode" id="cb546"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb546-1" title="1">DS</a></code></pre></div>
 <p>_unnamed [9 4]:</p>
 <table>
@@ -29171,7 +29156,7 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb548"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb548-1" title="1">(<span class="bu">def</span><span class="fu"> DS </span>(api/add-or-replace-column DS <span class="at">:v5</span> (dfn/log (DS <span class="at">:V1</span>))))</a></code></pre></div>
+<div class="sourceCode" id="cb548"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb548-1" title="1">(<span class="bu">def</span><span class="fu"> DS </span>(api/add-column DS <span class="at">:v5</span> (dfn/log (DS <span class="at">:V1</span>))))</a></code></pre></div>
 <div class="sourceCode" id="cb549"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb549-1" title="1">DS</a></code></pre></div>
 <p>_unnamed [9 5]:</p>
 <table>
@@ -29252,7 +29237,7 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 </table>
 <hr />
 <p>Add several columns</p>
-<div class="sourceCode" id="cb550"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb550-1" title="1">(<span class="bu">def</span><span class="fu"> DS </span>(api/add-or-replace-columns DS {<span class="at">:v6</span> (dfn/sqrt (DS <span class="at">:V1</span>))</a>
+<div class="sourceCode" id="cb550"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb550-1" title="1">(<span class="bu">def</span><span class="fu"> DS </span>(api/add-columns DS {<span class="at">:v6</span> (dfn/sqrt (DS <span class="at">:V1</span>))</a>
 <a class="sourceLine" id="cb550-2" title="2">                                       <span class="at">:v7</span> <span class="st">&quot;X&quot;</span>}))</a></code></pre></div>
 <div class="sourceCode" id="cb551"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb551-1" title="1">DS</a></code></pre></div>
 <p>_unnamed [9 7]:</p>
@@ -29924,7 +29909,7 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 <p>Add a column with number of observations for each group</p>
 <div class="sourceCode" id="cb569"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb569-1" title="1">(<span class="kw">-&gt;</span> DS</a>
 <a class="sourceLine" id="cb569-2" title="2">    (api/group-by [<span class="at">:V1</span>])</a>
-<a class="sourceLine" id="cb569-3" title="3">    (api/add-or-replace-column <span class="at">:n</span> api/row-count)</a>
+<a class="sourceLine" id="cb569-3" title="3">    (api/add-column <span class="at">:n</span> api/row-count)</a>
 <a class="sourceLine" id="cb569-4" title="4">    (api/ungroup))</a></code></pre></div>
 <p>_unnamed [9 4]:</p>
 <table>
@@ -30610,7 +30595,7 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 <div class="sourceCode" id="cb588"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb588-1" title="1">(<span class="kw">-&gt;</span> DS</a>
 <a class="sourceLine" id="cb588-2" title="2">    (api/group-by [<span class="at">:V4</span>])</a>
 <a class="sourceLine" id="cb588-3" title="3">    (api/head <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb588-4" title="4">    (api/add-or-replace-column <span class="at">:V2</span> <span class="st">&quot;X&quot;</span>)</a>
+<a class="sourceLine" id="cb588-4" title="4">    (api/add-column <span class="at">:V2</span> <span class="st">&quot;X&quot;</span>)</a>
 <a class="sourceLine" id="cb588-5" title="5">    (api/ungroup))</a></code></pre></div>
 <p>_unnamed [6 3]:</p>
 <table>
@@ -31758,7 +31743,7 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 <hr />
 <p>Get row number of first (and last) observation by group</p>
 <div class="sourceCode" id="cb623"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb623-1" title="1">(<span class="kw">-&gt;</span> DS</a>
-<a class="sourceLine" id="cb623-2" title="2">    (api/add-or-replace-column <span class="at">:row-id</span> (<span class="kw">range</span>))</a>
+<a class="sourceLine" id="cb623-2" title="2">    (api/add-column <span class="at">:row-id</span> (<span class="kw">range</span>))</a>
 <a class="sourceLine" id="cb623-3" title="3">    (api/select-columns [<span class="at">:V4</span> <span class="at">:row-id</span>])</a>
 <a class="sourceLine" id="cb623-4" title="4">    (api/group-by <span class="at">:V4</span>)</a>
 <a class="sourceLine" id="cb623-5" title="5">    (api/ungroup))</a></code></pre></div>
@@ -31810,7 +31795,7 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 </tbody>
 </table>
 <div class="sourceCode" id="cb624"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb624-1" title="1">(<span class="kw">-&gt;</span> DS</a>
-<a class="sourceLine" id="cb624-2" title="2">    (api/add-or-replace-column <span class="at">:row-id</span> (<span class="kw">range</span>))</a>
+<a class="sourceLine" id="cb624-2" title="2">    (api/add-column <span class="at">:row-id</span> (<span class="kw">range</span>))</a>
 <a class="sourceLine" id="cb624-3" title="3">    (api/select-columns [<span class="at">:V4</span> <span class="at">:row-id</span>])</a>
 <a class="sourceLine" id="cb624-4" title="4">    (api/group-by <span class="at">:V4</span>)</a>
 <a class="sourceLine" id="cb624-5" title="5">    (api/first)</a>
@@ -31839,7 +31824,7 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 </tbody>
 </table>
 <div class="sourceCode" id="cb625"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb625-1" title="1">(<span class="kw">-&gt;</span> DS</a>
-<a class="sourceLine" id="cb625-2" title="2">    (api/add-or-replace-column <span class="at">:row-id</span> (<span class="kw">range</span>))</a>
+<a class="sourceLine" id="cb625-2" title="2">    (api/add-column <span class="at">:row-id</span> (<span class="kw">range</span>))</a>
 <a class="sourceLine" id="cb625-3" title="3">    (api/select-columns [<span class="at">:V4</span> <span class="at">:row-id</span>])</a>
 <a class="sourceLine" id="cb625-4" title="4">    (api/group-by <span class="at">:V4</span>)</a>
 <a class="sourceLine" id="cb625-5" title="5">    (api/select-rows [<span class="dv">0</span> <span class="dv">2</span>])</a>
@@ -33083,7 +33068,7 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 <a class="sourceLine" id="cb657-2" title="2">    (api/group-by [<span class="st">&quot;Id&quot;</span>])</a>
 <a class="sourceLine" id="cb657-3" title="3">    (api/aggregate {<span class="st">&quot;sumY1&quot;</span> #(dfn/sum (<span class="va">%</span> <span class="st">&quot;Y1&quot;</span>))})</a>
 <a class="sourceLine" id="cb657-4" title="4">    (api/right-join x <span class="st">&quot;Id&quot;</span>)</a>
-<a class="sourceLine" id="cb657-5" title="5">    (api/add-or-replace-column <span class="st">&quot;X1Y1&quot;</span> (<span class="kw">fn</span> [ds] (dfn/* (ds <span class="st">&quot;sumY1&quot;</span>)</a>
+<a class="sourceLine" id="cb657-5" title="5">    (api/add-column <span class="st">&quot;X1Y1&quot;</span> (<span class="kw">fn</span> [ds] (dfn/* (ds <span class="st">&quot;sumY1&quot;</span>)</a>
 <a class="sourceLine" id="cb657-6" title="6">                                                    (ds <span class="st">&quot;X1&quot;</span>))))</a>
 <a class="sourceLine" id="cb657-7" title="7">    (api/select-columns [<span class="st">&quot;right.Id&quot;</span> <span class="st">&quot;X1Y1&quot;</span>]))</a></code></pre></div>
 <p>right-outer-join [4 2]:</p>
@@ -33429,7 +33414,7 @@ tech.v3.dataset.impl.dataset.Dataset</code></pre>
 <hr />
 <p>Bind rows using a list</p>
 <div class="sourceCode" id="cb668"><pre class="sourceCode clojure"><code class="sourceCode clojure"><a class="sourceLine" id="cb668-1" title="1">(<span class="kw">-&gt;&gt;</span> [x y]</a>
-<a class="sourceLine" id="cb668-2" title="2">     (map-indexed #(api/add-or-replace-column <span class="va">%2</span> <span class="at">:id</span> (<span class="kw">repeat</span> <span class="va">%1</span>)))</a>
+<a class="sourceLine" id="cb668-2" title="2">     (map-indexed #(api/add-column <span class="va">%2</span> <span class="at">:id</span> (<span class="kw">repeat</span> <span class="va">%1</span>)))</a>
 <a class="sourceLine" id="cb668-3" title="3">     (<span class="kw">apply</span> api/bind))</a></code></pre></div>
 <p>null [6 2]:</p>
 <table>

@@ -44,12 +44,15 @@ Important\! This library is not the replacement of `tech.ml.dataset` nor
 a separate library. It should be considered as a addition on the top of
 `tech.ml.dataset`.
 
-If you want to know more about `tech.ml.dataset` and `tech.ml.datatype`
-please refer their documentation:
+If you want to know more about `tech.ml.dataset` and `dtype-next` please
+refer their documentation:
 
-  - [Datatype](https://github.com/techascent/tech.datatype/blob/master/docs/cheatsheet.md)
-  - [Date/time](https://github.com/techascent/tech.datatype/blob/master/docs/datetime.md)
-  - [Dataset](https://github.com/techascent/tech.ml.dataset/blob/master/docs/walkthrough.md)
+  - [tech.ml.dataset
+    walkthrough](https://techascent.github.io/tech.ml.dataset/walkthrough.html)
+  - [dtype-next
+    overview](https://cnuernber.github.io/dtype-next/overview.html)
+  - [dtype-next
+    cheatsheet](https://cnuernber.github.io/dtype-next/cheatsheet.html)
 
 Join the discussion on
 [Zulip](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
