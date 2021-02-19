@@ -50,6 +50,8 @@
                          select-columns
                          drop-columns
                          rename-columns
+                         add-column
+                         add-columns
                          add-or-replace-column
                          add-or-replace-columns
                          map-columns
