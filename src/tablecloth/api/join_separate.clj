@@ -2,8 +2,7 @@
   (:require [tech.v3.dataset :as ds]
             [clojure.string :as str]
 
-            [tablecloth.api.utils :refer [iterable-sequence? column-names]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data]]
+            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data]]
             [tablecloth.api.columns :refer [select-columns drop-columns add-column]]))
 
 (defn- process-join-columns

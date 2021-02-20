@@ -3,8 +3,7 @@
 
             [tablecloth.api.unique-by :refer [unique-by]]
             [tablecloth.api.columns :refer [select-columns reorder-columns]]
-            [tablecloth.api.utils :refer [column-names]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data]]))
+            [tablecloth.api.utils :refer [column-names grouped? process-group-data]]))
 
 (defn fold-by
   ([ds columns-selector] (fold-by ds columns-selector vec))

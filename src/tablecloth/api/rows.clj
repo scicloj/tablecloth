@@ -3,10 +3,9 @@
   (:require [tech.v3.dataset :as ds]
             [tech.v3.datatype.argops :as aop]
 
-            [tablecloth.api.utils :refer [iterable-sequence? rank column-names]]
+            [tablecloth.api.utils :refer [iterable-sequence? rank column-names grouped? process-group-data]]
             [tablecloth.api.dataset :refer [rows]]
-            [tablecloth.api.columns :refer [add-columns select-columns]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data]]))
+            [tablecloth.api.columns :refer [add-columns select-columns]]))
 
 (defn- find-indexes-from-seq
   "Find row indexes based on true/false values or indexes"

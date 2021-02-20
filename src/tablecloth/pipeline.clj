@@ -12,7 +12,7 @@
                      [a & r] (split-with (partial not= '&) narg)]]
            (list narg `(fn [ds#] (apply ~f ds# ~@a ~(rest r))))))))
 
-(def ^:private excludes #{'dataset 'write-csv! 'let-dataset})
+(def ^:private excludes '#{dataset write-csv! let-dataset without-grouping->})
 
 (defmacro process-all-api-symbols
   []

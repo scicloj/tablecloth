@@ -807,6 +807,15 @@ It can be important when you want to remove some groups (rows) from grouped data
     (api/grouped?))
 ```
 
+You can also operate on grouped dataset as a regular one in case you want to access its columns using `without-grouping->` threading macro.
+
+```{clojure results="asis"}
+(-> DS
+    (api/group-by [:V4 :V1])
+    (api/without-grouping->
+     (api/order-by (comp (juxt :V4 :V1) :name))))
+```
+
 ---
 
 This is considered internal.

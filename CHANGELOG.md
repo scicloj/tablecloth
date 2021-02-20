@@ -1,5 +1,16 @@
 # Change Log
 
+## [5.00-beta-29.1]
+
+### Added
+
+* `without-grouping->` threading macro which allows operations on grouping dataset treated as a regular one.
+
+### Changed
+
+* `group-by` accepts any java.util.Map for a collection of indexes (use LinkedHashMap to persist an order)
+* some `tablecloth.api.group-by` functions moved to `tablecloth.api.utils`, no changes to API
+
 ## [5.00-beta-29]
 
 ### Changed
