@@ -24,7 +24,12 @@
 (exporter/export-symbols tablecloth.api.utils
                          column-names
                          write-nippy!
-                         read-nippy)
+                         read-nippy
+                         grouped?
+                         unmark-group
+                         mark-as-group
+                         as-regular-dataset
+                         process-group-data)
 
 (exporter/export-symbols tablecloth.api.dataset
                          dataset?
@@ -39,10 +44,6 @@
 (exporter/export-symbols tablecloth.api.group-by
                          group-by
                          ungroup
-                         grouped?
-                         unmark-group
-                         as-regular-dataset
-                         process-group-data
                          groups->seq
                          groups->map)
 
@@ -50,6 +51,8 @@
                          select-columns
                          drop-columns
                          rename-columns
+                         add-column
+                         add-columns
                          add-or-replace-column
                          add-or-replace-columns
                          map-columns
@@ -148,4 +151,12 @@
          col-defs (mapv vector (map keyword cols) cols)]
      `(let [~@bindings]
         (dataset ~col-defs ~options)))))
+
+;; ungroup/group wrapper
+(defmacro without-grouping->
+  [ds & r]
+  `(-> ~ds
+       (unmark-group)
+       ~@r
+       (mark-as-group)))
 

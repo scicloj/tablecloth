@@ -2,14 +2,13 @@
   (:require [tech.v3.dataset :as ds]
             [clojure.string :as str]
 
-            [tablecloth.api.utils :refer [iterable-sequence? column-names]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data]]
-            [tablecloth.api.columns :refer [select-columns drop-columns add-or-replace-column]]))
+            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data]]
+            [tablecloth.api.columns :refer [select-columns drop-columns add-column]]))
 
 (defn- process-join-columns
   [ds target-column join-function col-names drop-columns?]
   (let [cols (select-columns ds col-names)
-        result (add-or-replace-column ds target-column (when (seq cols) (->> (ds/value-reader cols)
+        result (add-column ds target-column (when (seq cols) (->> (ds/value-reader cols)
                                                                              (map join-function))))]
     (if drop-columns? (drop-columns result col-names) result)))
 

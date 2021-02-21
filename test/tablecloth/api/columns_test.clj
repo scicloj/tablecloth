@@ -42,3 +42,16 @@
                :int64   1
                :float64 1.0
                :string  "abc"))
+
+(fact "add"
+      (tabular (fact (-> {:x [1 2]}
+                         (api/dataset)
+                         (api/add-column :y ?v)
+                         :y
+                         (dtype/get-datatype))
+                     =>
+                     ?expected)
+               ?expected ?v
+               :int64   1
+               :float64 1.0
+               :string  "abc"))

@@ -2,9 +2,8 @@
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.math :as dm]
             
-            [tablecloth.api.utils :refer [column-names]]
-            [tablecloth.api.columns :refer [select-columns]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data]]))
+            [tablecloth.api.utils :refer [column-names grouped? process-group-data]]
+            [tablecloth.api.columns :refer [select-columns]]))
 
 (defn- select-or-drop-missing
   "Select rows with missing values"
