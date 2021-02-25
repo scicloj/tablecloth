@@ -2,7 +2,8 @@
   (:refer-clojure :exclude [group-by])
   (:require [tech.v3.dataset :as ds]
 
-            [tablecloth.api.group-by :refer [group-by grouped? groups->seq]])
+            [tablecloth.api.utils :refer [grouped?]]
+            [tablecloth.api.group-by :refer [group-by groups->seq]])
   (:import [java.util ArrayList Collection Random]))
 
 ;; some utils

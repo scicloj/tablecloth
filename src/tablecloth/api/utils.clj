@@ -138,5 +138,32 @@
         subdss (pmap (partial apply ds/concat) (partition-all cnt dss))]
     (apply ds/concat subdss)))
 
+;; grouping
 
+(defn grouped?
+  "Is `dataset` represents grouped dataset (result of `group-by`)?"
+  [ds]
+  (:grouped? (meta ds)))
+
+(defn unmark-group
+  "Remove grouping tag"
+  [ds]
+  (vary-meta ds dissoc :grouped?))
+
+(let [m (meta #'unmark-group)]
+  (def ^{:doc (:doc m)
+         :arglists (:arglists m)}
+    as-regular-dataset unmark-group))
+
+(defn mark-as-group
+  "Add grouping tag"
+  [ds]
+  (vary-meta ds assoc
+             :grouped? true
+             :print-line-policy :single))
+
+(defn process-group-data
+  ([ds f] (process-group-data ds f false))
+  ([ds f parallel?]
+   (ds/add-or-update-column ds :data ((if parallel? pmap map) f (ds :data)))))
 

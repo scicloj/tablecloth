@@ -1,8 +1,7 @@
 (ns tablecloth.api.order-by
   (:require [tech.v3.dataset :as ds]
             
-            [tablecloth.api.utils :refer [iterable-sequence?]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data]]))
+            [tablecloth.api.utils :refer [iterable-sequence? grouped? process-group-data]]))
 
 (set! *unchecked-math* :warn-on-boxed)
 
@@ -77,5 +76,3 @@
      (if (grouped? ds)
        (process-group-data ds sorting-fn parallel?)
        (sorting-fn ds)))))
-
-

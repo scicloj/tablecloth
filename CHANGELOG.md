@@ -1,5 +1,28 @@
 # Change Log
 
+## [5.00-beta-29.1]
+
+### Added
+
+* `without-grouping->` threading macro which allows operations on grouping dataset treated as a regular one.
+
+### Changed
+
+* `group-by` accepts any java.util.Map for a collection of indexes (use LinkedHashMap to persist an order)
+* some `tablecloth.api.group-by` functions moved to `tablecloth.api.utils`, no changes to API
+
+## [5.00-beta-29]
+
+### Changed
+
+* `add-or-replace-column(s)` replaced by `add-column(s)` (`add-or-replace-column(s)` is marked as deprecated) (#16)
+
+### Fixed
+
+* `mark-as-group` wasn't visible in API (#18)
+* `map-columns` didn't propagate `new-type` for grouped case (#20)
+* broken links (#14) in readme
+
 ## [5.00-beta-28]
 
 ### Added

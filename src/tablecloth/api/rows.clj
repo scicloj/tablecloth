@@ -3,10 +3,9 @@
   (:require [tech.v3.dataset :as ds]
             [tech.v3.datatype.argops :as aop]
 
-            [tablecloth.api.utils :refer [iterable-sequence? rank column-names]]
+            [tablecloth.api.utils :refer [iterable-sequence? rank column-names grouped? process-group-data]]
             [tablecloth.api.dataset :refer [rows]]
-            [tablecloth.api.columns :refer [add-or-replace-columns select-columns]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data]]))
+            [tablecloth.api.columns :refer [add-columns select-columns]]))
 
 (defn- find-indexes-from-seq
   "Find row indexes based on true/false values or indexes"
@@ -40,12 +39,12 @@
    (let [selected-keys (column-names ds select-keys)]
      (if (grouped? ds)
        (let [mapper (if parallel? pmap map)
-             pre-ds (mapper #(add-or-replace-columns % pre) (ds :data))
+             pre-ds (mapper #(add-columns % pre) (ds :data))
              indices (mapper #(find-indexes % rows-selector selected-keys) pre-ds)]
          (if (= result-type :as-indexes)
            (mapper seq indices)
            (ds/add-or-update-column ds :data (mapper #(select-or-drop-rows f %1 %2) (ds :data) indices))))
-       (let [indices (find-indexes (add-or-replace-columns ds pre) rows-selector selected-keys)]
+       (let [indices (find-indexes (add-columns ds pre) rows-selector selected-keys)]
          (if (= result-type :as-indexes)
            (seq indices)
            (f ds indices)))))))

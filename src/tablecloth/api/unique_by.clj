@@ -5,10 +5,10 @@
             [tech.v3.datatype :as dtype]
             [tech.v3.datatype.bitmap :as bitmap]
             
-            [tablecloth.api.utils :refer [iterable-sequence? column-names]]
+            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data]]
             [tablecloth.api.dataset :refer [dataset empty-ds?]]
             [tablecloth.api.columns :refer [select-columns]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data ungroup]]))
+            [tablecloth.api.group-by :refer [ungroup]]))
 
 (defn- strategy-first [_ idxs] (clojure.core/first idxs))
 (defn- strategy-last [_ idxs] (clojure.core/last idxs))
