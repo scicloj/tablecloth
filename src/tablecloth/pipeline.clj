@@ -1,8 +1,7 @@
 (ns tablecloth.pipeline
   "Linear pipeline operations."
   (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle])
-  (:require [tablecloth.api :as api]
-            [scicloj.metamorph.core :as mm]))
+  (:require [tablecloth.api]))
 
 (defmacro build-pipelined-function
   [f m]
@@ -11,18 +10,11 @@
        ~@(for [arg args
                :let [narg (mapv #(if (map? %) 'options %) arg)
                      [a & r] (split-with (partial not= '&) narg)]]
-           (list narg `(fn [ds#]
-                         (let [ctx# (if (api/dataset? ds#)
-                                      {:metamorph/data ds#} ds#)]
-                           (assoc ctx# :metamorph/data (apply ~f (ctx# :metamorph/data) ~@a ~(rest r))))))))))
+           (list narg `(fn [ds#] (apply ~f ds# ~@a ~(rest r))))))))
 
-(def ^:private excludes '#{dataset write-csv! write! read-nippy write-nippy! let-dataset row-count column-count
-                           set-dataset-name dataset-name column has-column?
-                           dataset->str column-names dataset? empty-ds? shape
-                           info columns rows print-dataset grouped? process-group-data groups->seq groups->map
-                           ->array split})
+(def ^:private excludes '#{dataset write-csv! let-dataset without-grouping->})
 
-(defmacro ^:private process-all-api-symbols
+(defmacro process-all-api-symbols
   []
   (let [ps (ns-publics 'tablecloth.api)]
     `(do ~@(for [[f v] ps
@@ -33,106 +25,43 @@
 
 (process-all-api-symbols)
 
-(def pipeline mm/pipeline)
-(def ->pipeline mm/->pipeline)
+(defn pipeline
+  [& ops]
+  (apply comp (reverse ops)))
 
-;; TODO: remove before releasing
-;; example
+(declare process-param)
 
+(defn- process-map
+  [ctx params]
+  (into {} (map (fn [[k v]]
+                  [k (process-param ctx v)]) params)))
 
-(def DS (api/dataset {:V1 (take 9 (cycle [1 2]))
-                      :V2 (range 1 10)
-                      :V3 (take 9 (cycle [0.5 1.0 1.5]))
-                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
+(defn- process-seq
+  [ctx params]
+  (mapv (fn [p] (process-param ctx p)) params))
 
-(select-columns :type/numerical)
-;; => #function[tablecloth.pipeline/select-columns/fn--43815]
+(defn- process-param
+  [ctx p]
+  (cond
+    (and (keyword? p)
+         (namespace p)
+         (not (#{"type" "!type"} (namespace p)))) (let [n (namespace p)]
+                                                    (if (= n "ctx")
+                                                      (ctx (keyword (name p)))
+                                                      (var-get (resolve (symbol p)))))
+    (map? p) (process-map ctx p)
+    (sequential? p) (process-seq ctx p)
+    :else p))
 
-((select-columns :type/numerical) DS)
-;; => #:metamorph{:data _unnamed [9 3]:
-;;    | :V1 | :V2 | :V3 |
-;;    |-----|-----|-----|
-;;    |   1 |   1 | 0.5 |
-;;    |   2 |   2 | 1.0 |
-;;    |   1 |   3 | 1.5 |
-;;    |   2 |   4 | 0.5 |
-;;    |   1 |   5 | 1.0 |
-;;    |   2 |   6 | 1.5 |
-;;    |   1 |   7 | 0.5 |
-;;    |   2 |   8 | 1.0 |
-;;    |   1 |   9 | 1.5 |
-;;    }
-
-(let [p (mm/pipeline (group-by :V1)
-                     (fold-by :V4)
-                     (ungroup))]
-  (p DS))
-;; => #:metamorph{:data _unnamed [6 5]:
-;;    | :V4 |   :V1 |   :V2 |       :V3 | :metamorph/id |
-;;    |-----|-------|-------|-----------|---------------|
-;;    |   B |   [1] |   [5] |     [1.0] |           [0] |
-;;    |   C | [1 1] | [3 9] | [1.5 1.5] |         [0 0] |
-;;    |   A | [1 1] | [1 7] | [0.5 0.5] |         [0 0] |
-;;    |   B | [2 2] | [2 8] | [1.0 1.0] |         [0 0] |
-;;    |   C |   [2] |   [6] |     [1.5] |           [0] |
-;;    |   A |   [2] |   [4] |     [0.5] |           [0] |
-;;    }
-
-(def pipeline-declaration [[:group-by :V1]
-                           [:unique-by ::unique-by-operation {:strategy :ctx/strategy}]
-                           [:ungroup {:add-group-as-column :from-V1}]])
-
-(def unique-by-operation (fn [m] (mod (:V2 m) 3)))
-
-(def pipeline-1 (mm/->pipeline {:strategy vec} pipeline-declaration))
-(def pipeline-2 (mm/->pipeline {:strategy set} pipeline-declaration))
-
-
-(pipeline-1 DS)
-;; => #:metamorph{:data _unnamed [6 6]:
-;;    | :from-V1 |   :V1 |   :V2 |       :V3 |       :V4 | :metamorph/id |
-;;    |----------|-------|-------|-----------|-----------|---------------|
-;;    |        1 | [1 1] | [3 9] | [1.5 1.5] | ["C" "C"] |         [0 0] |
-;;    |        1 | [1 1] | [1 7] | [0.5 0.5] | ["A" "A"] |         [0 0] |
-;;    |        1 |   [1] |   [5] |     [1.0] |     ["B"] |           [0] |
-;;    |        2 |   [2] |   [6] |     [1.5] |     ["C"] |           [0] |
-;;    |        2 |   [2] |   [4] |     [0.5] |     ["A"] |           [0] |
-;;    |        2 | [2 2] | [2 8] | [1.0 1.0] | ["B" "B"] |         [0 0] |
-;;    }
-
-(pipeline-2 {:metamorph/data DS})
-;; => #:metamorph{:data _unnamed [6 5]:
-;;    | :from-V1 |  :V1 |    :V2 |    :V3 |    :V4 |
-;;    |----------|------|--------|--------|--------|
-;;    |        1 | #{1} | #{3 9} | #{1.5} | #{"C"} |
-;;    |        1 | #{1} | #{7 1} | #{0.5} | #{"A"} |
-;;    |        1 | #{1} |   #{5} | #{1.0} | #{"B"} |
-;;    |        2 | #{2} |   #{6} | #{1.5} | #{"C"} |
-;;    |        2 | #{2} |   #{4} | #{0.5} | #{"A"} |
-;;    |        2 | #{2} | #{2 8} | #{1.0} | #{"B"} |
-;;    }
-
-;; custom pipeline operation
-
-(defn transformation-returning-context []
-  (fn [ctx]
-    (let [id (ctx :metamorph/id)]
-      (if-let [my-data (ctx id)]
-        (do
-          (println "My stored data is: " my-data)
-          (update ctx id inc))
-        (assoc ctx id 0)))))
-
-(def do-something
-  (mm/pipeline (transformation-returning-context)
-               (transformation-returning-context)))
-
-;; below hangs!!!
-#_(take 3 (rest (iterate do-something (api/dataset))))
-
-(take 3 (rest (iterate do-something {:metamorph/data (api/dataset)})))
-;; => ({:metamorph/data _unnamed [0 0], 0 0, 1 0}My stored data is:  0
-;;    My stored data is:  0
-;;     {:metamorph/data _unnamed [0 0], 0 1, 1 1}My stored data is:  1
-;;    My stored data is:  1
-;;     {:metamorph/data _unnamed [0 0], 0 2, 1 2})
+(defn ->pipeline
+  ([ops] (->pipeline {} ops))
+  ([ctx ops]
+   (apply pipeline (for [[op & params] ops
+                         :let [nparams (process-param ctx params)
+                               v (cond
+                                   (and (keyword? op)
+                                        (not (namespace op))) (var-get (resolve (symbol "tablecloth.pipeline" (name op))))
+                                   (keyword? op) (var-get (resolve (symbol op)))
+                                   (symbol? op) (resolve op)
+                                   :else op)]]
+                     (apply v nparams)))))
