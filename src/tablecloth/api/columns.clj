@@ -118,6 +118,9 @@
     (fn? column) #(add-column % column-name (column %) size-strategy)
     :else #(ds/add-or-update-column % column-name (dtype/const-reader column (ds/row-count %)))))
 
+
+(declare convert-types)
+
 (defn add-column
   "Add or update (modify) column under `column-name`.
 
@@ -129,11 +132,14 @@
                          (map? options-or-size-strategy) (:size-strategy options-or-size-strategy))
          options (when (map? options-or-size-strategy)
                    options-or-size-strategy)
-         {:keys [prevent-clone?]} options
+         {:keys [prevent-clone? datatype datatypes]} options
          process-fn (prepare-add-column-fn column-name column (or size-strategy :cycle))
+         result-datatype (or (datatypes column-name)
+                             datatype)
          process-fn-with-cloning (fn [ds1]
                                    (-> ds1
                                        process-fn
+                                       (cond-> result-datatype (convert-types column-name result-datatype))
                                        (clone/clone-columns [column-name] prevent-clone?)))]
      (if (grouped? ds)
        (process-group-data ds process-fn-with-cloning)
