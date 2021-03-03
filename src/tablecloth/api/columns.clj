@@ -162,15 +162,24 @@
     (process-update-columns ds lst)))
 
 (defn update-columns
-  ([ds columns-map]
-   (do-update-columns ds (seq columns-map)))
-  ([ds columns-selector update-functions]
+  ([ds columns-map] (update-columns ds columns-map nil))
+  ([ds columns options-or-update-functions]
+   (if (map? columns)
+     (let [{:keys [prevent-clone?]} options-or-update-functions]
+       (-> ds
+           (do-update-columns (seq columns))
+           (clone/clone-columns (keys columns) prevent-clone?)))
+     (update-columns ds columns options-or-update-functions nil)))
+  ([ds columns-selector update-functions options]
    (let [col-names (column-names ds columns-selector)
          fns (if (iterable-sequence? update-functions)
                (cycle update-functions)
                (repeat update-functions))
-         lst (map vector col-names fns)]
-     (do-update-columns ds lst))))
+         lst (map vector col-names fns)
+         {:keys [prevent-clone?]} options]
+     (-> ds
+         (do-update-columns lst)
+         (clone/clone-columns col-names prevent-clone?)))))
 
 (defn map-columns
   ([ds column-name map-fn] (map-columns ds column-name nil column-name map-fn))
