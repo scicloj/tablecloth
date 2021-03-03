@@ -1,5 +1,27 @@
 # Change Log
 
+## [5.01]
+
+### Added
+
+* `split->seq` to return train/test splits as a sequence or datasets or as map of sequences for grouped datasets
+
+### Changed
+
+* [breaking] `tablecloth.pipeline` returns a map with dataset under `:metamorph/data` key (see [metamorph](https://github.com/scicloj/metamorph))
+* [breaking] `split` returns now a dataset or grouped dataset with two new columns indicating train/test and split id. See `split->seq` for previous behaviour.
+
+## [5.00-beta-29.1]
+
+### Added
+
+* `without-grouping->` threading macro which allows operations on grouping dataset treated as a regular one.
+
+### Changed
+
+* `group-by` accepts any java.util.Map for a collection of indexes (use LinkedHashMap to persist an order)
+* some `tablecloth.api.group-by` functions moved to `tablecloth.api.utils`, no changes to API
+
 ## [5.00-beta-29]
 
 ### Changed
