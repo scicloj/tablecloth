@@ -1,5 +1,16 @@
 # Change Log
 
+## [5.01]
+
+### Added
+
+* `split->seq` to return train/test splits as a sequence or datasets or as map of sequences for grouped datasets
+
+### Changed
+
+* [breaking] `tablecloth.pipeline` returns a map with dataset under `:metamorph/data` key (see [metamorph](https://github.com/scicloj/metamorph))
+* [breaking] `split` returns now a dataset or grouped dataset with two new columns indicating train/test and split id. See `split->seq` for previous behaviour.
+
 ## [5.00-beta-29.1]
 
 ### Added

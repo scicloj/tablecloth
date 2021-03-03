@@ -116,7 +116,8 @@
                          append)
 
 (exporter/export-symbols tablecloth.api.split
-                         split)
+                         split
+                         split->seq)
 ;;
 
 (defn- select-or-drop
