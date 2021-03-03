@@ -3,7 +3,17 @@
             [tech.v3.datatype :as dtype]
             [tablecloth.api.utils :refer [column-names]]
             [tablecloth.api.dataset :refer [dataset]]
-            [tablecloth.api.columns :refer [add-column add-columns map-columns]]))
+            [tablecloth.api.columns :refer [add-column add-columns map-columns update-columns]]
+            [tablecloth.api :refer [clone-columns]]
+            [tech.v3.datatype.functional :refer [pow]]))
+
+(let [DS
+      (-> {:x (dtype/make-reader :float32 9 (rand))
+           :y (dtype/make-reader :float32 9 (rand))}
+          (dataset {:prevent-clone? true})
+          (clone-columns :all false))]
+  (fact "" (first (DS :x)) => (first (DS :x)))
+  (fact "" (first (DS :y)) => (first (DS :y))))
 
 (let [DS
       (-> {:x (dtype/make-reader :float32 9 (rand))
@@ -77,3 +87,32 @@
                            (rand))
                          {:prevent-clone? true}))]
   (fact "" (first (DS :V5)) =not=> (first (DS :V5))))
+
+(let [DS
+      (-> {:x (dtype/make-reader :float32 9 (rand))
+           :y (dtype/make-reader :float32 9 (rand))}
+          (dataset {:prevent-clone? true})
+          (update-columns {:y #(pow % 2)}))]
+  (fact "" (first (DS :x)) =not=> (first (DS :x)))
+  (fact "" (first (DS :y)) => (first (DS :y))))
+
+(let [DS
+      (-> {:x (dtype/make-reader :float32 9 (rand))
+           :y (dtype/make-reader :float32 9 (rand))}
+          (dataset {:prevent-clone? true})
+          (update-columns {:y #(pow % 2)} {:prevent-clone? true}))]
+  (fact "" (first (DS :y)) =not=> (first (DS :y))))
+
+(let [DS
+      (-> {:x (dtype/make-reader :float32 9 (rand))
+           :y (dtype/make-reader :float32 9 (rand))}
+          (dataset {:prevent-clone? true})
+          (update-columns :all #(pow % 2)))]
+  (fact "" (first (DS :y)) => (first (DS :y))))
+
+(let [DS
+      (-> {:x (dtype/make-reader :float32 9 (rand))
+           :y (dtype/make-reader :float32 9 (rand))}
+          (dataset {:prevent-clone? true})
+          (update-columns :all #(pow % 2) {:prevent-clone? true}))]
+  (fact "" (first (DS :y)) =not=> (first (DS :y))))
