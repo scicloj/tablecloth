@@ -117,6 +117,9 @@
 
 (exporter/export-symbols tablecloth.api.split
                          split)
+
+(exporter/export-symbols tablecloth.api.clone
+                         clone-columns)
 ;;
 
 (defn- select-or-drop
