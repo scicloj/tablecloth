@@ -215,17 +215,17 @@
      (cond
        (nil? new-type) (-> (ds/->dataset {colname (ds/column ds colname)})
                            (ds/column colname)
-                           (->> (ds/add-or-update-column ds colname)))
+                           (->> (add-column ds colname)))
        (= :object new-type) (ds/column-cast ds colname [:object identity])
        :else (let [col (ds colname)]
                (condp = (dtype/get-datatype col)
-                 :string (ds/add-or-update-column ds colname (col/parse-column new-type col))
-                 :text (ds/add-or-update-column ds colname (col/parse-column new-type col))
+                 :string (add-column ds colname (col/parse-column new-type col))
+                 :text (add-column ds colname (col/parse-column new-type col))
                  :object (if (string? (dtype/get-value col 0))
                            (-> (ds/column-cast ds colname :string)
                                (ds/column colname)
                                (->> (col/parse-column new-type)
-                                    (ds/add-or-update-column ds colname)))
+                                    (add-column ds colname)))
                            (ds/column-cast ds colname new-type))
                  (ds/column-cast ds colname new-type)))))))
 
