@@ -4,9 +4,8 @@
             [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
 
-            [tablecloth.api.utils :refer [column-names iterable-sequence? grouped? process-group-data]]
-            [tablecloth.api.dataset :refer [dataset empty-ds?]]
-            [tablecloth.api.clone :as clone]))
+            [tablecloth.api.utils :refer [column-names iterable-sequence? grouped? process-group-data clone-columns]]
+            [tablecloth.api.dataset :refer [dataset empty-ds?]]))
 
 (defn- select-or-drop-columns
   "Select or drop columns."
@@ -133,7 +132,7 @@
          process-fn-with-cloning (fn [ds1]
                                    (-> ds1
                                        process-fn
-                                       (clone/clone-columns [column-name] prevent-clone?)))]
+                                       (clone-columns [column-name] prevent-clone?)))]
      (if (grouped? ds)
        (process-group-data ds process-fn-with-cloning)
        (process-fn-with-cloning ds)))))
@@ -167,7 +166,7 @@
      (let [{:keys [prevent-clone?]} options-or-update-functions]
        (-> ds
            (do-update-columns (seq columns))
-           (clone/clone-columns (keys columns) prevent-clone?)))
+           (clone-columns (keys columns) prevent-clone?)))
      (update-columns ds columns options-or-update-functions nil)))
   ([ds columns-selector update-functions options]
    (let [col-names (column-names ds columns-selector)
@@ -178,7 +177,7 @@
          {:keys [prevent-clone?]} options]
      (-> ds
          (do-update-columns lst)
-         (clone/clone-columns col-names prevent-clone?)))))
+         (clone-columns col-names prevent-clone?)))))
 
 (defn map-columns
   ([ds column-name map-fn] (map-columns ds column-name nil column-name map-fn))

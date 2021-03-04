@@ -1,10 +1,9 @@
 (ns tablecloth.api.clone-test
   (:require [midje.sweet :refer [fact => =not=>]]
             [tech.v3.datatype :as dtype]
-            [tablecloth.api.utils :refer [column-names]]
+            [tablecloth.api.utils :refer [column-names clone-columns]]
             [tablecloth.api.dataset :refer [dataset]]
             [tablecloth.api.columns :refer [add-column add-columns map-columns update-columns]]
-            [tablecloth.api :refer [clone-columns]]
             [tech.v3.datatype.functional :refer [pow]]))
 
 (let [DS

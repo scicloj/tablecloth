@@ -5,8 +5,7 @@
             [tech.v3.dataset.print :as p]
             [tech.v3.tensor :as tensor]
             [tech.v3.dataset.tensor :as ds-tensor]
-            [tablecloth.api.utils :refer [iterable-sequence?]]
-            [tablecloth.api.clone :as clone]))
+            [tablecloth.api.utils :refer [iterable-sequence? clone-columns]]))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; DATASET CREATION
@@ -75,7 +74,7 @@
                (not-every? map? data))) (dataset (from-tensor data column-names layout))
       (not (seqable? data)) (ds/->dataset [{single-value-column-name data}] options)
       :else (ds/->dataset data options))
-    (clone/clone-columns :all prevent-clone?))))
+    (clone-columns :all prevent-clone?))))
 
 (defn shape
   "Returns shape of the dataset [rows, cols]"

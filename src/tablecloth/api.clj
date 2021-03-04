@@ -29,7 +29,8 @@
                          unmark-group
                          mark-as-group
                          as-regular-dataset
-                         process-group-data)
+                         process-group-data
+                         clone-columns)
 
 (exporter/export-symbols tablecloth.api.dataset
                          dataset?
@@ -119,8 +120,6 @@
                          split
                          split->seq)
 
-(exporter/export-symbols tablecloth.api.clone
-                         clone-columns)
 ;;
 
 (defn- select-or-drop
