@@ -4,36 +4,15 @@
             [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
             
-            [tablecloth.api.utils :refer [iterable-sequence? ->str column-names parallel-concat]]
-            [tablecloth.api.dataset :refer [dataset]]))
-
-(defn grouped?
-  "Is `dataset` represents grouped dataset (result of `group-by`)?"
-  [ds]
-  (:grouped? (meta ds)))
-
-(defn unmark-group
-  "Remove grouping tag"
-  [ds]
-  (vary-meta ds dissoc :grouped?))
-
-(defn mark-as-group
-  "Add grouping tag"
-  [ds]
-  (vary-meta ds assoc
-             :grouped? true
-             :print-line-policy :single))
-
-(let [m (meta #'unmark-group)]
-  (def ^{:doc (:doc m)
-         :arglists (:arglists m)}
-    as-regular-dataset unmark-group))
+            [tablecloth.api.utils :refer [iterable-sequence? ->str column-names parallel-concat grouped? mark-as-group]]
+            [tablecloth.api.dataset :refer [dataset]])
+  (:import [java.util Map]))
 
 (defn- find-group-indexes
   "Calulate indexes for groups"
   [ds grouping-selector selected-keys]
   (cond
-    (map? grouping-selector) grouping-selector
+    (instance? Map grouping-selector) grouping-selector
     (iterable-sequence? grouping-selector) (ds/group-by->indexes
                                             (ds/select-columns ds (column-names ds grouping-selector)) identity)
     (fn? grouping-selector) (ds/group-by->indexes
@@ -95,11 +74,6 @@
                     (map-indexed (fn [id [k idxs]] [k (subdataset ds id k idxs)])) 
                     (into {}))
        (group-by->dataset ds group-indexes options)))))
-
-(defn process-group-data
-  ([ds f] (process-group-data ds f false))
-  ([ds f parallel?]
-   (ds/add-or-update-column ds :data ((if parallel? pmap map) f (ds :data)))))
 
 (defn groups->map
   "Convert grouped dataset to the map of groups"

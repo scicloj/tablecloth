@@ -4,9 +4,8 @@
             [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
 
-            [tablecloth.api.utils :refer [column-names iterable-sequence?]]
+            [tablecloth.api.utils :refer [column-names iterable-sequence? grouped? process-group-data]]
             [tablecloth.api.dataset :refer [dataset empty-ds?]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data]]
             [tablecloth.api.clone :as clone]))
 
 (defn- select-or-drop-columns

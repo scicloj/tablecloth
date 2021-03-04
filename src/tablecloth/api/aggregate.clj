@@ -1,6 +1,6 @@
 (ns tablecloth.api.aggregate
-  (:require [tablecloth.api.utils :refer [iterable-sequence? ->str column-names]]
-            [tablecloth.api.group-by :refer [grouped? process-group-data process->ungroup ungroup]]
+  (:require [tablecloth.api.utils :refer [iterable-sequence? ->str column-names grouped? process-group-data]]
+            [tablecloth.api.group-by :refer [process->ungroup ungroup]]
             [tablecloth.api.dataset :refer [dataset]]))
 
 (defn- add-agg-result-from-seq

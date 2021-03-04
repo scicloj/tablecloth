@@ -1,8 +1,12 @@
 (ns tablecloth.api.split
   (:refer-clojure :exclude [group-by])
   (:require [tech.v3.dataset :as ds]
+            [tech.v3.datatype.argops :as aop]
 
-            [tablecloth.api.group-by :refer [group-by grouped? groups->seq]])
+            [tablecloth.api.utils :refer [grouped? process-group-data]]
+            [tablecloth.api.group-by :refer [group-by groups->map]]
+            [tablecloth.api.columns :refer [add-columns]]
+            [tablecloth.api.rows :as rows])
   (:import [java.util ArrayList Collection Random]))
 
 ;; some utils
@@ -25,64 +29,82 @@
 ;;
 
 (defn- bootstrap
-  ([cnt] (bootstrap cnt {}))
-  ([cnt {:keys [ratio rng]
-         :or {ratio 1.0}}]
-   (if (zero? cnt)
-     [[]]
-     (let [^ArrayList idxs (shuffle-with-rng (range cnt) rng)
-           amount (max 1 (* ratio cnt))]
-       [(repeatedly amount #(.get idxs (rand-int-with-rng rng cnt)))]))))
+  [cnt rng {:keys [ratio]
+            :or {ratio 1.0}}]
+  (if (zero? cnt)
+    [[]]
+    (let [^ArrayList idxs (shuffle-with-rng (range cnt) rng)
+          amount (max 1 (* ratio cnt))]
+      [(repeatedly amount #(.get idxs (rand-int-with-rng rng cnt)))])))
 
 (defn- kfold
-  ([cnt] (kfold cnt {}))
-  ([cnt {:keys [k rng]
-         :or {k 5}}]
-   (let [idxs (partition-all (/ cnt k) (shuffle-with-rng (range cnt) rng))]
-     (for [i (range k)]
-       (mapcat identity (drop-nth idxs i))))))
+  [cnt rng {:keys [k]
+            :or {k 5}}]
+  (let [k (min cnt k)
+        idxs (partition-all (/ cnt k) (shuffle-with-rng (range cnt) rng))]
+    (for [i (range k)]
+      (mapcat identity (drop-nth idxs i)))))
 
 (defn- loo
-  ([cnt] (kfold cnt {:k cnt}))
-  ([cnt opts] (kfold cnt (assoc opts :k cnt))))
+  [cnt rng opts] (kfold cnt rng (assoc opts :k cnt)))
 
 (defn- holdout
-  ([cnt] (holdout cnt {}))
-  ([cnt {:keys [ratio rng]
-         :or {ratio (/ 2.0 3.0)}}]
-   (let [amount (min (dec cnt) (max 1 (* cnt ratio)))]
-     [(take amount (shuffle-with-rng (range cnt) rng))])))
+  [cnt rng {:keys [ratio]
+            :or {ratio (/ 2.0 3.0)}}]
+  (let [amount (min (dec cnt) (max 1 (* cnt ratio)))]
+    [(take amount (shuffle-with-rng (range cnt) rng))]))
 
 (def ^:private split-types {:bootstrap bootstrap
                             :kfold kfold
                             :loo loo
                             :holdout holdout})
 
-(defn- train-test-split
-  [ds ids]
-  {:train (ds/select-rows ds ids)
-   :test (ds/drop-rows ds ids)})
+;;
+
+(defn- make-subdataset
+  [ds row-ids train-or-test split-col-name split-id-col-name id]
+  (let [select-or-drop-fn (if (= train-or-test :train)
+                            ds/select-rows
+                            ds/drop-rows)]
+    
+    (-> (select-or-drop-fn ds row-ids)
+        (add-columns {split-col-name train-or-test split-id-col-name id}))))
+
+(defn- split-ds
+  [ds split-fn rng {:keys [repeats split-col-name split-id-col-name]
+                    :or {repeats 1 split-col-name :$split-name split-id-col-name :$split-id}
+                    :as opts}]
+  (let [cnt (ds/row-count ds)]
+    (->> #(split-fn cnt rng opts)
+         (repeatedly repeats)
+         (mapcat identity)
+         (map-indexed (fn [id ids]
+                        (ds/concat-copying
+                         (make-subdataset ds ids :train split-col-name split-id-col-name id)
+                         (make-subdataset ds ids :test split-col-name split-id-col-name id))))
+         (reduce ds/concat-copying))))
+
+(defn- split-stratified-ds
+  [ds split-fn rng partition-selector opts]
+  (->> (group-by ds partition-selector {:result-type :as-seq})
+       (map (fn [ds] (split-ds ds split-fn rng opts)))
+       (reduce ds/concat-copying)))
 
 (defn- split-single-ds
-  [ds split-type {:keys [repeats split-fn partition-selector]
-                  :or {repeats 1}
-                  :as opts}]
-  (if partition-selector
-    (let [newopts (dissoc opts :partition-selector)]
-      (->> (group-by ds partition-selector {:result-type :as-seq})
-           (map #(split-single-ds % split-type newopts))
-           (apply map (fn [& gs]
-                        {:train (-> (apply ds/concat (map :train gs))
-                                    (ds/set-dataset-name (str "Train set, " (ds/dataset-name ds))))
-                         :test (-> (apply ds/concat (map :test gs))
-                                   (ds/set-dataset-name (str "Test set, " (ds/dataset-name ds))))}))))
-    (let [cnt (ds/row-count ds)]
-      (->> (range repeats)
-           (mapcat (fn [_] (split-fn cnt opts)))
-           (map (partial train-test-split ds))))))
+  [ds split-fn rng {:keys [partition-selector]
+                    :as opts}]
+  (-> (if partition-selector
+        (split-stratified-ds ds split-fn rng partition-selector opts)
+        (split-ds ds split-fn rng opts))
+      (ds/set-dataset-name (str (ds/dataset-name ds) ", (train,test)"))))
 
 (defn split
-  "Split given dataset into train and test datasets as a lazy sequence of maps containing with `:train` and `:test` keys.
+  "Split given dataset into train and test.
+
+  As the result two new columns are added:
+
+  * `:$split-name` - with `:train` or `:test` values
+  * `:$split-id` - id of train/test pair
 
   `split-type` can be one of the following:
 
@@ -96,22 +118,44 @@
   * `:seed` - for random number generator
   * `:repeats` - repeat procedure `:repeats` times
   * `:partition-selector` - same as in `group-by` for stratified splitting to reflect dataset structure in splits.
+  * `:split-col-name` - a column where name of split is stored, either `:train` or `:test` values (default: `:$split-name`)
+  * `:split-id-col-name` - a column where id of the train/test pair is stored (default: `:$split-id`)
 
   Rows are shuffled before splitting.
   
-  In case of grouped dataset each group is processed separately, pairs of grouped dataset are returned.
+  In case of grouped dataset each group is processed separately.
 
   See [more](https://www.mitpressjournals.org/doi/pdf/10.1162/EVCO_a_00069)"
   ([ds] (split ds :kfold))
   ([ds split-type] (split ds split-type {}))
   ([ds split-type {:keys [seed parallel?] :as opts}]
    (let [rng (if seed (Random. seed) (Random.))
-         newopts (assoc opts :rng rng :split-fn (get split-types split-type :kfold))]
+         split-fn (get split-types split-type :kfold)]
      (if (grouped? ds)
-       (->> (groups->seq ds)
-            ((if parallel? pmap map) #(split-single-ds % split-type newopts))
-            (apply map (fn [& gs]
-                         {:train (ds/add-or-update-column ds :data (map :train gs))
-                          :test (ds/add-or-update-column ds :data (map :test gs))})))
-       (split-single-ds ds split-type newopts)))))
+       (process-group-data ds #(split-single-ds % split-fn rng opts) parallel?)
+       (split-single-ds ds split-fn rng opts)))))
+
+(defn- splitted-ds->seq
+  [splitted split-col-name split-id-col-name]
+  (->> (group-by splitted split-id-col-name {:result-type :as-seq})
+       (map (fn [ds]
+              (let [ids (aop/argfilter #(= :train %) (ds split-col-name))
+                    nds (ds/drop-columns ds [split-col-name split-id-col-name])]
+                {:train (ds/select-rows nds ids)
+                 :test (ds/drop-rows nds ids)})))))
+
+(defn split->seq
+  "Returns split as a sequence of train/test datasets or map of sequences (grouped dataset)"
+  ([ds] (split->seq ds :kfold))
+  ([ds split-type] (split->seq ds split-type {}))
+  ([ds split-type {:keys [split-col-name split-id-col-name]
+                   :or {split-col-name :$split-name split-id-col-name :$split-id}
+                   :as opts}]
+   (let [splitted (split ds split-type opts)]
+     (if (grouped? ds)
+       (->> (groups->map splitted)
+            (map (fn [[g d]]
+                   [g (splitted-ds->seq d split-col-name split-id-col-name)]))
+            (into {}))
+       (splitted-ds->seq splitted split-col-name split-id-col-name)))))
 
