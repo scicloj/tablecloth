@@ -80,7 +80,6 @@
              :V4 (take 9 (cycle ["A" "B" "C"]))} ds
             (dataset ds)
             (map-columns ds :V5
-                         nil
                          (column-names ds  #{:int64 :float64} :datatype)
                          (fn [& rows]
                            (rand))

@@ -180,16 +180,19 @@
          (clone-columns col-names prevent-clone?)))))
 
 (defn map-columns
-  ([ds column-name map-fn] (map-columns ds column-name nil column-name map-fn))
-  ([ds column-name columns-selector map-fn] (map-columns ds column-name nil columns-selector map-fn))
-  ([ds column-name new-type columns-selector map-fn] (map-columns ds column-name new-type columns-selector map-fn nil))
-  ([ds column-name new-type columns-selector map-fn options]
-   (if (grouped? ds)
-     (process-group-data ds #(map-columns % column-name new-type columns-selector map-fn options))
-     (add-column ds column-name
-                            (apply col/column-map map-fn new-type
-                                   (ds/columns (select-columns ds columns-selector)))
-                            options))))
+  ([ds column-name map-fn] (map-columns ds column-name column-name map-fn nil))
+  ([ds column-name columns-selector-or-map-fn map-fn-or-options]
+   (if (map? map-fn-or-options)
+     (map-columns ds column-name column-name columns-selector-or-map-fn map-fn-or-options)
+     (map-columns ds column-name columns-selector-or-map-fn map-fn-or-options nil)))
+  ([ds column-name columns-selector map-fn options]
+   (let [{:keys [new-type]} options]
+     (if (grouped? ds)
+       (process-group-data ds #(map-columns % column-name columns-selector map-fn options))
+       (add-column ds column-name
+                   (apply col/column-map map-fn new-type
+                          (ds/columns (select-columns ds columns-selector)))
+                   options)))))
 
 (defn reorder-columns
   "Reorder columns using column selector(s). When column names are incomplete, the missing will be attached at the end."
