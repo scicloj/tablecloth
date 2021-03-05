@@ -4,7 +4,7 @@
             [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
 
-            [tablecloth.api.utils :refer [column-names iterable-sequence? grouped? process-group-data]]
+            [tablecloth.api.utils :refer [column-names iterable-sequence? grouped? process-group-data clone-columns]]
             [tablecloth.api.dataset :refer [dataset empty-ds?]]))
 
 (defn- select-or-drop-columns
@@ -121,18 +121,27 @@
 
   `column` can be sequence of values or generator function (which gets `ds` as input)."
   ([ds column-name column] (add-column ds column-name column nil))
-  ([ds column-name column size-strategy]
-   (let [process-fn (prepare-add-column-fn column-name column (or size-strategy :cycle))]
-
+  ([ds column-name column options-or-size-strategy]
+   (let [size-strategy (cond
+                         (keyword? options-or-size-strategy) options-or-size-strategy
+                         (map? options-or-size-strategy) (:size-strategy options-or-size-strategy))
+         options (when (map? options-or-size-strategy)
+                   options-or-size-strategy)
+         {:keys [prevent-clone?]} options
+         process-fn (prepare-add-column-fn column-name column (or size-strategy :cycle))
+         process-fn-with-cloning (fn [ds1]
+                                   (-> ds1
+                                       process-fn
+                                       (clone-columns [column-name] prevent-clone?)))]
      (if (grouped? ds)
-       (process-group-data ds process-fn)
-       (process-fn ds)))))
+       (process-group-data ds process-fn-with-cloning)
+       (process-fn-with-cloning ds)))))
 
 (defn add-columns
   "Add or updade (modify) columns defined in `columns-map` (mapping: name -> column) "
   ([ds columns-map] (add-columns ds columns-map nil))
-  ([ds columns-map size-strategy]
-   (reduce-kv (fn [ds k v] (add-column ds k v size-strategy)) ds columns-map)))
+  ([ds columns-map options-or-size-strategy]
+   (reduce-kv (fn [ds k v] (add-column ds k v options-or-size-strategy)) ds columns-map)))
 
 (def ^{:deprecated "Use `add-column` instead."
        :arglists '([ds column-name column] [ds column-name column size-strategy])} add-or-replace-column add-column)
@@ -151,23 +160,39 @@
     (process-update-columns ds lst)))
 
 (defn update-columns
-  ([ds columns-map]
-   (do-update-columns ds (seq columns-map)))
-  ([ds columns-selector update-functions]
+  ([ds columns-map] (update-columns ds columns-map nil))
+  ([ds columns options-or-update-functions]
+   (if (map? columns)
+     (let [{:keys [prevent-clone?]} options-or-update-functions]
+       (-> ds
+           (do-update-columns (seq columns))
+           (clone-columns (keys columns) prevent-clone?)))
+     (update-columns ds columns options-or-update-functions nil)))
+  ([ds columns-selector update-functions options]
    (let [col-names (column-names ds columns-selector)
          fns (if (iterable-sequence? update-functions)
                (cycle update-functions)
                (repeat update-functions))
-         lst (map vector col-names fns)]
-     (do-update-columns ds lst))))
+         lst (map vector col-names fns)
+         {:keys [prevent-clone?]} options]
+     (-> ds
+         (do-update-columns lst)
+         (clone-columns col-names prevent-clone?)))))
 
 (defn map-columns
-  ([ds column-name map-fn] (map-columns ds column-name nil column-name map-fn))
-  ([ds column-name columns-selector map-fn] (map-columns ds column-name nil columns-selector map-fn))
-  ([ds column-name new-type columns-selector map-fn]
-   (if (grouped? ds)
-     (process-group-data ds #(map-columns % column-name new-type columns-selector map-fn))
-     (add-column ds column-name (apply col/column-map map-fn new-type (ds/columns (select-columns ds columns-selector)))))))
+  ([ds column-name map-fn] (map-columns ds column-name column-name map-fn nil))
+  ([ds column-name columns-selector-or-map-fn map-fn-or-options]
+   (if (map? map-fn-or-options)
+     (map-columns ds column-name column-name columns-selector-or-map-fn map-fn-or-options)
+     (map-columns ds column-name columns-selector-or-map-fn map-fn-or-options nil)))
+  ([ds column-name columns-selector map-fn options]
+   (let [{:keys [new-type]} options]
+     (if (grouped? ds)
+       (process-group-data ds #(map-columns % column-name columns-selector map-fn options))
+       (add-column ds column-name
+                   (apply col/column-map map-fn new-type
+                          (ds/columns (select-columns ds columns-selector)))
+                   options)))))
 
 (defn reorder-columns
   "Reorder columns using column selector(s). When column names are incomplete, the missing will be attached at the end."
@@ -190,17 +215,17 @@
      (cond
        (nil? new-type) (-> (ds/->dataset {colname (ds/column ds colname)})
                            (ds/column colname)
-                           (->> (ds/add-or-update-column ds colname)))
+                           (->> (add-column ds colname)))
        (= :object new-type) (ds/column-cast ds colname [:object identity])
        :else (let [col (ds colname)]
                (condp = (dtype/get-datatype col)
-                 :string (ds/add-or-update-column ds colname (col/parse-column new-type col))
-                 :text (ds/add-or-update-column ds colname (col/parse-column new-type col))
+                 :string (add-column ds colname (col/parse-column new-type col))
+                 :text (add-column ds colname (col/parse-column new-type col))
                  :object (if (string? (dtype/get-value col 0))
                            (-> (ds/column-cast ds colname :string)
                                (ds/column colname)
                                (->> (col/parse-column new-type)
-                                    (ds/add-or-update-column ds colname)))
+                                    (add-column ds colname)))
                            (ds/column-cast ds colname new-type))
                  (ds/column-cast ds colname new-type)))))))
 

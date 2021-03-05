@@ -1,8 +1,8 @@
 (ns tablecloth.api.dataset-test
   (:require [tablecloth.api :as api]
-            [tablecloth.common-test :refer [DS]]
+            [tablecloth.common-test :refer [DS cloned-reader-ds non-cloned-reader-ds]]
             [clojure.java.io :as io]
-            [midje.sweet :refer [tabular fact =>]]))
+            [midje.sweet :refer [tabular fact => =not=>]]))
 
 (fact "dataset?"
       (fact (api/dataset? (api/dataset)) => true)
@@ -110,3 +110,12 @@
                api/rows  '((1.0 5.0) (2.0 6.0) (3.0 7.0))
                api/columns '((1.0 2.0 3.0) (5.0 6.0 7.0))))
 
+(fact "create-dataset" (as-> cloned-reader-ds $
+                             (fact "column values must match by default"
+                                   (first ($ :x)) => (first ($ :x))
+                                   (first ($ :y)) => (first ($ :y)))))
+
+(fact "create-dataset" (as-> non-cloned-reader-ds $
+                             (fact "column values must NOT match when :prevent-clone? is true"
+                                   (first ($ :x)) =not=> (first ($ :x))
+                                   (first ($ :y)) =not=> (first ($ :y)))))

@@ -4,7 +4,8 @@
             [tech.v3.dataset :as ds]
             [tech.v3.datatype :as dtype]
             [clojure.string :as str]
-            [midje.sweet :refer [tabular fact =>]]))
+            [midje.sweet :refer [tabular fact => =not=>]]
+            [tablecloth.common-test :refer [cloned-reader-ds non-cloned-reader-ds]]))
 
 (def ds (api/dataset "data/who.csv.gz"))
 (def dsg (api/group-by ds "country"))
@@ -133,4 +134,8 @@
         (fact (sut/rank x2 :dense true)
               => '(4 6 3 6 2 0 5 1 2 4 2))))
 
-
+(fact "clone-columns" (as-> non-cloned-reader-ds $
+                            (api/clone-columns $ :all false)
+                            (fact "column values must match after cloning"
+                                  (first ($ :x)) => (first ($ :x))
+                                  (first ($ :y)) => (first ($ :y)))))
