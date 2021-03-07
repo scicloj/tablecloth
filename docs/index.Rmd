@@ -3252,6 +3252,16 @@ right-ds
 (apply api/concat (repeatedly 3 #(api/random DS)))
 ```
 
+##### Concat grouped dataset
+
+Concatenation of grouped datasets results also in grouped dataset.
+
+```{clojure results="asis"}
+(api/concat (api/group-by DS [:V3])
+            (api/group-by DS [:V4]))
+```
+
+
 #### Union
 
 The same as `concat` but returns unique rows
@@ -3313,8 +3323,8 @@ The same as `concat` but returns unique rows
 
 In ML world very often you need to test given model and prepare collection of train and test datasets. `split` creates new dataset with two additional columns:
 
-* `:$split-name` - with `:train` or `:test` values
-* `:$split-id` - id of train/test pair
+* `:$split-name` - with `:train`, `:test`, `:split-2`, ... values
+* `:$split-id` - id of splitted group (for k-fold and repeating)
 
 `split-type` can be one of the following:
 
@@ -3323,11 +3333,14 @@ In ML world very often you need to test given model and prepare collection of tr
 * `:holdout` - split into two parts with given ratio (defaults to `2/3`), produces `1` split
 * `:loo` - leave one out, produces the same number of splits as number of observations
 
+`:holdout` can accept also probabilites or ratios and can split to more than 2 subdatasets
+
 Additionally you can provide:
 
 * `:seed` - for random number generator
 * `:repeats` - repeat procedure `:repeats` times
 * `:partition-selector` - same as in `group-by` for stratified splitting to reflect dataset structure in splits.
+* `:split-names` names of subdatasets different than default, ie. `[:train :test :split-2 ...]`
 * `:split-col-name` - a column where name of split is stored, either `:train` or `:test` values (default: `:$split-name`)
 * `:split-id-col-name` - a column where id of the train/test pair is stored (default: `:$split-id`)
 
@@ -3387,6 +3400,20 @@ with small ratio
 ```{clojure results="asis"}
 (api/split for-splitting :holdout {:ratio 0.2})
 ```
+
+you can split to more than two subdatasets with holdout
+
+```{clojure results="asis"}
+(api/split for-splitting :holdout {:ratio [0.1 0.2 0.3 0.15 0.25]})
+```
+
+you can use also proportions with custom names
+
+```{clojure results="asis"}
+(api/split for-splitting :holdout {:ratio [5 3 11 2]
+                                   :split-names ["small" "smaller" "big" "the rest"]})
+```
+
 
 #### Leave One Out
 

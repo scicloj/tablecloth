@@ -6,7 +6,8 @@
             [tablecloth.api.utils :refer [grouped? process-group-data]]
             [tablecloth.api.group-by :refer [group-by groups->map]]
             [tablecloth.api.columns :refer [add-columns]]
-            [tablecloth.api.rows :as rows])
+
+            [clojure.set :refer [difference]])
   (:import [java.util ArrayList Collection Random]))
 
 ;; some utils
@@ -34,54 +35,69 @@
   (if (zero? cnt)
     [[]]
     (let [^ArrayList idxs (shuffle-with-rng (range cnt) rng)
-          amount (max 1 (* ratio cnt))]
-      [(repeatedly amount #(.get idxs (rand-int-with-rng rng cnt)))])))
+          amount (max 1 (* ratio cnt))
+          b (repeatedly amount #(.get idxs (rand-int-with-rng rng cnt)))]
+      [[b (difference (set (range cnt)) (set b))]])))
 
 (defn- kfold
   [cnt rng {:keys [k]
             :or {k 5}}]
   (let [k (min cnt k)
         idxs (partition-all (/ cnt k) (shuffle-with-rng (range cnt) rng))]
-    (for [i (range k)]
-      (mapcat identity (drop-nth idxs i)))))
+    (for [i (range (count idxs))]
+      [(mapcat identity (drop-nth idxs i))
+       (nth idxs i)])))
 
 (defn- loo
   [cnt rng opts] (kfold cnt rng (assoc opts :k cnt)))
 
+(defn- fix-ratio
+  [cnt ratio]
+  (if (number? ratio)
+    (if (< ratio 1.0)
+      (fix-ratio cnt [ratio (- 1.0 ratio)])
+      (fix-ratio cnt [(int ratio) (- cnt (int ratio))]))
+    (let [s (reduce + ratio)]
+      (map #(int (* cnt (/ % s))) ratio))))
+
 (defn- holdout
   [cnt rng {:keys [ratio]
             :or {ratio (/ 2.0 3.0)}}]
-  (let [amount (min (dec cnt) (max 1 (* cnt ratio)))]
-    [(take amount (shuffle-with-rng (range cnt) rng))]))
+  (let [ratios (butlast (fix-ratio cnt ratio))
+        idxs (shuffle-with-rng (range cnt) rng)
+        [rst coll] (reduce (fn [[curr res] n]
+                             [(drop n curr)
+                              (conj res (take n curr))]) [idxs []] ratios)]
+    [(conj coll rst)]))
 
 (def ^:private split-types {:bootstrap bootstrap
                             :kfold kfold
                             :loo loo
                             :holdout holdout})
 
+(def ^:private default-split-names (concat [:train :test]
+                                           (map #(keyword (str "split-" (+ 2 %))) (range))))
+
 ;;
 
 (defn- make-subdataset
   [ds row-ids train-or-test split-col-name split-id-col-name id]
-  (let [select-or-drop-fn (if (= train-or-test :train)
-                            ds/select-rows
-                            ds/drop-rows)]
-    
-    (-> (select-or-drop-fn ds row-ids)
-        (add-columns {split-col-name train-or-test split-id-col-name id}))))
+  (-> (ds/select-rows ds row-ids)
+      (add-columns {split-col-name train-or-test split-id-col-name id})))
 
 (defn- split-ds
-  [ds split-fn rng {:keys [repeats split-col-name split-id-col-name]
-                    :or {repeats 1 split-col-name :$split-name split-id-col-name :$split-id}
+  [ds split-fn rng {:keys [repeats split-col-name split-id-col-name split-names]
+                    :or {repeats 1 split-col-name :$split-name split-id-col-name :$split-id
+                         split-names default-split-names}
                     :as opts}]
   (let [cnt (ds/row-count ds)]
     (->> #(split-fn cnt rng opts)
          (repeatedly repeats)
          (mapcat identity)
-         (map-indexed (fn [id ids]
-                        (ds/concat-copying
-                         (make-subdataset ds ids :train split-col-name split-id-col-name id)
-                         (make-subdataset ds ids :test split-col-name split-id-col-name id))))
+         (map-indexed (fn [id idss]
+                        (apply ds/concat-copying
+                               (map (fn [nm ids]
+                                      (make-subdataset ds ids nm split-col-name split-id-col-name id)) split-names idss))))
          (reduce ds/concat-copying))))
 
 (defn- split-stratified-ds
@@ -96,15 +112,15 @@
   (-> (if partition-selector
         (split-stratified-ds ds split-fn rng partition-selector opts)
         (split-ds ds split-fn rng opts))
-      (ds/set-dataset-name (str (ds/dataset-name ds) ", (train,test)"))))
+      (ds/set-dataset-name (str (ds/dataset-name ds) ", (splitted)"))))
 
 (defn split
-  "Split given dataset into train and test.
+  "Split given dataset into 2 or more (holdout) splits
 
   As the result two new columns are added:
 
-  * `:$split-name` - with `:train` or `:test` values
-  * `:$split-id` - id of train/test pair
+  * `:$split-name` - with subgroup name
+  * `:$split-id` - fold id/repetition id
 
   `split-type` can be one of the following:
 
@@ -113,11 +129,14 @@
   * `:holdout` - split into two parts with given ratio (defaults to `2/3`), produces `1` split
   * `:loo` - leave one out, produces the same number of splits as number of observations
 
+  `:holdout` can accept also probabilites or ratios and can split to more than 2 subdatasets
+  
   Additionally you can provide:
 
   * `:seed` - for random number generator
   * `:repeats` - repeat procedure `:repeats` times
   * `:partition-selector` - same as in `group-by` for stratified splitting to reflect dataset structure in splits.
+  * `:split-names` names of subdatasets different than default, ie. `[:train :test :split-2 ...]`
   * `:split-col-name` - a column where name of split is stored, either `:train` or `:test` values (default: `:$split-name`)
   * `:split-id-col-name` - a column where id of the train/test pair is stored (default: `:$split-id`)
 
@@ -139,10 +158,12 @@
   [splitted split-col-name split-id-col-name]
   (->> (group-by splitted split-id-col-name {:result-type :as-seq})
        (map (fn [ds]
-              (let [ids (aop/argfilter #(= :train %) (ds split-col-name))
-                    nds (ds/drop-columns ds [split-col-name split-id-col-name])]
-                {:train (ds/select-rows nds ids)
-                 :test (ds/drop-rows nds ids)})))))
+              (let [nds (ds/drop-columns ds [split-col-name split-id-col-name])]
+                (->> (ds split-col-name)
+                     (aop/arggroup)
+                     (map (fn [[k v]]
+                            [k (ds/select-rows nds v)]))
+                     (into {})))))))
 
 (defn split->seq
   "Returns split as a sequence of train/test datasets or map of sequences (grouped dataset)"

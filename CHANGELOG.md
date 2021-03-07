@@ -1,5 +1,17 @@
 # Change Log
 
+## [5.02]
+
+### Added
+
+* `split :holdout` supports any number of splits (minimum 2) [#28]
+* `split` supports `split-names` to provide custom names for subdatasets 
+* `concat` and `concat-copying` are working with grouped datasets
+
+### Fixed
+
+* `kfold` split failed on small number of rows (due to `partition-all` behaviour
+
 ## [5.01]
 
 ### Added
