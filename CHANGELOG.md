@@ -1,5 +1,9 @@
 # Change Log
 
+## [5.04]
+
+tech.ml.dataset version bump, this introduces the change of the order of the groups after `group-by` operation
+
 ## [5.02]
 
 ### Added

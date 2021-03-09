@@ -7,29 +7,29 @@
 ;; tidyr tests
 
 (fact "pivot-longer-basic"
-      (let [ds (-> {:x [1 2] :y [3 4]}
-                   (api/dataset)
-                   (api/pivot->longer))]
-        (fact (api/column-names ds)
-              => '(:$column :$value))
-        (tabular (fact (seq (ds ?n))
-                       => ?v)
-                 ?v ?n
-                 [:x :x :y :y] :$column
-                 [1 2 3 4] :$value)))
+  (let [ds (-> {:x [1 2] :y [3 4]}
+               (api/dataset)
+               (api/pivot->longer))]
+    (fact (api/column-names ds)
+      => '(:$column :$value))
+    (tabular (fact (seq (ds ?n))
+               => ?v)
+             ?v ?n
+             [:x :x :y :y] :$column
+             [1 2 3 4] :$value)))
 
 (fact "pivot-longer-column-names"
-      (let [ds (-> {:x [1 2] :y [3 4]}
-                   (api/dataset)
-                   (api/pivot->longer :all {:target-columns    :colname
-                                            :value-column-name :v}))]
-        (fact (api/column-names ds)
-              => '(:colname :v))
-        (tabular (fact (seq (ds ?n))
-                       => ?v)
-                 ?v ?n
-                 [:x :x :y :y] :colname
-                 [1 2 3 4] :v)))
+  (let [ds (-> {:x [1 2] :y [3 4]}
+               (api/dataset)
+               (api/pivot->longer :all {:target-columns    :colname
+                                        :value-column-name :v}))]
+    (fact (api/column-names ds)
+      => '(:colname :v))
+    (tabular (fact (seq (ds ?n))
+               => ?v)
+             ?v ?n
+             [:x :x :y :y] :colname
+             [1 2 3 4] :v)))
 
 (fact "pivot-longer-datatypes"
       (let [ds (-> {:x [1 2] :y [3 4]}
@@ -214,35 +214,35 @@
                  [2 nil] "y")))
 
 (fact "pivot-wider-concat-columns"
-      (let [ds (-> {:x ["X" "Y"]
-                    :y [1 2]
-                    :a [1 2]
-                    :b [1 2]}
-                   (api/dataset)
-                   (api/pivot->wider [:x :y] [:a :b] {:concat-columns-with ""
-                                                      :concat-value-with   "_"}))]
-        (fact (api/column-names ds)
-              => ["Y2_a" "Y2_b" "X1_a" "X1_b"])
-        (fact (api/rows ds)
-              => [[2 2 1 1]])))
+  (let [ds (-> {:x ["X" "Y"]
+                :y [1 2]
+                :a [1 2]
+                :b [1 2]}
+               (api/dataset)
+               (api/pivot->wider [:x :y] [:a :b] {:concat-columns-with ""
+                                                  :concat-value-with   "_"}))]
+    (fact (api/column-names ds)
+      => ["X1_a" "X1_b" "Y2_a" "Y2_b" ])
+    (fact (api/rows ds)
+      => [[1 1 2 2]])))
 
 (fact "pivot-wider-multiple"
-      (let [ds (-> {:a   [1 1 2]
-                    :key ["x" "x" "x"]
-                    :val [1 2 3]}
-                   (api/dataset)
-                   (api/pivot->wider :key :val {:fold-fn vec}))]
-        (fact (seq (ds "x"))
-              => [[3] [1 2]])))
+  (let [ds (-> {:a   [1 1 2]
+                :key ["x" "x" "x"]
+                :val [1 2 3]}
+               (api/dataset)
+               (api/pivot->wider :key :val {:fold-fn vec}))]
+    (fact (seq (ds "x"))
+      => [[1 2] [3]])))
 
 (fact "pivot-wider-multiple-summarize"
-      (let [ds (-> {:a   [1 1 2]
-                    :key ["x" "x" "x"]
-                    :val [1 10 100]}
-                   (api/dataset)
-                   (api/pivot->wider :key :val {:fold-fn dfn/sum}))]
-        (fact (seq (ds "x"))
-              => [100.0 11.0])))
+  (let [ds (-> {:a   [1 1 2]
+                :key ["x" "x" "x"]
+                :val [1 10 100]}
+               (api/dataset)
+               (api/pivot->wider :key :val {:fold-fn dfn/sum}))]
+    (fact (seq (ds "x"))
+      => [11.0 100.0])))
 
 (fact "pivot-wider-multiple-values"
       (let [ds (-> {:row 1
