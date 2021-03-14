@@ -3330,7 +3330,8 @@ In ML world very often you need to test given model and prepare collection of tr
 
 * `:kfold` (default) - k-fold strategy, `:k` defines number of folds (defaults to `5`), produces `k` splits
 * `:bootstrap` - `:ratio` defines ratio of observations put into result (defaults to `1.0`), produces `1` split
-* `:holdout` - split into two parts with given ratio (defaults to `2/3`), produces `1` split
+* `:holdout` - split into two or more parts with given ratio(s) (defaults to `2/3`), produces `1` split
+* `:holdouts` - splits into two parts for ascending ratio. Range of rations is given by `steps` option 
 * `:loo` - leave one out, produces the same number of splits as number of observations
 
 `:holdout` can accept also probabilites or ratios and can split to more than 2 subdatasets
@@ -3338,6 +3339,7 @@ In ML world very often you need to test given model and prepare collection of tr
 Additionally you can provide:
 
 * `:seed` - for random number generator
+* `:shuffle?` - turn on/off shuffle of the rows (default: `true`)
 * `:repeats` - repeat procedure `:repeats` times
 * `:partition-selector` - same as in `group-by` for stratified splitting to reflect dataset structure in splits.
 * `:split-names` names of subdatasets different than default, ie. `[:train :test :split-2 ...]`
@@ -3412,6 +3414,16 @@ you can use also proportions with custom names
 ```{clojure results="asis"}
 (api/split for-splitting :holdout {:ratio [5 3 11 2]
                                    :split-names ["small" "smaller" "big" "the rest"]})
+```
+
+#### Holdouts
+
+With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with ascending rows in train dataset. 
+
+```{clojure results="asis"}
+(-> (api/split for-splitting :holdouts {:steps [0.05 0.95 1.5]
+                                        :shuffle? false})
+    (api/group-by [:$split-id :$split-name]))
 ```
 
 

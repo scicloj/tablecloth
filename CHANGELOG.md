@@ -1,5 +1,12 @@
 # Change Log
 
+## [5.05]
+
+### Added
+
+* `split` can turn off shuffling now (`:shuffle?` option)
+* `split :holdouts` - sequence of consecutive holdouts
+
 ## [5.04]
 
 tech.ml.dataset version bump, this introduces the change of the order of the groups after `group-by` operation

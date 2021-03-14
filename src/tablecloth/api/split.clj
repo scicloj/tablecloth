@@ -12,17 +12,19 @@
 
 ;; some utils
 
+(defonce ^:private ^Random private-rng (Random.))
+
 (defn- shuffle-with-rng
   [^Collection coll rng]
-  (let [al (ArrayList. coll)]
-    (java.util.Collections/shuffle al rng)
-    al))
+  (if-not rng
+    coll
+    (let [al (ArrayList. coll)]
+      (java.util.Collections/shuffle al rng)
+      al)))
 
 (defn- rand-int-with-rng
-  (^long [^Random rng ^long n]
-   (.nextInt rng n))
-  (^long [^Random rng ^long n1 ^long n2]
-   (+ n1 (.nextInt rng (- n2 n1)))))
+  ^long [^Random rng ^long n]
+  (.nextInt (or rng private-rng) n))
 
 (defn- drop-nth [coll n]
   (keep-indexed #(when (not= %1 n) %2) coll))
@@ -70,10 +72,29 @@
                               (conj res (take n curr))]) [idxs []] ratios)]
     [(conj coll rst)]))
 
+(defn- fix-steps
+  [cnt [start end step]]
+  (let [upper (dec cnt)
+        start (max 1 (min (dec upper) (int (if (< start 1.0) (* start cnt) start))))
+        end (max 1 (min upper (int (if (< end 1.0) (* end cnt) end))))
+        [start end] (cond
+                      (< end start) [end start]
+                      (= start end) [start (inc start)]
+                      :else [start end])
+        step (max 1 step)]
+    [start end step]))
+
+(defn- holdouts
+  [cnt rng {:keys [steps]
+            :or {steps [0.05 0.95 1]}}]
+  (let [[start end step] (fix-steps cnt steps)]
+    (mapcat #(holdout cnt rng {:ratio (/ % cnt)}) (range start end step))))
+
 (def ^:private split-types {:bootstrap bootstrap
                             :kfold kfold
                             :loo loo
-                            :holdout holdout})
+                            :holdout holdout
+                            :holdouts holdouts})
 
 (def ^:private default-split-names (concat [:train :test]
                                            (map #(keyword (str "split-" (+ 2 %))) (range))))
@@ -147,8 +168,8 @@
   See [more](https://www.mitpressjournals.org/doi/pdf/10.1162/EVCO_a_00069)"
   ([ds] (split ds :kfold))
   ([ds split-type] (split ds split-type {}))
-  ([ds split-type {:keys [seed parallel?] :as opts}]
-   (let [rng (if seed (Random. seed) (Random.))
+  ([ds split-type {:keys [seed parallel? shuffle?] :or {shuffle? true} :as opts}]
+   (let [rng (when shuffle? (if seed (Random. seed) private-rng))
          split-fn (get split-types split-type :kfold)]
      (if (grouped? ds)
        (process-group-data ds #(split-single-ds % split-fn rng opts) parallel?)
