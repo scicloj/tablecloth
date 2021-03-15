@@ -5,8 +5,10 @@
 
 (defmacro build-pipelined-function
   [f m]
-  (let [args (map (comp vec rest) (:arglists m))]
-    `(defn ~(symbol (name f))
+  (let [args (map (comp vec rest) (:arglists m))
+        doc-string (:doc m)
+        ]
+    `(defn ~(symbol (name f)) {:doc ~doc-string}
        ~@(for [arg args
                :let [narg (mapv #(if (map? %) 'options %) arg)
                      [a & r] (split-with (partial not= '&) narg)]]
@@ -65,3 +67,5 @@
                                    (symbol? op) (resolve op)
                                    :else op)]]
                      (apply v nparams)))))
+
+
