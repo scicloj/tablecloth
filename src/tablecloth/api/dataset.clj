@@ -1,4 +1,5 @@
 (ns tablecloth.api.dataset
+  (:refer-clojure :exclude [concat])
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
             [tech.v3.protocols.dataset :as prot]
@@ -6,7 +7,7 @@
             [tech.v3.tensor :as tensor]
             [tech.v3.dataset.tensor :as ds-tensor]
             
-            [tablecloth.api.utils :refer [iterable-sequence?]]))
+            [tablecloth.api.utils :refer [iterable-sequence? grouped? mark-as-group]]))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; DATASET CREATION
@@ -127,3 +128,18 @@
 (defn print-dataset
   ([ds] (println (p/dataset->str ds)))
   ([ds options] (println (p/dataset->str ds options))))
+
+;;
+
+(defn- do-concat
+  [concat-fs ds & datasets]
+  (let [res (apply concat-fs ds datasets)]
+    (if (and (grouped? ds)
+             (every? grouped? datasets))
+      (-> res
+          (ds/add-or-update-column :group-id (range (ds/row-count res)))
+          (mark-as-group))
+      res)))
+
+(defn concat [dataset & datasets] (apply do-concat ds/concat dataset datasets))
+(defn concat-copying [dataset & datasets] (apply do-concat ds/concat-copying dataset datasets))

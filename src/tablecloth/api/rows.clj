@@ -34,6 +34,7 @@
 
 (defn- select-or-drop-rows
   "Select or drop rows."
+  ([f ds] (select-or-drop-rows f ds []))
   ([f ds rows-selector] (select-or-drop-rows f ds rows-selector nil))
   ([f ds rows-selector {:keys [select-keys pre result-type parallel?]}]
    (let [selected-keys (column-names ds select-keys)]
@@ -59,11 +60,11 @@
   - fn with predicate"))
 
 (def ^{:doc (select-or-drop-rows-docstring "Select")
-       :arglists '([ds rows-selector] [ds rows-selector {:keys [select-keys pre result-type parallel?]}])}
+       :arglists '([ds] [ds rows-selector] [ds rows-selector {:keys [select-keys pre result-type parallel?]}])}
   select-rows (partial select-or-drop-rows ds/select-rows))
 
 (def ^{:doc (select-or-drop-rows-docstring "Drop")
-       :arglists '([ds rows-selector] [ds rows-selector {:keys [select-keys pre result-type parallel?]}])}
+       :arglists '([ds] [ds rows-selector] [ds rows-selector {:keys [select-keys pre result-type parallel?]}])}
   drop-rows (partial select-or-drop-rows ds/drop-rows))
 
 ;;

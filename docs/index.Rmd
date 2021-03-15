@@ -3252,6 +3252,16 @@ right-ds
 (apply api/concat (repeatedly 3 #(api/random DS)))
 ```
 
+##### Concat grouped dataset
+
+Concatenation of grouped datasets results also in grouped dataset.
+
+```{clojure results="asis"}
+(api/concat (api/group-by DS [:V3])
+            (api/group-by DS [:V4]))
+```
+
+
 #### Union
 
 The same as `concat` but returns unique rows
@@ -3311,22 +3321,32 @@ The same as `concat` but returns unique rows
 
 ### Split into train/test
 
-In ML world very often you need to test given model and prepare collection of train and test datasets. `split` creates a lazy sequence of maps containing splitted dataset. Map contains two datasets under `:train` and `:test` keys.
+In ML world very often you need to test given model and prepare collection of train and test datasets. `split` creates new dataset with two additional columns:
+
+* `:$split-name` - with `:train`, `:test`, `:split-2`, ... values
+* `:$split-id` - id of splitted group (for k-fold and repeating)
 
 `split-type` can be one of the following:
 
 * `:kfold` (default) - k-fold strategy, `:k` defines number of folds (defaults to `5`), produces `k` splits
 * `:bootstrap` - `:ratio` defines ratio of observations put into result (defaults to `1.0`), produces `1` split
-* `:holdout` - split into two parts with given ratio (defaults to `2/3`), produces `1` split
+* `:holdout` - split into two or more parts with given ratio(s) (defaults to `2/3`), produces `1` split
+* `:holdouts` - splits into two parts for ascending ratio. Range of rations is given by `steps` option 
 * `:loo` - leave one out, produces the same number of splits as number of observations
+
+`:holdout` can accept also probabilites or ratios and can split to more than 2 subdatasets
 
 Additionally you can provide:
 
 * `:seed` - for random number generator
+* `:shuffle?` - turn on/off shuffle of the rows (default: `true`)
 * `:repeats` - repeat procedure `:repeats` times
 * `:partition-selector` - same as in `group-by` for stratified splitting to reflect dataset structure in splits.
+* `:split-names` names of subdatasets different than default, ie. `[:train :test :split-2 ...]`
+* `:split-col-name` - a column where name of split is stored, either `:train` or `:test` values (default: `:$split-name`)
+* `:split-id-col-name` - a column where id of the train/test pair is stored (default: `:$split-id`)
 
-In case of grouped dataset each group is processed separately, pairs of grouped dataset are returned.
+In case of grouped dataset each group is processed separately.
 
 See [more](https://www.mitpressjournals.org/doi/pdf/10.1162/EVCO_a_00069)
 
@@ -3346,13 +3366,17 @@ for-splitting
 Returns `k=5` maps
 
 ```{clojure results="asis"}
-(first (api/split for-splitting))
+(-> for-splitting
+    (api/split)
+    (api/head 30))
 ```
 
 Partition according to `:k` column to reflect it's distribution
 
 ```{clojure results="asis"}
-(first (api/split for-splitting :kfold {:partition-selector :partition}))
+(-> for-splitting
+    (api/split :kfold {:partition-selector :partition})
+    (api/head 30))
 ```
 
 #### Bootstrap
@@ -3364,7 +3388,11 @@ Partition according to `:k` column to reflect it's distribution
 with repeats, to get 100 splits
 
 ```{clojure results="asis"}
-(count (api/split for-splitting :bootstrap {:repeats 100}))
+(-> for-splitting
+    (api/split :bootstrap {:repeats 100})
+    (:$split-id)
+    (distinct)
+    (count))
 ```
 
 #### Holdout
@@ -3375,22 +3403,67 @@ with small ratio
 (api/split for-splitting :holdout {:ratio 0.2})
 ```
 
+you can split to more than two subdatasets with holdout
+
+```{clojure results="asis"}
+(api/split for-splitting :holdout {:ratio [0.1 0.2 0.3 0.15 0.25]})
+```
+
+you can use also proportions with custom names
+
+```{clojure results="asis"}
+(api/split for-splitting :holdout {:ratio [5 3 11 2]
+                                   :split-names ["small" "smaller" "big" "the rest"]})
+```
+
+#### Holdouts
+
+With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with ascending rows in train dataset. 
+
+```{clojure results="asis"}
+(-> (api/split for-splitting :holdouts {:steps [0.05 0.95 1.5]
+                                        :shuffle? false})
+    (api/group-by [:$split-id :$split-name]))
+```
+
+
 #### Leave One Out
 
 ```{clojure results="asis"}
-(count (api/split for-splitting :loo))
+(-> for-splitting
+    (api/split :loo)
+    (api/head 30))
 ```
 
 ```{clojure results="asis"}
-(first (api/split for-splitting :loo))
+(-> for-splitting
+    (api/split :loo)
+    (api/row-count))
 ```
 
 #### Grouped dataset with partitioning
 
 ```{clojure results="asis"}
-(first (-> for-splitting
-           (api/group-by :group)
-           (api/split :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8})))
+(-> for-splitting
+    (api/group-by :group)
+    (api/split :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8}))
+```
+
+#### Split as a sequence
+
+To get a sequence of pairs, use `split->seq` function
+
+```{clojure results="asis"}
+(-> for-splitting
+    (api/split->seq :kfold {:partition-selector :partition})
+    (first))
+```
+
+```{clojure results="asis"}
+(-> for-splitting
+    (api/group-by :group)
+    (api/split->seq :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8 :repeats 2})
+    (first))
 ```
 
 ## Pipeline
@@ -3401,6 +3474,8 @@ There are two ways to create pipelines:
 
 * functional, as a composition of functions
 * declarative, separating task declarations and concrete parametrization.
+
+Pipeline operations are prepared to work with [metamorph](https://github.com/scicloj/metamorph) library. That means that result of the pipeline is wrapped into a map and dataset is stored under `:metamorph/data` key.
 
 ```{clojure results="hide"}
 (require '[tablecloth.pipeline :as pip])
@@ -3438,9 +3513,9 @@ To help keeping pipeline declaration as a pure data structure you can use namesp
 You can't used `type` and `!type` namespaces for a symbol reference, because they are reserved for column type selectors.
 
 ```{clojure results="hide"}
-(def pipeline-declaration [[:group-by :V1]
-                           [:unique-by ::unique-by-operation {:strategy :ctx/strategy}]
-                           [:ungroup {:add-group-as-column :from-V1}]])
+(def pipeline-declaration [[:pip/group-by :V1]
+                           [:pip/unique-by ::unique-by-operation {:strategy :ctx/strategy}]
+                           [:pip/ungroup {:add-group-as-column :from-V1}]])
 
 (def unique-by-operation (fn [m] (mod (:V2 m) 3)))
 
@@ -3458,7 +3533,7 @@ You can't used `type` and `!type` namespaces for a symbol reference, because the
 
 ### Custom operator
 
-Custom pipeline operator is just function which returns another function operating on a dataset.
+Custom pipeline operator is just function which returns another function operating on a dataset. If you want it to work with `metamorph` you have to use `metamorph/lift` function.
 
 ```{clojure results="hide"}
 (defn duplicate-columns

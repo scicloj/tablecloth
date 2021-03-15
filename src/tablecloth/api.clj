@@ -12,9 +12,7 @@
                          dataset-name
                          column
                          has-column?
-                         write!
-                         concat
-                         concat-copying)
+                         write!)
 
 (def ^{:deprecated "Use `write!` instead."} write-csv! write!)
 
@@ -39,7 +37,9 @@
                          info
                          columns
                          rows
-                         print-dataset)
+                         print-dataset
+                         concat
+                         concat-copying)
 
 (exporter/export-symbols tablecloth.api.group-by
                          group-by
@@ -116,7 +116,8 @@
                          append)
 
 (exporter/export-symbols tablecloth.api.split
-                         split)
+                         split
+                         split->seq)
 ;;
 
 (defn- select-or-drop

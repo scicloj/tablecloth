@@ -1,5 +1,39 @@
 # Change Log
 
+## [5.05]
+
+### Added
+
+* `split` can turn off shuffling now (`:shuffle?` option)
+* `split :holdouts` - sequence of consecutive holdouts
+
+## [5.04]
+
+tech.ml.dataset version bump, this introduces the change of the order of the groups after `group-by` operation
+
+## [5.02]
+
+### Added
+
+* `split :holdout` supports any number of splits (minimum 2) [#28]
+* `split` supports `split-names` to provide custom names for subdatasets 
+* `concat` and `concat-copying` are working with grouped datasets
+
+### Fixed
+
+* `kfold` split failed on small number of rows (due to `partition-all` behaviour
+
+## [5.01]
+
+### Added
+
+* `split->seq` to return train/test splits as a sequence or datasets or as map of sequences for grouped datasets
+
+### Changed
+
+* [breaking] `tablecloth.pipeline` returns a map with dataset under `:metamorph/data` key (see [metamorph](https://github.com/scicloj/metamorph))
+* [breaking] `split` returns now a dataset or grouped dataset with two new columns indicating train/test and split id. See `split->seq` for previous behaviour.
+
 ## [5.00-beta-29.1]
 
 ### Added
