@@ -142,7 +142,7 @@ files:
         value is provided
       - `:column-names` - in case you want to name columns - only works
         for sequential input (arrays)
-      - `:layout` - for numberical, native array of arrays - treat
+      - `:layout` - for numerical, native array of arrays - treat
         entries `:as-rows` or `:as-columns` (default)
 
 `api/let-dataset` accepts bindings `symbol`-`column-data` to simulate
