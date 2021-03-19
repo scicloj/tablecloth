@@ -1,5 +1,11 @@
 # Change Log
 
+## [5.05.1]
+
+### Added
+
+* `pipeline` functions have `doc` copied from original ones
+
 ## [5.05]
 
 ### Added
