@@ -39,7 +39,6 @@
   ([ds aggregator {:keys [default-column-name-prefix ungroup? parallel?]
                    :or {default-column-name-prefix "summary" ungroup? true}
                    :as options}]
-
    (let [aggregator (cond
                       (fn? aggregator) {:summary aggregator}
                       (iterable-sequence? aggregator) (->> aggregator
@@ -64,7 +63,7 @@
                        (cycle column-aggregators)
                        (repeat column-aggregators))
          colnames (column-names ds columns-selector)]
-     (aggregate ds (into {} (map (fn [aggr col-name]
-                                   [col-name #(aggr (% col-name))])
-                                 aggregators colnames))
+     (aggregate ds (apply array-map (mapcat (fn [aggr col-name]
+                                              [col-name #(aggr (% col-name))])
+                                            aggregators colnames))
                 options))))

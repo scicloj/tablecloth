@@ -4,15 +4,14 @@
             [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
             
-            [tablecloth.api.utils :refer [iterable-sequence? ->str column-names parallel-concat grouped? mark-as-group]]
-            [tablecloth.api.dataset :refer [dataset]])
-  (:import [java.util Map]))
+            [tablecloth.api.utils :refer [iterable-sequence? ->str column-names parallel-concat grouped? mark-as-group map-inst?]]
+            [tablecloth.api.dataset :refer [dataset]]))
 
 (defn- find-group-indexes
   "Calulate indexes for groups"
   [ds grouping-selector selected-keys]
   (cond
-    (instance? Map grouping-selector) grouping-selector
+    (map-inst? grouping-selector) grouping-selector
     (iterable-sequence? grouping-selector) (ds/group-by->indexes
                                             (ds/select-columns ds (column-names ds grouping-selector)) identity)
     (fn? grouping-selector) (ds/group-by->indexes

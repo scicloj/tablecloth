@@ -7,7 +7,7 @@
             [tech.v3.tensor :as tensor]
             [tech.v3.dataset.tensor :as ds-tensor]
             
-            [tablecloth.api.utils :refer [iterable-sequence? grouped? mark-as-group]]))
+            [tablecloth.api.utils :refer [iterable-sequence? grouped? mark-as-group map-inst?]]))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; DATASET CREATION
@@ -63,7 +63,7 @@
           :as options}]
    (cond
      (dataset? data) data
-     (map? data) (ds/->dataset (fix-map-dataset data) options)
+     (map-inst? data) (ds/->dataset (fix-map-dataset data) options)
      (and (iterable-sequence? data)
           (every? iterable-sequence? data)
           (every? #(and (= 2 (count %))

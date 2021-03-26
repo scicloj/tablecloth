@@ -1,5 +1,11 @@
 # Change Log
 
+## [5.11]
+
+### Fixed
+
+* `aggregate-columns` didn't keep column order (#35)
+
 ## [5.05.1]
 
 ### Added

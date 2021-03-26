@@ -1,6 +1,9 @@
 (ns tablecloth.api.utils
   (:require [tech.v3.dataset :as ds]
-            [tech.v3.io :as tio]))
+            [tech.v3.io :as tio])
+  (:import [java.util Map]))
+
+(set! *warn-on-reflection* true)
 
 ;;;;;;;;;;;;
 ;; HELPERS
@@ -12,6 +15,8 @@
   (or (sequential? xs)      
       (and (not (map? xs))
            (instance? Iterable xs))))
+
+(defn map-inst? [m] (instance? Map m))
 
 (defn ->str
   [v]
@@ -64,8 +69,11 @@
    :textual #{:text :string}})
 
 (defn type?
-  [general-type datatype]
-  ((type-sets general-type) datatype))
+  ([general-type]
+   (fn [datatype]
+     (type? general-type datatype)))
+  ([general-type datatype]
+   ((type-sets general-type) datatype)))
 
 (defn- prepare-datatype-set
   [datatype-columns-selector]
