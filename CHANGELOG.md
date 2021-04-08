@@ -1,5 +1,13 @@
 # Change Log
 
+## [5.17]
+
+TMD upgrade
+
+### Fixed
+
+* [#36] `reorder-columns` on empty dataset returns nil
+
 ## [5.11]
 
 ### Fixed
