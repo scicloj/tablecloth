@@ -1214,7 +1214,7 @@ Apply dec/inc on numerical columns
 
 ---
 
-You can also assing function to a column by packing operations into the map.
+You can also assign a function to a column by packing operations into the map.
 
 ```{clojure results="asis"}
 (api/update-columns DS {:V1 reverse
