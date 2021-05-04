@@ -1,6 +1,6 @@
 {:extra-paths ["data"]
  :deps {org.clojure/clojure              {:mvn/version "1.10.3"}
-        techascent/tech.ml.dataset       {:mvn/version "5.17"}
+        techascent/tech.ml.dataset       {:mvn/version "6.00-beta-7"}
         
         ;; generateme/fastmath {:mvn/version "2.1.0"}
         }}

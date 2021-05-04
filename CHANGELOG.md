@@ -1,5 +1,9 @@
 # Change Log
 
+## [6.00-beta-7]
+
+TMD upgrade, no changes in TC
+
 ## [5.17]
 
 TMD upgrade
