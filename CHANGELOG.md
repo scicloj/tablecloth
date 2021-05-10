@@ -1,5 +1,11 @@
 # Change Log
 
+## [6.00-beta-10]
+
+### Fixed
+
+* [#41] dataset name not set on tensor path
+
 ## [6.00-beta-7]
 
 TMD upgrade, no changes in TC

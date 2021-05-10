@@ -76,7 +76,10 @@
 
 (fact "dataset-name"
       (fact (api/dataset-name DS)
-            => "DS"))
+            => "DS")
+      (fact (-> [[1 2 3] [4 5 6]]
+                (api/dataset {:dataset-name "Test"})
+                (api/dataset-name)) => "Test"))
 
 (fact "dataset-info"
       (fact

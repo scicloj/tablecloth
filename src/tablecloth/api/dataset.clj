@@ -37,10 +37,10 @@
 (def ^:private numerical-classes (set (map #(Class/forName %) ["[[B" "[[S" "[[I" "[[J" "[[F" "[[D"])))
 
 (defn- from-tensor
-  [data column-names layout]
+  [data column-names layout dataset-name]
   (let [t (tensor/->tensor data)
         t (-> (if (= layout :as-columns) (tensor/transpose t [1 0]) t)
-              (ds-tensor/tensor->dataset))]
+              (ds-tensor/tensor->dataset dataset-name))]
     (if column-names
       (ds/rename-columns t (zipmap (range (ds/column-count t)) column-names))
       t)))
@@ -58,7 +58,7 @@
   ([] (ds/new-dataset nil))
   ([data]
    (dataset data nil))
-  ([data {:keys [single-value-column-name column-names layout]
+  ([data {:keys [single-value-column-name column-names layout dataset-name]
           :or {single-value-column-name :$value layout :as-columns}
           :as options}]
    (cond
@@ -73,7 +73,7 @@
           (every? col/is-column? data)) (ds/new-dataset options data)
      (or (numerical-classes (class data))
          (and (iterable-sequence? data)
-              (not-every? map? data))) (dataset (from-tensor data column-names layout))
+              (not-every? map? data))) (from-tensor data column-names layout dataset-name)
      (not (seqable? data)) (ds/->dataset [{single-value-column-name data}] options)
      :else (ds/->dataset data options))))
 

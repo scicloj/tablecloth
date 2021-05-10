@@ -214,26 +214,26 @@
                  [2 nil] "y")))
 
 (fact "pivot-wider-concat-columns"
-  (let [ds (-> {:x ["X" "Y"]
-                :y [1 2]
-                :a [1 2]
-                :b [1 2]}
-               (api/dataset)
-               (api/pivot->wider [:x :y] [:a :b] {:concat-columns-with ""
-                                                  :concat-value-with   "_"}))]
-    (fact (api/column-names ds)
-      => ["X1_a" "X1_b" "Y2_a" "Y2_b" ])
-    (fact (api/rows ds)
-      => [[1 1 2 2]])))
+      (let [ds (-> {:x ["X" "Y"]
+                    :y [1 2]
+                    :a [1 2]
+                    :b [1 2]}
+                   (api/dataset)
+                   (api/pivot->wider [:x :y] [:a :b] {:concat-columns-with ""
+                                                      :concat-value-with   "_"}))]
+        (fact (api/column-names ds)
+              => ["X1_a" "X1_b" "Y2_a" "Y2_b" ])
+        (fact (api/rows ds)
+              => [[1 1 2 2]])))
 
 (fact "pivot-wider-multiple"
-  (let [ds (-> {:a   [1 1 2]
-                :key ["x" "x" "x"]
-                :val [1 2 3]}
-               (api/dataset)
-               (api/pivot->wider :key :val {:fold-fn vec}))]
-    (fact (seq (ds "x"))
-      => [[1 2] [3]])))
+      (let [ds (-> {:a   [1 1 2]
+                    :key ["x" "x" "x"]
+                    :val [1 2 3]}
+                   (api/dataset)
+                   (api/pivot->wider :key :val {:fold-fn vec}))]
+        (fact (seq (ds "x"))
+              => [[1 2] [3]])))
 
 (fact "pivot-wider-multiple-summarize"
   (let [ds (-> {:a   [1 1 2]
