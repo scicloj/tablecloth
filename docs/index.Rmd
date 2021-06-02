@@ -1083,9 +1083,9 @@ To add (or replace existing) column call `add-column` function. Function accepts
 * `column-name` - if it's existing column name, column will be replaced
 * `column` - can be column (from other dataset), sequence, single value or function. Too big columns are always trimmed. Too small are cycled or extended with missing values (according to `size-strategy` argument)
 * `size-strategy` (optional) - when new column is shorter than dataset row count, following strategies are applied:
-- `:cycle` (default) - repeat data
-- `:na` - append missing values
-- `:strict` - throws an exception when sizes mismatch
+    - `:cycle` - repeat data
+    - `:na` - append missing values
+    - `:strict` - (default) throws an exception when sizes mismatch
 
 Function works on grouped dataset.
 
@@ -1137,18 +1137,18 @@ Above example run on grouped dataset, applies function on each group separately.
 When column which is added is longer than row count in dataset, column is trimmed. When column is shorter, it's cycled or missing values are appended.
 
 ```{clojure results="asis"}
-(api/add-column DS :V5 [:r :b])
+(api/add-column DS :V5 [:r :b] :cycle)
 ```
 
 ```{clojure results="asis"}
 (api/add-column DS :V5 [:r :b] :na)
 ```
 
-Exception is thrown when `:strict` strategy is used and column size is not equal row count
+Exception is thrown when `:strict` (default) strategy is used and column size is not equal row count
 
 ```{clojure}
 (try
-  (api/add-column DS :V5 [:r :b] :strict)
+  (api/add-column DS :V5 [:r :b])
   (catch Exception e (str "Exception caught: "(ex-message e))))
 ```
 
@@ -1170,7 +1170,7 @@ Let's use other column to fill groups
 ```{clojure results="asis"}
 (-> DS
     (api/group-by :V3)
-    (api/add-column :V5 (DS :V2))
+    (api/add-column :V5 (DS :V2) :cycle)
     (api/ungroup))
 ```
 

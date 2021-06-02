@@ -75,7 +75,7 @@
   (let [ec (dtype/ecount column)]
     (when (and (= :strict strategy)
                (not= cnt ec))
-      (throw (Exception. (str "Column size (" ec ") should be exactly the same as dataset row count (" cnt ")"))))
+      (throw (Exception. (str "Column size (" ec ") should be exactly the same as dataset row count (" cnt "). Consider `:cycle` or `:na` strategy."))))
     (cond
       (> ec cnt) (dtype/sub-buffer column 0 cnt)
       (< ec cnt) (if (= strategy :cycle)
@@ -90,7 +90,7 @@
         seq-cnt (count column)]
     (when (and (= :strict strategy)
                (not= cnt seq-cnt))
-      (throw (Exception. (str "Sequence size (" seq-cnt ") should be exactly the same as dataset row count (" cnt ")"))))
+      (throw (Exception. (str "Sequence size (" seq-cnt ") should be exactly the same as dataset row count (" cnt "). Consider `:cycle` or `:na` strategy."))))
     (if (< seq-cnt cnt)
       (if (= strategy :cycle)
         (take cnt (cycle column))
@@ -122,7 +122,7 @@
   `column` can be sequence of values or generator function (which gets `ds` as input)."
   ([ds column-name column] (add-column ds column-name column nil))
   ([ds column-name column size-strategy]
-   (let [process-fn (prepare-add-column-fn column-name column (or size-strategy :cycle))]
+   (let [process-fn (prepare-add-column-fn column-name column (or size-strategy :strict))]
 
      (if (grouped? ds)
        (process-group-data ds process-fn)

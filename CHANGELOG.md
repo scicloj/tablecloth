@@ -1,5 +1,11 @@
 # Change Log
 
+## [6.00-beta-16]
+
+### Changed
+
+* [#42] [breaking] `add-column` default strategy is `:strict` now.
+
 ## [6.00-beta-10]
 
 ### Fixed
