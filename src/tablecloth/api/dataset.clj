@@ -22,17 +22,17 @@
   [ds]
   (zero? (ds/row-count ds)))
 
-(defn- fix-map-dataset
-  "If map contains value which is not a sequence, convert it to a sequence."
-  [map-ds]
-  (let [c (if-let [first-seq (->> map-ds
-                                  (vals)
-                                  (filter iterable-sequence?)
-                                  (first))]
-            (count first-seq)
-            1)]
-    (apply array-map (interleave (keys map-ds)
-                                 (map #(if (iterable-sequence? %) % (repeat c %)) (vals map-ds))))))
+#_(defn- fix-map-dataset
+    "If map contains value which is not a sequence, convert it to a sequence."
+    [map-ds]
+    (let [c (if-let [first-seq (->> map-ds
+                                    (vals)
+                                    (filter iterable-sequence?)
+                                    (first))]
+              (count first-seq)
+              1)]
+      (apply array-map (interleave (keys map-ds)
+                                   (map #(if (iterable-sequence? %) % (repeat c %)) (vals map-ds))))))
 
 (def ^:private numerical-classes (set (map #(Class/forName %) ["[[B" "[[S" "[[I" "[[J" "[[F" "[[D"])))
 
@@ -59,11 +59,11 @@
   ([data]
    (dataset data nil))
   ([data {:keys [single-value-column-name column-names layout dataset-name]
-          :or {single-value-column-name :$value layout :as-columns}
+          :or {single-value-column-name :$value layout :as-rows}
           :as options}]
    (cond
      (dataset? data) data
-     (map-inst? data) (ds/->dataset (fix-map-dataset data) options)
+     (map-inst? data) (ds/->dataset data options)
      (and (iterable-sequence? data)
           (every? iterable-sequence? data)
           (every? #(and (= 2 (count %))

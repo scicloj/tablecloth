@@ -1,5 +1,12 @@
 # Change Log
 
+## [6.002]
+
+### Changed
+
+* [#43] Align with TMD for dataset creation from a map of sequences.
+* [breaking] creation from tensor is `:as-rows` now
+
 ## [6.00-beta-16]
 
 ### Changed

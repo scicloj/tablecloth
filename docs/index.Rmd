@@ -245,7 +245,7 @@ Missing values are marked by `nil`
 
 ---
 
-Reading from arrays, by default `:as-columns`
+Reading from arrays, by default `:as-rows`
 
 ```{clojure results="asis"}
 (-> (map int-array [[1 2] [3 4] [5 6]])
@@ -253,12 +253,12 @@ Reading from arrays, by default `:as-columns`
     (api/dataset))
 ```
 
-`:as-rows`
+`:as-columns`
 
 ```{clojure results="asis"}
 (-> (map int-array [[1 2] [3 4] [5 6]])
     (into-array)
-    (api/dataset {:layout :as-rows}))
+    (api/dataset {:layout :as-columns}))
 ```
 
 `:as-rows` with names
