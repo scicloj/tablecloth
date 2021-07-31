@@ -175,3 +175,19 @@
   ([ds f parallel?]
    (ds/add-or-update-column ds :data ((if parallel? pmap map) f (ds :data)))))
 
+;; https://github.com/ptaoussanis/encore/blob/master/src/taoensso/encore.cljc#L406
+(defmacro defalias
+  "Defines an alias for qualified source symbol, preserving its metadata (clj only):
+    (defalias my-map-alias clojure.core/map)
+
+  Cannot alias Cljs macros.
+  Changes to source are not automatically applied to alias."
+  ;; TODO Any way to reliably preserve cljs metadata? See #53, commit 2a63a29, etc.
+
+  ([    src      ] `(defalias ~(symbol (name src)) ~src nil))
+  ([sym src      ] `(defalias ~sym                 ~src nil))
+  ([sym src attrs]
+   (let [attrs (if (string? attrs) {:doc attrs} attrs)] ; Back compatibility
+     `(let [attrs# (conj (select-keys (meta (var ~src)) [:doc :arglists :private :macro]) ~attrs)]
+        (alter-meta! (def ~sym @(var ~src)) conj attrs#)
+        (var ~sym)))))
