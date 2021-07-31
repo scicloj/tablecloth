@@ -1,6 +1,10 @@
 (ns tablecloth.api
-  (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle])  
-  (:require [tech.v3.datatype.export-symbols :as exporter]))
+  (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle
+                            max min + - * / <= < >= > bit-xor unsigned-bit-shift-right quot bit-test
+                            bit-and rem bit-or bit-flip bit-shift-left bit-clear bit-shift-right bit-set
+                            bit-and-not bit-not identity])
+  (:require [tech.v3.datatype.export-symbols :as exporter]
+            [tablecloth.api.operators :as op]))
 
 (exporter/export-symbols tech.v3.datatype
                          clone)
@@ -160,3 +164,85 @@
        (unmark-group)
        ~@r
        (mark-as-group)))
+
+;; operators
+
+(exporter/export-symbols tablecloth.api.operators
+                         ;; (->> (ns-publics 'tablecloth.api.operators) keys sort)
+                         *
+                         +
+                         -
+                         /
+                         abs
+                         acos
+                         asin
+                         atan
+                         atan2
+                         bit-and
+                         bit-and-not
+                         bit-clear
+                         bit-flip
+                         bit-not
+                         bit-or
+                         bit-set
+                         bit-shift-left
+                         bit-shift-right
+                         bit-test
+                         bit-xor
+                         cbrt
+                         ceil
+                         cos
+                         cosh
+                         cummax
+                         cummin
+                         cumprod
+                         cumsum
+                         descriptive-statistics
+                         emax
+                         emin
+                         exp
+                         expm1
+                         floor
+                         get-significand
+                         hypot
+                         identity
+                         ieee-remainder
+                         kendalls-correlation
+                         kurtosis
+                         log
+                         log10
+                         log1p
+                         logistic
+                         max
+                         mean
+                         median
+                         min
+                         next-down
+                         next-up
+                         pearsons-correlation
+                         percentiles
+                         pow
+                         quartile-1
+                         quartile-3
+                         quartile-outlier-fn
+                         quartiles
+                         quot
+                         rem
+                         rint
+                         round
+                         signum
+                         sin
+                         sinh
+                         skew
+                         spearmans-correlation
+                         sq
+                         sqrt
+                         standard-deviation
+                         sum
+                         tan
+                         tanh
+                         to-degrees
+                         to-radians
+                         ulp
+                         unsigned-bit-shift-right
+                         variance)
