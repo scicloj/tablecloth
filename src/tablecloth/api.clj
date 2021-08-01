@@ -1,6 +1,12 @@
 (ns tablecloth.api
-  (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle])  
-  (:require [tech.v3.datatype.export-symbols :as exporter]))
+  (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle
+                            ;; max min + - * / <= < >= > = not= bit-xor unsigned-bit-shift-right quot bit-test
+                            ;; bit-and rem bit-or bit-flip bit-shift-left bit-clear bit-shift-right bit-set
+                            ;; bit-and-not bit-not identity and even? neg? not odd? or pos? zero?
+                            ])
+  (:require [tech.v3.datatype.export-symbols :as exporter]
+            ;; [tablecloth.api.operators :as op]
+            ))
 
 (exporter/export-symbols tech.v3.datatype
                          clone)
@@ -161,3 +167,103 @@
        ~@r
        (mark-as-group)))
 
+;; operators
+
+#_(exporter/export-symbols tablecloth.api.operators
+                         *
+                         +
+                         -
+                         /
+                         =
+                         <
+                         <=
+                         >
+                         >=
+                         abs
+                         acos
+                         and
+                         asin
+                         atan
+                         atan2
+                         bit-and
+                         bit-and-not
+                         bit-clear
+                         bit-flip
+                         bit-not
+                         bit-or
+                         bit-set
+                         bit-shift-left
+                         bit-shift-right
+                         bit-test
+                         bit-xor
+                         cbrt
+                         ceil
+                         cos
+                         cosh
+                         cummax
+                         cummin
+                         cumprod
+                         cumsum
+                         descriptive-statistics
+                         emax
+                         emin
+                         eq
+                         even?
+                         exp
+                         expm1
+                         finite?
+                         floor
+                         get-significand
+                         hypot
+                         identity
+                         ieee-remainder
+                         infinite?
+                         kendalls-correlation
+                         kurtosis
+                         log
+                         log10
+                         log1p
+                         logistic
+                         mathematical-integer?
+                         max
+                         mean
+                         median
+                         min
+                         nan?
+                         neg?
+                         next-down
+                         next-up
+                         not
+                         not=
+                         not-eq
+                         odd?
+                         or
+                         pearsons-correlation
+                         percentiles
+                         pos?
+                         pow
+                         quartile-1
+                         quartile-3
+                         quartile-outlier-fn
+                         quartiles
+                         quot
+                         rem
+                         rint
+                         round
+                         signum
+                         sin
+                         sinh
+                         skew
+                         spearmans-correlation
+                         sq
+                         sqrt
+                         standard-deviation
+                         sum
+                         tan
+                         tanh
+                         to-degrees
+                         to-radians
+                         ulp
+                         unsigned-bit-shift-right
+                         variance
+                         zero?)
