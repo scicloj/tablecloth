@@ -6,7 +6,11 @@
 
             [tech.v3.datatype.functional :as fun]
             [tech.v3.datatype.datetime :as datetime]
-            [tech.v3.datatype.argops :as argops]))
+            [tech.v3.datatype.argops :as argops]
+
+            [tablecloth.api.utils :refer [grouped? process-group-data]]
+            [tablecloth.api.columns :refer [add-column select-columns update-columns]]
+            [tablecloth.api.dataset :refer [columns]]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ops
@@ -62,6 +66,58 @@
 ;;    |          0.75404896 |         0.66399872 |   versicolor |
 ;;    |          0.86422473 |         0.53772803 |    virginica |
 
+(defmacro make-columnar-ops
+  [& ops]
+  `(do ~@(for [op ops]
+           (let [s (symbol (name op))]
+             `(defn ~s
+                ([~'column] (~op ~'column))
+                ([~'ds ~'target-column ~'column-selector] (~s ~'ds ~'target-column ~'column-selector {}))
+                ([~'ds ~'target-column ~'column-selector ~'options]
+                 (if (grouped? ~'ds)
+                   (process-group-data ~'ds #(~s % ~'target-column ~'column-selector ~'options) (:parallel? ~'options))
+                   (add-column ~'ds ~'target-column (apply ~op (-> ~'ds (select-columns ~'column-selector) columns))))))))))
+
+
+
+(make-columnar-ops op/= op/not= op/* op/tan op/quartiles)
+
+(op/quartiles (ds "Sepal.Length"))
+
+(-> (tan ds :result "Sepal.Length") api/head)
+;; => data/iris.csv [5 6]:
+;;    | Sepal.Length | Sepal.Width | Petal.Length | Petal.Width | Species |     :result |
+;;    |-------------:|------------:|-------------:|------------:|---------|------------:|
+;;    |          5.1 |         3.5 |          1.4 |         0.2 |  setosa | -2.44938942 |
+;;    |          4.9 |         3.0 |          1.4 |         0.2 |  setosa | -5.26749307 |
+;;    |          4.7 |         3.2 |          1.3 |         0.2 |  setosa | 80.71276297 |
+;;    |          4.6 |         3.1 |          1.5 |         0.2 |  setosa |  8.86017490 |
+;;    |          5.0 |         3.6 |          1.4 |         0.2 |  setosa | -3.38051501 |
+
+
+;; how to multiply by 2?????????????????????
+
+(-> (* ds :sum-of-numerical-columns :type/numerical) api/head)
+;; => data/iris.csv [5 6]:
+;;    | Sepal.Length | Sepal.Width | Petal.Length | Petal.Width | Species | :sum-of-numerical-columns |
+;;    |-------------:|------------:|-------------:|------------:|---------|--------------------------:|
+;;    |          5.1 |         3.5 |          1.4 |         0.2 |  setosa |                      10.2 |
+;;    |          4.9 |         3.0 |          1.4 |         0.2 |  setosa |                       9.5 |
+;;    |          4.7 |         3.2 |          1.3 |         0.2 |  setosa |                       9.4 |
+;;    |          4.6 |         3.1 |          1.5 |         0.2 |  setosa |                       9.4 |
+;;    |          5.0 |         3.6 |          1.4 |         0.2 |  setosa |                      10.2 |
+
+(op/* (ds "Sepal.Length") 2)
+
+(-> (api/update-columns ds :type/numerical (partial op/* 2)) api/head)
+;; => data/iris.csv [5 5]:
+;;    | Sepal.Length | Sepal.Width | Petal.Length | Petal.Width | Species |
+;;    |-------------:|------------:|-------------:|------------:|---------|
+;;    |          5.1 |         3.5 |          1.4 |         0.2 |  setosa |
+;;    |         10.0 |         6.5 |          2.8 |         0.4 |  setosa |
+;;    |         14.7 |         9.7 |          4.1 |         0.6 |  setosa |
+;;    |         19.3 |        12.8 |          5.6 |         0.8 |  setosa |
+;;    |         24.3 |        16.4 |          7.0 |         1.0 |  setosa |
 
 
 
@@ -83,13 +139,20 @@
 
 
 
+;;
 
-
-
-
-
-
-
+(-> "https://www.travishinkelman.com/data/gapminder.csv"
+    (api/dataset {:key-fn keyword})
+    (api/select-rows
+     (fn [row]
+       (and
+        (= (:year row) 2007)
+        (= (:country row) "United States"))))
+    api/head)
+;; => https://www.travishinkelman.com/data/gapminder.csv [1 6]:
+;;    |      :country | :continent | :year | :lifeExp |      :pop |  :gdpPercap |
+;;    |---------------|------------|------:|---------:|----------:|------------:|
+;;    | United States |   Americas |  2007 |   78.242 | 301139947 | 42951.65309 |
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

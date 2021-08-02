@@ -147,7 +147,7 @@
 (defn- do-update-columns
   [ds lst]
   (if (grouped? ds)
-    (process-group-data #(process-update-columns % lst))
+    (process-group-data ds #(process-update-columns % lst))
     (process-update-columns ds lst)))
 
 (defn update-columns
@@ -159,6 +159,7 @@
                (cycle update-functions)
                (repeat update-functions))
          lst (map vector col-names fns)]
+     (println lst)
      (do-update-columns ds lst))))
 
 (defn map-columns
