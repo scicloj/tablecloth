@@ -147,7 +147,7 @@
 (defn- do-update-columns
   [ds lst]
   (if (grouped? ds)
-    (process-group-data #(process-update-columns % lst))
+    (process-group-data ds #(process-update-columns % lst))
     (process-update-columns ds lst)))
 
 (defn update-columns

@@ -1,5 +1,11 @@
 # Change Log
 
+## [6.006]
+
+### Fixed
+
+* `update-columns` on grouped dataset 
+
 ## [6.002]
 
 ### Changed
