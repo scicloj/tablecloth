@@ -8,7 +8,7 @@
             [tech.v3.datatype.datetime :as datetime]
             [tech.v3.datatype.argops :as argops]
 
-            [tablecloth.api.utils :refer [grouped? process-group-data]]
+            [tablecloth.api.utils :refer [grouped? process-group-data column-names]]
             [tablecloth.api.columns :refer [add-column select-columns update-columns]]
             [tablecloth.api.dataset :refer [columns]]))
 
@@ -37,8 +37,30 @@
 ;; column -> column
 ;; we need something easier like map-columns here where all columns are passed to the operator:
 (api/add-column ds :result (op/cumsum (ds "Sepal.Length")))
+
+(-> (api/add-column ds :result #(op/* (% "Sepal.Length") 2)))
+
+
+(op/* ds :result ["Sepal.Length" "Sepel.Width"])
+
+(column-names ds :type/string)
+
+(cumsum ds :result "Sepal.Length")
+
+(op/+ (ds "Sepal.Length"))
+
+api/add-column ds :result 
+api/update-columns ds
+api/map-columns
+
+(do
+  (crit/quick-bench (api/add-column ds :result #(op/* (% "Sepal.Length") 2)))
+  (crit/quick-bench (api/map-columns ds :result "Sepal.Length" (fn [^double v] (op/* v 2)))))
+
+
+
 ;; (api/function-name ds :target-column "Sepal.Length" op/cumsum)
-(api/add-column ds :result (apply op/+ (-> (api/select-columns ds :type/numerical) api/columns)))
+(api/add-column ds :result #(apply op/+ (-> (api/select-columns ds :type/numerical) api/columns)))
 ;; (api/function-name ds :target-column :type/numerical op/+) ;; <--- store sum of the numerical columns in a column
 
 ;; doesn't work!!!
@@ -80,7 +102,7 @@
 
 
 
-(make-columnar-ops op/= op/not= op/* op/tan op/quartiles)
+(make-columnar-ops op/= op/not= op/* op/tan op/quartiles op/cumsum)
 
 (op/quartiles (ds "Sepal.Length"))
 
