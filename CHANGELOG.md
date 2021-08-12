@@ -1,5 +1,11 @@
 # Change Log
 
+## [6.012]
+
+### Fixed
+
+* `replace-missing` on grouped dataset has swapped arguments
+
 ## [6.006]
 
 ### Fixed

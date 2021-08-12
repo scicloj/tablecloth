@@ -135,3 +135,19 @@
                (api/replace-missing :a :value {1 100.0 9 -100.0})
                :a))
 
+;; otfrom case: https://clojurians.zulipchat.com/#narrow/stream/151924-data-science/topic/Simple.20Tablecloth.20beginnings/near/249217023
+
+(fact "replace missing values in grouped dataset"
+      (fact (-> (api/dataset [{:calendar-year 2022 :age 49 :location "Barry Buddon" :hours-cycled 1.0}
+                              {:calendar-year 2024 :age 49 :location "Barry Buddon" :hours-cycled 2.4}
+                              {:calendar-year 2022 :age 49 :location "Tentsmuir Woods" :hours-cycled 3.2}
+                              {:calendar-year 2024 :age 49 :location "Tentsmuir Woods" :hours-cycled 1.4}])
+                (api/group-by [:age :location])
+                (api/fill-range-replace :calendar-year 1 nil nil)
+                (api/replace-missing :location :down)
+                (api/replace-missing :age :down)
+                (api/replace-missing :hours-cycled :value 0.0)
+                (api/ungroup)
+                (api/rows))
+            => [[1.0 2022.0 "Barry Buddon" 49] [0.0 2023.0 "Barry Buddon" 49] [2.4 2024.0 "Barry Buddon" 49] [3.2 2022.0 "Tentsmuir Woods" 49] [0.0 2023.0 "Tentsmuir Woods" 49] [1.4 2024.0 "Tentsmuir Woods" 49]]))
+

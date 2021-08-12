@@ -39,7 +39,7 @@
 
    (if (grouped? ds)
 
-     (process-group-data ds #(replace-missing % columns-selector value strategy))
+     (process-group-data ds #(replace-missing % columns-selector strategy value))
      
      (let [cols (column-names ds columns-selector)]
        (ds/replace-missing ds cols strategy value)))))
