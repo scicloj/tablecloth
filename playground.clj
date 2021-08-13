@@ -17,7 +17,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def ds (api/dataset "data/iris.csv"))
-(def gds (api/group-by ds "Species"))
+(def gds (api/group-by ds ["Species"]))
 
 ;; column -> R
 (api/aggregate-columns ds :type/numerical op/sum)
@@ -28,11 +28,23 @@
 
 (api/aggregate-columns gds :type/numerical op/sum)
 ;; => _unnamed [3 5]:
-;;    | Petal.Width | Sepal.Length | Sepal.Width | Petal.Length | :$group-name |
-;;    |------------:|-------------:|------------:|-------------:|--------------|
-;;    |        12.3 |        250.3 |       171.4 |         73.1 |       setosa |
-;;    |        66.3 |        296.8 |       138.5 |        213.0 |   versicolor |
-;;    |       101.3 |        329.4 |       148.7 |        277.6 |    virginica |
+;;    | Petal.Width | Sepal.Length | Sepal.Width |    Species | Petal.Length |
+;;    |------------:|-------------:|------------:|------------|-------------:|
+;;    |        12.3 |        250.3 |       171.4 |     setosa |         73.1 |
+;;    |        66.3 |        296.8 |       138.5 | versicolor |        213.0 |
+;;    |       101.3 |        329.4 |       148.7 |  virginica |        277.6 |
+
+(op/sum ds :type/numerical) ;; should it return a number or act as a `api/aggregate-columns`?
+;; => (876.5 458.6000000000001 563.6999999999999 179.89999999999998)
+
+
+(reduce clojure.core/+ (map op/sum (-> (api/select-columns ds :type/numerical) api/columns)))
+;; => 2078.7000000000003
+;; => (876.5 458.6000000000001 563.6999999999999 179.89999999999998)
+
+(op/pearsons-correlation ds "Sepal.Length" "Petal.Length") ;; should return a number
+
+
 
 ;; column -> column
 ;; we need something easier like map-columns here where all columns are passed to the operator:
@@ -101,25 +113,22 @@ api/map-columns
                    (add-column ~'ds ~'target-column (apply ~op (-> ~'ds (select-columns ~'column-selector) columns))))))))))
 
 
-
-(make-columnar-ops op/= op/not= op/* op/tan op/quartiles op/cumsum)
+(make-columnar-ops op/= op/not= op/* op/+ op/tan op/quartiles op/cumsum op/log op/pearsons-correlation)
 
 (op/quartiles (ds "Sepal.Length"))
 
-(-> (tan ds :result "Sepal.Length") api/head)
+(-> (op/log ds :result "Sepal.Length") api/head)
 ;; => data/iris.csv [5 6]:
-;;    | Sepal.Length | Sepal.Width | Petal.Length | Petal.Width | Species |     :result |
-;;    |-------------:|------------:|-------------:|------------:|---------|------------:|
-;;    |          5.1 |         3.5 |          1.4 |         0.2 |  setosa | -2.44938942 |
-;;    |          4.9 |         3.0 |          1.4 |         0.2 |  setosa | -5.26749307 |
-;;    |          4.7 |         3.2 |          1.3 |         0.2 |  setosa | 80.71276297 |
-;;    |          4.6 |         3.1 |          1.5 |         0.2 |  setosa |  8.86017490 |
-;;    |          5.0 |         3.6 |          1.4 |         0.2 |  setosa | -3.38051501 |
+;;    | Sepal.Length | Sepal.Width | Petal.Length | Petal.Width | Species |    :result |
+;;    |-------------:|------------:|-------------:|------------:|---------|-----------:|
+;;    |          5.1 |         3.5 |          1.4 |         0.2 |  setosa | 1.62924054 |
+;;    |          4.9 |         3.0 |          1.4 |         0.2 |  setosa | 1.58923521 |
+;;    |          4.7 |         3.2 |          1.3 |         0.2 |  setosa | 1.54756251 |
+;;    |          4.6 |         3.1 |          1.5 |         0.2 |  setosa | 1.52605630 |
+;;    |          5.0 |         3.6 |          1.4 |         0.2 |  setosa | 1.60943791 |
 
 
-;; how to multiply by 2?????????????????????
-
-(-> (* ds :sum-of-numerical-columns :type/numerical) api/head)
+(-> (op/+ ds :sum-of-numerical-columns :type/numerical) api/head)
 ;; => data/iris.csv [5 6]:
 ;;    | Sepal.Length | Sepal.Width | Petal.Length | Petal.Width | Species | :sum-of-numerical-columns |
 ;;    |-------------:|------------:|-------------:|------------:|---------|--------------------------:|
@@ -129,7 +138,6 @@ api/map-columns
 ;;    |          4.6 |         3.1 |          1.5 |         0.2 |  setosa |                       9.4 |
 ;;    |          5.0 |         3.6 |          1.4 |         0.2 |  setosa |                      10.2 |
 
-(op/* (ds "Sepal.Length") 2)
 
 (-> (api/update-columns ds :type/numerical (partial op/* 2)) api/head)
 ;; => data/iris.csv [5 5]:
