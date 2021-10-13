@@ -1,5 +1,16 @@
 # Change Log
 
+## [6.023]
+
+### Added
+
+* Documented columns / rows functions [PR52](https://github.com/scicloj/tablecloth/pull/52)
+* Reference to original to lifted functions metadata for pipelines [PR51](https://github.com/scicloj/tablecloth/pull/51)
+
+### Changed
+
+* alias for api functions in reference (was: `api`, is: `tc`)
+
 ## [6.012]
 
 ### Fixed

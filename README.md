@@ -65,18 +65,18 @@ examples](https://scicloj.github.io/tablecloth/index.html)
 ## Usage example
 
 ``` clojure
-(require '[tablecloth.api :as api])
+(require '[tablecloth.api :as tc])
 ```
 
 ``` clojure
 (-> "https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv"
-    (api/dataset {:key-fn keyword})
-    (api/group-by (fn [row]
+    (tc/dataset {:key-fn keyword})
+    (tc/group-by (fn [row]
                     {:symbol (:symbol row)
                      :year (tech.v3.datatype.datetime/long-temporal-field :years (:date row))}))
-    (api/aggregate #(tech.v3.datatype.functional/mean (% :price)))
-    (api/order-by [:symbol :year])
-    (api/head 10))
+    (tc/aggregate #(tech.v3.datatype.functional/mean (% :price)))
+    (tc/order-by [:symbol :year])
+    (tc/head 10))
 ```
 
 \_unnamed \[10 3\]:
