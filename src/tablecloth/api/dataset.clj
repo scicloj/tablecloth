@@ -107,6 +107,11 @@
                 {:dataset-name (str nm " :basic info")})))))
 
 (defn columns
+  "Returns columns of dataset. Result type can be any of:
+  * `:as-map`
+  * `:as-double-arrays`
+  * `:as-seqs`
+  "
   ([ds] (columns ds :as-seqs))
   ([ds result-type]
    (let [cols (ds/columns ds)]
@@ -117,6 +122,11 @@
        cols))))
 
 (defn rows
+  "Returns rows of dataset. Result type can be any of:
+  * `:as-maps`
+  * `:as-double-arrays`
+  * `:as-seqs`
+  "
   ([ds] (rows ds :as-seqs))
   ([ds result-type]
    (case result-type
