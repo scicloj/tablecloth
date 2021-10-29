@@ -81,7 +81,7 @@ examples](https://scicloj.github.io/tablecloth/index.html)
 
 \_unnamed \[10 3\]:
 
-|     :summary | :year | :symbol |
+|      summary | :year | :symbol |
 | -----------: | ----: | ------- |
 |  21.74833333 |  2000 | AAPL    |
 |  10.17583333 |  2001 | AAPL    |

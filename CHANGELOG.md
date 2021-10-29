@@ -1,5 +1,15 @@
 # Change Log
 
+## [6.025]
+
+### Added
+
+* [#49] added docstring to `add-column`
+
+### Fixed
+
+* [#53] summary prefix ignored for aggregate (when fn[ds] is passed)
+
 ## [6.023]
 
 ### Added

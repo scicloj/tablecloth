@@ -40,7 +40,7 @@
                    :or {default-column-name-prefix "summary" ungroup? true}
                    :as options}]
    (let [aggregator (cond
-                      (fn? aggregator) {:summary aggregator}
+                      (fn? aggregator) {default-column-name-prefix aggregator}
                       (iterable-sequence? aggregator) (->> aggregator
                                                            (interleave (map #(->> %
                                                                                   (str default-column-name-prefix "-")

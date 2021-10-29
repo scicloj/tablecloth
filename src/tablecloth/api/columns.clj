@@ -119,7 +119,15 @@
 (defn add-column
   "Add or update (modify) column under `column-name`.
 
-  `column` can be sequence of values or generator function (which gets `ds` as input)."
+  `column` can be sequence of values or generator function (which gets `ds` as input).
+
+  * `ds` - a dataset
+  * `column-name` - if it's existing column name, column will be replaced
+  * `column` - can be column (from other dataset), sequence, single value or function. Too big columns are always trimmed. Too small are cycled or extended with missing values (according to `size-strategy` argument)
+  * `size-strategy` (optional) - when new column is shorter than dataset row count, following strategies are applied:
+    - `:cycle` - repeat data
+    - `:na` - append missing values
+    - `:strict` - (default) throws an exception when sizes mismatch"
   ([ds column-name column] (add-column ds column-name column nil))
   ([ds column-name column size-strategy]
    (let [process-fn (prepare-add-column-fn column-name column (or size-strategy :strict))]
