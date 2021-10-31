@@ -161,8 +161,9 @@
 (defn update-columns
   ([ds columns-map]
    (do-update-columns ds (seq columns-map)))
-  ([ds columns-selector update-functions]
-   (let [col-names (column-names ds columns-selector)
+  ([ds columns-selector update-functions] (update-columns ds columns-selector :name update-functions))
+  ([ds columns-selector meta-field update-functions]
+   (let [col-names (column-names ds columns-selector meta-field)
          fns (if (iterable-sequence? update-functions)
                (cycle update-functions)
                (repeat update-functions))
