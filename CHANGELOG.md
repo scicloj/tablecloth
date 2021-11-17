@@ -1,5 +1,16 @@
 # Change Log
 
+## [6.031]
+
+### Fixed
+
+- #57 - InputStream should be dispatched first (the flow now: tries to create a dataset and it fails packs an objet as a singleton
+
+### Changed
+
+- `select-rows` accepts `IFn` for row selection.
+- [breaking] #54, #56 -  `pipeline` namespace is stripped, all functions are moved to [metamorph](https://github.com/scicloj/metamorph) library. This is temporary solution before removing this namespace completely. Pipelined versions of functions will be moved to metamorph as well later.
+
 ## [6.025]
 
 ### Added

@@ -30,7 +30,7 @@
    (cond
      (number? rows-selector) [(long rows-selector)]
      (iterable-sequence? rows-selector) (find-indexes-from-seq ds rows-selector)
-     (fn? rows-selector) (find-indexes-from-fn ds rows-selector selected-keys))))
+     (ifn? rows-selector) (find-indexes-from-fn ds rows-selector selected-keys))))
 
 (defn- select-or-drop-rows
   "Select or drop rows."

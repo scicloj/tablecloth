@@ -74,8 +74,9 @@
      (or (numerical-classes (class data))
          (and (iterable-sequence? data)
               (not-every? map? data))) (from-tensor data column-names layout dataset-name)
-     (not (seqable? data)) (ds/->dataset [{single-value-column-name data}] options)
-     :else (ds/->dataset data options))))
+     :else (try (ds/->dataset data options)
+                ;; create a singleton
+                (catch Exception _ (ds/->dataset [{single-value-column-name data}] options))))))
 
 (defn shape
   "Returns shape of the dataset [rows, cols]"
