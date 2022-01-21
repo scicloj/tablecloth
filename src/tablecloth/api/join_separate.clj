@@ -15,7 +15,8 @@
 (defn join-columns
   ([ds target-column columns-selector] (join-columns ds target-column columns-selector nil))
   ([ds target-column columns-selector {:keys [separator missing-subst drop-columns? result-type parallel?]
-                                       :or {separator "-" drop-columns? true result-type :string}}]
+                                       :or {separator "-" drop-columns? true result-type :string}
+                                       :as conf}]
    
    (let [missing-subst-fn #(map (fn [v] (or v missing-subst)) %)
          col-names (column-names ds columns-selector)
@@ -83,7 +84,8 @@
   ([ds column separator] (separate-column ds column nil separator))
   ([ds column target-columns separator] (separate-column ds column target-columns separator nil))
   ([ds column target-columns separator {:keys [missing-subst drop-column? parallel?]
-                                        :or {missing-subst ""}}]
+                                        :or {missing-subst ""}
+                                        :as conf}]
    (let [separator-fn (cond
                         (string? separator) (let [pat (re-pattern separator)]
                                               #(-> (str %)

@@ -171,7 +171,8 @@
   Before joining the groups groups can be sorted by group name."
   ([ds] (ungroup ds nil))
   ([ds {:keys [order? add-group-as-column add-group-id-as-column separate? dataset-name parallel?]
-        :or {separate? true}}]
+        :or {separate? true}
+        :as options}]
    (assert (grouped? ds) "Works only on grouped dataset")
    (let [concatter (if parallel? parallel-concat ds/concat)]
      (-> ds
@@ -205,7 +206,8 @@
 (defn process->ungroup
   ([ds process-fn] (process->ungroup ds process-fn nil))
   ([ds process-fn {:keys [order? add-group-as-column add-group-id-as-column separate? dataset-name parallel?]
-                   :or {separate? true}}]
+                   :or {separate? true}
+                   :as options}]
    (assert (grouped? ds) "Works only on grouped dataset")
    (-> ds
        (order-ds-for-ungrouping order?)

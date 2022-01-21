@@ -85,7 +85,8 @@
   ([ds columns-selector {:keys [target-columns value-column-name splitter drop-missing? datatypes]
                          :or {target-columns :$column
                               value-column-name :$value
-                              drop-missing? true}}]
+                              drop-missing? true}
+                         :as options}]
    (let [cols (column-names ds columns-selector)
          target-columns (if (iterable-sequence? target-columns) target-columns [target-columns])
          groups (cols->pre-longer ds cols target-columns value-column-name splitter)
@@ -185,7 +186,8 @@
 (defn pivot->wider
   ([ds columns-selector value-columns] (pivot->wider ds columns-selector value-columns nil))
   ([ds columns-selector value-columns {:keys [fold-fn concat-columns-with concat-value-with drop-missing?]
-                                       :or {concat-columns-with "_" concat-value-with "-" drop-missing? true}}]
+                                       :or {concat-columns-with "_" concat-value-with "-" drop-missing? true}
+                                       :as options}]
    (let [col-names (column-names ds columns-selector) ;; columns to be unrolled
          value-names (column-names ds value-columns) ;; columns to be used as values
          single-value? (= (count value-names) 1) ;; maybe this is one column? (different name creation rely on this)

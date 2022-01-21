@@ -121,6 +121,18 @@ Prepare following software:
 7.  Render readme: `render("README.Rmd","md_document")`
 8.  Render documentation: `render("docs/index.Rmd","all")`
 
+### API file generation
+
+`tablecloth.api` namespace is generated out of `api-template`, please
+run it before making documentation
+
+``` clojure
+(exporter/write-api! 'tablecloth.api.api-template
+                     'tablecloth.api
+                     "src/tablecloth/api.clj"
+                     '[group-by drop concat rand-nth first last shuffle])
+```
+
 ### Guideline
 
 1.  Before commiting changes please perform tests. I ususally do: `lein

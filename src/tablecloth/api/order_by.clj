@@ -65,7 +65,7 @@
   - custom comparator function"
   ([ds columns-or-fn] (order-by ds columns-or-fn nil))
   ([ds columns-or-fn comparators] (order-by ds columns-or-fn comparators nil))
-  ([ds columns-or-fn comparators {:keys [parallel?]}]
+  ([ds columns-or-fn comparators {:keys [parallel?] :as options}]
    (let [comparators (or comparators (if (iterable-sequence? columns-or-fn)
                                        (repeat (count columns-or-fn) :asc)
                                        [:asc]))

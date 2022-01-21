@@ -60,11 +60,11 @@
   - fn with predicate"))
 
 (def ^{:doc (select-or-drop-rows-docstring "Select")
-       :arglists '([ds] [ds rows-selector] [ds rows-selector {:keys [select-keys pre result-type parallel?]}])}
+     :arglists '([ds] [ds rows-selector] [ds rows-selector {:keys [select-keys pre result-type parallel?] :as options}])}
   select-rows (partial select-or-drop-rows ds/select-rows))
 
 (def ^{:doc (select-or-drop-rows-docstring "Drop")
-       :arglists '([ds] [ds rows-selector] [ds rows-selector {:keys [select-keys pre result-type parallel?]}])}
+     :arglists '([ds] [ds rows-selector] [ds rows-selector {:keys [select-keys pre result-type parallel?] :as options}])}
   drop-rows (partial select-or-drop-rows ds/drop-rows))
 
 ;;
@@ -98,7 +98,7 @@
 
 (defn shuffle
   ([ds] (shuffle ds nil))
-  ([ds {:keys [seed]}]
+  ([ds {:keys [seed] :as options}]
    (let [rng (when seed (java.util.Random. seed))]
      (if (grouped? ds)
        (process-group-data ds #(shuffle-with-rng % rng))
@@ -123,7 +123,8 @@
   ([ds] (random ds (ds/row-count ds)))
   ([ds n] (random ds n nil))
   ([ds n {:keys [repeat? seed]
-          :or {repeat? true}}]
+          :or {repeat? true}
+          :as options}]
    (let [rng (when seed (java.util.Random. seed))]
      (if (grouped? ds)
        (process-group-data ds #(process-random % repeat? n rng))
@@ -135,7 +136,7 @@
 
 (defn rand-nth
   ([ds] (rand-nth ds nil))
-  ([ds {:keys [seed]}]
+  ([ds {:keys [seed] :as options}]
    (let [rng (when seed (java.util.Random. seed))]
      (if (grouped? ds)
        (process-group-data ds #(process-rand-nth % rng))
@@ -174,7 +175,8 @@
   `:desc?` set to true (default) order descending before calculating rank"
   ([ds columns-selector rank-predicate] (by-rank ds columns-selector rank-predicate nil))
   ([ds columns-selector rank-predicate {:keys [desc? ties]
-                                        :or {desc? true ties :dense}}]
+                                        :or {desc? true ties :dense}
+                                        :as options}]
    (let [col-names (column-names (if (grouped? ds)
                                    (clojure.core/first (ds :data))
                                    ds) columns-selector)

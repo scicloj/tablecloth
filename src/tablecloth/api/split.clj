@@ -168,12 +168,12 @@
   See [more](https://www.mitpressjournals.org/doi/pdf/10.1162/EVCO_a_00069)"
   ([ds] (split ds :kfold))
   ([ds split-type] (split ds split-type {}))
-  ([ds split-type {:keys [seed parallel? shuffle?] :or {shuffle? true} :as opts}]
+  ([ds split-type {:keys [seed parallel? shuffle?] :or {shuffle? true} :as options}]
    (let [rng (when shuffle? (if seed (Random. seed) private-rng))
          split-fn (get split-types split-type :kfold)]
      (if (grouped? ds)
-       (process-group-data ds #(split-single-ds % split-fn rng opts) parallel?)
-       (split-single-ds ds split-fn rng opts)))))
+       (process-group-data ds #(split-single-ds % split-fn rng options) parallel?)
+       (split-single-ds ds split-fn rng options)))))
 
 (defn- splitted-ds->seq
   [splitted split-col-name split-id-col-name]
@@ -192,8 +192,8 @@
   ([ds split-type] (split->seq ds split-type {}))
   ([ds split-type {:keys [split-col-name split-id-col-name]
                    :or {split-col-name :$split-name split-id-col-name :$split-id}
-                   :as opts}]
-   (let [splitted (split ds split-type opts)]
+                   :as options}]
+   (let [splitted (split ds split-type options)]
      (if (grouped? ds)
        (->> (groups->map splitted)
             (map (fn [[g d]]

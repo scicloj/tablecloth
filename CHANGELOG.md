@@ -1,5 +1,11 @@
 # Change Log
 
+## [6.051]
+
+### Fixed
+
+- [#58] - editor friendly api file
+
 ## [6.031]
 
 ### Fixed
