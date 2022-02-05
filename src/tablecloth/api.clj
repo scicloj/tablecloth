@@ -308,6 +308,10 @@
 
 
 (defn fold-by
+  "Group-by and pack columns into vector - the output data set has a row for each unique combination
+  of the provided columns while each remaining column has its valu(es) collected into a vector, similar
+  to how clojure.core/group-by works.
+  See https://scicloj.github.io/tablecloth/index.html#Fold-by"
   ([ds columns-selector]
   (tablecloth.api.fold-unroll/fold-by ds columns-selector))
   ([ds columns-selector folding-function]
