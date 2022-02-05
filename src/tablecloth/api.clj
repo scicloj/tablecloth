@@ -725,6 +725,8 @@
 
 
 (defn unroll
+  "Unfolds sequences stored inside a column(s), turning it into multiple columns. Opposite of [[fold-by]].
+  See https://scicloj.github.io/tablecloth/index.html#Unroll"
   ([ds columns-selector]
   (tablecloth.api.fold-unroll/unroll ds columns-selector))
   ([ds columns-selector options]
