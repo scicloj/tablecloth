@@ -728,6 +728,7 @@
   "Unfolds sequences stored inside a column(s), turning it into multiple columns. Opposite of [[fold-by]].
   Add each of the provided columns to the set that defines the \"uniqe key\" of each row.
   Thus there will be a new row for each value inside the target column(s)' value sequence.
+  If you want instead to split the content of the columns into a set of new _columns_, look at [[separate-column]].
   See https://scicloj.github.io/tablecloth/index.html#Unroll"
   ([ds columns-selector]
   (tablecloth.api.fold-unroll/unroll ds columns-selector))
