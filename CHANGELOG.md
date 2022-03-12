@@ -4,6 +4,10 @@
 
 Version bump
 
+### Added
+
+* docstring for `unroll` and `fold-by` by @holyjak (#60 and #61) 
+
 ## [6.051]
 
 ### Fixed
