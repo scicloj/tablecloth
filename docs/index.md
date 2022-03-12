@@ -29,7 +29,7 @@ pre.r::before {
 tech-ml-version
 ```
 
-“6.051”
+“6.076”
 
 ## Introduction
 
@@ -431,21 +431,18 @@ ds
 | 2012-01-08 |           0.0 |      10.0 |       2.8 |  2.0 | sun     |
 | 2012-01-09 |           4.3 |       9.4 |       5.0 |  3.4 | rain    |
 | 2012-01-10 |           1.0 |       6.1 |       0.6 |  3.4 | rain    |
-| 2012-01-11 |           0.0 |       6.1 |     \-1.1 |  5.1 | sun     |
-| 2012-01-12 |           0.0 |       6.1 |     \-1.7 |  1.9 | sun     |
-| 2012-01-13 |           0.0 |       5.0 |     \-2.8 |  1.3 | sun     |
-| 2012-01-14 |           4.1 |       4.4 |       0.6 |  5.3 | snow    |
-| 2012-01-15 |           5.3 |       1.1 |     \-3.3 |  3.2 | snow    |
-| 2012-01-16 |           2.5 |       1.7 |     \-2.8 |  5.0 | snow    |
-| 2012-01-17 |           8.1 |       3.3 |       0.0 |  5.6 | snow    |
-| 2012-01-18 |          19.8 |       0.0 |     \-2.8 |  5.0 | snow    |
-| 2012-01-19 |          15.2 |     \-1.1 |     \-2.8 |  1.6 | snow    |
-| 2012-01-20 |          13.5 |       7.2 |     \-1.1 |  2.3 | snow    |
-| 2012-01-21 |           3.0 |       8.3 |       3.3 |  8.2 | rain    |
-| 2012-01-22 |           6.1 |       6.7 |       2.2 |  4.8 | rain    |
-| 2012-01-23 |           0.0 |       8.3 |       1.1 |  3.6 | rain    |
-| 2012-01-24 |           8.6 |      10.0 |       2.2 |  5.1 | rain    |
-| 2012-01-25 |           8.1 |       8.9 |       4.4 |  5.4 | rain    |
+| …          |             … |         … |         … |    … | …       |
+| 2015-12-21 |          27.4 |       5.6 |       2.8 |  4.3 | rain    |
+| 2015-12-22 |           4.6 |       7.8 |       2.8 |  5.0 | rain    |
+| 2015-12-23 |           6.1 |       5.0 |       2.8 |  7.6 | rain    |
+| 2015-12-24 |           2.5 |       5.6 |       2.2 |  4.3 | rain    |
+| 2015-12-25 |           5.8 |       5.0 |       2.2 |  1.5 | rain    |
+| 2015-12-26 |           0.0 |       4.4 |       0.0 |  2.5 | sun     |
+| 2015-12-27 |           8.6 |       4.4 |       1.7 |  2.9 | rain    |
+| 2015-12-28 |           1.5 |       5.0 |       1.7 |  1.3 | rain    |
+| 2015-12-29 |           0.0 |       7.2 |       0.6 |  2.6 | fog     |
+| 2015-12-30 |           0.0 |       5.6 |     \-1.0 |  3.4 | sun     |
+| 2015-12-31 |           0.0 |       5.6 |     \-2.1 |  3.5 | sun     |
 
 #### Saving
 
@@ -662,7 +659,7 @@ Rows as sequence of sequences
 (take 2 (tc/rows ds))
 ```
 
-    ([#object[java.time.LocalDate 0x364699b7 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x1de53710 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
+    ([#object[java.time.LocalDate 0x7a51473a "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x61bf319b "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
 
 -----
 
@@ -675,7 +672,7 @@ Select rows/columns as double-double-array
     (tc/rows :as-double-arrays))
 ```
 
-    #object["[[D" 0x1e29a051 "[[D@1e29a051"]
+    #object["[[D" 0x93e4870 "[[D@93e4870"]
 
 ``` clojure
 (-> ds
@@ -684,7 +681,7 @@ Select rows/columns as double-double-array
     (tc/columns :as-double-arrays))
 ```
 
-    #object["[[D" 0x4973be2e "[[D@4973be2e"]
+    #object["[[D" 0x6786b338 "[[D@6786b338"]
 
 -----
 
@@ -694,13 +691,13 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (tc/rows ds :as-maps)))
 ```
 
-    ({"date" #object[java.time.LocalDate 0x24d2716f "2012-01-01"],
+    ({"date" #object[java.time.LocalDate 0xc780202 "2012-01-01"],
       "precipitation" 0.0,
       "temp_min" 5.0,
       "weather" "drizzle",
       "temp_max" 12.8,
       "wind" 4.7}
-     {"date" #object[java.time.LocalDate 0x64f0e9a0 "2012-01-02"],
+     {"date" #object[java.time.LocalDate 0x6d32b872 "2012-01-02"],
       "precipitation" 10.9,
       "temp_min" 2.8,
       "weather" "rain",
@@ -1998,7 +1995,7 @@ You can also pass mapping function with optional columns-selector
 
 \_unnamed \[9 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@32fd7b60> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@6dffd434> |
 | -: | -: | --------: | --------------------------- |
 |  1 |  1 |       0.5 | A                           |
 |  2 |  2 |       1.0 | B                           |
@@ -2070,7 +2067,7 @@ Function works on grouped dataset
 
 {1 Group: 1 \[5 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@51fc900c> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@64c1c7cf> |
 | -: | -: | --------: | --------------------------- |
 |  1 |  1 |       0.5 | A                           |
 |  1 |  3 |       1.5 | C                           |
@@ -2080,7 +2077,7 @@ Function works on grouped dataset
 
 , 2 Group: 2 \[4 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@51fc900c> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@64c1c7cf> |
 | -: | -: | --------: | --------------------------- |
 |  2 |  2 |       1.0 | B                           |
 |  2 |  4 |       0.5 | A                           |
@@ -2143,15 +2140,15 @@ Replace one column (column is trimmed)
 
 |        :V1 | :V2 | :V3 | :V4 |
 | ---------: | --: | --: | --- |
-| 0.76964758 |   1 | 0.5 | A   |
-| 0.15881671 |   2 | 1.0 | B   |
-| 0.27962928 |   3 | 1.5 | C   |
-| 0.31047380 |   4 | 0.5 | A   |
-| 0.63839956 |   5 | 1.0 | B   |
-| 0.14289939 |   6 | 1.5 | C   |
-| 0.03918807 |   7 | 0.5 | A   |
-| 0.76606354 |   8 | 1.0 | B   |
-| 0.15454712 |   9 | 1.5 | C   |
+| 0.57699000 |   1 | 0.5 | A   |
+| 0.12536631 |   2 | 1.0 | B   |
+| 0.16799483 |   3 | 1.5 | C   |
+| 0.26763470 |   4 | 0.5 | A   |
+| 0.95695815 |   5 | 1.0 | B   |
+| 0.63761712 |   6 | 1.5 | C   |
+| 0.87788314 |   7 | 0.5 | A   |
+| 0.05222689 |   8 | 1.0 | B   |
+| 0.12514735 |   9 | 1.5 | C   |
 
 -----
 
@@ -2424,15 +2421,15 @@ the map.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   4 | 0.5 | A   |
-|   2 |   9 | 1.0 | B   |
-|   1 |   3 | 1.5 | C   |
+|   1 |   8 | 0.5 | A   |
+|   2 |   3 | 1.0 | B   |
+|   1 |   7 | 1.5 | C   |
 |   2 |   6 | 0.5 | A   |
-|   1 |   5 | 1.0 | B   |
-|   2 |   8 | 1.5 | C   |
-|   1 |   1 | 0.5 | A   |
-|   2 |   7 | 1.0 | B   |
-|   1 |   2 | 1.5 | C   |
+|   1 |   2 | 1.0 | B   |
+|   2 |   4 | 1.5 | C   |
+|   1 |   5 | 0.5 | A   |
+|   2 |   9 | 1.0 | B   |
+|   1 |   1 | 1.5 | C   |
 
 #### Map
 
@@ -2686,7 +2683,7 @@ Double array conversion.
 (tc/->array DS :V1)
 ```
 
-    #object["[J" 0x125aa883 "[J@125aa883"]
+    #object["[J" 0x44e8fe9c "[J@44e8fe9c"]
 
 -----
 
@@ -2698,7 +2695,7 @@ Function also works on grouped dataset
     (tc/->array :V2))
 ```
 
-    (#object["[J" 0x48b151c5 "[J@48b151c5"] #object["[J" 0x346af31d "[J@346af31d"] #object["[J" 0x2b79f8ae "[J@2b79f8ae"])
+    (#object["[J" 0x2a7fb5c3 "[J@2a7fb5c3"] #object["[J" 0x173bfb07 "[J@173bfb07"] #object["[J" 0x7b011047 "[J@7b011047"])
 
 -----
 
@@ -2709,8 +2706,8 @@ You can also cast the type to the other one (if casting is possible):
 (tc/->array DS :V1 :float32)
 ```
 
-    #object["[Ljava.lang.String;" 0x1cb0b62e "[Ljava.lang.String;@1cb0b62e"]
-    #object["[F" 0x7b47ddf "[F@7b47ddf"]
+    #object["[Ljava.lang.String;" 0x5f9d6bf1 "[Ljava.lang.String;@5f9d6bf1"]
+    #object["[F" 0x327c129c "[F@327c129c"]
 
 ### Rows
 
@@ -2907,7 +2904,7 @@ Random row (single)
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   2 |   8 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
 
 -----
 
@@ -2935,15 +2932,15 @@ Random `n` (default: row count) rows with repetition.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   5 | 1.0 | B   |
-|   1 |   3 | 1.5 | C   |
-|   1 |   3 | 1.5 | C   |
 |   1 |   9 | 1.5 | C   |
 |   1 |   9 | 1.5 | C   |
 |   1 |   1 | 0.5 | A   |
+|   2 |   4 | 0.5 | A   |
+|   1 |   1 | 0.5 | A   |
+|   2 |   6 | 1.5 | C   |
+|   2 |   8 | 1.0 | B   |
 |   1 |   5 | 1.0 | B   |
-|   1 |   3 | 1.5 | C   |
-|   1 |   5 | 1.0 | B   |
+|   1 |   9 | 1.5 | C   |
 
 -----
 
@@ -2957,11 +2954,11 @@ Five random rows with repetition
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   2 |   6 | 1.5 | C   |
-|   1 |   7 | 0.5 | A   |
-|   2 |   2 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
+|   1 |   5 | 1.0 | B   |
 |   1 |   1 | 0.5 | A   |
-|   1 |   3 | 1.5 | C   |
+|   2 |   8 | 1.0 | B   |
+|   1 |   7 | 0.5 | A   |
 
 -----
 
@@ -2975,11 +2972,11 @@ Five random, non-repeating rows
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   2 |   2 | 1.0 | B   |
-|   1 |   3 | 1.5 | C   |
-|   2 |   8 | 1.0 | B   |
+|   1 |   5 | 1.0 | B   |
 |   1 |   7 | 0.5 | A   |
-|   2 |   4 | 0.5 | A   |
+|   1 |   3 | 1.5 | C   |
+|   1 |   9 | 1.5 | C   |
+|   1 |   1 | 0.5 | A   |
 
 -----
 
@@ -3011,15 +3008,15 @@ Shuffle dataset
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
+|   2 |   8 | 1.0 | B   |
+|   1 |   1 | 0.5 | A   |
+|   1 |   9 | 1.5 | C   |
 |   2 |   2 | 1.0 | B   |
 |   2 |   4 | 0.5 | A   |
-|   1 |   1 | 0.5 | A   |
-|   1 |   3 | 1.5 | C   |
-|   2 |   8 | 1.0 | B   |
-|   2 |   6 | 1.5 | C   |
 |   1 |   7 | 0.5 | A   |
-|   1 |   9 | 1.5 | C   |
 |   1 |   5 | 1.0 | B   |
+|   1 |   3 | 1.5 | C   |
+|   2 |   6 | 1.5 | C   |
 
 -----
 
@@ -3147,21 +3144,21 @@ Select 5 random rows from each group
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
+|   1 |   1 | 0.5 | A   |
+|   1 |   1 | 0.5 | A   |
+|   2 |   4 | 0.5 | A   |
+|   1 |   1 | 0.5 | A   |
 |   1 |   7 | 0.5 | A   |
-|   1 |   1 | 0.5 | A   |
-|   1 |   1 | 0.5 | A   |
-|   1 |   1 | 0.5 | A   |
-|   1 |   1 | 0.5 | A   |
+|   1 |   5 | 1.0 | B   |
+|   1 |   5 | 1.0 | B   |
 |   2 |   2 | 1.0 | B   |
 |   1 |   5 | 1.0 | B   |
-|   1 |   5 | 1.0 | B   |
-|   2 |   8 | 1.0 | B   |
-|   1 |   5 | 1.0 | B   |
-|   2 |   6 | 1.5 | C   |
+|   2 |   2 | 1.0 | B   |
 |   1 |   3 | 1.5 | C   |
 |   1 |   9 | 1.5 | C   |
+|   1 |   9 | 1.5 | C   |
 |   1 |   3 | 1.5 | C   |
-|   2 |   6 | 1.5 | C   |
+|   1 |   9 | 1.5 | C   |
 
 ### Aggregate
 
@@ -3685,8 +3682,8 @@ Random
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   5 | 1.0 | B   |
-|   2 |   6 | 1.5 | C   |
+|   1 |   3 | 1.5 | C   |
+|   2 |   4 | 0.5 | A   |
 
 -----
 
@@ -5392,33 +5389,30 @@ data/relig\_income.csv \[18 11\]:
 
 data/relig\_income.csv \[180 3\]:
 
-| religion                | :\(column | :\)value |      |
-| ----------------------- | -------------------- | ---: |
-| Agnostic                | \<$10k               |   27 |
-| Atheist                 | \<$10k               |   12 |
-| Buddhist                | \<$10k               |   27 |
-| Catholic                | \<$10k               |  418 |
-| Don’t know/refused      | \<$10k               |   15 |
-| Evangelical Prot        | \<$10k               |  575 |
-| Hindu                   | \<$10k               |    1 |
-| Historically Black Prot | \<$10k               |  228 |
-| Jehovah’s Witness       | \<$10k               |   20 |
-| Jewish                  | \<$10k               |   19 |
-| Mainline Prot           | \<$10k               |  289 |
-| Mormon                  | \<$10k               |   29 |
-| Muslim                  | \<$10k               |    6 |
-| Orthodox                | \<$10k               |   13 |
-| Other Christian         | \<$10k               |    9 |
-| Other Faiths            | \<$10k               |   20 |
-| Other World Religions   | \<$10k               |    5 |
-| Unaffiliated            | \<$10k               |  217 |
-| Agnostic                | Don’t know/refused   |   96 |
-| Atheist                 | Don’t know/refused   |   76 |
-| Buddhist                | Don’t know/refused   |   54 |
-| Catholic                | Don’t know/refused   | 1489 |
-| Don’t know/refused      | Don’t know/refused   |  116 |
-| Evangelical Prot        | Don’t know/refused   | 1529 |
-| Hindu                   | Don’t know/refused   |   37 |
+| religion                | :\(column | :\)value |     |
+| ----------------------- | -------------------- | --: |
+| Agnostic                | \<$10k               |  27 |
+| Atheist                 | \<$10k               |  12 |
+| Buddhist                | \<$10k               |  27 |
+| Catholic                | \<$10k               | 418 |
+| Don’t know/refused      | \<$10k               |  15 |
+| Evangelical Prot        | \<$10k               | 575 |
+| Hindu                   | \<$10k               |   1 |
+| Historically Black Prot | \<$10k               | 228 |
+| Jehovah’s Witness       | \<$10k               |  20 |
+| Jewish                  | \<$10k               |  19 |
+| …                       | …                    |   … |
+| Historically Black Prot | \>150k               |  78 |
+| Jehovah’s Witness       | \>150k               |   6 |
+| Jewish                  | \>150k               | 151 |
+| Mainline Prot           | \>150k               | 634 |
+| Mormon                  | \>150k               |  42 |
+| Muslim                  | \>150k               |   6 |
+| Orthodox                | \>150k               |  46 |
+| Other Christian         | \>150k               |  12 |
+| Other Faiths            | \>150k               |  41 |
+| Other World Religions   | \>150k               |   4 |
+| Unaffiliated            | \>150k               | 258 |
 
 -----
 
@@ -5439,33 +5433,30 @@ column, values go to `:rank` column
 
 data/billboard.csv.gz \[317 13\]:
 
-| artist               | track                 | date.entered | wk1 | wk2 | wk3 | wk4 | wk5 | wk6 | wk7 | wk8 | wk9 | wk10 |
-| -------------------- | --------------------- | ------------ | --: | --: | --: | --: | --: | --: | --: | --: | --: | ---: |
-| 2 Pac                | Baby Don’t Cry (Keep… | 2000-02-26   |  87 |  82 |  72 |  77 |  87 |  94 |  99 |     |     |      |
-| 2Ge+her              | The Hardest Part Of … | 2000-09-02   |  91 |  87 |  92 |     |     |     |     |     |     |      |
-| 3 Doors Down         | Kryptonite            | 2000-04-08   |  81 |  70 |  68 |  67 |  66 |  57 |  54 |  53 |  51 |   51 |
-| 3 Doors Down         | Loser                 | 2000-10-21   |  76 |  76 |  72 |  69 |  67 |  65 |  55 |  59 |  62 |   61 |
-| 504 Boyz             | Wobble Wobble         | 2000-04-15   |  57 |  34 |  25 |  17 |  17 |  31 |  36 |  49 |  53 |   57 |
-| 98^0                 | Give Me Just One Nig… | 2000-08-19   |  51 |  39 |  34 |  26 |  26 |  19 |   2 |   2 |   3 |    6 |
-| A\*Teens             | Dancing Queen         | 2000-07-08   |  97 |  97 |  96 |  95 | 100 |     |     |     |     |      |
-| Aaliyah              | I Don’t Wanna         | 2000-01-29   |  84 |  62 |  51 |  41 |  38 |  35 |  35 |  38 |  38 |   36 |
-| Aaliyah              | Try Again             | 2000-03-18   |  59 |  53 |  38 |  28 |  21 |  18 |  16 |  14 |  12 |   10 |
-| Adams, Yolanda       | Open My Heart         | 2000-08-26   |  76 |  76 |  74 |  69 |  68 |  67 |  61 |  58 |  57 |   59 |
-| Adkins, Trace        | More                  | 2000-04-29   |  84 |  84 |  75 |  73 |  73 |  69 |  68 |  65 |  73 |   83 |
-| Aguilera, Christina  | Come On Over Baby (A… | 2000-08-05   |  57 |  47 |  45 |  29 |  23 |  18 |  11 |   9 |   9 |   11 |
-| Aguilera, Christina  | I Turn To You         | 2000-04-15   |  50 |  39 |  30 |  28 |  21 |  19 |  20 |  17 |  17 |   17 |
-| Aguilera, Christina  | What A Girl Wants     | 1999-11-27   |  71 |  51 |  28 |  18 |  13 |  13 |  11 |   1 |   1 |    2 |
-| Alice Deejay         | Better Off Alone      | 2000-04-08   |  79 |  65 |  53 |  48 |  45 |  36 |  34 |  29 |  27 |   30 |
-| Allan, Gary          | Smoke Rings In The D… | 2000-01-22   |  80 |  78 |  76 |  77 |  92 |     |     |     |     |      |
-| Amber                | Sexual                | 1999-07-17   |  99 |  99 |  96 |  96 | 100 |  93 |  93 |  96 |     |      |
-| Anastacia            | I’m Outta Love        | 2000-04-01   |  92 |     |     |  95 |     |     |     |     |     |      |
-| Anthony, Marc        | My Baby You           | 2000-09-16   |  82 |  76 |  76 |  70 |  82 |  81 |  74 |  80 |  76 |   76 |
-| Anthony, Marc        | You Sang To Me        | 2000-02-26   |  77 |  54 |  50 |  43 |  30 |  27 |  21 |  18 |  15 |   13 |
-| Avant                | My First Love         | 2000-11-04   |  70 |  62 |  56 |  43 |  39 |  33 |  26 |  26 |  26 |   31 |
-| Avant                | Separated             | 2000-04-29   |  62 |  32 |  30 |  23 |  26 |  30 |  35 |  32 |  32 |   25 |
-| BBMak                | Back Here             | 2000-04-29   |  99 |  86 |  60 |  52 |  38 |  34 |  28 |  21 |  18 |   18 |
-| Backstreet Boys, The | Shape Of My Heart     | 2000-10-14   |  39 |  25 |  24 |  15 |  12 |  12 |  10 |   9 |  10 |   12 |
-| Backstreet Boys, The | Show Me The Meaning … | 2000-01-01   |  74 |  62 |  55 |  25 |  16 |  14 |  12 |  10 |  12 |    9 |
+| artist           | track                 | date.entered | wk1 | wk2 | wk3 | wk4 | wk5 | wk6 | wk7 | wk8 | wk9 | wk10 |
+| ---------------- | --------------------- | ------------ | --: | --: | --: | --: | --: | --: | --: | --: | --: | ---: |
+| 2 Pac            | Baby Don’t Cry (Keep… | 2000-02-26   |  87 |  82 |  72 |  77 |  87 |  94 |  99 |     |     |      |
+| 2Ge+her          | The Hardest Part Of … | 2000-09-02   |  91 |  87 |  92 |     |     |     |     |     |     |      |
+| 3 Doors Down     | Kryptonite            | 2000-04-08   |  81 |  70 |  68 |  67 |  66 |  57 |  54 |  53 |  51 |   51 |
+| 3 Doors Down     | Loser                 | 2000-10-21   |  76 |  76 |  72 |  69 |  67 |  65 |  55 |  59 |  62 |   61 |
+| 504 Boyz         | Wobble Wobble         | 2000-04-15   |  57 |  34 |  25 |  17 |  17 |  31 |  36 |  49 |  53 |   57 |
+| 98^0             | Give Me Just One Nig… | 2000-08-19   |  51 |  39 |  34 |  26 |  26 |  19 |   2 |   2 |   3 |    6 |
+| A\*Teens         | Dancing Queen         | 2000-07-08   |  97 |  97 |  96 |  95 | 100 |     |     |     |     |      |
+| Aaliyah          | I Don’t Wanna         | 2000-01-29   |  84 |  62 |  51 |  41 |  38 |  35 |  35 |  38 |  38 |   36 |
+| Aaliyah          | Try Again             | 2000-03-18   |  59 |  53 |  38 |  28 |  21 |  18 |  16 |  14 |  12 |   10 |
+| Adams, Yolanda   | Open My Heart         | 2000-08-26   |  76 |  76 |  74 |  69 |  68 |  67 |  61 |  58 |  57 |   59 |
+| …                | …                     | …            |   … |   … |   … |   … |   … |   … |   … |   … |   … |    … |
+| Wallflowers, The | Sleepwalker           | 2000-10-28   |  73 |  73 |  74 |  80 |  90 |  96 |     |     |     |      |
+| Westlife         | Swear It Again        | 2000-04-01   |  96 |  82 |  66 |  55 |  55 |  46 |  44 |  44 |  37 |   35 |
+| Williams, Robbie | Angels                | 1999-11-20   |  85 |  77 |  69 |  69 |  62 |  56 |  56 |  64 |  54 |   53 |
+| Wills, Mark      | Back At One           | 2000-01-15   |  89 |  55 |  51 |  43 |  37 |  37 |  36 |  39 |  42 |   46 |
+| Worley, Darryl   | When You Need My Lov… | 2000-06-17   |  98 |  88 |  93 |  92 |  85 |  85 |  84 |  80 |  80 |   80 |
+| Wright, Chely    | It Was                | 2000-03-04   |  86 |  78 |  75 |  72 |  71 |  69 |  64 |  75 |  85 |   98 |
+| Yankee Grey      | Another Nine Minutes  | 2000-04-29   |  86 |  83 |  77 |  74 |  83 |  79 |  88 |  95 |     |      |
+| Yearwood, Trisha | Real Live Woman       | 2000-04-01   |  85 |  83 |  83 |  82 |  81 |  91 |     |     |     |      |
+| Ying Yang Twins  | Whistle While You Tw… | 2000-03-18   |  95 |  94 |  91 |  85 |  84 |  78 |  74 |  78 |  85 |   89 |
+| Zombie Nation    | Kernkraft 400         | 2000-09-02   |  99 |  99 |     |     |     |     |     |     |     |      |
+| matchbox twenty  | Bent                  | 2000-04-29   |  60 |  37 |  29 |  24 |  22 |  21 |  18 |  16 |  13 |   12 |
 
 ``` clojure
 (tc/pivot->longer bilboard #(clojure.string/starts-with? % "wk") {:target-columns :week
@@ -5474,33 +5465,30 @@ data/billboard.csv.gz \[317 13\]:
 
 data/billboard.csv.gz \[5307 5\]:
 
-| artist              | track                 | date.entered | :week | :rank |
-| ------------------- | --------------------- | ------------ | ----- | ----: |
-| 3 Doors Down        | Kryptonite            | 2000-04-08   | wk35  |     4 |
-| Braxton, Toni       | He Wasn’t Man Enough  | 2000-03-18   | wk35  |    34 |
-| Creed               | Higher                | 1999-09-11   | wk35  |    22 |
-| Creed               | With Arms Wide Open   | 2000-05-13   | wk35  |     5 |
-| Hill, Faith         | Breathe               | 1999-11-06   | wk35  |     8 |
-| Joe                 | I Wanna Know          | 2000-01-01   | wk35  |     5 |
-| Lonestar            | Amazed                | 1999-06-05   | wk35  |    14 |
-| Vertical Horizon    | Everything You Want   | 2000-01-22   | wk35  |    27 |
-| matchbox twenty     | Bent                  | 2000-04-29   | wk35  |    33 |
-| Creed               | Higher                | 1999-09-11   | wk55  |    21 |
-| Lonestar            | Amazed                | 1999-06-05   | wk55  |    22 |
-| 3 Doors Down        | Kryptonite            | 2000-04-08   | wk19  |    18 |
-| 3 Doors Down        | Loser                 | 2000-10-21   | wk19  |    73 |
-| 98^0                | Give Me Just One Nig… | 2000-08-19   | wk19  |    93 |
-| Aaliyah             | I Don’t Wanna         | 2000-01-29   | wk19  |    83 |
-| Aaliyah             | Try Again             | 2000-03-18   | wk19  |     3 |
-| Adams, Yolanda      | Open My Heart         | 2000-08-26   | wk19  |    79 |
-| Aguilera, Christina | Come On Over Baby (A… | 2000-08-05   | wk19  |    23 |
-| Aguilera, Christina | I Turn To You         | 2000-04-15   | wk19  |    29 |
-| Aguilera, Christina | What A Girl Wants     | 1999-11-27   | wk19  |    18 |
-| Alice Deejay        | Better Off Alone      | 2000-04-08   | wk19  |    79 |
-| Amber               | Sexual                | 1999-07-17   | wk19  |    95 |
-| Anthony, Marc       | My Baby You           | 2000-09-16   | wk19  |    91 |
-| Anthony, Marc       | You Sang To Me        | 2000-02-26   | wk19  |     9 |
-| Avant               | My First Love         | 2000-11-04   | wk19  |    81 |
+| artist           | track                 | date.entered | :week | :rank |
+| ---------------- | --------------------- | ------------ | ----- | ----: |
+| 3 Doors Down     | Kryptonite            | 2000-04-08   | wk35  |     4 |
+| Braxton, Toni    | He Wasn’t Man Enough  | 2000-03-18   | wk35  |    34 |
+| Creed            | Higher                | 1999-09-11   | wk35  |    22 |
+| Creed            | With Arms Wide Open   | 2000-05-13   | wk35  |     5 |
+| Hill, Faith      | Breathe               | 1999-11-06   | wk35  |     8 |
+| Joe              | I Wanna Know          | 2000-01-01   | wk35  |     5 |
+| Lonestar         | Amazed                | 1999-06-05   | wk35  |    14 |
+| Vertical Horizon | Everything You Want   | 2000-01-22   | wk35  |    27 |
+| matchbox twenty  | Bent                  | 2000-04-29   | wk35  |    33 |
+| Creed            | Higher                | 1999-09-11   | wk55  |    21 |
+| …                | …                     | …            | …     |     … |
+| Savage Garden    | I Knew I Loved You    | 1999-10-23   | wk24  |    12 |
+| Sisqo            | Incomplete            | 2000-06-24   | wk24  |    31 |
+| Sisqo            | Thong Song            | 2000-01-29   | wk24  |    17 |
+| Smash Mouth      | Then The Morning Com… | 1999-10-30   | wk24  |    35 |
+| Son By Four      | A Puro Dolor (Purest… | 2000-04-08   | wk24  |    32 |
+| Sonique          | It Feels So Good      | 2000-01-22   | wk24  |    49 |
+| SoulDecision     | Faded                 | 2000-07-08   | wk24  |    50 |
+| Sting            | Desert Rose           | 2000-05-13   | wk24  |    45 |
+| Train            | Meet Virginia         | 1999-10-09   | wk24  |    42 |
+| Vertical Horizon | Everything You Want   | 2000-01-22   | wk24  |     6 |
+| matchbox twenty  | Bent                  | 2000-04-29   | wk24  |     9 |
 
 -----
 
@@ -5515,33 +5503,30 @@ We can create numerical column out of column names
 
 data/billboard.csv.gz \[5307 5\]:
 
-| artist              | track                 | date.entered | :week | :rank |
-| ------------------- | --------------------- | ------------ | ----: | ----: |
-| 3 Doors Down        | Kryptonite            | 2000-04-08   |    46 |    21 |
-| Creed               | Higher                | 1999-09-11   |    46 |     7 |
-| Creed               | With Arms Wide Open   | 2000-05-13   |    46 |    37 |
-| Hill, Faith         | Breathe               | 1999-11-06   |    46 |    31 |
-| Lonestar            | Amazed                | 1999-06-05   |    46 |     5 |
-| 3 Doors Down        | Kryptonite            | 2000-04-08   |    51 |    42 |
-| Creed               | Higher                | 1999-09-11   |    51 |    14 |
-| Hill, Faith         | Breathe               | 1999-11-06   |    51 |    49 |
-| Lonestar            | Amazed                | 1999-06-05   |    51 |    12 |
-| 2 Pac               | Baby Don’t Cry (Keep… | 2000-02-26   |     6 |    94 |
-| 3 Doors Down        | Kryptonite            | 2000-04-08   |     6 |    57 |
-| 3 Doors Down        | Loser                 | 2000-10-21   |     6 |    65 |
-| 504 Boyz            | Wobble Wobble         | 2000-04-15   |     6 |    31 |
-| 98^0                | Give Me Just One Nig… | 2000-08-19   |     6 |    19 |
-| Aaliyah             | I Don’t Wanna         | 2000-01-29   |     6 |    35 |
-| Aaliyah             | Try Again             | 2000-03-18   |     6 |    18 |
-| Adams, Yolanda      | Open My Heart         | 2000-08-26   |     6 |    67 |
-| Adkins, Trace       | More                  | 2000-04-29   |     6 |    69 |
-| Aguilera, Christina | Come On Over Baby (A… | 2000-08-05   |     6 |    18 |
-| Aguilera, Christina | I Turn To You         | 2000-04-15   |     6 |    19 |
-| Aguilera, Christina | What A Girl Wants     | 1999-11-27   |     6 |    13 |
-| Alice Deejay        | Better Off Alone      | 2000-04-08   |     6 |    36 |
-| Amber               | Sexual                | 1999-07-17   |     6 |    93 |
-| Anthony, Marc       | My Baby You           | 2000-09-16   |     6 |    81 |
-| Anthony, Marc       | You Sang To Me        | 2000-02-26   |     6 |    27 |
+| artist           | track                   | date.entered | :week | :rank |
+| ---------------- | ----------------------- | ------------ | ----: | ----: |
+| 3 Doors Down     | Kryptonite              | 2000-04-08   |    46 |    21 |
+| Creed            | Higher                  | 1999-09-11   |    46 |     7 |
+| Creed            | With Arms Wide Open     | 2000-05-13   |    46 |    37 |
+| Hill, Faith      | Breathe                 | 1999-11-06   |    46 |    31 |
+| Lonestar         | Amazed                  | 1999-06-05   |    46 |     5 |
+| 3 Doors Down     | Kryptonite              | 2000-04-08   |    51 |    42 |
+| Creed            | Higher                  | 1999-09-11   |    51 |    14 |
+| Hill, Faith      | Breathe                 | 1999-11-06   |    51 |    49 |
+| Lonestar         | Amazed                  | 1999-06-05   |    51 |    12 |
+| 2 Pac            | Baby Don’t Cry (Keep…   | 2000-02-26   |     6 |    94 |
+| …                | …                       | …            |     … |     … |
+| matchbox twenty  | Bent                    | 2000-04-29   |     5 |    22 |
+| 3 Doors Down     | Kryptonite              | 2000-04-08   |    34 |     3 |
+| Braxton, Toni    | He Wasn’t Man Enough    | 2000-03-18   |    34 |    33 |
+| Creed            | Higher                  | 1999-09-11   |    34 |    23 |
+| Creed            | With Arms Wide Open     | 2000-05-13   |    34 |     5 |
+| Hill, Faith      | Breathe                 | 1999-11-06   |    34 |     5 |
+| Joe              | I Wanna Know            | 2000-01-01   |    34 |     8 |
+| Lonestar         | Amazed                  | 1999-06-05   |    34 |    17 |
+| Nelly            | (Hot S\*\*t) Country G… | 2000-04-29   |    34 |    49 |
+| Vertical Horizon | Everything You Want     | 2000-01-22   |    34 |    20 |
+| matchbox twenty  | Bent                    | 2000-04-29   |    34 |    30 |
 
 -----
 
@@ -5573,21 +5558,18 @@ data/who.csv.gz \[7240 10\]:
 | Afghanistan | AF   | AFG  | 1987 |               |                |                |                |                |                |
 | Afghanistan | AF   | AFG  | 1988 |               |                |                |                |                |                |
 | Afghanistan | AF   | AFG  | 1989 |               |                |                |                |                |                |
-| Afghanistan | AF   | AFG  | 1990 |               |                |                |                |                |                |
-| Afghanistan | AF   | AFG  | 1991 |               |                |                |                |                |                |
-| Afghanistan | AF   | AFG  | 1992 |               |                |                |                |                |                |
-| Afghanistan | AF   | AFG  | 1993 |               |                |                |                |                |                |
-| Afghanistan | AF   | AFG  | 1994 |               |                |                |                |                |                |
-| Afghanistan | AF   | AFG  | 1995 |               |                |                |                |                |                |
-| Afghanistan | AF   | AFG  | 1996 |               |                |                |                |                |                |
-| Afghanistan | AF   | AFG  | 1997 |             0 |             10 |              6 |              3 |              5 |              2 |
-| Afghanistan | AF   | AFG  | 1998 |            30 |            129 |            128 |             90 |             89 |             64 |
-| Afghanistan | AF   | AFG  | 1999 |             8 |             55 |             55 |             47 |             34 |             21 |
-| Afghanistan | AF   | AFG  | 2000 |            52 |            228 |            183 |            149 |            129 |             94 |
-| Afghanistan | AF   | AFG  | 2001 |           129 |            379 |            349 |            274 |            204 |            139 |
-| Afghanistan | AF   | AFG  | 2002 |            90 |            476 |            481 |            368 |            246 |            241 |
-| Afghanistan | AF   | AFG  | 2003 |           127 |            511 |            436 |            284 |            256 |            288 |
-| Afghanistan | AF   | AFG  | 2004 |           139 |            537 |            568 |            360 |            358 |            386 |
+| …           | …    | …    |    … |             … |              … |              … |              … |              … |              … |
+| Zimbabwe    | ZW   | ZWE  | 2003 |           133 |            874 |           3048 |           2228 |            981 |            367 |
+| Zimbabwe    | ZW   | ZWE  | 2004 |           187 |            833 |           2908 |           2298 |           1056 |            366 |
+| Zimbabwe    | ZW   | ZWE  | 2005 |           210 |            837 |           2264 |           1855 |            762 |            295 |
+| Zimbabwe    | ZW   | ZWE  | 2006 |           215 |            736 |           2391 |           1939 |            896 |            348 |
+| Zimbabwe    | ZW   | ZWE  | 2007 |           138 |            500 |           3693 |              0 |            716 |            292 |
+| Zimbabwe    | ZW   | ZWE  | 2008 |           127 |            614 |              0 |           3316 |            704 |            263 |
+| Zimbabwe    | ZW   | ZWE  | 2009 |           125 |            578 |                |           3471 |            681 |            293 |
+| Zimbabwe    | ZW   | ZWE  | 2010 |           150 |            710 |           2208 |           1682 |            761 |            350 |
+| Zimbabwe    | ZW   | ZWE  | 2011 |           152 |            784 |           2467 |           2071 |            780 |            377 |
+| Zimbabwe    | ZW   | ZWE  | 2012 |           120 |            783 |           2421 |           2086 |            796 |            360 |
+| Zimbabwe    | ZW   | ZWE  | 2013 |               |                |                |                |                |                |
 
 ``` clojure
 (tc/pivot->longer who #(clojure.string/starts-with? % "new") {:target-columns [:diagnosis :gender :age]
@@ -5597,33 +5579,30 @@ data/who.csv.gz \[7240 10\]:
 
 data/who.csv.gz \[76046 8\]:
 
-| country                           | iso2 | iso3 | year | :diagnosis | :gender | :age | :count |
-| --------------------------------- | ---- | ---- | ---: | ---------- | ------- | ---: | -----: |
-| Albania                           | AL   | ALB  | 2013 | rel        | m       | 1524 |     60 |
-| Algeria                           | DZ   | DZA  | 2013 | rel        | m       | 1524 |   1021 |
-| Andorra                           | AD   | AND  | 2013 | rel        | m       | 1524 |      0 |
-| Angola                            | AO   | AGO  | 2013 | rel        | m       | 1524 |   2992 |
-| Anguilla                          | AI   | AIA  | 2013 | rel        | m       | 1524 |      0 |
-| Antigua and Barbuda               | AG   | ATG  | 2013 | rel        | m       | 1524 |      1 |
-| Argentina                         | AR   | ARG  | 2013 | rel        | m       | 1524 |   1124 |
-| Armenia                           | AM   | ARM  | 2013 | rel        | m       | 1524 |    116 |
-| Australia                         | AU   | AUS  | 2013 | rel        | m       | 1524 |    105 |
-| Austria                           | AT   | AUT  | 2013 | rel        | m       | 1524 |     44 |
-| Azerbaijan                        | AZ   | AZE  | 2013 | rel        | m       | 1524 |    958 |
-| Bahamas                           | BS   | BHS  | 2013 | rel        | m       | 1524 |      2 |
-| Bahrain                           | BH   | BHR  | 2013 | rel        | m       | 1524 |     13 |
-| Bangladesh                        | BD   | BGD  | 2013 | rel        | m       | 1524 |  14705 |
-| Barbados                          | BB   | BRB  | 2013 | rel        | m       | 1524 |      0 |
-| Belarus                           | BY   | BLR  | 2013 | rel        | m       | 1524 |    162 |
-| Belgium                           | BE   | BEL  | 2013 | rel        | m       | 1524 |     63 |
-| Belize                            | BZ   | BLZ  | 2013 | rel        | m       | 1524 |      8 |
-| Benin                             | BJ   | BEN  | 2013 | rel        | m       | 1524 |    301 |
-| Bermuda                           | BM   | BMU  | 2013 | rel        | m       | 1524 |      0 |
-| Bhutan                            | BT   | BTN  | 2013 | rel        | m       | 1524 |    180 |
-| Bolivia (Plurinational State of)  | BO   | BOL  | 2013 | rel        | m       | 1524 |   1470 |
-| Bonaire, Saint Eustatius and Saba | BQ   | BES  | 2013 | rel        | m       | 1524 |      0 |
-| Bosnia and Herzegovina            | BA   | BIH  | 2013 | rel        | m       | 1524 |     57 |
-| Botswana                          | BW   | BWA  | 2013 | rel        | m       | 1524 |    423 |
+| country                                              | iso2 | iso3 | year | :diagnosis | :gender | :age | :count |
+| ---------------------------------------------------- | ---- | ---- | ---: | ---------- | ------- | ---: | -----: |
+| Albania                                              | AL   | ALB  | 2013 | rel        | m       | 1524 |     60 |
+| Algeria                                              | DZ   | DZA  | 2013 | rel        | m       | 1524 |   1021 |
+| Andorra                                              | AD   | AND  | 2013 | rel        | m       | 1524 |      0 |
+| Angola                                               | AO   | AGO  | 2013 | rel        | m       | 1524 |   2992 |
+| Anguilla                                             | AI   | AIA  | 2013 | rel        | m       | 1524 |      0 |
+| Antigua and Barbuda                                  | AG   | ATG  | 2013 | rel        | m       | 1524 |      1 |
+| Argentina                                            | AR   | ARG  | 2013 | rel        | m       | 1524 |   1124 |
+| Armenia                                              | AM   | ARM  | 2013 | rel        | m       | 1524 |    116 |
+| Australia                                            | AU   | AUS  | 2013 | rel        | m       | 1524 |    105 |
+| Austria                                              | AT   | AUT  | 2013 | rel        | m       | 1524 |     44 |
+| …                                                    | …    | …    |    … | …          | …       |    … |      … |
+| United Arab Emirates                                 | AE   | ARE  | 2013 | rel        | m       | 2534 |      9 |
+| United Kingdom of Great Britain and Northern Ireland | GB   | GBR  | 2013 | rel        | m       | 2534 |   1158 |
+| United States of America                             | US   | USA  | 2013 | rel        | m       | 2534 |    829 |
+| Uruguay                                              | UY   | URY  | 2013 | rel        | m       | 2534 |    142 |
+| Uzbekistan                                           | UZ   | UZB  | 2013 | rel        | m       | 2534 |   2371 |
+| Vanuatu                                              | VU   | VUT  | 2013 | rel        | m       | 2534 |      9 |
+| Venezuela (Bolivarian Republic of)                   | VE   | VEN  | 2013 | rel        | m       | 2534 |    739 |
+| Viet Nam                                             | VN   | VNM  | 2013 | rel        | m       | 2534 |   6302 |
+| Yemen                                                | YE   | YEM  | 2013 | rel        | m       | 2534 |   1113 |
+| Zambia                                               | ZM   | ZMB  | 2013 | rel        | m       | 2534 |   7808 |
+| Zimbabwe                                             | ZW   | ZWE  | 2013 | rel        | m       | 2534 |   5331 |
 
 -----
 
@@ -5718,21 +5697,18 @@ data/anscombe.csv \[44 3\]:
 |    1 |  4 |  4.26 |
 |    1 | 12 | 10.84 |
 |    1 |  7 |  4.82 |
-|    1 |  5 |  5.68 |
-|    2 | 10 |  9.14 |
-|    2 |  8 |  8.14 |
-|    2 | 13 |  8.74 |
-|    2 |  9 |  8.77 |
-|    2 | 11 |  9.26 |
-|    2 | 14 |  8.10 |
-|    2 |  6 |  6.13 |
-|    2 |  4 |  3.10 |
-|    2 | 12 |  9.13 |
-|    2 |  7 |  7.26 |
-|    2 |  5 |  4.74 |
-|    3 | 10 |  7.46 |
-|    3 |  8 |  6.77 |
-|    3 | 13 | 12.74 |
+|    … |  … |     … |
+|    4 |  8 |  6.58 |
+|    4 |  8 |  5.76 |
+|    4 |  8 |  7.71 |
+|    4 |  8 |  8.84 |
+|    4 |  8 |  8.47 |
+|    4 |  8 |  7.04 |
+|    4 |  8 |  5.25 |
+|    4 | 19 | 12.50 |
+|    4 |  8 |  5.56 |
+|    4 |  8 |  7.91 |
+|    4 |  8 |  6.89 |
 
 -----
 
@@ -5754,10 +5730,10 @@ pnl
 
 | :x | :a | :b |        :y1 |        :y2 | :z1 | :z2 |
 | -: | -: | -: | ---------: | ---------: | --: | --: |
-|  1 |  1 |  0 | 0.04463024 | 0.49444766 |   3 | \-2 |
-|  2 |  1 |  1 | 0.27772939 | 0.51226417 |   3 | \-2 |
-|  3 |  0 |  1 | 0.25401234 | 0.99400665 |   3 | \-2 |
-|  4 |  0 |  1 | 0.00171466 | 0.08373386 |   3 | \-2 |
+|  1 |  1 |  0 | 0.89438655 | 0.00141904 |   3 | \-2 |
+|  2 |  1 |  1 | 0.03360188 | 0.36184703 |   3 | \-2 |
+|  3 |  0 |  1 | 0.68220640 | 0.14432793 |   3 | \-2 |
+|  4 |  0 |  1 | 0.32190040 | 0.19908017 |   3 | \-2 |
 
 ``` clojure
 (tc/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
@@ -5768,14 +5744,14 @@ pnl
 
 | :x | :a | :b | :times |          y |   z |
 | -: | -: | -: | -----: | ---------: | --: |
-|  1 |  1 |  0 |      1 | 0.04463024 |   3 |
-|  2 |  1 |  1 |      1 | 0.27772939 |   3 |
-|  3 |  0 |  1 |      1 | 0.25401234 |   3 |
-|  4 |  0 |  1 |      1 | 0.00171466 |   3 |
-|  1 |  1 |  0 |      2 | 0.49444766 | \-2 |
-|  2 |  1 |  1 |      2 | 0.51226417 | \-2 |
-|  3 |  0 |  1 |      2 | 0.99400665 | \-2 |
-|  4 |  0 |  1 |      2 | 0.08373386 | \-2 |
+|  1 |  1 |  0 |      1 | 0.89438655 |   3 |
+|  2 |  1 |  1 |      1 | 0.03360188 |   3 |
+|  3 |  0 |  1 |      1 | 0.68220640 |   3 |
+|  4 |  0 |  1 |      1 | 0.32190040 |   3 |
+|  1 |  1 |  0 |      2 | 0.00141904 | \-2 |
+|  2 |  1 |  1 |      2 | 0.36184703 | \-2 |
+|  3 |  0 |  1 |      2 | 0.14432793 | \-2 |
+|  4 |  0 |  1 |      2 | 0.19908017 | \-2 |
 
 #### Wider
 
@@ -5827,21 +5803,18 @@ data/fish\_encounters.csv \[114 3\]:
 | 4842 | BCE2     |    1 |
 | 4842 | BCW2     |    1 |
 | 4842 | MAE      |    1 |
-| 4842 | MAW      |    1 |
-| 4843 | Release  |    1 |
-| 4843 | I80\_1   |    1 |
-| 4843 | Lisbon   |    1 |
-| 4843 | Rstr     |    1 |
-| 4843 | Base\_TD |    1 |
-| 4843 | BCE      |    1 |
-| 4843 | BCW      |    1 |
-| 4843 | BCE2     |    1 |
-| 4843 | BCW2     |    1 |
-| 4843 | MAE      |    1 |
-| 4843 | MAW      |    1 |
-| 4844 | Release  |    1 |
-| 4844 | I80\_1   |    1 |
-| 4844 | Lisbon   |    1 |
+|    … | …        |    … |
+| 4862 | BCE      |    1 |
+| 4862 | BCW      |    1 |
+| 4862 | BCE2     |    1 |
+| 4862 | BCW2     |    1 |
+| 4863 | Release  |    1 |
+| 4863 | I80\_1   |    1 |
+| 4864 | Release  |    1 |
+| 4864 | I80\_1   |    1 |
+| 4865 | Release  |    1 |
+| 4865 | I80\_1   |    1 |
+| 4865 | Lisbon   |    1 |
 
 ``` clojure
 (tc/pivot->wider fish "station" "seen" {:drop-missing? false})
@@ -5898,21 +5871,18 @@ data/warpbreaks.csv \[54 3\]:
 |     26 | A    | L       |
 |     67 | A    | L       |
 |     18 | A    | M       |
-|     21 | A    | M       |
-|     29 | A    | M       |
-|     17 | A    | M       |
-|     12 | A    | M       |
-|     18 | A    | M       |
-|     35 | A    | M       |
-|     30 | A    | M       |
-|     36 | A    | M       |
-|     36 | A    | H       |
-|     21 | A    | H       |
-|     24 | A    | H       |
-|     18 | A    | H       |
-|     10 | A    | H       |
-|     43 | A    | H       |
-|     28 | A    | H       |
+|      … | …    | …       |
+|     39 | B    | M       |
+|     29 | B    | M       |
+|     20 | B    | H       |
+|     21 | B    | H       |
+|     24 | B    | H       |
+|     17 | B    | H       |
+|     13 | B    | H       |
+|     15 | B    | H       |
+|     15 | B    | H       |
+|     16 | B    | H       |
+|     28 | B    | H       |
 
 Let’s see how many values are for each type of `wool` and `tension`
 groups
@@ -5990,21 +5960,18 @@ data/production.csv \[45 4\]:
 | A       | AI      | 2007 | \-1.53550542 |
 | A       | AI      | 2008 |   0.83907155 |
 | A       | AI      | 2009 | \-0.37424110 |
-| A       | AI      | 2010 | \-0.71158926 |
-| A       | AI      | 2011 |   1.12805634 |
-| A       | AI      | 2012 |   1.45718247 |
-| A       | AI      | 2013 | \-1.55934101 |
-| A       | AI      | 2014 | \-0.11695838 |
-| B       | AI      | 2000 | \-0.02617661 |
-| B       | AI      | 2001 | \-0.68863576 |
-| B       | AI      | 2002 |   0.06248741 |
-| B       | AI      | 2003 | \-0.72339686 |
-| B       | AI      | 2004 |   0.47248952 |
-| B       | AI      | 2005 | \-0.94173861 |
-| B       | AI      | 2006 | \-0.34782108 |
-| B       | AI      | 2007 |   0.52425284 |
-| B       | AI      | 2008 |   1.83230937 |
-| B       | AI      | 2009 |   0.10706491 |
+| …       | …       |    … |            … |
+| B       | EI      | 2004 |   0.62564999 |
+| B       | EI      | 2005 | \-1.34530299 |
+| B       | EI      | 2006 | \-0.97184975 |
+| B       | EI      | 2007 | \-1.69715821 |
+| B       | EI      | 2008 |   0.04556128 |
+| B       | EI      | 2009 |   1.19315043 |
+| B       | EI      | 2010 | \-1.60557503 |
+| B       | EI      | 2011 | \-0.77235497 |
+| B       | EI      | 2012 | \-2.50262738 |
+| B       | EI      | 2013 | \-1.62753769 |
+| B       | EI      | 2014 |   0.03329645 |
 
 ``` clojure
 (tc/pivot->wider production ["product" "country"] "production")
@@ -6070,33 +6037,30 @@ income
 
 data/us\_rent\_income.csv \[104 5\]:
 
-| GEOID | NAME                 | variable | estimate | moe |
-| ----: | -------------------- | -------- | -------: | --: |
-|     1 | Alabama              | income   |    24476 | 136 |
-|     1 | Alabama              | rent     |      747 |   3 |
-|     2 | Alaska               | income   |    32940 | 508 |
-|     2 | Alaska               | rent     |     1200 |  13 |
-|     4 | Arizona              | income   |    27517 | 148 |
-|     4 | Arizona              | rent     |      972 |   4 |
-|     5 | Arkansas             | income   |    23789 | 165 |
-|     5 | Arkansas             | rent     |      709 |   5 |
-|     6 | California           | income   |    29454 | 109 |
-|     6 | California           | rent     |     1358 |   3 |
-|     8 | Colorado             | income   |    32401 | 109 |
-|     8 | Colorado             | rent     |     1125 |   5 |
-|     9 | Connecticut          | income   |    35326 | 195 |
-|     9 | Connecticut          | rent     |     1123 |   5 |
-|    10 | Delaware             | income   |    31560 | 247 |
-|    10 | Delaware             | rent     |     1076 |  10 |
-|    11 | District of Columbia | income   |    43198 | 681 |
-|    11 | District of Columbia | rent     |     1424 |  17 |
-|    12 | Florida              | income   |    25952 |  70 |
-|    12 | Florida              | rent     |     1077 |   3 |
-|    13 | Georgia              | income   |    27024 | 106 |
-|    13 | Georgia              | rent     |      927 |   3 |
-|    15 | Hawaii               | income   |    32453 | 218 |
-|    15 | Hawaii               | rent     |     1507 |  18 |
-|    16 | Idaho                | income   |    25298 | 208 |
+| GEOID | NAME          | variable | estimate | moe |
+| ----: | ------------- | -------- | -------: | --: |
+|     1 | Alabama       | income   |    24476 | 136 |
+|     1 | Alabama       | rent     |      747 |   3 |
+|     2 | Alaska        | income   |    32940 | 508 |
+|     2 | Alaska        | rent     |     1200 |  13 |
+|     4 | Arizona       | income   |    27517 | 148 |
+|     4 | Arizona       | rent     |      972 |   4 |
+|     5 | Arkansas      | income   |    23789 | 165 |
+|     5 | Arkansas      | rent     |      709 |   5 |
+|     6 | California    | income   |    29454 | 109 |
+|     6 | California    | rent     |     1358 |   3 |
+|     … | …             | …        |        … |   … |
+|    51 | Virginia      | rent     |     1166 |   5 |
+|    53 | Washington    | income   |    32318 | 113 |
+|    53 | Washington    | rent     |     1120 |   4 |
+|    54 | West Virginia | income   |    23707 | 203 |
+|    54 | West Virginia | rent     |      681 |   6 |
+|    55 | Wisconsin     | income   |    29868 | 135 |
+|    55 | Wisconsin     | rent     |      813 |   3 |
+|    56 | Wyoming       | income   |    30854 | 342 |
+|    56 | Wyoming       | rent     |      828 |  11 |
+|    72 | Puerto Rico   | income   |          |     |
+|    72 | Puerto Rico   | rent     |      464 |   6 |
 
 ``` clojure
 (tc/pivot->wider income "variable" ["estimate" "moe"] {:drop-missing? false})
@@ -6116,21 +6080,18 @@ data/us\_rent\_income.csv \[52 6\]:
 |    10 | Delaware             |           31560 |        247 |          1076 |       10 |
 |    11 | District of Columbia |           43198 |        681 |          1424 |       17 |
 |    12 | Florida              |           25952 |         70 |          1077 |        3 |
-|    13 | Georgia              |           27024 |        106 |           927 |        3 |
-|    15 | Hawaii               |           32453 |        218 |          1507 |       18 |
-|    16 | Idaho                |           25298 |        208 |           792 |        7 |
-|    17 | Illinois             |           30684 |         83 |           952 |        3 |
-|    18 | Indiana              |           27247 |        117 |           782 |        3 |
-|    19 | Iowa                 |           30002 |        143 |           740 |        4 |
-|    20 | Kansas               |           29126 |        208 |           801 |        5 |
-|    21 | Kentucky             |           24702 |        159 |           713 |        4 |
-|    22 | Louisiana            |           25086 |        155 |           825 |        4 |
-|    23 | Maine                |           26841 |        187 |           808 |        7 |
-|    24 | Maryland             |           37147 |        152 |          1311 |        5 |
-|    25 | Massachusetts        |           34498 |        199 |          1173 |        5 |
-|    26 | Michigan             |           26987 |         82 |           824 |        3 |
-|    27 | Minnesota            |           32734 |        189 |           906 |        4 |
-|    28 | Mississippi          |           22766 |        194 |           740 |        5 |
+|     … | …                    |               … |          … |             … |        … |
+|    46 | South Dakota         |           28821 |        276 |           696 |        7 |
+|    47 | Tennessee            |           25453 |        102 |           808 |        4 |
+|    48 | Texas                |           28063 |        110 |           952 |        2 |
+|    49 | Utah                 |           27928 |        239 |           948 |        6 |
+|    50 | Vermont              |           29351 |        361 |           945 |       11 |
+|    51 | Virginia             |           32545 |        202 |          1166 |        5 |
+|    53 | Washington           |           32318 |        113 |          1120 |        4 |
+|    54 | West Virginia        |           23707 |        203 |           681 |        6 |
+|    55 | Wisconsin            |           29868 |        135 |           813 |        3 |
+|    56 | Wyoming              |           30854 |        342 |           828 |       11 |
+|    72 | Puerto Rico          |                 |            |           464 |        6 |
 
 Value concatenated by custom function
 
@@ -6154,21 +6115,18 @@ data/us\_rent\_income.csv \[52 6\]:
 |    10 | Delaware             |                   31560 |                247 |                  1076 |               10 |
 |    11 | District of Columbia |                   43198 |                681 |                  1424 |               17 |
 |    12 | Florida              |                   25952 |                 70 |                  1077 |                3 |
-|    13 | Georgia              |                   27024 |                106 |                   927 |                3 |
-|    15 | Hawaii               |                   32453 |                218 |                  1507 |               18 |
-|    16 | Idaho                |                   25298 |                208 |                   792 |                7 |
-|    17 | Illinois             |                   30684 |                 83 |                   952 |                3 |
-|    18 | Indiana              |                   27247 |                117 |                   782 |                3 |
-|    19 | Iowa                 |                   30002 |                143 |                   740 |                4 |
-|    20 | Kansas               |                   29126 |                208 |                   801 |                5 |
-|    21 | Kentucky             |                   24702 |                159 |                   713 |                4 |
-|    22 | Louisiana            |                   25086 |                155 |                   825 |                4 |
-|    23 | Maine                |                   26841 |                187 |                   808 |                7 |
-|    24 | Maryland             |                   37147 |                152 |                  1311 |                5 |
-|    25 | Massachusetts        |                   34498 |                199 |                  1173 |                5 |
-|    26 | Michigan             |                   26987 |                 82 |                   824 |                3 |
-|    27 | Minnesota            |                   32734 |                189 |                   906 |                4 |
-|    28 | Mississippi          |                   22766 |                194 |                   740 |                5 |
+|     … | …                    |                       … |                  … |                     … |                … |
+|    46 | South Dakota         |                   28821 |                276 |                   696 |                7 |
+|    47 | Tennessee            |                   25453 |                102 |                   808 |                4 |
+|    48 | Texas                |                   28063 |                110 |                   952 |                2 |
+|    49 | Utah                 |                   27928 |                239 |                   948 |                6 |
+|    50 | Vermont              |                   29351 |                361 |                   945 |               11 |
+|    51 | Virginia             |                   32545 |                202 |                  1166 |                5 |
+|    53 | Washington           |                   32318 |                113 |                  1120 |                4 |
+|    54 | West Virginia        |                   23707 |                203 |                   681 |                6 |
+|    55 | Wisconsin            |                   29868 |                135 |                   813 |                3 |
+|    56 | Wyoming              |                   30854 |                342 |                   828 |               11 |
+|    72 | Puerto Rico          |                         |                    |                   464 |                6 |
 
 -----
 
@@ -6226,33 +6184,30 @@ A couple of `tidyr` examples of more complex reshaping.
 
 data/world\_bank\_pop.csv.gz \[1056 8\]:
 
-| country | indicator   |             2000 |             2001 |             2002 |             2003 |             2004 |             2005 |
-| ------- | ----------- | ---------------: | ---------------: | ---------------: | ---------------: | ---------------: | ---------------: |
-| ABW     | SP.URB.TOTL |   4.24440000E+04 |   4.30480000E+04 |   4.36700000E+04 |   4.42460000E+04 |   4.46690000E+04 |   4.48890000E+04 |
-| ABW     | SP.URB.GROW |   1.18263237E+00 |   1.41302122E+00 |   1.43455953E+00 |   1.31036044E+00 |   9.51477684E-01 |   4.91302715E-01 |
-| ABW     | SP.POP.TOTL |   9.08530000E+04 |   9.28980000E+04 |   9.49920000E+04 |   9.70170000E+04 |   9.87370000E+04 |   1.00031000E+05 |
-| ABW     | SP.POP.GROW |   2.05502678E+00 |   2.22593013E+00 |   2.22905605E+00 |   2.10935434E+00 |   1.75735287E+00 |   1.30203884E+00 |
-| AFG     | SP.URB.TOTL |   4.43629900E+06 |   4.64805500E+06 |   4.89295100E+06 |   5.15568600E+06 |   5.42677000E+06 |   5.69182300E+06 |
-| AFG     | SP.URB.GROW |   3.91222846E+00 |   4.66283822E+00 |   5.13467454E+00 |   5.23045853E+00 |   5.12439302E+00 |   4.76864700E+00 |
-| AFG     | SP.POP.TOTL |   2.00937560E+07 |   2.09664630E+07 |   2.19799230E+07 |   2.30648510E+07 |   2.41189790E+07 |   2.50707980E+07 |
-| AFG     | SP.POP.GROW |   3.49465874E+00 |   4.25150411E+00 |   4.72052846E+00 |   4.81804112E+00 |   4.46891840E+00 |   3.87047016E+00 |
-| AGO     | SP.URB.TOTL |   8.23476600E+06 |   8.70800000E+06 |   9.21878700E+06 |   9.76519700E+06 |   1.03435060E+07 |   1.09494240E+07 |
-| AGO     | SP.URB.GROW |   5.43749411E+00 |   5.58771954E+00 |   5.70013237E+00 |   5.75812711E+00 |   5.75341450E+00 |   5.69279690E+00 |
-| AGO     | SP.POP.TOTL |   1.64409240E+07 |   1.69832660E+07 |   1.75726490E+07 |   1.82033690E+07 |   1.88657160E+07 |   1.95525420E+07 |
-| AGO     | SP.POP.GROW |   3.03294342E+00 |   3.24549139E+00 |   3.41151529E+00 |   3.52630277E+00 |   3.57396197E+00 |   3.57589970E+00 |
-| ALB     | SP.URB.TOTL |   1.28939100E+06 |   1.29858400E+06 |   1.32722000E+06 |   1.35484800E+06 |   1.38182800E+06 |   1.40729800E+06 |
-| ALB     | SP.URB.GROW |   7.42478629E-01 |   7.10442618E-01 |   2.18120890E+00 |   2.06027418E+00 |   1.97179894E+00 |   1.82642936E+00 |
-| ALB     | SP.POP.TOTL |   3.08902700E+06 |   3.06017300E+06 |   3.05101000E+06 |   3.03961600E+06 |   3.02693900E+06 |   3.01148700E+06 |
-| ALB     | SP.POP.GROW | \-6.37356834E-01 | \-9.38470428E-01 | \-2.99876697E-01 | \-3.74149169E-01 | \-4.17931378E-01 | \-5.11790116E-01 |
-| AND     | SP.URB.TOTL |   6.04170000E+04 |   6.19910000E+04 |   6.41940000E+04 |   6.67470000E+04 |   6.91920000E+04 |   7.12050000E+04 |
-| AND     | SP.URB.GROW |   1.27931383E+00 |   2.57186909E+00 |   3.49205352E+00 |   3.89996041E+00 |   3.59758966E+00 |   2.86777917E+00 |
-| AND     | SP.POP.TOTL |   6.53900000E+04 |   6.73410000E+04 |   7.00490000E+04 |   7.31820000E+04 |   7.62440000E+04 |   7.88670000E+04 |
-| AND     | SP.POP.GROW |   1.57216555E+00 |   2.93999221E+00 |   3.94257335E+00 |   4.37544919E+00 |   4.09892348E+00 |   3.38241655E+00 |
-| ARB     | SP.URB.TOTL |   1.49981223E+08 |   1.53924351E+08 |   1.57985738E+08 |   1.62267754E+08 |   1.66820459E+08 |   1.71813698E+08 |
-| ARB     | SP.URB.GROW |   2.59956290E+00 |   2.62908111E+00 |   2.63856042E+00 |   2.71038136E+00 |   2.80567450E+00 |   2.99318143E+00 |
-| ARB     | SP.POP.TOTL |   2.83832016E+08 |   2.89850357E+08 |   2.96026575E+08 |   3.02434519E+08 |   3.09162029E+08 |   3.16264728E+08 |
-| ARB     | SP.POP.GROW |   2.11148598E+00 |   2.12038835E+00 |   2.13082988E+00 |   2.16465160E+00 |   2.22445177E+00 |   2.29740341E+00 |
-| ARE     | SP.URB.TOTL |   2.53138600E+06 |   2.68261100E+06 |   2.84320800E+06 |   3.04862700E+06 |   3.34683000E+06 |   3.76723900E+06 |
+| country | indicator   |           2000 |           2001 |           2002 |           2003 |           2004 |           2005 |
+| ------- | ----------- | -------------: | -------------: | -------------: | -------------: | -------------: | -------------: |
+| ABW     | SP.URB.TOTL | 4.24440000E+04 | 4.30480000E+04 | 4.36700000E+04 | 4.42460000E+04 | 4.46690000E+04 | 4.48890000E+04 |
+| ABW     | SP.URB.GROW | 1.18263237E+00 | 1.41302122E+00 | 1.43455953E+00 | 1.31036044E+00 | 9.51477684E-01 | 4.91302715E-01 |
+| ABW     | SP.POP.TOTL | 9.08530000E+04 | 9.28980000E+04 | 9.49920000E+04 | 9.70170000E+04 | 9.87370000E+04 | 1.00031000E+05 |
+| ABW     | SP.POP.GROW | 2.05502678E+00 | 2.22593013E+00 | 2.22905605E+00 | 2.10935434E+00 | 1.75735287E+00 | 1.30203884E+00 |
+| AFG     | SP.URB.TOTL | 4.43629900E+06 | 4.64805500E+06 | 4.89295100E+06 | 5.15568600E+06 | 5.42677000E+06 | 5.69182300E+06 |
+| AFG     | SP.URB.GROW | 3.91222846E+00 | 4.66283822E+00 | 5.13467454E+00 | 5.23045853E+00 | 5.12439302E+00 | 4.76864700E+00 |
+| AFG     | SP.POP.TOTL | 2.00937560E+07 | 2.09664630E+07 | 2.19799230E+07 | 2.30648510E+07 | 2.41189790E+07 | 2.50707980E+07 |
+| AFG     | SP.POP.GROW | 3.49465874E+00 | 4.25150411E+00 | 4.72052846E+00 | 4.81804112E+00 | 4.46891840E+00 | 3.87047016E+00 |
+| AGO     | SP.URB.TOTL | 8.23476600E+06 | 8.70800000E+06 | 9.21878700E+06 | 9.76519700E+06 | 1.03435060E+07 | 1.09494240E+07 |
+| AGO     | SP.URB.GROW | 5.43749411E+00 | 5.58771954E+00 | 5.70013237E+00 | 5.75812711E+00 | 5.75341450E+00 | 5.69279690E+00 |
+| …       | …           |              … |              … |              … |              … |              … |              … |
+| ZAF     | SP.URB.GROW | 2.32229180E+00 | 2.26080492E+00 | 2.29242659E+00 | 2.25719919E+00 | 2.18014731E+00 | 2.09725981E+00 |
+| ZAF     | SP.POP.TOTL | 4.57283150E+07 | 4.63850060E+07 | 4.70261730E+07 | 4.76487270E+07 | 4.82473950E+07 | 4.88205860E+07 |
+| ZAF     | SP.POP.GROW | 1.47499416E+00 | 1.42585702E+00 | 1.37280586E+00 | 1.31515951E+00 | 1.24859226E+00 | 1.18102315E+00 |
+| ZMB     | SP.URB.TOTL | 3.66507600E+06 | 3.78866000E+06 | 3.94496500E+06 | 4.10631700E+06 | 4.27387500E+06 | 4.44857100E+06 |
+| ZMB     | SP.URB.GROW | 1.50532147E+00 | 3.31633227E+00 | 4.04276877E+00 | 4.00864374E+00 | 3.99943902E+00 | 4.00620111E+00 |
+| ZMB     | SP.POP.TOTL | 1.05312210E+07 | 1.08241250E+07 | 1.11204090E+07 | 1.14219840E+07 | 1.17317460E+07 | 1.20521560E+07 |
+| ZMB     | SP.POP.GROW | 2.80705843E+00 | 2.74331654E+00 | 2.70046295E+00 | 2.67578507E+00 | 2.67585813E+00 | 2.69450644E+00 |
+| ZWE     | SP.URB.TOTL | 4.12598700E+06 | 4.22551900E+06 | 4.32330700E+06 | 4.35604100E+06 | 4.38192000E+06 | 4.41384500E+06 |
+| ZWE     | SP.URB.GROW | 2.52373518E+00 | 2.38368296E+00 | 2.28785252E+00 | 7.54299867E-01 | 5.92336717E-01 | 7.25920717E-01 |
+| ZWE     | SP.POP.TOTL | 1.22222510E+07 | 1.23661650E+07 | 1.25005250E+07 | 1.26338970E+07 | 1.27775110E+07 | 1.29400320E+07 |
+| ZWE     | SP.POP.GROW | 1.29878201E+00 | 1.17059711E+00 | 1.08065293E+00 | 1.06127964E+00 | 1.13032327E+00 | 1.26390895E+00 |
 
 Step 1 - convert years column into values
 
@@ -6268,33 +6223,30 @@ pop2
 
 data/world\_bank\_pop.csv.gz \[19008 4\]:
 
-| country | indicator   | year |            value |
-| ------- | ----------- | ---: | ---------------: |
-| ABW     | SP.URB.TOTL | 2013 |   4.43600000E+04 |
-| ABW     | SP.URB.GROW | 2013 |   6.69503994E-01 |
-| ABW     | SP.POP.TOTL | 2013 |   1.03187000E+05 |
-| ABW     | SP.POP.GROW | 2013 |   5.92914005E-01 |
-| AFG     | SP.URB.TOTL | 2013 |   7.73396400E+06 |
-| AFG     | SP.URB.GROW | 2013 |   4.19297967E+00 |
-| AFG     | SP.POP.TOTL | 2013 |   3.17316880E+07 |
-| AFG     | SP.POP.GROW | 2013 |   3.31522413E+00 |
-| AGO     | SP.URB.TOTL | 2013 |   1.61194910E+07 |
-| AGO     | SP.URB.GROW | 2013 |   4.72272270E+00 |
-| AGO     | SP.POP.TOTL | 2013 |   2.59983400E+07 |
-| AGO     | SP.POP.GROW | 2013 |   3.53182419E+00 |
-| ALB     | SP.URB.TOTL | 2013 |   1.60350500E+06 |
-| ALB     | SP.URB.GROW | 2013 |   1.74363937E+00 |
-| ALB     | SP.POP.TOTL | 2013 |   2.89509200E+06 |
-| ALB     | SP.POP.GROW | 2013 | \-1.83211385E-01 |
-| AND     | SP.URB.TOTL | 2013 |   7.15270000E+04 |
-| AND     | SP.URB.GROW | 2013 | \-2.11923331E+00 |
-| AND     | SP.POP.TOTL | 2013 |   8.07880000E+04 |
-| AND     | SP.POP.GROW | 2013 | \-2.01331401E+00 |
-| ARB     | SP.URB.TOTL | 2013 |   2.18605128E+08 |
-| ARB     | SP.URB.GROW | 2013 |   2.78289395E+00 |
-| ARB     | SP.POP.TOTL | 2013 |   3.81702086E+08 |
-| ARB     | SP.POP.GROW | 2013 |   2.24884429E+00 |
-| ARE     | SP.URB.TOTL | 2013 |   7.66126800E+06 |
+| country | indicator   | year |          value |
+| ------- | ----------- | ---: | -------------: |
+| ABW     | SP.URB.TOTL | 2013 | 4.43600000E+04 |
+| ABW     | SP.URB.GROW | 2013 | 6.69503994E-01 |
+| ABW     | SP.POP.TOTL | 2013 | 1.03187000E+05 |
+| ABW     | SP.POP.GROW | 2013 | 5.92914005E-01 |
+| AFG     | SP.URB.TOTL | 2013 | 7.73396400E+06 |
+| AFG     | SP.URB.GROW | 2013 | 4.19297967E+00 |
+| AFG     | SP.POP.TOTL | 2013 | 3.17316880E+07 |
+| AFG     | SP.POP.GROW | 2013 | 3.31522413E+00 |
+| AGO     | SP.URB.TOTL | 2013 | 1.61194910E+07 |
+| AGO     | SP.URB.GROW | 2013 | 4.72272270E+00 |
+| …       | …           |    … |              … |
+| ZAF     | SP.URB.GROW | 2012 | 2.23077040E+00 |
+| ZAF     | SP.POP.TOTL | 2012 | 5.29982130E+07 |
+| ZAF     | SP.POP.GROW | 2012 | 1.39596592E+00 |
+| ZMB     | SP.URB.TOTL | 2012 | 5.93201300E+06 |
+| ZMB     | SP.URB.GROW | 2012 | 4.25944078E+00 |
+| ZMB     | SP.POP.TOTL | 2012 | 1.46999370E+07 |
+| ZMB     | SP.POP.GROW | 2012 | 3.00513283E+00 |
+| ZWE     | SP.URB.TOTL | 2012 | 4.83015300E+06 |
+| ZWE     | SP.URB.GROW | 2012 | 1.67857380E+00 |
+| ZWE     | SP.POP.TOTL | 2012 | 1.47108260E+07 |
+| ZWE     | SP.POP.GROW | 2012 | 2.22830616E+00 |
 
 Step 2 - separate `"indicate"` column
 
@@ -6310,33 +6262,30 @@ pop3
 
 data/world\_bank\_pop.csv.gz \[19008 5\]:
 
-| country | area | variable | year |            value |
-| ------- | ---- | -------- | ---: | ---------------: |
-| ABW     | URB  | TOTL     | 2013 |   4.43600000E+04 |
-| ABW     | URB  | GROW     | 2013 |   6.69503994E-01 |
-| ABW     | POP  | TOTL     | 2013 |   1.03187000E+05 |
-| ABW     | POP  | GROW     | 2013 |   5.92914005E-01 |
-| AFG     | URB  | TOTL     | 2013 |   7.73396400E+06 |
-| AFG     | URB  | GROW     | 2013 |   4.19297967E+00 |
-| AFG     | POP  | TOTL     | 2013 |   3.17316880E+07 |
-| AFG     | POP  | GROW     | 2013 |   3.31522413E+00 |
-| AGO     | URB  | TOTL     | 2013 |   1.61194910E+07 |
-| AGO     | URB  | GROW     | 2013 |   4.72272270E+00 |
-| AGO     | POP  | TOTL     | 2013 |   2.59983400E+07 |
-| AGO     | POP  | GROW     | 2013 |   3.53182419E+00 |
-| ALB     | URB  | TOTL     | 2013 |   1.60350500E+06 |
-| ALB     | URB  | GROW     | 2013 |   1.74363937E+00 |
-| ALB     | POP  | TOTL     | 2013 |   2.89509200E+06 |
-| ALB     | POP  | GROW     | 2013 | \-1.83211385E-01 |
-| AND     | URB  | TOTL     | 2013 |   7.15270000E+04 |
-| AND     | URB  | GROW     | 2013 | \-2.11923331E+00 |
-| AND     | POP  | TOTL     | 2013 |   8.07880000E+04 |
-| AND     | POP  | GROW     | 2013 | \-2.01331401E+00 |
-| ARB     | URB  | TOTL     | 2013 |   2.18605128E+08 |
-| ARB     | URB  | GROW     | 2013 |   2.78289395E+00 |
-| ARB     | POP  | TOTL     | 2013 |   3.81702086E+08 |
-| ARB     | POP  | GROW     | 2013 |   2.24884429E+00 |
-| ARE     | URB  | TOTL     | 2013 |   7.66126800E+06 |
+| country | area | variable | year |          value |
+| ------- | ---- | -------- | ---: | -------------: |
+| ABW     | URB  | TOTL     | 2013 | 4.43600000E+04 |
+| ABW     | URB  | GROW     | 2013 | 6.69503994E-01 |
+| ABW     | POP  | TOTL     | 2013 | 1.03187000E+05 |
+| ABW     | POP  | GROW     | 2013 | 5.92914005E-01 |
+| AFG     | URB  | TOTL     | 2013 | 7.73396400E+06 |
+| AFG     | URB  | GROW     | 2013 | 4.19297967E+00 |
+| AFG     | POP  | TOTL     | 2013 | 3.17316880E+07 |
+| AFG     | POP  | GROW     | 2013 | 3.31522413E+00 |
+| AGO     | URB  | TOTL     | 2013 | 1.61194910E+07 |
+| AGO     | URB  | GROW     | 2013 | 4.72272270E+00 |
+| …       | …    | …        |    … |              … |
+| ZAF     | URB  | GROW     | 2012 | 2.23077040E+00 |
+| ZAF     | POP  | TOTL     | 2012 | 5.29982130E+07 |
+| ZAF     | POP  | GROW     | 2012 | 1.39596592E+00 |
+| ZMB     | URB  | TOTL     | 2012 | 5.93201300E+06 |
+| ZMB     | URB  | GROW     | 2012 | 4.25944078E+00 |
+| ZMB     | POP  | TOTL     | 2012 | 1.46999370E+07 |
+| ZMB     | POP  | GROW     | 2012 | 3.00513283E+00 |
+| ZWE     | URB  | TOTL     | 2012 | 4.83015300E+06 |
+| ZWE     | URB  | GROW     | 2012 | 1.67857380E+00 |
+| ZWE     | POP  | TOTL     | 2012 | 1.47108260E+07 |
+| ZWE     | POP  | GROW     | 2012 | 2.22830616E+00 |
 
 Step 3 - Make columns based on `"variable"` values.
 
@@ -6358,21 +6307,18 @@ data/world\_bank\_pop.csv.gz \[9504 5\]:
 | ALB     | POP  | 2013 | 2.89509200E+06 | \-0.18321138 |
 | AND     | URB  | 2013 | 7.15270000E+04 | \-2.11923331 |
 | AND     | POP  | 2013 | 8.07880000E+04 | \-2.01331401 |
-| ARB     | URB  | 2013 | 2.18605128E+08 |   2.78289395 |
-| ARB     | POP  | 2013 | 3.81702086E+08 |   2.24884429 |
-| ARE     | URB  | 2013 | 7.66126800E+06 |   1.55515587 |
-| ARE     | POP  | 2013 | 9.00626300E+06 |   1.18180499 |
-| ARG     | URB  | 2013 | 3.88172560E+07 |   1.18764913 |
-| ARG     | POP  | 2013 | 4.25399250E+07 |   1.04727675 |
-| ARM     | URB  | 2013 | 1.82765600E+06 |   0.28102719 |
-| ARM     | POP  | 2013 | 2.89350900E+06 |   0.40125198 |
-| ASM     | URB  | 2013 | 4.83100000E+04 |   0.05797582 |
-| ASM     | POP  | 2013 | 5.53070000E+04 |   0.13931989 |
-| ATG     | URB  | 2013 | 2.47980000E+04 |   0.38383110 |
-| ATG     | POP  | 2013 | 9.78240000E+04 |   1.07605830 |
-| AUS     | URB  | 2013 | 1.97902080E+07 |   1.87536404 |
-| AUS     | POP  | 2013 | 2.31459010E+07 |   1.75833808 |
-| AUT     | URB  | 2013 | 4.86199100E+06 |   0.91956020 |
+| …       | …    |    … |              … |            … |
+| WSM     | POP  | 2012 | 1.89194000E+05 |   0.81144852 |
+| XKX     | URB  | 2012 |                |              |
+| XKX     | POP  | 2012 | 1.80520000E+06 |   0.78972659 |
+| YEM     | URB  | 2012 | 8.20982800E+06 |   4.49478765 |
+| YEM     | POP  | 2012 | 2.49099690E+07 |   2.67605025 |
+| ZAF     | URB  | 2012 | 3.35330290E+07 |   2.23077040 |
+| ZAF     | POP  | 2012 | 5.29982130E+07 |   1.39596592 |
+| ZMB     | URB  | 2012 | 5.93201300E+06 |   4.25944078 |
+| ZMB     | POP  | 2012 | 1.46999370E+07 |   3.00513283 |
+| ZWE     | URB  | 2012 | 4.83015300E+06 |   1.67857380 |
+| ZWE     | POP  | 2012 | 1.47108260E+07 |   2.22830616 |
 
 -----
 
@@ -6502,21 +6448,18 @@ data/construction.csv \[63 5\]:
 | 2018 | August    | 1      |         | 939 |
 | 2018 | September | 1      |         | 835 |
 | 2018 | January   | 2-4    |         |     |
-| 2018 | February  | 2-4    |         |     |
-| 2018 | March     | 2-4    |         |     |
-| 2018 | April     | 2-4    |         |     |
-| 2018 | May       | 2-4    |         |     |
-| 2018 | June      | 2-4    |         |     |
-| 2018 | July      | 2-4    |         |     |
-| 2018 | August    | 2-4    |         |     |
-| 2018 | September | 2-4    |         |     |
-| 2018 | January   | 5+     |         | 348 |
-| 2018 | February  | 5+     |         | 400 |
-| 2018 | March     | 5+     |         | 356 |
-| 2018 | April     | 5+     |         | 447 |
-| 2018 | May       | 5+     |         | 364 |
-| 2018 | June      | 5+     |         | 342 |
-| 2018 | July      | 5+     |         | 360 |
+|    … | …         | …      | …       |   … |
+| 2018 | August    |        | South   | 649 |
+| 2018 | September |        | South   | 560 |
+| 2018 | January   |        | West    | 339 |
+| 2018 | February  |        | West    | 336 |
+| 2018 | March     |        | West    | 330 |
+| 2018 | April     |        | West    | 304 |
+| 2018 | May       |        | West    | 319 |
+| 2018 | June      |        | West    | 360 |
+| 2018 | July      |        | West    | 310 |
+| 2018 | August    |        | West    | 286 |
+| 2018 | September |        | West    | 296 |
 
 Conversion 2 - Convert to longer form and back and rename columns
 
@@ -6602,21 +6545,18 @@ data/stockstidyr.csv \[30 3\]:
 | 2009-01-08 | X       |   0.25234172 |
 | 2009-01-09 | X       |   0.40257136 |
 | 2009-01-10 | X       | \-0.64383500 |
-| 2009-01-01 | Y       | \-1.89040193 |
-| 2009-01-02 | Y       | \-1.82473090 |
-| 2009-01-03 | Y       | \-1.03606860 |
-| 2009-01-04 | Y       | \-0.52178390 |
-| 2009-01-05 | Y       | \-2.21683349 |
-| 2009-01-06 | Y       | \-2.89350924 |
-| 2009-01-07 | Y       | \-2.16794818 |
-| 2009-01-08 | Y       | \-0.32854117 |
-| 2009-01-09 | Y       |   1.96407898 |
+| …          | …       |            … |
 | 2009-01-10 | Y       |   2.68618382 |
 | 2009-01-01 | Z       | \-1.77946880 |
 | 2009-01-02 | Z       |   2.39892513 |
 | 2009-01-03 | Z       | \-3.98697977 |
 | 2009-01-04 | Z       | \-2.83065490 |
 | 2009-01-05 | Z       |   1.43715171 |
+| 2009-01-06 | Z       |   3.39784140 |
+| 2009-01-07 | Z       | \-1.20108258 |
+| 2009-01-08 | Z       | \-1.53160473 |
+| 2009-01-09 | Z       | \-6.80878830 |
+| 2009-01-10 | Z       | \-2.55909321 |
 
 Convert back to wide form
 
@@ -7324,31 +7264,28 @@ asof-\>= \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   2 |   4 | 0.5 | A   |
 |   1 |   9 | 1.5 | C   |
-|   1 |   7 | 0.5 | A   |
-|   1 |   3 | 1.5 | C   |
-|   2 |   6 | 1.5 | C   |
-|   2 |   8 | 1.0 | B   |
+|   1 |   9 | 1.5 | C   |
+|   2 |   2 | 1.0 | B   |
 |   1 |   9 | 1.5 | C   |
 |   1 |   1 | 0.5 | A   |
 |   1 |   3 | 1.5 | C   |
+|   1 |   9 | 1.5 | C   |
+|   2 |   4 | 0.5 | A   |
 |   1 |   5 | 1.0 | B   |
-|   2 |   6 | 1.5 | C   |
-|   1 |   1 | 0.5 | A   |
-|   1 |   1 | 0.5 | A   |
 |   1 |   7 | 0.5 | A   |
-|   2 |   4 | 0.5 | A   |
+|   … |   … |   … | …   |
+|   1 |   7 | 0.5 | A   |
+|   1 |   7 | 0.5 | A   |
 |   1 |   9 | 1.5 | C   |
-|   1 |   7 | 0.5 | A   |
-|   1 |   7 | 0.5 | A   |
-|   2 |   6 | 1.5 | C   |
-|   2 |   6 | 1.5 | C   |
-|   1 |   7 | 0.5 | A   |
+|   2 |   4 | 0.5 | A   |
+|   1 |   1 | 0.5 | A   |
+|   2 |   2 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
 |   1 |   5 | 1.0 | B   |
 |   2 |   8 | 1.0 | B   |
+|   2 |   2 | 1.0 | B   |
 |   1 |   3 | 1.5 | C   |
-|   1 |   9 | 1.5 | C   |
 
 ##### Concat grouped dataset
 
@@ -7411,15 +7348,15 @@ union \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   1 | 0.5 | A   |
-|   1 |   3 | 1.5 | C   |
-|   2 |   4 | 0.5 | A   |
 |   2 |   8 | 1.0 | B   |
-|   1 |   7 | 0.5 | A   |
-|   2 |   6 | 1.5 | C   |
 |   2 |   2 | 1.0 | B   |
-|   1 |   9 | 1.5 | C   |
+|   1 |   3 | 1.5 | C   |
 |   1 |   5 | 1.0 | B   |
+|   2 |   6 | 1.5 | C   |
+|   1 |   1 | 0.5 | A   |
+|   1 |   7 | 0.5 | A   |
+|   2 |   4 | 0.5 | A   |
+|   1 |   9 | 1.5 | C   |
 
 #### Bind
 
@@ -7608,29 +7545,26 @@ for-splitting
 
 | :group | :partition | :id |
 | ------ | ---------- | --: |
-| :g3    | :a         |   0 |
-| :g2    | :a         |   1 |
+| :g1    | :a         |   0 |
+| :g3    | :a         |   1 |
 | :g3    | :a         |   2 |
-| :g2    | :a         |   3 |
-| :g3    | :a         |   4 |
-| :g1    | :a         |   5 |
-| :g3    | :a         |   6 |
+| :g1    | :a         |   3 |
+| :g1    | :a         |   4 |
+| :g3    | :a         |   5 |
+| :g2    | :a         |   6 |
 | :g2    | :a         |   7 |
-| :g2    | :a         |   8 |
-| :g3    | :a         |   9 |
-| :g1    | :a         |  10 |
-| :g1    | :a         |  11 |
-| :g2    | :a         |  12 |
-| :g2    | :a         |  13 |
-| :g3    | :a         |  14 |
+| :g3    | :a         |   8 |
+| :g2    | :a         |   9 |
+| …      | …          |   … |
+| :g2    | :a         |  14 |
 | :g2    | :a         |  15 |
-| :g2    | :a         |  16 |
-| :g3    | :a         |  17 |
-| :g2    | :a         |  18 |
-| :g1    | :a         |  19 |
+| :g1    | :a         |  16 |
+| :g1    | :a         |  17 |
+| :g1    | :a         |  18 |
+| :g2    | :a         |  19 |
 | :g3    | :b         |  20 |
-| :g3    | :b         |  21 |
-| :g3    | :b         |  22 |
+| :g1    | :b         |  21 |
+| :g1    | :b         |  22 |
 | :g3    | :b         |  23 |
 | :g3    | :b         |  24 |
 
@@ -7648,36 +7582,36 @@ Returns `k=5` maps
 
 | :group | :partition | :id | :\(split-name | :\)split-id |   |
 | ------ | ---------- | --: | --------------------------- | -: |
-| :g2    | :a         |  16 | :train                      | 0 |
-| :g1    | :a         |  11 | :train                      | 0 |
-| :g3    | :b         |  20 | :train                      | 0 |
-| :g2    | :a         |  18 | :train                      | 0 |
-| :g3    | :b         |  24 | :train                      | 0 |
-| :g3    | :b         |  21 | :train                      | 0 |
-| :g3    | :a         |   2 | :train                      | 0 |
-| :g1    | :a         |  19 | :train                      | 0 |
-| :g3    | :a         |  17 | :train                      | 0 |
-| :g2    | :a         |  15 | :train                      | 0 |
-| :g2    | :a         |  13 | :train                      | 0 |
-| :g2    | :a         |  12 | :train                      | 0 |
+| :g1    | :b         |  22 | :train                      | 0 |
+| :g3    | :a         |   5 | :train                      | 0 |
+| :g3    | :a         |   1 | :train                      | 0 |
 | :g3    | :b         |  23 | :train                      | 0 |
-| :g2    | :a         |   1 | :train                      | 0 |
-| :g3    | :a         |   4 | :train                      | 0 |
 | :g2    | :a         |   7 | :train                      | 0 |
-| :g3    | :a         |   6 | :train                      | 0 |
-| :g3    | :b         |  22 | :train                      | 0 |
-| :g1    | :a         |   5 | :train                      | 0 |
-| :g3    | :a         |   0 | :train                      | 0 |
-| :g2    | :a         |   3 | :test                       | 0 |
-| :g3    | :a         |  14 | :test                       | 0 |
-| :g3    | :a         |   9 | :test                       | 0 |
-| :g1    | :a         |  10 | :test                       | 0 |
-| :g2    | :a         |   8 | :test                       | 0 |
-| :g2    | :a         |   3 | :train                      | 1 |
-| :g3    | :a         |  14 | :train                      | 1 |
-| :g3    | :a         |   9 | :train                      | 1 |
-| :g1    | :a         |  10 | :train                      | 1 |
-| :g2    | :a         |   8 | :train                      | 1 |
+| :g3    | :a         |  12 | :train                      | 0 |
+| :g2    | :a         |   6 | :train                      | 0 |
+| :g3    | :b         |  20 | :train                      | 0 |
+| :g1    | :a         |   0 | :train                      | 0 |
+| :g3    | :a         |  11 | :train                      | 0 |
+| :g2    | :a         |   9 | :train                      | 0 |
+| :g2    | :a         |  14 | :train                      | 0 |
+| :g3    | :a         |   2 | :train                      | 0 |
+| :g1    | :a         |  10 | :train                      | 0 |
+| :g1    | :a         |  18 | :train                      | 0 |
+| :g1    | :a         |   3 | :train                      | 0 |
+| :g3    | :a         |  13 | :train                      | 0 |
+| :g1    | :a         |  16 | :train                      | 0 |
+| :g1    | :a         |   4 | :train                      | 0 |
+| :g2    | :a         |  15 | :train                      | 0 |
+| :g1    | :a         |  17 | :test                       | 0 |
+| :g2    | :a         |  19 | :test                       | 0 |
+| :g3    | :a         |   8 | :test                       | 0 |
+| :g3    | :b         |  24 | :test                       | 0 |
+| :g1    | :b         |  21 | :test                       | 0 |
+| :g1    | :a         |  17 | :train                      | 1 |
+| :g2    | :a         |  19 | :train                      | 1 |
+| :g3    | :a         |   8 | :train                      | 1 |
+| :g3    | :b         |  24 | :train                      | 1 |
+| :g1    | :b         |  21 | :train                      | 1 |
 
 Partition according to `:k` column to reflect it’s distribution
 
@@ -7691,36 +7625,36 @@ Partition according to `:k` column to reflect it’s distribution
 
 | :group | :partition | :id | :\(split-name | :\)split-id |   |
 | ------ | ---------- | --: | --------------------------- | -: |
-| :g1    | :a         |   5 | :train                      | 0 |
-| :g2    | :a         |  15 | :train                      | 0 |
-| :g2    | :a         |  12 | :train                      | 0 |
-| :g2    | :a         |  18 | :train                      | 0 |
-| :g1    | :a         |  19 | :train                      | 0 |
-| :g2    | :a         |   3 | :train                      | 0 |
-| :g2    | :a         |   8 | :train                      | 0 |
-| :g3    | :a         |   9 | :train                      | 0 |
-| :g3    | :a         |   6 | :train                      | 0 |
-| :g1    | :a         |  10 | :train                      | 0 |
+| :g3    | :a         |   5 | :train                      | 0 |
+| :g3    | :a         |  12 | :train                      | 0 |
+| :g1    | :a         |   0 | :train                      | 0 |
+| :g2    | :a         |  14 | :train                      | 0 |
+| :g1    | :a         |   3 | :train                      | 0 |
 | :g2    | :a         |   7 | :train                      | 0 |
-| :g1    | :a         |  11 | :train                      | 0 |
-| :g3    | :a         |   4 | :train                      | 0 |
-| :g3    | :a         |   2 | :train                      | 0 |
-| :g2    | :a         |  16 | :train                      | 0 |
-| :g2    | :a         |   1 | :train                      | 0 |
-| :g3    | :a         |  14 | :test                       | 0 |
-| :g3    | :a         |  17 | :test                       | 0 |
-| :g3    | :a         |   0 | :test                       | 0 |
-| :g2    | :a         |  13 | :test                       | 0 |
-| :g3    | :a         |  14 | :train                      | 1 |
-| :g3    | :a         |  17 | :train                      | 1 |
-| :g3    | :a         |   0 | :train                      | 1 |
-| :g2    | :a         |  13 | :train                      | 1 |
-| :g1    | :a         |  19 | :train                      | 1 |
-| :g2    | :a         |   3 | :train                      | 1 |
-| :g2    | :a         |   8 | :train                      | 1 |
-| :g3    | :a         |   9 | :train                      | 1 |
-| :g3    | :a         |   6 | :train                      | 1 |
+| :g3    | :a         |  13 | :train                      | 0 |
+| :g2    | :a         |  15 | :train                      | 0 |
+| :g1    | :a         |  10 | :train                      | 0 |
+| :g3    | :a         |   8 | :train                      | 0 |
+| :g1    | :a         |  18 | :train                      | 0 |
+| :g1    | :a         |  16 | :train                      | 0 |
+| :g2    | :a         |   9 | :train                      | 0 |
+| :g3    | :a         |   1 | :train                      | 0 |
+| :g2    | :a         |   6 | :train                      | 0 |
+| :g3    | :a         |  11 | :train                      | 0 |
+| :g1    | :a         |  17 | :test                       | 0 |
+| :g2    | :a         |  19 | :test                       | 0 |
+| :g1    | :a         |   4 | :test                       | 0 |
+| :g3    | :a         |   2 | :test                       | 0 |
+| :g1    | :a         |  17 | :train                      | 1 |
+| :g2    | :a         |  19 | :train                      | 1 |
+| :g1    | :a         |   4 | :train                      | 1 |
+| :g3    | :a         |   2 | :train                      | 1 |
+| :g1    | :a         |   3 | :train                      | 1 |
+| :g2    | :a         |   7 | :train                      | 1 |
+| :g3    | :a         |  13 | :train                      | 1 |
+| :g2    | :a         |  15 | :train                      | 1 |
 | :g1    | :a         |  10 | :train                      | 1 |
+| :g3    | :a         |   8 | :train                      | 1 |
 
 #### Bootstrap
 
@@ -7728,35 +7662,32 @@ Partition according to `:k` column to reflect it’s distribution
 (tc/split for-splitting :bootstrap)
 ```
 
-\_unnamed, (splitted) \[34 5\]:
+\_unnamed, (splitted) \[35 5\]:
 
 | :group | :partition | :id | :\(split-name | :\)split-id |   |
 | ------ | ---------- | --: | --------------------------- | -: |
-| :g3    | :a         |   9 | :train                      | 0 |
-| :g1    | :a         |  19 | :train                      | 0 |
+| :g3    | :a         |   5 | :train                      | 0 |
 | :g3    | :b         |  24 | :train                      | 0 |
-| :g3    | :a         |   9 | :train                      | 0 |
-| :g1    | :a         |   5 | :train                      | 0 |
-| :g3    | :a         |  14 | :train                      | 0 |
-| :g1    | :a         |   5 | :train                      | 0 |
-| :g2    | :a         |  12 | :train                      | 0 |
-| :g3    | :b         |  24 | :train                      | 0 |
-| :g2    | :a         |   1 | :train                      | 0 |
-| :g1    | :a         |  10 | :train                      | 0 |
-| :g3    | :b         |  21 | :train                      | 0 |
-| :g3    | :a         |   9 | :train                      | 0 |
-| :g3    | :b         |  22 | :train                      | 0 |
+| :g1    | :a         |  16 | :train                      | 0 |
 | :g3    | :a         |   2 | :train                      | 0 |
-| :g2    | :a         |   8 | :train                      | 0 |
-| :g2    | :a         |  18 | :train                      | 0 |
-| :g2    | :a         |   1 | :train                      | 0 |
-| :g3    | :b         |  21 | :train                      | 0 |
-| :g3    | :a         |   9 | :train                      | 0 |
+| :g3    | :a         |   1 | :train                      | 0 |
+| :g3    | :b         |  24 | :train                      | 0 |
+| :g3    | :b         |  20 | :train                      | 0 |
+| :g3    | :a         |   1 | :train                      | 0 |
+| :g3    | :a         |   2 | :train                      | 0 |
 | :g2    | :a         |   7 | :train                      | 0 |
-| :g2    | :a         |  13 | :train                      | 0 |
-| :g3    | :b         |  23 | :train                      | 0 |
-| :g3    | :b         |  23 | :train                      | 0 |
-| :g2    | :a         |  13 | :train                      | 0 |
+| …      | …          |   … | …                           | … |
+| :g3    | :b         |  24 | :train                      | 0 |
+| :g1    | :a         |   4 | :test                       | 0 |
+| :g2    | :a         |  15 | :test                       | 0 |
+| :g1    | :b         |  21 | :test                       | 0 |
+| :g3    | :a         |  13 | :test                       | 0 |
+| :g2    | :a         |   6 | :test                       | 0 |
+| :g1    | :a         |   3 | :test                       | 0 |
+| :g2    | :a         |  19 | :test                       | 0 |
+| :g3    | :a         |  11 | :test                       | 0 |
+| :g2    | :a         |   9 | :test                       | 0 |
+| :g3    | :a         |   8 | :test                       | 0 |
 
 with repeats, to get 100 splits
 
@@ -7782,31 +7713,28 @@ with small ratio
 
 | :group | :partition | :id | :\(split-name | :\)split-id |   |
 | ------ | ---------- | --: | --------------------------- | -: |
-| :g2    | :a         |   7 | :train                      | 0 |
-| :g2    | :a         |  18 | :train                      | 0 |
-| :g2    | :a         |   3 | :train                      | 0 |
-| :g3    | :a         |   9 | :train                      | 0 |
-| :g3    | :a         |   2 | :train                      | 0 |
-| :g3    | :a         |  17 | :test                       | 0 |
-| :g2    | :a         |  13 | :test                       | 0 |
-| :g3    | :b         |  21 | :test                       | 0 |
-| :g3    | :b         |  22 | :test                       | 0 |
-| :g2    | :a         |  16 | :test                       | 0 |
-| :g3    | :a         |  14 | :test                       | 0 |
+| :g2    | :a         |   9 | :train                      | 0 |
+| :g1    | :a         |   3 | :train                      | 0 |
+| :g3    | :b         |  23 | :train                      | 0 |
+| :g3    | :a         |   5 | :train                      | 0 |
+| :g2    | :a         |  15 | :train                      | 0 |
+| :g2    | :a         |  19 | :test                       | 0 |
 | :g1    | :a         |  10 | :test                       | 0 |
-| :g2    | :a         |   1 | :test                       | 0 |
-| :g2    | :a         |  15 | :test                       | 0 |
-| :g3    | :a         |   6 | :test                       | 0 |
-| :g1    | :a         |  19 | :test                       | 0 |
-| :g1    | :a         |  11 | :test                       | 0 |
-| :g3    | :b         |  23 | :test                       | 0 |
-| :g2    | :a         |  12 | :test                       | 0 |
-| :g3    | :a         |   4 | :test                       | 0 |
 | :g3    | :b         |  24 | :test                       | 0 |
-| :g2    | :a         |   8 | :test                       | 0 |
-| :g3    | :b         |  20 | :test                       | 0 |
-| :g3    | :a         |   0 | :test                       | 0 |
-| :g1    | :a         |   5 | :test                       | 0 |
+| :g1    | :a         |   4 | :test                       | 0 |
+| :g3    | :a         |  13 | :test                       | 0 |
+| …      | …          |   … | …                           | … |
+| :g2    | :a         |   7 | :test                       | 0 |
+| :g3    | :a         |  11 | :test                       | 0 |
+| :g1    | :a         |  18 | :test                       | 0 |
+| :g3    | :a         |   2 | :test                       | 0 |
+| :g3    | :a         |  12 | :test                       | 0 |
+| :g3    | :a         |   1 | :test                       | 0 |
+| :g2    | :a         |   6 | :test                       | 0 |
+| :g1    | :a         |  17 | :test                       | 0 |
+| :g1    | :a         |   0 | :test                       | 0 |
+| :g1    | :b         |  21 | :test                       | 0 |
+| :g2    | :a         |  14 | :test                       | 0 |
 
 you can split to more than two subdatasets with holdout
 
@@ -7818,31 +7746,28 @@ you can split to more than two subdatasets with holdout
 
 | :group | :partition | :id | :\(split-name | :\)split-id |   |
 | ------ | ---------- | --: | --------------------------- | -: |
-| :g3    | :b         |  23 | :train                      | 0 |
-| :g2    | :a         |   7 | :train                      | 0 |
-| :g2    | :a         |  16 | :test                       | 0 |
-| :g2    | :a         |  15 | :test                       | 0 |
-| :g3    | :a         |  14 | :test                       | 0 |
-| :g3    | :b         |  22 | :test                       | 0 |
-| :g3    | :a         |   9 | :test                       | 0 |
-| :g2    | :a         |  13 | :split-2                    | 0 |
-| :g1    | :a         |   5 | :split-2                    | 0 |
-| :g2    | :a         |   3 | :split-2                    | 0 |
-| :g3    | :b         |  21 | :split-2                    | 0 |
-| :g3    | :a         |  17 | :split-2                    | 0 |
-| :g3    | :a         |   0 | :split-2                    | 0 |
-| :g1    | :a         |  10 | :split-2                    | 0 |
-| :g3    | :a         |   4 | :split-3                    | 0 |
-| :g3    | :b         |  24 | :split-3                    | 0 |
-| :g2    | :a         |   1 | :split-3                    | 0 |
-| :g3    | :b         |  20 | :split-4                    | 0 |
+| :g2    | :a         |  15 | :train                      | 0 |
+| :g1    | :a         |  10 | :train                      | 0 |
+| :g3    | :a         |   8 | :test                       | 0 |
+| :g1    | :a         |  17 | :test                       | 0 |
+| :g3    | :b         |  20 | :test                       | 0 |
+| :g3    | :b         |  23 | :test                       | 0 |
+| :g1    | :b         |  22 | :test                       | 0 |
+| :g1    | :a         |  18 | :split-2                    | 0 |
+| :g2    | :a         |   9 | :split-2                    | 0 |
+| :g2    | :a         |  14 | :split-2                    | 0 |
+| …      | …          |   … | …                           | … |
+| :g2    | :a         |  19 | :split-3                    | 0 |
+| :g1    | :a         |   4 | :split-3                    | 0 |
+| :g3    | :a         |   5 | :split-3                    | 0 |
+| :g1    | :a         |  16 | :split-4                    | 0 |
+| :g3    | :a         |  12 | :split-4                    | 0 |
 | :g3    | :a         |   2 | :split-4                    | 0 |
-| :g3    | :a         |   6 | :split-4                    | 0 |
-| :g2    | :a         |  12 | :split-4                    | 0 |
-| :g1    | :a         |  11 | :split-4                    | 0 |
-| :g2    | :a         |   8 | :split-4                    | 0 |
-| :g2    | :a         |  18 | :split-4                    | 0 |
-| :g1    | :a         |  19 | :split-4                    | 0 |
+| :g3    | :a         |  11 | :split-4                    | 0 |
+| :g3    | :a         |   1 | :split-4                    | 0 |
+| :g2    | :a         |   6 | :split-4                    | 0 |
+| :g1    | :a         |   0 | :split-4                    | 0 |
+| :g2    | :a         |   7 | :split-4                    | 0 |
 
 you can use also proportions with custom names
 
@@ -7855,31 +7780,28 @@ you can use also proportions with custom names
 
 | :group | :partition | :id | :\(split-name | :\)split-id |   |
 | ------ | ---------- | --: | --------------------------- | -: |
-| :g3    | :b         |  21 | small                       | 0 |
-| :g2    | :a         |  12 | small                       | 0 |
-| :g2    | :a         |   8 | small                       | 0 |
-| :g3    | :a         |   6 | small                       | 0 |
+| :g2    | :a         |  14 | small                       | 0 |
 | :g3    | :b         |  23 | small                       | 0 |
-| :g3    | :b         |  20 | smaller                     | 0 |
-| :g2    | :a         |  13 | smaller                     | 0 |
-| :g3    | :a         |   2 | smaller                     | 0 |
-| :g3    | :a         |   0 | big                         | 0 |
-| :g2    | :a         |  16 | big                         | 0 |
-| :g2    | :a         |   3 | big                         | 0 |
-| :g3    | :a         |  14 | big                         | 0 |
-| :g3    | :a         |  17 | big                         | 0 |
-| :g3    | :a         |   9 | big                         | 0 |
+| :g3    | :a         |   2 | small                       | 0 |
+| :g1    | :a         |  16 | small                       | 0 |
+| :g1    | :a         |   4 | small                       | 0 |
+| :g3    | :a         |   8 | smaller                     | 0 |
+| :g2    | :a         |  19 | smaller                     | 0 |
+| :g3    | :b         |  24 | smaller                     | 0 |
+| :g1    | :a         |  17 | big                         | 0 |
+| :g1    | :b         |  21 | big                         | 0 |
+| …      | …          |   … | …                           | … |
+| :g2    | :a         |   7 | big                         | 0 |
+| :g3    | :a         |  13 | big                         | 0 |
 | :g2    | :a         |  15 | big                         | 0 |
+| :g2    | :a         |   6 | big                         | 0 |
+| :g1    | :a         |  18 | big                         | 0 |
 | :g1    | :a         |  10 | big                         | 0 |
-| :g3    | :b         |  22 | big                         | 0 |
-| :g1    | :a         |  11 | big                         | 0 |
-| :g2    | :a         |   1 | big                         | 0 |
-| :g1    | :a         |  19 | big                         | 0 |
-| :g3    | :a         |   4 | big                         | 0 |
-| :g3    | :b         |  24 | the rest                    | 0 |
-| :g2    | :a         |  18 | the rest                    | 0 |
-| :g1    | :a         |   5 | the rest                    | 0 |
-| :g2    | :a         |   7 | the rest                    | 0 |
+| :g1    | :a         |   3 | big                         | 0 |
+| :g1    | :b         |  22 | the rest                    | 0 |
+| :g3    | :a         |   1 | the rest                    | 0 |
+| :g3    | :a         |   5 | the rest                    | 0 |
+| :g1    | :a         |   0 | the rest                    | 0 |
 
 #### Holdouts
 
@@ -7906,21 +7828,18 @@ splits with ascending rows in train dataset.
 |         7 | {:\(split-name :test, :\)split-id 3}   | Group: {:\(split-name :test, :\)split-id 3} \[20 5\]:   |
 |         8 | {:\(split-name :train, :\)split-id 4}  | Group: {:\(split-name :train, :\)split-id 4} \[7 5\]:   |
 |         9 | {:\(split-name :test, :\)split-id 4}   | Group: {:\(split-name :test, :\)split-id 4} \[18 5\]:   |
-|        10 | {:\(split-name :train, :\)split-id 5}  | Group: {:\(split-name :train, :\)split-id 5} \[8 5\]:   |
-|        11 | {:\(split-name :test, :\)split-id 5}   | Group: {:\(split-name :test, :\)split-id 5} \[17 5\]:   |
-|        12 | {:\(split-name :train, :\)split-id 6}  | Group: {:\(split-name :train, :\)split-id 6} \[10 5\]:  |
-|        13 | {:\(split-name :test, :\)split-id 6}   | Group: {:\(split-name :test, :\)split-id 6} \[15 5\]:   |
-|        14 | {:\(split-name :train, :\)split-id 7}  | Group: {:\(split-name :train, :\)split-id 7} \[11 5\]:  |
-|        15 | {:\(split-name :test, :\)split-id 7}   | Group: {:\(split-name :test, :\)split-id 7} \[14 5\]:   |
-|        16 | {:\(split-name :train, :\)split-id 8}  | Group: {:\(split-name :train, :\)split-id 8} \[13 5\]:  |
-|        17 | {:\(split-name :test, :\)split-id 8}   | Group: {:\(split-name :test, :\)split-id 8} \[12 5\]:   |
-|        18 | {:\(split-name :train, :\)split-id 9}  | Group: {:\(split-name :train, :\)split-id 9} \[14 5\]:  |
+|         … | …                                      | …                                                       |
 |        19 | {:\(split-name :test, :\)split-id 9}   | Group: {:\(split-name :test, :\)split-id 9} \[11 5\]:   |
 |        20 | {:\(split-name :train, :\)split-id 10} | Group: {:\(split-name :train, :\)split-id 10} \[16 5\]: |
 |        21 | {:\(split-name :test, :\)split-id 10}  | Group: {:\(split-name :test, :\)split-id 10} \[9 5\]:   |
 |        22 | {:\(split-name :train, :\)split-id 11} | Group: {:\(split-name :train, :\)split-id 11} \[17 5\]: |
 |        23 | {:\(split-name :test, :\)split-id 11}  | Group: {:\(split-name :test, :\)split-id 11} \[8 5\]:   |
 |        24 | {:\(split-name :train, :\)split-id 12} | Group: {:\(split-name :train, :\)split-id 12} \[19 5\]: |
+|        25 | {:\(split-name :test, :\)split-id 12}  | Group: {:\(split-name :test, :\)split-id 12} \[6 5\]:   |
+|        26 | {:\(split-name :train, :\)split-id 13} | Group: {:\(split-name :train, :\)split-id 13} \[20 5\]: |
+|        27 | {:\(split-name :test, :\)split-id 13}  | Group: {:\(split-name :test, :\)split-id 13} \[5 5\]:   |
+|        28 | {:\(split-name :train, :\)split-id 14} | Group: {:\(split-name :train, :\)split-id 14} \[22 5\]: |
+|        29 | {:\(split-name :test, :\)split-id 14}  | Group: {:\(split-name :test, :\)split-id 14} \[3 5\]:   |
 
 #### Leave One Out
 
@@ -7934,36 +7853,36 @@ splits with ascending rows in train dataset.
 
 | :group | :partition | :id | :\(split-name | :\)split-id |   |
 | ------ | ---------- | --: | --------------------------- | -: |
-| :g2    | :a         |   7 | :train                      | 0 |
-| :g2    | :a         |  12 | :train                      | 0 |
-| :g3    | :b         |  20 | :train                      | 0 |
-| :g2    | :a         |  18 | :train                      | 0 |
-| :g2    | :a         |  13 | :train                      | 0 |
-| :g1    | :a         |  10 | :train                      | 0 |
-| :g3    | :a         |   9 | :train                      | 0 |
-| :g1    | :a         |   5 | :train                      | 0 |
-| :g3    | :a         |  14 | :train                      | 0 |
-| :g1    | :a         |  19 | :train                      | 0 |
-| :g2    | :a         |  16 | :train                      | 0 |
-| :g3    | :b         |  22 | :train                      | 0 |
-| :g3    | :a         |   2 | :train                      | 0 |
-| :g3    | :b         |  24 | :train                      | 0 |
-| :g3    | :a         |   4 | :train                      | 0 |
-| :g2    | :a         |   3 | :train                      | 0 |
-| :g3    | :a         |  17 | :train                      | 0 |
-| :g3    | :a         |   0 | :train                      | 0 |
+| :g1    | :b         |  22 | :train                      | 0 |
 | :g2    | :a         |  15 | :train                      | 0 |
-| :g3    | :b         |  21 | :train                      | 0 |
+| :g3    | :a         |   5 | :train                      | 0 |
+| :g2    | :a         |   9 | :train                      | 0 |
+| :g2    | :a         |   6 | :train                      | 0 |
+| :g1    | :b         |  21 | :train                      | 0 |
+| :g3    | :a         |  13 | :train                      | 0 |
 | :g3    | :b         |  23 | :train                      | 0 |
-| :g3    | :a         |   6 | :train                      | 0 |
-| :g2    | :a         |   8 | :train                      | 0 |
-| :g1    | :a         |  11 | :train                      | 0 |
-| :g2    | :a         |   1 | :test                       | 0 |
-| :g2    | :a         |   1 | :train                      | 1 |
-| :g2    | :a         |  12 | :train                      | 1 |
-| :g3    | :b         |  20 | :train                      | 1 |
-| :g2    | :a         |  18 | :train                      | 1 |
-| :g2    | :a         |  13 | :train                      | 1 |
+| :g1    | :a         |   0 | :train                      | 0 |
+| :g3    | :a         |  11 | :train                      | 0 |
+| :g2    | :a         |  19 | :train                      | 0 |
+| :g3    | :a         |   1 | :train                      | 0 |
+| :g3    | :a         |   8 | :train                      | 0 |
+| :g1    | :a         |  10 | :train                      | 0 |
+| :g3    | :b         |  24 | :train                      | 0 |
+| :g1    | :a         |   4 | :train                      | 0 |
+| :g1    | :a         |  17 | :train                      | 0 |
+| :g3    | :b         |  20 | :train                      | 0 |
+| :g3    | :a         |   2 | :train                      | 0 |
+| :g2    | :a         |   7 | :train                      | 0 |
+| :g1    | :a         |  16 | :train                      | 0 |
+| :g1    | :a         |  18 | :train                      | 0 |
+| :g3    | :a         |  12 | :train                      | 0 |
+| :g1    | :a         |   3 | :train                      | 0 |
+| :g2    | :a         |  14 | :test                       | 0 |
+| :g2    | :a         |  14 | :train                      | 1 |
+| :g2    | :a         |  15 | :train                      | 1 |
+| :g3    | :a         |   5 | :train                      | 1 |
+| :g2    | :a         |   9 | :train                      | 1 |
+| :g2    | :a         |   6 | :train                      | 1 |
 
 ``` clojure
 (-> for-splitting
@@ -7985,9 +7904,9 @@ splits with ascending rows in train dataset.
 
 | :group-id | :name | :data                            |
 | --------: | ----- | -------------------------------- |
-|         0 | :g3   | Group: :g3, (splitted) \[14 5\]: |
-|         1 | :g2   | Group: :g2, (splitted) \[12 5\]: |
-|         2 | :g1   | Group: :g1, (splitted) \[4 5\]:  |
+|         0 | :g1   | Group: :g1, (splitted) \[10 5\]: |
+|         1 | :g3   | Group: :g3, (splitted) \[12 5\]: |
+|         2 | :g2   | Group: :g2, (splitted) \[8 5\]:  |
 
 #### Split as a sequence
 
@@ -8003,35 +7922,35 @@ To get a sequence of pairs, use `split->seq` function
 
 | :group | :partition | :id |
 | ------ | ---------- | --: |
-| :g3    | :a         |   6 |
-| :g1    | :a         |  10 |
-| :g2    | :a         |  15 |
-| :g3    | :a         |   2 |
-| :g3    | :a         |  14 |
-| :g2    | :a         |  18 |
-| :g2    | :a         |  12 |
-| :g2    | :a         |   3 |
-| :g3    | :a         |   9 |
-| :g1    | :a         |  19 |
 | :g2    | :a         |   7 |
-| :g2    | :a         |   1 |
-| :g1    | :a         |   5 |
-| :g3    | :a         |  17 |
-| :g2    | :a         |  16 |
-| :g2    | :a         |   8 |
-| :g3    | :b         |  22 |
-| :g3    | :b         |  21 |
-| :g3    | :b         |  20 |
+| :g2    | :a         |  15 |
+| :g1    | :a         |   0 |
+| :g1    | :a         |   3 |
+| :g3    | :a         |   8 |
+| :g3    | :a         |   2 |
+| :g2    | :a         |   6 |
+| :g3    | :a         |  12 |
+| :g2    | :a         |  14 |
+| :g1    | :a         |  10 |
+| :g1    | :a         |  17 |
+| :g1    | :a         |   4 |
+| :g3    | :a         |   5 |
+| :g2    | :a         |   9 |
+| :g3    | :a         |   1 |
+| :g1    | :a         |  16 |
+| :g1    | :b         |  22 |
 | :g3    | :b         |  24 |
+| :g1    | :b         |  21 |
+| :g3    | :b         |  20 |
 
 , :test Group: 0 \[5 3\]:
 
 | :group | :partition | :id |
 | ------ | ---------- | --: |
-| :g3    | :a         |   0 |
-| :g3    | :a         |   4 |
-| :g2    | :a         |  13 |
-| :g1    | :a         |  11 |
+| :g3    | :a         |  13 |
+| :g2    | :a         |  19 |
+| :g1    | :a         |  18 |
+| :g3    | :a         |  11 |
 | :g3    | :b         |  23 |
 
 }
@@ -8043,54 +7962,47 @@ To get a sequence of pairs, use `split->seq` function
     (first))
 ```
 
-\[:g3 ({:train Group: 0 \[10 3\]:
+\[:g1 ({:train Group: 0 \[8 3\]:
 
 | :group | :partition | :id |
 | ------ | ---------- | --: |
-| :g3    | :a         |  17 |
-| :g3    | :a         |   0 |
-| :g3    | :a         |   4 |
-| :g3    | :a         |  17 |
-| :g3    | :a         |   6 |
-| :g3    | :a         |  14 |
-| :g3    | :b         |  22 |
-| :g3    | :b         |  22 |
-| :g3    | :b         |  21 |
-| :g3    | :b         |  20 |
+| :g1    | :a         |  18 |
+| :g1    | :a         |   0 |
+| :g1    | :a         |   4 |
+| :g1    | :a         |  18 |
+| :g1    | :a         |  10 |
+| :g1    | :a         |  17 |
+| :g1    | :b         |  22 |
+| :g1    | :b         |  22 |
 
-, :test Group: 0 \[4 3\]:
+, :test Group: 0 \[3 3\]:
 
 | :group | :partition | :id |
 | ------ | ---------- | --: |
-| :g3    | :a         |   2 |
-| :g3    | :a         |   9 |
-| :g3    | :b         |  24 |
-| :g3    | :b         |  23 |
+| :g1    | :a         |   3 |
+| :g1    | :a         |  16 |
+| :g1    | :b         |  21 |
 
-} {:train Group: 1 \[10 3\]:
-
-| :group | :partition | :id |
-| ------ | ---------- | --: |
-| :g3    | :a         |   0 |
-| :g3    | :a         |  17 |
-| :g3    | :a         |  14 |
-| :g3    | :a         |   6 |
-| :g3    | :a         |   4 |
-| :g3    | :a         |  17 |
-| :g3    | :b         |  21 |
-| :g3    | :b         |  21 |
-| :g3    | :b         |  22 |
-| :g3    | :b         |  22 |
-
-, :test Group: 1 \[5 3\]:
+} {:train Group: 1 \[8 3\]:
 
 | :group | :partition | :id |
 | ------ | ---------- | --: |
-| :g3    | :a         |   2 |
-| :g3    | :a         |   9 |
-| :g3    | :b         |  20 |
-| :g3    | :b         |  24 |
-| :g3    | :b         |  23 |
+| :g1    | :a         |   0 |
+| :g1    | :a         |  18 |
+| :g1    | :a         |  17 |
+| :g1    | :a         |  10 |
+| :g1    | :a         |   4 |
+| :g1    | :a         |  18 |
+| :g1    | :b         |  21 |
+| :g1    | :b         |  21 |
+
+, :test Group: 1 \[3 3\]:
+
+| :group | :partition | :id |
+| ------ | ---------- | --: |
+| :g1    | :a         |   3 |
+| :g1    | :a         |  16 |
+| :g1    | :b         |  22 |
 
 })\]
 
@@ -8151,21 +8063,18 @@ stocks
 | MSFT    | 2000-08-01 |  28.40 |
 | MSFT    | 2000-09-01 |  24.53 |
 | MSFT    | 2000-10-01 |  28.02 |
-| MSFT    | 2000-11-01 |  23.34 |
-| MSFT    | 2000-12-01 |  17.65 |
-| MSFT    | 2001-01-01 |  24.84 |
-| MSFT    | 2001-02-01 |  24.00 |
-| MSFT    | 2001-03-01 |  22.25 |
-| MSFT    | 2001-04-01 |  27.56 |
-| MSFT    | 2001-05-01 |  28.14 |
-| MSFT    | 2001-06-01 |  29.70 |
-| MSFT    | 2001-07-01 |  26.93 |
-| MSFT    | 2001-08-01 |  23.21 |
-| MSFT    | 2001-09-01 |  20.82 |
-| MSFT    | 2001-10-01 |  23.65 |
-| MSFT    | 2001-11-01 |  26.12 |
-| MSFT    | 2001-12-01 |  26.95 |
-| MSFT    | 2002-01-01 |  25.92 |
+| …       | …          |      … |
+| AAPL    | 2009-05-01 | 135.81 |
+| AAPL    | 2009-06-01 | 142.43 |
+| AAPL    | 2009-07-01 | 163.39 |
+| AAPL    | 2009-08-01 | 168.21 |
+| AAPL    | 2009-09-01 | 185.35 |
+| AAPL    | 2009-10-01 | 188.50 |
+| AAPL    | 2009-11-01 | 199.91 |
+| AAPL    | 2009-12-01 | 210.73 |
+| AAPL    | 2010-01-01 | 192.06 |
+| AAPL    | 2010-02-01 | 204.62 |
+| AAPL    | 2010-03-01 | 223.02 |
 
 ``` clojure
 (-> stocks
@@ -8190,21 +8099,18 @@ stocks
 | 133.35333333 |  2007 | AAPL    |
 | 138.48083333 |  2008 | AAPL    |
 | 150.39333333 |  2009 | AAPL    |
-| 206.56666667 |  2010 | AAPL    |
-|  43.93083333 |  2000 | AMZN    |
-|  11.73916667 |  2001 | AMZN    |
-|  16.72333333 |  2002 | AMZN    |
-|  39.01666667 |  2003 | AMZN    |
-|  43.26750000 |  2004 | AMZN    |
-|  40.18750000 |  2005 | AMZN    |
-|  36.25166667 |  2006 | AMZN    |
-|  69.95250000 |  2007 | AMZN    |
-|  69.01500000 |  2008 | AMZN    |
-|  90.73083333 |  2009 | AMZN    |
-| 124.21000000 |  2010 | AMZN    |
-| 159.47600000 |  2004 | GOOG    |
-| 286.47250000 |  2005 | GOOG    |
-| 415.25666667 |  2006 | GOOG    |
+|            … |     … | …       |
+|  29.67333333 |  2000 | MSFT    |
+|  25.34750000 |  2001 | MSFT    |
+|  21.82666667 |  2002 | MSFT    |
+|  20.93416667 |  2003 | MSFT    |
+|  22.67416667 |  2004 | MSFT    |
+|  23.84583333 |  2005 | MSFT    |
+|  24.75833333 |  2006 | MSFT    |
+|  29.28416667 |  2007 | MSFT    |
+|  25.20833333 |  2008 | MSFT    |
+|  22.87250000 |  2009 | MSFT    |
+|  28.50666667 |  2010 | MSFT    |
 
 ``` clojure
 (-> stocks
@@ -8228,21 +8134,18 @@ stocks
 |  29.28416667 | MSFT    |  2007 |
 |  25.20833333 | MSFT    |  2008 |
 |  22.87250000 | MSFT    |  2009 |
-|  28.50666667 | MSFT    |  2010 |
-|  43.93083333 | AMZN    |  2000 |
-|  11.73916667 | AMZN    |  2001 |
-|  16.72333333 | AMZN    |  2002 |
-|  39.01666667 | AMZN    |  2003 |
-|  43.26750000 | AMZN    |  2004 |
-|  40.18750000 | AMZN    |  2005 |
-|  36.25166667 | AMZN    |  2006 |
-|  69.95250000 | AMZN    |  2007 |
-|  69.01500000 | AMZN    |  2008 |
-|  90.73083333 | AMZN    |  2009 |
-| 124.21000000 | AMZN    |  2010 |
-|  96.91416667 | IBM     |  2000 |
-|  96.96833333 | IBM     |  2001 |
-|  75.12500000 | IBM     |  2002 |
+|            … | …       |     … |
+|  21.74833333 | AAPL    |  2000 |
+|  10.17583333 | AAPL    |  2001 |
+|   9.40833333 | AAPL    |  2002 |
+|   9.34750000 | AAPL    |  2003 |
+|  18.72333333 | AAPL    |  2004 |
+|  48.17166667 | AAPL    |  2005 |
+|  72.04333333 | AAPL    |  2006 |
+| 133.35333333 | AAPL    |  2007 |
+| 138.48083333 | AAPL    |  2008 |
+| 150.39333333 | AAPL    |  2009 |
+| 206.56666667 | AAPL    |  2010 |
 
 ### data.table
 
@@ -9514,8 +9417,8 @@ Other filters
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
 |   2 |   6 | 1.5 | C   |
-|   1 |   5 | 1.0 | B   |
-|   1 |   7 | 0.5 | A   |
+|   2 |   6 | 1.5 | C   |
+|   1 |   1 | 0.5 | A   |
 
 ``` clojure
 (tc/random DS (/ (tc/row-count DS) 2)) ;; fraction of random rows
@@ -9525,11 +9428,11 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   9 | 1.5 | C   |
-|   1 |   7 | 0.5 | A   |
-|   2 |   2 | 1.0 | B   |
-|   1 |   7 | 0.5 | A   |
-|   1 |   3 | 1.5 | C   |
+|   1 |   1 | 0.5 | A   |
+|   1 |   5 | 1.0 | B   |
+|   1 |   1 | 0.5 | A   |
+|   1 |   5 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
 
 ``` clojure
 (tc/by-rank DS :V1 zero?) ;; take top n entries

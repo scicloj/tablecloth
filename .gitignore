@@ -18,3 +18,5 @@ pom.xml.asc
 *.log
 .R*
 *.txt*
+.lsp/
+.clj-kondo/

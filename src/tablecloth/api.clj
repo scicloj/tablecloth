@@ -308,6 +308,10 @@
 
 
 (defn fold-by
+  "Group-by and pack columns into vector - the output data set has a row for each unique combination
+  of the provided columns while each remaining column has its valu(es) collected into a vector, similar
+  to how clojure.core/group-by works.
+  See https://scicloj.github.io/tablecloth/index.html#Fold-by"
   ([ds columns-selector]
   (tablecloth.api.fold-unroll/fold-by ds columns-selector))
   ([ds columns-selector folding-function]
@@ -671,8 +675,8 @@
   (tablecloth.api.split/split ds))
   ([ds split-type]
   (tablecloth.api.split/split ds split-type))
-  ([ds split-type opts]
-  (tablecloth.api.split/split ds split-type opts)))
+  ([ds split-type options]
+  (tablecloth.api.split/split ds split-type options)))
 
 
 (defn split->seq
@@ -681,8 +685,8 @@
   (tablecloth.api.split/split->seq ds))
   ([ds split-type]
   (tablecloth.api.split/split->seq ds split-type))
-  ([ds split-type opts]
-  (tablecloth.api.split/split->seq ds split-type opts)))
+  ([ds split-type options]
+  (tablecloth.api.split/split->seq ds split-type options)))
 
 
 (defn tail
@@ -725,6 +729,11 @@
 
 
 (defn unroll
+  "Unfolds sequences stored inside a column(s), turning it into multiple columns. Opposite of [[fold-by]].
+  Add each of the provided columns to the set that defines the \"uniqe key\" of each row.
+  Thus there will be a new row for each value inside the target column(s)' value sequence.
+  If you want instead to split the content of the columns into a set of new _columns_, look at [[separate-column]].
+  See https://scicloj.github.io/tablecloth/index.html#Unroll"
   ([ds columns-selector]
   (tablecloth.api.fold-unroll/unroll ds columns-selector))
   ([ds columns-selector options]

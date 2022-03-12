@@ -1,5 +1,7 @@
 (ns tablecloth.playground
-  (:require [tablecloth.api :as api]))
+  (:require [tablecloth.api :as tc]
+            [tech.v3.dataset :as ds]
+            [tech.v3.dataset.join :as j]))
 
 (defn cartesian-product
   [xxs]
@@ -13,7 +15,7 @@
   [in]
   (-> (map (partial zipmap (keys in))
            (cartesian-product (vals in)))
-      (api/dataset)))
+      (tc/dataset)))
 
 (def input {:height (range 60 81 5)
             :weight (range 100 301 50)
@@ -48,3 +50,121 @@
 ;;    | :Male |      70 |     300 |
 ;;    | :Male |      75 |     300 |
 ;;    | :Male |      80 |     300 |
+
+(def ds (-> {:tags [["app" "mobile" "travel"] ["business"] ["tool" "automation" "macos"]
+                  ["mobile" "macos"] ["travel" "app" "macos"]]}
+          (tc/dataset)
+          (tc/add-column :id (range)))) ;; we need to add artificial column
+
+ds
+;; => _unnamed [5 2]:
+;;    |                         :tags | :id |
+;;    |-------------------------------|----:|
+;;    |     ["app" "mobile" "travel"] |   0 |
+;;    |                  ["business"] |   1 |
+;;    | ["tool" "automation" "macos"] |   2 |
+;;    |            ["mobile" "macos"] |   3 |
+;;    |      ["travel" "app" "macos"] |   4 |
+
+
+(def unrolled-ds (-> (tc/unroll ds [:tags])
+                   (tc/add-column :exists? true)))
+
+unrolled-ds
+;; => _unnamed [12 3]:
+;;    | :id |      :tags | :exists? |
+;;    |----:|------------|----------|
+;;    |   0 |        app |     true |
+;;    |   0 |     mobile |     true |
+;;    |   0 |     travel |     true |
+;;    |   1 |   business |     true |
+;;    |   2 |       tool |     true |
+;;    |   2 | automation |     true |
+;;    |   2 |      macos |     true |
+;;    |   3 |     mobile |     true |
+;;    |   3 |      macos |     true |
+;;    |   4 |     travel |     true |
+;;    |   4 |        app |     true |
+;;    |   4 |      macos |     true |
+
+(tc/pivot->wider unrolled-ds :tags :exists? {:drop-missing? false})
+;; => _unnamed [5 8]:
+;;    | :id |  app | mobile | travel | business | tool | automation | macos |
+;;    |----:|------|--------|--------|----------|------|------------|-------|
+;;    |   2 |      |        |        |          | true |       true |  true |
+;;    |   3 |      |   true |        |          |      |            |  true |
+;;    |   4 | true |        |   true |          |      |            |  true |
+;;    |   1 |      |        |        |     true |      |            |       |
+;;    |   0 | true |   true |   true |          |      |            |       |
+
+
+(-> (tc/pivot->wider unrolled-ds :tags :exists? {:drop-missing? false})
+    (tc/replace-missing :all :value false))
+;; => _unnamed [5 8]:
+;;    | :id |   app | mobile | travel | business |  tool | automation | macos |
+;;    |----:|-------|--------|--------|----------|-------|------------|-------|
+;;    |   2 | false |  false |  false |    false |  true |       true |  true |
+;;    |   3 | false |   true |  false |    false | false |      false |  true |
+;;    |   4 |  true |  false |   true |    false | false |      false |  true |
+;;    |   1 | false |  false |  false |     true | false |      false | false |
+;;    |   0 |  true |   true |   true |    false | false |      false | false |
+
+
+(-> (tech.v3.dataset/unroll-column ds :tags)
+    (tech.v3.dataset/categorical->one-hot [:tags]))
+
+
+
+(def data (tech.v3.dataset/->dataset {:a [[1 2 3] [4 5] [6 7 8]]}))
+
+data
+;; => _unnamed [3 1]:
+;;    |      :a |
+;;    |---------|
+;;    | [1 2 3] |
+;;    |   [4 5] |
+;;    | [6 7 8] |
+
+(tech.v3.dataset/unroll-column data :a)
+;; exception
+
+(def data2 (tech.v3.dataset/add-or-update-column data :b [-1 -2 -3]))
+
+data2
+;; => _unnamed [3 2]:
+;;    |      :a | :b |
+;;    |---------|---:|
+;;    | [1 2 3] | -1 |
+;;    |   [4 5] | -2 |
+;;    | [6 7 8] | -3 |
+
+(tech.v3.dataset/unroll-column data2 :a)
+;; => _unnamed [8 2]:
+;;    | :b | :a |
+;;    |---:|---:|
+;;    | -1 |  1 |
+;;    | -1 |  2 |
+;;    | -1 |  3 |
+;;    | -2 |  4 |
+;;    | -2 |  5 |
+;;    | -3 |  6 |
+;;    | -3 |  7 |
+;;    | -3 |  8 |
+
+(require '[tech.v3.dataset.join :as j])
+(def a (tc/dataset {:a [1 2 3] :b [4 5 6]}))
+(def b (tc/dataset {:c [:a :b :c] :d [:x :y :z]}))
+
+(j/pd-merge a b {:how :cross})
+;; => cross-join [9 4]:
+;;    | :a | :b | :c | :d |
+;;    |---:|---:|----|----|
+;;    |  1 |  4 | :a | :x |
+;;    |  2 |  5 | :b | :y |
+;;    |  3 |  6 | :c | :z |
+;;    |  1 |  4 | :a | :x |
+;;    |  2 |  5 | :b | :y |
+;;    |  3 |  6 | :c | :z |
+;;    |  1 |  4 | :a | :x |
+;;    |  2 |  5 | :b | :y |
+;;    |  3 |  6 | :c | :z |
