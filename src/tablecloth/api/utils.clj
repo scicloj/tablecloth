@@ -3,8 +3,6 @@
             [tech.v3.io :as tio])
   (:import [java.util Map]))
 
-(set! *warn-on-reflection* true)
-
 ;;;;;;;;;;;;
 ;; HELPERS
 ;;;;;;;;;;;;

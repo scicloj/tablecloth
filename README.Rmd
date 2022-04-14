@@ -1,5 +1,5 @@
 ---
-title: "Dataset manipulation API for tech.ml.dataset library"
+title: "Dataset (data frame) manipulation API for the tech.ml.dataset library"
 output:
     md_document:
         variant: gfm

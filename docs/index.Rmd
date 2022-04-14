@@ -1,5 +1,5 @@
 ---
-title: "Dataset manipulation API for tech.ml.dataset library"
+title: "Dataset (data frame) manipulation API for the tech.ml.dataset library"
 author: GenerateMe
 date: "`r Sys.Date()`"
 output:
@@ -111,7 +111,6 @@ If you want to know more about `tech.ml.dataset` and `dtype-next` please refer t
 * [tech.ml.dataset walkthrough](https://techascent.github.io/tech.ml.dataset/walkthrough.html)
 * [dtype-next overview](https://cnuernber.github.io/dtype-next/overview.html)
 * [dtype-next cheatsheet](https://cnuernber.github.io/dtype-next/cheatsheet.html)
-
 
 [SOURCE CODE](https://github.com/scicloj/tablecloth)
 
