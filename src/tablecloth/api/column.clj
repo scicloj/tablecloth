@@ -5,3 +5,11 @@
             [tech.v3.datatype :as dtype]))
 
 
+(defn column
+  ([] (col/new-column nil []))
+  ([data]
+   (column data {:name nil}))
+  ([data {:keys [name]}]
+   (col/new-column data)))
+
+
