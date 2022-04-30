@@ -4,4 +4,4 @@
 
         ;; generateme/fastmath {:mvn/version "2.1.0"}
         }
- :aliases {:dev {:extra-deps {org.scicloj/clay {:mvn/version "1-alpha9"}}}}}
+ :aliases {:dev {:extra-deps {org.scicloj/clay {:mvn/version "1-alpha11"}}}}}
