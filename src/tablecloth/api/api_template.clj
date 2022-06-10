@@ -109,6 +109,9 @@
                          full-join
                          semi-join
                          anti-join
+                         cross-join
+                         expand
+                         complete
                          intersect
                          difference
                          union

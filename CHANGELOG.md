@@ -5,10 +5,12 @@
 ### Added
 
 * `data frame` term in the title of docs ([discussion](https://app.slack.com/client/T03RZGPFR/threads/thread/C03RZGPG3-1649857892.946909))
+* joins can accept different names for left/right datasets
+* `cross-join`, `expand` and `complete` introduced
 
 ### Changed
 
-* removed setting `*warn-on-reflection`
+* removed setting `*warn-on-reflection*`
 
 ## [6.076]
 

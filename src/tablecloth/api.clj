@@ -113,10 +113,10 @@
 
 
 (defn asof-join
-  ([ds-left ds-right colname]
-  (tablecloth.api.join-concat-ds/asof-join ds-left ds-right colname))
-  ([ds-left ds-right colname options]
-  (tablecloth.api.join-concat-ds/asof-join ds-left ds-right colname options)))
+  ([ds-left ds-right columns-selector]
+  (tablecloth.api.join-concat-ds/asof-join ds-left ds-right columns-selector))
+  ([ds-left ds-right columns-selector options]
+  (tablecloth.api.join-concat-ds/asof-join ds-left ds-right columns-selector options)))
 
 
 (defn bind
@@ -177,6 +177,12 @@
   (tablecloth.api.dataset/columns ds result-type)))
 
 
+(defn complete
+  "TidyR complete()"
+  ([ds columns-selector & args]
+  (apply tablecloth.api.join-concat-ds/complete ds columns-selector args)))
+
+
 (defn concat
   ([dataset & args]
   (apply tablecloth.api.dataset/concat dataset args)))
@@ -195,16 +201,27 @@
   (tablecloth.api.columns/convert-types ds columns-selector new-types)))
 
 
+(defn cross-join
+  ([ds-left ds-right]
+  (tablecloth.api.join-concat-ds/cross-join ds-left ds-right))
+  ([ds-left ds-right columns-selector]
+  (tablecloth.api.join-concat-ds/cross-join ds-left ds-right columns-selector))
+  ([ds-left ds-right columns-selector options]
+  (tablecloth.api.join-concat-ds/cross-join ds-left ds-right columns-selector options)))
+
+
 (defn dataset
   "Create `dataset`.
   
   Dataset can be created from:
 
-  * single value
   * map of values and/or sequences
   * sequence of maps
   * sequence of columns
-  * file or url"
+  * file or url
+  * single value
+
+  Single value is set only when it's not possible to find a path for given data. If tech.ml.dataset throws an exception, it's will be printed and dataset will be created. To suppress printing a stack trace, set `stack-trace?` option to false."
   ([]
   (tablecloth.api.dataset/dataset ))
   ([data]
@@ -291,6 +308,12 @@
 (defn empty-ds?
   ([ds]
   (tablecloth.api.dataset/empty-ds? ds)))
+
+
+(defn expand
+  "TidyR expand()"
+  ([ds columns-selector & args]
+  (apply tablecloth.api.join-concat-ds/expand ds columns-selector args)))
 
 
 (defn fill-range-replace

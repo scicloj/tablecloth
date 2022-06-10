@@ -5,27 +5,38 @@
             [tech.v3.dataset.column :as col]
 
             [clojure.set :as s]
-            
+
+            [tablecloth.api.dataset :refer [dataset?]]
             [tablecloth.api.join-separate :refer [join-columns]]
             [tablecloth.api.missing :refer [select-missing drop-missing]]
-            [tablecloth.api.columns :refer [drop-columns]]
-            [tablecloth.api.utils :refer [column-names]]))
+            [tablecloth.api.columns :refer [drop-columns select-columns]]
+            [tablecloth.api.utils :refer [column-names grouped? process-group-data]]))
 
 ;; joins
 
 (defn- multi-join
-  [ds-left ds-right join-fn cols options]
+  [ds-left ds-right join-fn cols-left cols-right options]
   (let [join-column-name (gensym "^___join_column_hash")
-        dsl (join-columns ds-left join-column-name cols {:result-type hash
-                                                         :drop-columns? false})
-        dsr (join-columns ds-right join-column-name cols {:result-type hash
-                                                          :drop-columns? false})
+        dsl (join-columns ds-left join-column-name cols-left {:result-type hash
+                                                              :drop-columns? false})
+        dsr (join-columns ds-right join-column-name cols-right {:result-type hash
+                                                                :drop-columns? false})
         joined-ds (join-fn join-column-name dsl dsr options)]
     (-> joined-ds
         (ds/drop-columns [join-column-name (-> joined-ds
                                                (meta)
                                                :right-column-names
                                                (get join-column-name))]))))
+
+(defn- resolve-join-column-names
+  [ds-left ds-right columns-selector]
+  (if (map? columns-selector)
+    (-> columns-selector
+        (update :left (partial column-names ds-left))
+        (update :right (partial column-names ds-right)))
+    (let [names (s/union (set (column-names ds-left columns-selector))
+                         (set (column-names ds-right columns-selector)))]
+      {:left names :right names})))
 
 (defmacro make-join-fns
   [join-fns-list]
@@ -34,16 +45,18 @@
          `(defn ~n
             ([~'ds-left ~'ds-right ~'columns-selector] (~n ~'ds-left ~'ds-right ~'columns-selector nil))
             ([~'ds-left ~'ds-right ~'columns-selector ~'options]
-             (let [cols# (column-names ~'ds-left ~'columns-selector)
+             (let [cols# (resolve-join-column-names ~'ds-left ~'ds-right ~'columns-selector)
+                   cols-left# (:left cols#)
+                   cols-right# (:right cols#)
                    opts# (or ~'options {})]
-               (if (= 1 (count cols#))
-                 (~impl (first cols#) ~'ds-left ~'ds-right opts#)
-                 (multi-join ~'ds-left ~'ds-right ~impl cols# opts#))))))))
+               (if (= 1 (count cols-left#))
+                 (~impl [(first cols-left#) (first cols-right#)] ~'ds-left ~'ds-right opts#)
+                 (multi-join ~'ds-left ~'ds-right ~impl cols-left# cols-right# opts#))))))))
 
 (make-join-fns [[left-join j/left-join]
                 [right-join j/right-join]
-                [inner-join j/inner-join]])
-
+                [inner-join j/inner-join]
+                [asof-join j/left-join-asof]])
 
 (defn full-join
   ([ds-left ds-right columns-selector] (full-join ds-left ds-right columns-selector nil))
@@ -74,10 +87,38 @@
          (ds/unique-by identity)
          (vary-meta assoc :name "anti-join")))))
 
-(defn asof-join
-  ([ds-left ds-right colname] (asof-join ds-left ds-right colname nil))
-  ([ds-left ds-right colname options]
-   (j/left-join-asof colname ds-left ds-right options)))
+(defn cross-join
+  ([ds-left ds-right] (cross-join ds-left ds-right :all))
+  ([ds-left ds-right columns-selector] (cross-join ds-left ds-right columns-selector nil))
+  ([ds-left ds-right columns-selector {:keys [unique?] :or {unique? false} :as options}]
+   (let [{:keys [left right]} (resolve-join-column-names ds-left ds-right columns-selector)
+         dl (select-columns ds-left left)
+         dr (select-columns ds-right right)]
+     (j/pd-merge (if unique? (ds/unique-by dl identity) dl)
+                 (if unique? (ds/unique-by dr identity) dr)
+                 (merge options {:how :cross})))))
+
+(defn expand
+  "TidyR expand()"
+  [ds columns-selector & r]
+  (if (grouped? ds)
+    (process-group-data ds #(apply expand % columns-selector r) true)
+    (let [ds1 (if (dataset? columns-selector)
+                columns-selector
+                (ds/unique-by (select-columns ds (column-names ds columns-selector)) identity))]
+      (if-not (seq r)
+        ds1
+        (cross-join ds1 (apply expand ds r))))))
+
+(defn complete
+  "TidyR complete()"
+  [ds columns-selector & r]
+  (if (grouped? ds)
+    (process-group-data ds #(apply complete % columns-selector r) true)
+    (let [expanded (apply expand ds columns-selector r)
+          ecnames (column-names expanded)
+          lj (left-join expanded ds ecnames)]
+      (drop-columns lj (vals (select-keys (:right-column-names (meta lj)) ecnames))))))
 
 ;; set operations
 

@@ -1,7 +1,15 @@
 (ns tablecloth.playground
   (:require [tablecloth.api :as tc]
             [tech.v3.dataset :as ds]
+            [tech.v3.dataset.column :as c]
             [tech.v3.dataset.join :as j]))
+
+(ds/concat
+ (ds/new-dataset [(c/new-column :a [])])
+ (ds/new-dataset [(c/new-column :a [1 2 3])]))
+
+
+(-> (tc/dataset {} {:column-names [:a :b]}))
 
 (defn cartesian-product
   [xxs]
@@ -168,3 +176,55 @@ data2
 ;;    |  1 |  4 | :a | :x |
 ;;    |  2 |  5 | :b | :y |
 ;;    |  3 |  6 | :c | :z |
+
+;;;;;;;
+
+(def df (tc/dataset {:group [1 2 1]
+                   :item-id [1 2 2]
+                   :item-name [:a :b :b]
+                   :value1 [1 2 3]
+                   :value2 [4 5 6]}))
+
+df
+;; => _unnamed [3 5]:
+;;    | :group | :item-id | :item-name | :value1 | :value2 |
+;;    |-------:|---------:|------------|--------:|--------:|
+;;    |      1 |        1 |         :a |       1 |       4 |
+;;    |      2 |        2 |         :b |       2 |       5 |
+;;    |      1 |        2 |         :b |       3 |       6 |
+
+;; cross product of regular column and nested columns
+(def tmp (j/pd-merge (-> (tc/select-columns df :group)
+                       (tc/unique-by))
+                   (-> (tc/select-columns df [:item-id :item-name])
+                       (tc/unique-by)) {:how :cross}))
+
+tmp
+;; => cross-join [4 3]:
+;;    | :group | :item-id | :item-name |
+;;    |-------:|---------:|------------|
+;;    |      1 |        1 |         :a |
+;;    |      1 |        2 |         :b |
+;;    |      2 |        1 |         :a |
+;;    |      2 |        2 |         :b |
+
+(-> (tc/left-join tmp df [:group :item-id :item-name])
+    (tc/select-columns (tc/column-names df)))
+;; => left-outer-join [4 5]:
+;;    | :group | :item-id | :item-name | :value1 | :value2 |
+;;    |-------:|---------:|------------|--------:|--------:|
+;;    |      1 |        1 |         :a |       1 |       4 |
+;;    |      2 |        2 |         :b |       2 |       5 |
+;;    |      1 |        2 |         :b |       3 |       6 |
+;;    |      2 |        1 |         :a |         |         |
+
+(-> (tc/left-join tmp df [:group :item-id :item-name])
+    (tc/select-columns (tc/column-names df))
+    (tc/replace-missing :all :value 0))
+;; => left-outer-join [4 5]:
+;;    | :group | :item-id | :item-name | :value1 | :value2 |
+;;    |-------:|---------:|------------|--------:|--------:|
+;;    |      1 |        1 |         :a |       1 |       4 |
+;;    |      2 |        2 |         :b |       2 |       5 |
+;;    |      1 |        2 |         :b |       3 |       6 |
+;;    |      2 |        1 |         :a |       0 |       0 |
