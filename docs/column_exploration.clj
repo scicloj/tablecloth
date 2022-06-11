@@ -11,8 +11,8 @@
             [nextjournal.clerk :as clerk]))
 
 ^{:kind/hidden true}
-(clay/start! {:tools [tools/scittle
-                      tools/clerk]})
+(clay/restart!  {:tools [#_tools/scittle
+                         tools/clerk]})
 
 ^{:kind/hidden true}
 (comment
@@ -47,3 +47,32 @@
 
 (column (range 10))
 
+;; When you do this the types of the resulting array is determined
+;; automatically from the items provided.
+
+(let [int-column (column (range 10))]
+  (col/typeof int-column))
+
+(let [string-column (column ["foo" "bar"])]
+  (col/typeof string-column))
+
+;; ### Basic Operations
+
+;; Right now we need to use the functional name space from the
+;; underlying computation library tech.v3.datatype to operate on
+;; columns.
+
+(require '[tech.v3.datatype.functional :as fun])
+
+;; With that imported we can perform a large number of operations:
+
+(def a (column [20 30 40 50]))
+(def b (column (range 4)))
+
+(fun/- a b)
+
+(fun/pow a 2)
+
+(fun/* 10 (fun/sin a))
+
+(fun/< a 35)
