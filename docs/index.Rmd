@@ -160,7 +160,7 @@ Dataset can be created from various of types of Clojure structures and files:
     - `:key-fn` - function applied to column names (eg. `keyword`, to convert column names to keywords)
     - `:separator` - column separator
     - `:single-value-column-name` - name of the column when single value is provided
-    - `:column-names` - in case you want to name columns - only works for sequential input (arrays)
+    - `:column-names` - in case you want to name columns - only works for sequential input (arrays) or empty dataset
     - `:layout` - for numerical, native array of arrays - treat entries `:as-rows` or `:as-columns` (default)
 
 `tc/let-dataset` accepts bindings `symbol`-`column-data` to simulate R's `tibble` function. Each binding is converted into a column. You can refer previous columns to in further bindings (as in `let`).
@@ -171,6 +171,14 @@ Empty dataset.
 
 ```{clojure}
 (tc/dataset)
+```
+
+---
+
+Empty dataset with column names
+
+```{clojure}
+(tc/dataset nil {:column-names [:a :b]})
 ```
 
 ---

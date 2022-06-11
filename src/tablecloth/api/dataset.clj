@@ -45,21 +45,26 @@
       (ds/rename-columns t (zipmap (range (ds/column-count t)) column-names))
       t)))
 
+(defn- array-of-arrays? [in] (= "[[" (subs (.getName (class in)) 0 2)))
+
 (defn dataset
   "Create `dataset`.
   
   Dataset can be created from:
 
-  * single value
   * map of values and/or sequences
   * sequence of maps
   * sequence of columns
-  * file or url"
+  * file or url
+  * array of arrays
+  * single value
+
+  Single value is set only when it's not possible to find a path for given data. If tech.ml.dataset throws an exception, it's will be printed and dataset will be created. To suppress printing a stack trace, set `stack-trace?` option to false."
   ([] (ds/new-dataset nil))
   ([data]
    (dataset data nil))
-  ([data {:keys [single-value-column-name column-names layout dataset-name]
-          :or {single-value-column-name :$value layout :as-rows}
+  ([data {:keys [single-value-column-name column-names layout dataset-name stack-trace?]
+          :or {single-value-column-name :$value layout :as-rows stack-trace? true}
           :as options}]
    (cond
      (dataset? data) data
@@ -74,9 +79,16 @@
      (or (numerical-classes (class data))
          (and (iterable-sequence? data)
               (not-every? map? data))) (from-tensor data column-names layout dataset-name)
+     (array-of-arrays? data) (ds/new-dataset options (map ds/new-column (or column-names (range)) data))
+     ;; empty data but column-names exist
+     (and (not data)
+          column-names) (ds/new-dataset options (map (fn [n] (ds/new-column n [])) column-names))
      :else (try (ds/->dataset data options)
                 ;; create a singleton
-                (catch Exception _ (ds/->dataset [{single-value-column-name data}] options))))))
+                (catch Exception e
+                  (do
+                    (when stack-trace? (.printStackTrace e))
+                    (ds/->dataset [{single-value-column-name data}] options)))))))
 
 (defn shape
   "Returns shape of the dataset [rows, cols]"
