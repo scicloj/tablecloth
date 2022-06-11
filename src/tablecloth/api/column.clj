@@ -21,3 +21,6 @@
 (defn ones [n-ones]
   (column (repeatedly n-ones (constantly 1))))
 
+(defn typeof [col]
+  (dtype/elemwise-datatype col))
+
