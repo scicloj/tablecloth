@@ -24,3 +24,13 @@
 (defn typeof [col]
   (dtype/elemwise-datatype col))
 
+
+
+(comment
+  (-> [1 2 3 4]
+      (col/new-column )
+      meta)
+
+  (def b (col/parse-column :string [1 2 3]))
+
+  )
