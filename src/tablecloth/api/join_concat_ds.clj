@@ -99,7 +99,9 @@
                  (merge options {:how :cross})))))
 
 (defn expand
-  "TidyR expand()"
+  "TidyR expand.
+
+  Creates all possible combinations of selected columns."
   [ds columns-selector & r]
   (if (grouped? ds)
     (process-group-data ds #(apply expand % columns-selector r) true)
@@ -111,7 +113,9 @@
         (cross-join ds1 (apply expand ds r))))))
 
 (defn complete
-  "TidyR complete()"
+  "TidyR complete.
+
+  Fills a dataset with all possible combinations of selected columns. When given combination wasn't existed, missing values are created."
   [ds columns-selector & r]
   (if (grouped? ds)
     (process-group-data ds #(apply complete % columns-selector r) true)

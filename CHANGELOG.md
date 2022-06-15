@@ -11,6 +11,7 @@
 ### Changed
 
 * removed setting `*warn-on-reflection*`
+* [breaking] creation of singleton dataset adds an error message as a column by default ([discussion](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/Empty.20csv.20regression.3F.3F))
 
 ## [6.076]
 
