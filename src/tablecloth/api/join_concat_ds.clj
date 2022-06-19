@@ -34,9 +34,9 @@
     (-> columns-selector
         (update :left (partial column-names ds-left))
         (update :right (partial column-names ds-right)))
-    (let [names (s/union (set (column-names ds-left columns-selector))
-                         (set (column-names ds-right columns-selector)))]
-      {:left names :right names})))
+    (let [left (column-names ds-left columns-selector)
+          right  (column-names ds-right columns-selector)]
+      {:left left :right right})))
 
 (defmacro make-join-fns
   [join-fns-list]

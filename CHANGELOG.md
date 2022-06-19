@@ -1,5 +1,11 @@
 # Change Log
 
+## [6.088.1]
+
+### Fixed
+
+* Wrong way of selecting columns for joins (shouldn't be a set). https://clojurians.zulipchat.com/#narrow/stream/151924-data-science/topic/complete.20ala.20R/near/286277344
+
 ## [6.088]
 
 ### Added
