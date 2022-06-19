@@ -56,7 +56,7 @@
       (tabular (fact (-> ds ?cmd (api/column ?col) seq)
                      => ?xs)
                ?xs ?cmd ?col
-               [1.0 1.0 1.0 1.0 2.0 2.0 2.0 2.0 2.0 2.0 4.0 4.0 11.0 11.0 11.0]
+               [nil nil nil 1.0 2.0 2.0 2.0 2.0 2.0 2.0 4.0 4.0 11.0 11.0 11.0]
                (api/replace-missing :a :down)
                :a
                [2 2 2 2 2 2 2 2 2 13 13 3 4 5 5]
@@ -73,7 +73,7 @@
       (tabular (fact (-> ds ?cmd (api/column ?col) seq)
                      => ?xs)
                ?xs ?cmd ?col
-               [1.0 1.0 1.0 1.0 2.0 4.0 4.0 4.0 4.0 4.0 4.0 11.0 11.0 11.0 11.0]
+               [1.0 1.0 1.0 1.0 2.0 4.0 4.0 4.0 4.0 4.0 4.0 11.0 11.0 nil nil]
                (api/replace-missing :a :up)
                :a
                [2 2 2 13 13 13 13 13 13 13 3 3 4 5 5]

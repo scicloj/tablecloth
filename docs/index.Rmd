@@ -2004,8 +2004,10 @@ Missing values can be replaced using several strategies. `replace-missing` accep
 Strategies are:
 
 * `:value` - replace with given value
-* `:up` - copy values up and then down for missing values at the end
-* `:down` - copy values down and then up for missing values at the beginning
+* `:up` - copy values up
+* `:down` - copy values down
+* `:updown` - copy values up and then down for missing values at the end
+* `:downup` - copy values down and then up for missing values at the beginning
 * `:mid` or `:nearest` - copy values around known values
 * `:midpoint` - use average value from previous and next non-missing
 * `:lerp` - trying to lineary approximate values, works for numbers and datetime, otherwise applies `:nearest`. For numbers always results in `float` datatype.
@@ -2066,7 +2068,7 @@ Replace missing with a function (mean)
 Using `:down` strategy, fills gaps with values from above. You can see that if missings are at the beginning, the are filled with first value
 
 ```{clojure results="asis"}
-(tc/replace-missing DSm2 [:a :b] :down)
+(tc/replace-missing DSm2 [:a :b] :downup)
 ```
 
 ---
@@ -2083,6 +2085,12 @@ The same applies for `:up` strategy which is opposite direction.
 
 ```{clojure results="asis"}
 (tc/replace-missing DSm2 [:a :b] :up)
+```
+
+---
+
+```{clojure results="asis"}
+(tc/replace-missing DSm2 [:a :b] :updown)
 ```
 
 ---

@@ -1,5 +1,17 @@
 # Change Log
 
+## [6.090]
+
+TMD version bump
+
+### Changed
+
+[breaking]
+
+`replace-missing` up/down strategies clarified. `:down` is replaced by `:downup` and `:up` is replaced by `:updown`. `:down` and `:up` work only in one direction now.
+
+https://github.com/techascent/tech.ml.dataset/issues/305
+
 ## [6.088.1]
 
 ### Fixed
