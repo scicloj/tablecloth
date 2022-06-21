@@ -11,7 +11,7 @@
             [nextjournal.clerk :as clerk]))
 
 ^{:kind/hidden true}
-(clay/restart!  {:tools [#_tools/scittle
+#_(clay/restart!  {:tools [#_tools/scittle
                          tools/clerk]})
 
 ^{:kind/hidden true}
@@ -29,7 +29,7 @@
 
 ;; ## Usage
 
-(require '[tablecloth.api.column :refer [column] :as col])
+(require '[tablecloth.column.api :refer [column] :as col])
 
 ;; ### Column creation
 

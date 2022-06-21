@@ -1,4 +1,4 @@
-(ns tablecloth.api.column
+(ns tablecloth.column.api
   (:refer-clojure :exclude [group-by])
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
