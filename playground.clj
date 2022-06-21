@@ -121,8 +121,6 @@ unrolled-ds
 (-> (tech.v3.dataset/unroll-column ds :tags)
     (tech.v3.dataset/categorical->one-hot [:tags]))
 
-
-
 (def data (tech.v3.dataset/->dataset {:a [[1 2 3] [4 5] [6 7 8]]}))
 
 data

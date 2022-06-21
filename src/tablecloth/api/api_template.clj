@@ -1,4 +1,5 @@
 (ns tablecloth.api.api-template
+  "Tablecloth API"
   (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle])  
   (:require [tech.v3.datatype.export-symbols :as exporter]))
 

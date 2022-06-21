@@ -1,5 +1,23 @@
 # Change Log
 
+## [6.090]
+
+TMD version bump
+
+### Changed
+
+[breaking]
+
+`replace-missing` up/down strategies clarified. `:down` is replaced by `:downup` and `:up` is replaced by `:updown`. `:down` and `:up` work only in one direction now.
+
+https://github.com/techascent/tech.ml.dataset/issues/305
+
+## [6.088.1]
+
+### Fixed
+
+* Wrong way of selecting columns for joins (shouldn't be a set). https://clojurians.zulipchat.com/#narrow/stream/151924-data-science/topic/complete.20ala.20R/near/286277344
+
 ## [6.088]
 
 ### Added
@@ -11,6 +29,7 @@
 ### Changed
 
 * removed setting `*warn-on-reflection*`
+* [breaking] creation of singleton dataset adds an error message as a column by default ([discussion](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/Empty.20csv.20regression.3F.3F))
 
 ## [6.076]
 

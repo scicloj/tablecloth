@@ -34,8 +34,6 @@
       (apply array-map (interleave (keys map-ds)
                                    (map #(if (iterable-sequence? %) % (repeat c %)) (vals map-ds))))))
 
-(def ^:private numerical-classes (set (map #(Class/forName %) ["[[B" "[[S" "[[I" "[[J" "[[F" "[[D"])))
-
 (defn- from-tensor
   [data column-names layout dataset-name]
   (let [t (tensor/->tensor data)
@@ -45,7 +43,7 @@
       (ds/rename-columns t (zipmap (range (ds/column-count t)) column-names))
       t)))
 
-(defn- array-of-arrays? [in] (= "[[" (subs (.getName (class in)) 0 2)))
+(defn- array-of-arrays? [in] (and in (= "[[" (subs (.getName (class in)) 0 2))))
 
 (defn dataset
   "Create `dataset`.
@@ -59,12 +57,12 @@
   * array of arrays
   * single value
 
-  Single value is set only when it's not possible to find a path for given data. If tech.ml.dataset throws an exception, it's will be printed and dataset will be created. To suppress printing a stack trace, set `stack-trace?` option to false."
+  Single value is set only when it's not possible to find a path for given data. If tech.ml.dataset throws an exception, it's won;t be printed. To print a stack trace, set `stack-trace?` option to `true`."
   ([] (ds/new-dataset nil))
   ([data]
    (dataset data nil))
-  ([data {:keys [single-value-column-name column-names layout dataset-name stack-trace?]
-          :or {single-value-column-name :$value layout :as-rows stack-trace? true}
+  ([data {:keys [single-value-column-name column-names layout dataset-name stack-trace? error-column?]
+          :or {single-value-column-name :$value layout :as-rows stack-trace? false error-column? true}
           :as options}]
    (cond
      (dataset? data) data
@@ -76,7 +74,7 @@
                             (string? (first %)))) data)) (dataset (apply array-map (mapcat identity data)) options)
      (and (iterable-sequence? data)
           (every? col/is-column? data)) (ds/new-dataset options data)
-     (or (numerical-classes (class data))
+     (or (array-of-arrays? data)
          (and (iterable-sequence? data)
               (not-every? map? data))) (from-tensor data column-names layout dataset-name)
      (array-of-arrays? data) (ds/new-dataset options (map ds/new-column (or column-names (range)) data))
@@ -88,7 +86,10 @@
                 (catch Exception e
                   (do
                     (when stack-trace? (.printStackTrace e))
-                    (ds/->dataset [{single-value-column-name data}] options)))))))
+                    (let [row {single-value-column-name data}]
+                      (ds/->dataset [(if error-column?
+                                       (assoc row :$error (.getMessage e))
+                                       row)] options))))))))
 
 (defn shape
   "Returns shape of the dataset [rows, cols]"

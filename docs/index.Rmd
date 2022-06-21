@@ -146,7 +146,7 @@ Dataset can be created from various of types of Clojure structures and files:
 * map of sequences or values
 * sequence of columns (taken from other dataset or created manually)
 * sequence of pairs: `[string column-data]` or `[keyword column-data]`
-* array of native arrays
+* array of any arrays
 * file types: raw/gzipped csv/tsv, json, xls(x) taken from local file system or URL
 * input stream
 
@@ -179,24 +179,6 @@ Empty dataset with column names
 
 ```{clojure}
 (tc/dataset nil {:column-names [:a :b]})
-```
-
----
-
-Dataset from single value.
-
-```{clojure results="asis"}
-(tc/dataset 999)
-```
-
----
-
-Set column name for single value. Also set the dataset name.
-
-```{clojure results="asis"}
-(tc/dataset 999 {:single-value-column-name "my-single-value"})
-(tc/dataset 999 {:single-value-column-name ""
-                  :dataset-name "Single value"})
 ```
 
 ---
@@ -274,8 +256,18 @@ Reading from arrays, by default `:as-rows`
 (-> (map int-array [[1 2] [3 4] [5 6]])
     (into-array)
     (tc/dataset {:layout :as-rows
-                  :column-names [:a :b]}))
+                 :column-names [:a :b]}))
 ```
+
+Any objects
+
+```{clojure results="asis"}
+(-> (map to-array [[:a :z] ["ee" "ww"] [9 10]])
+    (into-array)
+    (tc/dataset {:column-names [:a :b :c]
+                 :layout :as-columns}))
+```
+
 
 ---
 
@@ -307,6 +299,29 @@ Import from URL
 ds
 ```
 
+---
+
+When none of above works, singleton dataset is created. Along with the error message from the exception thrown by `tech.ml.dataset`
+
+```{clojure results="asis"}
+(tc/dataset 999)
+```
+
+To see the stack trace, turn it on by setting `:stack-trace?` to `true`.
+
+---
+
+Set column name for single value. Also set the dataset name and turn off creating error message column.
+
+```{clojure results="asis"}
+(tc/dataset 999 {:single-value-column-name "my-single-value"
+                 :error-column? false})
+(tc/dataset 999 {:single-value-column-name ""
+                 :dataset-name "Single value"
+                 :error-column? false})
+```
+
+
 #### Saving
 
 Export dataset to a file or output stream can be done by calling `tc/write!`. Function accepts:
@@ -314,7 +329,7 @@ Export dataset to a file or output stream can be done by calling `tc/write!`. Fu
 * dataset
 * file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and `.tsv.gz` or output stream
 * options:
-    - `:separator` - string or separator char.
+- `:separator` - string or separator char.
 
 ```{clojure}
 (tc/write! ds "output.tsv.gz")
@@ -364,8 +379,8 @@ Shape of the dataset, [row count, column count]
 General info about dataset. There are three variants:
 
 * default - containing information about columns with basic statistics
-    - `:basic` - just name, row and column count and information if dataset is a result of `group-by` operation
-    - `:columns` - columns' metadata
+- `:basic` - just name, row and column count and information if dataset is a result of `group-by` operation
+- `:columns` - columns' metadata
 
 ```{clojure results="asis"}
 (tc/info ds)
@@ -1989,8 +2004,10 @@ Missing values can be replaced using several strategies. `replace-missing` accep
 Strategies are:
 
 * `:value` - replace with given value
-* `:up` - copy values up and then down for missing values at the end
-* `:down` - copy values down and then up for missing values at the beginning
+* `:up` - copy values up
+* `:down` - copy values down
+* `:updown` - copy values up and then down for missing values at the end
+* `:downup` - copy values down and then up for missing values at the beginning
 * `:mid` or `:nearest` - copy values around known values
 * `:midpoint` - use average value from previous and next non-missing
 * `:lerp` - trying to lineary approximate values, works for numbers and datetime, otherwise applies `:nearest`. For numbers always results in `float` datatype.
@@ -2051,7 +2068,7 @@ Replace missing with a function (mean)
 Using `:down` strategy, fills gaps with values from above. You can see that if missings are at the beginning, the are filled with first value
 
 ```{clojure results="asis"}
-(tc/replace-missing DSm2 [:a :b] :down)
+(tc/replace-missing DSm2 [:a :b] :downup)
 ```
 
 ---
@@ -2068,6 +2085,12 @@ The same applies for `:up` strategy which is opposite direction.
 
 ```{clojure results="asis"}
 (tc/replace-missing DSm2 [:a :b] :up)
+```
+
+---
+
+```{clojure results="asis"}
+(tc/replace-missing DSm2 [:a :b] :updown)
 ```
 
 ---
@@ -3027,6 +3050,8 @@ Dataset join and concatenation functions.
 
 Joins accept left-side and right-side datasets and columns selector. Options are the same as in `tech.ml.dataset` functions.
 
+A column selector can be a map with `:left` and `:right` keys to specify column names separate for left and right dataset.
+
 The difference between `tech.ml.dataset` join functions are: arguments order (first datasets) and possibility to join on multiple columns.
 
 Additionally set operations are defined: `intersect` and `difference`.
@@ -3046,9 +3071,10 @@ Datasets used in examples:
                        :b (range 101 110)
                        :c (map str "abs tract")}))
 (def ds2 (tc/dataset {:a [nil 1 2 5 4 3 2 1 nil]
-                       :b (range 110 101 -1)
-                       :c (map str "datatable")
-                       :d (symbol "X")}))
+                      :b (range 110 101 -1)
+                      :c (map str "datatable")
+                      :d (symbol "X")
+                      :e [3 4 5 6 7 nil 8 1 1]}))
 ```
 
 ```{clojure results="asis"}
@@ -3080,6 +3106,19 @@ ds2
 (tc/left-join ds2 ds1 [:a :b])
 ```
 
+---
+
+```{clojure results="asis"}
+(tc/left-join ds1 ds2 {:left :a :right :e})
+```
+
+---
+
+```{clojure results="asis"}
+(tc/left-join ds2 ds1 {:left :e :right :a})
+```
+
+
 #### Right
 
 ```{clojure results="asis"}
@@ -3104,6 +3143,19 @@ ds2
 (tc/right-join ds2 ds1 [:a :b])
 ```
 
+---
+
+```{clojure results="asis"}
+(tc/right-join ds1 ds2 {:left :a :right :e})
+```
+
+---
+
+```{clojure results="asis"}
+(tc/right-join ds2 ds1 {:left :e :right :a})
+```
+
+
 #### Inner
 
 ```{clojure results="asis"}
@@ -3126,6 +3178,18 @@ ds2
 
 ```{clojure results="asis"}
 (tc/inner-join ds2 ds1 [:a :b])
+```
+
+---
+
+```{clojure results="asis"}
+(tc/inner-join ds1 ds2 {:left :a :right :e})
+```
+
+---
+
+```{clojure results="asis"}
+(tc/inner-join ds2 ds1 {:left :e :right :a})
 ```
 
 #### Full
@@ -3154,6 +3218,19 @@ Join keeping all rows
 (tc/full-join ds2 ds1 [:a :b])
 ```
 
+---
+
+```{clojure results="asis"}
+(tc/full-join ds1 ds2 {:left :a :right :e})
+```
+
+---
+
+```{clojure results="asis"}
+(tc/full-join ds2 ds1 {:left :e :right :a})
+```
+
+
 #### Semi
 
 Return rows from ds1 matching ds2
@@ -3180,6 +3257,18 @@ Return rows from ds1 matching ds2
 (tc/semi-join ds2 ds1 [:a :b])
 ```
 
+---
+
+```{clojure results="asis"}
+(tc/semi-join ds1 ds2 {:left :a :right :e})
+```
+
+---
+
+```{clojure results="asis"}
+(tc/semi-join ds2 ds1 {:left :e :right :a})
+```
+
 #### Anti
 
 Return rows from ds1 not matching ds2
@@ -3203,15 +3292,66 @@ Return rows from ds1 not matching ds2
 ---
 
 ```{clojure results="asis"}
-(tc/anti-join ds2 ds1 [:a :b])
+(tc/anti-join ds1 ds2 {:left :a :right :e})
 ```
+
+---
+
+```{clojure results="asis"}
+(tc/anti-join ds2 ds1 {:left :e :right :a})
+```
+
+#### Cross
+
+Cross product from selected columns
+
+```{clojure results="asis"}
+(tc/cross-join ds1 ds2 [:a :b])
+```
+
+---
+
+```{clojure results="asis"}
+(tc/cross-join ds1 ds2 {:left [:a :b] :right :e})
+```
+
+#### Expand
+
+Similar to cross product but works on a single dataset.
+
+```{clojure results="asis"}
+(tc/expand ds2 :a :c :d)
+```
+
+---
+
+Columns can be also bundled (nested) in tuples which are treated as a single entity during cross product.
+
+```{clojure results="asis"}
+(tc/expand ds2 [:a :c] [:e :b])
+```
+
+#### Complete
+
+Same as expand with all other columns preserved (filled with missing values if necessary).
+
+```{clojure results="asis"}
+(tc/complete ds2 :a :c :d)
+```
+
+---
+
+```{clojure results="asis"}
+(tc/complete ds2 [:a :c] [:e :b])
+```
+
 #### asof
 
 ```{clojure results="hide"}
 (def left-ds (tc/dataset {:a [1 5 10]
-                           :left-val ["a" "b" "c"]}))
+                          :left-val ["a" "b" "c"]}))
 (def right-ds (tc/dataset {:a [1 2 3 6 7]
-                            :right-val [:a :b :c :d :e]}))
+                           :right-val [:a :b :c :d :e]}))
 ```
 
 ```{clojure results="asis"}
@@ -3265,7 +3405,7 @@ Concatenation of grouped datasets results also in grouped dataset.
 
 ```{clojure results="asis"}
 (tc/concat (tc/group-by DS [:V3])
-            (tc/group-by DS [:V4]))
+           (tc/group-by DS [:V4]))
 ```
 
 
@@ -3309,21 +3449,21 @@ The same as `concat` but returns unique rows
 
 ```{clojure results="asis"}
 (tc/intersect (tc/select-columns ds1 :b)
-               (tc/select-columns ds2 :b))
+              (tc/select-columns ds2 :b))
 ```
 
 #### Difference
 
 ```{clojure results="asis"}
 (tc/difference (tc/select-columns ds1 :b)
-                (tc/select-columns ds2 :b))
+               (tc/select-columns ds2 :b))
 ```
 
 ---
 
 ```{clojure results="asis"}
 (tc/difference (tc/select-columns ds2 :b)
-                (tc/select-columns ds1 :b))
+               (tc/select-columns ds1 :b))
 ```
 
 ### Split into train/test
@@ -3361,7 +3501,7 @@ See [more](https://www.mitpressjournals.org/doi/pdf/10.1162/EVCO_a_00069)
 (def for-splitting (tc/dataset (map-indexed (fn [id v] {:id id
                                                         :partition v
                                                         :group (rand-nth [:g1 :g2 :g3])})
-                                             (concat (repeat 20 :a) (repeat 5 :b)))))
+                                            (concat (repeat 20 :a) (repeat 5 :b)))))
 ```
 
 ```{clojure results="asis"}
@@ -3420,7 +3560,7 @@ you can use also proportions with custom names
 
 ```{clojure results="asis"}
 (tc/split for-splitting :holdout {:ratio [5 3 11 2]
-                                   :split-names ["small" "smaller" "big" "the rest"]})
+                                  :split-names ["small" "smaller" "big" "the rest"]})
 ```
 
 #### Holdouts
@@ -3429,7 +3569,7 @@ With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with
 
 ```{clojure results="asis"}
 (-> (tc/split for-splitting :holdouts {:steps [0.05 0.95 1.5]
-                                        :shuffle? false})
+                                       :shuffle? false})
     (tc/group-by [:$split-id :$split-name]))
 ```
 
