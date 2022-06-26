@@ -24,6 +24,11 @@
   [col]
   (dtype/elemwise-datatype col))
 
+(defn typeof?
+  "True|false the column's elements are of type `dtype`"
+  [col dtype]
+  (= (dtype/elemwise-datatype col) dtype))
+
 (defn zeros
   "Create a new column filled wth `n-zeros`."
   [n-zeros]
