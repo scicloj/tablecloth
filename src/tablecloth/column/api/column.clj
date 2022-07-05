@@ -1,6 +1,6 @@
 (ns tablecloth.column.api.column
   (:require [tech.v3.dataset.column :as col]
-            [tech.v3.datatype :refer [emap]]))
+            [tech.v3.datatype :as dtype]))
 
 (defn column
   "Create a `column` from a vector or sequence. "
@@ -32,9 +32,9 @@
 (defn zeros
   "Create a new column filled wth `n-zeros`."
   [n-zeros]
-  (column (emap (constantly 0) :int64 (range n-zeros))))
+  (column (dtype/emap (constantly 0) :int64 (range n-zeros))))
 
 (defn ones
   "Creates a new column filled with `n-ones`"
   [n-ones]
-  (column (emap (constantly 1) :int64 (range n-ones))))
+  (column (dtype/emap (constantly 1) :int64 (range n-ones))))
