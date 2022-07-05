@@ -11,10 +11,9 @@
                          )
 
 (comment
+  // Use this to generate the column api
   (exporter/write-api! 'tablecloth.column.api.api-template
                        'tablecloth.column.api
                        "src/tablecloth/column/api.clj"
-                       '[]
-                       )
-
-  )
+                       '[])
+  ,)
