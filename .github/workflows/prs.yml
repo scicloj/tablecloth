@@ -1,0 +1,35 @@
+name: "PR Checks"
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@3.2
+        with:
+          cli: latest
+          lein: 2.9.6 # setting b/c latest 2.9.7 broke workflow
+
+      - name: Install dependencies
+        run: lein deps
+
+      - name: Leinigen version
+        run: lein -v
+
+      - name: Test
+        run: lein midje
