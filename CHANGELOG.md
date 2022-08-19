@@ -1,6 +1,15 @@
 # Change Log
 
-## [unreleased]
+## [6.094]
+
+### Added
+
+* `crosstab` - cross tabulation
+* `pivot->longer` `:coerce-to-number` option added
+
+### Changed
+
+* [breaking] `pivot->wider` no longer coerces column names to strings, it's up to user
 
 ### Fixed
 

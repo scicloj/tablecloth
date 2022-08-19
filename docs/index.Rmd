@@ -1713,6 +1713,56 @@ You can perform columnar aggreagation also. `aggregate-columns` selects columns 
     (tc/aggregate-columns [:V1 :V2 :V3] #(reduce + %)))
 ```
 
+#### Crosstab
+
+Cross tabulation built from two sets of columns. First rows and cols are used to construct grouped dataset, then aggregation function is applied for each pair. By default it counts rows from each group.
+
+Options are:
+
+* `:aggregator` - function which aggregates values of grouped dataset, default it's `row-count`
+* `:marginal-rows` and `:marginal-cols` - if true, sum of rows and cols are added as an additional columns and row. May be custom function which accepts pure row and col as a seq.
+* `:replace-missing?` - should missing values be replaced (default: true) with `:missing-value` (default: 0)
+* `:pivot?` - if false, flat aggregation result is returned (default: false)
+
+```{clojure results="asis"}
+(def ctds (tc/dataset {:a [:foo :foo :bar :bar :foo :foo]
+                       :b [:one :one :two :one :two :one]
+                       :c [:dull :dull :shiny :dull :dull :shiny]}))
+```
+
+```{clojure results"asis"}
+ctds
+```
+
+---
+
+```{clojure results="asis"}
+(tc/crosstab ctds :a [:b :c])
+```
+
+---
+
+With marginals
+
+```{clojure results="asis"}
+(tc/crosstab ctds :a [:b :c] {:marginal-rows true :marginal-cols true})
+```
+
+---
+
+Set missing value to `-1`
+
+```{clojure results="asis"}
+(tc/crosstab ctds :a [:b :c] {:missing-value -1})
+```
+
+---
+
+Turn off pivoting
+
+```{clojure results="asis"}
+(tc/crosstab ctds :a [:b :c] {:pivot? false})
+```
 
 ### Order
 
@@ -2607,8 +2657,9 @@ Arguments:
     - `:target-columns` - names of the columns created or columns pattern (see below) (default: `:$column`)
     - `:value-column-name` - name of the column for values (default: `:$value`)
     - `:splitter` - string, regular expression or function which splits source column names into data
-    - `:drop-missing?` - remove rows with missing? (default: `:true`)
+    - `:drop-missing?` - remove rows with missing? (default: `true`)
     - `:datatypes` - map of target columns data types
+	- `:coerce-to-number` - try to convert extracted values to numbers if possible (default: true)
 
 `:target-columns` - can be:
 
@@ -5291,7 +5342,7 @@ Cast data (from long to wide)
 
 ```{clojure results="asis"}
 (-> mDS
-    (tc/map-columns :value #(> % 5))
+    (tc/map-columns :value #(str (> % 5))) ;; coerce to strings
     (tc/pivot->wider :value :variable {:fold-fn vec})
     (tc/update-columns ["true" "false"] (partial map #(if (sequential? %) (count %) 1))))
 ```
