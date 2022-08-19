@@ -64,7 +64,8 @@
    :numerical #{:int8 :int16 :int32 :int64 :uint8 :uint16 :uint32 :uint64
                 :long :int :short :byte
                 :float32 :float64 :double :float}
-   :textual #{:text :string}})
+   :textual #{:text :string}
+   :logical #{:boolean}})
 
 (defn type?
   ([general-type]
@@ -83,6 +84,24 @@
                  (when (set-of-concrete-types datatype) general-type)))
              (keys type-sets))]
     (set (remove nil? general-types))))
+
+(defn types
+  "Returns the set of general types e.g. (:integer, :textual, etc)."
+  []
+  (set (keys type-sets)))
+
+(defn concrete-types
+  "Returns the set of concrete types e.g. (:int32, :float32, etc)"
+  []
+  (reduce (fn [all-types val]
+            (into all-types val))
+          #{}
+          (vals type-sets)))
+
+(defn concrete-type?
+  "Returns true if `datatype` is a concrete datatype (e.g. :int32)."
+  [datatype]
+  (not (nil? ((concrete-types) datatype))))
 
 (defn- prepare-datatype-set
   [datatype-columns-selector]
