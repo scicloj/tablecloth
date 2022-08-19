@@ -1,5 +1,11 @@
 # Change Log
 
+## [unreleased]
+
+### Fixed
+
+* predicates should behave as in Clojure ([discussion](https://clojurians.zulipchat.com/#narrow/stream/151924-data-science/topic/tablecloth.2Fselect-rows.20predicate.20requirements.3F))
+
 ## [6.090]
 
 TMD version bump

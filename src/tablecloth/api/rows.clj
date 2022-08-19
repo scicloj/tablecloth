@@ -14,7 +14,7 @@
     rows-selector
     (->> rows-selector
          (take (ds/row-count ds))
-         (aop/argfilter identity))))
+         (aop/argfilter boolean))))
 
 (defn- find-indexes-from-fn
   "Filter rows"
@@ -22,7 +22,7 @@
   (->> (or selected-keys :all)
        (ds/select-columns ds)
        (ds/mapseq-reader)
-       (aop/argfilter rows-selector)))
+       (aop/argfilter (comp boolean rows-selector))))
 
 (defn- find-indexes
   ([ds rows-selector] (find-indexes ds rows-selector nil))
