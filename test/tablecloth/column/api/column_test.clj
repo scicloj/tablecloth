@@ -24,8 +24,8 @@
 
 (fact "`typeof` returns the type of the elements (not the concrete type)"
       (typeof (column [1 2 3])) => #{:integer :numerical}
-      (typeof (column ["a" "b" "c"])) => #{:string :textual}
-      (typeof (column [true false])) => #{:boolean :logical}
+      (typeof (column ["a" "b" "c"])) => #{:textual}
+      (typeof (column [true false])) => #{:logical}
       )
 
 (fact "we can check the type of a column's elements with `typeof?`"
