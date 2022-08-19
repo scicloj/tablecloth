@@ -1,5 +1,20 @@
 # Change Log
 
+## [6.094]
+
+### Added
+
+* `crosstab` - cross tabulation
+* `pivot->longer` `:coerce-to-number` option added
+
+### Changed
+
+* [breaking] `pivot->wider` no longer coerces column names to strings, it's up to user
+
+### Fixed
+
+* predicates should behave as in Clojure ([discussion](https://clojurians.zulipchat.com/#narrow/stream/151924-data-science/topic/tablecloth.2Fselect-rows.20predicate.20requirements.3F))
+
 ## [6.090]
 
 TMD version bump

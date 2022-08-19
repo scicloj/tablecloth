@@ -212,6 +212,24 @@
   (tablecloth.api.join-concat-ds/cross-join ds-left ds-right columns-selector options)))
 
 
+(defn crosstab
+  "Cross tabulation of two sets of columns.
+
+  Creates grouped dataset by [row-selector, col-selector] pairs and calls aggregation on each group.
+
+  Options:
+
+  * pivot? - create pivot table or just flat structure (default: true)
+  * replace-missing? - replace missing values? (default: true)
+  * missing-value - a missing value (default: 0)
+  * aggregator - aggregating function (default: row-count)
+  * marginal-rows, marginal-cols - adds row and/or cols, it's a sum if true. Can be a custom fn."
+  ([ds row-selector col-selector]
+  (tablecloth.api.aggregate/crosstab ds row-selector col-selector))
+  ([ds row-selector col-selector options]
+  (tablecloth.api.aggregate/crosstab ds row-selector col-selector options)))
+
+
 (defn dataset
   "Create `dataset`.
   
