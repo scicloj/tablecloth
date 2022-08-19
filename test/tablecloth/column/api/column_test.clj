@@ -22,11 +22,11 @@
           (column)
           (tech.v3.datatype/elemwise-datatype)) => :object)
 
-;; (fact "`typeof` returns the type of the elements (not the concrete type)"
-;;       (typeof (column [1 2 3])) => :integer
-;;       (typeof (column [true false])) => :boolean
-;;       (typeof (column [:a :b :c])) => :keyworkd
-;;       )
+(fact "`typeof` returns the type of the elements (not the concrete type)"
+      (typeof (column [1 2 3])) => #{:integer :numerical}
+      (typeof (column ["a" "b" "c"])) => #{:string :textual}
+      (typeof (column [true false])) => #{:boolean :logical}
+      )
 
 (fact "we can check the type of a column's elements with `typeof?`"
       (typeof? (column [1 2 3]) :integer) => true
@@ -46,9 +46,3 @@
 
 (fact "`ones` returns a column filled with ones"
       (ones 3) => [1 1 1])
-
-(comment
-  (typeof (column [1 2 3]))
-  (typeof? (column [1 2 3]) :integer)
-
-  )
