@@ -69,12 +69,12 @@
     (catch Exception _ v)))
 
 (defn- pre-longer->target-columns
-  [ds cnt m]
+  [ds cnt coerce-to-number? m]
   (let [new-cols (map (fn [[col-name maybe-column]]
                         (cond
                           (col/is-column? maybe-column) (col/set-name maybe-column col-name)
                           (nil? maybe-column) (col/new-column col-name (dtype/const-reader maybe-column cnt) nil (range cnt))
-                          :else (let [v (maybe-number maybe-column)]
+                          :else (let [v (if coerce-to-number? (maybe-number maybe-column) maybe-column)]
                                   (col/new-column col-name (dtype/const-reader v cnt))))) m)]
     (ds/append-columns ds new-cols)))
 
@@ -82,10 +82,12 @@
   "`tidyr` pivot_longer api"
   ([ds] (pivot->longer ds :all))
   ([ds columns-selector] (pivot->longer ds columns-selector nil))
-  ([ds columns-selector {:keys [target-columns value-column-name splitter drop-missing? datatypes]
+  ([ds columns-selector {:keys [target-columns value-column-name splitter
+                                drop-missing? datatypes coerce-to-number?]
                          :or {target-columns :$column
                               value-column-name :$value
-                              drop-missing? true}
+                              drop-missing? true
+                              coerce-to-number? true}
                          :as options}]
    (let [cols (column-names ds columns-selector)
          target-columns (if (iterable-sequence? target-columns) target-columns [target-columns])
@@ -94,7 +96,7 @@
          ds-template (drop-columns ds cols)
          cnt (ds/row-count ds)]
      (as-> (with-meta (->> groups                                        
-                           (map (partial pre-longer->target-columns ds-template cnt))
+                           (map (partial pre-longer->target-columns ds-template cnt coerce-to-number?))
                            (apply ds/concat))
              (meta ds)) final-ds
        (cond-> final-ds
@@ -118,7 +120,7 @@
   [concat-columns-with names]
   (if (> (count names) 1)
     (cond
-      (string? concat-columns-with) (str/join concat-columns-with names)
+      (string? concat-columns-with) (str/join concat-columns-with (map ->str names))
       (fn? concat-columns-with) (concat-columns-with names)
       :else names)
     (first names)))
@@ -126,7 +128,7 @@
 (defn- process-target-name
   [value concat-value-with col-name]
   (cond
-    (string? concat-value-with) (str col-name concat-value-with (->str value))
+    (string? concat-value-with) (str (->str col-name) concat-value-with (->str value))
     (fn? concat-value-with) (concat-value-with col-name value)
     :else [col-name value]))
 
@@ -137,7 +139,7 @@
     (let [col-name (process-column-name concat-columns-with (->> name
                                                                  group-name->names
                                                                  (remove nil?)
-                                                                 (map ->str))) ;; source names
+                                                                 #_(map ->str))) ;; source names
           target-names (if single-value?
                          [col-name]
                          (map #(process-target-name % concat-value-with col-name) value-names)) ;; traget column names

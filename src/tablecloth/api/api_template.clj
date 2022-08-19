@@ -76,7 +76,8 @@
 
 (exporter/export-symbols tablecloth.api.aggregate
                          aggregate
-                         aggregate-columns)
+                         aggregate-columns
+                         crosstab)
 
 (exporter/export-symbols tablecloth.api.order-by
                          order-by)

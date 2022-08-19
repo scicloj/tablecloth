@@ -266,9 +266,9 @@
 ;; construction case
 
 (defonce construction (api/dataset "data/construction.csv"))
-(defonce construction-unit-map {"1 unit"          "1"
-                                "2 to 4 units"    "2-4"
-                                "5 units or more" "5+"})
+(def construction-unit-map {"1 unit"          "1"
+                          "2 to 4 units"    "2-4"
+                          "5 units or more" "5+"})
 
 (fact "pivot-revert"
       (let [ds (-> construction
@@ -278,7 +278,8 @@
                                                                                      [(construction-unit-map col-name) nil]
                                                                                      [nil col-name]))
                                                               :value-column-name :n
-                                                              :drop-missing?     false})
+                                                              :drop-missing?     false
+                                                              :coerce-to-number? false})
                    (api/pivot->wider [:units :region] :n {:drop-missing? false})
                    (api/rename-columns (zipmap (vals construction-unit-map)
                                                (keys construction-unit-map))))]
