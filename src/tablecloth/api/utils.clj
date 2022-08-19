@@ -73,10 +73,22 @@
   ([general-type datatype]
    ((type-sets general-type) datatype)))
 
+(defn ->general-types
+  "Given a concrete `datatype` (e.g. `:int32`),
+   returns the general type (e.g. `:integer`)."
+  [datatype]
+  (let [general-types
+        (map (fn [general-type]
+               (let [set-of-concrete-types (get type-sets general-type)]
+                 (when (set-of-concrete-types datatype) general-type)))
+             (keys type-sets))]
+    (set (remove nil? general-types))))
+
 (defn- prepare-datatype-set
   [datatype-columns-selector]
   (let [k (-> datatype-columns-selector name keyword)]
     (get type-sets k #{k})))
+
 
 (defn- filter-column-names
   "Filter column names"
