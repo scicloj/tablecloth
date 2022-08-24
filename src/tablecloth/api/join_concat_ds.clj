@@ -174,24 +174,3 @@
 (defn append
   [ds & datasets]
   (reduce #(ds/append-columns %1 (ds/columns %2)) ds datasets))
-
-
-
-;;
-
-(def mds tablecloth.api.dataset/dataset)
-
-(def ds1 (mds {:a [1 2 1 2 3 4 nil nil 4]
-             :b (range 101 110)
-             :c (map str "abs tract")}))
-(def ds2 (mds {:a [nil 1 2 5 4 3 2 1 nil]
-             :b (range 110 101 -1)
-             :c (map str "datatable")
-             :d (symbol "X")
-             :e [3 4 5 6 7 nil 8 1 1]}))
-
-(anti-join ds1 ds2 :c)
-
-(semi-join ds1 ds2 :c)
-
-
