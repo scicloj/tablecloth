@@ -7,10 +7,11 @@
             [clojure.set :as s]
 
             [tablecloth.api.dataset :refer [dataset?]]
+            [tablecloth.api.rows :refer [select-rows drop-rows]]
             [tablecloth.api.join-separate :refer [join-columns]]
-            [tablecloth.api.missing :refer [select-missing drop-missing]]
             [tablecloth.api.columns :refer [drop-columns select-columns]]
-            [tablecloth.api.utils :refer [column-names grouped? process-group-data]]))
+            [tablecloth.api.utils :refer [column-names grouped? process-group-data]])
+  (:import [org.roaringbitmap RoaringBitmap]))
 
 ;; joins
 
@@ -67,25 +68,26 @@
          (ds/unique-by identity)
          (with-meta (assoc (meta rj) :name "full-join"))))))
 
-(defn semi-join
-  ([ds-left ds-right columns-selector] (semi-join ds-left ds-right columns-selector nil))
-  ([ds-left ds-right columns-selector options]
-   (let [lj (left-join ds-left ds-right columns-selector options)]
+(defn- anti-semi-join-fn
+  ([nm rows-fn join-column-name dsl dsr] (anti-semi-join-fn nm rows-fn join-column-name dsl dsr nil))
+  ([nm rows-fn join-column-name dsl dsr options]
+   (let [lj (j/left-join join-column-name dsl dsr options)
+         right-columns (:right-column-names (meta lj))
+         ^RoaringBitmap missing-column (col/missing (lj (right-columns (if (vector? join-column-name)
+                                                                         (second join-column-name)
+                                                                         join-column-name))))
+         ^RoaringBitmap left-column (col/missing (lj (if (vector? join-column-name)
+                                                       (first join-column-name)
+                                                       join-column-name)))]
      (-> lj
-         (drop-missing)
-         (drop-columns (vals (:right-column-names (meta lj))))
+         (rows-fn (RoaringBitmap/andNot missing-column left-column))
+         (drop-columns (vals right-columns))
          (ds/unique-by identity)
-         (vary-meta assoc :name "semi-join")))))
+         (vary-meta assoc :name nm)))))
 
-(defn anti-join
-  ([ds-left ds-right columns-selector] (anti-join ds-left ds-right columns-selector nil))
-  ([ds-left ds-right columns-selector options]
-   (let [lj (left-join ds-left ds-right columns-selector options)]
-     (-> lj
-         (select-missing)
-         (drop-columns (vals (:right-column-names (meta lj))))
-         (ds/unique-by identity)
-         (vary-meta assoc :name "anti-join")))))
+(make-join-fns [[anti-join (partial anti-semi-join-fn "anti-join" select-rows)]
+                [semi-join (partial anti-semi-join-fn "semi-join" drop-rows)]])
+
 
 (defn cross-join
   ([ds-left ds-right] (cross-join ds-left ds-right :all))
@@ -172,3 +174,24 @@
 (defn append
   [ds & datasets]
   (reduce #(ds/append-columns %1 (ds/columns %2)) ds datasets))
+
+
+
+;;
+
+(def mds tablecloth.api.dataset/dataset)
+
+(def ds1 (mds {:a [1 2 1 2 3 4 nil nil 4]
+             :b (range 101 110)
+             :c (map str "abs tract")}))
+(def ds2 (mds {:a [nil 1 2 5 4 3 2 1 nil]
+             :b (range 110 101 -1)
+             :c (map str "datatable")
+             :d (symbol "X")
+             :e [3 4 5 6 7 nil 8 1 1]}))
+
+(anti-join ds1 ds2 :c)
+
+(semi-join ds1 ds2 :c)
+
+

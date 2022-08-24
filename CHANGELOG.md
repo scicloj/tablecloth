@@ -1,5 +1,11 @@
 # Change Log
 
+## [6.094.1]
+
+### Fixed
+
+* [#77] `anti-join` and `semi-join` bugs when tables contain missing values
+
 ## [6.094]
 
 ### Added
