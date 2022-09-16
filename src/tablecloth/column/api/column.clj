@@ -20,9 +20,9 @@
   (col/is-column? item))
 
 (defn typeof
-  "Describes the type(s) of the elements within the column `col`."
+  "Returns the concrete type of the elements within the column `col`."
   [col]
-  (->general-types (dtype/elemwise-datatype col)))
+  (dtype/elemwise-datatype col))
 
 (defn typeof?
   "True|false the column's elements are of the provided type `datatype`.
