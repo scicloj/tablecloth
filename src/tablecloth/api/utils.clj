@@ -93,10 +93,8 @@
 (defn concrete-types
   "Returns the set of concrete types e.g. (:int32, :float32, etc)"
   []
-  (reduce (fn [all-types val]
-            (into all-types val))
-          #{}
-          (vals type-sets)))
+  (apply clojure.set/union (vals type-sets)))
+
 
 (defn concrete-type?
   "Returns true if `datatype` is a concrete datatype (e.g. :int32)."
