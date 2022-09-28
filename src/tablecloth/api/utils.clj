@@ -67,6 +67,39 @@
    :textual #{:text :string}
    :logical #{:boolean}})
 
+(def ^:private general-types-lookup
+  {:int32 #{:integer :numerical},
+    :int16 #{:integer :numerical},
+    :float32 #{:float :numerical},
+    :packed-local-time #{:datetime},
+    :local-date-time #{:datetime},
+    :packed-zoned-date-time #{:datetime},
+    :float64 #{:float :numerical},
+    :long #{:integer :numerical},
+    :double #{:float :numerical},
+    :short #{:integer :numerical},
+    :packed-local-date-time #{:datetime},
+    :zoned-date-time #{:datetime},
+    :instant #{:datetime},
+    :packed-local-date #{:datetime},
+    :int #{:integer :numerical},
+    :int64 #{:integer :numerical},
+    :local-time #{:datetime},
+    :packed-duration #{:datetime},
+    :uint64 #{:integer :numerical},
+    :float #{:float :numerical},
+    :duration #{:datetime},
+    :string #{:textual},
+    :uint16 #{:integer :numerical},
+    :int8 #{:integer :numerical},
+    :uint32 #{:integer :numerical},
+    :byte #{:integer :numerical},
+    :local-date #{:datetime},
+    :boolean #{:logical},
+    :packed-instant #{:datetime},
+    :text #{:textual},
+    :uint8 #{:integer :numerical}})
+
 (defn type?
   ([general-type]
    (fn [datatype]
@@ -78,12 +111,7 @@
   "Given a concrete `datatype` (e.g. `:int32`),
    returns the general type (e.g. `:integer`)."
   [datatype]
-  (let [general-types
-        (map (fn [general-type]
-               (let [set-of-concrete-types (get type-sets general-type)]
-                 (when (set-of-concrete-types datatype) general-type)))
-             (keys type-sets))]
-    (set (remove nil? general-types))))
+  (general-types-lookup datatype))
 
 (defn types
   "Returns the set of general types e.g. (:integer, :textual, etc)."
