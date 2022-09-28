@@ -114,15 +114,14 @@
   (general-types-lookup datatype))
 
 (defn types
-  "Returns the set of general types e.g. (:integer, :textual, etc)."
-  []
-  (set (keys type-sets)))
-
-(defn concrete-types
-  "Returns the set of concrete types e.g. (:int32, :float32, etc)"
+  "Returns the set of known concrete types, e.g. :int64 as opposed to :integer."
   []
   (apply clojure.set/union (vals type-sets)))
 
+(defn general-types
+  "Returns the set of general types, e.g. :numerical as opposed to :int64."
+  []
+  (keys type-sets))
 
 (defn concrete-type?
   "Returns true if `datatype` is a concrete datatype (e.g. :int32)."

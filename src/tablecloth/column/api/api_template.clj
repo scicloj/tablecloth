@@ -6,6 +6,7 @@
                          column
                          column?
                          typeof
+                         typeof?
                          zeros
                          ones
                          )
