@@ -4,7 +4,8 @@
             [tech.v3.dataset.column :as c]
             [tech.v3.dataset.join :as j]
             [tech.v3.datatype.functional :as dfn]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [clojure.test :as t]))
 
 (ds/concat
  (ds/new-dataset [(c/new-column :a [])])
@@ -402,3 +403,34 @@ agg
 ;;    |     :u | 0.62212172 | 2.57981844 | 0.52913219 | 2.43060934 |
 ;;    |     :u | 0.77436201 | 1.90787845 | 0.52913219 | 2.43060934 |
 ;;    |     :p | 0.95894755 | 4.35116263 | 0.52913219 | 2.43060934 |
+
+(def ds (tc/dataset {:a [1 2 3]
+                   :b [99 98 97]
+                   :c [:r :t :y]}))
+
+(tc/rows ds) ;; returns vector of rows as vectors
+;; => [[1 99 :r] [2 98 :t] [3 97 :y]]
+(tc/rows ds :as-maps) ;; returns vector of rows as columns
+;; => [{:a 1, :b 99, :c :r} {:a 2, :b 98, :c :t} {:a 3, :b 97, :c :y}]
+
+(tc/columns ds) ;; returns sequence of columns
+;; => [#tech.v3.dataset.column<int64>[3]
+;;    :a
+;;    [1, 2, 3] #tech.v3.dataset.column<int64>[3]
+;;    :b
+;;    [99, 98, 97] #tech.v3.dataset.column<keyword>[3]
+;;    :c
+;;    [:r, :t, :y]]
+
+(tc/column ds :c) ;; returns column
+;; => #tech.v3.dataset.column<keyword>[3]
+;;    :c
+;;    [:r, :t, :y]
+
+;; column is a sequence
+(seqable? (tc/column ds :c)) ;; => true
+(first (tc/column ds :c)) ;; => :r
+
+;; column is a vector
+(sequential? (tc/column ds :c)) ;; => true
+((tc/column ds :c) 0) ;; => :r

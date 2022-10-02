@@ -155,6 +155,13 @@
 
 ;;
 
+(defn get-entry
+  "Returns a single value from given column and row"
+  [ds column row]
+  (get-in ds [column row]))
+
+;;
+
 (defn- do-concat
   [concat-fs ds & datasets]
   (let [res (apply concat-fs ds datasets)]

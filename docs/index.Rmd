@@ -476,6 +476,18 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (tc/rows ds :as-maps)))
 ```
 
+#### Single entry
+
+Get single value from the table using `get-in` from Clojure API or `get-entry`. First argument is column name, second is row number.
+
+```{clojure}
+(get-in ds ["wind" 2])
+```
+
+```{clojure}
+(tc/get-entry ds "wind" 2)
+```
+
 #### Printing
 
 Dataset is printed using `dataset->str` or `print-dataset` functions. Options are the same as in `tech.ml.dataset/dataset-data->str`. Most important is `:print-line-policy` which can be one of the: `:single`, `:repl` or `:markdown`.

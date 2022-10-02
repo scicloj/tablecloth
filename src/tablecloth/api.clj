@@ -371,6 +371,12 @@
   (tablecloth.api.join-concat-ds/full-join ds-left ds-right columns-selector options)))
 
 
+(defn get-entry
+  "Returns a single value from given column and row"
+  ([ds column row]
+  (tablecloth.api.dataset/get-entry ds column row)))
+
+
 (defn group-by
   "Group dataset by:
 

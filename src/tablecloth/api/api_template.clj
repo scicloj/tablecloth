@@ -38,6 +38,7 @@
                          info
                          columns
                          rows
+                         get-entry
                          print-dataset
                          concat
                          concat-copying)
