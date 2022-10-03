@@ -22,11 +22,10 @@
           (column)
           (tech.v3.datatype/elemwise-datatype)) => :object)
 
-(fact "`typeof` returns the type of the elements (not the concrete type)"
-      (typeof (column [1 2 3])) => #{:integer :numerical}
-      (typeof (column ["a" "b" "c"])) => #{:textual}
-      (typeof (column [true false])) => #{:logical}
-      )
+(fact "`typeof` returns the concrete type of the elements"
+      (typeof (column [1 2 3])) => :int64 
+      (typeof (column ["a" "b" "c"])) => :string 
+      (typeof (column [true false])) => :boolean)
 
 (fact "we can check the type of a column's elements with `typeof?`"
       (typeof? (column [1 2 3]) :integer) => true
