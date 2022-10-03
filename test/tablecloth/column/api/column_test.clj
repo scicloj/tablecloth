@@ -27,7 +27,12 @@
       (typeof (column ["a" "b" "c"])) => :string 
       (typeof (column [true false])) => :boolean)
 
-(fact "we can check the type of a column's elements with `typeof?`"
+(fact "`typeof?` can check the concerete type of column elements"
+      (typeof? (column [1 2 3]) :int64) => true
+      (typeof? (column [1 2 3]) :int32) => false
+      (typeof? (column ["a" "b" "c"]) :string) => true)
+
+(fact "`typeof?` can check the general type of column elements"
       (typeof? (column [1 2 3]) :integer) => true
       (typeof? (column [1 2 3]) :textual) => false
       (typeof? (column [1.0 2.0 3.0]) :numerical) => true
@@ -35,10 +40,6 @@
       (typeof? (column ["a" "b" "c"]) :textual) => true
       (typeof? (column ["a" "b" "c"]) :numerical) => false
       (typeof? (column [true false true]) :logical) => true)
-
-(fact "we can check the concrete type of a column's elements with `typeof?`"
-      (typeof? (column [1 2 3]) :int64) => true
-      (typeof? (column [1 2 3]) :int32) => false)
 
 (fact "`zeros` returns a column filled with zeros"
       (zeros 3) => [0 0 0])
