@@ -111,8 +111,8 @@
    ((type-sets general-type) datatype)))
 
 (defn ->general-types
-  "Given a concrete `datatype` (e.g. `:int32`),
-   returns the general type (e.g. `:integer`)."
+  "Given a concrete `datatype` (e.g. `:int32`), returns the general
+  set of general types (e.g. `#{:integer numerical}`)."
   [datatype]
   (general-types-lookup datatype))
 
