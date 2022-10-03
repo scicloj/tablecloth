@@ -26,7 +26,7 @@
 
 (defn typeof?
   "True|false the column's elements are of the provided type `datatype`.
-   Works with concrete types (e.g. :int32) or general types (e.g. :numerical)."
+   Works with concrete (e.g. :int32) or general types (:numerical, :textual, etc)."
   [col datatype]
   (let [concrete-type-of-els (dtype/elemwise-datatype col)]
     (if (concrete-type? datatype) 

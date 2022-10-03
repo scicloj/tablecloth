@@ -27,16 +27,9 @@
 
 
 (defn typeof
-  "Returns the concrete type of the elements within the column `col`."
+  "Returns the datatype fo the elements within the column `col`."
   ([col]
   (tablecloth.column.api.column/typeof col)))
-
-
-(defn typeof?
-  "True|false the column's elements are of the provided type `datatype`.
-   Works with concrete (e.g. :int32) or general types (:numerical, :textual, etc)."
-  ([col datatype]
-  (tablecloth.column.api.column/typeof? col datatype)))
 
 
 (defn zeros
