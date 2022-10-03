@@ -126,6 +126,10 @@
   []
   (apply clojure.set/union (vals type-sets)))
 
+(defn general-types
+  "Returns the set of general types e.g. (:integer, :logical, etc)"
+  []
+  (vals type-sets))
 
 (defn concrete-type?
   "Returns true if `datatype` is a concrete datatype (e.g. :int32)."
