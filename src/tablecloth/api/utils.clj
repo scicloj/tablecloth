@@ -67,6 +67,9 @@
    :textual #{:text :string}
    :logical #{:boolean}})
 
+;; This lookup is hardcoded as an optimization. Downside: this
+;; lookup must be kept up to date. However, so long as `type-sets`
+;; is up-to-date it can be generated from that set.
 (def ^:private general-types-lookup
   {:int32 #{:integer :numerical},
     :int16 #{:integer :numerical},
