@@ -1,7 +1,9 @@
 (ns tablecloth.api.join-separate
+  (:refer-clojure :exclude [pmap])
   (:require [tech.v3.dataset :as ds]
             [clojure.string :as str]
-
+            [tech.v3.parallel.for :refer [pmap]]
+            
             [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data]]
             [tablecloth.api.columns :refer [select-columns drop-columns add-column]]))
 

@@ -1,6 +1,8 @@
 (ns tablecloth.api.utils
+  (:refer-clojure :exclude [pmap])
   (:require [tech.v3.dataset :as ds]
-            [tech.v3.io :as tio])
+            [tech.v3.io :as tio]
+            [tech.v3.parallel.for :refer [pmap]])
   (:import [java.util Map]))
 
 ;;;;;;;;;;;;

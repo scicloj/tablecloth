@@ -1,5 +1,17 @@
 # Change Log
 
+## [6.102]
+
+### Fixed
+
+* replace `clojure.core/pmap` with `dtype-next` version (related to [#325](https://github.com/techascent/tech.ml.dataset/issues/325))
+
+## [6.101]
+
+### Added
+
+`get-entry` introduced
+
 ## [6.094.1]
 
 ### Fixed

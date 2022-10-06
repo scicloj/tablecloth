@@ -1,8 +1,9 @@
 (ns tablecloth.api.rows
-  (:refer-clojure :exclude [shuffle rand-nth first last])
+  (:refer-clojure :exclude [shuffle rand-nth first last pmap])
   (:require [tech.v3.dataset :as ds]
             [tech.v3.datatype.argops :as aop]
-
+            [tech.v3.parallel.for :refer [pmap]]
+            
             [tablecloth.api.utils :refer [iterable-sequence? rank column-names grouped? process-group-data]]
             [tablecloth.api.dataset :refer [rows]]
             [tablecloth.api.columns :refer [add-columns select-columns]]))
