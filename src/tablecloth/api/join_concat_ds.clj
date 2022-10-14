@@ -117,7 +117,7 @@
 (defn complete
   "TidyR complete.
 
-  Fills a dataset with all possible combinations of selected columns. When given combination wasn't existed, missing values are created."
+  Fills a dataset with all possible combinations of selected columns. When a given combination doesn't exist, missing values are created."
   [ds columns-selector & r]
   (if (grouped? ds)
     (process-group-data ds #(apply complete % columns-selector r) true)
