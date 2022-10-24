@@ -180,7 +180,7 @@
 (defn complete
   "TidyR complete.
 
-  Fills a dataset with all possible combinations of selected columns. When given combination wasn't existed, missing values are created."
+  Fills a dataset with all possible combinations of selected columns. When a given combination doesn't exist, missing values are created."
   ([ds columns-selector & args]
   (apply tablecloth.api.join-concat-ds/complete ds columns-selector args)))
 
