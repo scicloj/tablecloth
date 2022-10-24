@@ -666,6 +666,8 @@
 
 
 (defn separate-column
+  ([ds column]
+  (tablecloth.api.join-separate/separate-column ds column))
   ([ds column separator]
   (tablecloth.api.join-separate/separate-column ds column separator))
   ([ds column target-columns separator]

@@ -1,5 +1,17 @@
 # Change Log
 
+## [6.103]
+
+Clojure upgraded to 1.11.1 
+
+## Added
+
+* `separate-column` infers column names when function is used and `target-columns` is `nil`, [#78](https://github.com/scicloj/tablecloth/issues/78)
+
+## Changed
+
+* [breaking][minor] `separate-column` repleces source column with target on every case 
+
 ## [6.102]
 
 ### Fixed

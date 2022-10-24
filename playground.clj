@@ -434,3 +434,37 @@ agg
 ;; column is a vector
 (sequential? (tc/column ds :c)) ;; => true
 ((tc/column ds :c) 0) ;; => :r
+
+(def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
+                      :V2 (range 1 10)
+                      :V3 (take 9 (cycle [0.5 1.0 1.5]))
+                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
+
+
+(tc/separate-column DS :V3 (fn [^double v]
+                                 [(int (quot v 1.0))
+                                  (mod v 1.0)]))
+
+(-> (tc/dataset {:x [1] :y [[2 3 9 10 11 22 33]]})
+    (tc/separate-column :y))
+;; => _unnamed [1 8]:
+;;    | :x | :y-0 | :y-1 | :y-2 | :y-3 | :y-4 | :y-5 | :y-6 |
+;;    |---:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|
+;;    |  1 |    2 |    3 |    9 |   10 |   11 |   22 |   33 |
+
+(-> (tc/dataset {:x [1] :y [[2 3 9 10 11 22 33]]})
+    (tc/separate-column :y reverse))
+;; => _unnamed [1 8]:
+;;    | :x | :y-0 | :y-1 | :y-2 | :y-3 | :y-4 | :y-5 | :y-6 |
+;;    |---:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|
+;;    |  1 |   33 |   22 |   11 |   10 |    9 |    3 |    2 |
+
+(-> (tc/dataset {:x [1] :y [[2 3 9 10 11 22 33]]})
+    (tc/separate-column :y (fn [input]
+                             (zipmap "somenames" input))))
+;; => _unnamed [1 7]:
+;;    | :x |  a | s |  e |  m |  n | o |
+;;    |---:|---:|--:|---:|---:|---:|--:|
+;;    |  1 | 22 | 2 | 10 | 33 | 11 | 3 |
+
+

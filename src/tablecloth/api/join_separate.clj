@@ -1,6 +1,7 @@
 (ns tablecloth.api.join-separate
   (:refer-clojure :exclude [pmap])
   (:require [tech.v3.dataset :as ds]
+            [tech.v3.dataset.column :as col]
             [clojure.string :as str]
             [tech.v3.parallel.for :refer [pmap]]
             
@@ -46,16 +47,24 @@
 
 ;;
 
+(defn- infer-target-columns
+  [col res]
+  (let [colname (col/column-name col)]
+    (map #(str colname "-" %) (range (count (first res))))))
+
 (defn- separate-column->columns
   [col target-columns replace-missing separator-fn]
   (let [res (pmap separator-fn col)]
-    (if-not (iterable-sequence? target-columns)
+    (if (map? (first res))
       (ds/->dataset res) ;; ds/column->dataset functionality
-      (->> (map-indexed vector target-columns)
+      (->> (if (or (= :infer target-columns)
+                   (not target-columns)) (infer-target-columns col res)
+               target-columns)
+           (map-indexed vector)
            (reduce (fn [curr [idx colname]]
                      (if-not colname
                        curr
-                       (conj curr colname (map #(replace-missing (nth % idx)) res)))) [])
+                       (conj curr colname (pmap #(replace-missing (nth % idx)) res)))) [])
            (apply array-map)
            (ds/->dataset)))))
 
@@ -82,7 +91,8 @@
           result (ds/append-columns (seq (ds/columns result)))
           :else (ds/append-columns (ds/columns (ds/drop-columns dataset-after [column]))))))))
 
-(defn separate-column  
+(defn separate-column
+  ([ds column] (separate-column ds column identity))
   ([ds column separator] (separate-column ds column nil separator))
   ([ds column target-columns separator] (separate-column ds column target-columns separator nil))
   ([ds column target-columns separator {:keys [missing-subst drop-column? parallel?]
@@ -101,10 +111,7 @@
          replace-missing (if missing-subst
                            (prepare-missing-subst-fn missing-subst)
                            identity)
-         drop-column? (cond
-                        (not (nil? drop-column?)) drop-column?
-                        (not (iterable-sequence? target-columns)) :all
-                        :else true)]
+         drop-column? (if (not (nil? drop-column?)) drop-column? true)]
      
      (if (grouped? ds)       
        (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?) parallel?)
