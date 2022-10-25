@@ -2310,6 +2310,7 @@ Grouped dataset
 
 ---
 
+
 ##### Tidyr examples
 
 [source](https://tidyr.tidyverse.org/reference/unite.html)
@@ -2538,6 +2539,33 @@ Only `a,b,c,d` strings
 ```{clojure results="asis"}
 (tc/separate-column df-extract :x ["A" "B"] #"([a-d]+)-([a-d]+)")
 ```
+
+
+#### Array column conversion
+
+A dataset can have as well columns of type java array. We can convert
+from normal columns to a single array column and back like this:
+
+```{clojure result="asis"}
+(-> (tc/dataset {:x [(double-array [1 2 3])
+                     (double-array [4 5 6])]
+                 :y [:a :b]})
+    (tc/array-column->columns :x))
+
+```
+
+and the other way around:
+
+```{clojure result="asis"}
+(-> (tc/dataset {0 [0.0 1 2]
+                 1 [3.0 4 5]
+                 :x [:a :b :c]})
+    (tc/columns->array-column [0 1] :y))
+
+```
+
+
+
 
 ### Fold/Unroll Rows
 
