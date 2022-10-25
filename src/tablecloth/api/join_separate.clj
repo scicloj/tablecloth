@@ -141,6 +141,7 @@ options
   `src-column` The (array) column to convert
   "
   [ds src-column]
+  (assert (not (grouped? ds)) "Not supported on grouped datasets")
   (let [new-ds
         (->
          (tech.v3.datatype/concat-buffers (src-column ds))
@@ -160,6 +161,7 @@ options
   `column-selector` anything supported by [[select-columns]]
   `new-column` new column to create"
   [ds column-selector new-column]
+  (assert (not (grouped? ds)) "Not supported on grouped datasets")
   (let [ds-to-convert (select-columns ds column-selector)
         rows
         (->
