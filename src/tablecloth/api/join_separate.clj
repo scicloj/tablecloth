@@ -2,6 +2,8 @@
   (:refer-clojure :exclude [pmap])
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
+            [tech.v3.tensor :as tens]
+            [tech.v3.datatype :as dtt]
             [clojure.string :as str]
             [tech.v3.parallel.for :refer [pmap]]
             
@@ -116,3 +118,43 @@
      (if (grouped? ds)       
        (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?) parallel?)
        (process-separate-columns ds column target-columns replace-missing separator-fn drop-column?)))))
+
+(defn array-column->columns
+  "Converts a column of type java array into several columns,
+  one for each element of the array of all rows. The source column is dropped afterwards.
+  The function assumes that arrays in all rows have same type and length and are numeric.
+
+  `ds` Datset to operate on.
+  `src-column` The (array) column to convert
+  "
+  [ds src-column]
+  (let [new-ds
+        (->
+         (tech.v3.datatype/concat-buffers (src-column ds))
+         (tech.v3.tensor/reshape [(ds/row-count ds)
+                                  (-> ds src-column first count)])
+         (tech.v3.dataset.tensor/tensor->dataset))]
+    (-> ds
+        (ds/append-columns (ds/columns new-ds))
+        (ds/drop-columns [src-column]))))
+
+
+(defn columns->array-column
+  "Converts several columns to a single column of type array.
+   The src columns are dropped afterwards.
+
+  `ds` Dataset to operate on.
+  `column-selector` anything supported by [[select-columns]]
+  `new-column` new column to create"
+  [ds column-selector new-column]
+  (let [ds-to-convert (select-columns ds column-selector)
+        rows
+        (->
+         (dtt/concat-buffers (ds/columns ds-to-convert))
+         (tens/reshape [(ds/column-count ds-to-convert)
+                        (ds/row-count ds-to-convert)])
+         (tens/transpose [1 0])
+         (tens/rows))]
+    (-> ds
+        (drop-columns (column-names ds-to-convert))
+        (ds/add-column (ds/new-column new-column (map tech.v3.datatype/->array rows))))))
