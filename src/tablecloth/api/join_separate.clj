@@ -131,9 +131,9 @@
   (assert (not (grouped? ds)) "Not supported on grouped datasets")
   (let [new-ds
         (->
-         (tech.v3.datatype/concat-buffers (src-column ds))
-         (tech.v3.tensor/reshape [(ds/row-count ds)
-                                  (-> ds src-column first count)])
+         (dtt/concat-buffers (src-column ds))
+         (tens/reshape [(ds/row-count ds)
+                        (-> ds src-column first count)])
          (tech.v3.dataset.tensor/tensor->dataset))]
     (-> ds
         (ds/append-columns (ds/columns new-ds))
@@ -146,7 +146,8 @@
 
   `ds` Dataset to operate on.
   `column-selector` anything supported by [[select-columns]]
-  `new-column` new column to create"
+  `new-column` new column to create
+  "
   [ds column-selector new-column]
   (assert (not (grouped? ds)) "Not supported on grouped datasets")
   (let [ds-to-convert (select-columns ds column-selector)
