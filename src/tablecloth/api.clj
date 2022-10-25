@@ -107,6 +107,11 @@
   (apply tablecloth.api.join-concat-ds/append ds args)))
 
 
+(defn array-column->columns
+  ([ds column]
+  (tablecloth.api.join-separate/array-column->columns ds column)))
+
+
 (defn as-regular-dataset
   "Remove grouping tag"
   ([ds]
@@ -206,6 +211,11 @@ column-names function returns names according to columns-selector
   (tablecloth.api.dataset/columns ds))
   ([ds result-type]
   (tablecloth.api.dataset/columns ds result-type)))
+
+
+(defn columns->array-column
+  ([ds column-selector new-column]
+  (tablecloth.api.join-separate/columns->array-column ds column-selector new-column)))
 
 
 (defn complete
