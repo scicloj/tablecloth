@@ -144,7 +144,7 @@ options
   (assert (not (grouped? ds)) "Not supported on grouped datasets")
   (let [new-ds
         (->
-         (dtt/concat-buffers (src-column ds))
+         (dtt/concat-buffers (ds src-column))
          (tens/reshape [(ds/row-count ds)
                         (-> ds src-column first count)])
          (tech.v3.dataset.tensor/tensor->dataset))]
