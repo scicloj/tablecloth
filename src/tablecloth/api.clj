@@ -108,8 +108,15 @@
 
 
 (defn array-column->columns
-  ([ds column]
-  (tablecloth.api.join-separate/array-column->columns ds column)))
+  "Converts a column of type java array into several columns,
+  one for each element of the array of all rows. The source column is dropped afterwards.
+  The function assumes that arrays in all rows have same type and length and are numeric.
+
+  `ds` Datset to operate on.
+  `src-column` The (array) column to convert
+  "
+  ([ds src-column]
+  (tablecloth.api.join-separate/array-column->columns ds src-column)))
 
 
 (defn as-regular-dataset
@@ -214,6 +221,13 @@ column-names function returns names according to columns-selector
 
 
 (defn columns->array-column
+  "Converts several columns to a single column of type array.
+   The src columns are dropped afterwards.
+
+  `ds` Dataset to operate on.
+  `column-selector` anything supported by [[select-columns]]
+  `new-column` new column to create
+  "
   ([ds column-selector new-column]
   (tablecloth.api.join-separate/columns->array-column ds column-selector new-column)))
 
