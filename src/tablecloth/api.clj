@@ -114,7 +114,11 @@
 
   `ds` Datset to operate on.
   `src-column` The (array) column to convert
+  `opts` can contain:
+    `prefix` newly created column will get prefix before column number
   "
+  ([ds src-column opts]
+  (tablecloth.api.join-separate/array-column->columns ds src-column opts))
   ([ds src-column]
   (tablecloth.api.join-separate/array-column->columns ds src-column)))
 
