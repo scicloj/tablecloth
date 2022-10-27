@@ -10,8 +10,37 @@
                         :y [:a :b]})
           (api/array-column->columns :x)
           (api/rows :as-maps))
-      => [{:y :a, 0 1.0, 1 2.0, 2 3.0} {:y :b, 0 4.0, 1 5.0, 2 6.0}])
+      => [{:y :a 0 1.0 1 2.0 2 3.0} {:y :b 0 4.0 1 5.0 2 6.0}])
 
+(fact "array-column->columns works can prefix columns with key-word"
+      (-> (api/dataset {:x [(double-array [1 2 3])
+                            (double-array [4 5 6])]
+                        :y [:a :b]})
+          (api/array-column->columns :x {:prefix :col-})
+          (api/rows :as-maps))
+      => [{:y :a
+           :col-0 1.0
+           :col-1 2.0
+           :col-2 3.0}
+          {:y :b
+           :col-0 4.0
+           :col-1 5.0
+           :col-2 6.0}])
+
+(fact "array-column->columns works can prefix columns with string"
+      (-> (api/dataset {:x [(double-array [1 2 3])
+                            (double-array [4 5 6])]
+                        :y [:a :b]})
+          (api/array-column->columns :x {:prefix "col-"})
+          (api/rows :as-maps))
+      => [{:y :a
+           "col-0" 1.0
+           "col-1" 2.0
+           "col-2" 3.0}
+          {:y :b
+           "col-0" 4.0
+           "col-1" 5.0
+           "col-2" 6.0}])
 
 (fact "columns->array columns works"
       (let [ ds (api/dataset {0 [0.0 1 2]

@@ -119,6 +119,12 @@
        (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?) parallel?)
        (process-separate-columns ds column target-columns replace-missing separator-fn drop-column?)))))
 
+
+(defn- prefix [keyword-or-string value]
+  (cond
+    (keyword? keyword-or-string) (keyword (str (name keyword-or-string) value))
+        (string? keyword-or-string) (str keyword-or-string value)))
+
 (defn array-column->columns
   "Converts a column of type java array into several columns,
   one for each element of the array of all rows. The source column is dropped afterwards.
@@ -126,18 +132,34 @@
 
   `ds` Datset to operate on.
   `src-column` The (array) column to convert
+  `opts` can contain:
+    `prefix` newly created column will get prefix before column number
   "
-  [ds src-column]
-  (assert (not (grouped? ds)) "Not supported on grouped datasets")
-  (let [new-ds
-        (->
-         (dtt/concat-buffers (ds src-column))
-         (tens/reshape [(ds/row-count ds)
-                        (-> ds src-column first count)])
-         (tech.v3.dataset.tensor/tensor->dataset))]
-    (-> ds
-        (ds/append-columns (ds/columns new-ds))
-        (ds/drop-columns [src-column]))))
+  ([ds src-column opts]
+   (assert (not (grouped? ds)) "Not supported on grouped datasets")
+   (let [len-arrays (-> ds src-column first count)
+         new-ds
+         (->
+          (dtt/concat-buffers (ds src-column))
+          (tens/reshape [(ds/row-count ds) len-arrays
+                         ])
+          (tech.v3.dataset.tensor/tensor->dataset))
+
+         new-ds-renamed (if (:prefix opts)
+                          (ds/rename-columns new-ds
+
+                                             (zipmap (range 3)
+                                                     (map #(prefix (:prefix opts) %) (range 3))))
+
+                          new-ds)
+         ]
+     (-> ds
+         (ds/append-columns (ds/columns new-ds-renamed))
+         (ds/drop-columns [src-column]))))
+  ([ds src-column]
+   (array-column->columns ds src-column {})))
+
+
 
 
 (defn columns->array-column
