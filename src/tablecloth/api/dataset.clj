@@ -106,6 +106,9 @@
            {:dataset-name (str (ds/dataset-name ds) " :column info")}))
 
 (defn info
+  "Returns a statistcial information about the columns of a dataset.
+  `result-type ` can be :descriptive or :columns
+  "
   ([ds] (info ds :descriptive))
   ([ds result-type]
    (condp = result-type
@@ -121,6 +124,8 @@
                          :rows (ds/row-count ds)
                          :columns (ds/column-count ds)))
                 {:dataset-name (str nm " :basic info")})))))
+
+
 
 (defn columns
   "Returns columns of dataset. Result type can be any of:
@@ -152,6 +157,9 @@
      (ds/value-reader ds))))
 
 (defn print-dataset
+  "Prints dataset into console. For options see
+  tech.v3.dataset.print/dataset-data->str
+"
   ([ds] (println (p/dataset->str ds)))
   ([ds options] (println (p/dataset->str ds options))))
 
@@ -174,5 +182,11 @@
           (mark-as-group))
       res)))
 
-(defn concat [dataset & datasets] (apply do-concat ds/concat dataset datasets))
-(defn concat-copying [dataset & datasets] (apply do-concat ds/concat-copying dataset datasets))
+(defn concat
+  "Joins rows from other datasets"
+  [dataset & datasets]
+  (apply do-concat ds/concat dataset datasets))
+
+(defn concat-copying
+  "Joins rows from other datasets via a copy of data"
+  [dataset & datasets] (apply do-concat ds/concat-copying dataset datasets))

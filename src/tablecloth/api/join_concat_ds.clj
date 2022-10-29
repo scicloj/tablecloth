@@ -60,6 +60,7 @@
                 [asof-join j/left-join-asof]])
 
 (defn full-join
+  "Join keeping all rows"
   ([ds-left ds-right columns-selector] (full-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (let [rj (right-join ds-left ds-right columns-selector options)]
@@ -90,6 +91,7 @@
 
 
 (defn cross-join
+  "Cross product from selected columns"
   ([ds-left ds-right] (cross-join ds-left ds-right :all))
   ([ds-left ds-right columns-selector] (cross-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector {:keys [unique?] :or {unique? false} :as options}]
@@ -172,5 +174,6 @@
 ;;
 
 (defn append
+  "Concats columns of several datasets"
   [ds & datasets]
   (reduce #(ds/append-columns %1 (ds/columns %2)) ds datasets))

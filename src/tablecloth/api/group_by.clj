@@ -82,6 +82,7 @@
   (zipmap (ds :name) (ds :data)))
 
 (defn groups->seq
+  "Convert grouped dataset to seq of the groups"
   [ds]
   (assert (grouped? ds) "Apply on grouped dataset only")
   (seq (ds :data)))
