@@ -2,7 +2,8 @@
   (:require [tablecloth.api :as api]
             [tablecloth.common-test :refer [DS]]
             [clojure.java.io :as io]
-            [midje.sweet :refer [tabular fact =>]]))
+            [midje.sweet :refer [tabular fact => throws]])
+  (:import [java.io FileNotFoundException]))
 
 (fact "dataset?"
       (fact (api/dataset? (api/dataset)) => true)
@@ -44,7 +45,9 @@
             => [5 5])
       (fact (-> (api/dataset "https://vega.github.io/vega-lite/examples/data/seattle-weather.csv")
                 (api/shape))
-            => [1461 6]))
+            => [1461 6])
+      (fact (api/dataset "not-existing.csv")
+            => (throws FileNotFoundException)))
 
 (fact "saving"
       (fact (do (api/write! DS "DS.tsv.gz")
