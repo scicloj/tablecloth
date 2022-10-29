@@ -85,9 +85,9 @@
   `column-selector` Select columns for uniqueness
   `strategy` There are 4 strategies defined to handle duplicates
 
-    :first - select first row (default)
-    :last - select last row
-    :random - select random row
+    `:first` - select first row (default)
+    `:last` - select last row
+    `:random` - select random row
     any function - apply function to a columns which are subject of uniqueness"
 
 

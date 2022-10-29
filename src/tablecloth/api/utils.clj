@@ -113,16 +113,16 @@
 column-names function returns names according to columns-selector
   and optional meta-field. meta-field is one of the following:
 
-  * :name (default) - to operate on column names
-  * :datatype - to operated on column types
-  * :all - if you want to process all metadata
+  * `:name` (default) - to operate on column names
+  * `:datatype` - to operated on column types
+  * `:all` - if you want to process all metadata
 
   Datatype groups are:
 
-  * :type/numerical - any numerical type
-  * :type/float - floating point number (:float32 and :float64)
-  * :type/integer - any integer
-  * :type/datetime - any datetime type
+  * `:type/numerical` - any numerical type
+  * `:type/float` - floating point number (:float32 and :float64)
+  * `:type/integer` - any integer
+  * `:type/datetime` - any datetime type
 
   If qualified keyword starts with :!type, complement set is used.
 

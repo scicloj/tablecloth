@@ -44,14 +44,14 @@
 
   Strategies are:
 
-:value - replace with given value
-:up - copy values up
-:down - copy values down
-:updown - copy values up and then down for missing values at the end
-:downup - copy values down and then up for missing values at the beginning
-:mid or :nearest - copy values around known values
-:midpoint - use average value from previous and next non-missing
-:lerp - trying to lineary approximate values, works for numbers and datetime, otherwise applies :nearest. For numbers always results in float datatype.
+  `:value` - replace with given value
+  `:up` - copy values up
+  `:down` - copy values down
+  `:updown` - copy values up and then down for missing values at the end
+  `:downup` - copy values down and then up for missing values at the beginning
+  `:mid` or `:nearest` - copy values around known values
+  `:midpoint` - use average value from previous and next non-missing
+  `:lerp` - trying to lineary approximate values, works for numbers and datetime, otherwise applies :nearest. For numbers always results in float datatype.
   "
   ([ds] (replace-missing ds :mid))
   ([ds strategy] (replace-missing ds :all strategy))

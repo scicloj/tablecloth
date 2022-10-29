@@ -20,14 +20,14 @@
 dataset
 column selector (as in select-columns)
 options
-  :separator (default -)
-  :drop-columns? - whether to drop source columns or not (default true)
-  :result-type
-     :map - packs data into map
-     :seq - packs data into sequence
-     :string - join strings with separator (default)
+  `:separator` (default -)
+  `:drop-columns?` - whether to drop source columns or not (default true)
+  `:result-type`
+     `:map` - packs data into map
+     `:seq` - packs data into sequence
+     `:string` - join strings with separator (default)
      or custom function which gets row as a vector
-  :missing-subst - substitution for missing value
+  `:missing-subst` - substitution for missing value
   "
   ([ds target-column columns-selector] (join-columns ds target-column columns-selector nil))
   ([ds target-column columns-selector {:keys [separator missing-subst drop-columns? result-type parallel?]
