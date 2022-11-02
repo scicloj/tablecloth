@@ -1,5 +1,15 @@
 # Change Log
 
+## [unreleased]
+
+## Added
+
+* doc strings for every funcitons, [#87, #88]
+
+## Changed
+
+* [breaking] when dataset file do not exists throw an exception [#84, #85]
+
 ## [6.103]
 
 Clojure upgraded to 1.11.1 
