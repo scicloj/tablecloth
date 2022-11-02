@@ -102,6 +102,7 @@
 
 
 (defn append
+  "Concats columns of several datasets"
   ([ds & args]
   (apply tablecloth.api.join-concat-ds/append ds args)))
 
@@ -157,6 +158,36 @@
 
 
 (defn column-names
+  "Returns column names, given a selector.
+  Columns-selector can be one of the following:
+
+  * :all keyword - selects all columns
+  * column name - for single column
+  * sequence of column names - for collection of columns
+  * regex - to apply pattern on column names or datatype
+  * filter predicate - to filter column names or datatype
+  * type namespaced keyword for specific datatype or group of datatypes
+
+  Column name can be anything.
+
+column-names function returns names according to columns-selector
+  and optional meta-field. meta-field is one of the following:
+
+  * `:name` (default) - to operate on column names
+  * `:datatype` - to operated on column types
+  * `:all` - if you want to process all metadata
+
+  Datatype groups are:
+
+  * `:type/numerical` - any numerical type
+  * `:type/float` - floating point number (:float32 and :float64)
+  * `:type/integer` - any integer
+  * `:type/datetime` - any datetime type
+
+  If qualified keyword starts with :!type, complement set is used.
+
+
+  "
   ([ds]
   (tablecloth.api.utils/column-names ds))
   ([ds columns-selector]
@@ -186,11 +217,13 @@
 
 
 (defn concat
+  "Joins rows from other datasets"
   ([dataset & args]
   (apply tablecloth.api.dataset/concat dataset args)))
 
 
 (defn concat-copying
+  "Joins rows from other datasets via a copy of data"
   ([dataset & args]
   (apply tablecloth.api.dataset/concat-copying dataset args)))
 
@@ -204,6 +237,7 @@
 
 
 (defn cross-join
+  "Cross product from selected columns"
   ([ds-left ds-right]
   (tablecloth.api.join-concat-ds/cross-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
@@ -340,6 +374,13 @@
 
 
 (defn fill-range-replace
+  "Fill missing up with lacking values. Accepts
+  * dataset
+  * column name
+  * expected step (max-span, milliseconds in case of datetime column)
+  * (optional) missing-strategy - how to replace missing, default :down (set to nil if none)
+  * (optional) missing-value - optional value for replace missing
+"
   ([ds colname max-span]
   (tablecloth.api.missing/fill-range-replace ds colname max-span))
   ([ds colname max-span missing-strategy]
@@ -349,6 +390,7 @@
 
 
 (defn first
+  "First row"
   ([ds]
   (tablecloth.api.rows/first ds)))
 
@@ -365,6 +407,7 @@
 
 
 (defn full-join
+  "Join keeping all rows"
   ([ds-left ds-right columns-selector]
   (tablecloth.api.join-concat-ds/full-join ds-left ds-right columns-selector))
   ([ds-left ds-right columns-selector options]
@@ -415,6 +458,7 @@
 
 
 (defn groups->seq
+  "Convert grouped dataset to seq of the groups"
   ([ds]
   (tablecloth.api.group-by/groups->seq ds)))
 
@@ -425,6 +469,7 @@
 
 
 (defn head
+  "First n rows (default 5)"
   ([ds]
   (tablecloth.api.rows/head ds))
   ([ds n]
@@ -432,6 +477,9 @@
 
 
 (defn info
+  "Returns a statistcial information about the columns of a dataset.
+  `result-type ` can be :descriptive or :columns
+  "
   ([ds]
   (tablecloth.api.dataset/info ds))
   ([ds result-type]
@@ -453,6 +501,19 @@
 
 
 (defn join-columns
+  "Join clumns of dataset. Accepts:
+dataset
+column selector (as in select-columns)
+options
+  `:separator` (default -)
+  `:drop-columns?` - whether to drop source columns or not (default true)
+  `:result-type`
+     `:map` - packs data into map
+     `:seq` - packs data into sequence
+     `:string` - join strings with separator (default)
+     or custom function which gets row as a vector
+  `:missing-subst` - substitution for missing value
+  "
   ([ds target-column columns-selector]
   (tablecloth.api.join-separate/join-columns ds target-column columns-selector))
   ([ds target-column columns-selector conf]
@@ -460,6 +521,7 @@
 
 
 (defn last
+  "Last row"
   ([ds]
   (tablecloth.api.rows/last ds)))
 
@@ -479,6 +541,7 @@
 
 
 (defn map-columns
+  "Map over rows using a map function. The arity should match the columns selected."
   ([ds column-name map-fn]
   (tablecloth.api.columns/map-columns ds column-name map-fn))
   ([ds column-name columns-selector map-fn]
@@ -522,6 +585,23 @@
 
 
 (defn pivot->wider
+  "Converts columns to rows. Arguments:
+  * dataset
+  * columns selector
+  * options:
+    `:target-columns` - names of the columns created or columns pattern (see below) (default: :$column)
+    `:value-column-name` - name of the column for values (default: :$value)
+    `:splitter` - string, regular expression or function which splits source column names into data
+    `:drop-missing?` - remove rows with missing? (default: true)
+    `:datatypes` - map of target columns data types
+    `:coerce-to-number` - try to convert extracted values to numbers if possible (default: true)
+
+  * target-columns - can be:
+
+    * column name - source columns names are put there as a data
+    * column names as seqence - source columns names after split are put separately into :target-columns as data
+    * pattern - is a sequence of names, where some of the names are nil. nil is replaced by a name taken from splitter and such column is used for values.
+  "
   ([ds columns-selector value-columns]
   (tablecloth.api.reshape/pivot->wider ds columns-selector value-columns))
   ([ds columns-selector value-columns options]
@@ -529,6 +609,9 @@
 
 
 (defn print-dataset
+  "Prints dataset into console. For options see
+  tech.v3.dataset.print/dataset-data->str
+"
   ([ds]
   (tablecloth.api.dataset/print-dataset ds))
   ([ds options]
@@ -536,6 +619,7 @@
 
 
 (defn process-group-data
+  "Internal: The passed-in function is applied on all groups"
   ([ds f]
   (tablecloth.api.utils/process-group-data ds f))
   ([ds f parallel?]
@@ -543,6 +627,7 @@
 
 
 (defn rand-nth
+  "Returns single random row"
   ([ds]
   (tablecloth.api.rows/rand-nth ds))
   ([ds options]
@@ -550,6 +635,7 @@
 
 
 (defn random
+  "Returns (n) random rows with repetition"
   ([ds]
   (tablecloth.api.rows/random ds))
   ([ds n]
@@ -578,6 +664,27 @@
 
 
 (defn replace-missing
+  "Replaces missing values. Accepts
+
+  * dataset
+  * column selector, default: :all
+  * strategy, default: :nearest
+  * value (optional)
+  * single value
+  * sequence of values (cycled)
+  * function, applied on column(s) with stripped missings
+
+  Strategies are:
+
+  `:value` - replace with given value
+  `:up` - copy values up
+  `:down` - copy values down
+  `:updown` - copy values up and then down for missing values at the end
+  `:downup` - copy values down and then up for missing values at the beginning
+  `:mid` or `:nearest` - copy values around known values
+  `:midpoint` - use average value from previous and next non-missing
+  `:lerp` - trying to lineary approximate values, works for numbers and datetime, otherwise applies :nearest. For numbers always results in float datatype.
+  "
   ([ds]
   (tablecloth.api.missing/replace-missing ds))
   ([ds strategy]
@@ -688,6 +795,7 @@
 
 
 (defn shuffle
+  "Shuffle dataset (with seed)"
   ([ds]
   (tablecloth.api.rows/shuffle ds))
   ([ds options]
@@ -744,6 +852,7 @@
 
 
 (defn tail
+  "Last n rows (default 5)"
   ([ds]
   (tablecloth.api.rows/tail ds))
   ([ds n]
@@ -768,6 +877,14 @@
 
 
 (defn unique-by
+  "Remove rows which contains the same data
+  `column-selector` Select columns for uniqueness
+  `strategy` There are 4 strategies defined to handle duplicates
+
+    `:first` - select first row (default)
+    `:last` - select last row
+    `:random` - select random row
+    any function - apply function to a columns which are subject of uniqueness"
   ([ds]
   (tablecloth.api.unique-by/unique-by ds))
   ([ds columns-selector]

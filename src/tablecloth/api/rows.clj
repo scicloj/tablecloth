@@ -71,6 +71,7 @@
 ;;
 
 (defn head
+  "First n rows (default 5)"
   ([ds] (head ds 5))
   ([ds n]
    (if (grouped? ds)
@@ -78,6 +79,7 @@
      (ds/head ds n))))
 
 (defn tail
+  "Last n rows (default 5)"
   ([ds] (tail ds 5))
   ([ds n]
    (if (grouped? ds)
@@ -98,6 +100,7 @@
   (ds/select-rows ds (shuffle-seq (range (ds/row-count ds)) rng)))
 
 (defn shuffle
+  "Shuffle dataset (with seed)"
   ([ds] (shuffle ds nil))
   ([ds {:keys [seed] :as options}]
    (let [rng (when seed (java.util.Random. seed))]
@@ -121,6 +124,7 @@
     (ds/select-rows ds idxs)))
 
 (defn random
+  "Returns (n) random rows with repetition"
   ([ds] (random ds (ds/row-count ds)))
   ([ds n] (random ds n nil))
   ([ds n {:keys [repeat? seed]
@@ -136,6 +140,7 @@
   (ds/select-rows ds (get-random-long (ds/row-count ds) rng)))
 
 (defn rand-nth
+  "Returns single random row"
   ([ds] (rand-nth ds nil))
   ([ds {:keys [seed] :as options}]
    (let [rng (when seed (java.util.Random. seed))]
@@ -144,12 +149,14 @@
        (process-rand-nth ds rng)))))
 
 (defn first
+  "First row"
   [ds]
   (if (grouped? ds)
     (process-group-data ds #(ds/select-rows % [0]))
     (ds/select-rows ds [0])))
 
 (defn last
+  "Last row"
   [ds]
   (if (grouped? ds)
     (process-group-data ds last)
