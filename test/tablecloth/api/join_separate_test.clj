@@ -16,7 +16,7 @@
       (-> (api/dataset {:x [(double-array [1 2 3])
                             (double-array [4 5 6])]
                         :y [:a :b]})
-          (api/array-column->columns :x {:prefix :col-})
+          (api/array-column->columns :x {:prefix :col})
           (api/rows :as-maps))
       => [{:y :a
            :col-0 1.0
@@ -31,7 +31,7 @@
       (-> (api/dataset {:x [(double-array [1 2 3])
                             (double-array [4 5 6])]
                         :y [:a :b]})
-          (api/array-column->columns :x {:prefix "col-"})
+          (api/array-column->columns :x {:prefix "col"})
           (api/rows :as-maps))
       => [{:y :a
            "col-0" 1.0

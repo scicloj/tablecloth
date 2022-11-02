@@ -133,10 +133,13 @@ options
        (process-separate-columns ds column target-columns replace-missing separator-fn drop-column?)))))
 
 
-(defn- prefix [keyword-or-string value]
-  (cond
-    (keyword? keyword-or-string) (keyword (str (name keyword-or-string) value))
-        (string? keyword-or-string) (str keyword-or-string value)))
+
+
+(defn- prefix [prefix-name value]
+   (let [with-prefix (str (name prefix-name) "-" value)]
+     (if (keyword? prefix-name)
+       (keyword with-prefix)
+       with-prefix)))
 
 (defn array-column->columns
   "Converts a column of type java array into several columns,
@@ -154,8 +157,7 @@ options
          new-ds
          (->
           (dtt/concat-buffers (ds src-column))
-          (tens/reshape [(ds/row-count ds) len-arrays
-                         ])
+          (tens/reshape [(ds/row-count ds) len-arrays])
           (tech.v3.dataset.tensor/tensor->dataset))
 
          new-ds-renamed (if (:prefix opts)
