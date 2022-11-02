@@ -6,7 +6,7 @@
             [tech.v3.datatype :as dtt]
             [clojure.string :as str]
             [tech.v3.parallel.for :refer [pmap]]
-            
+            [tech.v3.dataset.tensor]
             [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data]]
             [tablecloth.api.columns :refer [select-columns drop-columns add-column]]))
 
@@ -160,9 +160,8 @@ options
 
          new-ds-renamed (if (:prefix opts)
                           (ds/rename-columns new-ds
-
-                                             (zipmap (range 3)
-                                                     (map #(prefix (:prefix opts) %) (range 3))))
+                                             (zipmap (range len-arrays)
+                                                     (map #(prefix (:prefix opts) %) (range len-arrays))))
 
                           new-ds)
          ]
