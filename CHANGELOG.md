@@ -4,11 +4,11 @@
 
 ## Added
 
-* doc strings for every funcitons, [#87, #88]
+* doc strings for every funcitons, #87, #88
 
 ## Changed
 
-* [breaking] when dataset file do not exists throw an exception [#84, #85]
+* [breaking] when dataset file do not exists throw an exception #84, #85
 
 ## [6.103]
 
