@@ -7,7 +7,8 @@
             [tech.v3.tensor :as tensor]
             [tech.v3.dataset.tensor :as ds-tensor]
             
-            [tablecloth.api.utils :refer [iterable-sequence? grouped? mark-as-group map-inst?]]))
+            [tablecloth.api.utils :refer [iterable-sequence? grouped? mark-as-group map-inst?]])
+  (:import [java.io FileNotFoundException]))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; DATASET CREATION
@@ -82,6 +83,7 @@
      (and (not data)
           column-names) (ds/new-dataset options (map (fn [n] (ds/new-column n [])) column-names))
      :else (try (ds/->dataset data options)
+                (catch FileNotFoundException fnfe (throw fnfe))
                 ;; create a singleton
                 (catch Exception e
                   (do
