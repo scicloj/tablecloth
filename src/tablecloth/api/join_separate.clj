@@ -7,7 +7,7 @@
             [clojure.string :as str]
             [tech.v3.parallel.for :refer [pmap]]
             [tech.v3.dataset.tensor]
-            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data]]
+            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data ->str]]
             [tablecloth.api.columns :refer [select-columns drop-columns add-column]]))
 
 (defn- process-join-columns
@@ -136,7 +136,7 @@ options
 
 
 (defn- prefix [prefix-name value]
-   (let [with-prefix (str (name prefix-name) "-" value)]
+   (let [with-prefix (str (->str prefix-name) "-" value)]
      (if (keyword? prefix-name)
        (keyword with-prefix)
        with-prefix)))
