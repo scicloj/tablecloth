@@ -33,8 +33,8 @@
 
 
 (defn typeof?
-  "True|false the column's elements are of the provided type `datatype`.
-   Works with concrete types (e.g. :int32) or general types (e.g. :numerical)."
+  "True|false the column's elements are of the provided type `datatype`. Can check
+   both concrete types (e.g. :int32) or general types (:numerical, :textual, etc)."
   ([col datatype]
   (tablecloth.column.api.column/typeof? col datatype)))
 
