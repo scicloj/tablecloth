@@ -2,10 +2,12 @@
   (:refer-clojure :exclude [pmap])
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
+            [tech.v3.tensor :as tens]
+            [tech.v3.datatype :as dtt]
             [clojure.string :as str]
             [tech.v3.parallel.for :refer [pmap]]
-            
-            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data]]
+            [tech.v3.dataset.tensor]
+            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data ->str]]
             [tablecloth.api.columns :refer [select-columns drop-columns add-column]]))
 
 (defn- process-join-columns
@@ -129,3 +131,69 @@ options
      (if (grouped? ds)       
        (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?) parallel?)
        (process-separate-columns ds column target-columns replace-missing separator-fn drop-column?)))))
+
+
+
+
+(defn- prefix [prefix-name value]
+   (let [with-prefix (str (->str prefix-name) "-" value)]
+     (if (keyword? prefix-name)
+       (keyword with-prefix)
+       with-prefix)))
+
+(defn array-column->columns
+  "Converts a column of type java array into several columns,
+  one for each element of the array of all rows. The source column is dropped afterwards.
+  The function assumes that arrays in all rows have same type and length and are numeric.
+
+  `ds` Datset to operate on.
+  `src-column` The (array) column to convert
+  `opts` can contain:
+    `prefix` newly created column will get prefix before column number
+  "
+  ([ds src-column opts]
+   (assert (not (grouped? ds)) "Not supported on grouped datasets")
+   (let [len-arrays (-> ds src-column first count)
+         new-ds
+         (->
+          (dtt/concat-buffers (ds src-column))
+          (tens/reshape [(ds/row-count ds) len-arrays])
+          (tech.v3.dataset.tensor/tensor->dataset))
+
+         new-ds-renamed (if (:prefix opts)
+                          (ds/rename-columns new-ds
+                                             (zipmap (range len-arrays)
+                                                     (map #(prefix (:prefix opts) %) (range len-arrays))))
+
+                          new-ds)
+         ]
+     (-> ds
+         (ds/append-columns (ds/columns new-ds-renamed))
+         (ds/drop-columns [src-column]))))
+  ([ds src-column]
+   (array-column->columns ds src-column {})))
+
+
+
+
+(defn columns->array-column
+  "Converts several columns to a single column of type array.
+   The src columns are dropped afterwards.
+
+  `ds` Dataset to operate on.
+  `column-selector` anything supported by [[select-columns]]
+  `new-column` new column to create
+  "
+  [ds column-selector new-column]
+  (assert (not (grouped? ds)) "Not supported on grouped datasets")
+  (let [ds-to-convert (select-columns ds column-selector)
+        rows
+        (->
+         (dtt/concat-buffers (ds/columns ds-to-convert))
+         (tens/reshape [(ds/column-count ds-to-convert)
+                        (ds/row-count ds-to-convert)])
+         (tens/transpose [1 0])
+         (tens/rows))]
+    (-> ds
+        (drop-columns (column-names ds-to-convert))
+        (ds/add-column (ds/new-column new-column (map tech.v3.datatype/->array rows))))))
