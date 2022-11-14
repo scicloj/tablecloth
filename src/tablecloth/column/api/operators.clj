@@ -4,7 +4,7 @@
             [tablecloth.column.api :refer [column]]
             [tech.v3.datatype.functional :as fun]))
 
-(defn get-lifted [fn-sym fn-meta]
+(defn lift-ops-1 [fn-sym fn-meta]
   (let [fn (symbol "fn")
         let (symbol "let")
         defn (symbol "defn")
@@ -23,8 +23,38 @@
                original-result#)))))))
 
 
+(def serialized-lift-fn-lookup
+  {['+ '- '/] lift-ops-1})
 
-(get-lifted (symbol "tech.v3.datatype.functional" "+") (meta (get fun-mappings '+)))
+
+(defn deserialize-lift-fn-lookup []
+  (reduce (fn [m [symlist liftfn]]
+            (loop [syms symlist
+                   result m]
+              (if (empty? syms)
+                result
+                (recur (rest syms) (assoc result (first syms) liftfn)))))
+          {}
+          serialized-lift-fn-lookup))
+
+
+(deserialize-lift-fn-lookup)
+
+
+
+(defn do-lift []
+  (let [lift-fn-lookup (deserialize-lift-fn-lookup)
+        fun-mappings (ns-publics `tech.v3.datatype.functional)]
+    (map (fn [[fnsym lift-fn]]
+           (lift-fn (symbol "tech.v3.datatype.functional" (name fnsym))
+                    (meta (get fun-mappings fnsym))))
+         lift-fn-lookup)))
+
+
+(do-lift)
+
+
+;; (get-lifted (symbol "tech.v3.datatype.functional" "+") (meta (get fun-mappings '+)))
 
 
 (clojure.pprint/pp)
