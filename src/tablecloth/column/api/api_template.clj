@@ -6,9 +6,9 @@
                          column
                          column?
                          typeof
+                         typeof?
                          zeros
-                         ones
-                         )
+                         ones)
 
 (comment
   ;; Use this to generate the column api

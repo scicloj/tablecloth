@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - master
+      - ethan/column-api-dev-branch-1
 
 jobs:
   run-tests:

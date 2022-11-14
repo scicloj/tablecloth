@@ -1,6 +1,7 @@
 (ns tablecloth.column.api.column
   (:require [tech.v3.dataset.column :as col]
-            [tech.v3.datatype :as dtype]))
+            [tech.v3.datatype :as dtype]
+            [tablecloth.api.utils :refer [->general-types concrete-type? type?]]))
 
 (defn column
   "Create a `column` from a vector or sequence. "
@@ -18,16 +19,19 @@
   [item]
   (col/is-column? item))
 
-;; Alias for tech.v3.datatype.elemwise-datatype`
 (defn typeof
-  "Returns the datatype fo the elements within the column `col`."
+  "Returns the concrete type of the elements within the column `col`."
   [col]
   (dtype/elemwise-datatype col))
 
 (defn typeof?
-  "True|false the column's elements are of type `dtype`"
-  [col dtype]
-  (= (dtype/elemwise-datatype col) dtype))
+  "True|false the column's elements are of the provided type `datatype`. Can check
+   both concrete types (e.g. :int32) or general types (:numerical, :textual, etc)."
+  [col datatype]
+  (let [concrete-type-of-els (dtype/elemwise-datatype col)]
+    (if (concrete-type? datatype) 
+      (= datatype concrete-type-of-els)
+      (not (nil? (type? datatype concrete-type-of-els))))))
 
 (defn zeros
   "Create a new column filled wth `n-zeros`."
@@ -38,3 +42,5 @@
   "Creates a new column filled with `n-ones`"
   [n-ones]
   (column (dtype/const-reader 1 n-ones)))
+
+
