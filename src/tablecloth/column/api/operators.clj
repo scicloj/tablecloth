@@ -4,6 +4,7 @@
             [tablecloth.column.api :refer [column]]
             [tech.v3.datatype.functional :as fun]))
 
+;; this is for fns taking [[x] [x y] [x y & args]]
 (defn lift-ops-1 [fn-sym fn-meta]
   (let [fn (symbol "fn")
         let (symbol "let")
@@ -12,19 +13,24 @@
         docstring (:doc fn-meta)]
     `(~defn ~(symbol (name fn-sym)) 
       ~@(for [arg args
-              :let [a (filter (partial not= '&) arg)]]
+              :let [[explicit-args rest-arg-expr] (split-with (partial not= '&) arg)]]
           (list
            arg
-           `(~let [original-result# ~(if (> (count a) 2)
-                                      `(apply ~fn-sym ~@a)
-                                      `(~fn-sym ~@a))]
+           `(~let [original-result# ~(if (empty? rest-arg-expr)
+                                      `(~fn-sym ~@explicit-args)
+                                      `(apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
              (if (-> original-result# arg-type (= :reader))
                (column original-result#)
                original-result#)))))))
 
 
+
 (def serialized-lift-fn-lookup
-  {['+ '- '/] lift-ops-1})
+  {['+ '- '/ '> '>= '< '<=] lift-ops-1})
+
+
+(lift-ops-1 (symbol "tech.v3.datatype.functional" (name '>))
+            (meta (get fun-mappings '>)))
 
 
 (defn deserialize-lift-fn-lookup []
@@ -58,6 +64,8 @@
 
 
 (clojure.pprint/pp)
+
+
 
 
 (comment 
