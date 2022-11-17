@@ -4,6 +4,27 @@
             [tablecloth.column.api :refer [column]]
             [tech.v3.datatype.functional :as fun]))
 
+(defn return-scalar-or-column [item]
+  (let [item-type (arg-type item)]
+    (if (= item-type :reader)
+      (column item)
+      item)))
+
+(defn rearrange-args [fn-sym fn-meta new-args & new-args-lookup]
+  (let [defn (symbol "defn")
+        let  (symbol "let")
+        original-args (:arglists fn-meta)
+        ensure-list #(if (vector? %) % (list %))
+        sort-by-arg-count (fn [argslist]
+                            (sort #(< (count %1) (count %2)) argslist))]
+    `(~defn ~(symbol (name fn-sym))
+      ~@(for [[new-arg original-arg] (zipmap (sort-by-arg-count new-args)
+                                             (sort-by-arg-count original-args))]
+          (list
+           new-arg
+           `(~let [original-result# (~fn-sym ~@original-arg)]
+             (return-scalar-or-column original-result#)))))))
+
 ;; this is for fns taking [[x] [x y] [x y & args]]
 (defn lift-ops-1 [fn-sym fn-meta]
   (let [fn (symbol "fn")
@@ -24,13 +45,22 @@
                original-result#)))))))
 
 
-
 (def serialized-lift-fn-lookup
-  {['+ '- '/ '> '>= '< '<=] lift-ops-1})
+  {['+ '- '/ '> '>= '< '<= 'log] lift-ops-1
+   ['percentiles] (fn [fn-sym fn-meta]
+                    (rearrange-args fn-sym fn-meta
+                                    '([data percentages] [data percentages options])
+                                    {:x 'data}))})
 
 
-(lift-ops-1 (symbol "tech.v3.datatype.functional" (name '>))
-            (meta (get fun-mappings '>)))
+;; (rearrange-args (symbol "tech.v3.datatype.functional" (name 'percentiles))
+;;                 (['percentages 'options 'data] ['percentages 'data])
+;;                 (['data 'percentages] ['data 'percentages 'options]))
+
+
+
+;; (lift-ops-1 (symbol "tech.v3.datatype.functional" (name 'log))
+;;             (meta (get fun-mappings 'log)))
 
 
 (defn deserialize-lift-fn-lookup []
@@ -42,11 +72,6 @@
                 (recur (rest syms) (assoc result (first syms) liftfn)))))
           {}
           serialized-lift-fn-lookup))
-
-
-(deserialize-lift-fn-lookup)
-
-
 
 (defn do-lift []
   (let [lift-fn-lookup (deserialize-lift-fn-lookup)
@@ -61,7 +86,6 @@
 
 
 ;; (get-lifted (symbol "tech.v3.datatype.functional" "+") (meta (get fun-mappings '+)))
-
 
 (clojure.pprint/pp)
 
