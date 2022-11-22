@@ -1,8 +1,10 @@
 (ns tablecloth.column.api.operators
+  (:import [java.io Writer])
   (:require [tech.v3.datatype.export-symbols :as exporter]
             [tech.v3.datatype.argtypes :refer [arg-type]]
             [tablecloth.column.api :refer [column]]
-            [tech.v3.datatype.functional :as fun]))
+            [tech.v3.datatype.functional :as fun]
+            [clojure.java.io :as io]))
 
 (defn return-scalar-or-column [item]
   (let [item-type (arg-type item)]
@@ -10,9 +12,11 @@
       (column item)
       item)))
 
-(defn rearrange-args [fn-sym fn-meta new-args & new-args-lookup]
-  (let [defn (symbol "defn")
-        let  (symbol "let")
+(defn rearrange-args
+  ([fn-sym fn-meta new-args]
+   (rearrange-args fn-sym fn-meta new-args nil))
+  ([fn-sym fn-meta new-args {:keys [new-args-lookup]}]
+   (let [defn (symbol "defn") let  (symbol "let")
         original-args (:arglists fn-meta)
         ensure-list #(if (vector? %) % (list %))
         sort-by-arg-count (fn [argslist]
@@ -22,8 +26,22 @@
                                              (sort-by-arg-count original-args))]
           (list
            new-arg
-           `(~let [original-result# (~fn-sym ~@original-arg)]
-             (return-scalar-or-column original-result#)))))))
+           `(~let [original-result# (~fn-sym ~@(if (nil? new-args-lookup)
+                                               original-arg
+                                               (for [oldarg original-arg]
+                                                   (get new-args-lookup oldarg))))]
+             (return-scalar-or-column original-result#))))))))
+
+
+;; (rearrange-args (symbol "tech.v3.datatype.functional" "percentiles")
+;;                 (meta (get fun-mappings 'percentiles))
+;;                 '([data percentiles] [data percentiles options])
+;;                 {:new-args-lookup {'percentages 'percentiles, 'data 'data, 'options 'options}})
+
+
+;; (clojure.pprint/pp)
+
+
 
 ;; this is for fns taking [[x] [x y] [x y & args]]
 (defn lift-ops-1 [fn-sym fn-meta]
@@ -46,21 +64,21 @@
 
 
 (def serialized-lift-fn-lookup
-  {['+ '- '/ '> '>= '< '<= 'log] lift-ops-1
+  {['+
+    '-
+    '/
+    '>
+    '>=
+    '<
+    '<=
+    ] lift-ops-1
    ['percentiles] (fn [fn-sym fn-meta]
-                    (rearrange-args fn-sym fn-meta
-                                    '([data percentages] [data percentages options])
-                                    {:x 'data}))})
-
-
-;; (rearrange-args (symbol "tech.v3.datatype.functional" (name 'percentiles))
-;;                 (['percentages 'options 'data] ['percentages 'data])
-;;                 (['data 'percentages] ['data 'percentages 'options]))
-
-
-
-;; (lift-ops-1 (symbol "tech.v3.datatype.functional" (name 'log))
-;;             (meta (get fun-mappings 'log)))
+                    (rearrange-args
+                     fn-sym fn-meta
+                     '([col percentiles] [col percentiles options])
+                     {:new-args-lookup {'data 'col,
+                                        'percentages 'percentiles,
+                                        'options 'options}}))})
 
 
 (defn deserialize-lift-fn-lookup []
@@ -73,21 +91,47 @@
           {}
           serialized-lift-fn-lookup))
 
-(defn do-lift []
-  (let [lift-fn-lookup (deserialize-lift-fn-lookup)
-        fun-mappings (ns-publics `tech.v3.datatype.functional)]
-    (map (fn [[fnsym lift-fn]]
-           (lift-fn (symbol "tech.v3.datatype.functional" (name fnsym))
-                    (meta (get fun-mappings fnsym))))
-         lift-fn-lookup)))
 
 
-(do-lift)
+(defn- writeln!
+  ^Writer [^Writer writer strdata & strdatas]
+  (.append writer (str strdata))
+  (doseq [data strdatas]
+    (when data
+      (.append writer (str data))))
+  (.append writer "\n")
+  writer)
 
+(defn- write-empty-ln! ^Writer [^Writer writer]
+  (writeln! "" writer)
+  writer)
 
-;; (get-lifted (symbol "tech.v3.datatype.functional" "+") (meta (get fun-mappings '+)))
+(defn get-lifted []
+(let [lift-fn-lookup (deserialize-lift-fn-lookup)
+      fun-mappings (ns-publics `tech.v3.datatype.functional)]
+  (map (fn [[fnsym lift-fn]]
+         (lift-fn (symbol "tech.v3.datatype.functional" (name fnsym))
+                  (meta (get fun-mappings fnsym))))
+       lift-fn-lookup)))
 
-(clojure.pprint/pp)
+(defn get-ns-header [target-ns source-ns]
+  (let [ns (symbol "ns")]
+    `(~ns ~target-ns
+      (:require [~source-ns]))))
+
+(defn do-lift [target-ns source-ns filename]
+  (with-open [writer (io/writer filename)]
+    (doseq [f (get-lifted)]
+      (clojure.pprint/pprint (get-ns-header target-ns source-ns) writer)
+      (write-empty-ln!)
+      (clojure.pprint/pprint f writer)
+      (write-empty-ln!))))
+
+(comment
+  (do-lift 'tablecloth.column.lifted-operators
+           'tech.v3.datatype.functional
+           "test.clj"))
+
 
 
 
