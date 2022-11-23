@@ -13,9 +13,9 @@
       item)))
 
 (defn rearrange-args
-  ([fn-sym fn-meta new-args]
-   (rearrange-args fn-sym fn-meta new-args nil))
-  ([fn-sym fn-meta new-args {:keys [new-args-lookup]}]
+  ([fn-sym fn-meta]
+   (rearrange-args fn-sym fn-meta nil))
+  ([fn-sym fn-meta {:keys [new-args new-args-lookup]}]
    (let [defn (symbol "defn") let  (symbol "let")
         original-args (:arglists fn-meta)
         ensure-list #(if (vector? %) % (list %))
@@ -75,8 +75,8 @@
    ['percentiles] (fn [fn-sym fn-meta]
                     (rearrange-args
                      fn-sym fn-meta
-                     '([col percentiles] [col percentiles options])
-                     {:new-args-lookup {'data 'col,
+                     {:new-args '([col percentiles] [col percentiles options])
+                      :new-args-lookup {'data 'col,
                                         'percentages 'percentiles,
                                         'options 'options}}))})
 
