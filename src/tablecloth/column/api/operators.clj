@@ -103,7 +103,11 @@
   writer)
 
 (defn- write-empty-ln! ^Writer [^Writer writer]
-  (writeln! "" writer)
+  (writeln! writer "")
+  writer)
+
+(defn- write-pp ^Writer [^Writer writer item]
+  (clojure.pprint/pprint item writer)
   writer)
 
 (defn get-lifted []
@@ -117,23 +121,23 @@
 (defn get-ns-header [target-ns source-ns]
   (let [ns (symbol "ns")]
     `(~ns ~target-ns
-      (:require [~source-ns]))))
+      (:require [~source-ns])
+      (:refer-clojure :exclude ~['+ '- '/ '> '>= '< '<=]))))
 
 (defn do-lift [target-ns source-ns filename]
-  (with-open [writer (io/writer filename)]
+  (with-open [writer (io/writer filename :append false)]
+    (write-pp writer (get-ns-header target-ns source-ns))
+    (write-empty-ln! writer)
     (doseq [f (get-lifted)]
-      (clojure.pprint/pprint (get-ns-header target-ns source-ns) writer)
-      (write-empty-ln!)
-      (clojure.pprint/pprint f writer)
-      (write-empty-ln!))))
+      (-> writer
+           (write-pp f)
+           (write-empty-ln!)))))
 
 (comment
-  (do-lift 'tablecloth.column.lifted-operators
+  (do-lift 'tablecloth.column.api.lifted-operators
            'tech.v3.datatype.functional
-           "test.clj"))
-
-
-
+           "src/tablecloth/column/api/lifted_operators.clj")
+  ,)
 
 
 (comment 
