@@ -6,62 +6,62 @@
             [tech.v3.datatype.functional :as fun]
             [clojure.java.io :as io]))
 
-(defn return-scalar-or-column [item]
+(defn- return-scalar-or-column [item]
   (let [item-type (arg-type item)]
     (if (= item-type :reader)
       (column item)
       item)))
 
-(defn rearrange-args
+(defn lift-op
   ([fn-sym fn-meta]
-   (rearrange-args fn-sym fn-meta nil))
+   (lift-op fn-sym fn-meta nil))
   ([fn-sym fn-meta {:keys [new-args new-args-lookup]}]
-   (let [defn (symbol "defn") let  (symbol "let")
-        original-args (:arglists fn-meta)
-        ensure-list #(if (vector? %) % (list %))
-        sort-by-arg-count (fn [argslist]
-                            (sort #(< (count %1) (count %2)) argslist))]
-    `(~defn ~(symbol (name fn-sym))
-      ~@(for [[new-arg original-arg] (zipmap (sort-by-arg-count new-args)
-                                             (sort-by-arg-count original-args))]
-          (list
-           new-arg
-           `(~let [original-result# (~fn-sym ~@(if (nil? new-args-lookup)
-                                               original-arg
-                                               (for [oldarg original-arg]
-                                                   (get new-args-lookup oldarg))))]
-             (return-scalar-or-column original-result#))))))))
+   (let [defn (symbol "defn")
+         let  (symbol "let")
+         original-args (:arglists fn-meta)
+         sort-by-arg-count (fn [argslist]
+                             (sort #(< (count %1) (count %2)) argslist))]
+     (if new-args
+      `(~defn ~(symbol (name fn-sym))
+        ~@(for [[new-arg original-arg] (zipmap (sort-by-arg-count new-args)
+                                                (sort-by-arg-count original-args))
+                :let [filtered-original-arg (filter (partial not= '&) original-arg)]]
+            (list
+            (if new-arg new-arg original-arg)
+            `(~let [original-result# (~fn-sym
+                                      ~@(if (nil? new-args-lookup)
+                                          filtered-original-arg
+                                          (for [oldarg filtered-original-arg]
+                                            (get new-args-lookup oldarg))))]
+              (return-scalar-or-column original-result#)))))
+      `(~defn ~(symbol (name fn-sym)) 
+        ~@(for [arg original-args
+                :let [[explicit-args rest-arg-expr] (split-with (partial not= '&) arg)]]
+            (list
+            arg
+            `(~let [original-result# ~(if (empty? rest-arg-expr)
+                                        `(~fn-sym ~@explicit-args)
+                                        `(apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
+              (return-scalar-or-column original-result#)))))))))
 
 
-;; (rearrange-args (symbol "tech.v3.datatype.functional" "percentiles")
+;; (def fun-mappings (ns-publics 'tech.v3.datatype.functional))
+
+;; (lift-op (symbol "tech.v3.datatype.functional" "+")
+;;          (meta (get fun-mappings '+)))
+
+;; (lift-op (symbol "tech.v3.datatype.functional" "percentiles")
 ;;                 (meta (get fun-mappings 'percentiles))
-;;                 '([data percentiles] [data percentiles options])
-;;                 {:new-args-lookup {'percentages 'percentiles, 'data 'data, 'options 'options}})
+;;                 {:new-args '([data percentiles] [data percentiles & options])
+;;                  :new-args-lookup {'percentages 'percentiles, 'data 'data, 'options 'options}})
+
+;; (lift-op (symbol "tech.v3.datatype.functional/+" )
+;;                 (meta (get fun-mappings '+))
+;;                 {:new-args '([a] [b a] [b a & args])
+;;                  :new-args-lookup {'x 'a, 'y 'b, 'args 'args}})
 
 
 ;; (clojure.pprint/pp)
-
-
-
-;; this is for fns taking [[x] [x y] [x y & args]]
-(defn lift-ops-1 [fn-sym fn-meta]
-  (let [fn (symbol "fn")
-        let (symbol "let")
-        defn (symbol "defn")
-        args (:arglists fn-meta)
-        docstring (:doc fn-meta)]
-    `(~defn ~(symbol (name fn-sym)) 
-      ~@(for [arg args
-              :let [[explicit-args rest-arg-expr] (split-with (partial not= '&) arg)]]
-          (list
-           arg
-           `(~let [original-result# ~(if (empty? rest-arg-expr)
-                                      `(~fn-sym ~@explicit-args)
-                                      `(apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
-             (if (-> original-result# arg-type (= :reader))
-               (column original-result#)
-               original-result#)))))))
-
 
 (def serialized-lift-fn-lookup
   {['+
@@ -71,9 +71,9 @@
     '>=
     '<
     '<=
-    ] lift-ops-1
+    ] lift-op
    ['percentiles] (fn [fn-sym fn-meta]
-                    (rearrange-args
+                    (lift-op
                      fn-sym fn-meta
                      {:new-args '([col percentiles] [col percentiles options])
                       :new-args-lookup {'data 'col,
