@@ -6,7 +6,7 @@
             [tech.v3.datatype.functional :as fun]
             [clojure.java.io :as io]))
 
-(defn- return-scalar-or-column [item]
+(defn return-scalar-or-column [item]
   (let [item-type (arg-type item)]
     (if (= item-type :reader)
       (column item)
@@ -18,11 +18,13 @@
   ([fn-sym fn-meta {:keys [new-args new-args-lookup]}]
    (let [defn (symbol "defn")
          let  (symbol "let")
+         docstring (:doc fn-meta)
          original-args (:arglists fn-meta)
          sort-by-arg-count (fn [argslist]
                              (sort #(< (count %1) (count %2)) argslist))]
      (if new-args
       `(~defn ~(symbol (name fn-sym))
+        ~(or docstring "")
         ~@(for [[new-arg original-arg] (zipmap (sort-by-arg-count new-args)
                                                 (sort-by-arg-count original-args))
                 :let [filtered-original-arg (filter (partial not= '&) original-arg)]]
@@ -35,6 +37,7 @@
                                             (get new-args-lookup oldarg))))]
               (return-scalar-or-column original-result#)))))
       `(~defn ~(symbol (name fn-sym)) 
+        ~(or docstring "") 
         ~@(for [arg original-args
                 :let [[explicit-args rest-arg-expr] (split-with (partial not= '&) arg)]]
             (list
@@ -44,11 +47,13 @@
                                         `(apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
               (return-scalar-or-column original-result#)))))))))
 
+(meta (get fun-mappings 'percentiles))
 
 ;; (def fun-mappings (ns-publics 'tech.v3.datatype.functional))
 
-;; (lift-op (symbol "tech.v3.datatype.functional" "+")
-;;          (meta (get fun-mappings '+)))
+(lift-op (symbol "tech.v3.datatype.functional" "+")
+         (meta (get fun-mappings '+)))
+
 
 ;; (lift-op (symbol "tech.v3.datatype.functional" "percentiles")
 ;;                 (meta (get fun-mappings 'percentiles))
