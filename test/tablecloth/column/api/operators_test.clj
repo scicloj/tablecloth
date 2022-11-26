@@ -1,8 +1,8 @@
-(ns tablecloth.column.api.lifted-operators-test
+(ns tablecloth.column.api.operators-test
   (:require [midje.sweet :refer [fact facts =>]]
             [clojure.test :refer [deftest is]]
             [tablecloth.column.api :refer [column column?]]
-            [tablecloth.column.api.lifted-operators :refer [+ - / > >= < <= percentiles] :as ops])
+            [tablecloth.column.api.operators :refer [+ - / > >= < <= percentiles] :as ops])
   (:refer-clojure :exclude [+ - / > >= < <=]))
 
 (def a (column [1.0 2.0 3.0 4.0]))
