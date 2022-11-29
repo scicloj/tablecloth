@@ -71,15 +71,15 @@
                     (meta (get fun-mappings fnsym))))
         lift-fn-lookup)))
 
-(defn get-ns-header [target-ns source-ns]
+(defn get-ns-header [target-ns source-ns ns-exclusions]
   (let [ns (symbol "ns")]
     `(~ns ~target-ns
       (:require [~source-ns])
-      (:refer-clojure :exclude ~['+ '- '/ '> '>= '< '<=]))))
+      (:refer-clojure :exclude ~ns-exclusions))))
 
-(defn do-lift [lift-plan target-ns source-ns filename]
+(defn do-lift [lift-plan target-ns source-ns ns-exclusions filename]
   (with-open [writer (io/writer filename :append false)]
-    (write-pp writer (get-ns-header target-ns source-ns))
+    (write-pp writer (get-ns-header target-ns source-ns ns-exclusions))
     (write-empty-ln! writer)
     (doseq [f (get-lifted lift-plan source-ns)]
       (-> writer

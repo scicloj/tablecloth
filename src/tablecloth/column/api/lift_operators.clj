@@ -52,5 +52,6 @@
   (do-lift (deserialize-lift-fn-lookup)
            'tablecloth.column.api.operators
            'tech.v3.datatype.functional
+           '[+ - / < <= > >= neg? pos? odd? even? zero? not odd?]
            "src/tablecloth/column/api/operators.clj")
   ,)
