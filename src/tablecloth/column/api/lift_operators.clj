@@ -8,7 +8,14 @@
     '>
     '>=
     '<
-    '<=] lift-op
+    '<=
+    'distance
+    'dot-product
+    'eq
+    'not-eq
+    'or
+    'distance-squared
+    'and] lift-op
    ['kurtosis
     'sum
     'mean

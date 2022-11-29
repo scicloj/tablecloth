@@ -1,5 +1,6 @@
 (ns tablecloth.column.api.operators-test
-  (:refer-clojure :exclude [+ - / < <= > >= neg? pos? odd? even? zero? not odd?])
+  (:refer-clojure :exclude [+ - / < <= > >= neg? pos? odd? even?
+                            or and zero? not odd?])
   (:require [midje.sweet :refer [fact facts =>]]
             [clojure.test :refer [deftest is]]
             [tablecloth.column.api :refer [column column? typeof]])
@@ -55,7 +56,18 @@
      (op a) => scalar?)))
 
 (facts
- "about ops that take a single column and return scalar or column of booleans"
+ "about ops that take left-hand / right-hand columns and returns a scalar"
+ (let [ops [distance
+            dot-product
+            distance-squared]
+       a (sample-column 5)
+       b (sample-column 5)]
+   (doseq [op ops]
+     (op a b) => scalar?)))
+
+(facts
+ "about ops that take a single column or scalar 
+  and return boolean or column of booleans"
  (let [ops [finite?
             pos?
             neg?
@@ -72,6 +84,14 @@
      (typeof (op a)) => :boolean
      (op 1) => boolean?)))
 
-
-
+(facts
+ "about ops that take left-hand / right-hand columns or scalars 
+  and returns boolean or column of booleans"
+ (let [ops [or and eq not-eq]
+       a (sample-column 5)
+       b (sample-column 5)]
+   (doseq [op ops]
+     (op a b) => column?
+     (typeof (op a b)) => :boolean
+     (op 1 2) => boolean?)))
 
