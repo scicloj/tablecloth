@@ -23,6 +23,22 @@
                {:new-args '([col] [col options])
                 :new-args-lookup {'data 'col
                                   'options 'options}}))
+   ['finite?
+    'pos?
+    'neg?
+    'mathematical-integer?
+    'nan?
+    'even?
+    'zero?
+    'not
+    'infinite?
+    'round
+    'odd?] (fn [fn-sym fn-meta]
+             (lift-op
+              fn-sym fn-meta
+              {:new-args '([col] [col options])
+               :new-args-lookup {'arg 'col
+                                 'options 'options}}))
    ['percentiles] (fn [fn-sym fn-meta]
                     (lift-op
                      fn-sym fn-meta
@@ -30,6 +46,7 @@
                       :new-args-lookup {'data 'col,
                                         'percentages 'percentiles,
                                         'options 'options}}))})
+
 
 (defn deserialize-lift-fn-lookup []
   (reduce (fn [m [symlist liftfn]]
@@ -55,3 +72,5 @@
            '[+ - / < <= > >= neg? pos? odd? even? zero? not odd?]
            "src/tablecloth/column/api/operators.clj")
   ,)
+
+
