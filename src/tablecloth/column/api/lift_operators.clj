@@ -9,6 +9,7 @@
     '>=
     '<
     '<=
+    '*
     'distance
     'dot-product
     'eq
@@ -76,7 +77,7 @@
   (do-lift (deserialize-lift-fn-lookup)
            'tablecloth.column.api.operators
            'tech.v3.datatype.functional
-           '[+ - / < <= > >= neg? pos? odd? even? zero? not odd?]
+           '[+ - / < <= > >= * neg? pos? odd? even? zero? not odd? or and]
            "src/tablecloth/column/api/operators.clj")
   ,)
 
