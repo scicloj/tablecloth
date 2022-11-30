@@ -74,7 +74,8 @@
 (defn get-ns-header [target-ns source-ns ns-exclusions]
   (let [ns (symbol "ns")]
     `(~ns ~target-ns
-      (:require [~source-ns])
+      (:require [~source-ns]
+                [tablecloth.column.api.utils])
       (:refer-clojure :exclude ~ns-exclusions))))
 
 (defn do-lift [lift-plan target-ns source-ns ns-exclusions filename]
