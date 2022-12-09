@@ -88,6 +88,8 @@
 
 (defn aggregate-columns
   "Aggregates each column separately"
+  ([ds columns-aggregators]
+  (tablecloth.api.aggregate/aggregate-columns ds columns-aggregators))
   ([ds columns-selector column-aggregators]
   (tablecloth.api.aggregate/aggregate-columns ds columns-selector column-aggregators))
   ([ds columns-selector column-aggregators options]

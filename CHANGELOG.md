@@ -1,10 +1,12 @@
 # Change Log
 
-## [unreleased]
+## [6.103.1]
 
 ## Added
 
 * doc strings for every funcitons, #87, #88
+* aggregate-columns should default to all columns when called without a column selector #91
+* create functions for packing / unpacking columns to arrays #82
 
 ## Changed
 

@@ -1725,6 +1725,15 @@ You can perform columnar aggreagation also. `aggregate-columns` selects columns 
     (tc/aggregate-columns [:V1 :V2 :V3] #(reduce + %)))
 ```
 
+You can also aggregate whole dataset
+
+```{clojure results="asis"}
+(-> DS
+    (tc/drop-columns :V4)
+    (tc/aggregate-columns #(reduce + %)))
+```
+
+
 #### Crosstab
 
 Cross tabulation built from two sets of columns. First rows and cols are used to construct grouped dataset, then aggregation function is applied for each pair. By default it counts rows from each group.
@@ -1852,10 +1861,10 @@ Custom comparator also can be used in case objects are not comparable by default
 
 ```{clojure results="asis"}
 (tc/order-by DS [:V1 :V2 :V3] (fn [[x1 y1 z1 :as v1] [x2 y2 z2 :as v2]]
-                                 (let [d (dist v1 v2)]
-                                   (if (< d 2.0)
-                                     (compare z1 z2)
-                                     (compare [x1 y1] [x2 y2])))))
+                                (let [d (dist v1 v2)]
+                                  (if (< d 2.0)
+                                    (compare z1 z2)
+                                    (compare [x1 y1] [x2 y2])))))
 ```
 
 ### Unique
@@ -1988,9 +1997,9 @@ Let's define dataset which contains missing values
 
 ```{clojure results="hide"}
 (def DSm (tc/dataset {:V1 (take 9 (cycle [1 2 nil]))
-                       :V2 (range 1 10)
-                       :V3 (take 9 (cycle [0.5 1.0 nil 1.5]))
-                       :V4 (take 9 (cycle ["A" "B" "C"]))}))
+                      :V2 (range 1 10)
+                      :V3 (take 9 (cycle [0.5 1.0 nil 1.5]))
+                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
 ```
 
 ```{clojure results="asis"}
@@ -2059,9 +2068,9 @@ Missing values can be replaced using several strategies. `replace-missing` accep
 * column selector, default: `:all`
 * strategy, default: `:nearest`
 * value (optional)
-    - single value
-    - sequence of values (cycled)
-    - function, applied on column(s) with stripped missings
+- single value
+- sequence of values (cycled)
+- function, applied on column(s) with stripped missings
 
 Strategies are:
 
@@ -2078,7 +2087,7 @@ Let's define special dataset here:
 
 ```{clojure results="hide"}
 (def DSm2 (tc/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
-                        :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
+                       :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
 ```
 
 ```{clojure results="asis"}
@@ -2185,8 +2194,8 @@ Lerp works also on dates
 
 ```{clojure results="asis"}
 (-> (tc/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
-                       nil nil nil nil nil nil nil
-                       (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
+                      nil nil nil nil nil nil nil
+                      (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
     (tc/replace-missing :lerp))
 ```
 
@@ -2204,7 +2213,7 @@ When your column contains not continuous data range you can fill up with lacking
 
 ```{clojure results="asis"}
 (-> (tc/dataset {:a [1 2 9]
-                  :b [:a :b :c]})
+                 :b [:a :b :c]})
     (tc/fill-range-replace :a 1))
 ```
 
@@ -2222,14 +2231,14 @@ Joining or separating columns are operations which can help to tidy messy datase
 * dataset
 * column selector (as in `select-columns`)
 * options
-    - `:separator` (default `"-"`)
-    - `:drop-columns?` - whether to drop source columns or not (default `true`)
-    - `:result-type`
-        * `:map` - packs data into map
-        * `:seq` - packs data into sequence
-        * `:string` - join strings with separator (default)
-        * or custom function which gets row as a vector
-    - `:missing-subst` - substitution for missing value
+- `:separator` (default `"-"`)
+- `:drop-columns?` - whether to drop source columns or not (default `true`)
+- `:result-type`
+* `:map` - packs data into map
+* `:seq` - packs data into sequence
+* `:string` - join strings with separator (default)
+* or custom function which gets row as a vector
+- `:missing-subst` - substitution for missing value
 
 ---
 
@@ -2261,7 +2270,7 @@ We can use custom separator.
 
 ```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:separator "/"
-                                             :missing-subst "."})
+                                            :missing-subst "."})
 ```
 
 ---
@@ -2270,7 +2279,7 @@ Or even sequence of separators.
 
 ```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:separator ["-" "/"]
-                                             :missing-subst "."})
+                                            :missing-subst "."})
 ```
 
 ---

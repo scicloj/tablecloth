@@ -468,3 +468,68 @@ agg
 ;;    |  1 | 22 | 2 | 10 | 33 | 11 | 3 |
 
 
+;;
+
+
+(let [col-names (map (partial str "row-") (range 10))]
+  (-> (tc/dataset {:x (range 10)
+                   :y (range 100 110)
+                   :z (seq "abcdefghij")})
+      (tc/rows)
+      (->> (zipmap col-names))
+      (tc/dataset)
+      (tc/select-columns col-names)))
+
+;; => _unnamed [3 10]:
+;;    | row-0 | row-1 | row-2 | row-3 | row-4 | row-5 | row-6 | row-7 | row-8 | row-9 |
+;;    |-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|
+;;    |     0 |     1 |     2 |     3 |     4 |     5 |     6 |     7 |     8 |     9 |
+;;    |   100 |   101 |   102 |   103 |   104 |   105 |   106 |   107 |   108 |   109 |
+;;    |     a |     b |     c |     d |     e |     f |     g |     h |     i |     j |
+
+(defonce stocks (tc/dataset "https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv" {:key-fn keyword}))
+
+(def price-index (-> (->> (stocks :price)
+                        (map-indexed vector)
+                        (group-by second))
+                   (update-vals (partial map first))
+                   (java.util.TreeMap.)))
+
+;; selection
+
+(-> stocks
+    (tc/select-rows (->> (.subMap price-index 10.0 true 20.0 false) ;; select range <10,20)
+                         (.values) ;; get indices
+                         (mapcat identity))))
+
+;; => https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv [61 3]:
+;;    | :symbol |      :date | :price |
+;;    |---------|------------|-------:|
+;;    |    AMZN | 2001-02-01 |  10.19 |
+;;    |    AMZN | 2001-03-01 |  10.23 |
+;;    |    AAPL | 2003-09-01 |  10.36 |
+;;    |    AAPL | 2003-11-01 |  10.45 |
+;;    |    AAPL | 2003-07-01 |  10.54 |
+;;    |    AAPL | 2001-11-01 |  10.65 |
+;;    |    AAPL | 2003-12-01 |  10.69 |
+;;    |    AAPL | 2001-01-01 |  10.81 |
+;;    |    AMZN | 2001-12-01 |  10.82 |
+;;    |    AAPL | 2002-02-01 |  10.85 |
+;;    |     ... |        ... |    ... |
+;;    |    AMZN | 2002-12-01 |  18.89 |
+;;    |    MSFT | 2008-12-01 |  18.91 |
+;;    |    MSFT | 2003-01-01 |  19.31 |
+;;    |    MSFT | 2003-02-01 |  19.34 |
+;;    |    AMZN | 2002-10-01 |  19.36 |
+;;    |    AAPL | 2004-09-01 |  19.38 |
+;;    |    MSFT | 2002-07-01 |  19.52 |
+;;    |    MSFT | 2008-11-01 |  19.66 |
+;;    |    MSFT | 2003-03-01 |  19.76 |
+;;    |    MSFT | 2009-04-01 |  19.84 |
+;;    |    MSFT | 2002-08-01 |  19.97 |
+
+(tc/aggregate-columns stocks count)
+
+(-> DS
+    (tc/drop-columns :V4)
+    (tc/aggregate-columns #(reduce + %)))
