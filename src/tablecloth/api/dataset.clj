@@ -2,11 +2,11 @@
   (:refer-clojure :exclude [concat])
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
-            [tech.v3.protocols.dataset :as prot]
+            [tech.v3.dataset.protocols :as prot]
             [tech.v3.dataset.print :as p]
             [tech.v3.tensor :as tensor]
             [tech.v3.dataset.tensor :as ds-tensor]
-            
+
             [tablecloth.api.utils :refer [iterable-sequence? grouped? mark-as-group map-inst?]])
   (:import [java.io FileNotFoundException]))
 
@@ -17,7 +17,7 @@
 (defn dataset?
   "Is `ds` a `dataset` type?"
   [ds]
-  (satisfies? prot/PColumnarDataset ds))
+  (prot/is-dataset? ds))
 
 (defn empty-ds?
   [ds]
@@ -48,7 +48,7 @@
 
 (defn dataset
   "Create `dataset`.
-  
+
   Dataset can be created from:
 
   * map of values and/or sequences
