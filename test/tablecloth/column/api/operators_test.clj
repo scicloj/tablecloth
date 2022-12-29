@@ -26,6 +26,13 @@
      (op a) => column?)))
 
 (facts
+ "about ops that take a single column and return a scalar"
+ (let [ops [magnitude]
+       a (sample-column 5)]
+   (doseq [op ops]
+     (op a) => scalar?)))
+
+(facts
  "about ops that take one or more columns or scalars
   and return either a scalar or a column"
  (let [ops [/ - +]

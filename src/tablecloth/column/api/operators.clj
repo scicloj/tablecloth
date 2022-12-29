@@ -393,6 +393,22 @@
     original-result__41971__auto__))))
 
 (defn
+ magnitude
+ ""
+ ([item _options]
+  (let
+   [original-result__41972__auto__
+    (tech.v3.datatype.functional/magnitude item _options)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__41972__auto__)))
+ ([item]
+  (let
+   [original-result__41972__auto__
+    (tech.v3.datatype.functional/magnitude item)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__41972__auto__))))
+
+(defn
  /
  ""
  ([x]

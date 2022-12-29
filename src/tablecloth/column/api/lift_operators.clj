@@ -14,6 +14,7 @@
     'dot-product
     'eq
     'equals
+    'magnitude
     'normalize
     'not-eq
     'or
