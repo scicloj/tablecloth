@@ -14,6 +14,11 @@
      :scalar))
 
 (facts
+ "about 'shift"
+ (let [a (column [1 2 3 4 5])]
+   (shift a 2) => [1 1 1 2 3]))
+
+(facts
  "about ops that take one or more columns or scalars
   and return either a scalar or a column"
  (let [ops [/ - +]

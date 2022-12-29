@@ -54,7 +54,13 @@
                      {:new-args '([col percentiles] [col percentiles options])
                       :new-args-lookup {'data 'col,
                                         'percentages 'percentiles,
-                                        'options 'options}}))})
+                                        'options 'options}}))
+   ['shift] (fn [fn-sym fn-meta]
+              (lift-op
+               fn-sym fn-meta
+               {:new-args '([col n])
+                :new-args-lookup {'rdr 'col
+                                  'n 'n}}))})
 
 
 (defn deserialize-lift-fn-lookup []
