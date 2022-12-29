@@ -69,7 +69,7 @@
      (op 5 5 5))))
 
 (facts
- "about ops that take left-hand / right-hand columns and returns a scalar"
+ "about ops that take left-hand / right-hand columns and return a scalar"
  (let [ops [distance
             dot-product
             distance-squared]
