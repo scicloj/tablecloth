@@ -42,6 +42,14 @@
      (op 1 2) => boolean?)))
 
 (facts
+ "about ops that take two columns and return a boolean"
+ (let [ops [equals]
+       a (sample-column 5)
+       b (sample-column 5)]
+   (doseq [op ops]
+     (op a b) => boolean?)))
+
+(facts
  "about ops that take a single column or scalar and return a scalar"
  (let [ops [kurtosis
             sum

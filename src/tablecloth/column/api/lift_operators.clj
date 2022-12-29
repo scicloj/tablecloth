@@ -13,6 +13,7 @@
     'distance
     'dot-product
     'eq
+    'equals
     'not-eq
     'or
     'distance-squared
