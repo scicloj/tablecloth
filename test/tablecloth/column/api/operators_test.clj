@@ -14,13 +14,15 @@
      :scalar))
 
 (facts
- "about [/ - +] ops"
+ "about ops that take one or more columns or scalars
+  and return either a scalar or a column"
  (let [ops [/ - +]
        a (sample-column 5)
        b (sample-column 5)
        c (sample-column 5)
        d (sample-column 5)]
    (doseq [op ops]
+     (op a) => column?
      (op a b) => column?
      (op a b c) => column?
      (op a b c d) => column?
