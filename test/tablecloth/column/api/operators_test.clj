@@ -65,14 +65,16 @@
      (op a) => scalar?)))
 
 (facts
- "about ops that take two or more scalars or columns and return a column"
+ "about ops that take two or more scalars or columns and return a column or scalar"
  (let [ops [*]
        a (sample-column 5)
        b (sample-column 5)
        c (sample-column 5)]
    (doseq [op ops]
      (op a b) => column?
-     (op a b c) => column?)))
+     (op a b c) => column?
+     (op 5 5)
+     (op 5 5 5))))
 
 (facts
  "about ops that take left-hand / right-hand columns and returns a scalar"
