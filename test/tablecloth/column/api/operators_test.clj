@@ -113,7 +113,7 @@
 (facts
  "about ops that take left-hand / right-hand columns or scalars 
   and returns boolean or column of booleans"
- (let [ops [#_or and eq not-eq]
+ (let [ops [or and eq not-eq]
        a (sample-column 5)
        b (sample-column 5)]
    (doseq [op ops]
