@@ -19,6 +19,13 @@
    (shift a 2) => [1 1 1 2 3]))
 
 (facts
+ "about ops that take a single column and return a column"
+ (let [ops [normalize]
+       a (sample-column 5)]
+   (doseq [op ops]
+     (op a) => column?)))
+
+(facts
  "about ops that take one or more columns or scalars
   and return either a scalar or a column"
  (let [ops [/ - +]

@@ -64,6 +64,16 @@
     original-result__41972__auto__))))
 
 (defn
+ normalize
+ ""
+ ([item]
+  (let
+   [original-result__41972__auto__
+    (tech.v3.datatype.functional/normalize item)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__41972__auto__))))
+
+(defn
  sum
  "Double sum of data using\n  [Kahan compensated summation](https://en.wikipedia.org/wiki/Kahan_summation_algorithm)."
  ([col]

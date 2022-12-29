@@ -14,6 +14,7 @@
     'dot-product
     'eq
     'equals
+    'normalize
     'not-eq
     'or
     'distance-squared
