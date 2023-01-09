@@ -10,6 +10,16 @@
     '<
     '<=
     '*
+    'bit-and
+    'bit-and-not
+    'bit-clear
+    'bit-flip
+    'bit-or
+    'bit-set
+    'bit-shift-right
+    'bit-shift-left
+    ;; 'bit-test
+    'bit-xor
     'distance
     'dot-product
     'eq
@@ -64,6 +74,7 @@
                 :new-args-lookup {'rdr 'col
                                   'n 'n}}))})
 
+(tech.v3.datatype.functional/bit-set [1 2 3] 1)
 
 (defn deserialize-lift-fn-lookup []
   (reduce (fn [m [symlist liftfn]]
@@ -86,7 +97,9 @@
   (do-lift (deserialize-lift-fn-lookup)
            'tablecloth.column.api.operators
            'tech.v3.datatype.functional
-           '[+ - / < <= > >= * neg? pos? odd? even? zero? not odd? or and]
+           '[+ - / < <= > >= * neg? pos? odd? even? zero? not odd? or and
+             bit-and bit-and-not bit-clear bit-flip bit-or bit-set
+             bit-shift-right bit-shift-left bit-test bit-xor]
            "src/tablecloth/column/api/operators.clj")
   ,)
 
