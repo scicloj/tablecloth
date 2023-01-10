@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [concat])
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
-            [tech.v3.protocols.dataset :as prot]
+            [tech.v3.dataset.protocols :as prot]
             [tech.v3.dataset.print :as p]
             [tech.v3.tensor :as tensor]
             [tech.v3.dataset.tensor :as ds-tensor]
@@ -17,7 +17,7 @@
 (defn dataset?
   "Is `ds` a `dataset` type?"
   [ds]
-  (satisfies? prot/PColumnarDataset ds))
+  (prot/is-dataset? ds))
 
 (defn empty-ds?
   [ds]
@@ -66,7 +66,7 @@
           :or {single-value-column-name :$value layout :as-rows stack-trace? false error-column? true}
           :as options}]
    (cond
-     (dataset? data) data
+     (prot/is-dataset? data) data
      (map-inst? data) (ds/->dataset data options)
      (and (iterable-sequence? data)
           (every? iterable-sequence? data)

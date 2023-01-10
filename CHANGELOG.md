@@ -1,5 +1,14 @@
 # Change Log
 
+## [7.000-beta-16]
+
+Updated to TMD v7
+
+Differences:
+
+* the order of columns is persisted in more cases
+* the order of groups in grouped dataset can be random
+
 ## [6.103.1]
 
 ## Added

@@ -5,7 +5,7 @@
             [tech.v3.dataset.join :as j]
             [tech.v3.datatype.functional :as dfn]
             [clojure.string :as str]
-            [clojure.test :as t]))
+            [tech.v3.datatype.argops :as aop]))
 
 (ds/concat
  (ds/new-dataset [(c/new-column :a [])])
@@ -530,6 +530,99 @@ agg
 
 (tc/aggregate-columns stocks count)
 
-(-> DS
-    (tc/drop-columns :V4)
-    (tc/aggregate-columns #(reduce + %)))
+(ds/descriptive-stats stocks)
+
+;; the exception around `tech.v3.dataset.format-sequence/formatter`
+
+(def stats (ds/descriptive-stats stocks))
+(seq stats)
+
+;; => ([:col-name #tech.v3.dataset.column<keyword>[3]
+;;    :col-name
+;;    [:date, :price, :symbol]]
+;;     [:datatype #tech.v3.dataset.column<keyword>[3]
+;;    :datatype
+;;    [:packed-local-date, :float64, :string]]
+;;     [:n-valid #tech.v3.dataset.column<int64>[3]
+;;    :n-valid
+;;    [560, 560, 560]]
+;;     [:n-missing #tech.v3.dataset.column<int64>[3]
+;;    :n-missing
+;;    [0, 0, 0]]
+;;     [:min #tech.v3.dataset.column<object>[3]
+;;    :min
+;;    [2000-01-01, 5.970, ]]
+;;     [:mean #tech.v3.dataset.column<object>[3]
+;;    :mean
+;;    [2005-05-12, 100.7, ]]
+;;     [:mode #tech.v3.dataset.column<string>[3]
+;;    :mode
+;;    [MSFT]]
+;;     [:max #tech.v3.dataset.column<object>[3]
+;;    :max
+;;    [2010-03-01, 707.0, ]]
+;;     [:standard-deviation #tech.v3.dataset.column<float64>[3]
+;;    :standard-deviation
+;;    [9.250E+10, 132.6, ]]
+;;     [:skew #tech.v3.dataset.column<float64>[3]
+;;    :skew
+;;    [-0.1389, 2.413, ]]
+;;     [:first #tech.v3.dataset.column<object>[3]
+;;    :first
+;;    [2000-01-01, 39.81, MSFT]]
+;;     [:last #tech.v3.dataset.column<object>[3]
+;;    :last
+;;    [2010-03-01, 223.0, AAPL]])
+
+;;
+
+(tc/by-rank DS :V3 zero?) ;; most V3 values
+
+(tc/by-rank DS :V3 zero? {:desc? false}) ;; least V3 values
+
+(tc/by-rank DS :V3 zero? {:desc? false}) ;; least V3 values
+
+(tc/by-rank DS [:V1 :V3] zero? {:desc? false})
+
+(defonce flights (tc/dataset "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"))
+
+(->> flights
+     (ds/mapseq-reader)
+     (aop/argfilter (comp boolean (fn [row] (and (= (get row "origin") "JFK")
+                                                (= (get row "month") 6))))))
+
+
+(-> flights
+    (tc/select-rows #(= (get % "carrier") "AA"))
+    #_(tc/group-by ["origin" "dest" "month"])
+    (tc/select-columns ["origin" "dest" "month"])
+    (ds/group-by->indexes identity)
+    #_    (tc/aggregate [#(dfn/mean (% "arr_delay"))
+                         #(dfn/mean (% "dep_delay"))])
+    #_(tc/head 10)
+    )
+;; => _unnamed [200 3]:
+;;    |                                      :name | :group-id |                                                       :data |
+;;    |--------------------------------------------|----------:|-------------------------------------------------------------|
+;;    |  {"origin" "LGA", "dest" "ORD", "month" 1} |         0 |  Group: {"origin" "LGA", "dest" "ORD", "month" 1} [343 11]: |
+;;    |  {"origin" "JFK", "dest" "SEA", "month" 1} |         1 |   Group: {"origin" "JFK", "dest" "SEA", "month" 1} [28 11]: |
+;;    |  {"origin" "EWR", "dest" "DFW", "month" 1} |         2 |  Group: {"origin" "EWR", "dest" "DFW", "month" 1} [159 11]: |
+;;    |  {"origin" "JFK", "dest" "STT", "month" 1} |         3 |   Group: {"origin" "JFK", "dest" "STT", "month" 1} [29 11]: |
+;;    |  {"origin" "JFK", "dest" "SJU", "month" 1} |         4 |   Group: {"origin" "JFK", "dest" "SJU", "month" 1} [88 11]: |
+;;    |  {"origin" "LGA", "dest" "MIA", "month" 1} |         5 |  Group: {"origin" "LGA", "dest" "MIA", "month" 1} [400 11]: |
+;;    |  {"origin" "JFK", "dest" "MIA", "month" 1} |         6 |  Group: {"origin" "JFK", "dest" "MIA", "month" 1} [179 11]: |
+;;    |  {"origin" "LGA", "dest" "DFW", "month" 1} |         7 |  Group: {"origin" "LGA", "dest" "DFW", "month" 1} [372 11]: |
+;;    |  {"origin" "EWR", "dest" "MIA", "month" 1} |         8 |   Group: {"origin" "EWR", "dest" "MIA", "month" 1} [89 11]: |
+;;    |  {"origin" "LGA", "dest" "PBI", "month" 1} |         9 |   Group: {"origin" "LGA", "dest" "PBI", "month" 1} [58 11]: |
+;;    |                                        ... |       ... |                                                         ... |
+;;    | {"origin" "JFK", "dest" "SEA", "month" 10} |       189 |  Group: {"origin" "JFK", "dest" "SEA", "month" 10} [31 11]: |
+;;    | {"origin" "LGA", "dest" "ORD", "month" 10} |       190 | Group: {"origin" "LGA", "dest" "ORD", "month" 10} [487 11]: |
+;;    | {"origin" "EWR", "dest" "DFW", "month" 10} |       191 | Group: {"origin" "EWR", "dest" "DFW", "month" 10} [161 11]: |
+;;    | {"origin" "JFK", "dest" "AUS", "month" 10} |       192 |  Group: {"origin" "JFK", "dest" "AUS", "month" 10} [31 11]: |
+;;    | {"origin" "EWR", "dest" "MIA", "month" 10} |       193 |  Group: {"origin" "EWR", "dest" "MIA", "month" 10} [61 11]: |
+;;    | {"origin" "LGA", "dest" "DFW", "month" 10} |       194 | Group: {"origin" "LGA", "dest" "DFW", "month" 10} [398 11]: |
+;;    | {"origin" "LGA", "dest" "MIA", "month" 10} |       195 | Group: {"origin" "LGA", "dest" "MIA", "month" 10} [278 11]: |
+;;    | {"origin" "JFK", "dest" "MIA", "month" 10} |       196 | Group: {"origin" "JFK", "dest" "MIA", "month" 10} [217 11]: |
+;;    | {"origin" "EWR", "dest" "PHX", "month" 10} |       197 |  Group: {"origin" "EWR", "dest" "PHX", "month" 10} [31 11]: |
+;;    | {"origin" "JFK", "dest" "MCO", "month" 10} |       198 |  Group: {"origin" "JFK", "dest" "MCO", "month" 10} [62 11]: |
+;;    | {"origin" "JFK", "dest" "DCA", "month" 10} |       199 |  Group: {"origin" "JFK", "dest" "DCA", "month" 10} [31 11]: |
