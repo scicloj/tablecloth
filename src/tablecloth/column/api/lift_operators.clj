@@ -10,6 +10,7 @@
     '<
     '<=
     '*
+    'atan2
     'bit-and
     'bit-and-not
     'bit-clear
@@ -18,17 +19,24 @@
     'bit-set
     'bit-shift-right
     'bit-shift-left
-    ;; 'bit-test
+    ;; 'bit-test - what's the call signature for this fn? 
     'bit-xor
     'distance
     'dot-product
     'eq
     'equals
+    'hypot
     'ieee-remainder
+    'max
     'magnitude
+    'min
     'normalize
     'not-eq
     'or
+    'pow
+    'quot
+    'rem
+    'unsigned-bit-shift-right
     'distance-squared
     'and] lift-op
    ['kurtosis
@@ -100,8 +108,7 @@
            'tech.v3.datatype.functional
            '[+ - / < <= > >= * neg? pos? odd? even? zero? not odd? or and
              bit-and bit-and-not bit-clear bit-flip bit-or bit-set
-             bit-shift-right bit-shift-left bit-test bit-xor]
+             bit-shift-right bit-shift-left bit-test bit-xor max min]
            "src/tablecloth/column/api/operators.clj")
   ,)
-
 

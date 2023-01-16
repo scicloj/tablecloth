@@ -1,7 +1,7 @@
 (ns tablecloth.column.api.operators-test
   (:refer-clojure :exclude [+ - / < <= > >= * neg? pos? odd? even? zero? not odd? or and
                             bit-and bit-and-not bit-clear bit-flip bit-or bit-set
-                            bit-shift-right bit-shift-left bit-test bit-xor])
+                            bit-shift-right bit-shift-left bit-test bit-xor max min])
   (:require [midje.sweet :refer [fact facts =>]]
             [clojure.test :refer [deftest is]]
             [tablecloth.column.api :refer [column column? typeof]])
@@ -76,7 +76,6 @@
    (doseq [op ops]
      (op a) => scalar?)))
 
-
 (facts
  "about ops that take two or more scalars or columns and return a column or scalar"
  (let [ops [*
@@ -90,7 +89,14 @@
             bit-shift-left
             ;; bit-test
             bit-xor
+            hypot
             ieee-remainder
+            max
+            min
+            pow
+            quot
+            rem
+            unsigned-bit-shift-right
             ]
        a (sample-column 5)
        b (sample-column 5)
