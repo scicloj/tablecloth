@@ -1,7 +1,8 @@
 (ns tablecloth.column.api.operators-test
   (:refer-clojure :exclude [+ - / < <= > >= * neg? pos? odd? even? zero? not odd? or and
                             bit-and bit-and-not bit-clear bit-flip bit-or bit-set
-                            bit-shift-right bit-shift-left bit-test bit-xor max min])
+                            bit-shift-right bit-shift-left bit-test bit-xor max min quot rem
+                            unsigned-bit-shift-right])
   (:require [midje.sweet :refer [fact facts =>]]
             [clojure.test :refer [deftest is]]
             [tablecloth.column.api :refer [column column? typeof]])
