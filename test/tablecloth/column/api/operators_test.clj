@@ -90,6 +90,7 @@
             bit-shift-left
             ;; bit-test
             bit-xor
+            ieee-remainder
             ]
        a (sample-column 5)
        b (sample-column 5)

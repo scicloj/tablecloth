@@ -24,6 +24,7 @@
     'dot-product
     'eq
     'equals
+    'ieee-remainder
     'magnitude
     'normalize
     'not-eq
