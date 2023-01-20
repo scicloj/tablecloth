@@ -123,7 +123,7 @@
 
   * `ds` - a dataset
   * `column-name` - if it's existing column name, column will be replaced
-  * `column` - can be column (from other dataset), sequence, single value or function. Too big columns are always trimmed. Too small are cycled or extended with missing values (according to `size-strategy` argument)
+  * `column` - can be column (from other dataset), sequence, single value or function (taking a dataset). Too big columns are always trimmed. Too small are cycled or extended with missing values (according to `size-strategy` argument)
   * `size-strategy` (optional) - when new column is shorter than dataset row count, following strategies are applied:
     - `:cycle` - repeat data
     - `:na` - append missing values
@@ -170,6 +170,7 @@
      (do-update-columns ds lst))))
 
 (defn map-columns
+  "Map over rows using a map function. The arity should match the columns selected."
   ([ds column-name map-fn] (map-columns ds column-name nil column-name map-fn))
   ([ds column-name columns-selector map-fn] (map-columns ds column-name nil columns-selector map-fn))
   ([ds column-name new-type columns-selector map-fn]

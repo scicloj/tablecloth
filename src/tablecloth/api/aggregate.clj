@@ -65,6 +65,7 @@
 
 (defn aggregate-columns
   "Aggregates each column separately"
+  ([ds columns-aggregators] (aggregate-columns ds (column-names ds) columns-aggregators))
   ([ds columns-selector column-aggregators] (aggregate-columns ds columns-selector column-aggregators nil))
   ([ds columns-selector column-aggregators options]
    (let [aggregators (if (iterable-sequence? column-aggregators)

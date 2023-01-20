@@ -81,6 +81,16 @@
   (if (empty-ds? ds) ds (ufn ds)))
 
 (defn unique-by
+  "Remove rows which contains the same data
+  `column-selector` Select columns for uniqueness
+  `strategy` There are 4 strategies defined to handle duplicates
+
+    `:first` - select first row (default)
+    `:last` - select last row
+    `:random` - select random row
+    any function - apply function to a columns which are subject of uniqueness"
+
+
   ([ds] (unique-by ds (ds/column-names ds)))
   ([ds columns-selector] (unique-by ds columns-selector nil))
   ([ds columns-selector {:keys [strategy select-keys parallel?]

@@ -2,12 +2,13 @@
   (:refer-clojure :exclude [concat])
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
-            [tech.v3.protocols.dataset :as prot]
+            [tech.v3.dataset.protocols :as prot]
             [tech.v3.dataset.print :as p]
             [tech.v3.tensor :as tensor]
             [tech.v3.dataset.tensor :as ds-tensor]
             
-            [tablecloth.api.utils :refer [iterable-sequence? grouped? mark-as-group map-inst?]]))
+            [tablecloth.api.utils :refer [iterable-sequence? grouped? mark-as-group map-inst?]])
+  (:import [java.io FileNotFoundException]))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; DATASET CREATION
@@ -16,7 +17,7 @@
 (defn dataset?
   "Is `ds` a `dataset` type?"
   [ds]
-  (satisfies? prot/PColumnarDataset ds))
+  (prot/is-dataset? ds))
 
 (defn empty-ds?
   [ds]
@@ -65,7 +66,7 @@
           :or {single-value-column-name :$value layout :as-rows stack-trace? false error-column? true}
           :as options}]
    (cond
-     (dataset? data) data
+     (prot/is-dataset? data) data
      (map-inst? data) (ds/->dataset data options)
      (and (iterable-sequence? data)
           (every? iterable-sequence? data)
@@ -82,6 +83,7 @@
      (and (not data)
           column-names) (ds/new-dataset options (map (fn [n] (ds/new-column n [])) column-names))
      :else (try (ds/->dataset data options)
+                (catch FileNotFoundException fnfe (throw fnfe))
                 ;; create a singleton
                 (catch Exception e
                   (do
@@ -104,6 +106,9 @@
            {:dataset-name (str (ds/dataset-name ds) " :column info")}))
 
 (defn info
+  "Returns a statistcial information about the columns of a dataset.
+  `result-type ` can be :descriptive or :columns
+  "
   ([ds] (info ds :descriptive))
   ([ds result-type]
    (condp = result-type
@@ -119,6 +124,8 @@
                          :rows (ds/row-count ds)
                          :columns (ds/column-count ds)))
                 {:dataset-name (str nm " :basic info")})))))
+
+
 
 (defn columns
   "Returns columns of dataset. Result type can be any of:
@@ -150,8 +157,18 @@
      (ds/value-reader ds))))
 
 (defn print-dataset
+  "Prints dataset into console. For options see
+  tech.v3.dataset.print/dataset-data->str
+"
   ([ds] (println (p/dataset->str ds)))
   ([ds options] (println (p/dataset->str ds options))))
+
+;;
+
+(defn get-entry
+  "Returns a single value from given column and row"
+  [ds column row]
+  (get-in ds [column row]))
 
 ;;
 
@@ -165,5 +182,11 @@
           (mark-as-group))
       res)))
 
-(defn concat [dataset & datasets] (apply do-concat ds/concat dataset datasets))
-(defn concat-copying [dataset & datasets] (apply do-concat ds/concat-copying dataset datasets))
+(defn concat
+  "Joins rows from other datasets"
+  [dataset & datasets]
+  (apply do-concat ds/concat dataset datasets))
+
+(defn concat-copying
+  "Joins rows from other datasets via a copy of data"
+  [dataset & datasets] (apply do-concat ds/concat-copying dataset datasets))

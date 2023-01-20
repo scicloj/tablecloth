@@ -7,10 +7,11 @@
             [clojure.set :as s]
 
             [tablecloth.api.dataset :refer [dataset?]]
+            [tablecloth.api.rows :refer [select-rows drop-rows]]
             [tablecloth.api.join-separate :refer [join-columns]]
-            [tablecloth.api.missing :refer [select-missing drop-missing]]
             [tablecloth.api.columns :refer [drop-columns select-columns]]
-            [tablecloth.api.utils :refer [column-names grouped? process-group-data]]))
+            [tablecloth.api.utils :refer [column-names grouped? process-group-data]])
+  (:import [org.roaringbitmap RoaringBitmap]))
 
 ;; joins
 
@@ -59,6 +60,7 @@
                 [asof-join j/left-join-asof]])
 
 (defn full-join
+  "Join keeping all rows"
   ([ds-left ds-right columns-selector] (full-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (let [rj (right-join ds-left ds-right columns-selector options)]
@@ -67,27 +69,29 @@
          (ds/unique-by identity)
          (with-meta (assoc (meta rj) :name "full-join"))))))
 
-(defn semi-join
-  ([ds-left ds-right columns-selector] (semi-join ds-left ds-right columns-selector nil))
-  ([ds-left ds-right columns-selector options]
-   (let [lj (left-join ds-left ds-right columns-selector options)]
+(defn- anti-semi-join-fn
+  ([nm rows-fn join-column-name dsl dsr] (anti-semi-join-fn nm rows-fn join-column-name dsl dsr nil))
+  ([nm rows-fn join-column-name dsl dsr options]
+   (let [lj (j/left-join join-column-name dsl dsr options)
+         right-columns (:right-column-names (meta lj))
+         ^RoaringBitmap missing-column (col/missing (lj (right-columns (if (vector? join-column-name)
+                                                                         (second join-column-name)
+                                                                         join-column-name))))
+         ^RoaringBitmap left-column (col/missing (lj (if (vector? join-column-name)
+                                                       (first join-column-name)
+                                                       join-column-name)))]
      (-> lj
-         (drop-missing)
-         (drop-columns (vals (:right-column-names (meta lj))))
+         (rows-fn (RoaringBitmap/andNot missing-column left-column))
+         (drop-columns (vals right-columns))
          (ds/unique-by identity)
-         (vary-meta assoc :name "semi-join")))))
+         (vary-meta assoc :name nm)))))
 
-(defn anti-join
-  ([ds-left ds-right columns-selector] (anti-join ds-left ds-right columns-selector nil))
-  ([ds-left ds-right columns-selector options]
-   (let [lj (left-join ds-left ds-right columns-selector options)]
-     (-> lj
-         (select-missing)
-         (drop-columns (vals (:right-column-names (meta lj))))
-         (ds/unique-by identity)
-         (vary-meta assoc :name "anti-join")))))
+(make-join-fns [[anti-join (partial anti-semi-join-fn "anti-join" select-rows)]
+                [semi-join (partial anti-semi-join-fn "semi-join" drop-rows)]])
+
 
 (defn cross-join
+  "Cross product from selected columns"
   ([ds-left ds-right] (cross-join ds-left ds-right :all))
   ([ds-left ds-right columns-selector] (cross-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector {:keys [unique?] :or {unique? false} :as options}]
@@ -115,7 +119,7 @@
 (defn complete
   "TidyR complete.
 
-  Fills a dataset with all possible combinations of selected columns. When given combination wasn't existed, missing values are created."
+  Fills a dataset with all possible combinations of selected columns. When a given combination doesn't exist, missing values are created."
   [ds columns-selector & r]
   (if (grouped? ds)
     (process-group-data ds #(apply complete % columns-selector r) true)
@@ -170,5 +174,6 @@
 ;;
 
 (defn append
+  "Concats columns of several datasets"
   [ds & datasets]
   (reduce #(ds/append-columns %1 (ds/columns %2)) ds datasets))

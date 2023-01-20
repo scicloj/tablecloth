@@ -1,5 +1,56 @@
 # Change Log
 
+## [7.000-beta-16]
+
+Updated to TMD v7
+
+Differences:
+
+* the order of columns is persisted in more cases
+* the order of groups in grouped dataset can be random
+
+## [6.103.1]
+
+## Added
+
+* doc strings for every funcitons, #87, #88
+* aggregate-columns should default to all columns when called without a column selector #91
+* create functions for packing / unpacking columns to arrays #82
+
+## Changed
+
+* [breaking] when dataset file do not exists throw an exception #84, #85
+
+## [6.103]
+
+Clojure upgraded to 1.11.1 
+
+## Added
+
+* `separate-column` infers column names when function is used and `target-columns` is `nil`, [#78](https://github.com/scicloj/tablecloth/issues/78)
+
+## Changed
+
+* [breaking][minor] `separate-column` repleces source column with target on every case 
+
+## [6.102]
+
+### Fixed
+
+* replace `clojure.core/pmap` with `dtype-next` version (related to [#325](https://github.com/techascent/tech.ml.dataset/issues/325))
+
+## [6.101]
+
+### Added
+
+`get-entry` introduced
+
+## [6.094.1]
+
+### Fixed
+
+* [#77] `anti-join` and `semi-join` bugs when tables contain missing values
+
 ## [6.094]
 
 ### Added
