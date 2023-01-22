@@ -2,11 +2,12 @@
   (:refer-clojure :exclude [+ - / < <= > >= * neg? pos? odd? even? zero? not odd? or and
                             bit-and bit-and-not bit-clear bit-flip bit-or bit-set
                             bit-shift-right bit-shift-left bit-test bit-xor max min quot rem
-                            unsigned-bit-shift-right])
+                            unsigned-bit-shift-right identity infinite? abs bit-not])
   (:require [midje.sweet :refer [fact facts =>]]
             [clojure.test :refer [deftest is]]
             [tablecloth.column.api :refer [column column? typeof]])
   (:use [tablecloth.column.api.operators]))
+
 
 (defn sample-column [n]
   (column (repeatedly n #(rand-int 100))))
@@ -22,7 +23,38 @@
 
 (facts
  "about ops that take a single column and return a column"
- (let [ops [normalize]
+ (let [ops [abs
+            acos
+            asin
+            atan
+            bit-not
+            cbrt
+            ceil
+            cos
+            cosh
+            exp
+            expm1
+            floor
+            get-significand
+            identity
+            log
+            log10
+            log1p
+            logistic
+            next-down
+            next-up
+            normalize
+            rint
+            signum
+            sin
+            sinh
+            sq
+            sqrt
+            tan
+            tanh
+            to-degrees
+            to-radians
+            ulp]
        a (sample-column 5)]
    (doseq [op ops]
      (op a) => column?)))
@@ -156,3 +188,9 @@
      (typeof (op a b)) => :boolean
      (op 1 2) => boolean?)))
 
+
+(comment
+
+  (tech.v3.datatype.functional/to-radians [1 2 3])
+  
+  )
