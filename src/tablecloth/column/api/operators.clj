@@ -3,42 +3,42 @@
  (:require [tech.v3.datatype.functional] [tablecloth.column.api.utils])
  (:refer-clojure
   :exclude
-  [+
+  [*
+   +
    -
    /
    <
    <=
    >
    >=
-   *
-   neg?
-   pos?
-   odd?
-   even?
-   zero?
-   not
-   odd?
-   or
+   abs
    and
    bit-and
    bit-and-not
    bit-clear
    bit-flip
+   bit-not
    bit-or
    bit-set
-   bit-shift-right
    bit-shift-left
+   bit-shift-right
    bit-test
    bit-xor
+   even?
+   identity
+   infinite?
    max
    min
+   neg?
+   not
+   odd?
+   odd?
+   or
+   pos?
    quot
    rem
    unsigned-bit-shift-right
-   identity
-   infinite?
-   abs
-   bit-not]))
+   zero?]))
 
 (defn
  kurtosis

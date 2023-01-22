@@ -137,10 +137,11 @@
   (do-lift (deserialize-lift-fn-lookup)
            'tablecloth.column.api.operators
            'tech.v3.datatype.functional
-           '[+ - / < <= > >= * neg? pos? odd? even? zero? not odd? or and
-             bit-and bit-and-not bit-clear bit-flip bit-or bit-set
-             bit-shift-right bit-shift-left bit-test bit-xor max min quot rem
-             unsigned-bit-shift-right identity infinite? abs bit-not]
+           '[* + - / < <= > >= abs and bit-and bit-and-not bit-clear bit-flip
+             bit-not bit-or bit-set bit-shift-left bit-shift-right bit-test bit-xor
+             even? identity infinite? max min neg? not odd? odd? or pos? quot rem
+             unsigned-bit-shift-right zero?]
            "src/tablecloth/column/api/operators.clj")
   ,)
+
 
