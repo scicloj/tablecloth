@@ -84,17 +84,18 @@
                {:new-args '([col] [col options])
                 :new-args-lookup {'data 'col
                                   'options 'options}}))
-   ['finite?
-    'pos?
-    'neg?
+   ['even?
+    'finite?
+    'infinite?
     'mathematical-integer?
     'nan?
-    'even?
-    'zero?
+    'neg?
     'not
-    'infinite?
+    'odd?
+    'pos?
     'round
-    'odd?] (fn [fn-sym fn-meta]
+    'zero?]
+   (fn [fn-sym fn-meta]
              (lift-op
               fn-sym fn-meta
               {:new-args '([col] [col options])
@@ -113,8 +114,6 @@
                {:new-args '([col n])
                 :new-args-lookup {'rdr 'col
                                   'n 'n}}))})
-
-(tech.v3.datatype.functional/bit-set [1 2 3] 1)
 
 (defn deserialize-lift-fn-lookup []
   (reduce (fn [m [symlist liftfn]]
