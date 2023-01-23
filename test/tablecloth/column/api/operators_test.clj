@@ -84,7 +84,10 @@
             reduce-max
             reduce-min
             reduce-*
-            reduce-+]
+            reduce-+
+            mean-fast
+            sum-fast
+            magnitude-squared]
        a (sample-column 5)]
    (doseq [op ops]
      (op a) => scalar?)))

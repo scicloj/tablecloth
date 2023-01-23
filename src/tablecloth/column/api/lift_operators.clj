@@ -145,7 +145,14 @@
                  (lift-op
                   fn-sym fn-meta
                   {:new-args '([x])
-                   :new-args-lookup {'rdr 'x}}))})
+                   :new-args-lookup {'rdr 'x}}))
+  ['mean-fast
+   'sum-fast
+   'magnitude-squared] (fn [fn-sym fn-meta]
+                         (lift-op
+                          fn-sym fn-meta
+                          {:new-args '([x])
+                           :new-args-lookup {'data 'x}}))})
 
 (defn deserialize-lift-fn-lookup []
   (reduce (fn [m [symlist liftfn]]
@@ -167,5 +174,3 @@
              unsigned-bit-shift-right zero?]
            "src/tablecloth/column/api/operators.clj")
   ,)
-
-

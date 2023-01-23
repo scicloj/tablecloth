@@ -971,6 +971,16 @@
     original-result__70535__auto__))))
 
 (defn
+ mean-fast
+ "Take the mean of the data.  This operation doesn't know anything about nan hence it is\n  a bit faster than the base [[mean]] fn."
+ ([x]
+  (let
+   [original-result__70534__auto__
+    (tech.v3.datatype.functional/mean-fast x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__70534__auto__))))
+
+(defn
  zero?
  ""
  ([x]
@@ -1520,6 +1530,16 @@
     original-result__70535__auto__))))
 
 (defn
+ sum-fast
+ "Find the sum of the data.  This operation is neither nan-aware nor does it implement\n  kahans compensation although via parallelization it implements pairwise summation\n  compensation.  For a more but slightly slower but far more correct sum operator,\n  use [[sum]]."
+ ([x]
+  (let
+   [original-result__70534__auto__
+    (tech.v3.datatype.functional/sum-fast x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__70534__auto__))))
+
+(defn
  signum
  ""
  ([x options]
@@ -1534,6 +1554,16 @@
     (tech.v3.datatype.functional/signum x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__70535__auto__))))
+
+(defn
+ magnitude-squared
+ ""
+ ([x]
+  (let
+   [original-result__70534__auto__
+    (tech.v3.datatype.functional/magnitude-squared x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__70534__auto__))))
 
 (defn
  and
