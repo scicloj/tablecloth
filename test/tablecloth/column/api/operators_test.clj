@@ -67,8 +67,7 @@
      (op a) => scalar?)))
 
 (facts
- "about ops that take one or more columns or scalars
-  and return either a scalar or a column"
+ "about ops that take one or more columns or scalars and return either a scalar or a column"
  (let [ops [/ - +]
        a (sample-column 5)
        b (sample-column 5)
@@ -84,7 +83,7 @@
      (op 1 2 3) => scalar?)))
 
 (facts
- "about [> >= < <=]"
+ "about comparator ops that take two or more columns and return a boolean"
  (let [ops [> >= < <=]
        a (sample-column 5)
        b (sample-column 5)
@@ -151,8 +150,7 @@
      (op a b) => scalar?)))
 
 (facts
- "about ops that take a single column or scalar 
-  and return boolean or column of booleans"
+ "about ops that take a single column or scalar and return boolean or column of booleans"
  (let [ops [finite?
             pos?
             neg?
@@ -187,10 +185,3 @@
      (op a b) => column?
      (typeof (op a b)) => :boolean
      (op 1 2) => boolean?)))
-
-
-(comment
-
-  (tech.v3.datatype.functional/to-radians [1 2 3])
-  
-  )
