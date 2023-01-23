@@ -1,8 +1,9 @@
 (ns tablecloth.api.group-by
-  (:refer-clojure :exclude [group-by])
+  (:refer-clojure :exclude [group-by pmap])
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
+            [tech.v3.parallel.for :refer [pmap]]
             
             [tablecloth.api.utils :refer [iterable-sequence? ->str column-names parallel-concat grouped? mark-as-group map-inst?]]
             [tablecloth.api.dataset :refer [dataset]]))
@@ -81,6 +82,7 @@
   (zipmap (ds :name) (ds :data)))
 
 (defn groups->seq
+  "Convert grouped dataset to seq of the groups"
   [ds]
   (assert (grouped? ds) "Apply on grouped dataset only")
   (seq (ds :data)))

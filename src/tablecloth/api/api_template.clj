@@ -38,6 +38,7 @@
                          info
                          columns
                          rows
+                         get-entry
                          print-dataset
                          concat
                          concat-copying)
@@ -93,7 +94,9 @@
 
 (exporter/export-symbols tablecloth.api.join-separate
                          join-columns
-                         separate-column)
+                         separate-column
+                         array-column->columns
+                         columns->array-column)
 
 (exporter/export-symbols tablecloth.api.fold-unroll
                          fold-by

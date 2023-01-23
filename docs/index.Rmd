@@ -476,6 +476,18 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (tc/rows ds :as-maps)))
 ```
 
+#### Single entry
+
+Get single value from the table using `get-in` from Clojure API or `get-entry`. First argument is column name, second is row number.
+
+```{clojure}
+(get-in ds ["wind" 2])
+```
+
+```{clojure}
+(tc/get-entry ds "wind" 2)
+```
+
 #### Printing
 
 Dataset is printed using `dataset->str` or `print-dataset` functions. Options are the same as in `tech.ml.dataset/dataset-data->str`. Most important is `:print-line-policy` which can be one of the: `:single`, `:repl` or `:markdown`.
@@ -1713,6 +1725,15 @@ You can perform columnar aggreagation also. `aggregate-columns` selects columns 
     (tc/aggregate-columns [:V1 :V2 :V3] #(reduce + %)))
 ```
 
+You can also aggregate whole dataset
+
+```{clojure results="asis"}
+(-> DS
+    (tc/drop-columns :V4)
+    (tc/aggregate-columns #(reduce + %)))
+```
+
+
 #### Crosstab
 
 Cross tabulation built from two sets of columns. First rows and cols are used to construct grouped dataset, then aggregation function is applied for each pair. By default it counts rows from each group.
@@ -1840,10 +1861,10 @@ Custom comparator also can be used in case objects are not comparable by default
 
 ```{clojure results="asis"}
 (tc/order-by DS [:V1 :V2 :V3] (fn [[x1 y1 z1 :as v1] [x2 y2 z2 :as v2]]
-                                 (let [d (dist v1 v2)]
-                                   (if (< d 2.0)
-                                     (compare z1 z2)
-                                     (compare [x1 y1] [x2 y2])))))
+                                (let [d (dist v1 v2)]
+                                  (if (< d 2.0)
+                                    (compare z1 z2)
+                                    (compare [x1 y1] [x2 y2])))))
 ```
 
 ### Unique
@@ -1976,9 +1997,9 @@ Let's define dataset which contains missing values
 
 ```{clojure results="hide"}
 (def DSm (tc/dataset {:V1 (take 9 (cycle [1 2 nil]))
-                       :V2 (range 1 10)
-                       :V3 (take 9 (cycle [0.5 1.0 nil 1.5]))
-                       :V4 (take 9 (cycle ["A" "B" "C"]))}))
+                      :V2 (range 1 10)
+                      :V3 (take 9 (cycle [0.5 1.0 nil 1.5]))
+                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
 ```
 
 ```{clojure results="asis"}
@@ -2047,9 +2068,9 @@ Missing values can be replaced using several strategies. `replace-missing` accep
 * column selector, default: `:all`
 * strategy, default: `:nearest`
 * value (optional)
-    - single value
-    - sequence of values (cycled)
-    - function, applied on column(s) with stripped missings
+- single value
+- sequence of values (cycled)
+- function, applied on column(s) with stripped missings
 
 Strategies are:
 
@@ -2066,7 +2087,7 @@ Let's define special dataset here:
 
 ```{clojure results="hide"}
 (def DSm2 (tc/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
-                        :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
+                       :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
 ```
 
 ```{clojure results="asis"}
@@ -2173,8 +2194,8 @@ Lerp works also on dates
 
 ```{clojure results="asis"}
 (-> (tc/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
-                       nil nil nil nil nil nil nil
-                       (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
+                      nil nil nil nil nil nil nil
+                      (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
     (tc/replace-missing :lerp))
 ```
 
@@ -2192,7 +2213,7 @@ When your column contains not continuous data range you can fill up with lacking
 
 ```{clojure results="asis"}
 (-> (tc/dataset {:a [1 2 9]
-                  :b [:a :b :c]})
+                 :b [:a :b :c]})
     (tc/fill-range-replace :a 1))
 ```
 
@@ -2210,14 +2231,14 @@ Joining or separating columns are operations which can help to tidy messy datase
 * dataset
 * column selector (as in `select-columns`)
 * options
-    - `:separator` (default `"-"`)
-    - `:drop-columns?` - whether to drop source columns or not (default `true`)
-    - `:result-type`
-        * `:map` - packs data into map
-        * `:seq` - packs data into sequence
-        * `:string` - join strings with separator (default)
-        * or custom function which gets row as a vector
-    - `:missing-subst` - substitution for missing value
+- `:separator` (default `"-"`)
+- `:drop-columns?` - whether to drop source columns or not (default `true`)
+- `:result-type`
+* `:map` - packs data into map
+* `:seq` - packs data into sequence
+* `:string` - join strings with separator (default)
+* or custom function which gets row as a vector
+- `:missing-subst` - substitution for missing value
 
 ---
 
@@ -2249,7 +2270,7 @@ We can use custom separator.
 
 ```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:separator "/"
-                                             :missing-subst "."})
+                                            :missing-subst "."})
 ```
 
 ---
@@ -2258,7 +2279,7 @@ Or even sequence of separators.
 
 ```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:separator ["-" "/"]
-                                             :missing-subst "."})
+                                            :missing-subst "."})
 ```
 
 ---
@@ -2298,6 +2319,7 @@ Grouped dataset
 
 ---
 
+
 ##### Tidyr examples
 
 [source](https://tidyr.tidyverse.org/reference/unite.html)
@@ -2333,16 +2355,16 @@ Column can be also separated into several other columns using string as separato
 
 * dataset
 * source column
-* target columns - can be `nil` or `:infer` if `separator` returns map
+* target columns - can be `nil` or `:infer` to automatically create columns
 * separator as:
     - string - it's converted to regular expression and passed to `clojure.string/split` function
     - regex
     - or custom function (default: identity)
 * options
-    - `:drop-columns?` - whether drop source column(s) or not (default: `true` or `:all` in case of empty `target-columns`). When set to `:all` keeps only separation result.
+    - `:drop-columns?` - whether drop source column(s) or not (default: `true`). Set to `:all` to keep only separation result.
     - `:missing-subst` - values which should be treated as missing, can be set, sequence, value or function (default: `""`)
 
-Custom function (as separator) should return seqence of values for given value.
+Custom function (as separator) should return seqence of values for given value or a sequence of map.
 
 ---
 
@@ -2389,7 +2411,7 @@ Works on grouped dataset
 
 ---
 
-Separate using separator returning sequence of maps, in this case we drop all other columns.
+Separate using separator returning sequence of maps.
 
 ```{clojure results="asis"}
 (tc/separate-column DS :V3 (fn [^double v]
@@ -2403,6 +2425,21 @@ Keeping all columns
 (tc/separate-column DS :V3 nil (fn [^double v]
                                   {:int-part (int (quot v 1.0))
                                    :fract-part (mod v 1.0)}) {:drop-column? false})
+```
+
+Droping all colums but separated
+
+```{clojure results="asis"}
+(tc/separate-column DS :V3 nil (fn [^double v]
+                                 {:int-part (int (quot v 1.0))
+                                  :fract-part (mod v 1.0)}) {:drop-column? :all})
+```
+
+Infering column names
+
+```{clojure results="asis"}
+(tc/separate-column DS :V3 (fn [^double v]
+                             [(int (quot v 1.0)) (mod v 1.0)]))
 ```
 
 
@@ -2511,6 +2548,33 @@ Only `a,b,c,d` strings
 ```{clojure results="asis"}
 (tc/separate-column df-extract :x ["A" "B"] #"([a-d]+)-([a-d]+)")
 ```
+
+
+#### Array column conversion
+
+A dataset can have as well columns of type java array. We can convert
+from normal columns to a single array column and back like this:
+
+```{clojure result="asis"}
+(-> (tc/dataset {:x [(double-array [1 2 3])
+                     (double-array [4 5 6])]
+                 :y [:a :b]})
+    (tc/array-column->columns :x))
+
+```
+
+and the other way around:
+
+```{clojure result="asis"}
+(-> (tc/dataset {0 [0.0 1 2]
+                 1 [3.0 4 5]
+                 :x [:a :b :c]})
+    (tc/columns->array-column [0 1] :y))
+
+```
+
+
+
 
 ### Fold/Unroll Rows
 

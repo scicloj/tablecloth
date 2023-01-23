@@ -26,4 +26,5 @@
           (api/group-by :l)
           (api/aggregate (fn [ds] {:sum-of-b (reduce + (ds :b))})
                          {:default-column-name-prefix "xxx"})
-          (api/column-names)) => '(:xxx-sum-of-b :$group-name))
+          (api/column-names)
+          (set)) => #{:xxx-sum-of-b :$group-name})

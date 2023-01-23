@@ -186,6 +186,23 @@
     ((select-columns pre-ds join-name) join-name))
 
 (defn pivot->wider
+  "Converts columns to rows. Arguments:
+  * dataset
+  * columns selector
+  * options:
+    `:target-columns` - names of the columns created or columns pattern (see below) (default: :$column)
+    `:value-column-name` - name of the column for values (default: :$value)
+    `:splitter` - string, regular expression or function which splits source column names into data
+    `:drop-missing?` - remove rows with missing? (default: true)
+    `:datatypes` - map of target columns data types
+    `:coerce-to-number` - try to convert extracted values to numbers if possible (default: true)
+
+  * target-columns - can be:
+
+    * column name - source columns names are put there as a data
+    * column names as seqence - source columns names after split are put separately into :target-columns as data
+    * pattern - is a sequence of names, where some of the names are nil. nil is replaced by a name taken from splitter and such column is used for values.
+  "
   ([ds columns-selector value-columns] (pivot->wider ds columns-selector value-columns nil))
   ([ds columns-selector value-columns {:keys [fold-fn concat-columns-with concat-value-with drop-missing?]
                                        :or {concat-columns-with "_" concat-value-with "-" drop-missing? true}

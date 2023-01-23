@@ -1,6 +1,8 @@
 (ns tablecloth.api.utils
+  (:refer-clojure :exclude [pmap])
   (:require [tech.v3.dataset :as ds]
-            [tech.v3.io :as tio])
+            [tech.v3.io :as tio]
+            [tech.v3.parallel.for :refer [pmap]])
   (:import [java.util Map]))
 
 ;;;;;;;;;;;;
@@ -155,6 +157,36 @@
     (filter existing-names column-names)))
 
 (defn column-names
+  "Returns column names, given a selector.
+  Columns-selector can be one of the following:
+
+  * :all keyword - selects all columns
+  * column name - for single column
+  * sequence of column names - for collection of columns
+  * regex - to apply pattern on column names or datatype
+  * filter predicate - to filter column names or datatype
+  * type namespaced keyword for specific datatype or group of datatypes
+
+  Column name can be anything.
+
+column-names function returns names according to columns-selector
+  and optional meta-field. meta-field is one of the following:
+
+  * `:name` (default) - to operate on column names
+  * `:datatype` - to operated on column types
+  * `:all` - if you want to process all metadata
+
+  Datatype groups are:
+
+  * `:type/numerical` - any numerical type
+  * `:type/float` - floating point number (:float32 and :float64)
+  * `:type/integer` - any integer
+  * `:type/datetime` - any datetime type
+
+  If qualified keyword starts with :!type, complement set is used.
+
+
+  "
   ([ds] (column-names ds :all))
   ([ds columns-selector] (column-names ds columns-selector :name))
   ([ds columns-selector meta-field]
@@ -228,6 +260,7 @@
              :print-line-policy :single))
 
 (defn process-group-data
+  "Internal: The passed-in function is applied on all groups"
   ([ds f] (process-group-data ds f false))
   ([ds f parallel?]
    (ds/add-or-update-column ds :data ((if parallel? pmap map) f (ds :data)))))

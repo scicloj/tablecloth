@@ -40,5 +40,5 @@
    (let [colnames (column-names ds columns-selector)
          colnames-set (set colnames)]
      (if (grouped? ds)
-       (process-group-data ds #(process-unroll % colnames-set colnames options) (:parallel options))
+       (process-group-data ds #(process-unroll % colnames-set colnames options) (:parallel? options))
        (process-unroll ds colnames-set colnames options)))))

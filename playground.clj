@@ -4,7 +4,8 @@
             [tech.v3.dataset.column :as c]
             [tech.v3.dataset.join :as j]
             [tech.v3.datatype.functional :as dfn]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [tech.v3.datatype.argops :as aop]))
 
 (ds/concat
  (ds/new-dataset [(c/new-column :a [])])
@@ -402,3 +403,226 @@ agg
 ;;    |     :u | 0.62212172 | 2.57981844 | 0.52913219 | 2.43060934 |
 ;;    |     :u | 0.77436201 | 1.90787845 | 0.52913219 | 2.43060934 |
 ;;    |     :p | 0.95894755 | 4.35116263 | 0.52913219 | 2.43060934 |
+
+(def ds (tc/dataset {:a [1 2 3]
+                   :b [99 98 97]
+                   :c [:r :t :y]}))
+
+(tc/rows ds) ;; returns vector of rows as vectors
+;; => [[1 99 :r] [2 98 :t] [3 97 :y]]
+(tc/rows ds :as-maps) ;; returns vector of rows as columns
+;; => [{:a 1, :b 99, :c :r} {:a 2, :b 98, :c :t} {:a 3, :b 97, :c :y}]
+
+(tc/columns ds) ;; returns sequence of columns
+;; => [#tech.v3.dataset.column<int64>[3]
+;;    :a
+;;    [1, 2, 3] #tech.v3.dataset.column<int64>[3]
+;;    :b
+;;    [99, 98, 97] #tech.v3.dataset.column<keyword>[3]
+;;    :c
+;;    [:r, :t, :y]]
+
+(tc/column ds :c) ;; returns column
+;; => #tech.v3.dataset.column<keyword>[3]
+;;    :c
+;;    [:r, :t, :y]
+
+;; column is a sequence
+(seqable? (tc/column ds :c)) ;; => true
+(first (tc/column ds :c)) ;; => :r
+
+;; column is a vector
+(sequential? (tc/column ds :c)) ;; => true
+((tc/column ds :c) 0) ;; => :r
+
+(def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
+                      :V2 (range 1 10)
+                      :V3 (take 9 (cycle [0.5 1.0 1.5]))
+                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
+
+
+(tc/separate-column DS :V3 (fn [^double v]
+                                 [(int (quot v 1.0))
+                                  (mod v 1.0)]))
+
+(-> (tc/dataset {:x [1] :y [[2 3 9 10 11 22 33]]})
+    (tc/separate-column :y))
+;; => _unnamed [1 8]:
+;;    | :x | :y-0 | :y-1 | :y-2 | :y-3 | :y-4 | :y-5 | :y-6 |
+;;    |---:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|
+;;    |  1 |    2 |    3 |    9 |   10 |   11 |   22 |   33 |
+
+(-> (tc/dataset {:x [1] :y [[2 3 9 10 11 22 33]]})
+    (tc/separate-column :y reverse))
+;; => _unnamed [1 8]:
+;;    | :x | :y-0 | :y-1 | :y-2 | :y-3 | :y-4 | :y-5 | :y-6 |
+;;    |---:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|
+;;    |  1 |   33 |   22 |   11 |   10 |    9 |    3 |    2 |
+
+(-> (tc/dataset {:x [1] :y [[2 3 9 10 11 22 33]]})
+    (tc/separate-column :y (fn [input]
+                             (zipmap "somenames" input))))
+;; => _unnamed [1 7]:
+;;    | :x |  a | s |  e |  m |  n | o |
+;;    |---:|---:|--:|---:|---:|---:|--:|
+;;    |  1 | 22 | 2 | 10 | 33 | 11 | 3 |
+
+
+;;
+
+
+(let [col-names (map (partial str "row-") (range 10))]
+  (-> (tc/dataset {:x (range 10)
+                   :y (range 100 110)
+                   :z (seq "abcdefghij")})
+      (tc/rows)
+      (->> (zipmap col-names))
+      (tc/dataset)
+      (tc/select-columns col-names)))
+
+;; => _unnamed [3 10]:
+;;    | row-0 | row-1 | row-2 | row-3 | row-4 | row-5 | row-6 | row-7 | row-8 | row-9 |
+;;    |-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|
+;;    |     0 |     1 |     2 |     3 |     4 |     5 |     6 |     7 |     8 |     9 |
+;;    |   100 |   101 |   102 |   103 |   104 |   105 |   106 |   107 |   108 |   109 |
+;;    |     a |     b |     c |     d |     e |     f |     g |     h |     i |     j |
+
+(defonce stocks (tc/dataset "https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv" {:key-fn keyword}))
+
+(def price-index (-> (->> (stocks :price)
+                        (map-indexed vector)
+                        (group-by second))
+                   (update-vals (partial map first))
+                   (java.util.TreeMap.)))
+
+;; selection
+
+(-> stocks
+    (tc/select-rows (->> (.subMap price-index 10.0 true 20.0 false) ;; select range <10,20)
+                         (.values) ;; get indices
+                         (mapcat identity))))
+
+;; => https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv [61 3]:
+;;    | :symbol |      :date | :price |
+;;    |---------|------------|-------:|
+;;    |    AMZN | 2001-02-01 |  10.19 |
+;;    |    AMZN | 2001-03-01 |  10.23 |
+;;    |    AAPL | 2003-09-01 |  10.36 |
+;;    |    AAPL | 2003-11-01 |  10.45 |
+;;    |    AAPL | 2003-07-01 |  10.54 |
+;;    |    AAPL | 2001-11-01 |  10.65 |
+;;    |    AAPL | 2003-12-01 |  10.69 |
+;;    |    AAPL | 2001-01-01 |  10.81 |
+;;    |    AMZN | 2001-12-01 |  10.82 |
+;;    |    AAPL | 2002-02-01 |  10.85 |
+;;    |     ... |        ... |    ... |
+;;    |    AMZN | 2002-12-01 |  18.89 |
+;;    |    MSFT | 2008-12-01 |  18.91 |
+;;    |    MSFT | 2003-01-01 |  19.31 |
+;;    |    MSFT | 2003-02-01 |  19.34 |
+;;    |    AMZN | 2002-10-01 |  19.36 |
+;;    |    AAPL | 2004-09-01 |  19.38 |
+;;    |    MSFT | 2002-07-01 |  19.52 |
+;;    |    MSFT | 2008-11-01 |  19.66 |
+;;    |    MSFT | 2003-03-01 |  19.76 |
+;;    |    MSFT | 2009-04-01 |  19.84 |
+;;    |    MSFT | 2002-08-01 |  19.97 |
+
+(tc/aggregate-columns stocks count)
+
+(ds/descriptive-stats stocks)
+
+;; the exception around `tech.v3.dataset.format-sequence/formatter`
+
+(def stats (ds/descriptive-stats stocks))
+(seq stats)
+
+;; => ([:col-name #tech.v3.dataset.column<keyword>[3]
+;;    :col-name
+;;    [:date, :price, :symbol]]
+;;     [:datatype #tech.v3.dataset.column<keyword>[3]
+;;    :datatype
+;;    [:packed-local-date, :float64, :string]]
+;;     [:n-valid #tech.v3.dataset.column<int64>[3]
+;;    :n-valid
+;;    [560, 560, 560]]
+;;     [:n-missing #tech.v3.dataset.column<int64>[3]
+;;    :n-missing
+;;    [0, 0, 0]]
+;;     [:min #tech.v3.dataset.column<object>[3]
+;;    :min
+;;    [2000-01-01, 5.970, ]]
+;;     [:mean #tech.v3.dataset.column<object>[3]
+;;    :mean
+;;    [2005-05-12, 100.7, ]]
+;;     [:mode #tech.v3.dataset.column<string>[3]
+;;    :mode
+;;    [MSFT]]
+;;     [:max #tech.v3.dataset.column<object>[3]
+;;    :max
+;;    [2010-03-01, 707.0, ]]
+;;     [:standard-deviation #tech.v3.dataset.column<float64>[3]
+;;    :standard-deviation
+;;    [9.250E+10, 132.6, ]]
+;;     [:skew #tech.v3.dataset.column<float64>[3]
+;;    :skew
+;;    [-0.1389, 2.413, ]]
+;;     [:first #tech.v3.dataset.column<object>[3]
+;;    :first
+;;    [2000-01-01, 39.81, MSFT]]
+;;     [:last #tech.v3.dataset.column<object>[3]
+;;    :last
+;;    [2010-03-01, 223.0, AAPL]])
+
+;;
+
+(tc/by-rank DS :V3 zero?) ;; most V3 values
+
+(tc/by-rank DS :V3 zero? {:desc? false}) ;; least V3 values
+
+(tc/by-rank DS :V3 zero? {:desc? false}) ;; least V3 values
+
+(tc/by-rank DS [:V1 :V3] zero? {:desc? false})
+
+(defonce flights (tc/dataset "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"))
+
+(->> flights
+     (ds/mapseq-reader)
+     (aop/argfilter (comp boolean (fn [row] (and (= (get row "origin") "JFK")
+                                                (= (get row "month") 6))))))
+
+
+(-> flights
+    (tc/select-rows #(= (get % "carrier") "AA"))
+    #_(tc/group-by ["origin" "dest" "month"])
+    (tc/select-columns ["origin" "dest" "month"])
+    (ds/group-by->indexes identity)
+    #_    (tc/aggregate [#(dfn/mean (% "arr_delay"))
+                         #(dfn/mean (% "dep_delay"))])
+    #_(tc/head 10)
+    )
+;; => _unnamed [200 3]:
+;;    |                                      :name | :group-id |                                                       :data |
+;;    |--------------------------------------------|----------:|-------------------------------------------------------------|
+;;    |  {"origin" "LGA", "dest" "ORD", "month" 1} |         0 |  Group: {"origin" "LGA", "dest" "ORD", "month" 1} [343 11]: |
+;;    |  {"origin" "JFK", "dest" "SEA", "month" 1} |         1 |   Group: {"origin" "JFK", "dest" "SEA", "month" 1} [28 11]: |
+;;    |  {"origin" "EWR", "dest" "DFW", "month" 1} |         2 |  Group: {"origin" "EWR", "dest" "DFW", "month" 1} [159 11]: |
+;;    |  {"origin" "JFK", "dest" "STT", "month" 1} |         3 |   Group: {"origin" "JFK", "dest" "STT", "month" 1} [29 11]: |
+;;    |  {"origin" "JFK", "dest" "SJU", "month" 1} |         4 |   Group: {"origin" "JFK", "dest" "SJU", "month" 1} [88 11]: |
+;;    |  {"origin" "LGA", "dest" "MIA", "month" 1} |         5 |  Group: {"origin" "LGA", "dest" "MIA", "month" 1} [400 11]: |
+;;    |  {"origin" "JFK", "dest" "MIA", "month" 1} |         6 |  Group: {"origin" "JFK", "dest" "MIA", "month" 1} [179 11]: |
+;;    |  {"origin" "LGA", "dest" "DFW", "month" 1} |         7 |  Group: {"origin" "LGA", "dest" "DFW", "month" 1} [372 11]: |
+;;    |  {"origin" "EWR", "dest" "MIA", "month" 1} |         8 |   Group: {"origin" "EWR", "dest" "MIA", "month" 1} [89 11]: |
+;;    |  {"origin" "LGA", "dest" "PBI", "month" 1} |         9 |   Group: {"origin" "LGA", "dest" "PBI", "month" 1} [58 11]: |
+;;    |                                        ... |       ... |                                                         ... |
+;;    | {"origin" "JFK", "dest" "SEA", "month" 10} |       189 |  Group: {"origin" "JFK", "dest" "SEA", "month" 10} [31 11]: |
+;;    | {"origin" "LGA", "dest" "ORD", "month" 10} |       190 | Group: {"origin" "LGA", "dest" "ORD", "month" 10} [487 11]: |
+;;    | {"origin" "EWR", "dest" "DFW", "month" 10} |       191 | Group: {"origin" "EWR", "dest" "DFW", "month" 10} [161 11]: |
+;;    | {"origin" "JFK", "dest" "AUS", "month" 10} |       192 |  Group: {"origin" "JFK", "dest" "AUS", "month" 10} [31 11]: |
+;;    | {"origin" "EWR", "dest" "MIA", "month" 10} |       193 |  Group: {"origin" "EWR", "dest" "MIA", "month" 10} [61 11]: |
+;;    | {"origin" "LGA", "dest" "DFW", "month" 10} |       194 | Group: {"origin" "LGA", "dest" "DFW", "month" 10} [398 11]: |
+;;    | {"origin" "LGA", "dest" "MIA", "month" 10} |       195 | Group: {"origin" "LGA", "dest" "MIA", "month" 10} [278 11]: |
+;;    | {"origin" "JFK", "dest" "MIA", "month" 10} |       196 | Group: {"origin" "JFK", "dest" "MIA", "month" 10} [217 11]: |
+;;    | {"origin" "EWR", "dest" "PHX", "month" 10} |       197 |  Group: {"origin" "EWR", "dest" "PHX", "month" 10} [31 11]: |
+;;    | {"origin" "JFK", "dest" "MCO", "month" 10} |       198 |  Group: {"origin" "JFK", "dest" "MCO", "month" 10} [62 11]: |
+;;    | {"origin" "JFK", "dest" "DCA", "month" 10} |       199 |  Group: {"origin" "JFK", "dest" "DCA", "month" 10} [31 11]: |

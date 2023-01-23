@@ -1,8 +1,13 @@
 (ns tablecloth.api.join-separate
+  (:refer-clojure :exclude [pmap])
   (:require [tech.v3.dataset :as ds]
+            [tech.v3.dataset.column :as col]
+            [tech.v3.tensor :as tens]
+            [tech.v3.datatype :as dtt]
             [clojure.string :as str]
-
-            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data]]
+            [tech.v3.parallel.for :refer [pmap]]
+            [tech.v3.dataset.tensor]
+            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data ->str]]
             [tablecloth.api.columns :refer [select-columns drop-columns add-column]]))
 
 (defn- process-join-columns
@@ -13,6 +18,19 @@
     (if drop-columns? (drop-columns result col-names) result)))
 
 (defn join-columns
+  "Join clumns of dataset. Accepts:
+dataset
+column selector (as in select-columns)
+options
+  `:separator` (default -)
+  `:drop-columns?` - whether to drop source columns or not (default true)
+  `:result-type`
+     `:map` - packs data into map
+     `:seq` - packs data into sequence
+     `:string` - join strings with separator (default)
+     or custom function which gets row as a vector
+  `:missing-subst` - substitution for missing value
+  "
   ([ds target-column columns-selector] (join-columns ds target-column columns-selector nil))
   ([ds target-column columns-selector {:keys [separator missing-subst drop-columns? result-type parallel?]
                                        :or {separator "-" drop-columns? true result-type :string}
@@ -44,19 +62,26 @@
 
 ;;
 
+(defn- infer-target-columns
+  [col res]
+  (let [colname (col/column-name col)]
+    (map #(str colname "-" %) (range (count (first res))))))
+
 (defn- separate-column->columns
   [col target-columns replace-missing separator-fn]
   (let [res (pmap separator-fn col)]
-    (if-not (iterable-sequence? target-columns)
+    (if (map? (first res))
       (ds/->dataset res) ;; ds/column->dataset functionality
-      (->> (map-indexed vector target-columns)
+      (->> (if (or (= :infer target-columns)
+                   (not target-columns)) (infer-target-columns col res)
+               target-columns)
+           (map-indexed vector)
            (reduce (fn [curr [idx colname]]
                      (if-not colname
                        curr
-                       (conj curr colname (map #(replace-missing (nth % idx)) res)))) [])
+                       (conj curr colname (pmap #(replace-missing (nth % idx)) res)))) [])
            (apply array-map)
            (ds/->dataset)))))
-
 
 (defn- prepare-missing-subst-fn
   [missing-subst]
@@ -80,7 +105,8 @@
           result (ds/append-columns (seq (ds/columns result)))
           :else (ds/append-columns (ds/columns (ds/drop-columns dataset-after [column]))))))))
 
-(defn separate-column  
+(defn separate-column
+  ([ds column] (separate-column ds column identity))
   ([ds column separator] (separate-column ds column nil separator))
   ([ds column target-columns separator] (separate-column ds column target-columns separator nil))
   ([ds column target-columns separator {:keys [missing-subst drop-column? parallel?]
@@ -99,11 +125,74 @@
          replace-missing (if missing-subst
                            (prepare-missing-subst-fn missing-subst)
                            identity)
-         drop-column? (cond
-                        (not (nil? drop-column?)) drop-column?
-                        (not (iterable-sequence? target-columns)) :all
-                        :else true)]
+         drop-column? (if (not (nil? drop-column?)) drop-column? true)]
      
      (if (grouped? ds)       
        (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?) parallel?)
        (process-separate-columns ds column target-columns replace-missing separator-fn drop-column?)))))
+
+
+
+
+(defn- prefix [prefix-name value]
+   (let [with-prefix (str (->str prefix-name) "-" value)]
+     (if (keyword? prefix-name)
+       (keyword with-prefix)
+       with-prefix)))
+
+(defn array-column->columns
+  "Converts a column of type java array into several columns,
+  one for each element of the array of all rows. The source column is dropped afterwards.
+  The function assumes that arrays in all rows have same type and length and are numeric.
+
+  `ds` Datset to operate on.
+  `src-column` The (array) column to convert
+  `opts` can contain:
+    `prefix` newly created column will get prefix before column number
+  "
+  ([ds src-column opts]
+   (assert (not (grouped? ds)) "Not supported on grouped datasets")
+   (let [len-arrays (-> ds src-column first count)
+         new-ds
+         (->
+          (dtt/concat-buffers (ds src-column))
+          (tens/reshape [(ds/row-count ds) len-arrays])
+          (tech.v3.dataset.tensor/tensor->dataset))
+
+         new-ds-renamed (if (:prefix opts)
+                          (ds/rename-columns new-ds
+                                             (zipmap (range len-arrays)
+                                                     (map #(prefix (:prefix opts) %) (range len-arrays))))
+
+                          new-ds)
+         ]
+     (-> ds
+         (ds/append-columns (ds/columns new-ds-renamed))
+         (ds/drop-columns [src-column]))))
+  ([ds src-column]
+   (array-column->columns ds src-column {})))
+
+
+
+
+(defn columns->array-column
+  "Converts several columns to a single column of type array.
+   The src columns are dropped afterwards.
+
+  `ds` Dataset to operate on.
+  `column-selector` anything supported by [[select-columns]]
+  `new-column` new column to create
+  "
+  [ds column-selector new-column]
+  (assert (not (grouped? ds)) "Not supported on grouped datasets")
+  (let [ds-to-convert (select-columns ds column-selector)
+        rows
+        (->
+         (dtt/concat-buffers (ds/columns ds-to-convert))
+         (tens/reshape [(ds/column-count ds-to-convert)
+                        (ds/row-count ds-to-convert)])
+         (tens/transpose [1 0])
+         (tens/rows))]
+    (-> ds
+        (drop-columns (column-names ds-to-convert))
+        (ds/add-column (ds/new-column new-column (map tech.v3.datatype/->array rows))))))
