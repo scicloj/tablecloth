@@ -98,21 +98,21 @@
    (fn [fn-sym fn-meta]
              (lift-op
               fn-sym fn-meta
-              {:new-args '([col] [col options])
-               :new-args-lookup {'arg 'col
+              {:new-args '([x] [x options])
+               :new-args-lookup {'arg 'x
                                  'options 'options}}))
    ['percentiles] (fn [fn-sym fn-meta]
                     (lift-op
                      fn-sym fn-meta
-                     {:new-args '([col percentiles] [col percentiles options])
-                      :new-args-lookup {'data 'col,
+                     {:new-args '([x percentiles] [x percentiles options])
+                      :new-args-lookup {'data 'x,
                                         'percentages 'percentiles,
                                         'options 'options}}))
    ['shift] (fn [fn-sym fn-meta]
               (lift-op
                fn-sym fn-meta
-               {:new-args '([col n])
-                :new-args-lookup {'rdr 'col
+               {:new-args '([x n])
+                :new-args-lookup {'rdr 'x
                                   'n 'n}}))})
 
 (defn deserialize-lift-fn-lookup []
