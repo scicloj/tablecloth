@@ -75,16 +75,16 @@
 (defn
  finite?
  ""
- ([col]
+ ([x]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/finite? col)]
+    (tech.v3.datatype.functional/finite? x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/finite? col options)]
+    (tech.v3.datatype.functional/finite? x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
@@ -345,26 +345,26 @@
 (defn
  pos?
  ""
- ([col]
+ ([x]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/pos? col)]
+    (tech.v3.datatype.functional/pos? x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/pos? col options)]
+    (tech.v3.datatype.functional/pos? x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
 (defn
  shift
  "Shift by n and fill in with the first element for n>0 or last element for n<0.\n\n  Examples:\n\n```clojure\nuser> (dfn/shift (range 10) 2)\n[0 0 0 1 2 3 4 5 6 7]\nuser> (dfn/shift (range 10) -2)\n[2 3 4 5 6 7 8 9 9 9]\n```"
- ([col n]
+ ([x n]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/shift col n)]
+    (tech.v3.datatype.functional/shift x n)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
@@ -423,16 +423,16 @@
 (defn
  neg?
  ""
- ([col]
+ ([x]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/neg? col)]
+    (tech.v3.datatype.functional/neg? x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/neg? col options)]
+    (tech.v3.datatype.functional/neg? x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
@@ -507,16 +507,16 @@
 (defn
  mathematical-integer?
  ""
- ([col]
+ ([x]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/mathematical-integer? col)]
+    (tech.v3.datatype.functional/mathematical-integer? x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/mathematical-integer? col options)]
+    (tech.v3.datatype.functional/mathematical-integer? x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
@@ -555,16 +555,16 @@
 (defn
  nan?
  ""
- ([col]
+ ([x]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/nan? col)]
+    (tech.v3.datatype.functional/nan? x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/nan? col options)]
+    (tech.v3.datatype.functional/nan? x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
@@ -747,16 +747,16 @@
 (defn
  even?
  ""
- ([col]
+ ([x]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/even? col)]
+    (tech.v3.datatype.functional/even? x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/even? col options)]
+    (tech.v3.datatype.functional/even? x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
@@ -898,16 +898,16 @@
 (defn
  zero?
  ""
- ([col]
+ ([x]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/zero? col)]
+    (tech.v3.datatype.functional/zero? x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/zero? col options)]
+    (tech.v3.datatype.functional/zero? x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
@@ -994,16 +994,15 @@
 (defn
  not
  ""
- ([col]
+ ([x]
   (let
-   [original-result__44925__auto__
-    (tech.v3.datatype.functional/not col)]
+   [original-result__44925__auto__ (tech.v3.datatype.functional/not x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/not col options)]
+    (tech.v3.datatype.functional/not x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
@@ -1172,32 +1171,32 @@
 (defn
  infinite?
  ""
- ([col]
+ ([x]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/infinite? col)]
+    (tech.v3.datatype.functional/infinite? x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/infinite? col options)]
+    (tech.v3.datatype.functional/infinite? x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
 (defn
  round
  "Vectorized implementation of Math/round.  Operates in double space\n  but returns a long or long reader."
- ([col]
+ ([x]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/round col)]
+    (tech.v3.datatype.functional/round x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/round col options)]
+    (tech.v3.datatype.functional/round x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
@@ -1220,16 +1219,16 @@
 (defn
  odd?
  ""
- ([col]
+ ([x]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/odd? col)]
+    (tech.v3.datatype.functional/odd? x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col options]
+ ([x options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/odd? col options)]
+    (tech.v3.datatype.functional/odd? x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
@@ -1391,16 +1390,16 @@
 (defn
  percentiles
  "Create a reader of percentile values, one for each percentage passed in.\n  Estimation types are in the set of #{:r1,r2...legacy} and are described\n  here: https://commons.apache.org/proper/commons-math/javadocs/api-3.3/index.html.\n\n  nan-strategy can be one of [:keep :remove :exception] and defaults to :exception."
- ([col percentiles]
+ ([x percentiles]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/percentiles percentiles col)]
+    (tech.v3.datatype.functional/percentiles percentiles x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__)))
- ([col percentiles options]
+ ([x percentiles options]
   (let
    [original-result__44925__auto__
-    (tech.v3.datatype.functional/percentiles percentiles options col)]
+    (tech.v3.datatype.functional/percentiles percentiles options x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44925__auto__))))
 
