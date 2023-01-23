@@ -83,7 +83,7 @@
      (op 1 2 3) => scalar?)))
 
 (facts
- "about comparator ops that take two or more columns and return a boolean"
+ "about comparison ops that take two or more columns and return a boolean"
  (let [ops [> >= < <=]
        a (sample-column 5)
        b (sample-column 5)
@@ -91,6 +91,24 @@
    (doseq [op ops]
      (op a b) => column?
      (op a b c) => column?
+     (op 1 2) => boolean?)))
+
+(facts
+ "about comparison ops that take two columns and return a boolean"
+ (let [ops [equals]
+       a (sample-column 5)
+       b (sample-column 5)]
+   (doseq [op ops]
+     (op a b) => boolean?)))
+
+(facts
+ "about comparison ops that take two columns or scalars and return a boolean or column of booleans"
+ (let [ops [or and eq not-eq]
+       a (sample-column 5)
+       b (sample-column 5)]
+   (doseq [op ops]
+     (op a b) => column?
+     (typeof (op a b)) => :boolean
      (op 1 2) => boolean?)))
 
 (facts
@@ -167,21 +185,3 @@
      (typeof (op a)) => :boolean
      (op 1) => boolean?)))
 
-(facts
- "about ops that take left-hand and right-hand columns and return a boolean"
- (let [ops [equals]
-       a (sample-column 5)
-       b (sample-column 5)]
-   (doseq [op ops]
-     (op a b) => boolean?)))
-
-(facts
- "about ops that take left-hand / right-hand columns or scalars 
-  and returns boolean or column of booleans"
- (let [ops [or and eq not-eq]
-       a (sample-column 5)
-       b (sample-column 5)]
-   (doseq [op ops]
-     (op a b) => column?
-     (typeof (op a b)) => :boolean
-     (op 1 2) => boolean?)))
