@@ -18,16 +18,16 @@
       (-> [true false true]
           (column)
           (tech.v3.datatype/elemwise-datatype)) => :boolean
-      (-> [1 true false]
-          (column)
-          (tech.v3.datatype/elemwise-datatype)) => :object)
+      ;; disable this test until TC reaches 7.00-beta2
+      ;;(-> [1 true false]
+      ;;    (column)
+      ;;    (tech.v3.datatype/elemwise-datatype)) => :object
+      )
 
 (fact "`typeof` returns the concrete type of the elements"
       (typeof (column [1 2 3])) => :int64 
       (typeof (column ["a" "b" "c"])) => :string 
-      ;; disable this test until TC reaches 7.00-beta23 where it's fixed
-      ;;(typeof (column [true false])) => :boolean
-      )
+      (typeof (column [true false])) => :boolean)
 
 (fact "`typeof?` can check the concerete type of column elements"
       (typeof? (column [1 2 3]) :int64) => true
