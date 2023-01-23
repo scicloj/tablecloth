@@ -114,7 +114,7 @@
                {:new-args '([x n])
                 :new-args-lookup {'rdr 'x
                                   'n 'n}}))
-  ['descriptive-statistics] (fn [fn-sym fn-meta]
+   ['descriptive-statistics] (fn [fn-sym fn-meta]
                               (lift-op
                                fn-sym fn-meta
                                {:new-args '([x stats-names stats-data options]
@@ -126,8 +126,13 @@
                                                   'stats-names 'stats-names
                                                   'stats-data 'stats-data
                                                   'options 'options}}))
+   ['quartiles] (fn [fn-sym fn-meta]
+                  (lift-op
+                   fn-sym fn-meta
+                   {:new-args '([x options] [x])
+                    :new-args-lookup {'item 'x
+                                      'options 'options}}))
    })
-;; (tech.v3.datatype.functional/descriptive-statistics )
 
 (defn deserialize-lift-fn-lookup []
   (reduce (fn [m [symlist liftfn]]

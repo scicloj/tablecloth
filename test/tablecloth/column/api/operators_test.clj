@@ -28,6 +28,13 @@
    (descriptive-statistics a) => #(contains? % :standard-deviation)))
 
 (facts
+ "about 'quartiles"
+ (let [a (sample-column 100)]
+   (quartiles a) => column?
+   ;; sanity check quartiles should return a coumn of 5 values
+   (count (quartiles a)) => 5)
+
+(facts
 "about ops that take a single column and return a column"
 (let [ops [abs
             acos
