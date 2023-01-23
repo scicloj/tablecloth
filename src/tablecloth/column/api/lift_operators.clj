@@ -127,12 +127,6 @@
           serialized-lift-fn-lookup))
 
 (comment
-  (def fun-mappings (ns-publics 'tech.v3.datatype.functional))
-
-  (-> fun-mappings
-      (get 'kurtosis)
-      meta)
-
   (do-lift (deserialize-lift-fn-lookup)
            'tablecloth.column.api.operators
            'tech.v3.datatype.functional
