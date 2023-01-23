@@ -22,42 +22,48 @@
    (shift a 2) => [1 1 1 2 3]))
 
 (facts
- "about ops that take a single column and return a column"
- (let [ops [abs
-            acos
-            asin
-            atan
-            bit-not
-            cbrt
-            ceil
-            cos
-            cosh
-            exp
-            expm1
-            floor
-            get-significand
-            identity
-            log
-            log10
-            log1p
-            logistic
-            next-down
-            next-up
-            normalize
-            rint
-            signum
-            sin
-            sinh
-            sq
-            sqrt
-            tan
-            tanh
-            to-degrees
-            to-radians
-            ulp]
-       a (sample-column 5)]
-   (doseq [op ops]
-     (op a) => column?)))
+ "about 'descriptive-statistics"
+ (let [a (sample-column 5)]
+   ;; sanity check that we got the hash with desired data
+   (descriptive-statistics a) => #(contains? % :standard-deviation))
+
+ (facts
+  "about ops that take a single column and return a column"
+  (let [ops [abs
+             acos
+             asin
+             atan
+             bit-not
+             cbrt
+             ceil
+             cos
+             cosh
+             exp
+             expm1
+             floor
+             get-significand
+             identity
+             log
+             log10
+             log1p
+             logistic
+             next-down
+             next-up
+             normalize
+             rint
+             signum
+             sin
+             sinh
+             sq
+             sqrt
+             tan
+             tanh
+             to-degrees
+             to-radians
+             ulp]
+        a (sample-column 5)]
+    (doseq [op ops]
+      (op a) => column?))))
 
 (facts
  "about ops that take a single column and return a scalar"
@@ -184,4 +190,3 @@
      (op a) => column? 
      (typeof (op a)) => :boolean
      (op 1) => boolean?)))
-

@@ -553,6 +553,41 @@
     original-result__44926__auto__))))
 
 (defn
+ descriptive-statistics
+ "Calculate a set of descriptive statistics on a single reader.\n\n  Available stats:\n  #{:min :quartile-1 :sum :mean :mode :median :quartile-3 :max\n    :variance :standard-deviation :skew :n-elems :kurtosis}\n\n  options\n    - `:nan-strategy` - defaults to :remove, one of\n    [:keep :remove :exception]. The fastest option is :keep but this\n    may result in your results having NaN's in them.  You can also pass\n  in a double predicate to filter custom double values."
+ ([x]
+  (let
+   [original-result__44925__auto__
+    (tech.v3.datatype.functional/descriptive-statistics x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44925__auto__)))
+ ([x stats-names]
+  (let
+   [original-result__44925__auto__
+    (tech.v3.datatype.functional/descriptive-statistics stats-names x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44925__auto__)))
+ ([x stats-names options]
+  (let
+   [original-result__44925__auto__
+    (tech.v3.datatype.functional/descriptive-statistics
+     stats-names
+     options
+     x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44925__auto__)))
+ ([x stats-names stats-data options]
+  (let
+   [original-result__44925__auto__
+    (tech.v3.datatype.functional/descriptive-statistics
+     stats-names
+     stats-data
+     options
+     x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44925__auto__))))
+
+(defn
  nan?
  ""
  ([x]

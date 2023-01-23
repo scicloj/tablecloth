@@ -113,13 +113,26 @@
                fn-sym fn-meta
                {:new-args '([x n])
                 :new-args-lookup {'rdr 'x
-                                  'n 'n}}))})
+                                  'n 'n}}))
+  ['descriptive-statistics] (fn [fn-sym fn-meta]
+                              (lift-op
+                               fn-sym fn-meta
+                               {:new-args '([x stats-names stats-data options]
+                                            [x stats-names options]
+                                            [x stats-names]
+                                            [x])
+                                :new-args-lookup {'rdr 'x
+                                                  'src-rdr 'x
+                                                  'stats-names 'stats-names
+                                                  'stats-data 'stats-data
+                                                  'options 'options}}))
+   })
+;; (tech.v3.datatype.functional/descriptive-statistics )
 
 (defn deserialize-lift-fn-lookup []
   (reduce (fn [m [symlist liftfn]]
             (loop [syms symlist
                    result m]
-
               (if (empty? syms)
                 result
                 (recur (rest syms) (assoc result (first syms) liftfn)))))
