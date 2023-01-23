@@ -132,7 +132,20 @@
                    {:new-args '([x options] [x])
                     :new-args-lookup {'item 'x
                                       'options 'options}}))
-   })
+   ['fill-range] (fn [fn-sym fn-meta]
+                  (lift-op
+                   fn-sym fn-meta
+                   {:new-args '([x max-span])
+                    :new-args-lookup {'numeric-data 'x
+                                      'max-span 'max-span}}))
+   ['reduce-min
+    'reduce-max
+    'reduce-*
+    'reduce-+] (fn [fn-sym fn-meta]
+                 (lift-op
+                  fn-sym fn-meta
+                  {:new-args '([x])
+                   :new-args-lookup {'rdr 'x}}))})
 
 (defn deserialize-lift-fn-lookup []
   (reduce (fn [m [symlist liftfn]]

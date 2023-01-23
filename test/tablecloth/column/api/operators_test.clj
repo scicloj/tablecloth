@@ -32,7 +32,13 @@
  (let [a (sample-column 100)]
    (quartiles a) => column?
    ;; sanity check quartiles should return a coumn of 5 values
-   (count (quartiles a)) => 5)
+   (count (quartiles a)) => 5))
+
+(facts
+ "about 'fill-range"
+ (let [result (fill-range [1 5] 1)]
+   (contains? result :result) => true
+   (contains? result :missing) => true))
 
 (facts
 "about ops that take a single column and return a column"
@@ -74,7 +80,11 @@
 
 (facts
  "about ops that take a single column and return a scalar"
- (let [ops [magnitude]
+ (let [ops [magnitude
+            reduce-max
+            reduce-min
+            reduce-*
+            reduce-+]
        a (sample-column 5)]
    (doseq [op ops]
      (op a) => scalar?)))
