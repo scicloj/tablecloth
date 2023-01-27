@@ -541,6 +541,22 @@
     original-result__44239__auto__))))
 
 (defn
+ cumprod
+ "Cumulative running product; returns result in double space.\n\n  Options:\n\n  * `:nan-strategy` - one of `:keep`, `:remove`, `:exception`.  Defaults to `:remove`."
+ ([x]
+  (let
+   [original-result__44239__auto__
+    (tech.v3.datatype.functional/cumprod x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44239__auto__)))
+ ([x options]
+  (let
+   [original-result__44239__auto__
+    (tech.v3.datatype.functional/cumprod options x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44239__auto__))))
+
+(defn
  expm1
  ""
  ([x options]
@@ -579,6 +595,22 @@
   (let
    [original-result__44239__auto__
     (tech.v3.datatype.functional/reduce-max x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44239__auto__))))
+
+(defn
+ cumsum
+ "Cumulative running summation; returns result in double space.\n\n  Options:\n\n  * `:nan-strategy` - one of `:keep`, `:remove`, `:exception`.  Defaults to `:remove`."
+ ([x]
+  (let
+   [original-result__44239__auto__
+    (tech.v3.datatype.functional/cumsum x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44239__auto__)))
+ ([x options]
+  (let
+   [original-result__44239__auto__
+    (tech.v3.datatype.functional/cumsum options x)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44239__auto__))))
 
@@ -1150,6 +1182,22 @@
     original-result__44239__auto__))))
 
 (defn
+ cummin
+ "Cumulative running min; returns result in double space.\n\n  Options:\n\n  * `:nan-strategy` - one of `:keep`, `:remove`, `:exception`.  Defaults to `:remove`."
+ ([x]
+  (let
+   [original-result__44239__auto__
+    (tech.v3.datatype.functional/cummin x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44239__auto__)))
+ ([x options]
+  (let
+   [original-result__44239__auto__
+    (tech.v3.datatype.functional/cummin options x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44239__auto__))))
+
+(defn
  magnitude
  ""
  ([item _options]
@@ -1164,6 +1212,22 @@
     (tech.v3.datatype.functional/magnitude item)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__44240__auto__))))
+
+(defn
+ cummax
+ "Cumulative running max; returns result in double space.\n\n  Options:\n\n  * `:nan-strategy` - one of `:keep`, `:remove`, `:exception`.  Defaults to `:remove`."
+ ([x]
+  (let
+   [original-result__44239__auto__
+    (tech.v3.datatype.functional/cummax x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44239__auto__)))
+ ([x options]
+  (let
+   [original-result__44239__auto__
+    (tech.v3.datatype.functional/cummax options x)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__44239__auto__))))
 
 (defn
  /

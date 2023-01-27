@@ -44,37 +44,41 @@
 (facts
 "about ops that take a single column and return a column"
 (let [ops [abs
-            acos
-            asin
-            atan
-            bit-not
-            cbrt
-            ceil
-            cos
-            cosh
-            exp
-            expm1
-            floor
-            get-significand
-            identity
-            log
-            log10
-            log1p
-            logistic
-            next-down
-            next-up
-            normalize
-            rint
-            signum
-            sin
-            sinh
-            sq
-            sqrt
-            tan
-            tanh
-            to-degrees
-            to-radians
-            ulp]
+           acos
+           asin
+           atan
+           bit-not
+           cbrt
+           ceil
+           cos
+           cosh
+           cumprod
+           cumsum
+           cummax
+           cummin
+           exp
+           expm1
+           floor
+           get-significand
+           identity
+           log
+           log10
+           log1p
+           logistic
+           next-down
+           next-up
+           normalize
+           rint
+           signum
+           sin
+           sinh
+           sq
+           sqrt
+           tan
+           tanh
+           to-degrees
+           to-radians
+           ulp]
       a (sample-column 5)]
   (doseq [op ops]
     (op a) => column?)))

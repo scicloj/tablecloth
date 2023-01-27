@@ -161,7 +161,17 @@
                                {:new-args '([x y] [x y options])
                                 :new-args-lookup {'lhs 'x
                                                   'rhs 'y
-                                                  'options 'options}}))})
+                                                  'options 'options}}))
+   ['cumprod
+    'cumsum
+    'cummax
+    'cummin] (fn [fn-sym fn-meta]
+                (lift-op
+                 fn-sym fn-meta
+                 {:new-args '([x] [x options])
+                  :new-args-lookup {'data 'x
+                                    'options 'options}}))})
+
 
 (defn deserialize-lift-fn-lookup []
   (reduce (fn [m [symlist liftfn]]
@@ -183,3 +193,14 @@
              unsigned-bit-shift-right zero?]
            "src/tablecloth/column/api/operators.clj")
   ,)
+
+
+(comment
+
+  (tech.v3.datatype.functional/cumprod [2 2 3])
+
+  (tech.v3.datatype.functional/cummax [0 1 4 1])
+
+  (tech.v3.datatype.functional/cumsum [1 2 4])
+
+  )
