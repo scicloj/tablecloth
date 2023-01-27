@@ -8,6 +8,7 @@
             [tablecloth.column.api :refer [column column? typeof]])
   (:use [tablecloth.column.api.operators]))
 
+(tech.v3.datatype.functional/spearmans-correlation [1 2] [2 1])
 
 (defn sample-column [n]
   (column (repeatedly n #(rand-int 100))))
@@ -187,7 +188,10 @@
  "about ops that take left-hand / right-hand columns and return a scalar"
  (let [ops [distance
             dot-product
-            distance-squared]
+            distance-squared
+            kendalls-correlation
+            pearsons-correlation
+            spearmans-correlation]
        a (sample-column 5)
        b (sample-column 5)]
    (doseq [op ops]

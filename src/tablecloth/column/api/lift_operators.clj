@@ -152,7 +152,16 @@
                          (lift-op
                           fn-sym fn-meta
                           {:new-args '([x])
-                           :new-args-lookup {'data 'x}}))})
+                           :new-args-lookup {'data 'x}}))
+   ['kendalls-correlation
+    'pearsons-correlation
+    'spearmans-correlation] (fn [fn-sym fn-meta]
+                              (lift-op
+                               fn-sym fn-meta
+                               {:new-args '([x y] [x y options])
+                                :new-args-lookup {'lhs 'x
+                                                  'rhs 'y
+                                                  'options 'options}}))})
 
 (defn deserialize-lift-fn-lookup []
   (reduce (fn [m [symlist liftfn]]
