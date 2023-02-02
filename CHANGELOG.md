@@ -1,11 +1,15 @@
 # Change Log
 
-## [unreleased]
+## [7.000-beta-27]
 
-## Added
+### Added
 
 * `map-rows` to map each row and produce new columns
 * `rows` can return sequence of vectors (`:as-vecs`)
+
+### Fixed
+
+* balanced k-fold partitioning as proposed in [#92](https://github.com/scicloj/tablecloth/issues/92) by @behrica
 
 ## [7.000-beta-16]
 
@@ -18,13 +22,13 @@ Differences:
 
 ## [6.103.1]
 
-## Added
+### Added
 
 * doc strings for every funcitons, #87, #88
 * aggregate-columns should default to all columns when called without a column selector #91
 * create functions for packing / unpacking columns to arrays #82
 
-## Changed
+### Changed
 
 * [breaking] when dataset file do not exists throw an exception #84, #85
 
@@ -32,11 +36,11 @@ Differences:
 
 Clojure upgraded to 1.11.1 
 
-## Added
+### Added
 
 * `separate-column` infers column names when function is used and `target-columns` is `nil`, [#78](https://github.com/scicloj/tablecloth/issues/78)
 
-## Changed
+### Changed
 
 * [breaking][minor] `separate-column` repleces source column with target on every case 
 

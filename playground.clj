@@ -600,3 +600,35 @@ agg
      (aop/argfilter (comp boolean (fn [row] (and (= (get row "origin") "JFK")
                                                 (= (get row "month") 6))))))
 
+
+
+;;
+
+
+(tc/aggregate DS #(reduce + (% :V2)))
+
+(tc/aggregate DS {:sum-of-V2 #(reduce + (% :V2))})
+
+(tc/aggregate DS #(take 5 (% :V2)))
+
+(tc/aggregate DS [#(take 3 (% :V2))
+                  (fn [ds] {:sum-v1 (reduce + (ds :V1))
+                           :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"})
+
+
+(require '[tech.v3.dataset :as ds])
+(require '[tech.v3.datatype.datetime :as dtype-dt])
+
+(def stocks' (-> stocks
+               (ds/update-column :date #(dtype-dt/datetime->epoch :epoch-days %))))
+
+(require '[tech.v3.dataset.reductions :as ds-reduce])
+
+(ds-reduce/group-by-column-agg
+ :symbol
+ {
+  :something (fn [a b] a b)
+  :price-avg (ds-reduce/mean :price)
+  :price-sum (ds-reduce/sum :price)
+  :price-med (ds-reduce/prob-median :price)}
+ (repeat 3 stocks'))
