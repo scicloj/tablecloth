@@ -160,6 +160,7 @@
   * `:split-names` names of subdatasets different than default, ie. `[:train :test :split-2 ...]`
   * `:split-col-name` - a column where name of split is stored, either `:train` or `:test` values (default: `:$split-name`)
   * `:split-id-col-name` - a column where id of the train/test pair is stored (default: `:$split-id`)
+  * `:ratio` - specify a list of split ratios for `:holdout` . Need to have same size then `:splt-names` (example: [0.2 0.2 0.6])
 
   Rows are shuffled before splitting.
   
