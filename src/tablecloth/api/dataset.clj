@@ -154,6 +154,7 @@
      :as-maps (ds/mapseq-reader ds)
      :as-double-arrays (into-array (map double-array (ds/value-reader ds)))
      :as-seqs (ds/value-reader ds)
+     :as-vecs (ds/rowvecs ds)
      (ds/value-reader ds))))
 
 (defn print-dataset

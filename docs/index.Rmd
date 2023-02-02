@@ -416,6 +416,7 @@ Possible result types:
 - `:as-maps` - sequence of maps (rows)
 - `:as-map` - map of sequences (columns)
 - `:as-double-arrays` - array of double arrays 
+- `:as-vecs` - sequence of vectors (rows)
 
 ---
 
@@ -1489,6 +1490,17 @@ Drop values lower than or equal `:V2` column mean in grouped dataset.
     (tc/drop-rows (fn [row] (<= (:V2 row) (:mean row)))
                    {:pre {:mean #(tech.v3.datatype.functional/mean (% :V2))}})
     (tc/ungroup))
+```
+
+#### Map rows
+
+Call a mapping function for every row. Mapping function should return a map, where keys are column names (new or old) and values are column values.
+
+Works on grouped dataset too.
+
+```{clojure results="asis"}
+(tc/map-rows DS (fn [{:keys [V1 V2]}] {:V1 0
+                                       :V5 (/ (+ V1 V2) (double V2))}))
 ```
 
 #### Other

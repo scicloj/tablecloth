@@ -1,5 +1,12 @@
 # Change Log
 
+## [unreleased]
+
+## Added
+
+* `map-rows` to map each row and produce new columns
+* `rows` can return sequence of vectors (`:as-vecs`)
+
 ## [7.000-beta-16]
 
 Updated to TMD v7

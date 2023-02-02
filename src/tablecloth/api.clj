@@ -580,6 +580,14 @@ options
   (tablecloth.api.columns/map-columns ds column-name new-type columns-selector map-fn)))
 
 
+(defn map-rows
+  "Map a function across the rows of the dataset producing a new dataset that is merged back into the original potentially replacing existing columns."
+  ([ds map-fn]
+  (tablecloth.api.rows/map-rows ds map-fn))
+  ([ds map-fn options]
+  (tablecloth.api.rows/map-rows ds map-fn options)))
+
+
 (defn mark-as-group
   "Add grouping tag"
   ([ds]

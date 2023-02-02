@@ -436,14 +436,23 @@ agg
 ((tc/column ds :c) 0) ;; => :r
 
 (def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
-                      :V2 (range 1 10)
-                      :V3 (take 9 (cycle [0.5 1.0 1.5]))
-                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
+                   :V2 (range 1 10)
+                   :V3 (take 9 (cycle [0.5 1.0 1.5]))
+                   :V4 (take 9 (cycle ["A" "B" "C"]))}))
+
+
+(tc/map-rows DS (fn [{:keys [V1 V2]}] {:V1 0
+                                      :V5 (/ (+ V1 V2) (double V2))}))
+
+(-> (tc/group-by DS [:V3])
+    (tc/map-rows (fn [{:keys [V1 V2]}] {:V1 0
+                                       :V5 (/ (+ V1 V2) (double V2))}))
+    (tc/ungroup))
 
 
 (tc/separate-column DS :V3 (fn [^double v]
-                                 [(int (quot v 1.0))
-                                  (mod v 1.0)]))
+                             [(int (quot v 1.0))
+                              (mod v 1.0)]))
 
 (-> (tc/dataset {:x [1] :y [[2 3 9 10 11 22 33]]})
     (tc/separate-column :y))
@@ -591,38 +600,3 @@ agg
      (aop/argfilter (comp boolean (fn [row] (and (= (get row "origin") "JFK")
                                                 (= (get row "month") 6))))))
 
-
-(-> flights
-    (tc/select-rows #(= (get % "carrier") "AA"))
-    #_(tc/group-by ["origin" "dest" "month"])
-    (tc/select-columns ["origin" "dest" "month"])
-    (ds/group-by->indexes identity)
-    #_    (tc/aggregate [#(dfn/mean (% "arr_delay"))
-                         #(dfn/mean (% "dep_delay"))])
-    #_(tc/head 10)
-    )
-;; => _unnamed [200 3]:
-;;    |                                      :name | :group-id |                                                       :data |
-;;    |--------------------------------------------|----------:|-------------------------------------------------------------|
-;;    |  {"origin" "LGA", "dest" "ORD", "month" 1} |         0 |  Group: {"origin" "LGA", "dest" "ORD", "month" 1} [343 11]: |
-;;    |  {"origin" "JFK", "dest" "SEA", "month" 1} |         1 |   Group: {"origin" "JFK", "dest" "SEA", "month" 1} [28 11]: |
-;;    |  {"origin" "EWR", "dest" "DFW", "month" 1} |         2 |  Group: {"origin" "EWR", "dest" "DFW", "month" 1} [159 11]: |
-;;    |  {"origin" "JFK", "dest" "STT", "month" 1} |         3 |   Group: {"origin" "JFK", "dest" "STT", "month" 1} [29 11]: |
-;;    |  {"origin" "JFK", "dest" "SJU", "month" 1} |         4 |   Group: {"origin" "JFK", "dest" "SJU", "month" 1} [88 11]: |
-;;    |  {"origin" "LGA", "dest" "MIA", "month" 1} |         5 |  Group: {"origin" "LGA", "dest" "MIA", "month" 1} [400 11]: |
-;;    |  {"origin" "JFK", "dest" "MIA", "month" 1} |         6 |  Group: {"origin" "JFK", "dest" "MIA", "month" 1} [179 11]: |
-;;    |  {"origin" "LGA", "dest" "DFW", "month" 1} |         7 |  Group: {"origin" "LGA", "dest" "DFW", "month" 1} [372 11]: |
-;;    |  {"origin" "EWR", "dest" "MIA", "month" 1} |         8 |   Group: {"origin" "EWR", "dest" "MIA", "month" 1} [89 11]: |
-;;    |  {"origin" "LGA", "dest" "PBI", "month" 1} |         9 |   Group: {"origin" "LGA", "dest" "PBI", "month" 1} [58 11]: |
-;;    |                                        ... |       ... |                                                         ... |
-;;    | {"origin" "JFK", "dest" "SEA", "month" 10} |       189 |  Group: {"origin" "JFK", "dest" "SEA", "month" 10} [31 11]: |
-;;    | {"origin" "LGA", "dest" "ORD", "month" 10} |       190 | Group: {"origin" "LGA", "dest" "ORD", "month" 10} [487 11]: |
-;;    | {"origin" "EWR", "dest" "DFW", "month" 10} |       191 | Group: {"origin" "EWR", "dest" "DFW", "month" 10} [161 11]: |
-;;    | {"origin" "JFK", "dest" "AUS", "month" 10} |       192 |  Group: {"origin" "JFK", "dest" "AUS", "month" 10} [31 11]: |
-;;    | {"origin" "EWR", "dest" "MIA", "month" 10} |       193 |  Group: {"origin" "EWR", "dest" "MIA", "month" 10} [61 11]: |
-;;    | {"origin" "LGA", "dest" "DFW", "month" 10} |       194 | Group: {"origin" "LGA", "dest" "DFW", "month" 10} [398 11]: |
-;;    | {"origin" "LGA", "dest" "MIA", "month" 10} |       195 | Group: {"origin" "LGA", "dest" "MIA", "month" 10} [278 11]: |
-;;    | {"origin" "JFK", "dest" "MIA", "month" 10} |       196 | Group: {"origin" "JFK", "dest" "MIA", "month" 10} [217 11]: |
-;;    | {"origin" "EWR", "dest" "PHX", "month" 10} |       197 |  Group: {"origin" "EWR", "dest" "PHX", "month" 10} [31 11]: |
-;;    | {"origin" "JFK", "dest" "MCO", "month" 10} |       198 |  Group: {"origin" "JFK", "dest" "MCO", "month" 10} [62 11]: |
-;;    | {"origin" "JFK", "dest" "DCA", "month" 10} |       199 |  Group: {"origin" "JFK", "dest" "DCA", "month" 10} [31 11]: |
