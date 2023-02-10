@@ -193,14 +193,3 @@
              unsigned-bit-shift-right zero?]
            "src/tablecloth/column/api/operators.clj")
   ,)
-
-
-(comment
-
-  (tech.v3.datatype.functional/cumprod [2 2 3])
-
-  (tech.v3.datatype.functional/cummax [0 1 4 1])
-
-  (tech.v3.datatype.functional/cumsum [1 2 4])
-
-  )
