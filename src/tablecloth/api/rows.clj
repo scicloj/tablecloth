@@ -70,6 +70,16 @@
 
 ;;
 
+(defn map-rows
+  "Map a function across the rows of the dataset producing a new dataset that is merged back into the original potentially replacing existing columns."
+  ([ds map-fn] (map-rows ds map-fn {}))
+  ([ds map-fn options]
+   (if (grouped? ds)
+     (process-group-data ds #(ds/row-map % map-fn options) (:parallel? options))
+     (ds/row-map ds map-fn options))))
+
+;;
+
 (defn head
   "First n rows (default 5)"
   ([ds] (head ds 5))

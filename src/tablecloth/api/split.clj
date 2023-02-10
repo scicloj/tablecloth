@@ -41,11 +41,21 @@
           b (repeatedly amount #(.get idxs (rand-int-with-rng rng cnt)))]
       [[b (difference (set (range cnt)) (set b))]])))
 
+;; behrica
+(defn- balanced-partition-all
+  [cnt k xs]
+  (let [l   (quot cnt k)
+        r   (rem cnt k)
+        k   (* (inc l) r)]
+    (concat
+     (partition-all (inc l) (take k xs))
+     (partition-all l (drop k xs)))))
+
 (defn- kfold
   [cnt rng {:keys [k]
             :or {k 5}}]
   (let [k (min cnt k)
-        idxs (partition-all (/ cnt k) (shuffle-with-rng (range cnt) rng))]
+        idxs (balanced-partition-all cnt k (shuffle-with-rng (range cnt) rng))]
     (for [i (range (count idxs))]
       [(mapcat identity (drop-nth idxs i))
        (nth idxs i)])))
@@ -160,6 +170,7 @@
   * `:split-names` names of subdatasets different than default, ie. `[:train :test :split-2 ...]`
   * `:split-col-name` - a column where name of split is stored, either `:train` or `:test` values (default: `:$split-name`)
   * `:split-id-col-name` - a column where id of the train/test pair is stored (default: `:$split-id`)
+  * `:ratio` - specify a list of split ratios for `:holdout`. Need to have same size then `:split-names` (example: [0.2 0.2 0.6])
 
   Rows are shuffled before splitting.
   

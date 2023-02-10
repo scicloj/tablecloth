@@ -66,6 +66,7 @@
 (exporter/export-symbols tablecloth.api.rows
                          select-rows
                          drop-rows
+                         map-rows
                          head
                          tail
                          shuffle
