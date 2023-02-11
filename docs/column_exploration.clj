@@ -52,21 +52,28 @@
 
 ;; ### Basic Operations
 
-;; Right now we need to use the functional name space from the
-;; underlying computation library tech.v3.datatype to operate on
-;; columns.
-
-(require '[tech.v3.datatype.functional :as fun])
+;; Operations are right now in their own namespace
+(require '[tablecloth.column.api.operators :as ops])
 
 ;; With that imported we can perform a large number of operations:
 
 (def a (column [20 30 40 50]))
 (def b (column (range 4)))
 
-(fun/- a b)
+(ops/- a b)
 
-(fun/pow a 2)
+(ops/pow a 2)
 
-(fun/* 10 (fun/sin a))
+(ops/* 10 (fun/sin a))
 
-(fun/< a 35)
+(ops/< a 35)
+
+;; All these operations take a column as their first argument and
+;; return a column, so they can be chained easily.
+
+(-> a
+    (ops/* b)
+    (ops/< 70))
+
+
+
