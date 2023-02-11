@@ -3,23 +3,17 @@
 ^{:kind/hidden true}
 (ns intro
   (:require [tablecloth.api :as tc]
-            [scicloj.clay.v1.api :as clay]
-            [scicloj.clay.v1.tools :as tools]
-            [scicloj.clay.v1.tool.scittle :as scittle]
-            [scicloj.kindly.v2.kind :as kind]
-            [scicloj.clay.v1.view.dataset]
-            [nextjournal.clerk :as clerk]))
+            [scicloj.clay.v2.api :as clay]
+            [scicloj.kindly.v3.api :as kindly]
+            [scicloj.kindly.v3.kind :as kind]
+            ))
 
 ^{:kind/hidden true}
-#_(clay/restart!  {:tools [#_tools/scittle
-                         tools/clerk]})
+(clay/start!)
 
 ^{:kind/hidden true}
 (comment
-  (clerk/show!)
-
-  (do (scittle/show-doc! "docs/column_exploration.clj" {:hide-doc? true})
-      (scittle/write-html! "docs/column_exploration.html"))
+  (do (clay/show-doc! "docs/column_exploration.clj" {:hide-doc? true}))
   ,)
 
 ;; ## What is this exploration?
