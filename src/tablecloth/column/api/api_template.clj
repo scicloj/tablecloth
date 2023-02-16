@@ -10,6 +10,9 @@
                          zeros
                          ones)
 
+(exporter/export-symbols tech.v3.dataset.column
+                         select)
+
 (comment
   ;; Use this to generate the column api
   (exporter/write-api! 'tablecloth.column.api.api-template
