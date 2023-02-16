@@ -64,7 +64,7 @@
 
 (ops/pow a 2)
 
-(ops/* 10 (fun/sin a))
+(ops/* 10 (ops/sin a))
 
 (ops/< a 35)
 
@@ -74,3 +74,26 @@
 (-> a
     (ops/* b)
     (ops/< 70))
+
+;; ### Subsetting and accesssing
+
+;; We can subset a column by specifying a list of indexes to select
+;; using the `select` function.
+
+(let [col (column (repeatedly 10 #(rand-int 10)))]
+  (col/select col [1 3 5 8]))
+
+;; We can combine this type of selection with the operations just
+;; demonstrated to select certain values.
+
+(def myclm
+  (column (repeatedly 10 #(rand-int 10))))
+
+myclm
+
+;; Let's see which positions are greter than 5.
+(ops/> myclm 5)
+
+
+;; We can use a column of boolean values like the one above with the `select` function as well. `select` will choose all the positions that are true. It's like supplying select a list of the index positions that hold true values.
+(col/select myclm (ops/> myclm 5))
