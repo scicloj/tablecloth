@@ -77,17 +77,64 @@
 
 ;; ### Subsetting and accesssing
 
-;; We can subset a column by specifying a list of indexes to select
-;; using the `select` function.
+;; You can access an element in a column in exactly the same ways you
+;; would in Clojure.
 
-(let [col (column (repeatedly 10 #(rand-int 10)))]
-  (col/select col [1 3 5 8]))
+(def myclm (column (range 5)))
+
+myclm
+
+(myclm 2)
+
+(nth myclm 2)
+
+(get myclm 2)
+
+;; #### Selecting multiple elements
+
+;; There are two ways to select multiple elements from a column:
+;;   * If you need to select a continuous subset, you can use `slice`;
+;;   * if you may need to select diverse elements, use `select`.
+;;
+
+;; **Slice**
+
+;; The `slice` method allows you to use indexes to specify a portion
+;; of the column to extract.
+
+(def myclm
+  (column (repeatedly 10 #(rand-int 10))))
+
+myclm
+
+(col/slice myclm 3 5)
+
+
+;; It also supports negative indexing, making it possible to slice
+;; from the end of the column:
+
+(col/slice myclm -7 -5)
+
+;; It's also possible to slice from one direction to the beginning or
+;; end:
+
+(col/slice myclm 7 :end)
+
+(col/slice myclm -3 :end)
+
+(col/slice myclm :start 7)
+
+(col/slice myclm :start -3)
+
+;; **Select**
+;;
+;; The `select` fn works by taking a list of index positions:
+
+(col/select myclm [1 3 5 8])
 
 ;; We can combine this type of selection with the operations just
 ;; demonstrated to select certain values.
 
-(def myclm
-  (column (repeatedly 10 #(rand-int 10))))
 
 myclm
 
@@ -97,3 +144,6 @@ myclm
 
 ;; We can use a column of boolean values like the one above with the `select` function as well. `select` will choose all the positions that are true. It's like supplying select a list of the index positions that hold true values.
 (col/select myclm (ops/> myclm 5))
+
+
+
