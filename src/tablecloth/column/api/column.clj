@@ -43,4 +43,33 @@
   [n-ones]
   (column (dtype/const-reader 1 n-ones)))
 
+(or :start 0)
 
+(defn slice
+  "Returns a subset of the column defined by the inclusive `from` and
+  `to` indexes. If `to` is not provided, slices to the end of the
+  column. If `from` is not provided, slices from the beginning of the
+  column. If either `from` or `to` is a negative number, it is treated
+  as an index from the end of the column. The `:start` and `:end`
+  keywords can be used to represent the start and end of the column,
+  respectively.
+
+  Examples:
+  (def column [1 2 3 4 5])
+  (slice column 1 3)     ;=> [2 3]
+  (slice column 2)        ;=> [3 4 5]
+  (slice column -3 -1)    ;=> [3 4 5]
+  (slice column :start 2) ;=> [1 2 3 4 5]
+  (slice column 2 :end)   ;=> [3 4 5]
+  (slice column -2 :end)  ;=> [4 5]"
+  ([col from]
+   (slice col from :end))
+  ([col from to]
+   (slice col from to 1))
+  ([col from to step]
+   (let [len (count col)
+         from (or (when-not (or (= from :start) (nil? from)) from) 0)
+         to (or (when-not (or (= to :end) (nil? :end)) to) (dec len))]
+     (col/select col (range (if (neg? from) (+ len from) from)
+                            (inc (if (neg? to) (+ len to) to))
+                            step)))))
