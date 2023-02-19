@@ -50,31 +50,6 @@
 (let [string-column (column ["foo" "bar"])]
   (col/typeof string-column))
 
-;; ### Basic Operations
-
-;; Operations are right now in their own namespace
-(require '[tablecloth.column.api.operators :as ops])
-
-;; With that imported we can perform a large number of operations:
-
-(def a (column [20 30 40 50]))
-(def b (column (range 4)))
-
-(ops/- a b)
-
-(ops/pow a 2)
-
-(ops/* 10 (ops/sin a))
-
-(ops/< a 35)
-
-;; All these operations take a column as their first argument and
-;; return a column, so they can be chained easily.
-
-(-> a
-    (ops/* b)
-    (ops/< 70))
-
 ;; ### Subsetting and accesssing
 
 ;; You can access an element in a column in exactly the same ways you
@@ -146,4 +121,30 @@ myclm
 (col/select myclm (ops/> myclm 5))
 
 
+
+
+;; ### Basic Operations
+
+;; Operations are right now in their own namespace
+(require '[tablecloth.column.api.operators :as ops])
+
+;; With that imported we can perform a large number of operations:
+
+(def a (column [20 30 40 50]))
+(def b (column (range 4)))
+
+(ops/- a b)
+
+(ops/pow a 2)
+
+(ops/* 10 (ops/sin a))
+
+(ops/< a 35)
+
+;; All these operations take a column as their first argument and
+;; return a column, so they can be chained easily.
+
+(-> a
+    (ops/* b)
+    (ops/< 70))
 
