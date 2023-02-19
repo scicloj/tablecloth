@@ -37,6 +37,31 @@
   (tech.v3.dataset.column/select col selection)))
 
 
+(defn slice
+  "Returns a subset of the column defined by the inclusive `from` and
+  `to` indexes. If `to` is not provided, slices to the end of the
+  column. If `from` is not provided (i.e. is `nil`), slices from the
+  beginning of the column. If either `from` or `to` is a negative
+  number, it is treated as an index from the end of the column. The
+  `:start` and `:end` keywords can be used to represent the start and
+  end of the column, respectively.
+
+  Examples:
+  (def column [1 2 3 4 5])
+  (slice column 1 3)     ;=> [2 3]
+  (slice column 2)        ;=> [3 4 5]
+  (slice column -3 -1)    ;=> [3 4 5]
+  (slice column :start 2) ;=> [1 2 3 4 5]
+  (slice column 2 :end)   ;=> [3 4 5]
+  (slice column -2 :end)  ;=> [4 5]"
+  ([col from]
+  (tablecloth.column.api.column/slice col from))
+  ([col from to]
+  (tablecloth.column.api.column/slice col from to))
+  ([col from to step]
+  (tablecloth.column.api.column/slice col from to step)))
+
+
 (defn typeof
   "Returns the concrete type of the elements within the column `col`."
   ([col]

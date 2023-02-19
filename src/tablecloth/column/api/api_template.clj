@@ -7,6 +7,7 @@
                          column?
                          typeof
                          typeof?
+                         slice
                          zeros
                          ones)
 
