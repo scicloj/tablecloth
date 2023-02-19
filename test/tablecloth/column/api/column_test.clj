@@ -50,24 +50,25 @@
       (ones 3) => [1 1 1])
 
 (facts "about `slice`"
-       (fact "it return a subset of a column inclusively"
-             (slice (column [1 2 3 4 5]) 0 0) => [1]
-             (slice (column [1 2 3 4 5]) 0 4) => [1 2 3 4 5])
-       (fact "it supports negative indexing inclusively"
-             (slice (column [1 2 3 4 5]) 0 -1)
-             (slice (column [1 2 3 4 5]) -1 -1) => [5]
-             (slice (column [1 2 3 4 5]) -3 -1) => [3 4 5])
-       (fact "it supports 0 within negative indexing"
-             (slice (column [1 2 3 4 5]) 0 -2) => [1 2 3 4])
-       (fact "it supports stepped slicing"
-             (slice (column [1 2 3 4 5]) 0 4 2) => [1 3 5])
-       (fact "it supports using nil to indicate slice from start or end"
-             (slice (column [1 2 3 4 5]) 2) => [3 4 5]
-             (slice (column [1 2 3 4 5]) -2) => [4 5]
-             (slice (column [1 2 3 4 5]) nil 2) => [1 2 3]
-             (slice (column [1 2 3 4 5]) nil -2) => [1 2 3 4])
-       (fact "it supports special keywords for selecting from start or end"
-             (slice (column [1 2 3 4 5]) :start 2) => [1 2 3]
-             (slice (column [1 2 3 4 5]) 1 :end) => [2 3 4 5]
-             (slice (column [1 2 3 4 5]) -4 :end) => [2 3 4 5]
-             (slice (column [1 2 3 4 5]) :start -3) => [1 2 3]))
+       (let [c (column [1 2 3 4 5])]
+        (fact "it return a subset of a column inclusively"
+              (slice c 0 0) => [1]
+              (slice c 0 4) => [1 2 3 4 5])
+        (fact "it supports negative indexing inclusively"
+              (slice c 0 -1)
+              (slice c -1 -1) => [5]
+              (slice c -3 -1) => [3 4 5])
+        (fact "it supports 0 within negative indexing"
+              (slice c 0 -2) => [1 2 3 4])
+        (fact "it supports stepped slicing"
+              (slice c 0 4 2) => [1 3 5])
+        (fact "it supports using nil to indicate slice from start or end"
+              (slice c 2) => [3 4 5]
+              (slice c -2) => [4 5]
+              (slice c nil 2) => [1 2 3]
+              (slice c nil -2) => [1 2 3 4])
+        (fact "it supports special keywords for selecting from start or end"
+              (slice c :start 2) => [1 2 3]
+              (slice c 1 :end) => [2 3 4 5]
+              (slice c -4 :end) => [2 3 4 5]
+              (slice c :start -3) => [1 2 3])))
