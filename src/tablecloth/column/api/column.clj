@@ -43,16 +43,14 @@
   [n-ones]
   (column (dtype/const-reader 1 n-ones)))
 
-(or :start 0)
-
 (defn slice
   "Returns a subset of the column defined by the inclusive `from` and
   `to` indexes. If `to` is not provided, slices to the end of the
-  column. If `from` is not provided, slices from the beginning of the
-  column. If either `from` or `to` is a negative number, it is treated
-  as an index from the end of the column. The `:start` and `:end`
-  keywords can be used to represent the start and end of the column,
-  respectively.
+  column. If `from` is not provided (i.e. is `nil`), slices from the
+  beginning of the column. If either `from` or `to` is a negative
+  number, it is treated as an index from the end of the column. The
+  `:start` and `:end` keywords can be used to represent the start and
+  end of the column, respectively.
 
   Examples:
   (def column [1 2 3 4 5])
