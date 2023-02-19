@@ -13,7 +13,8 @@
 
 ^{:kind/hidden true}
 (comment
-  (do (clay/show-doc! "docs/column_exploration.clj" {:hide-doc? true}))
+  (clay/show-doc! "docs/column_exploration.clj" {:hide-doc? true})
+  (clay/write-html! "docs/column_exploration.html")
   ,)
 
 ;; ## What is this exploration?
