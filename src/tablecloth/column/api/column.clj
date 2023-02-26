@@ -86,7 +86,7 @@
                   set of missing index positions."
   ([col map-fn]
    (column-map col map-fn {}))
-  ([col map-fn options-or-datatype]
+  ([col map-fn options]
    (if (vector? col)
      (apply col/column-map map-fn options col)
      (col/column-map map-fn options col))))
