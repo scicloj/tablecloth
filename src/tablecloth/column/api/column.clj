@@ -91,14 +91,3 @@
      (apply col/column-map map-fn options col)
      (col/column-map map-fn options col))))
 
-(column-map [(column [1 2 nil 4 5])
-             (column [nil 2 5 8 0])]
-            (partial + 10)
-            {:datatype :int64
-             :missing-fn tech.v3.dataset.column/union-missing-sets})
-
-(column-map [(column [1 2 nil 4 5])
-             (column [nil 2 5 8 0])]
-            (partial +)
-            {:datatype :int64
-             :missing-fn (fn [col-seq] (set [0 2]))})
