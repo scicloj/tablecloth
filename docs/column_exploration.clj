@@ -159,3 +159,10 @@ myclm
   (/ x 100.0))
 
 (col/column-map myclm calc-percent)
+
+;; It's also possible to iterate over multiple columns by supplying a
+;; vector of columns:
+
+(-> [(column [5 6 7 8 9])
+     (column [1 2 3 4 5])]
+    (col/column-map (partial *)))
