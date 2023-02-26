@@ -71,3 +71,34 @@
      (col/select col (range (if (neg? from) (+ len from) from)
                             (inc (if (neg? to) (+ len to) to))
                             step)))))
+
+(defn column-map
+  "Applies a map function `map-fn` to one or more columns. If `col` is
+  a vector of columns, `map-fn` must have an arity equal to the number
+  of columns. The datatype of the resulting column will be inferred,
+  unless specified in the `options` map. Missing values can be handled
+  by providing a `:missing-fn` in the options map.
+
+  options:
+  - :datatype   - The desired datatype of the resulting column. The datatype
+                  is inferred if not provided
+  - :missing-fn - A function that takes a sequence of columns, and returns a
+                  set of missing index positions."
+  ([col map-fn]
+   (column-map col map-fn {}))
+  ([col map-fn options-or-datatype]
+   (if (vector? col)
+     (apply col/column-map map-fn options col)
+     (col/column-map map-fn options col))))
+
+(column-map [(column [1 2 nil 4 5])
+             (column [nil 2 5 8 0])]
+            (partial + 10)
+            {:datatype :int64
+             :missing-fn tech.v3.dataset.column/union-missing-sets})
+
+(column-map [(column [1 2 nil 4 5])
+             (column [nil 2 5 8 0])]
+            (partial +)
+            {:datatype :int64
+             :missing-fn (fn [col-seq] (set [0 2]))})
