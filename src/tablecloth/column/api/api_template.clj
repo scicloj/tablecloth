@@ -5,6 +5,7 @@
 (exporter/export-symbols tablecloth.column.api.column
                          column
                          column?
+                         column-map
                          typeof
                          typeof?
                          slice
