@@ -166,3 +166,13 @@ myclm
 (-> [(column [5 6 7 8 9])
      (column [1 2 3 4 5])]
     (col/column-map (partial *)))
+
+
+(-> (column [1 nil 2 3 nil 0])
+    (ops/* 10))
+
+(-> (column [1 nil 2 3 nil 0])
+    (ops/max [10 10 10 10 10 10]))
+
+
+(tech.v3.dataset.column/missing)

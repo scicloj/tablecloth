@@ -13,7 +13,10 @@
                          ones)
 
 (exporter/export-symbols tech.v3.dataset.column
-                         select)
+                         is-missing?
+                         missing
+                         select
+                         set-missing)
 
 (comment
   ;; Use this to generate the column api
