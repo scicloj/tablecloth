@@ -90,4 +90,3 @@
    (if (vector? col)
      (apply col/column-map map-fn options col)
      (col/column-map map-fn options col))))
-
