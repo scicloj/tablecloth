@@ -7,8 +7,12 @@
                          column?
                          typeof
                          typeof?
+                         slice
                          zeros
                          ones)
+
+(exporter/export-symbols tech.v3.dataset.column
+                         select)
 
 (comment
   ;; Use this to generate the column api

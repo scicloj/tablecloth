@@ -13,7 +13,8 @@
 
 ^{:kind/hidden true}
 (comment
-  (do (clay/show-doc! "docs/column_exploration.clj" {:hide-doc? true}))
+  (clay/show-doc! "docs/column_exploration.clj" {:hide-doc? true})
+  (clay/write-html! "docs/column_exploration.html")
   ,)
 
 ;; ## What is this exploration?
@@ -50,6 +51,79 @@
 (let [string-column (column ["foo" "bar"])]
   (col/typeof string-column))
 
+;; ### Subsetting and accesssing
+
+;; You can access an element in a column in exactly the same ways you
+;; would in Clojure.
+
+(def myclm (column (range 5)))
+
+myclm
+
+(myclm 2)
+
+(nth myclm 2)
+
+(get myclm 2)
+
+;; #### Selecting multiple elements
+
+;; There are two ways to select multiple elements from a column:
+;;   * If you need to select a continuous subset, you can use `slice`;
+;;   * if you may need to select diverse elements, use `select`.
+;;
+
+;; **Slice**
+
+;; The `slice` method allows you to use indexes to specify a portion
+;; of the column to extract.
+
+(def myclm
+  (column (repeatedly 10 #(rand-int 10))))
+
+myclm
+
+(col/slice myclm 3 5)
+
+
+;; It also supports negative indexing, making it possible to slice
+;; from the end of the column:
+
+(col/slice myclm -7 -5)
+
+;; It's also possible to slice from one direction to the beginning or
+;; end:
+
+(col/slice myclm 7 :end)
+
+(col/slice myclm -3 :end)
+
+(col/slice myclm :start 7)
+
+(col/slice myclm :start -3)
+
+;; **Select**
+;;
+;; The `select` fn works by taking a list of index positions:
+
+(col/select myclm [1 3 5 8])
+
+;; We can combine this type of selection with the operations just
+;; demonstrated to select certain values.
+
+
+myclm
+
+;; Let's see which positions are greter than 5.
+(ops/> myclm 5)
+
+
+;; We can use a column of boolean values like the one above with the `select` function as well. `select` will choose all the positions that are true. It's like supplying select a list of the index positions that hold true values.
+(col/select myclm (ops/> myclm 5))
+
+
+
+
 ;; ### Basic Operations
 
 ;; Operations are right now in their own namespace
@@ -64,7 +138,7 @@
 
 (ops/pow a 2)
 
-(ops/* 10 (fun/sin a))
+(ops/* 10 (ops/sin a))
 
 (ops/< a 35)
 
@@ -74,3 +148,4 @@
 (-> a
     (ops/* b)
     (ops/< 70))
+
