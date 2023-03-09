@@ -74,6 +74,7 @@
                             (inc (if (neg? to) (+ len to) to))
                             step)))))
 
+;;handle missing values
 (defn sort-column
   "Returns a sorted version of the column `col`. You can supply the
   keywords `:asc` or `:desc` or a comparator function to `order-or-comparator`.
