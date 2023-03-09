@@ -75,11 +75,21 @@
                             step)))))
 
 (defn sort-column
-  "Returns a sorted version of the column `col` based on `comparator-fn`.
+  "Returns a sorted version of the column `col`. You can supply the
+  keywords `:asc` or `:desc` or a comparator function to `order-or-comparator`.
   If no comparator function is provided, the column will be sorted in
   ascending order."
   ([col]
-   (sort-column col fun/<))
-  ([col comparator-fn]
-   (let [sorted-indices (argsort comparator-fn col)]
+   (sort-column col :asc))
+  ([col order-or-comparator]
+   (if (not (or (= :asc order-or-comparator)
+                (= :desc order-or-comparator)
+                (fn? order-or-comparator)))
+     (throw (IllegalArgumentException.
+             "`order-or-comparator` must be `:asc`, `:desc`, or a function.")))
+   (let [order-fn-lookup {:asc fun/<, :desc fun/>}
+         comparator-fn (if (fn? order-or-comparator)
+                         order-or-comparator
+                         (order-fn-lookup order-or-comparator)) 
+         sorted-indices (argsort comparator-fn col)]
      (col/select col sorted-indices))))
