@@ -75,6 +75,9 @@
                             step)))))
 
 (defn sort-column
+  "Returns a sorted version of the column `col` based on `comparator-fn`.
+  If no comparator function is provided, the column will be sorted in
+  ascending order."
   ([col]
    (sort-column col fun/<))
   ([col comparator-fn]
