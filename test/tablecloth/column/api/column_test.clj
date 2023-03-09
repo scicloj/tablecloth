@@ -1,9 +1,11 @@
 (ns tablecloth.column.api.column-test
-  (:require [tablecloth.column.api.column :refer [column zeros ones typeof? typeof slice]] 
+  (:require [tablecloth.column.api.column :refer [column zeros ones typeof?
+                                                  typeof slice sort-column]] 
+            [tech.v3.dataset.column :refer [is-column?]]
             [midje.sweet :refer [fact facts =>]]))
 
 (fact "`column` returns a column"
-      (tech.v3.dataset.column/is-column? (column)) => true)
+      (is-column? (column)) => true)
 
 (fact "`column` provides a few ways to generate a column`"
       (column) => []
@@ -72,3 +74,18 @@
               (slice c 1 :end) => [2 3 4 5]
               (slice c -4 :end) => [2 3 4 5]
               (slice c :start -3) => [1 2 3])))
+
+(facts "about `sort-column`"
+       (let [c-ints (column [3 100 9 0 -10 43])
+             c-strings (column ["a" "z" "baz" "fo" "bar" "foo"])]
+         (fact "it returns a column"
+               (sort-column c-ints) => is-column?)
+         (fact "it sorts in ascending order by default"
+               (sort-column c-ints) => [-10 0 3 9 43 100]
+               (sort-column c-strings) => ["a" "bar" "baz" "fo" "foo" "z"])
+         (fact "it accepts a comparator-fn"
+               (sort-column c-strings
+                            #(> (count %1) (count %2))) => ["baz" "bar" "foo" "fo" "z" "a"])))
+
+
+

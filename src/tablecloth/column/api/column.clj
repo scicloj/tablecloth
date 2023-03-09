@@ -1,6 +1,8 @@
 (ns tablecloth.column.api.column
   (:require [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
+            [tech.v3.datatype.functional :as fun]
+            [tech.v3.datatype.argops :refer [argsort]]
             [tablecloth.api.utils :refer [->general-types concrete-type? type?]]))
 
 (defn column
@@ -71,3 +73,10 @@
      (col/select col (range (if (neg? from) (+ len from) from)
                             (inc (if (neg? to) (+ len to) to))
                             step)))))
+
+(defn sort-column
+  ([col]
+   (sort-column col fun/<))
+  ([col comparator-fn]
+   (let [sorted-indices (argsort comparator-fn col)]
+     (col/select col sorted-indices))))
