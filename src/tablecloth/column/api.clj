@@ -15,6 +15,24 @@
   (tablecloth.column.api.column/column data options)))
 
 
+(defn column-map
+  "Applies a map function `map-fn` to one or more columns. If `col` is
+  a vector of columns, `map-fn` must have an arity equal to the number
+  of columns. The datatype of the resulting column will be inferred,
+  unless specified in the `options` map. Missing values can be handled
+  by providing a `:missing-fn` in the options map.
+
+  options:
+  - :datatype   - The desired datatype of the resulting column. The datatype
+                  is inferred if not provided
+  - :missing-fn - A function that takes a sequence of columns, and returns a
+                  set of missing index positions."
+  ([col map-fn]
+  (tablecloth.column.api.column/column-map col map-fn))
+  ([col map-fn options]
+  (tablecloth.column.api.column/column-map col map-fn options)))
+
+
 (defn column?
   "Return true or false `item` is a column."
   ([item]

@@ -51,6 +51,32 @@
 (let [string-column (column ["foo" "bar"])]
   (col/typeof string-column))
 
+
+;; ### Basic Operations
+
+;; Operations are right now in their own namespace
+(require '[tablecloth.column.api.operators :as ops])
+
+;; With that imported we can perform a large number of operations:
+
+(def a (column [20 30 40 50]))
+(def b (column (range 4)))
+
+(ops/- a b)
+
+(ops/pow a 2)
+
+(ops/* 10 (ops/sin a))
+
+(ops/< a 35)
+
+;; All these operations take a column as their first argument and
+;; return a column, so they can be chained easily.
+
+(-> a
+    (ops/* b)
+    (ops/< 70))
+
 ;; ### Subsetting and accesssing
 
 ;; You can access an element in a column in exactly the same ways you
@@ -122,30 +148,21 @@ myclm
 (col/select myclm (ops/> myclm 5))
 
 
+;; ### Iterating Over Column
 
+;; Many operations that you might want to perform on a column are
+;; available in the `tablecloth.column.api.operators` namespace.
+;; However, when there is a need to do something custom, you can also
+;; interate over the column.
 
-;; ### Basic Operations
+(defn calc-percent [x]
+  (/ x 100.0))
 
-;; Operations are right now in their own namespace
-(require '[tablecloth.column.api.operators :as ops])
+(col/column-map myclm calc-percent)
 
-;; With that imported we can perform a large number of operations:
+;; It's also possible to iterate over multiple columns by supplying a
+;; vector of columns:
 
-(def a (column [20 30 40 50]))
-(def b (column (range 4)))
-
-(ops/- a b)
-
-(ops/pow a 2)
-
-(ops/* 10 (ops/sin a))
-
-(ops/< a 35)
-
-;; All these operations take a column as their first argument and
-;; return a column, so they can be chained easily.
-
-(-> a
-    (ops/* b)
-    (ops/< 70))
-
+(-> [(column [5 6 7 8 9])
+     (column [1 2 3 4 5])]
+    (col/column-map (partial *)))
