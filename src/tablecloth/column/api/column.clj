@@ -76,7 +76,7 @@
 
 ;;handle missing values
 (defn sort-column
-  "Returns a sorted version of the column `col`. You can supply the
+  "Returns a sorted version of the column `col`. You can supply the ordering
   keywords `:asc` or `:desc` or a comparator function to `order-or-comparator`.
   If no comparator function is provided, the column will be sorted in
   ascending order."
