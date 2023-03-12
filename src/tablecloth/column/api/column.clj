@@ -1,6 +1,8 @@
 (ns tablecloth.column.api.column
   (:require [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
+            [tech.v3.datatype.functional :as fun]
+            [tech.v3.datatype.argops :refer [argsort]]
             [tablecloth.api.utils :refer [->general-types concrete-type? type?]]))
 
 (defn column
@@ -71,6 +73,27 @@
      (col/select col (range (if (neg? from) (+ len from) from)
                             (inc (if (neg? to) (+ len to) to))
                             step)))))
+
+;;handle missing values
+(defn sort-column
+  "Returns a sorted version of the column `col`. You can supply the ordering
+  keywords `:asc` or `:desc` or a comparator function to `order-or-comparator`.
+  If no comparator function is provided, the column will be sorted in
+  ascending order."
+  ([col]
+   (sort-column col :asc))
+  ([col order-or-comparator]
+   (if (not (or (= :asc order-or-comparator)
+                (= :desc order-or-comparator)
+                (fn? order-or-comparator)))
+     (throw (IllegalArgumentException.
+             "`order-or-comparator` must be `:asc`, `:desc`, or a function.")))
+   (let [order-fn-lookup {:asc fun/<, :desc fun/>}
+         comparator-fn (if (fn? order-or-comparator)
+                         order-or-comparator
+                         (order-fn-lookup order-or-comparator)) 
+         sorted-indices (argsort comparator-fn col)]
+     (col/select col sorted-indices))))
 
 (defn column-map
   "Applies a map function `map-fn` to one or more columns. If `col` is
