@@ -10,7 +10,8 @@
                          typeof?
                          slice
                          zeros
-                         ones)
+                         ones
+                         count-missing)
 
 (exporter/export-symbols tech.v3.dataset.column
                          is-missing?

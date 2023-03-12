@@ -39,6 +39,11 @@
   (tablecloth.column.api.column/column? item)))
 
 
+(defn count-missing
+  ([col]
+  (tablecloth.column.api.column/count-missing col)))
+
+
 (defn is-missing?
   "Return true if this index is missing."
   ([col idx]
