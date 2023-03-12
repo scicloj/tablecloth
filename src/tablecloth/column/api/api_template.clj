@@ -15,8 +15,7 @@
 (exporter/export-symbols tech.v3.dataset.column
                          is-missing?
                          missing
-                         select
-                         set-missing)
+                         select)
 
 (comment
   ;; Use this to generate the column api

@@ -67,13 +67,6 @@
   (tech.v3.dataset.column/select col selection)))
 
 
-(defn set-missing
-  "Set the missing indexes for a column.  This doesn't change any values in the
-  underlying data store."
-  ([col idx-seq]
-  (tech.v3.dataset.column/set-missing col idx-seq)))
-
-
 (defn slice
   "Returns a subset of the column defined by the inclusive `from` and
   `to` indexes. If `to` is not provided, slices to the end of the
