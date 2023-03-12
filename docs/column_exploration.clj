@@ -168,11 +168,12 @@ myclm
     (col/column-map (partial *)))
 
 
-(-> (column [1 nil 2 3 nil 0])
-    (ops/* 10))
+(comment 
+  (-> (column [1 nil 2 3 nil 0])
+      (ops/* 10))
 
-(-> (column [1 nil 2 3 nil 0])
-    (ops/max [10 10 10 10 10 10]))
+  (-> (column [1 nil 2 3 nil 0])
+      (ops/max [10 10 10 10 10 10]))
 
 
-(tech.v3.dataset.column/missing)
+  (tech.v3.dataset.column/missing))
