@@ -85,7 +85,9 @@
                (sort-column c-strings) => ["a" "bar" "baz" "fo" "foo" "z"])
          (fact "it accepts a comparator-fn"
                (sort-column c-strings
-                            #(> (count %1) (count %2))) => ["baz" "bar" "foo" "fo" "z" "a"])))
+                            #(> (count %1) (count %2))) => ["baz" "bar" "foo" "fo" "z" "a"])
+         (fact "it moves missing values to the end"
+               (sort-column (column [nil 100 nil 3 -10])) => [-10 3 100 nil nil])))
 
 
 
