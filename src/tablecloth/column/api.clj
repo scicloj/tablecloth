@@ -97,6 +97,17 @@
   (tablecloth.column.api.column/slice col from to step)))
 
 
+(defn sort-column
+  "Returns a sorted version of the column `col`. You can supply the ordering
+  keywords `:asc` or `:desc` or a comparator function to `order-or-comparator`.
+  If no comparator function is provided, the column will be sorted in
+  ascending order."
+  ([col]
+  (tablecloth.column.api.column/sort-column col))
+  ([col order-or-comparator]
+  (tablecloth.column.api.column/sort-column col order-or-comparator)))
+
+
 (defn typeof
   "Returns the concrete type of the elements within the column `col`."
   ([col]

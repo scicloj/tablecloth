@@ -11,7 +11,8 @@
                          slice
                          zeros
                          ones
-                         count-missing)
+                         count-missing
+                         sort-column)
 
 (exporter/export-symbols tech.v3.dataset.column
                          is-missing?
