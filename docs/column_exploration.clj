@@ -5,8 +5,7 @@
   (:require [tablecloth.api :as tc]
             [scicloj.clay.v2.api :as clay]
             [scicloj.kindly.v3.api :as kindly]
-            [scicloj.kindly.v3.kind :as kind]
-            ))
+            [scicloj.kindly.v3.kind :as kind]))
 
 ^{:kind/hidden true}
 (clay/start!)
@@ -148,7 +147,7 @@ myclm
 (col/select myclm (ops/> myclm 5))
 
 
-;; ### Iterating Over Column
+;; ### Iterating over a column
 
 ;; Many operations that you might want to perform on a column are
 ;; available in the `tablecloth.column.api.operators` namespace.
@@ -177,3 +176,28 @@ myclm
 
 
   (tech.v3.dataset.column/missing))
+
+;; ### Sorting a column
+
+;; You can use `sort-column` to sort a colum
+
+(def myclm (column (repeatedly 10 #(rand-int 100))))
+
+myclm
+
+(col/sort-column myclm)
+
+;; As you can see, sort-columns sorts in ascending order by default,
+;; but you can also specify a different order using ordering keywords
+;; `:asc` and `:desc`:
+
+
+(col/sort-column myclm :desc)
+
+;; Finally, sort can also accept a `comparator-fn`:
+
+(let [c (column ["1" "100" "4" "-10"])]
+  (col/sort-column c (fn [a b]
+                       (let [a (parse-long a)
+                             b (parse-long b)]
+                         (< a b)))))
