@@ -201,3 +201,36 @@ myclm
                        (let [a (parse-long a)
                              b (parse-long b)]
                          (< a b)))))
+
+
+;; ### Missing values
+
+;; The column has built-in support for basic awareness and handling of
+;; missing values. Columns will be scanned for missing values when
+;; created.
+
+(def myclm (column [10 nil -4 20 1000 nil -233]))
+
+;; You can identify the set of index positions of missing values:
+
+(col/missing myclm)
+
+;; You can remove missing values:
+
+(col/drop-missing myclm)
+
+;; Or you can replace them:
+
+(col/replace-missing myclm)
+
+;; There are a range of built-in strategies:
+
+(col/replace-missing myclm :midpoint)
+
+
+;; And you can provide your own value using a specific value or fn:
+
+(col/replace-missing myclm :value 555)
+
+(col/replace-missing myclm :value (fn [col-without-missing]
+                                    (ops/mean col-without-missing)))
