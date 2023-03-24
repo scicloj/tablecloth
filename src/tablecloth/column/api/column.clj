@@ -113,7 +113,3 @@
    (if (vector? col)
      (apply col/column-map map-fn options col)
      (col/column-map map-fn options col))))
-
-(defn count-missing [col]
-  "Returns the number of missing values in column `col`. "
-  (-> col col/missing dtype/ecount))

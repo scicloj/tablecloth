@@ -3,6 +3,7 @@
   "Tablecloth Column API"
   (:require [tablecloth.column.api.api-template]
             [tablecloth.column.api.column]
+            [tablecloth.column.api.missing]
             [tech.v3.dataset.column]))
 
 (defn column
@@ -41,7 +42,12 @@
 
 (defn count-missing
   ([col]
-  (tablecloth.column.api.column/count-missing col)))
+  (tablecloth.column.api.missing/count-missing col)))
+
+
+(defn drop-missing
+  ([col]
+  (tablecloth.column.api.missing/drop-missing col)))
 
 
 (defn is-missing?
@@ -60,6 +66,31 @@
   "Creates a new column filled with `n-ones`"
   ([n-ones]
   (tablecloth.column.api.column/ones n-ones)))
+
+
+(defn replace-missing
+  "Replace missing values in column `col` with give `strategy`.
+
+    Strategies may be:
+
+    - `:down` -	Take the previous value, or use provided value.
+    - `:up` - Take the next value, or use provided value.
+    - `:downup` - Take the previous value, otherwise take the next value.
+    - `:updown` - Take the next value, otherwise take the previous value.
+    - `:nearest` - Use the nearest of next or previous values. (Strategy `:mid` is an alias for `:nearest`).
+    - `:midpoint` - Use the midpoint of averaged values between previous and next (non-missing) values.
+    - `:abb` - Impute missing value with approximate Bayesian bootstrap.
+               See [r's ABB](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/ABB.html).
+    - `:lerp` - Linearly interpolate values between previous and next nonmissing rows.
+    - `:value` - Provide a value explicitly.  Value may be a function in which
+                 case it will be called on the column with missing values elided
+                 and the return will be used to as the filler."
+  ([col]
+  (tablecloth.column.api.missing/replace-missing col))
+  ([col strategy]
+  (tablecloth.column.api.missing/replace-missing col strategy))
+  ([col strategy value]
+  (tablecloth.column.api.missing/replace-missing col strategy value)))
 
 
 (defn select
