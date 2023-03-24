@@ -215,6 +215,8 @@ myclm
 
 (col/missing myclm)
 
+(col/count-missing myclm)
+
 ;; You can remove missing values:
 
 (col/drop-missing myclm)
