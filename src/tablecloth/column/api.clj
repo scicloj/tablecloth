@@ -41,11 +41,13 @@
 
 
 (defn count-missing
+  "Returns the number of missing values in column `col`. "
   ([col]
   (tablecloth.column.api.missing/count-missing col)))
 
 
 (defn drop-missing
+  "Remove missing values from column `col`."
   ([col]
   (tablecloth.column.api.missing/drop-missing col)))
 

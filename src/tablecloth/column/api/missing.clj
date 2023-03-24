@@ -12,12 +12,14 @@
 (defn- out-of-ds [ds]
   (:col ds))
 
-(defn count-missing [col]
+(defn count-missing 
   "Returns the number of missing values in column `col`. "
+  [col]
   (-> col col/missing dtype/ecount))
 
-(defn drop-missing [col]
+(defn drop-missing 
   "Remove missing values from column `col`."
+  [col]
   (-> col
       (into-ds)
       (ds/drop-missing)
