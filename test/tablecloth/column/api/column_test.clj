@@ -20,11 +20,9 @@
       (-> [true false true]
           (column)
           (tech.v3.datatype/elemwise-datatype)) => :boolean
-      ;; disable this test until TC reaches 7.00-beta2
-      ;;(-> [1 true false]
-      ;;    (column)
-      ;;    (tech.v3.datatype/elemwise-datatype)) => :object
-      )
+      (-> [1 true false]
+         (column)
+         (tech.v3.datatype/elemwise-datatype)) => :object)
 
 (fact "`typeof` returns the concrete type of the elements"
       (typeof (column [1 2 3])) => :int64 
@@ -85,7 +83,9 @@
                (sort-column c-strings) => ["a" "bar" "baz" "fo" "foo" "z"])
          (fact "it accepts a comparator-fn"
                (sort-column c-strings
-                            #(> (count %1) (count %2))) => ["baz" "bar" "foo" "fo" "z" "a"])))
+                            #(> (count %1) (count %2))) => ["baz" "bar" "foo" "fo" "z" "a"])
+         (fact "it moves missing values to the end"
+               (sort-column (column [nil 100 nil 3 -10])) => [-10 3 100 nil nil])))
 
 
 

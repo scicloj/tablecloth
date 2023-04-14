@@ -3,6 +3,7 @@
   "Tablecloth Column API"
   (:require [tablecloth.column.api.api-template]
             [tablecloth.column.api.column]
+            [tablecloth.column.api.missing]
             [tech.v3.dataset.column]))
 
 (defn column
@@ -39,10 +40,59 @@
   (tablecloth.column.api.column/column? item)))
 
 
+(defn count-missing
+  "Returns the number of missing values in column `col`. "
+  ([col]
+  (tablecloth.column.api.missing/count-missing col)))
+
+
+(defn drop-missing
+  "Remove missing values from column `col`."
+  ([col]
+  (tablecloth.column.api.missing/drop-missing col)))
+
+
+(defn is-missing?
+  "Return true if this index is missing."
+  ([col idx]
+  (tech.v3.dataset.column/is-missing? col idx)))
+
+
+(defn missing
+  "Indexes of missing values.  Both iterable and reader."
+  (^{:tag org.roaringbitmap.RoaringBitmap} [col]
+  (tech.v3.dataset.column/missing col)))
+
+
 (defn ones
   "Creates a new column filled with `n-ones`"
   ([n-ones]
   (tablecloth.column.api.column/ones n-ones)))
+
+
+(defn replace-missing
+  "Replace missing values in column `col` with give `strategy`.
+
+    Strategies may be:
+
+    - `:down` -	Take the previous value, or use provided value.
+    - `:up` - Take the next value, or use provided value.
+    - `:downup` - Take the previous value, otherwise take the next value.
+    - `:updown` - Take the next value, otherwise take the previous value.
+    - `:nearest` - Use the nearest of next or previous values. (Strategy `:mid` is an alias for `:nearest`).
+    - `:midpoint` - Use the midpoint of averaged values between previous and next (non-missing) values.
+    - `:abb` - Impute missing value with approximate Bayesian bootstrap.
+               See [r's ABB](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/ABB.html).
+    - `:lerp` - Linearly interpolate values between previous and next nonmissing rows.
+    - `:value` - Provide a value explicitly.  Value may be a function in which
+                 case it will be called on the column with missing values elided
+                 and the return will be used to as the filler."
+  ([col]
+  (tablecloth.column.api.missing/replace-missing col))
+  ([col strategy]
+  (tablecloth.column.api.missing/replace-missing col strategy))
+  ([col strategy value]
+  (tablecloth.column.api.missing/replace-missing col strategy value)))
 
 
 (defn select
@@ -78,6 +128,17 @@
   (tablecloth.column.api.column/slice col from to))
   ([col from to step]
   (tablecloth.column.api.column/slice col from to step)))
+
+
+(defn sort-column
+  "Returns a sorted version of the column `col`. You can supply the ordering
+  keywords `:asc` or `:desc` or a comparator function to `order-or-comparator`.
+  If no comparator function is provided, the column will be sorted in
+  ascending order."
+  ([col]
+  (tablecloth.column.api.column/sort-column col))
+  ([col order-or-comparator]
+  (tablecloth.column.api.column/sort-column col order-or-comparator)))
 
 
 (defn typeof

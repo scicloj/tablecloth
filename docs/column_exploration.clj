@@ -5,8 +5,7 @@
   (:require [tablecloth.api :as tc]
             [scicloj.clay.v2.api :as clay]
             [scicloj.kindly.v3.api :as kindly]
-            [scicloj.kindly.v3.kind :as kind]
-            ))
+            [scicloj.kindly.v3.kind :as kind]))
 
 ^{:kind/hidden true}
 (clay/start!)
@@ -148,7 +147,7 @@ myclm
 (col/select myclm (ops/> myclm 5))
 
 
-;; ### Iterating Over Column
+;; ### Iterating over a column
 
 ;; Many operations that you might want to perform on a column are
 ;; available in the `tablecloth.column.api.operators` namespace.
@@ -166,3 +165,74 @@ myclm
 (-> [(column [5 6 7 8 9])
      (column [1 2 3 4 5])]
     (col/column-map (partial *)))
+
+
+(comment 
+  (-> (column [1 nil 2 3 nil 0])
+      (ops/* 10))
+
+  (-> (column [1 nil 2 3 nil 0])
+      (ops/max [10 10 10 10 10 10]))
+
+
+  (tech.v3.dataset.column/missing))
+
+;; ### Sorting a column
+
+;; You can use `sort-column` to sort a colum
+
+(def myclm (column (repeatedly 10 #(rand-int 100))))
+
+myclm
+
+(col/sort-column myclm)
+
+;; As you can see, sort-columns sorts in ascending order by default,
+;; but you can also specify a different order using ordering keywords
+;; `:asc` and `:desc`:
+
+
+(col/sort-column myclm :desc)
+
+;; Finally, sort can also accept a `comparator-fn`:
+
+(let [c (column ["1" "100" "4" "-10"])]
+  (col/sort-column c (fn [a b]
+                       (let [a (parse-long a)
+                             b (parse-long b)]
+                         (< a b)))))
+
+
+;; ### Missing values
+
+;; The column has built-in support for basic awareness and handling of
+;; missing values. Columns will be scanned for missing values when
+;; created.
+
+(def myclm (column [10 nil -4 20 1000 nil -233]))
+
+;; You can identify the set of index positions of missing values:
+
+(col/missing myclm)
+
+(col/count-missing myclm)
+
+;; You can remove missing values:
+
+(col/drop-missing myclm)
+
+;; Or you can replace them:
+
+(col/replace-missing myclm)
+
+;; There are a range of built-in strategies:
+
+(col/replace-missing myclm :midpoint)
+
+
+;; And you can provide your own value using a specific value or fn:
+
+(col/replace-missing myclm :value 555)
+
+(col/replace-missing myclm :value (fn [col-without-missing]
+                                    (ops/mean col-without-missing)))
