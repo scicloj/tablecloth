@@ -15,7 +15,7 @@
 (defn lift-op
   ([fn-sym fn-meta]
    (lift-op fn-sym fn-meta nil))
-  ([fn-sym fn-meta {:keys [new-args new-args-lookup]}]
+  ([fn-sym fn-meta {:keys [new-args]}]
    (let [defn (symbol "defn")
          let  (symbol "let")
          docstring (:doc fn-meta)
@@ -25,16 +25,18 @@
      (if new-args
       `(~defn ~(symbol (name fn-sym))
         ~(or docstring "")
-        ~@(for [[new-arg original-arg] (zipmap (sort-by-arg-count new-args)
-                                                (sort-by-arg-count original-args))
+        ~@(for [[new-arg new-arg-lookup original-arg]
+                (map vector (sort-by-arg-count (keys new-args))
+                            (sort-by-arg-count (vals new-args))
+                            (sort-by-arg-count original-args))
                 :let [filtered-original-arg (filter (partial not= '&) original-arg)]]
             (list
-            (if new-arg new-arg original-arg)
+             (if new-arg new-arg original-arg)
             `(~let [original-result# (~fn-sym
-                                      ~@(if (nil? new-args-lookup)
-                                          filtered-original-arg
-                                          (for [oldarg filtered-original-arg]
-                                            (get new-args-lookup oldarg))))]
+                                      ~@(for [oldarg filtered-original-arg]
+                                          (if (nil? (get new-arg-lookup oldarg))
+                                            oldarg
+                                            (get new-arg-lookup oldarg))))]
               (return-scalar-or-column original-result#)))))
       `(~defn ~(symbol (name fn-sym)) 
         ~(or docstring "") 
@@ -46,6 +48,7 @@
                                         `(~fn-sym ~@explicit-args)
                                         `(apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
               (return-scalar-or-column original-result#)))))))))
+
 
 (defn- writeln!
   ^Writer [^Writer writer strdata & strdatas]
