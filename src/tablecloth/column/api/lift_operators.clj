@@ -6,13 +6,8 @@
     '+
     '-
     '/
-    '<
-    '<=
-    '>
-    '>=
     'abs
     'acos
-    'and
     'asin
     'atan
     'atan2
@@ -31,11 +26,6 @@
     'ceil
     'cos
     'cosh
-    'distance
-    'distance-squared
-    'dot-product
-    'eq
-    'equals
     'exp
     'expm1
     'floor
@@ -52,9 +42,7 @@
     'min
     'next-down
     'next-up
-    'normalize
-    'not-eq
-    'or
+
     'pow
     'quot
     'rem
@@ -81,8 +69,8 @@
     'median] (fn [fn-sym fn-meta]
               (lift-op
                fn-sym fn-meta
-               {:new-args '([col] [col options])
-                :new-args-lookup {'data 'col
+               {:new-args '([x] [x options])
+                :new-args-lookup {'data 'x
                                   'options 'options}}))
    ['even?
     'finite?
@@ -170,7 +158,41 @@
                  fn-sym fn-meta
                  {:new-args '([x] [x options])
                   :new-args-lookup {'data 'x
-                                    'options 'options}}))})
+                                    'options 'options}}))
+   ['normalize] (fn [fn-sym fn-meta]
+                  (lift-op
+                   fn-sym fn-meta
+                   {:new-args '([x])
+                    :new-args-lookup {'item 'x}}))
+   ['<
+    '<=
+    '>
+    '>=] (fn [fn-sym fn-meta]
+           (lift-op
+            fn-sym fn-meta
+            {:new-args '([x y z])
+             :new-args-lookup {'lhs 'x
+                               'mid 'y
+                               'rhs 'z}}))
+   ['equals] (fn [fn-sym fn-meta]
+               (lift-op
+                fn-sym fn-meta
+                {:new-args '([x y & args])
+                 :new-args-lookup {'lhs 'x
+                                   'rhs 'y
+                                   'args 'args}}))
+   ['distance
+    'dot-product
+    'eq
+    'not-eq
+    'or
+    'distance-squared
+    'and] (fn [fn-sym fn-meta]
+            (lift-op
+             fn-sym fn-meta
+             {:new-args '([x y])
+              :new-args-lookup {'lhs 'x
+                                'rhs 'y}}))})
 
 
 (defn deserialize-lift-fn-lookup []
