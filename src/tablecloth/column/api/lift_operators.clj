@@ -170,7 +170,7 @@
     '>=] (fn [fn-sym fn-meta]
            (lift-op
             fn-sym fn-meta
-            {:new-args '([x y z])
+            {:new-args '([x y] [x y z])
              :new-args-lookup {'lhs 'x
                                'mid 'y
                                'rhs 'z}}))
@@ -215,3 +215,29 @@
              unsigned-bit-shift-right zero?]
            "src/tablecloth/column/api/operators.clj")
   ,)
+
+
+(comment
+
+  (def mylift (fn [fn-sym fn-meta]
+           (lift-op
+            fn-sym fn-meta
+            {:new-args '([x y z])
+             :new-args-lookup {'lhs 'x
+                               'mid 'y
+                               'rhs 'z}})))
+
+  (def mappings (ns-publics 'tech.v3.datatype.functional))
+
+  (mylift 'tech.v3.datatype.functional/> (meta (get mappings '>)))
+  ;; => (defn
+  ;;     >
+  ;;     ""
+  ;;     ([x y z]
+  ;;      (let
+  ;;       [original-result__31399__auto__
+  ;;        (tech.v3.datatype.functional/> x z)]
+  ;;       (tablecloth.column.api.utils/return-scalar-or-column
+  ;;        original-result__31399__auto__))))
+
+  )

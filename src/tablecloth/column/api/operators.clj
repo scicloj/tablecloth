@@ -234,9 +234,15 @@
 (defn
  <
  ""
- ([x y z]
+ ([x y]
   (let
    [original-result__31399__auto__ (tech.v3.datatype.functional/< x z)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__31399__auto__)))
+ ([x y z]
+  (let
+   [original-result__31399__auto__
+    (tech.v3.datatype.functional/< x y z)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__31399__auto__))))
 
@@ -451,10 +457,16 @@
 (defn
  <=
  ""
- ([x y z]
+ ([x y]
   (let
    [original-result__31399__auto__
     (tech.v3.datatype.functional/<= x z)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__31399__auto__)))
+ ([x y z]
+  (let
+   [original-result__31399__auto__
+    (tech.v3.datatype.functional/<= x y z)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__31399__auto__))))
 
@@ -804,9 +816,15 @@
 (defn
  >
  ""
- ([x y z]
+ ([x y]
   (let
    [original-result__31399__auto__ (tech.v3.datatype.functional/> x z)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__31399__auto__)))
+ ([x y z]
+  (let
+   [original-result__31399__auto__
+    (tech.v3.datatype.functional/> x y z)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__31399__auto__))))
 
@@ -1257,10 +1275,16 @@
 (defn
  >=
  ""
- ([x y z]
+ ([x y]
   (let
    [original-result__31399__auto__
     (tech.v3.datatype.functional/>= x z)]
+   (tablecloth.column.api.utils/return-scalar-or-column
+    original-result__31399__auto__)))
+ ([x y z]
+  (let
+   [original-result__31399__auto__
+    (tech.v3.datatype.functional/>= x y z)]
    (tablecloth.column.api.utils/return-scalar-or-column
     original-result__31399__auto__))))
 
