@@ -37,7 +37,6 @@
     'log10
     'log1p
     'logistic
-    'magnitude
     'max
     'min
     'next-down
@@ -173,7 +172,13 @@
             (lift-op
              fn-sym fn-meta
              {:new-args {'[x y] {'lhs 'x
-                                 'rhs 'y}}}))})
+                                 'rhs 'y}}}))
+   ['magnitude] (fn [fn-sym fn-meta]
+                  (lift-op
+                   fn-sym fn-meta
+                   {:new=args {'[item] {'item 'x}
+                               '[item options] {'item 'x
+                                                '_options 'options}}}))})
 
 
 (defn deserialize-lift-fn-lookup []
