@@ -6,13 +6,8 @@
     '+
     '-
     '/
-    '<
-    '<=
-    '>
-    '>=
     'abs
     'acos
-    'and
     'asin
     'atan
     'atan2
@@ -31,11 +26,6 @@
     'ceil
     'cos
     'cosh
-    'distance
-    'distance-squared
-    'dot-product
-    'eq
-    'equals
     'exp
     'expm1
     'floor
@@ -52,9 +42,7 @@
     'min
     'next-down
     'next-up
-    'normalize
-    'not-eq
-    'or
+
     'pow
     'quot
     'rem
@@ -81,9 +69,8 @@
     'median] (fn [fn-sym fn-meta]
               (lift-op
                fn-sym fn-meta
-               {:new-args '([col] [col options])
-                :new-args-lookup {'data 'col
-                                  'options 'options}}))
+               {:new-args {'[x] {'data 'x}
+                           '[x options] {'data 'x}}}))
    ['even?
     'finite?
     'infinite?
@@ -98,79 +85,96 @@
    (fn [fn-sym fn-meta]
              (lift-op
               fn-sym fn-meta
-              {:new-args '([x] [x options])
-               :new-args-lookup {'arg 'x
-                                 'options 'options}}))
+              {:new-args {'[x] {'arg 'x}
+                          '[x options] {'arg 'x}}}))
    ['percentiles] (fn [fn-sym fn-meta]
                     (lift-op
                      fn-sym fn-meta
-                     {:new-args '([x percentiles] [x percentiles options])
-                      :new-args-lookup {'data 'x,
-                                        'percentages 'percentiles,
-                                        'options 'options}}))
+                     {:new-args {'[x percentiles] {'data 'x
+                                                   'percentages 'percentiles}
+                                 '[x percentiles options] {'data 'x
+                                                           'percentages 'percentiles}}}))
    ['shift] (fn [fn-sym fn-meta]
               (lift-op
                fn-sym fn-meta
-               {:new-args '([x n])
-                :new-args-lookup {'rdr 'x
-                                  'n 'n}}))
+               {:new-args {'[x n] {'rdr 'x}}}))
    ['descriptive-statistics] (fn [fn-sym fn-meta]
                               (lift-op
                                fn-sym fn-meta
-                               {:new-args '([x stats-names stats-data options]
-                                            [x stats-names options]
-                                            [x stats-names]
-                                            [x])
-                                :new-args-lookup {'rdr 'x
-                                                  'src-rdr 'x
-                                                  'stats-names 'stats-names
-                                                  'stats-data 'stats-data
-                                                  'options 'options}}))
+                               {:new-args {'[x] {'rdr 'x}
+                                           '[x stats-names] {'rdr 'x}
+                                           '[x stats-names options] {'rdr 'x}
+                                           '[x stats-names stats-data options] {'src-rdr 'x}}}))
    ['quartiles] (fn [fn-sym fn-meta]
                   (lift-op
                    fn-sym fn-meta
-                   {:new-args '([x options] [x])
-                    :new-args-lookup {'item 'x
-                                      'options 'options}}))
+                   {:new-args {'[x] {'item 'x}
+                               '[x options] {'item 'x}}}))
    ['fill-range] (fn [fn-sym fn-meta]
                   (lift-op
                    fn-sym fn-meta
-                   {:new-args '([x max-span])
-                    :new-args-lookup {'numeric-data 'x
-                                      'max-span 'max-span}}))
+                   {:new-args {'[x max-span] {'numeric-data 'x}}}))
    ['reduce-min
     'reduce-max
     'reduce-*
     'reduce-+] (fn [fn-sym fn-meta]
                  (lift-op
+
                   fn-sym fn-meta
-                  {:new-args '([x])
-                   :new-args-lookup {'rdr 'x}}))
+                  {:new-args {'[x] {'rdr 'x}}}))
   ['mean-fast
    'sum-fast
    'magnitude-squared] (fn [fn-sym fn-meta]
                          (lift-op
                           fn-sym fn-meta
-                          {:new-args '([x])
-                           :new-args-lookup {'data 'x}}))
+                          {:new-args {'[x] {'data 'x}}}))
    ['kendalls-correlation
     'pearsons-correlation
     'spearmans-correlation] (fn [fn-sym fn-meta]
                               (lift-op
                                fn-sym fn-meta
-                               {:new-args '([x y] [x y options])
-                                :new-args-lookup {'lhs 'x
-                                                  'rhs 'y
-                                                  'options 'options}}))
+                               {:new-args {'[x y] {'lhs 'x
+                                                   'rhs 'y}
+                                           '[x y options] {'lhs 'x
+                                                           'rhs 'y}}}))
    ['cumprod
     'cumsum
     'cummax
     'cummin] (fn [fn-sym fn-meta]
                 (lift-op
                  fn-sym fn-meta
-                 {:new-args '([x] [x options])
-                  :new-args-lookup {'data 'x
-                                    'options 'options}}))})
+                 {:new-args {'[x] {'data 'x}}}))
+   ['normalize] (fn [fn-sym fn-meta]
+                  (lift-op
+                   fn-sym fn-meta
+                   {:new-args {'[x] {'item 'x}}}))
+   ['<
+    '<=
+    '>
+    '>=] (fn [fn-sym fn-meta]
+           (lift-op
+            fn-sym fn-meta
+            {:new-args {'[x y] {'lhs 'x
+                                'rhs 'y}
+                        '[x y z] {'lhs 'x
+                                  'mid 'y
+                                  'rhs 'z}}}))
+   ['equals] (fn [fn-sym fn-meta]
+               (lift-op
+                fn-sym fn-meta
+                {:new-args {'[x y & args] {'lhs 'x
+                                           'rhs 'y}}}))
+   ['distance
+    'dot-product
+    'eq
+    'not-eq
+    'or
+    'distance-squared
+    'and] (fn [fn-sym fn-meta]
+            (lift-op
+             fn-sym fn-meta
+             {:new-args {'[x y] {'lhs 'x
+                                 'rhs 'y}}}))})
 
 
 (defn deserialize-lift-fn-lookup []
@@ -193,3 +197,27 @@
              unsigned-bit-shift-right zero?]
            "src/tablecloth/column/api/operators.clj")
   ,)
+
+
+(comment
+
+  (def mylift (fn [fn-sym fn-meta]
+           (lift-op
+            fn-sym fn-meta
+            {:new-args {'[x y] {'lhs 'x
+                                'rhs 'y}
+                        '[x y z] {'lhs 'x
+                                  'mid 'y
+                                  'rhs 'z}}}
+            #_{:new-args '([x y z])
+             :new-args-lookup {'lhs 'x
+                               'mid 'y
+                               'rhs 'z}})))
+
+  (def mappings (ns-publics 'tech.v3.datatype.functional))
+
+  (mylift 'tech.v3.datatype.functional/> (meta (get mappings '>)))
+
+  tech.v3.datatype.functional/>
+
+  )
