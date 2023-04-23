@@ -42,7 +42,6 @@
     'min
     'next-down
     'next-up
-
     'pow
     'quot
     'rem
