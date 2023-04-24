@@ -176,9 +176,9 @@
    ['magnitude] (fn [fn-sym fn-meta]
                   (lift-op
                    fn-sym fn-meta
-                   {:new=args {'[item] {'item 'x}
-                               '[item options] {'item 'x
-                                                '_options 'options}}}))})
+                   {:new-args {'[x] {'item 'x}
+                               '[x options] {'item 'x
+                                             '_options 'options}}}))})
 
 
 (defn deserialize-lift-fn-lookup []

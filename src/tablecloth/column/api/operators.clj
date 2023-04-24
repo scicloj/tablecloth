@@ -1179,18 +1179,18 @@
 (defn
  magnitude
  ""
- ([item _options]
+ ([x]
   (let
-   [original-result__29386__auto__
-    (tech.v3.datatype.functional/magnitude item _options)]
+   [original-result__29385__auto__
+    (tech.v3.datatype.functional/magnitude x)]
    (tablecloth.column.api.utils/return-scalar-or-column
-    original-result__29386__auto__)))
- ([item]
+    original-result__29385__auto__)))
+ ([x options]
   (let
-   [original-result__29386__auto__
-    (tech.v3.datatype.functional/magnitude item)]
+   [original-result__29385__auto__
+    (tech.v3.datatype.functional/magnitude x options)]
    (tablecloth.column.api.utils/return-scalar-or-column
-    original-result__29386__auto__))))
+    original-result__29385__auto__))))
 
 (defn
  cummax
