@@ -1,5 +1,50 @@
 (ns tablecloth.column.api.lift-operators
-  (:require [tablecloth.column.api.utils :refer [do-lift lift-op]]))
+  (:require [tablecloth.utils.codegen :refer [do-lift]]
+            [tablecloth.column.api :refer [column]]
+            [tech.v3.datatype.argtypes :refer [arg-type]]))
+
+(defn return-scalar-or-column [item]
+  (let [item-type (arg-type item)]
+    (if (= item-type :reader)
+      (column item)
+      item)))
+
+(defn lift-op
+  ([fn-sym fn-meta]
+   (lift-op fn-sym fn-meta nil))
+  ([fn-sym fn-meta {:keys [new-args]}]
+   (let [defn (symbol "defn")
+         let  (symbol "let")
+         docstring (:doc fn-meta)
+         original-args (:arglists fn-meta)
+         sort-by-arg-count (fn [argslist]
+                             (sort #(< (count %1) (count %2)) argslist))]
+     (if new-args
+      `(~defn ~(symbol (name fn-sym))
+        ~(or docstring "")
+        ~@(for [[new-arg new-arg-lookup original-arg]
+                (map vector (sort-by-arg-count (keys new-args))
+                            (sort-by-arg-count (vals new-args))
+                            (sort-by-arg-count original-args))
+                :let [filtered-original-arg (filter (partial not= '&) original-arg)]]
+            (list
+             (if new-arg new-arg original-arg)
+            `(~let [original-result# (~fn-sym
+                                      ~@(for [oldarg filtered-original-arg]
+                                          (if (nil? (get new-arg-lookup oldarg))
+                                            oldarg
+                                            (get new-arg-lookup oldarg))))]
+              (return-scalar-or-column original-result#)))))
+      `(~defn ~(symbol (name fn-sym)) 
+        ~(or docstring "") 
+        ~@(for [arg original-args
+                :let [[explicit-args rest-arg-expr] (split-with (partial not= '&) arg)]]
+            (list
+            arg
+            `(~let [original-result# ~(if (empty? rest-arg-expr)
+                                        `(~fn-sym ~@explicit-args)
+                                        `(apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
+              (return-scalar-or-column original-result#)))))))))
 
 (def serialized-lift-fn-lookup
   {['*
@@ -181,25 +226,21 @@
                                              '_options 'options}}}))})
 
 
-(defn deserialize-lift-fn-lookup []
-  (reduce (fn [m [symlist liftfn]]
-            (loop [syms symlist
-                   result m]
-              (if (empty? syms)
-                result
-                (recur (rest syms) (assoc result (first syms) liftfn)))))
-          {}
-          serialized-lift-fn-lookup))
-
 (comment
-  (do-lift (deserialize-lift-fn-lookup)
-           'tablecloth.column.api.operators
-           'tech.v3.datatype.functional
-           '[* + - / < <= > >= abs and bit-and bit-and-not bit-clear bit-flip
+  (do-lift {:target-ns 'tablecloth.column.api.operators
+            :source-ns 'tech.v3.datatype.functional
+            :lift-fn-lookup serialized-lift-fn-lookup
+            :deps ['tablecloth.column.api.lift_operators]
+            :exclusions
+            '[* + - / < <= > >= abs and bit-and bit-and-not bit-clear bit-flip
              bit-not bit-or bit-set bit-shift-left bit-shift-right bit-test bit-xor
              even? identity infinite? max min neg? not odd? odd? or pos? quot rem
-             unsigned-bit-shift-right zero?]
-           "src/tablecloth/column/api/operators.clj")
+             unsigned-bit-shift-right zero?]})
+  ;; (do-lift serialized-lift-fn-lookup
+  ;;          'tablecloth.column.api.operators
+  ;;          'tech.v3.datatype.functional
+           
+  ;;          "src/tablecloth/column/api/operators.clj")
   ,)
 
 
