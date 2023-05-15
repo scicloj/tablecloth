@@ -236,11 +236,6 @@
              bit-not bit-or bit-set bit-shift-left bit-shift-right bit-test bit-xor
              even? identity infinite? max min neg? not odd? odd? or pos? quot rem
              unsigned-bit-shift-right zero?]})
-  ;; (do-lift serialized-lift-fn-lookup
-  ;;          'tablecloth.column.api.operators
-  ;;          'tech.v3.datatype.functional
-           
-  ;;          "src/tablecloth/column/api/operators.clj")
   ,)
 
 
