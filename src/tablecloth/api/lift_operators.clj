@@ -1,5 +1,6 @@
 (ns tablecloth.api.lift-operators
-  (:require [tablecloth.api :refer [select-columns]]))
+  (:require [tablecloth.api :refer [select-columns]]
+            [tablecloth.utils.codegen :refer [do-lift]]))
 
 (defn get-arglists [fn-sym]
   (-> fn-sym resolve meta :arglists))
@@ -41,3 +42,123 @@
              (if (>= ~max-cols (count selected-cols#))
                (tablecloth.api.columns/add-or-replace-column ~'ds ~'target-col (apply ~fn-sym args-to-pass#))
                (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))))))
+
+(def serialized-lift-fn-lookup
+  {'[*
+     +
+     -
+     /
+     <
+     <=
+     >
+     >=
+     abs
+     acos
+     and
+     asin
+     atan
+     atan2
+     bit-and
+     bit-and-not
+     bit-clear
+     bit-flip
+     bit-not
+     bit-or
+     bit-set
+     bit-shift-left
+     bit-shift-right
+     bit-xor
+     cbrt
+     ceil
+     cos
+     cosh
+     cummax
+     cummin
+     cumprod
+     cumsum
+     descriptive-statistics
+     distance
+     distance-squared
+     dot-product
+     eq
+     equals
+     even?
+     exp
+     expm1
+     fill-range
+     finite?
+     floor
+     get-significand
+     hypot
+     identity
+     ieee-remainder
+     infinite?
+     kendalls-correlation
+     kurtosis
+     log
+     log10
+     log1p
+     logistic
+     magnitude
+     magnitude-squared
+     mathematical-integer?
+     max
+     mean
+     mean-fast
+     median
+     min
+     nan?
+     neg?
+     next-down
+     next-up
+     normalize
+     not
+     not-eq
+     odd?
+     or
+     pearsons-correlation
+     percentiles
+     pos?
+     pow
+     quartile-1
+     quartile-3
+     quartiles
+     quot
+     reduce-*
+     reduce-+
+     reduce-max
+     reduce-min
+     rem
+     rint
+     round
+     shift
+     signum
+     sin
+     sinh
+     skew
+     spearmans-correlation
+     sq
+     sqrt
+     standard-deviation
+     sum
+     sum-fast
+     tan
+     tanh
+     to-degrees
+     to-radians
+     ulp
+     unsigned-bit-shift-right
+     variance
+     zero?] lift-op})
+
+(comment
+  (do-lift {:target-ns 'tablecloth.api.operators
+            :source-ns 'tablecloth.column.api.operators
+            :lift-fn-lookup serialized-lift-fn-lookup
+            :deps ['tablecloth.api.lift_operators]
+            :exclusions
+            '[* + - / < <= > >= abs and bit-and bit-and-not bit-clear bit-flip
+             bit-not bit-or bit-set bit-shift-left bit-shift-right bit-test bit-xor
+             even? identity infinite? max min neg? not odd? odd? or pos? quot rem
+             unsigned-bit-shift-right zero?]})
+  ,)
