@@ -237,27 +237,3 @@
              even? identity infinite? max min neg? not odd? odd? or pos? quot rem
              unsigned-bit-shift-right zero?]})
   ,)
-
-
-(comment
-
-  (def mylift (fn [fn-sym fn-meta]
-           (lift-op
-            fn-sym fn-meta
-            {:new-args {'[x y] {'lhs 'x
-                                'rhs 'y}
-                        '[x y z] {'lhs 'x
-                                  'mid 'y
-                                  'rhs 'z}}}
-            #_{:new-args '([x y z])
-             :new-args-lookup {'lhs 'x
-                               'mid 'y
-                               'rhs 'z}})))
-
-  (def mappings (ns-publics 'tech.v3.datatype.functional))
-
-  (mylift 'tech.v3.datatype.functional/> (meta (get mappings '>)))
-
-  tech.v3.datatype.functional/>
-
-  )
