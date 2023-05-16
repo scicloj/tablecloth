@@ -46,46 +46,46 @@
  kurtosis
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/kurtosis
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/kurtosis
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -95,23 +95,23 @@
  bit-set
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-set
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -121,46 +121,46 @@
  finite?
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/finite?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/finite?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -170,23 +170,23 @@
  distance
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/distance
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -196,23 +196,23 @@
  reduce-min
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/reduce-min
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -222,46 +222,46 @@
  to-radians
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/to-radians
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/to-radians
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -271,23 +271,23 @@
  bit-shift-right
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-shift-right
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -297,23 +297,23 @@
  ieee-remainder
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/ieee-remainder
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -323,46 +323,46 @@
  log
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/log
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/log
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -372,23 +372,23 @@
  bit-shift-left
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-shift-left
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -398,46 +398,46 @@
  acos
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/acos
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/acos
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -447,46 +447,46 @@
  to-degrees
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/to-degrees
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/to-degrees
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -496,23 +496,23 @@
  <
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      3
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/<
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -522,46 +522,46 @@
  floor
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/floor
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/floor
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -571,23 +571,23 @@
  atan2
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/atan2
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -597,23 +597,23 @@
  normalize
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/normalize
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -623,23 +623,23 @@
  hypot
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/hypot
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -649,46 +649,46 @@
  tanh
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/tanh
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/tanh
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -698,46 +698,46 @@
  sq
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sq
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sq
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -747,23 +747,23 @@
  fill-range
  ([ds target-col columns-selector max-span]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [max-span])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [max-span])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/fill-range
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -773,46 +773,46 @@
  sum
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sum
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sum
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -822,46 +822,46 @@
  pos?
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/pos?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/pos?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -871,23 +871,23 @@
  shift
  ([ds target-col columns-selector n]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [n])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [n])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/shift
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -897,46 +897,46 @@
  ceil
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/ceil
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/ceil
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -946,23 +946,23 @@
  bit-xor
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-xor
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -972,23 +972,23 @@
  unsigned-bit-shift-right
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/unsigned-bit-shift-right
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -998,46 +998,46 @@
  neg?
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/neg?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/neg?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1047,23 +1047,23 @@
  <=
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      3
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/<=
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1073,23 +1073,23 @@
  *
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/*
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1099,23 +1099,23 @@
  min
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/min
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1125,46 +1125,46 @@
  atan
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/atan
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/atan
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1174,46 +1174,46 @@
  mathematical-integer?
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/mathematical-integer?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/mathematical-integer?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1223,23 +1223,23 @@
  cumprod
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/cumprod
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1249,46 +1249,46 @@
  expm1
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/expm1
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/expm1
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1298,46 +1298,46 @@
  identity
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/identity
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/identity
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1347,23 +1347,23 @@
  reduce-max
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/reduce-max
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1373,23 +1373,23 @@
  cumsum
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/cumsum
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1399,96 +1399,96 @@
  descriptive-statistics
  ([ds target-col columns-selector options stats-names stats-data]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
+    args-to-pass__40105__auto__
     (clojure.core/concat
-     selected-cols__34262__auto__
+     selected-cols__40104__auto__
      [options stats-names stats-data])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/descriptive-statistics
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector stats-names]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [stats-names])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [stats-names])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/descriptive-statistics
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector options stats-names]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
+    args-to-pass__40105__auto__
     (clojure.core/concat
-     selected-cols__34262__auto__
+     selected-cols__40104__auto__
      [options stats-names])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/descriptive-statistics
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/descriptive-statistics
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1498,46 +1498,46 @@
  nan?
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/nan?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/nan?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1547,23 +1547,23 @@
  bit-and-not
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-and-not
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1573,46 +1573,46 @@
  logistic
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/logistic
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/logistic
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1622,46 +1622,46 @@
  cos
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/cos
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/cos
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1671,46 +1671,46 @@
  log10
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/log10
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/log10
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1720,23 +1720,23 @@
  quot
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/quot
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1746,23 +1746,23 @@
  dot-product
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/dot-product
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1772,46 +1772,46 @@
  tan
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/tan
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/tan
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1821,46 +1821,46 @@
  cbrt
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/cbrt
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/cbrt
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1870,23 +1870,23 @@
  eq
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/eq
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1896,46 +1896,46 @@
  mean
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/mean
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/mean
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1945,23 +1945,23 @@
  >
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      3
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/>
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1971,23 +1971,23 @@
  not-eq
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/not-eq
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -1997,46 +1997,46 @@
  even?
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/even?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/even?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2046,46 +2046,46 @@
  spearmans-correlation
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/spearmans-correlation
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/spearmans-correlation
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2095,46 +2095,46 @@
  sqrt
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sqrt
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sqrt
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2144,23 +2144,23 @@
  reduce-*
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/reduce-*
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2170,46 +2170,46 @@
  next-down
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/next-down
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/next-down
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2219,23 +2219,23 @@
  -
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/-
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2245,23 +2245,23 @@
  or
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/or
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2271,23 +2271,23 @@
  distance-squared
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/distance-squared
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2297,23 +2297,23 @@
  pow
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/pow
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2323,46 +2323,46 @@
  next-up
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/next-up
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/next-up
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2372,46 +2372,46 @@
  skew
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/skew
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/skew
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2421,46 +2421,46 @@
  exp
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/exp
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/exp
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2470,23 +2470,23 @@
  mean-fast
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/mean-fast
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2496,46 +2496,46 @@
  zero?
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/zero?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/zero?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2545,23 +2545,23 @@
  rem
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/rem
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2571,46 +2571,46 @@
  cosh
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/cosh
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/cosh
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2620,46 +2620,46 @@
  variance
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/variance
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/variance
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2669,23 +2669,23 @@
  reduce-+
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/reduce-+
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2695,46 +2695,46 @@
  get-significand
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/get-significand
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/get-significand
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2744,23 +2744,23 @@
  bit-and
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-and
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2770,46 +2770,46 @@
  kendalls-correlation
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/kendalls-correlation
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/kendalls-correlation
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2819,46 +2819,46 @@
  not
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/not
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/not
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2868,46 +2868,46 @@
  standard-deviation
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/standard-deviation
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/standard-deviation
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2917,23 +2917,23 @@
  cummin
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/cummin
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2943,46 +2943,46 @@
  magnitude
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/magnitude
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/magnitude
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -2992,23 +2992,23 @@
  cummax
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/cummax
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3018,23 +3018,23 @@
  /
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators//
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3044,23 +3044,23 @@
  bit-or
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-or
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3070,23 +3070,23 @@
  equals
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/equals
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3096,23 +3096,23 @@
  >=
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      3
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/>=
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3122,23 +3122,23 @@
  bit-flip
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-flip
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3148,46 +3148,46 @@
  log1p
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/log1p
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/log1p
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3197,46 +3197,46 @@
  asin
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/asin
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/asin
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3246,46 +3246,46 @@
  quartiles
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/quartiles
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/quartiles
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3295,46 +3295,46 @@
  quartile-3
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/quartile-3
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/quartile-3
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3344,46 +3344,46 @@
  infinite?
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/infinite?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/infinite?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3393,46 +3393,46 @@
  round
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/round
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/round
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3442,46 +3442,46 @@
  quartile-1
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/quartile-1
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/quartile-1
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3491,46 +3491,46 @@
  odd?
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/odd?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/odd?
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3540,23 +3540,23 @@
  bit-clear
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-clear
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3566,23 +3566,23 @@
  +
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/+
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3592,46 +3592,46 @@
  abs
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/abs
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/abs
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3641,46 +3641,46 @@
  median
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/median
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/median
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3690,46 +3690,46 @@
  pearsons-correlation
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/pearsons-correlation
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/pearsons-correlation
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3739,46 +3739,46 @@
  sinh
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sinh
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sinh
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3788,46 +3788,46 @@
  rint
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/rint
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/rint
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3837,46 +3837,46 @@
  bit-not
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-not
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/bit-not
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3886,23 +3886,23 @@
  max
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      ##Inf
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/max
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3912,46 +3912,46 @@
  ulp
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/ulp
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/ulp
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -3961,48 +3961,48 @@
  percentiles
  ([ds target-col columns-selector options percentiles]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
+    args-to-pass__40105__auto__
     (clojure.core/concat
-     selected-cols__34262__auto__
+     selected-cols__40104__auto__
      [options percentiles])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/percentiles
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector percentiles]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [percentiles])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [percentiles])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/percentiles
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -4012,46 +4012,46 @@
  sin
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sin
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sin
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -4061,23 +4061,23 @@
  sum-fast
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/sum-fast
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -4087,46 +4087,46 @@
  signum
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [options])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [options])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/signum
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/signum
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -4136,23 +4136,23 @@
  magnitude-squared
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      1
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/magnitude-squared
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str
@@ -4162,23 +4162,23 @@
  and
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34262__auto__
+   [selected-cols__40104__auto__
     (clojure.core/apply
      clojure.core/vector
      (tablecloth.api.dataset/columns
       (tablecloth.api/select-columns ds columns-selector)))
-    args-to-pass__34263__auto__
-    (clojure.core/concat selected-cols__34262__auto__ [])]
+    args-to-pass__40105__auto__
+    (clojure.core/concat selected-cols__40104__auto__ [])]
    (if
     (clojure.core/>=
      2
-     (clojure.core/count selected-cols__34262__auto__))
+     (clojure.core/count selected-cols__40104__auto__))
     (tablecloth.api.columns/add-or-replace-column
      ds
      target-col
      (clojure.core/apply
       tablecloth.column.api.operators/and
-      args-to-pass__34263__auto__))
+      args-to-pass__40105__auto__))
     (throw
      (java.lang.Exception.
       (clojure.core/str

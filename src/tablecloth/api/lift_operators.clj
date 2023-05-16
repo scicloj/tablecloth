@@ -76,12 +76,12 @@
      cummin
      cumprod
      cumsum
-     descriptive-statistics
-     distance
-     distance-squared
-     dot-product
+     ;; descriptive-statistics - this returns a map
+     ;; distance
+     ;; distance-squared
+     ;; dot-product
      eq
-     equals
+     ;; equals
      even?
      exp
      expm1
@@ -93,19 +93,19 @@
      identity
      ieee-remainder
      infinite?
-     kendalls-correlation
-     kurtosis
+     ;; kendalls-correlation
+     ;; kurtosis
      log
      log10
      log1p
      logistic
-     magnitude
-     magnitude-squared
+     ;; magnitude
+     ;; magnitude-squared
      mathematical-integer?
      max
-     mean
-     mean-fast
-     median
+     ;; mean
+     ;; mean-fast
+     ;; median
      min
      nan?
      neg?
@@ -116,18 +116,18 @@
      not-eq
      odd?
      or
-     pearsons-correlation
+     ;; pearsons-correlation
      percentiles
      pos?
      pow
-     quartile-1
-     quartile-3
-     quartiles
+     ;; quartile-1
+     ;; quartile-3
+     ;; quartiles
      quot
-     reduce-*
-     reduce-+
-     reduce-max
-     reduce-min
+     ;; reduce-*
+     ;; reduce-+
+     ;; reduce-max
+     ;; reduce-min
      rem
      rint
      round
@@ -135,20 +135,20 @@
      signum
      sin
      sinh
-     skew
-     spearmans-correlation
+     ;; skew
+     ;; spearmans-correlation
      sq
      sqrt
-     standard-deviation
-     sum
-     sum-fast
+     ;; standard-deviation
+     ;; sum
+     ;; sum-fast
      tan
      tanh
      to-degrees
      to-radians
      ulp
      unsigned-bit-shift-right
-     variance
+     ;; variance
      zero?] lift-op})
 
 (comment
