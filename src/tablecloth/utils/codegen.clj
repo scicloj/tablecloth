@@ -33,8 +33,7 @@
 (defn get-lifted [lift-fn-lookup source-ns]
   (let [fun-mappings (ns-publics source-ns)]
     (map (fn [[fnsym lift-fn]]
-           (lift-fn (symbol (name source-ns) (name fnsym))
-                    (meta (get fun-mappings fnsym))))
+           (lift-fn (symbol (name source-ns) (name fnsym))))
          (deserialize-lift-fn-lookup lift-fn-lookup))))
 
 (defn namespace-to-path [ns-str]
@@ -66,6 +65,3 @@
       (-> writer
            (write-pp f)
            (write-empty-ln!)))))
-
-
-
