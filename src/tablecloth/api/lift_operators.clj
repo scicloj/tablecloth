@@ -26,7 +26,14 @@
                      (clojure.set/difference (set arglist) #{'x 'y 'z '& 'args}))))]
     (->> arglists (map convert-arglist) set (apply list))))
 
-(defn lift-op [fn-sym]
+(defn lift-op
+  "Takes a function symbol `fn-sym` and generates a function that
+    applies that function to one or more columns of a dataset, placing
+    the result in the target column.
+
+    Resulting signature:
+    (lift-op [fn-sym]) => (fn [ds columns-selector target-col] ...)"
+  [fn-sym]
   (let [defn (symbol "defn")
         let (symbol "let")
         arglists (get-arglists fn-sym)

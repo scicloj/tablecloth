@@ -45,6 +45,10 @@
        (str ".clj")))
 
 (defn build-ns-header
+  "Generates a namespace header with the specified target-ns and
+  source-ns, along with optional additional dependencies and
+  exclusions. If exclusions are provided, they will be used to exclude
+  the specified symbol(s) from the :refer-clojure directive."
   ([target-ns source-ns]
    (build-ns-header target-ns source-ns nil nil))
   ([target-ns source-ns additional-deps]
@@ -57,7 +61,17 @@
                      [dep]))
        ~@(when exclusions `((:refer-clojure :exclude ~exclusions)))))))
 
-(defn do-lift [{:keys [target-ns source-ns lift-fn-lookup deps exclusions]}]
+(defn do-lift
+  "Writes the lifted functions to target namespace.
+
+   Example:
+     {:target-ns 'tablecloth.api.operators
+     :source-ns 'tablecloth.column.api.operators
+     :lift-fn-lookup {['+ '- '*] lift-fn}
+     :deps ['tablecloth.api.lift_operators]
+     :exclusions
+     '[* + -]}"
+[{:keys [target-ns source-ns lift-fn-lookup deps exclusions]}]
   (with-open [writer (io/writer (namespace-to-path target-ns) :append false)]
     (write-pp writer (build-ns-header target-ns source-ns deps exclusions))
     (write-empty-ln! writer)
