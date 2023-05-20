@@ -2,8 +2,14 @@
   (:require [tablecloth.api :refer [select-columns]]
             [tablecloth.utils.codegen :refer [do-lift]]))
 
+(defn get-meta [fn-sym]
+  (-> fn-sym resolve meta))
+
 (defn get-arglists [fn-sym]
-  (-> fn-sym resolve meta :arglists))
+  (-> fn-sym get-meta :arglists))
+
+(defn get-docstring [fn-sym]
+  (-> fn-sym get-meta :docstring))
 
 (defn max-cols-allowed [arglists]
   (let [col-symbol-set #{'x 'y 'z}
@@ -26,6 +32,27 @@
                      (clojure.set/difference (set arglist) #{'x 'y 'z '& 'args}))))]
     (->> arglists (map convert-arglist) set (apply list))))
 
+(defn build-docstring [fn-sym]
+  (let [original-docstring (get-docstring fn-sym)
+        max-allowed (max-cols-allowed (get-arglists fn-sym))]
+
+    (format 
+     "Applies the operation %s to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. %s
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+     fn-sym
+     (when (< max-allowed Double/POSITIVE_INFINITY)
+       (format
+        "This operation takes a maximum of %s columns, so
+         `columns-selector` can yield no more than that many columns."
+        max-allowed)))))
+
 (defn lift-op
   "Takes a function symbol `fn-sym` and generates a function that
     applies that function to one or more columns of a dataset, placing
@@ -38,9 +65,11 @@
         let (symbol "let")
         arglists (get-arglists fn-sym)
         max-cols (max-cols-allowed arglists)
-        lifted-arglists (convert-arglists arglists)]
-    `(~defn ~(symbol (name fn-sym))
-      ;; docstring
+        lifted-arglists (convert-arglists arglists)
+        new-fn-sym (symbol (name fn-sym))
+        new-docstring (build-docstring fn-sym)]
+    `(~defn ~new-fn-sym
+      ~new-docstring
       ~@(for [args lifted-arglists]
           `(~args
             (~let [selected-cols# (apply vector (tablecloth.api.dataset/columns
