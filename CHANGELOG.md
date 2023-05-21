@@ -1,5 +1,11 @@
 # Change Log
 
+## [7.000-beta-38]
+
+### Fixed
+
+* dataset from singleton creation generated from wrong structure
+
 ## [7.000-beta-27]
 
 ### Added

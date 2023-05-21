@@ -136,7 +136,7 @@ run it before making documentation
 ### Guideline
 
 1.  Before commiting changes please perform tests. I ususally do: `lein
-    do clean, check, midje` and build documentation as described above
+    do clean, check, test` and build documentation as described above
     (which also tests whole library).
 2.  Keep API as simple as possible:
       - first argument should be a dataset
