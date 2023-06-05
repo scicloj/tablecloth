@@ -32,8 +32,8 @@
 
 (defn get-lifted [lift-fn-lookup source-ns]
   (let [fun-mappings (ns-publics source-ns)]
-    (map (fn [[fnsym lift-fn]]
-           (lift-fn (symbol (name source-ns) (name fnsym))))
+    (map (fn [[fnsym {:keys [lift-fn optional-args]}]]
+           (lift-fn (symbol (name source-ns) (name fnsym)) optional-args))
          (deserialize-lift-fn-lookup lift-fn-lookup))))
 
 (defn namespace-to-path [ns-str]

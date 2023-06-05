@@ -1,5 +1,5 @@
 (ns tablecloth.api.lift-operators
-  (:require [tablecloth.api :refer [select-columns]]
+  (:require [tablecloth.api :refer [select-columns add-or-replace-column]]
             [tablecloth.utils.codegen :refer [do-lift]]))
 
 (defn get-meta [fn-sym]
@@ -23,13 +23,14 @@
         (set longest-arglist))))))
 
 
-(defn convert-arglists [arglists]
+(defn convert-arglists [arglists target-column?]
   (let [convert-arglist
         (fn [arglist]
-          (apply conj 
-              '[ds target-col columns-selector]
-              (apply vector
-                     (clojure.set/difference (set arglist) #{'x 'y 'z '& 'args}))))]
+          (apply conj
+                 (if target-column?
+                   '[ds target-col columns-selector]
+                   '[ds columns-selector])
+                 (apply vector (clojure.set/difference (set arglist) #{'x 'y 'z '& 'args}))))]
     (->> arglists (map convert-arglist) set (apply list))))
 
 (defn build-docstring [fn-sym]
@@ -60,12 +61,13 @@
 
     Resulting signature:
     (lift-op [fn-sym]) => (fn [ds columns-selector target-col] ...)"
-  [fn-sym]
+  [fn-sym {:keys [return-ds?]
+           :or {return-ds? false}}]
   (let [defn (symbol "defn")
         let (symbol "let")
         arglists (get-arglists fn-sym)
         max-cols (max-cols-allowed arglists)
-        lifted-arglists (convert-arglists arglists)
+        lifted-arglists (convert-arglists arglists return-ds?)
         new-fn-sym (symbol (name fn-sym))
         new-docstring (build-docstring fn-sym)]
     `(~defn ~new-fn-sym
@@ -76,7 +78,9 @@
                                                  (select-columns ~'ds ~'columns-selector)))
                    args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
              (if (>= ~max-cols (count selected-cols#))
-               (tablecloth.api.columns/add-or-replace-column ~'ds ~'target-col (apply ~fn-sym args-to-pass#))
+               (->> args-to-pass#
+                 (apply ~fn-sym)
+                 ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
                (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))))))
 
 (def serialized-lift-fn-lookup
@@ -159,7 +163,7 @@
      to-radians
      ulp
      unsigned-bit-shift-right
-     zero?] lift-op})
+     zero?] {:lift-fn lift-op :optional-args {:return-ds? true}}})
 
 (comment
   (do-lift {:target-ns 'tablecloth.api.operators
