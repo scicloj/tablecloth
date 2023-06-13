@@ -5,7 +5,8 @@
             [tech.v3.dataset.join :as j]
             [tech.v3.datatype.functional :as dfn]
             [clojure.string :as str]
-            [tech.v3.datatype.argops :as aop]))
+            [tech.v3.datatype.argops :as aop]
+            [tech.v3.dataset.column :as col]))
 
 (ds/concat
  (ds/new-dataset [(c/new-column :a [])])
@@ -632,3 +633,59 @@ agg
   :price-sum (ds-reduce/sum :price)
   :price-med (ds-reduce/prob-median :price)}
  (repeat 3 stocks'))
+
+
+(def DSm2 (tc/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
+                     :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
+
+DSm2
+;; => _unnamed [15 2]:
+;;    |   :a | :b |
+;;    |-----:|---:|
+;;    |      |  2 |
+;;    |      |  2 |
+;;    |      |  2 |
+;;    |  1.0 |    |
+;;    |  2.0 |    |
+;;    |      |    |
+;;    |      |    |
+;;    |      |    |
+;;    |      |    |
+;;    |      | 13 |
+;;    |  4.0 |    |
+;;    |      |  3 |
+;;    | 11.0 |  4 |
+;;    |      |  5 |
+;;    |      |  5 |
+
+;; indexes of missing values
+(col/missing (DSm2 :a)) ;; => {0,1,2,5,6,7,8,9,11,13,14}
+(col/missing (DSm2 :b)) ;; => {3,4,5,6,7,8,10}
+
+(class (col/missing (DSm2 :a))) ;; => org.roaringbitmap.RoaringBitmap
+
+;; index of the nearest non-missing value in column `:a` starting from 0
+(.nextAbsentValue (col/missing (DSm2 :a)) 0) ;; => 3
+;; there is no previous non-missing
+(.previousAbsentValue (col/missing (DSm2 :a)) 0) ;; => -1
+
+;; replace some missing values by hand
+(tc/replace-missing DSm2 :a :value {0 100 1 -100 14 -1000})
+;; => _unnamed [15 2]:
+;;    |      :a | :b |
+;;    |--------:|---:|
+;;    |   100.0 |  2 |
+;;    |  -100.0 |  2 |
+;;    |         |  2 |
+;;    |     1.0 |    |
+;;    |     2.0 |    |
+;;    |         |    |
+;;    |         |    |
+;;    |         |    |
+;;    |         |    |
+;;    |         | 13 |
+;;    |     4.0 |    |
+;;    |         |  3 |
+;;    |    11.0 |  4 |
+;;    |         |  5 |
+;;    | -1000.0 |  5 |

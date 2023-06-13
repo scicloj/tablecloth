@@ -2080,9 +2080,10 @@ Missing values can be replaced using several strategies. `replace-missing` accep
 * column selector, default: `:all`
 * strategy, default: `:nearest`
 * value (optional)
-- single value
-- sequence of values (cycled)
-- function, applied on column(s) with stripped missings
+  - single value
+  - sequence of values (cycled)
+  - function, applied on column(s) with stripped missings
+  - map with [index,value] pairs
 
 Strategies are:
 
@@ -2144,6 +2145,14 @@ Replace missing with a function (mean)
 
 ```{clojure results="asis"}
 (tc/replace-missing DSm2 :a :value tech.v3.datatype.functional/mean)
+```
+
+---
+
+Replace missing some missing values with a map
+
+```{clojure results="asis"}
+(tc/replace-missing DSm2 :a :value {0 100 1 -100 14 -1000})
 ```
 
 ---
