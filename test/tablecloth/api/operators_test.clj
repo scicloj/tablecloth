@@ -9,6 +9,37 @@
   (:use [tablecloth.api.operators]))
 
 
+(defn scalar? [item]
+  (= (tech.v3.datatype.argtypes/arg-type item)
+     :scalar))
+
+(facts
+ "about ops that return the op result"
+
+ (facts
+  "about ops that take a maximum of one column and return a scalar"
+  (let [ds (dataset {:a [1 2 3]})]
+    (let [ops [kurtosis
+               magnitude
+               magnitude-squared
+               mean
+               mean-fast
+               median
+               quartile-1
+               quartile-3
+               ;; quartiles
+               reduce-*
+               reduce-+
+               reduce-max
+               reduce-min
+               skew
+               sum
+               sum-fast
+               variance]]
+      (doseq [op ops]
+        (let [result (op ds [:a])]
+          result => scalar?))))))
+
 (facts
  "about ops that return a dataset with a new column"
 
@@ -18,17 +49,10 @@
     (let [result (shift ds :b [:a] 1)]
       (:b result) => [1 1 2])
 
-    (let [ops [#_cummax
-               #_cummin
-               #_cumprod
-               #_cumsum
-               #_magnitude-squared
-               #_mean-fast
-               #_reduce-*
-               #_reduce-+
-               #_reduce-max
-               #_reduce-min
-               #_sum-fast
+    (let [ops [cummax
+               cummin
+               cumprod
+               cumsum
                abs
                acos
                asin
@@ -46,15 +70,11 @@
                get-significand
                identity
                infinite?
-               ;; kurtosis
                log
                log10
                log1p
                logistic
-               ;; magnitude
                mathematical-integer?
-               ;; mean
-               ;; median
                nan?
                neg?
                next-down
@@ -63,25 +83,18 @@
                not
                odd?
                pos?
-               ;; quartile-1
-               ;; quartile-3
-               ;; quartiles
                rint
                round
                signum
                sin
                sinh
-               ;; skew
                sq
                sqrt
-               ;; standard-deviation
-               ;; sum
                tan
                tanh
                to-degrees
                to-radians
                ulp
-               ;; variance
                zero?]]
         (doseq [op ops]
           (let [result (op ds :b [:a])]

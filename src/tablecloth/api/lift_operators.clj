@@ -76,7 +76,8 @@
           `(~args
             (~let [selected-cols# (apply vector (tablecloth.api.dataset/columns
                                                  (select-columns ~'ds ~'columns-selector)))
-                   args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
+            
+       args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
              (if (>= ~max-cols (count selected-cols#))
                (->> args-to-pass#
                  (apply ~fn-sym)
@@ -84,7 +85,25 @@
                (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))))))
 
 (def serialized-lift-fn-lookup
-  {'[*
+  {'[kurtosis
+     magnitude
+     magnitude-squared
+     mean
+     mean-fast
+     median
+     quartile-1
+     quartile-3
+     #_quartiles ;; this returns a vector of quartiles not sure it fits here
+     reduce-*
+     reduce-+
+     reduce-max
+     reduce-min
+     skew
+     sum
+     sum-fast
+     variance]
+    {:lift-fn lift-op :optional-args {:return-ds? false}}
+   '[*
      +
      -
      /
@@ -121,7 +140,7 @@
      even?
      exp
      expm1
-     fill-range
+     ;; fill-range ;; this one has an odd return value, not a column
      finite?
      floor
      get-significand
