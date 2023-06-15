@@ -24,6 +24,27 @@
  "about ops that return a dataset with a new column"
 
  (facts
+  "about ops that take a maximum of one column"
+  (let [ops [#_cummax
+             #_cummin
+             #_cumprod
+             #_cumsum
+             #_magnitude-squared
+             #_mean-fast
+             normalize
+             #_reduce-*
+             #_reduce-+
+             #_reduce-max
+             #_reduce-min
+             #_sum-fast]
+        ds (dataset {:a [1 2 3]})]
+    (doseq [op ops]
+      (let [result (op ds :b [:a])]
+        (contains? result :b) => true))))
+
+ (normalize (dataset {:a [1 2 3]}) :b [:a])
+
+ (facts
   "about ops that take a maximum of two columns"
   (let [ops [and #_distance #_distance-squared #_dot-product eq not-eq or]
         ds (dataset {:a [1 2 3]
