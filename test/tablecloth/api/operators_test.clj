@@ -38,6 +38,17 @@
                variance]]
       (doseq [op ops]
         (let [result (op ds [:a])]
+          result => scalar?)))))
+
+ (facts
+  "about ops that take a maximum of two columns and return a scalar"
+  (let [ds (dataset {:a [1 2 3]
+                     :b [4 5 6]})]
+    (let [ops [distance
+               distance-squared
+               dot-product]]
+      (doseq [op ops]
+        (let [result (op ds [:a :b])]
           result => scalar?))))))
 
 (facts
@@ -73,7 +84,7 @@
                log
                log10
                log1p
-               logistic
+              logistic
                mathematical-integer?
                nan?
                neg?
@@ -102,7 +113,7 @@
 
  (facts
   "about ops that take a maximum of two columns"
-  (let [ops [and #_distance #_distance-squared #_dot-product eq not-eq or]
+  (let [ops [and eq not-eq or]
         ds (dataset {:a [1 2 3]
                      :b [4 5 6]})]
       (doseq [op ops]

@@ -85,7 +85,10 @@
                (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))))))
 
 (def serialized-lift-fn-lookup
-  {'[kurtosis
+  {'[distance
+     distance-squared
+     dot-product
+     kurtosis
      magnitude
      magnitude-squared
      mean
