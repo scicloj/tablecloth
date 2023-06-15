@@ -27,7 +27,6 @@
                median
                quartile-1
                quartile-3
-               ;; quartiles
                reduce-*
                reduce-+
                reduce-max
