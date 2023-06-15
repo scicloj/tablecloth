@@ -24,6 +24,16 @@
  "about ops that return a dataset with a new column"
 
  (facts
+  "about ops that take a maximum of three columns"
+  (let [ops [< > <= >=]
+        ds (dataset {:a [1 2 3]
+                     :b [4 5 6]
+                     :c [7 8 9]})]
+    (doseq [op ops]
+      (let [result (op ds :d [:a :b :c])]
+        (contains? result :d) => true))))
+
+ (facts
   "about ops that can take an unlimited number of columns"
   (let [ops [/
              -
@@ -56,16 +66,33 @@
       (let [result (op ds :e [:a :b :c :d])]
         (contains? result :e) => true)))))
 
-(bit-clear (dataset {:a [1 2 3]
-                     :b [4 5 6]
-                     :c [7 8 9]
-               :d [10 11 12]})
-     :e
-     [:a :b :c])
+;; (bit-clear (dataset {:a [1 2 3]
+;;                      :b [4 5 6]
+;;                      :c [7 8 9]
+;;                :d [10 11 12]})
+;;      :e
+;;      [:a :b :c])
 
-;; (->> (ns-publics 'tablecloth.column.api.operators)
-;;      (map (fn [[_ fn-var]] (-> fn-var meta :arglists)))
-;;      ())
+(defn longest-vector [lst]
+  (reduce #(max-key count %1 %2) lst))
+
+(->> (ns-publics 'tablecloth.column.api.operators)
+     (map (fn [[_ var]] (-> var meta :arglists)))
+     (map longest-vector)
+     (set)
+     )
+;; => #{[x]
+;;      [x max-span]
+;;      [x stats-names stats-data options]
+;;      [x n]
+;;      [x options]
+;;      [x y]
+;;      [x y & args]
+;;      [x y options]
+;;      [x y z]
+;;      [x percentiles options]}
+
+
 
 ;; (facts
 ;;  "about ops that take a single column and return a scalar"
