@@ -9,17 +9,6 @@
   (:use [tablecloth.api.operators]))
 
 
-
-(defn scalar? [item]
-  (= (tech.v3.datatype.argtypes/arg-type item)
-     :scalar))
-
-(defn has-col? 
-  ([colname]
-   (partial has-col? colname))
-  ([colname ds]
-   (contains? ds colname)))
-
 (facts
  "about ops that return a dataset with a new column"
 
@@ -150,111 +139,19 @@
       (let [result (op ds :e [:a :b :c :d])]
         (contains? result :e) => true)))))
 
-;; (bit-clear (dataset {:a [1 2 3]
-;;                      :b [4 5 6]
-;;                      :c [7 8 9]
-;;                :d [10 11 12]})
-;;      :e
-;;      [:a :b :c])
+;; (defn longest-vector [lst]
+;;   (reduce #(max-key count %1 %2) lst))
 
-(defn longest-vector [lst]
-  (reduce #(max-key count %1 %2) lst))
-
-(->> (ns-publics 'tablecloth.column.api.operators)
-     (map (fn [[sym var]] [sym (-> var meta :arglists)]))
-     (map (fn [[sym arglist]] [sym (longest-vector arglist)]))
-     (reduce (fn [memo [sym longest-arglist]]
-               (if (contains? memo longest-arglist)
-                 (update memo longest-arglist conj sym)
-                 (assoc memo longest-arglist [sym])))
-             {})
-     (reduce (fn [m [k v]] (update m k sort v)) {})
-     )
-;; => {
-;;     [x options]
-;;     (abs
-;;      acos
-;;      asin
-;;      atan
-;;      bit-not
-;;      cbrt
-;;      ceil
-;;      cos
-;;      cosh
-;;      even?
-;;      exp
-;;      expm1
-;;      finite?
-;;      floor
-;;      get-significand
-;;      identity
-;;      infinite?
-;;      kurtosis
-;;      log
-;;      log10
-;;      log1p
-;;      logistic
-;;      magnitude
-;;      mathematical-integer?
-;;      mean
-;;      median
-;;      nan?
-;;      neg?
-;;      next-down
-;;      next-up
-;;      not
-;;      odd?
-;;      pos?
-;;      quartile-1
-;;      quartile-3
-;;      quartiles
-;;      rint
-;;      round
-;;      signum
-;;      sin
-;;      sinh
-;;      skew
-;;      sq
-;;      sqrt
-;;      standard-deviation
-;;      sum
-;;      tan
-;;      tanh
-;;      to-degrees
-;;      to-radians
-;;      ulp
-;;      variance
-;;      zero?),
-;;     [x y] (and distance distance-squared dot-product eq not-eq or),
-;;     [x y & args]
-;;     (*
-;;      +
-;;      -
-;;      /
-;;      atan2
-;;      bit-and
-;;      bit-and-not
-;;      bit-clear
-;;      bit-flip
-;;      bit-or
-;;      bit-set
-;;      bit-shift-left
-;;      bit-shift-right
-;;      bit-xor
-;;      equals
-;;      hypot
-;;      ieee-remainder
-;;      max
-;;      min
-;;      pow
-;;      quot
-;;      rem
-;;      unsigned-bit-shift-right),
-;;     [x y options]
-;;     (kendalls-correlation pearsons-correlation spearmans-correlation),
-;;     [x y z] (< <= > >=),
-;;     [x percentiles options] (percentiles)}
-
+;; (->> (ns-publics 'tablecloth.column.api.operators)
+;;      (map (fn [[sym var]] [sym (-> var meta :arglists)]))
+;;      (map (fn [[sym arglist]] [sym (longest-vector arglist)]))
+;;      (reduce (fn [memo [sym longest-arglist]]
+;;                (if (contains? memo longest-arglist)
+;;                  (update memo longest-arglist conj sym)
+;;                  (assoc memo longest-arglist [sym])))
+;;              {})
+;;      (reduce (fn [m [k v]] (update m k sort v)) {})
+;;      )
 
 
 
