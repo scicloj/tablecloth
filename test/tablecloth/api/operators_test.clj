@@ -24,6 +24,15 @@
  "about ops that return a dataset with a new column"
 
  (facts
+  "about ops that take a maximum of two columns"
+  (let [ops [and #_distance #_distance-squared #_dot-product eq not-eq or]
+        ds (dataset {:a [1 2 3]
+                     :b [4 5 6]})]
+      (doseq [op ops]
+        (let [result (op ds :c [:a :b :c])]
+          (contains? result :c) => true))))
+
+ (facts
   "about ops that take a maximum of three columns"
   (let [ops [< > <= >=]
         ds (dataset {:a [1 2 3]
@@ -77,20 +86,115 @@
   (reduce #(max-key count %1 %2) lst))
 
 (->> (ns-publics 'tablecloth.column.api.operators)
-     (map (fn [[_ var]] (-> var meta :arglists)))
-     (map longest-vector)
-     (set)
+     (map (fn [[sym var]] [sym (-> var meta :arglists)]))
+     (map (fn [[sym arglist]] [sym (longest-vector arglist)]))
+     (reduce (fn [memo [sym longest-arglist]]
+               (if (contains? memo longest-arglist)
+                 (update memo longest-arglist conj sym)
+                 (assoc memo longest-arglist [sym])))
+             {})
+     (reduce (fn [m [k v]] (update m k sort v)) {})
      )
-;; => #{[x]
-;;      [x max-span]
-;;      [x stats-names stats-data options]
-;;      [x n]
-;;      [x options]
-;;      [x y]
-;;      [x y & args]
-;;      [x y options]
-;;      [x y z]
-;;      [x percentiles options]}
+;; => {[x]
+;;     (cummax
+;;      cummin
+;;      cumprod
+;;      cumsum
+;;      magnitude-squared
+;;      mean-fast
+;;      normalize
+;;      reduce-*
+;;      reduce-+
+;;      reduce-max
+;;      reduce-min
+;;      sum-fast),
+;;     [x max-span] (fill-range),
+;;     [x stats-names stats-data options] (descriptive-statistics),
+;;     [x n] (shift),
+;;     [x options]
+;;     (abs
+;;      acos
+;;      asin
+;;      atan
+;;      bit-not
+;;      cbrt
+;;      ceil
+;;      cos
+;;      cosh
+;;      even?
+;;      exp
+;;      expm1
+;;      finite?
+;;      floor
+;;      get-significand
+;;      identity
+;;      infinite?
+;;      kurtosis
+;;      log
+;;      log10
+;;      log1p
+;;      logistic
+;;      magnitude
+;;      mathematical-integer?
+;;      mean
+;;      median
+;;      nan?
+;;      neg?
+;;      next-down
+;;      next-up
+;;      not
+;;      odd?
+;;      pos?
+;;      quartile-1
+;;      quartile-3
+;;      quartiles
+;;      rint
+;;      round
+;;      signum
+;;      sin
+;;      sinh
+;;      skew
+;;      sq
+;;      sqrt
+;;      standard-deviation
+;;      sum
+;;      tan
+;;      tanh
+;;      to-degrees
+;;      to-radians
+;;      ulp
+;;      variance
+;;      zero?),
+;;     [x y] (and distance distance-squared dot-product eq not-eq or),
+;;     [x y & args]
+;;     (*
+;;      +
+;;      -
+;;      /
+;;      atan2
+;;      bit-and
+;;      bit-and-not
+;;      bit-clear
+;;      bit-flip
+;;      bit-or
+;;      bit-set
+;;      bit-shift-left
+;;      bit-shift-right
+;;      bit-xor
+;;      equals
+;;      hypot
+;;      ieee-remainder
+;;      max
+;;      min
+;;      pow
+;;      quot
+;;      rem
+;;      unsigned-bit-shift-right),
+;;     [x y options]
+;;     (kendalls-correlation pearsons-correlation spearmans-correlation),
+;;     [x y z] (< <= > >=),
+;;     [x percentiles options] (percentiles)}
+
 
 
 
