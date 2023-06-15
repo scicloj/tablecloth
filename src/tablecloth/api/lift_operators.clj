@@ -117,6 +117,7 @@
      cumprod
      cumsum
      eq
+     ;; equals ;; leaving this one out. not clear its signature is right.
      even?
      exp
      expm1
