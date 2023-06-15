@@ -25,24 +25,78 @@
 
  (facts
   "about ops that take a maximum of one column"
-  (let [ops [#_cummax
-             #_cummin
-             #_cumprod
-             #_cumsum
-             #_magnitude-squared
-             #_mean-fast
-             normalize
-             #_reduce-*
-             #_reduce-+
-             #_reduce-max
-             #_reduce-min
-             #_sum-fast]
-        ds (dataset {:a [1 2 3]})]
-    (doseq [op ops]
-      (let [result (op ds :b [:a])]
-        (contains? result :b) => true))))
+  (let [ds (dataset {:a [1 2 3]})]
+    (let [result (shift ds :b [:a] 1)]
+      (:b result) => [1 1 2])
 
- (normalize (dataset {:a [1 2 3]}) :b [:a])
+    (let [ops [#_cummax
+               #_cummin
+               #_cumprod
+               #_cumsum
+               #_magnitude-squared
+               #_mean-fast
+               #_reduce-*
+               #_reduce-+
+               #_reduce-max
+               #_reduce-min
+               #_sum-fast
+               abs
+               acos
+               asin
+               atan
+               bit-not
+               cbrt
+               ceil
+               cos
+               cosh
+               even?
+               exp
+               expm1
+               finite?
+               floor
+               get-significand
+               identity
+               infinite?
+               ;; kurtosis
+               log
+               log10
+               log1p
+               logistic
+               ;; magnitude
+               mathematical-integer?
+               ;; mean
+               ;; median
+               nan?
+               neg?
+               next-down
+               next-up
+               normalize
+               not
+               odd?
+               pos?
+               ;; quartile-1
+               ;; quartile-3
+               ;; quartiles
+               rint
+               round
+               signum
+               sin
+               sinh
+               ;; skew
+               sq
+               sqrt
+               ;; standard-deviation
+               ;; sum
+               tan
+               tanh
+               to-degrees
+               to-radians
+               ulp
+               ;; variance
+               zero?]]
+        (doseq [op ops]
+          (let [result (op ds :b [:a])]
+            (contains? result :b) => true)))))
 
  (facts
   "about ops that take a maximum of two columns"
@@ -116,22 +170,7 @@
              {})
      (reduce (fn [m [k v]] (update m k sort v)) {})
      )
-;; => {[x]
-;;     (cummax
-;;      cummin
-;;      cumprod
-;;      cumsum
-;;      magnitude-squared
-;;      mean-fast
-;;      normalize
-;;      reduce-*
-;;      reduce-+
-;;      reduce-max
-;;      reduce-min
-;;      sum-fast),
-;;     [x max-span] (fill-range),
-;;     [x stats-names stats-data options] (descriptive-statistics),
-;;     [x n] (shift),
+;; => {
 ;;     [x options]
 ;;     (abs
 ;;      acos
