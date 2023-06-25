@@ -689,3 +689,215 @@ DSm2
 ;;    |    11.0 |  4 |
 ;;    |         |  5 |
 ;;    | -1000.0 |  5 |
+
+;;
+
+(let [ds (ds/->dataset {:foo (range 0 5)
+                        :bar (repeatedly #(rand-int 100))
+                        :baz (repeatedly #(rand-int 100))})]
+  (ds/add-or-update-column ds :quz (apply col/column-map
+                                          (fn [foo bar baz]
+                                            (if (zero? (mod (+ foo bar baz) 7)) "mod 7" "not mod 7"))
+                                          nil (ds/columns ds))))
+
+
+
+(let [ds (ds/->dataset {:foo (range 0 5)
+                        :bar (repeatedly #(rand-int 100))})]
+  (ds/add-or-update-column ds :quz (apply col/column-map
+                                          (fn [foo bar]
+                                            (if (zero? (mod (+ foo bar) 7)) "mod 7" "not mod 7"))
+                                          nil (ds/columns ds))))
+;; => _unnamed [5 3]:
+;;    | :foo | :bar |      :quz |
+;;    |-----:|-----:|-----------|
+;;    |    0 |   63 |     mod 7 |
+;;    |    1 |   20 |     mod 7 |
+;;    |    2 |   15 | not mod 7 |
+;;    |    3 |   85 | not mod 7 |
+;;    |    4 |   46 | not mod 7 |
+
+
+;;
+
+
+(def ds (ds/->dataset [{"DestinationName" "CZ_1", "ProductName" "FG_1", "Quantity" 100, "Allocated-Qty" 0, "SourceName" "DC_1", :ratio 0.5} {"DestinationName" "CZ_1", "ProductName" "FG_1", "Quantity" 100, "Allocated-Qty" 0, "SourceName" "DC_2", :ratio 0.5}]))
+
+;; => _unnamed [2 6]:
+;;    | DestinationName | ProductName | Quantity | Allocated-Qty | SourceName | :ratio |
+;;    |-----------------|-------------|---------:|--------------:|------------|-------:|
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_1 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_2 |    0.5 |
+
+(ds/concat ds ds)
+
+;; => _unnamed [4 6]:
+;;    | DestinationName | ProductName | Quantity | Allocated-Qty | SourceName | :ratio |
+;;    |-----------------|-------------|---------:|--------------:|------------|-------:|
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_1 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_2 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_1 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_2 |    0.5 |
+
+(ds/concat-copying ds ds)
+
+;; => _unnamed [4 6]:
+;;    | DestinationName | ProductName | Quantity | Allocated-Qty | SourceName | :ratio |
+;;    |-----------------|-------------|---------:|--------------:|------------|-------:|
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_1 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_2 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_1 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_2 |    0.5 |
+
+
+
+;;
+
+(def joinrds (tc/dataset {:a (range 1 7)
+                        :b (range 7 13)
+                        :c (range 13 19)
+                        :ID (seq "bbbaac")
+                        :d ["hello" "hello" "hello" "water" "water" "world"]}))
+
+;; => _unnamed [6 5]:
+;;    | :a | :b | :c | :ID |    :d |
+;;    |---:|---:|---:|-----|-------|
+;;    |  1 |  7 | 13 |   b | hello |
+;;    |  2 |  8 | 14 |   b | hello |
+;;    |  3 |  9 | 15 |   b | hello |
+;;    |  4 | 10 | 16 |   a | water |
+;;    |  5 | 11 | 17 |   a | water |
+;;    |  6 | 12 | 18 |   c | world |
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/ungroup))
+
+;; => _unnamed [6 5]:
+;;    | :a | :b | :c | :ID |    :d |
+;;    |---:|---:|---:|-----|-------|
+;;    |  1 |  7 | 13 |   b | hello |
+;;    |  2 |  8 | 14 |   b | hello |
+;;    |  3 |  9 | 15 |   b | hello |
+;;    |  4 | 10 | 16 |   a | water |
+;;    |  5 | 11 | 17 |   a | water |
+;;    |  6 | 12 | 18 |   c | world |
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/ungroup {:add-group-id-as-column :blah}))
+
+;; => _unnamed [6 6]:
+;;    | :blah | :a | :b | :c | :ID |    :d |
+;;    |------:|---:|---:|---:|-----|-------|
+;;    |     0 |  1 |  7 | 13 |   b | hello |
+;;    |     0 |  2 |  8 | 14 |   b | hello |
+;;    |     0 |  3 |  9 | 15 |   b | hello |
+;;    |     1 |  4 | 10 | 16 |   a | water |
+;;    |     1 |  5 | 11 | 17 |   a | water |
+;;    |     2 |  6 | 12 | 18 |   c | world |
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/unmark-group))
+
+;; => _unnamed [3 3]:
+;;    |                :name | :group-id |                              :data |
+;;    |----------------------|----------:|------------------------------------|
+;;    | {:ID \b, :d "hello"} |         0 | Group: {:ID \b, :d "hello"} [3 5]: |
+;;    | {:ID \a, :d "water"} |         1 | Group: {:ID \a, :d "water"} [2 5]: |
+;;    | {:ID \c, :d "world"} |         2 | Group: {:ID \c, :d "world"} [1 5]: |
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/ungroup {:add-group-as-column :blah
+                 :separate? false}))
+
+;; => _unnamed [6 6]:
+;;    |                :blah | :a | :b | :c | :ID |    :d |
+;;    |----------------------|---:|---:|---:|-----|-------|
+;;    | {:ID \b, :d "hello"} |  1 |  7 | 13 |   b | hello |
+;;    | {:ID \b, :d "hello"} |  2 |  8 | 14 |   b | hello |
+;;    | {:ID \b, :d "hello"} |  3 |  9 | 15 |   b | hello |
+;;    | {:ID \a, :d "water"} |  4 | 10 | 16 |   a | water |
+;;    | {:ID \a, :d "water"} |  5 | 11 | 17 |   a | water |
+;;    | {:ID \c, :d "world"} |  6 | 12 | 18 |   c | world |
+
+
+(-> joinrds
+    (tc/group-by :ID)
+    (tc/ungroup {:add-group-as-column :blah}))
+
+;; => _unnamed [6 6]:
+;;    | :blah | :a | :b | :c | :ID |    :d |
+;;    |-------|---:|---:|---:|-----|-------|
+;;    |     b |  1 |  7 | 13 |   b | hello |
+;;    |     b |  2 |  8 | 14 |   b | hello |
+;;    |     b |  3 |  9 | 15 |   b | hello |
+;;    |     a |  4 | 10 | 16 |   a | water |
+;;    |     a |  5 | 11 | 17 |   a | water |
+;;    |     c |  6 | 12 | 18 |   c | world |
+
+
+(-> joinrds
+    (tc/group-by (juxt :ID :d))
+    (tc/unmark-group))
+
+;; => _unnamed [3 3]:
+;;    |        :name | :group-id |                      :data |
+;;    |--------------|----------:|----------------------------|
+;;    | [\b "hello"] |         0 | Group: [\b "hello"] [3 5]: |
+;;    | [\a "water"] |         1 | Group: [\a "water"] [2 5]: |
+;;    | [\c "world"] |         2 | Group: [\c "world"] [1 5]: |
+
+(-> joinrds
+    (tc/group-by (juxt :ID :d))
+    (tc/ungroup {:add-group-as-column :blah}))
+
+;; => _unnamed [6 7]:
+;;    | :blah-0 | :blah-1 | :a | :b | :c | :ID |    :d |
+;;    |---------|---------|---:|---:|---:|-----|-------|
+;;    |       b |   hello |  1 |  7 | 13 |   b | hello |
+;;    |       b |   hello |  2 |  8 | 14 |   b | hello |
+;;    |       b |   hello |  3 |  9 | 15 |   b | hello |
+;;    |       a |   water |  4 | 10 | 16 |   a | water |
+;;    |       a |   water |  5 | 11 | 17 |   a | water |
+;;    |       c |   world |  6 | 12 | 18 |   c | world |
+
+(-> joinrds
+    (tc/group-by (juxt :ID :d))
+    (tc/ungroup {:add-group-as-column :blah
+                 :separate? false}))
+
+;; => _unnamed [6 6]:
+;;    |        :blah | :a | :b | :c | :ID |    :d |
+;;    |--------------|---:|---:|---:|-----|-------|
+;;    | [\b "hello"] |  1 |  7 | 13 |   b | hello |
+;;    | [\b "hello"] |  2 |  8 | 14 |   b | hello |
+;;    | [\b "hello"] |  3 |  9 | 15 |   b | hello |
+;;    | [\a "water"] |  4 | 10 | 16 |   a | water |
+;;    | [\a "water"] |  5 | 11 | 17 |   a | water |
+;;    | [\c "world"] |  6 | 12 | 18 |   c | world |
+
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/aggregate-columns [:a :b :c] dfn/mean))
+
+;; => _unnamed [3 5]:
+;;    | :ID |    :d |  :a |   :b |   :c |
+;;    |-----|-------|----:|-----:|-----:|
+;;    |   b | hello | 2.0 |  8.0 | 14.0 |
+;;    |   a | water | 4.5 | 10.5 | 16.5 |
+;;    |   c | world | 6.0 | 12.0 | 18.0 |
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/aggregate-columns [:a :b :c] dfn/mean {:separate? false}))
+
+;; => _unnamed [3 4]:
+;;    |         :$group-name |  :a |   :b |   :c |
+;;    |----------------------|----:|-----:|-----:|
+;;    | {:ID \b, :d "hello"} | 2.0 |  8.0 | 14.0 |
+;;    | {:ID \a, :d "water"} | 4.5 | 10.5 | 16.5 |
+;;    | {:ID \c, :d "world"} | 6.0 | 12.0 | 18.0 |

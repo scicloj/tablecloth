@@ -1,5 +1,9 @@
 # Change Log
 
+## [7.000-beta-50]
+
+Deps updated
+
 ## [7.000-beta-38]
 
 ### Fixed
