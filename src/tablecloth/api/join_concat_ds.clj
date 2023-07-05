@@ -16,11 +16,12 @@
 ;; joins
 
 (defn- multi-join
-  [ds-left ds-right join-fn cols-left cols-right options]
+  [ds-left ds-right join-fn cols-left cols-right {:keys [hashing]
+                                                  :or {hashing identity} :as options}]
   (let [join-column-name (gensym "^___join_column_hash")
-        dsl (join-columns ds-left join-column-name cols-left {:result-type hash
+        dsl (join-columns ds-left join-column-name cols-left {:result-type hashing
                                                               :drop-columns? false})
-        dsr (join-columns ds-right join-column-name cols-right {:result-type hash
+        dsr (join-columns ds-right join-column-name cols-right {:result-type hashing
                                                                 :drop-columns? false})
         joined-ds (join-fn join-column-name dsl dsr options)]
     (-> joined-ds

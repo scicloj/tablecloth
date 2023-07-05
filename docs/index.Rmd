@@ -3190,6 +3190,8 @@ A column selector can be a map with `:left` and `:right` keys to specify column 
 
 The difference between `tech.ml.dataset` join functions are: arguments order (first datasets) and possibility to join on multiple columns.
 
+Multiple columns joins create temporary index column from column selection. The method for creating index is based on `:hashing` option and defaults to `identity`. Prior to `7.000-beta-50` `hash` function was used, which caused hash collision for certain cases.
+
 Additionally set operations are defined: `intersect` and `difference`.
 
 To concat two datasets rowwise you can choose:

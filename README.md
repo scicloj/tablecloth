@@ -4,7 +4,7 @@
 
 ## Versions
 
-### tech.ml.dataset 6.x (master branch)
+### tech.ml.dataset 7.x (master branch)
 
 [![](https://img.shields.io/clojars/v/scicloj/tablecloth)](https://clojars.org/scicloj/tablecloth)
 

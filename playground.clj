@@ -6,7 +6,8 @@
             [tech.v3.datatype.functional :as dfn]
             [clojure.string :as str]
             [tech.v3.datatype.argops :as aop]
-            [tech.v3.dataset.column :as col]))
+            [tech.v3.dataset.column :as col]
+            [clojure.test :as t]))
 
 (ds/concat
  (ds/new-dataset [(c/new-column :a [])])
@@ -901,3 +902,21 @@ DSm2
 ;;    | {:ID \b, :d "hello"} | 2.0 |  8.0 | 14.0 |
 ;;    | {:ID \a, :d "water"} | 4.5 | 10.5 | 16.5 |
 ;;    | {:ID \c, :d "world"} | 6.0 | 12.0 | 18.0 |
+
+
+;; #108
+
+(let [qids ["AGYSUB" "LOC" "AGELVL" "EDLVL"]
+      per-val (-> (tc/dataset "per-val.csv.gz")
+                  (tc/set-dataset-name "per-val"))
+      per-qid (-> (tc/dataset "per-qid.csv.gz")
+                  (tc/set-dataset-name "per-qid"))]
+  (-> (tc/left-join per-val per-qid qids)
+      (tc/select-rows (fn [row]
+                        (or (not= (get row "per-qid.AGYSUB") (get row "AGYSUB"))
+                            (not= (get row "per-qid.LOC") (get row "LOC"))
+                            (not= (get row "per-qid.AGELVL") (get row "AGELVL"))
+                            (not= (get row "per-qid.EDLVL") (get row "EDLVL")))))))
+
+(ds/select-rows (ds/->dataset []) [0])
+;; => _unnamed [0 0]

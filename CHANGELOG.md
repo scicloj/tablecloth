@@ -1,5 +1,15 @@
 # Change Log
 
+## [7.000-beta-50.1]
+
+### Added
+
+* `:hashing` option determines method of creating an index for multicolumn joins (was `hash` is `:seq`)
+
+### Fixed
+
+* [#108](https://github.com/scicloj/tablecloth/issues/108) - hashing replaced with packing data into the  sequence
+
 ## [7.000-beta-50]
 
 Deps updated
