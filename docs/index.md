@@ -29,13 +29,13 @@ pre.r::before {
 tech-ml-version
 ```
 
-“7.000-beta-50”
+“7.000-beta-51”
 
 ``` clojure
 tablecloth-version
 ```
 
-“7.000-beta-50.2”
+“7.000-beta-51”
 
 ## Introduction
 
@@ -701,7 +701,7 @@ Rows as sequence of sequences
 (take 2 (tc/rows ds))
 ```
 
-    ([#object[java.time.LocalDate 0x6fe09215 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x42aedef5 "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
+    ([#object[java.time.LocalDate 0x1cacb8c7 "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"] [#object[java.time.LocalDate 0x39d222cc "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"])
 
 -----
 
@@ -714,7 +714,7 @@ Select rows/columns as double-double-array
     (tc/rows :as-double-arrays))
 ```
 
-    #object["[[D" 0x6641ff5c "[[D@6641ff5c"]
+    #object["[[D" 0x13e73773 "[[D@13e73773"]
 
 ``` clojure
 (-> ds
@@ -723,7 +723,7 @@ Select rows/columns as double-double-array
     (tc/columns :as-double-arrays))
 ```
 
-    #object["[[D" 0x5cdf426 "[[D@5cdf426"]
+    #object["[[D" 0x5a9a8dc8 "[[D@5a9a8dc8"]
 
 -----
 
@@ -733,13 +733,13 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (tc/rows ds :as-maps)))
 ```
 
-    ({"date" #object[java.time.LocalDate 0x4c6faea4 "2012-01-01"],
+    ({"date" #object[java.time.LocalDate 0x6764e7e4 "2012-01-01"],
       "precipitation" 0.0,
       "temp_max" 12.8,
       "temp_min" 5.0,
       "wind" 4.7,
       "weather" "drizzle"}
-     {"date" #object[java.time.LocalDate 0x5f4e4bc8 "2012-01-02"],
+     {"date" #object[java.time.LocalDate 0x72f8ae0a "2012-01-02"],
       "precipitation" 10.9,
       "temp_max" 10.6,
       "temp_min" 2.8,
@@ -2052,7 +2052,7 @@ You can also pass mapping function with optional columns-selector
 
 \_unnamed \[9 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@66937183> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@21180745> |
 | -: | -: | --------: | --------------------------- |
 |  1 |  1 |       0.5 | A                           |
 |  2 |  2 |       1.0 | B                           |
@@ -2124,7 +2124,7 @@ Function works on grouped dataset
 
 {1 Group: 1 \[5 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@500627ad> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@4ce86ac7> |
 | -: | -: | --------: | --------------------------- |
 |  1 |  1 |       0.5 | A                           |
 |  1 |  3 |       1.5 | C                           |
@@ -2134,7 +2134,7 @@ Function works on grouped dataset
 
 , 2 Group: 2 \[4 4\]:
 
-| v1 | v2 | \[1 2 3\] | <java.lang.Object@500627ad> |
+| v1 | v2 | \[1 2 3\] | <java.lang.Object@4ce86ac7> |
 | -: | -: | --------: | --------------------------- |
 |  2 |  2 |       1.0 | B                           |
 |  2 |  4 |       0.5 | A                           |
@@ -2197,15 +2197,15 @@ Replace one column (column is trimmed)
 
 |        :V1 | :V2 | :V3 | :V4 |
 | ---------: | --: | --: | --- |
-| 0.02202149 |   1 | 0.5 | A   |
-| 0.24073243 |   2 | 1.0 | B   |
-| 0.51887951 |   3 | 1.5 | C   |
-| 0.16187162 |   4 | 0.5 | A   |
-| 0.95410709 |   5 | 1.0 | B   |
-| 0.00779513 |   6 | 1.5 | C   |
-| 0.95295613 |   7 | 0.5 | A   |
-| 0.48528081 |   8 | 1.0 | B   |
-| 0.61236732 |   9 | 1.5 | C   |
+| 0.05006456 |   1 | 0.5 | A   |
+| 0.84992049 |   2 | 1.0 | B   |
+| 0.12865947 |   3 | 1.5 | C   |
+| 0.88886799 |   4 | 0.5 | A   |
+| 0.06774426 |   5 | 1.0 | B   |
+| 0.87783017 |   6 | 1.5 | C   |
+| 0.73766266 |   7 | 0.5 | A   |
+| 0.18271106 |   8 | 1.0 | B   |
+| 0.73603475 |   9 | 1.5 | C   |
 
 -----
 
@@ -2478,15 +2478,15 @@ the map.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   1 | 0.5 | A   |
-|   2 |   3 | 1.0 | B   |
-|   1 |   5 | 1.5 | C   |
-|   2 |   2 | 0.5 | A   |
-|   1 |   4 | 1.0 | B   |
-|   2 |   7 | 1.5 | C   |
-|   1 |   6 | 0.5 | A   |
-|   2 |   9 | 1.0 | B   |
-|   1 |   8 | 1.5 | C   |
+|   1 |   8 | 0.5 | A   |
+|   2 |   4 | 1.0 | B   |
+|   1 |   3 | 1.5 | C   |
+|   2 |   1 | 0.5 | A   |
+|   1 |   5 | 1.0 | B   |
+|   2 |   6 | 1.5 | C   |
+|   1 |   9 | 0.5 | A   |
+|   2 |   7 | 1.0 | B   |
+|   1 |   2 | 1.5 | C   |
 
 #### Map
 
@@ -2740,7 +2740,7 @@ Double array conversion.
 (tc/->array DS :V1)
 ```
 
-    #object["[J" 0x328b3e6f "[J@328b3e6f"]
+    #object["[J" 0x37f6a305 "[J@37f6a305"]
 
 -----
 
@@ -2752,7 +2752,7 @@ Function also works on grouped dataset
     (tc/->array :V2))
 ```
 
-    (#object["[J" 0x973712d "[J@973712d"] #object["[J" 0x6966b364 "[J@6966b364"] #object["[J" 0x582ed04a "[J@582ed04a"])
+    (#object["[J" 0x3ca1212 "[J@3ca1212"] #object["[J" 0x77a0f9ce "[J@77a0f9ce"] #object["[J" 0x529d1a1d "[J@529d1a1d"])
 
 -----
 
@@ -2763,8 +2763,8 @@ You can also cast the type to the other one (if casting is possible):
 (tc/->array DS :V1 :float32)
 ```
 
-    #object["[Ljava.lang.String;" 0x55581a58 "[Ljava.lang.String;@55581a58"]
-    #object["[F" 0x1e11b0e0 "[F@1e11b0e0"]
+    #object["[Ljava.lang.String;" 0x5735ce99 "[Ljava.lang.String;@5735ce99"]
+    #object["[F" 0x48f462e6 "[F@48f462e6"]
 
 ### Rows
 
@@ -2988,7 +2988,7 @@ Random row (single)
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   2 |   2 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
 
 -----
 
@@ -3016,15 +3016,15 @@ Random `n` (default: row count) rows with repetition.
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   2 |   8 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
+|   1 |   3 | 1.5 | C   |
+|   2 |   6 | 1.5 | C   |
+|   2 |   6 | 1.5 | C   |
+|   1 |   1 | 0.5 | A   |
+|   2 |   4 | 0.5 | A   |
 |   1 |   5 | 1.0 | B   |
 |   1 |   9 | 1.5 | C   |
-|   2 |   2 | 1.0 | B   |
-|   1 |   3 | 1.5 | C   |
-|   1 |   3 | 1.5 | C   |
-|   1 |   3 | 1.5 | C   |
-|   1 |   9 | 1.5 | C   |
-|   2 |   8 | 1.0 | B   |
+|   1 |   7 | 0.5 | A   |
 
 -----
 
@@ -3038,11 +3038,11 @@ Five random rows with repetition
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   7 | 0.5 | A   |
 |   1 |   1 | 0.5 | A   |
-|   2 |   8 | 1.0 | B   |
-|   1 |   1 | 0.5 | A   |
+|   2 |   2 | 1.0 | B   |
 |   1 |   9 | 1.5 | C   |
+|   2 |   6 | 1.5 | C   |
+|   2 |   2 | 1.0 | B   |
 
 -----
 
@@ -3056,11 +3056,11 @@ Five random, non-repeating rows
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   2 |   4 | 0.5 | A   |
+|   1 |   5 | 1.0 | B   |
 |   1 |   9 | 1.5 | C   |
-|   1 |   3 | 1.5 | C   |
-|   2 |   2 | 1.0 | B   |
-|   2 |   8 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
+|   2 |   6 | 1.5 | C   |
+|   1 |   1 | 0.5 | A   |
 
 -----
 
@@ -3092,15 +3092,15 @@ Shuffle dataset
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
+|   2 |   6 | 1.5 | C   |
 |   2 |   2 | 1.0 | B   |
 |   2 |   8 | 1.0 | B   |
-|   1 |   3 | 1.5 | C   |
 |   1 |   5 | 1.0 | B   |
-|   1 |   9 | 1.5 | C   |
 |   2 |   4 | 0.5 | A   |
-|   1 |   7 | 0.5 | A   |
-|   2 |   6 | 1.5 | C   |
+|   1 |   3 | 1.5 | C   |
+|   1 |   9 | 1.5 | C   |
 |   1 |   1 | 0.5 | A   |
+|   1 |   7 | 0.5 | A   |
 
 -----
 
@@ -3228,21 +3228,21 @@ Select 5 random rows from each group
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   1 | 0.5 | A   |
-|   1 |   1 | 0.5 | A   |
+|   2 |   4 | 0.5 | A   |
 |   1 |   7 | 0.5 | A   |
-|   1 |   1 | 0.5 | A   |
+|   2 |   4 | 0.5 | A   |
 |   1 |   7 | 0.5 | A   |
-|   2 |   8 | 1.0 | B   |
-|   1 |   5 | 1.0 | B   |
-|   1 |   5 | 1.0 | B   |
-|   1 |   5 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
 |   2 |   2 | 1.0 | B   |
-|   2 |   6 | 1.5 | C   |
-|   2 |   6 | 1.5 | C   |
-|   2 |   6 | 1.5 | C   |
+|   2 |   2 | 1.0 | B   |
+|   2 |   2 | 1.0 | B   |
+|   1 |   5 | 1.0 | B   |
+|   1 |   5 | 1.0 | B   |
 |   1 |   3 | 1.5 | C   |
 |   1 |   3 | 1.5 | C   |
+|   1 |   3 | 1.5 | C   |
+|   1 |   9 | 1.5 | C   |
+|   2 |   6 | 1.5 | C   |
 
 ### Aggregate
 
@@ -3885,8 +3885,8 @@ Random
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   1 | 0.5 | A   |
-|   2 |   4 | 0.5 | A   |
+|   2 |   2 | 1.0 | B   |
+|   1 |   9 | 1.5 | C   |
 
 -----
 
@@ -5368,9 +5368,9 @@ and the other way around:
     
     | :x |          :y |
     |----|-------------|
-    | :a | [D@77c94dfa |
-    | :b | [D@2b4cd6e1 |
-    | :c | [D@4e69e9f9 |
+    | :a |  [D@f7f15cd |
+    | :b | [D@1e336415 |
+    | :c | [D@6a892c9a |
 
 ### Fold/Unroll Rows
 
@@ -6071,10 +6071,10 @@ pnl
 
 | :x | :a | :b |        :y1 |        :y2 | :z1 | :z2 |
 | -: | -: | -: | ---------: | ---------: | --: | --: |
-|  1 |  1 |  0 | 0.86111649 | 0.99557670 |   3 | \-2 |
-|  2 |  1 |  1 | 0.38763451 | 0.51123134 |   3 | \-2 |
-|  3 |  0 |  1 | 0.72074513 | 0.46020647 |   3 | \-2 |
-|  4 |  0 |  1 | 0.50048227 | 0.00181082 |   3 | \-2 |
+|  1 |  1 |  0 | 0.11377232 | 0.86924754 |   3 | \-2 |
+|  2 |  1 |  1 | 0.67554825 | 0.36772384 |   3 | \-2 |
+|  3 |  0 |  1 | 0.99426224 | 0.32191417 |   3 | \-2 |
+|  4 |  0 |  1 | 0.80084367 | 0.56468982 |   3 | \-2 |
 
 ``` clojure
 (tc/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
@@ -6085,14 +6085,14 @@ pnl
 
 | :x | :a | :b | :times |          y |   z |
 | -: | -: | -: | -----: | ---------: | --: |
-|  1 |  1 |  0 |      1 | 0.86111649 |   3 |
-|  2 |  1 |  1 |      1 | 0.38763451 |   3 |
-|  3 |  0 |  1 |      1 | 0.72074513 |   3 |
-|  4 |  0 |  1 |      1 | 0.50048227 |   3 |
-|  1 |  1 |  0 |      2 | 0.99557670 | \-2 |
-|  2 |  1 |  1 |      2 | 0.51123134 | \-2 |
-|  3 |  0 |  1 |      2 | 0.46020647 | \-2 |
-|  4 |  0 |  1 |      2 | 0.00181082 | \-2 |
+|  1 |  1 |  0 |      1 | 0.11377232 |   3 |
+|  2 |  1 |  1 |      1 | 0.67554825 |   3 |
+|  3 |  0 |  1 |      1 | 0.99426224 |   3 |
+|  4 |  0 |  1 |      1 | 0.80084367 |   3 |
+|  1 |  1 |  0 |      2 | 0.86924754 | \-2 |
+|  2 |  1 |  1 |      2 | 0.36772384 | \-2 |
+|  3 |  0 |  1 |      2 | 0.32191417 | \-2 |
+|  4 |  0 |  1 |      2 | 0.56468982 | \-2 |
 
 #### Wider
 
@@ -8082,28 +8082,28 @@ asof-\>= \[3 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   2 |   8 | 1.0 | B   |
 |   2 |   6 | 1.5 | C   |
+|   2 |   2 | 1.0 | B   |
+|   1 |   7 | 0.5 | A   |
+|   1 |   5 | 1.0 | B   |
+|   1 |   3 | 1.5 | C   |
+|   2 |   4 | 0.5 | A   |
+|   2 |   2 | 1.0 | B   |
+|   2 |   8 | 1.0 | B   |
+|   2 |   2 | 1.0 | B   |
+|   1 |   9 | 1.5 | C   |
+|   … |   … |   … | …   |
+|   2 |   2 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
+|   1 |   3 | 1.5 | C   |
+|   1 |   5 | 1.0 | B   |
+|   1 |   1 | 0.5 | A   |
+|   1 |   3 | 1.5 | C   |
+|   1 |   9 | 1.5 | C   |
 |   1 |   7 | 0.5 | A   |
 |   1 |   1 | 0.5 | A   |
 |   1 |   5 | 1.0 | B   |
-|   1 |   5 | 1.0 | B   |
-|   2 |   2 | 1.0 | B   |
-|   2 |   8 | 1.0 | B   |
-|   2 |   4 | 0.5 | A   |
-|   2 |   4 | 0.5 | A   |
-|   … |   … |   … | …   |
-|   2 |   6 | 1.5 | C   |
-|   1 |   7 | 0.5 | A   |
-|   1 |   5 | 1.0 | B   |
-|   1 |   7 | 0.5 | A   |
-|   1 |   9 | 1.5 | C   |
-|   2 |   4 | 0.5 | A   |
-|   1 |   3 | 1.5 | C   |
-|   1 |   9 | 1.5 | C   |
-|   2 |   2 | 1.0 | B   |
-|   1 |   9 | 1.5 | C   |
-|   1 |   3 | 1.5 | C   |
+|   1 |   1 | 0.5 | A   |
 
 ##### Concat grouped dataset
 
@@ -8166,15 +8166,15 @@ union \[9 4\]:
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
+|   2 |   2 | 1.0 | B   |
+|   1 |   5 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
+|   1 |   1 | 0.5 | A   |
+|   1 |   3 | 1.5 | C   |
+|   1 |   7 | 0.5 | A   |
 |   1 |   9 | 1.5 | C   |
 |   2 |   6 | 1.5 | C   |
-|   1 |   3 | 1.5 | C   |
-|   1 |   1 | 0.5 | A   |
-|   2 |   4 | 0.5 | A   |
-|   1 |   7 | 0.5 | A   |
-|   1 |   5 | 1.0 | B   |
 |   2 |   8 | 1.0 | B   |
-|   2 |   2 | 1.0 | B   |
 
 #### Bind
 
@@ -8363,28 +8363,28 @@ for-splitting
 
 | :id | :partition | :group |
 | --: | ---------- | ------ |
-|   0 | :a         | :g3    |
+|   0 | :a         | :g1    |
 |   1 | :a         | :g1    |
-|   2 | :a         | :g2    |
+|   2 | :a         | :g1    |
 |   3 | :a         | :g3    |
-|   4 | :a         | :g2    |
+|   4 | :a         | :g1    |
 |   5 | :a         | :g3    |
-|   6 | :a         | :g1    |
-|   7 | :a         | :g1    |
+|   6 | :a         | :g2    |
+|   7 | :a         | :g2    |
 |   8 | :a         | :g2    |
-|   9 | :a         | :g2    |
+|   9 | :a         | :g3    |
 |   … | …          | …      |
 |  14 | :a         | :g2    |
-|  15 | :a         | :g1    |
-|  16 | :a         | :g2    |
-|  17 | :a         | :g2    |
-|  18 | :a         | :g1    |
-|  19 | :a         | :g2    |
+|  15 | :a         | :g3    |
+|  16 | :a         | :g1    |
+|  17 | :a         | :g1    |
+|  18 | :a         | :g3    |
+|  19 | :a         | :g3    |
 |  20 | :b         | :g1    |
 |  21 | :b         | :g1    |
-|  22 | :b         | :g2    |
+|  22 | :b         | :g1    |
 |  23 | :b         | :g3    |
-|  24 | :b         | :g3    |
+|  24 | :b         | :g2    |
 
 #### k-Fold
 
@@ -8400,36 +8400,36 @@ Returns `k=5` maps
 
 | :id | :partition | :group | :\(split-name | :\)split-id |   |
 | --: | ---------- | ------ | --------------------------- | -: |
-|  20 | :b         | :g1    | :train                      | 0 |
-|  15 | :a         | :g1    | :train                      | 0 |
-|  17 | :a         | :g2    | :train                      | 0 |
-|  23 | :b         | :g3    | :train                      | 0 |
-|  22 | :b         | :g2    | :train                      | 0 |
-|  11 | :a         | :g3    | :train                      | 0 |
-|  21 | :b         | :g1    | :train                      | 0 |
-|   8 | :a         | :g2    | :train                      | 0 |
-|  10 | :a         | :g2    | :train                      | 0 |
-|  18 | :a         | :g1    | :train                      | 0 |
-|   7 | :a         | :g1    | :train                      | 0 |
-|  24 | :b         | :g3    | :train                      | 0 |
-|   5 | :a         | :g3    | :train                      | 0 |
-|   4 | :a         | :g2    | :train                      | 0 |
-|   2 | :a         | :g2    | :train                      | 0 |
+|   6 | :a         | :g2    | :train                      | 0 |
+|  19 | :a         | :g3    | :train                      | 0 |
+|   4 | :a         | :g1    | :train                      | 0 |
 |   1 | :a         | :g1    | :train                      | 0 |
-|  13 | :a         | :g1    | :train                      | 0 |
-|   0 | :a         | :g3    | :train                      | 0 |
-|  19 | :a         | :g2    | :train                      | 0 |
+|   8 | :a         | :g2    | :train                      | 0 |
 |  14 | :a         | :g2    | :train                      | 0 |
-|  12 | :a         | :g3    | :test                       | 0 |
-|   6 | :a         | :g1    | :test                       | 0 |
-|   3 | :a         | :g3    | :test                       | 0 |
-|  16 | :a         | :g2    | :test                       | 0 |
-|   9 | :a         | :g2    | :test                       | 0 |
-|  12 | :a         | :g3    | :train                      | 1 |
-|   6 | :a         | :g1    | :train                      | 1 |
-|   3 | :a         | :g3    | :train                      | 1 |
-|  16 | :a         | :g2    | :train                      | 1 |
-|   9 | :a         | :g2    | :train                      | 1 |
+|  13 | :a         | :g1    | :train                      | 0 |
+|  10 | :a         | :g3    | :train                      | 0 |
+|   0 | :a         | :g1    | :train                      | 0 |
+|   7 | :a         | :g2    | :train                      | 0 |
+|   5 | :a         | :g3    | :train                      | 0 |
+|  18 | :a         | :g3    | :train                      | 0 |
+|  21 | :b         | :g1    | :train                      | 0 |
+|   2 | :a         | :g1    | :train                      | 0 |
+|  15 | :a         | :g3    | :train                      | 0 |
+|  12 | :a         | :g1    | :train                      | 0 |
+|  11 | :a         | :g3    | :train                      | 0 |
+|   3 | :a         | :g3    | :train                      | 0 |
+|  22 | :b         | :g1    | :train                      | 0 |
+|  24 | :b         | :g2    | :train                      | 0 |
+|  17 | :a         | :g1    | :test                       | 0 |
+|  23 | :b         | :g3    | :test                       | 0 |
+|  16 | :a         | :g1    | :test                       | 0 |
+|  20 | :b         | :g1    | :test                       | 0 |
+|   9 | :a         | :g3    | :test                       | 0 |
+|  17 | :a         | :g1    | :train                      | 1 |
+|  23 | :b         | :g3    | :train                      | 1 |
+|  16 | :a         | :g1    | :train                      | 1 |
+|  20 | :b         | :g1    | :train                      | 1 |
+|   9 | :a         | :g3    | :train                      | 1 |
 
 Partition according to `:k` column to reflect it’s distribution
 
@@ -8443,36 +8443,36 @@ Partition according to `:k` column to reflect it’s distribution
 
 | :id | :partition | :group | :\(split-name | :\)split-id |   |
 | --: | ---------- | ------ | --------------------------- | -: |
-|   0 | :a         | :g3    | :train                      | 0 |
-|   8 | :a         | :g2    | :train                      | 0 |
-|  10 | :a         | :g2    | :train                      | 0 |
-|   6 | :a         | :g1    | :train                      | 0 |
-|  12 | :a         | :g3    | :train                      | 0 |
-|  16 | :a         | :g2    | :train                      | 0 |
-|   1 | :a         | :g1    | :train                      | 0 |
-|   9 | :a         | :g2    | :train                      | 0 |
+|  18 | :a         | :g3    | :train                      | 0 |
+|  13 | :a         | :g1    | :train                      | 0 |
 |   5 | :a         | :g3    | :train                      | 0 |
-|   4 | :a         | :g2    | :train                      | 0 |
-|   2 | :a         | :g2    | :train                      | 0 |
-|  18 | :a         | :g1    | :train                      | 0 |
-|   3 | :a         | :g3    | :train                      | 0 |
-|   7 | :a         | :g1    | :train                      | 0 |
-|  17 | :a         | :g2    | :train                      | 0 |
+|   9 | :a         | :g3    | :train                      | 0 |
+|   4 | :a         | :g1    | :train                      | 0 |
+|  12 | :a         | :g1    | :train                      | 0 |
+|   8 | :a         | :g2    | :train                      | 0 |
+|  15 | :a         | :g3    | :train                      | 0 |
+|   7 | :a         | :g2    | :train                      | 0 |
+|  16 | :a         | :g1    | :train                      | 0 |
 |  14 | :a         | :g2    | :train                      | 0 |
-|  13 | :a         | :g1    | :test                       | 0 |
+|   3 | :a         | :g3    | :train                      | 0 |
+|   6 | :a         | :g2    | :train                      | 0 |
+|   2 | :a         | :g1    | :train                      | 0 |
+|  17 | :a         | :g1    | :train                      | 0 |
+|   0 | :a         | :g1    | :train                      | 0 |
+|   1 | :a         | :g1    | :test                       | 0 |
+|  19 | :a         | :g3    | :test                       | 0 |
+|  10 | :a         | :g3    | :test                       | 0 |
 |  11 | :a         | :g3    | :test                       | 0 |
-|  15 | :a         | :g1    | :test                       | 0 |
-|  19 | :a         | :g2    | :test                       | 0 |
-|  13 | :a         | :g1    | :train                      | 1 |
-|  11 | :a         | :g3    | :train                      | 1 |
-|  15 | :a         | :g1    | :train                      | 1 |
-|  19 | :a         | :g2    | :train                      | 1 |
-|  12 | :a         | :g3    | :train                      | 1 |
-|  16 | :a         | :g2    | :train                      | 1 |
 |   1 | :a         | :g1    | :train                      | 1 |
-|   9 | :a         | :g2    | :train                      | 1 |
-|   5 | :a         | :g3    | :train                      | 1 |
-|   4 | :a         | :g2    | :train                      | 1 |
+|  19 | :a         | :g3    | :train                      | 1 |
+|  10 | :a         | :g3    | :train                      | 1 |
+|  11 | :a         | :g3    | :train                      | 1 |
+|   4 | :a         | :g1    | :train                      | 1 |
+|  12 | :a         | :g1    | :train                      | 1 |
+|   8 | :a         | :g2    | :train                      | 1 |
+|  15 | :a         | :g3    | :train                      | 1 |
+|   7 | :a         | :g2    | :train                      | 1 |
+|  16 | :a         | :g1    | :train                      | 1 |
 
 #### Bootstrap
 
@@ -8480,32 +8480,32 @@ Partition according to `:k` column to reflect it’s distribution
 (tc/split for-splitting :bootstrap)
 ```
 
-\_unnamed, (splitted) \[35 5\]:
+\_unnamed, (splitted) \[33 5\]:
 
 | :id | :partition | :group | :\(split-name | :\)split-id |   |
 | --: | ---------- | ------ | --------------------------- | -: |
-|  17 | :a         | :g2    | :train                      | 0 |
-|   2 | :a         | :g2    | :train                      | 0 |
-|  24 | :b         | :g3    | :train                      | 0 |
-|   5 | :a         | :g3    | :train                      | 0 |
-|  18 | :a         | :g1    | :train                      | 0 |
-|   4 | :a         | :g2    | :train                      | 0 |
-|   5 | :a         | :g3    | :train                      | 0 |
-|  10 | :a         | :g2    | :train                      | 0 |
-|  12 | :a         | :g3    | :train                      | 0 |
-|  24 | :b         | :g3    | :train                      | 0 |
-|   … | …          | …      | …                           | … |
+|  14 | :a         | :g2    | :train                      | 0 |
+|   0 | :a         | :g1    | :train                      | 0 |
 |  21 | :b         | :g1    | :train                      | 0 |
-|   0 | :a         | :g3    | :test                       | 0 |
-|   6 | :a         | :g1    | :test                       | 0 |
-|   7 | :a         | :g1    | :test                       | 0 |
+|   2 | :a         | :g1    | :train                      | 0 |
+|  20 | :b         | :g1    | :train                      | 0 |
+|  14 | :a         | :g2    | :train                      | 0 |
+|  20 | :b         | :g1    | :train                      | 0 |
+|   9 | :a         | :g3    | :train                      | 0 |
+|  10 | :a         | :g3    | :train                      | 0 |
+|   1 | :a         | :g1    | :train                      | 0 |
+|   … | …          | …      | …                           | … |
+|   7 | :a         | :g2    | :train                      | 0 |
+|  21 | :b         | :g1    | :train                      | 0 |
+|   2 | :a         | :g1    | :train                      | 0 |
+|   5 | :a         | :g3    | :test                       | 0 |
+|   6 | :a         | :g2    | :test                       | 0 |
 |   8 | :a         | :g2    | :test                       | 0 |
-|  13 | :a         | :g1    | :test                       | 0 |
-|  14 | :a         | :g2    | :test                       | 0 |
-|  15 | :a         | :g1    | :test                       | 0 |
-|  19 | :a         | :g2    | :test                       | 0 |
-|  20 | :b         | :g1    | :test                       | 0 |
-|  22 | :b         | :g2    | :test                       | 0 |
+|  16 | :a         | :g1    | :test                       | 0 |
+|  18 | :a         | :g3    | :test                       | 0 |
+|  22 | :b         | :g1    | :test                       | 0 |
+|  23 | :b         | :g3    | :test                       | 0 |
+|  24 | :b         | :g2    | :test                       | 0 |
 
 with repeats, to get 100 splits
 
@@ -8531,28 +8531,28 @@ with small ratio
 
 | :id | :partition | :group | :\(split-name | :\)split-id |   |
 | --: | ---------- | ------ | --------------------------- | -: |
-|  20 | :b         | :g1    | :train                      | 0 |
-|   3 | :a         | :g3    | :train                      | 0 |
-|  14 | :a         | :g2    | :train                      | 0 |
-|   6 | :a         | :g1    | :train                      | 0 |
-|  13 | :a         | :g1    | :train                      | 0 |
-|  15 | :a         | :g1    | :test                       | 0 |
-|   5 | :a         | :g3    | :test                       | 0 |
-|   2 | :a         | :g2    | :test                       | 0 |
-|   9 | :a         | :g2    | :test                       | 0 |
-|  11 | :a         | :g3    | :test                       | 0 |
+|   2 | :a         | :g1    | :train                      | 0 |
+|  12 | :a         | :g1    | :train                      | 0 |
+|   9 | :a         | :g3    | :train                      | 0 |
+|   0 | :a         | :g1    | :train                      | 0 |
+|  21 | :b         | :g1    | :train                      | 0 |
+|  17 | :a         | :g1    | :test                       | 0 |
+|   3 | :a         | :g3    | :test                       | 0 |
+|  19 | :a         | :g3    | :test                       | 0 |
+|  18 | :a         | :g3    | :test                       | 0 |
+|  14 | :a         | :g2    | :test                       | 0 |
 |   … | …          | …      | …                           | … |
-|  16 | :a         | :g2    | :test                       | 0 |
-|   4 | :a         | :g2    | :test                       | 0 |
-|  21 | :b         | :g1    | :test                       | 0 |
-|  19 | :a         | :g2    | :test                       | 0 |
-|  12 | :a         | :g3    | :test                       | 0 |
+|  24 | :b         | :g2    | :test                       | 0 |
+|   4 | :a         | :g1    | :test                       | 0 |
+|   5 | :a         | :g3    | :test                       | 0 |
+|  13 | :a         | :g1    | :test                       | 0 |
+|  22 | :b         | :g1    | :test                       | 0 |
+|   7 | :a         | :g2    | :test                       | 0 |
+|  15 | :a         | :g3    | :test                       | 0 |
 |   1 | :a         | :g1    | :test                       | 0 |
-|  17 | :a         | :g2    | :test                       | 0 |
-|  10 | :a         | :g2    | :test                       | 0 |
-|  18 | :a         | :g1    | :test                       | 0 |
-|  23 | :b         | :g3    | :test                       | 0 |
-|   7 | :a         | :g1    | :test                       | 0 |
+|  20 | :b         | :g1    | :test                       | 0 |
+|  11 | :a         | :g3    | :test                       | 0 |
+|  10 | :a         | :g3    | :test                       | 0 |
 
 you can split to more than two subdatasets with holdout
 
@@ -8564,28 +8564,28 @@ you can split to more than two subdatasets with holdout
 
 | :id | :partition | :group | :\(split-name | :\)split-id |   |
 | --: | ---------- | ------ | --------------------------- | -: |
-|  10 | :a         | :g2    | :train                      | 0 |
-|  12 | :a         | :g3    | :train                      | 0 |
-|   4 | :a         | :g2    | :test                       | 0 |
-|   0 | :a         | :g3    | :test                       | 0 |
+|   8 | :a         | :g2    | :train                      | 0 |
+|   3 | :a         | :g3    | :train                      | 0 |
+|  21 | :b         | :g1    | :test                       | 0 |
+|  19 | :a         | :g3    | :test                       | 0 |
+|   7 | :a         | :g2    | :test                       | 0 |
+|  23 | :b         | :g3    | :test                       | 0 |
 |  20 | :b         | :g1    | :test                       | 0 |
-|   3 | :a         | :g3    | :test                       | 0 |
-|  16 | :a         | :g2    | :test                       | 0 |
-|  13 | :a         | :g1    | :split-2                    | 0 |
-|   6 | :a         | :g1    | :split-2                    | 0 |
-|  18 | :a         | :g1    | :split-2                    | 0 |
+|  22 | :b         | :g1    | :split-2                    | 0 |
+|   1 | :a         | :g1    | :split-2                    | 0 |
+|  17 | :a         | :g1    | :split-2                    | 0 |
 |   … | …          | …      | …                           | … |
-|  19 | :a         | :g2    | :split-3                    | 0 |
-|  22 | :b         | :g2    | :split-3                    | 0 |
-|   5 | :a         | :g3    | :split-3                    | 0 |
-|   7 | :a         | :g1    | :split-4                    | 0 |
+|  16 | :a         | :g1    | :split-3                    | 0 |
+|  12 | :a         | :g1    | :split-3                    | 0 |
+|  13 | :a         | :g1    | :split-3                    | 0 |
+|   2 | :a         | :g1    | :split-4                    | 0 |
 |  14 | :a         | :g2    | :split-4                    | 0 |
-|  23 | :b         | :g3    | :split-4                    | 0 |
-|   8 | :a         | :g2    | :split-4                    | 0 |
-|  15 | :a         | :g1    | :split-4                    | 0 |
-|  24 | :b         | :g3    | :split-4                    | 0 |
-|  11 | :a         | :g3    | :split-4                    | 0 |
-|   9 | :a         | :g2    | :split-4                    | 0 |
+|   5 | :a         | :g3    | :split-4                    | 0 |
+|  18 | :a         | :g3    | :split-4                    | 0 |
+|  15 | :a         | :g3    | :split-4                    | 0 |
+|   4 | :a         | :g1    | :split-4                    | 0 |
+|  24 | :b         | :g2    | :split-4                    | 0 |
+|   0 | :a         | :g1    | :split-4                    | 0 |
 
 you can use also proportions with custom names
 
@@ -8598,28 +8598,28 @@ you can use also proportions with custom names
 
 | :id | :partition | :group | :\(split-name | :\)split-id |   |
 | --: | ---------- | ------ | --------------------------- | -: |
-|  10 | :a         | :g2    | small                       | 0 |
-|   0 | :a         | :g3    | small                       | 0 |
-|  19 | :a         | :g2    | small                       | 0 |
-|  22 | :b         | :g2    | small                       | 0 |
-|   6 | :a         | :g1    | small                       | 0 |
-|  20 | :b         | :g1    | smaller                     | 0 |
-|  14 | :a         | :g2    | smaller                     | 0 |
-|   7 | :a         | :g1    | smaller                     | 0 |
-|   8 | :a         | :g2    | big                         | 0 |
-|  16 | :a         | :g2    | big                         | 0 |
+|  15 | :a         | :g3    | small                       | 0 |
+|   2 | :a         | :g1    | small                       | 0 |
+|   6 | :a         | :g2    | small                       | 0 |
+|  10 | :a         | :g3    | small                       | 0 |
+|  20 | :b         | :g1    | small                       | 0 |
+|  16 | :a         | :g1    | smaller                     | 0 |
+|   8 | :a         | :g2    | smaller                     | 0 |
+|  11 | :a         | :g3    | smaller                     | 0 |
+|   0 | :a         | :g1    | big                         | 0 |
+|   7 | :a         | :g2    | big                         | 0 |
 |   … | …          | …      | …                           | … |
-|   2 | :a         | :g2    | big                         | 0 |
-|  11 | :a         | :g3    | big                         | 0 |
-|   4 | :a         | :g2    | big                         | 0 |
-|  12 | :a         | :g3    | big                         | 0 |
-|   9 | :a         | :g2    | big                         | 0 |
+|   3 | :a         | :g3    | big                         | 0 |
+|  18 | :a         | :g3    | big                         | 0 |
+|   1 | :a         | :g1    | big                         | 0 |
+|  14 | :a         | :g2    | big                         | 0 |
+|  13 | :a         | :g1    | big                         | 0 |
+|  24 | :b         | :g2    | big                         | 0 |
 |  23 | :b         | :g3    | big                         | 0 |
-|  18 | :a         | :g1    | big                         | 0 |
+|   9 | :a         | :g3    | the rest                    | 0 |
+|  17 | :a         | :g1    | the rest                    | 0 |
 |  21 | :b         | :g1    | the rest                    | 0 |
-|   3 | :a         | :g3    | the rest                    | 0 |
-|  24 | :b         | :g3    | the rest                    | 0 |
-|  17 | :a         | :g2    | the rest                    | 0 |
+|  22 | :b         | :g1    | the rest                    | 0 |
 
 #### Holdouts
 
@@ -8671,36 +8671,36 @@ splits with ascending rows in train dataset.
 
 | :id | :partition | :group | :\(split-name | :\)split-id |   |
 | --: | ---------- | ------ | --------------------------- | -: |
-|  22 | :b         | :g2    | :train                      | 0 |
-|  11 | :a         | :g3    | :train                      | 0 |
-|   3 | :a         | :g3    | :train                      | 0 |
-|  14 | :a         | :g2    | :train                      | 0 |
-|   2 | :a         | :g2    | :train                      | 0 |
-|  17 | :a         | :g2    | :train                      | 0 |
-|   1 | :a         | :g1    | :train                      | 0 |
-|  23 | :b         | :g3    | :train                      | 0 |
-|  16 | :a         | :g2    | :train                      | 0 |
-|   0 | :a         | :g3    | :train                      | 0 |
-|  19 | :a         | :g2    | :train                      | 0 |
-|  24 | :b         | :g3    | :train                      | 0 |
-|  13 | :a         | :g1    | :train                      | 0 |
-|   5 | :a         | :g3    | :train                      | 0 |
-|   6 | :a         | :g1    | :train                      | 0 |
-|   4 | :a         | :g2    | :train                      | 0 |
-|  10 | :a         | :g2    | :train                      | 0 |
-|   7 | :a         | :g1    | :train                      | 0 |
-|  12 | :a         | :g3    | :train                      | 0 |
-|   9 | :a         | :g2    | :train                      | 0 |
-|   8 | :a         | :g2    | :train                      | 0 |
-|  15 | :a         | :g1    | :train                      | 0 |
 |  21 | :b         | :g1    | :train                      | 0 |
+|   8 | :a         | :g2    | :train                      | 0 |
+|   2 | :a         | :g1    | :train                      | 0 |
+|   4 | :a         | :g1    | :train                      | 0 |
+|  10 | :a         | :g3    | :train                      | 0 |
+|  17 | :a         | :g1    | :train                      | 0 |
+|  23 | :b         | :g3    | :train                      | 0 |
+|  11 | :a         | :g3    | :train                      | 0 |
+|   5 | :a         | :g3    | :train                      | 0 |
+|  13 | :a         | :g1    | :train                      | 0 |
+|  15 | :a         | :g3    | :train                      | 0 |
+|  14 | :a         | :g2    | :train                      | 0 |
+|  19 | :a         | :g3    | :train                      | 0 |
+|   7 | :a         | :g2    | :train                      | 0 |
+|  16 | :a         | :g1    | :train                      | 0 |
+|   1 | :a         | :g1    | :train                      | 0 |
 |  20 | :b         | :g1    | :train                      | 0 |
-|  18 | :a         | :g1    | :test                       | 0 |
-|  18 | :a         | :g1    | :train                      | 1 |
-|  11 | :a         | :g3    | :train                      | 1 |
-|   3 | :a         | :g3    | :train                      | 1 |
-|  14 | :a         | :g2    | :train                      | 1 |
-|   2 | :a         | :g2    | :train                      | 1 |
+|   3 | :a         | :g3    | :train                      | 0 |
+|   0 | :a         | :g1    | :train                      | 0 |
+|   9 | :a         | :g3    | :train                      | 0 |
+|   6 | :a         | :g2    | :train                      | 0 |
+|  18 | :a         | :g3    | :train                      | 0 |
+|  24 | :b         | :g2    | :train                      | 0 |
+|  12 | :a         | :g1    | :train                      | 0 |
+|  22 | :b         | :g1    | :test                       | 0 |
+|  22 | :b         | :g1    | :train                      | 1 |
+|   8 | :a         | :g2    | :train                      | 1 |
+|   2 | :a         | :g1    | :train                      | 1 |
+|   4 | :a         | :g1    | :train                      | 1 |
+|  10 | :a         | :g3    | :train                      | 1 |
 
 ``` clojure
 (-> for-splitting
@@ -8722,9 +8722,9 @@ splits with ascending rows in train dataset.
 
 | :name | :group-id | :data                            |
 | ----- | --------: | -------------------------------- |
-| :g3   |         0 | Group: :g3, (splitted) \[9 5\]:  |
-| :g1   |         1 | Group: :g1, (splitted) \[10 5\]: |
-| :g2   |         2 | Group: :g2, (splitted) \[13 5\]: |
+| :g1   |         0 | Group: :g1, (splitted) \[13 5\]: |
+| :g3   |         1 | Group: :g3, (splitted) \[11 5\]: |
+| :g2   |         2 | Group: :g2, (splitted) \[7 5\]:  |
 
 #### Split as a sequence
 
@@ -8740,36 +8740,36 @@ To get a sequence of pairs, use `split->seq` function
 
 | :id | :partition | :group |
 | --: | ---------- | ------ |
-|  16 | :a         | :g2    |
-|   9 | :a         | :g2    |
-|   6 | :a         | :g1    |
-|   1 | :a         | :g1    |
-|   4 | :a         | :g2    |
+|  18 | :a         | :g3    |
+|  15 | :a         | :g3    |
+|   6 | :a         | :g2    |
+|  16 | :a         | :g1    |
+|  12 | :a         | :g1    |
+|   0 | :a         | :g1    |
+|  14 | :a         | :g2    |
+|  19 | :a         | :g3    |
 |   8 | :a         | :g2    |
-|   0 | :a         | :g3    |
-|  15 | :a         | :g1    |
-|  19 | :a         | :g2    |
-|   3 | :a         | :g3    |
-|   2 | :a         | :g2    |
-|  17 | :a         | :g2    |
+|   9 | :a         | :g3    |
+|   4 | :a         | :g1    |
+|   1 | :a         | :g1    |
+|  10 | :a         | :g3    |
 |   5 | :a         | :g3    |
-|  11 | :a         | :g3    |
 |  13 | :a         | :g1    |
-|   7 | :a         | :g1    |
-|  21 | :b         | :g1    |
+|   2 | :a         | :g1    |
+|  24 | :b         | :g2    |
 |  23 | :b         | :g3    |
-|  22 | :b         | :g2    |
-|  24 | :b         | :g3    |
+|  21 | :b         | :g1    |
+|  20 | :b         | :g1    |
 
 , :test Group: 0 \[5 3\]:
 
 | :id | :partition | :group |
 | --: | ---------- | ------ |
-|  10 | :a         | :g2    |
-|  12 | :a         | :g3    |
-|  14 | :a         | :g2    |
-|  18 | :a         | :g1    |
-|  20 | :b         | :g1    |
+|  17 | :a         | :g1    |
+|   3 | :a         | :g3    |
+|  11 | :a         | :g3    |
+|   7 | :a         | :g2    |
+|  22 | :b         | :g1    |
 
 }
 
@@ -8780,41 +8780,49 @@ To get a sequence of pairs, use `split->seq` function
     (first))
 ```
 
-\[:g3 ({:train Group: 0 \[6 3\]:
+\[:g1 ({:train Group: 0 \[10 3\]:
 
 | :id | :partition | :group |
 | --: | ---------- | ------ |
-|   5 | :a         | :g3    |
-|   0 | :a         | :g3    |
-|   3 | :a         | :g3    |
-|   5 | :a         | :g3    |
-|  24 | :b         | :g3    |
-|  23 | :b         | :g3    |
+|  13 | :a         | :g1    |
+|  16 | :a         | :g1    |
+|  12 | :a         | :g1    |
+|   1 | :a         | :g1    |
+|   0 | :a         | :g1    |
+|   2 | :a         | :g1    |
+|   2 | :a         | :g1    |
+|  21 | :b         | :g1    |
+|  21 | :b         | :g1    |
+|  20 | :b         | :g1    |
 
-, :test Group: 0 \[2 3\]:
-
-| :id | :partition | :group |
-| --: | ---------- | ------ |
-|  11 | :a         | :g3    |
-|  12 | :a         | :g3    |
-
-} {:train Group: 1 \[6 3\]:
+, :test Group: 0 \[3 3\]:
 
 | :id | :partition | :group |
 | --: | ---------- | ------ |
-|   5 | :a         | :g3    |
-|  11 | :a         | :g3    |
-|   5 | :a         | :g3    |
-|   3 | :a         | :g3    |
-|  24 | :b         | :g3    |
-|  23 | :b         | :g3    |
+|   4 | :a         | :g1    |
+|  17 | :a         | :g1    |
+|  22 | :b         | :g1    |
 
-, :test Group: 1 \[2 3\]:
+} {:train Group: 1 \[10 3\]:
 
 | :id | :partition | :group |
 | --: | ---------- | ------ |
-|   0 | :a         | :g3    |
-|  12 | :a         | :g3    |
+|   1 | :a         | :g1    |
+|   2 | :a         | :g1    |
+|  13 | :a         | :g1    |
+|  17 | :a         | :g1    |
+|   0 | :a         | :g1    |
+|   4 | :a         | :g1    |
+|  12 | :a         | :g1    |
+|  21 | :b         | :g1    |
+|  20 | :b         | :g1    |
+|  22 | :b         | :g1    |
+
+, :test Group: 1 \[1 3\]:
+
+| :id | :partition | :group |
+| --: | ---------- | ------ |
+|  16 | :a         | :g1    |
 
 })\]
 
@@ -10228,9 +10236,9 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   1 | 0.5 | A   |
-|   2 |   6 | 1.5 | C   |
-|   2 |   8 | 1.0 | B   |
+|   2 |   4 | 0.5 | A   |
+|   1 |   9 | 1.5 | C   |
+|   1 |   9 | 1.5 | C   |
 
 ``` clojure
 (tc/random DS (/ (tc/row-count DS) 2)) ;; fraction of random rows
@@ -10240,11 +10248,11 @@ Other filters
 
 | :V1 | :V2 | :V3 | :V4 |
 | --: | --: | --: | --- |
-|   1 |   9 | 1.5 | C   |
+|   1 |   5 | 1.0 | B   |
+|   1 |   3 | 1.5 | C   |
+|   1 |   1 | 0.5 | A   |
+|   1 |   7 | 0.5 | A   |
 |   2 |   8 | 1.0 | B   |
-|   1 |   9 | 1.5 | C   |
-|   2 |   2 | 1.0 | B   |
-|   2 |   4 | 0.5 | A   |
 
 ``` clojure
 (tc/by-rank DS :V1 zero?) ;; take top n entries
