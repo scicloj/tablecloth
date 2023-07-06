@@ -86,11 +86,17 @@ knit_engines$set(clojure = function(options) {
 
 ```{clojure include=FALSE}
 (def tech-ml-version (get-in (read-string (slurp "deps.edn")) [:deps 'techascent/tech.ml.dataset :mvn/version]))
+(def tablecloth-version (nth (read-string (slurp "project.clj")) 2))
 ```
 
 ```{clojure results="asis"}
 tech-ml-version
 ```
+
+```{clojure results="asis"}
+tablecloth-version
+```
+
 
 ## Introduction
 
@@ -3437,6 +3443,16 @@ Return rows from ds1 not matching ds2
 
 ```{clojure results="asis"}
 (tc/anti-join ds2 ds1 {:left :e :right :a})
+```
+
+#### Hashing
+
+When `:hashing` option is used, data from join columns are preprocessed by applying `join-columns` funtion with `:result-type` set to the value of `:hashing`. This helps to create custom joining behaviour. Function used for hashing will get vector of row values from join columns.
+
+In the following example we will join columns on value modulo 5.
+
+```{clojure results="asis"}
+(tc/left-join ds1 ds2 :b {:hashing (fn [[v]] (mod v 5))})
 ```
 
 #### Cross

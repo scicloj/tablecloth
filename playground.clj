@@ -920,3 +920,83 @@ DSm2
 
 (ds/select-rows (ds/->dataset []) [0])
 ;; => _unnamed [0 0]
+
+
+;;
+
+(get-in (read-string (slurp "deps.edn")) [:deps 'techascent/tech.ml.dataset :mvn/version])
+;; => "7.000-beta-50"
+
+(nth (read-string (slurp "project.clj")) 2)
+
+(def ds1 (tc/dataset {:a [1 2 1 2 3 4 nil nil 4]
+                    :b (range 101 110)
+                    :c (map str "abs tract")}))
+(def ds2 (tc/dataset {:a [nil 1 2 5 4 3 2 1 nil]
+                    :b (range 110 101 -1)
+                    :c (map str "datatable")
+                    :d (symbol "X")
+                    :e [3 4 5 6 7 nil 8 1 1]}))
+
+(tc/left-join ds1 ds2 :b {:hashing (fn [[v]] (mod v 5))})
+
+(defn last-char
+  [ds]
+  (->> (ds/value-reader ds)
+       (map (comp last str first))))
+
+(last-char ds1)
+;; => (\1 \2 \3 \4 \5 \6 \7 \8 \9)
+
+(last-char ds2)
+;; => (\0 \9 \8 \7 \6 \5 \4 \3 \2)
+
+(def new-ds1 (ds/add-or-update-column ds1 :z (last-char ds1)))
+(def new-ds2 (ds/add-or-update-column ds2 :z (last-char ds2)))
+
+(j/left-join :z new-ds1 new-ds2)
+
+
+(def ds1 (ds/->dataset {:a '(\1 \2 \3 \4 \5 \6 \7 \8 \9)}))
+(def ds2 (ds/->dataset {:a '(\0 \9 \8 \7 \6 \5 \4 \3 \2)}))
+
+(ds1 :a)
+;; => #tech.v3.dataset.column<char>[9]
+;;    :a
+;;    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+(ds2 :a)
+;; => #tech.v3.dataset.column<char>[9]
+;;    :a
+;;    [0, 9, 8, 7, 6, 5, 4, 3, 2]
+
+(j/left-join :a ds1 ds2)
+
+(j/left-join :a ds1 ds1)
+;; => left-outer-join [9 2]:
+;;    | :a | :right.a |
+;;    |----|----------|
+;;    |  1 |        1 |
+;;    |  2 |        2 |
+;;    |  3 |        3 |
+;;    |  4 |        4 |
+;;    |  5 |        5 |
+;;    |  6 |        6 |
+;;    |  7 |        7 |
+;;    |  8 |        8 |
+;;    |  9 |        9 |
+
+
+(j/left-join :a ds2 ds2)
+;; => left-outer-join [9 2]:
+;;    | :a | :right.a |
+;;    |----|----------|
+;;    |  0 |        0 |
+;;    |  9 |        9 |
+;;    |  8 |        8 |
+;;    |  7 |        7 |
+;;    |  6 |        6 |
+;;    |  5 |        5 |
+;;    |  4 |        4 |
+;;    |  3 |        3 |
+;;    |  2 |        2 |

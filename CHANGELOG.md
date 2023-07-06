@@ -1,10 +1,16 @@
 # Change Log
 
+## [7.000-beta-50.2]
+
+### Added
+
+* `:hashing` is available for single column joins too
+
 ## [7.000-beta-50.1]
 
 ### Added
 
-* `:hashing` option determines method of creating an index for multicolumn joins (was `hash` is `:seq`)
+* `:hashing` option determines method of creating an index for multicolumn joins (was `hash` is `identity`)
 
 ### Fixed
 

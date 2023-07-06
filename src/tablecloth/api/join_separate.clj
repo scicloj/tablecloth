@@ -14,14 +14,14 @@
   [ds target-column join-function col-names drop-columns?]
   (let [cols (select-columns ds col-names)
         result (add-column ds target-column (when (seq cols) (->> (ds/value-reader cols)
-                                                                             (map join-function))))]
+                                                                  (map join-function))))]
     (if drop-columns? (drop-columns result col-names) result)))
 
 (defn join-columns
   "Join clumns of dataset. Accepts:
-dataset
-column selector (as in select-columns)
-options
+  dataset
+  column selector (as in select-columns)
+  options
   `:separator` (default -)
   `:drop-columns?` - whether to drop source columns or not (default true)
   `:result-type`
@@ -36,7 +36,7 @@ options
                                        :or {separator "-" drop-columns? true result-type :string}
                                        :as _conf}]
    
-   (let [missing-subst-fn #(map (fn [v] (or v missing-subst)) %)
+   (let [missing-subst-fn #(mapv (fn [v] (or v missing-subst)) %)
          col-names (column-names ds columns-selector)
          join-function (comp (cond
                                (= :map result-type) #(zipmap col-names %)
