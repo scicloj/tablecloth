@@ -89,9 +89,9 @@
                   (do
                     (when stack-trace? (.printStackTrace e))
                     (let [row {single-value-column-name data}]
-                      (ds/->dataset [(if error-column?
-                                       (assoc row :$error (.getMessage e))
-                                       row)] options))))))))
+                      (ds/->dataset (if error-column?
+                                      (assoc row :$error (.getMessage e))
+                                      row) options))))))))
 
 (defn shape
   "Returns shape of the dataset [rows, cols]"
