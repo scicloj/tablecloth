@@ -1,71 +1,66 @@
+
 (ns index
   (:require [scicloj.kindly.v3.kind :as kind]
-            [scicloj.kindly.v3.api :as kindly]
             [scicloj.kindly-default.v1.api :refer [md]]
             [tablecloth.api :as tc]
             [scicloj.note-to-test.v1.api :as note-to-test]))
 
 
 ^:note-to-test/skip
-(let [represent-a-little (fn [values]
-                           (into []
-                                 (comp (take 20)
-                                       (map note-to-test/represent-value))
-                                 values))]
-  (note-to-test/define-value-representations!
-    [{:predicate (fn [v]
-                   (-> v
-                       meta
-                       :kindly/kind
-                       (= :kind/md)))
-      :representation (constantly :note-to-test/skip)}
-     {:predicate (comp #{:local-date
-                         :local-date-time
-                         :packed-local-date
-                         :packed-local-date-time}
-                       tech.v3.datatype/datatype)
-      :representation (juxt class str)}
-     {:predicate (fn [v]
-                   (or (sequential? v)
-                       ;; https://stackoverflow.com/a/9090730
-                       (some-> v
-                               class
-                               (.isArray))
-                       (instance? tech.v3.dataset.impl.column.Column v)))
-      :representation represent-a-little}
-     {:predicate (partial instance? java.util.Map)
-      :representation (fn [m]
-                        (-> m
-                            (update-keys note-to-test/represent-value)
-                            (update-vals note-to-test/represent-value)))}
-     {:predicate (fn [v]
-                   (-> v
-                       class
-                       (= java.lang.Object)))
-      :representation class}
-     {:predicate symbol?
-      :representation (fn [s]
-                        [:symbol (name s)])}
-     {:predicate fn?
-      :representation (constantly :fn)}
-     {:predicate (fn [v]
-                   (or (var? v)
-                       (nil? v)))
-      ;; handling vars and nils the same way
-      ;; so that defonce will be represented consistently
-      :representation (constantly :var-or-nil)}
-     {:predicate (partial instance? org.roaringbitmap.RoaringBitmap)
-      :representation (constantly
-                       :org.roaringbitmap.RoaringBitmap)}
-     {:predicate (fn [x]
-                   (and (double? x)
-                        (Double/isNaN x)))
-      :representation (constantly :NaN)}]))
+(note-to-test/define-value-representations!
+  [{:predicate (fn [v]
+                 (-> v
+                     meta
+                     :kindly/kind
+                     (= :kind/md)))
+    :representation (constantly :note-to-test/skip)}
+   {:predicate (comp #{:local-date
+                       :local-date-time
+                       :packed-local-date
+                       :packed-local-date-time}
+                     tech.v3.datatype/datatype)
+    :representation (juxt class str)}
+   {:predicate (fn [v]
+                 (or (sequential? v)
+                     ;; https://stackoverflow.com/a/9090730
+                     (some-> v
+                             class
+                             (.isArray))
+                     (instance? tech.v3.dataset.impl.column.Column v)))
+    :representation (fn [values]
+                      (->> values
+                           (take 20)
+                           (map note-to-test/represent-value)
+                           (into [])))}
+   {:predicate (partial instance? java.util.Map)
+    :representation (fn [m]
+                      (-> m
+                          (update-keys note-to-test/represent-value)
+                          (update-vals note-to-test/represent-value)))}
+   {:predicate (fn [v]
+                 (-> v
+                     class
+                     (= java.lang.Object)))
+    :representation class}
+   {:predicate symbol?
+    :representation (fn [s]
+                      [:symbol (name s)])}
+   {:predicate fn?
+    :representation (constantly :fn)}
+   {:predicate (fn [v]
+                 (or (var? v)
+                     (nil? v)))
+    ;; handling vars and nils the same way
+    ;; so that defonce will be represented consistently
+    :representation (constantly :var-or-nil)}
+   {:predicate (partial instance? org.roaringbitmap.RoaringBitmap)
+    :representation (constantly
+                     :org.roaringbitmap.RoaringBitmap)}
+   {:predicate (fn [x]
+                 (and (double? x)
+                      (Double/isNaN x)))
+    :representation (constantly :NaN)}])
 
-
-
-
-(set! *warn-on-reflection* true)
 
 
 
@@ -77,13 +72,24 @@
   ,)
 
 
+
+(md
+ "# Dataset (data frame) manipulation API for the tech.ml.dataset library
+GenerateMe")
+
 (def tech-ml-version (get-in (read-string (slurp "deps.edn")) [:deps 'techascent/tech.ml.dataset :mvn/version]))
+
+(def tablecloth-version (nth (read-string (slurp "project.clj")) 2))
 
 
 tech-ml-version
 
 
+tablecloth-version
+
+
 (md "
+
 ## Introduction
 
 [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) is a great and fast library which brings columnar dataset to the Clojure. Chris Nuernberger has been working on this library for last year as a part of bigger `tech.ml` stack.
@@ -104,7 +110,6 @@ If you want to know more about `tech.ml.dataset` and `dtype-next` please refer t
 * [dtype-next overview](https://cnuernber.github.io/dtype-next/overview.html)
 * [dtype-next cheatsheet](https://cnuernber.github.io/dtype-next/cheatsheet.html)
 
-
 [SOURCE CODE](https://github.com/scicloj/tablecloth)
 
 Join the discussion on [Zulip](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
@@ -113,14 +118,12 @@ Let's require main namespace and define dataset used in most examples:
 ")
 
 
-(require '[tablecloth.api :as api]
+(require '[tablecloth.api :as tc]
          '[tech.v3.datatype.functional :as dfn])
-(def DS (api/dataset {:V1 (take 9 (cycle [1 2]))
-                      :V2 (range 1 10)
-                      :V3 (take 9 (cycle [0.5 1.0 1.5]))
-                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
-
-
+(def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
+                     :V2 (range 1 10)
+                     :V3 (take 9 (cycle [0.5 1.0 1.5]))
+                     :V4 (take 9 (cycle ["A" "B" "C"]))}))
 
 
 
@@ -143,11 +146,11 @@ Dataset can be created from various of types of Clojure structures and files:
 * map of sequences or values
 * sequence of columns (taken from other dataset or created manually)
 * sequence of pairs: `[string column-data]` or `[keyword column-data]`
-* array of native arrays
+* array of any arrays
 * file types: raw/gzipped csv/tsv, json, xls(x) taken from local file system or URL
 * input stream
 
-`api/dataset` accepts:
+`tc/dataset` accepts:
 
 * data
 * options (see documentation of `tech.ml.dataset/->dataset` function for full list):
@@ -157,10 +160,10 @@ Dataset can be created from various of types of Clojure structures and files:
     - `:key-fn` - function applied to column names (eg. `keyword`, to convert column names to keywords)
     - `:separator` - column separator
     - `:single-value-column-name` - name of the column when single value is provided
-    - `:column-names` - in case you want to name columns - only works for sequential input (arrays)
+    - `:column-names` - in case you want to name columns - only works for sequential input (arrays) or empty dataset
     - `:layout` - for numerical, native array of arrays - treat entries `:as-rows` or `:as-columns` (default)
 
-`api/let-dataset` accepts bindings `symbol`-`column-data` to simulate R's `tibble` function. Each binding is converted into a column. You can refer previous columns to in further bindings (as in `let`).
+`tc/let-dataset` accepts bindings `symbol`-`column-data` to simulate R's `tibble` function. Each binding is converted into a column. You can refer previous columns to in further bindings (as in `let`).
 
 ---
 
@@ -168,29 +171,17 @@ Empty dataset.
 ")
 
 
-(api/dataset)
+(tc/dataset)
 
 
 (md "
 ---
 
-Dataset from single value.
+Empty dataset with column names
 ")
 
 
-(api/dataset 999)
-
-
-(md "
----
-
-Set column name for single value. Also set the dataset name.
-")
-
-
-(api/dataset 999 {:single-value-column-name "my-single-value"})
-(api/dataset 999 {:single-value-column-name ""
-                  :dataset-name "Single value"})
+(tc/dataset nil {:column-names [:a :b]})
 
 
 (md "
@@ -200,7 +191,7 @@ Sequence of pairs (first = column name, second = value(s)).
 ")
 
 
-(api/dataset [[:A 33] [:B 5] [:C :a]])
+(tc/dataset [[:A 33] [:B 5] [:C :a]])
 
 
 (md "
@@ -210,7 +201,7 @@ Not sequential values are repeated row-count number of times.
 ")
 
 
-(api/dataset [[:A [1 2 3 4 5 6]] [:B "X"] [:C :a]])
+(tc/dataset [[:A [1 2 3 4 5 6]] [:B "X"] [:C :a]])
 
 
 (md "
@@ -220,9 +211,9 @@ Dataset created from map (keys = column names, vals = value(s)). Works the same 
 ")
 
 
-(api/dataset {:A 33})
-(api/dataset {:A [1 2 3]})
-(api/dataset {:A [3 4 5] :B "X"})
+(tc/dataset {:A 33})
+(tc/dataset {:A [1 2 3]})
+(tc/dataset {:A [3 4 5] :B "X"})
 
 
 (md "
@@ -232,7 +223,7 @@ You can put any value inside a column
 ")
 
 
-(api/dataset {:A [[3 4 5] [:a :b]] :B "X"})
+(tc/dataset {:A [[3 4 5] [:a :b]] :B "X"})
 
 
 (md "
@@ -242,8 +233,8 @@ Sequence of maps
 ")
 
 
-(api/dataset [{:a 1 :b 3} {:b 2 :a 99}])
-(api/dataset [{:a 1 :b [1 2 3]} {:a 2 :b [3 4]}])
+(tc/dataset [{:a 1 :b 3} {:b 2 :a 99}])
+(tc/dataset [{:a 1 :b [1 2 3]} {:a 2 :b [3 4]}])
 
 
 (md "
@@ -253,29 +244,29 @@ Missing values are marked by `nil`
 ")
 
 
-(api/dataset [{:a nil :b 1} {:a 3 :b 4} {:a 11}])
+(tc/dataset [{:a nil :b 1} {:a 3 :b 4} {:a 11}])
 
 
 (md "
 ---
 
-Reading from arrays, by default `:as-columns`
+Reading from arrays, by default `:as-rows`
 ")
 
 
 (-> (map int-array [[1 2] [3 4] [5 6]])
     (into-array)
-    (api/dataset))
+    (tc/dataset))
 
 
 (md "
-`:as-rows`
+`:as-columns`
 ")
 
 
 (-> (map int-array [[1 2] [3 4] [5 6]])
     (into-array)
-    (api/dataset {:layout :as-rows}))
+    (tc/dataset {:layout :as-columns}))
 
 
 (md "
@@ -285,18 +276,30 @@ Reading from arrays, by default `:as-columns`
 
 (-> (map int-array [[1 2] [3 4] [5 6]])
     (into-array)
-    (api/dataset {:layout :as-rows
-                  :column-names [:a :b]}))
+    (tc/dataset {:layout :as-rows
+                 :column-names [:a :b]}))
 
 
 (md "
+Any objects
+")
+
+
+(-> (map to-array [[:a :z] ["ee" "ww"] [9 10]])
+    (into-array)
+    (tc/dataset {:column-names [:a :b :c]
+                 :layout :as-columns}))
+
+
+(md "
+
 ---
 
 Create dataset using macro `let-dataset` to simulate R `tibble` function. Each binding is converted into a column.
 ")
 
 
-(api/let-dataset [x (range 1 6)
+(tc/let-dataset [x (range 1 6)
                   y 1
                   z (dfn/+ x y)])
 
@@ -308,7 +311,7 @@ Import CSV file
 ")
 
 
-(api/dataset "data/family.csv")
+(tc/dataset "data/family.csv")
 
 
 (md "
@@ -318,7 +321,7 @@ Import from URL
 ")
 
 
-(defonce ds (api/dataset "https://vega.github.io/vega-lite/examples/data/seattle-weather.csv"))
+(defonce ds (tc/dataset "https://vega.github.io/vega-lite/examples/data/seattle-weather.csv"))
 
 
 
@@ -328,18 +331,45 @@ ds
 
 
 (md "
+---
+
+When none of above works, singleton dataset is created. Along with the error message from the exception thrown by `tech.ml.dataset`
+")
+
+
+(tc/dataset 999)
+
+
+(md "
+To see the stack trace, turn it on by setting `:stack-trace?` to `true`.
+
+---
+
+Set column name for single value. Also set the dataset name and turn off creating error message column.
+")
+
+
+(tc/dataset 999 {:single-value-column-name "my-single-value"
+                 :error-column? false})
+(tc/dataset 999 {:single-value-column-name ""
+                 :dataset-name "Single value"
+                 :error-column? false})
+
+
+(md "
+
 #### Saving
 
-Export dataset to a file or output stream can be done by calling `api/write!`. Function accepts:
+Export dataset to a file or output stream can be done by calling `tc/write!`. Function accepts:
 
 * dataset
 * file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and `.tsv.gz` or output stream
 * options:
-    - `:separator` - string or separator char.
+- `:separator` - string or separator char.
 ")
 
 
-(api/write! ds "output.tsv.gz")
+(tc/write! ds "output.tsv.gz")
 (.exists (clojure.java.io/file "output.tsv.gz"))
 
 
@@ -348,13 +378,13 @@ Export dataset to a file or output stream can be done by calling `api/write!`. F
 ")
 
 
-(api/write! DS "output.nippy.gz")
+(tc/write! DS "output.nippy.gz")
 
 
 
 
 
-(api/dataset "output.nippy.gz")
+(tc/dataset "output.nippy.gz")
 
 
 (md "
@@ -368,7 +398,7 @@ Number of rows
 ")
 
 
-(api/row-count ds)
+(tc/row-count ds)
 
 
 (md "
@@ -378,7 +408,7 @@ Number of columns
 ")
 
 
-(api/column-count ds)
+(tc/column-count ds)
 
 
 (md "
@@ -388,7 +418,7 @@ Shape of the dataset, [row count, column count]
 ")
 
 
-(api/shape ds)
+(tc/shape ds)
 
 
 (md "
@@ -397,14 +427,14 @@ Shape of the dataset, [row count, column count]
 General info about dataset. There are three variants:
 
 * default - containing information about columns with basic statistics
-    - `:basic` - just name, row and column count and information if dataset is a result of `group-by` operation
-    - `:columns` - columns' metadata
+- `:basic` - just name, row and column count and information if dataset is a result of `group-by` operation
+- `:columns` - columns' metadata
 ")
 
 
-(api/info ds)
-(api/info ds :basic)
-(api/info ds :columns)
+(tc/info ds)
+(tc/info ds :basic)
+(tc/info ds :columns)
 
 
 (md "
@@ -414,7 +444,7 @@ Getting a dataset name
 ")
 
 
-(api/dataset-name ds)
+(tc/dataset-name ds)
 
 
 (md "
@@ -425,8 +455,8 @@ Setting a dataset name (operation is immutable).
 
 
 (->> "seattle-weather"
-     (api/set-dataset-name ds)
-     (api/dataset-name))
+     (tc/set-dataset-name ds)
+     (tc/dataset-name))
 
 
 (md "
@@ -440,6 +470,7 @@ Possible result types:
 - `:as-maps` - sequence of maps (rows)
 - `:as-map` - map of sequences (columns)
 - `:as-double-arrays` - array of double arrays
+- `:as-vecs` - sequence of vectors (rows)
 
 ---
 
@@ -448,7 +479,7 @@ Select column.
 
 
 (ds "wind")
-(api/column ds "date")
+(tc/column ds "date")
 
 
 (md "
@@ -458,7 +489,7 @@ Columns as sequence
 ")
 
 
-(take 2 (api/columns ds))
+(take 2 (tc/columns ds))
 
 
 (md "
@@ -468,7 +499,7 @@ Columns as map
 ")
 
 
-(keys (api/columns ds :as-map))
+(keys (tc/columns ds :as-map))
 
 
 (md "
@@ -478,7 +509,7 @@ Rows as sequence of sequences
 ")
 
 
-(take 2 (api/rows ds))
+(take 2 (tc/rows ds))
 
 
 (md "
@@ -489,18 +520,18 @@ Select rows/columns as double-double-array
 
 
 (-> ds
-    (api/select-columns :type/numerical)
-    (api/head)
-    (api/rows :as-double-arrays))
+    (tc/select-columns :type/numerical)
+    (tc/head)
+    (tc/rows :as-double-arrays))
 
 
 
 
 
 (-> ds
-    (api/select-columns :type/numerical)
-    (api/head)
-    (api/columns :as-double-arrays))
+    (tc/select-columns :type/numerical)
+    (tc/head)
+    (tc/columns :as-double-arrays))
 
 
 (md "
@@ -510,7 +541,23 @@ Rows as sequence of maps
 ")
 
 
-(clojure.pprint/pprint (take 2 (api/rows ds :as-maps)))
+(clojure.pprint/pprint (take 2 (tc/rows ds :as-maps)))
+
+
+(md "
+#### Single entry
+
+Get single value from the table using `get-in` from Clojure API or `get-entry`. First argument is column name, second is row number.
+")
+
+
+(get-in ds ["wind" 2])
+
+
+
+
+
+(tc/get-entry ds "wind" 2)
 
 
 (md "
@@ -520,19 +567,19 @@ Dataset is printed using `dataset->str` or `print-dataset` functions. Options ar
 ")
 
 
-(api/print-dataset (api/group-by DS :V1) {:print-line-policy :markdown})
+(tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :markdown})
 
 
 
 
 
-(api/print-dataset (api/group-by DS :V1) {:print-line-policy :repl})
+(tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :repl})
 
 
 
 
 
-(api/print-dataset (api/group-by DS :V1) {:print-line-policy :single})
+(tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :single})
 
 
 (md "
@@ -582,8 +629,8 @@ List of columns in grouped dataset
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/column-names))
+    (tc/group-by :V1)
+    (tc/column-names))
 
 
 (md "
@@ -594,9 +641,9 @@ List of columns in grouped dataset treated as regular dataset
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/as-regular-dataset)
-    (api/column-names))
+    (tc/group-by :V1)
+    (tc/as-regular-dataset)
+    (tc/column-names))
 
 
 (md "
@@ -607,7 +654,7 @@ Content of the grouped dataset
 ")
 
 
-(api/columns (api/group-by DS :V1) :as-map)
+(tc/columns (tc/group-by DS :V1) :as-map)
 
 
 (md "
@@ -617,13 +664,13 @@ Grouped dataset as map
 ")
 
 
-(keys (api/group-by DS :V1 {:result-type :as-map}))
+(keys (tc/group-by DS :V1 {:result-type :as-map}))
 
 
 
 
 
-(vals (api/group-by DS :V1 {:result-type :as-map}))
+(vals (tc/group-by DS :V1 {:result-type :as-map}))
 
 
 (md "
@@ -633,7 +680,7 @@ Group dataset as map of indexes (row ids)
 ")
 
 
-(api/group-by DS :V1 {:result-type :as-indexes})
+(tc/group-by DS :V1 {:result-type :as-indexes})
 
 
 (md "
@@ -643,7 +690,7 @@ Grouped datasets are printed as follows by default.
 ")
 
 
-(api/group-by DS :V1)
+(tc/group-by DS :V1)
 
 
 (md "
@@ -659,8 +706,8 @@ I will use temporary dataset here.
 
 (let [ds (-> {"a" [1 1 2 2]
               "b" ["a" "b" "c" "d"]}
-             (api/dataset)
-             (api/group-by "a"))]
+             (tc/dataset)
+             (tc/group-by "a"))]
   (seq (ds :data))) ;; seq is not necessary but Markdown treats `:data` as command here
 
 
@@ -669,9 +716,9 @@ I will use temporary dataset here.
 
 (-> {"a" [1 1 2 2]
      "b" ["a" "b" "c" "d"]}
-    (api/dataset)
-    (api/group-by "a")
-    (api/groups->seq))
+    (tc/dataset)
+    (tc/group-by "a")
+    (tc/groups->seq))
 
 
 (md "
@@ -683,9 +730,9 @@ Groups as map
 
 (-> {"a" [1 1 2 2]
      "b" ["a" "b" "c" "d"]}
-    (api/dataset)
-    (api/group-by "a")
-    (api/groups->map))
+    (tc/dataset)
+    (tc/group-by "a")
+    (tc/groups->map))
 
 
 (md "
@@ -695,7 +742,7 @@ Grouping by more than one column. You can see that group names are maps. When un
 ")
 
 
-(api/group-by DS [:V1 :V3] {:result-type :as-seq})
+(tc/group-by DS [:V1 :V3] {:result-type :as-seq})
 
 
 (md "
@@ -705,7 +752,7 @@ Grouping can be done by providing just row indexes. This way you can assign the 
 ")
 
 
-(api/group-by DS {"group-a" [1 2 1 2]
+(tc/group-by DS {"group-a" [1 2 1 2]
                   "group-b" [5 5 5 1]} {:result-type :as-seq})
 
 
@@ -716,8 +763,8 @@ You can group by a result of grouping function which gets row as map and should 
 ")
 
 
-(api/group-by DS (fn [row] (* (:V1 row)
-                              (:V3 row))) {:result-type :as-seq})
+(tc/group-by DS (fn [row] (* (:V1 row)
+                             (:V3 row))) {:result-type :as-seq})
 
 
 (md "
@@ -727,7 +774,7 @@ You can use any predicate on column to split dataset into two groups.
 ")
 
 
-(api/group-by DS (comp #(< % 1.0) :V3) {:result-type :as-seq})
+(tc/group-by DS (comp #(< % 1.0) :V3) {:result-type :as-seq})
 
 
 (md "
@@ -737,7 +784,7 @@ You can use any predicate on column to split dataset into two groups.
 ")
 
 
-(api/group-by DS (juxt :V1 :V3) {:result-type :as-seq})
+(tc/group-by DS (juxt :V1 :V3) {:result-type :as-seq})
 
 
 (md "
@@ -747,7 +794,7 @@ You can use any predicate on column to split dataset into two groups.
 ")
 
 
-(api/group-by DS identity {:result-type :as-seq
+(tc/group-by DS identity {:result-type :as-seq
                            :select-keys [:V1]})
 
 
@@ -774,8 +821,8 @@ Grouping and ungrouping.
 
 
 (-> DS
-    (api/group-by :V3)
-    (api/ungroup))
+    (tc/group-by :V3)
+    (tc/ungroup))
 
 
 (md "
@@ -786,8 +833,8 @@ Groups sorted by group name and named.
 
 
 (-> DS
-    (api/group-by :V3)
-    (api/ungroup {:order? true
+    (tc/group-by :V3)
+    (tc/ungroup {:order? true
                   :dataset-name "Ordered by V3"}))
 
 
@@ -799,8 +846,8 @@ Groups sorted descending by group name and named.
 
 
 (-> DS
-    (api/group-by :V3)
-    (api/ungroup {:order? :desc
+    (tc/group-by :V3)
+    (tc/ungroup {:order? :desc
                   :dataset-name "Ordered by V3 descending"}))
 
 
@@ -812,8 +859,8 @@ Let's add group name and id as additional columns
 
 
 (-> DS
-    (api/group-by (comp #(< % 4) :V2))
-    (api/ungroup {:add-group-as-column true
+    (tc/group-by (comp #(< % 4) :V2))
+    (tc/ungroup {:add-group-as-column true
                   :add-group-id-as-column true}))
 
 
@@ -825,8 +872,8 @@ Let's assign different column names
 
 
 (-> DS
-    (api/group-by (comp #(< % 4) :V2))
-    (api/ungroup {:add-group-as-column "Is V2 less than 4?"
+    (tc/group-by (comp #(< % 4) :V2))
+    (tc/ungroup {:add-group-as-column "Is V2 less than 4?"
                   :add-group-id-as-column "group id"}))
 
 
@@ -838,10 +885,10 @@ If we group by map, we can automatically create new columns out of group names.
 
 
 (-> DS
-    (api/group-by (fn [row] {"V1 and V3 multiplied" (* (:V1 row)
-                                                       (:V3 row))
-                             "V4 as lowercase" (clojure.string/lower-case (:V4 row))}))
-    (api/ungroup {:add-group-as-column true}))
+    (tc/group-by (fn [row] {"V1 and V3 multiplied" (* (:V1 row)
+                                                      (:V3 row))
+                            "V4 as lowercase" (clojure.string/lower-case (:V4 row))}))
+    (tc/ungroup {:add-group-as-column true}))
 
 
 (md "
@@ -852,10 +899,10 @@ We can add group names without separation
 
 
 (-> DS
-    (api/group-by (fn [row] {"V1 and V3 multiplied" (* (:V1 row)
-                                                       (:V3 row))
-                             "V4 as lowercase" (clojure.string/lower-case (:V4 row))}))
-    (api/ungroup {:add-group-as-column "just map"
+    (tc/group-by (fn [row] {"V1 and V3 multiplied" (* (:V1 row)
+                                                      (:V3 row))
+                            "V4 as lowercase" (clojure.string/lower-case (:V4 row))}))
+    (tc/ungroup {:add-group-as-column "just map"
                   :separate? false}))
 
 
@@ -867,8 +914,8 @@ The same applies to group names as sequences
 
 
 (-> DS
-    (api/group-by (juxt :V1 :V3))
-    (api/ungroup {:add-group-as-column "abc"}))
+    (tc/group-by (juxt :V1 :V3))
+    (tc/ungroup {:add-group-as-column "abc"}))
 
 
 (md "
@@ -879,8 +926,8 @@ Let's provide column names
 
 
 (-> DS
-    (api/group-by (juxt :V1 :V3))
-    (api/ungroup {:add-group-as-column ["v1" "v3"]}))
+    (tc/group-by (juxt :V1 :V3))
+    (tc/ungroup {:add-group-as-column ["v1" "v3"]}))
 
 
 (md "
@@ -891,8 +938,8 @@ Also we can supress separation
 
 
 (-> DS
-    (api/group-by (juxt :V1 :V3))
-    (api/ungroup {:separate? false
+    (tc/group-by (juxt :V1 :V3))
+    (tc/ungroup {:separate? false
                   :add-group-as-column true}))
 ;; => _unnamed [9 5]:
 
@@ -906,13 +953,13 @@ To check if dataset is grouped or not just use `grouped?` function.
 ")
 
 
-(api/grouped? DS)
+(tc/grouped? DS)
 
 
 
 
 
-(api/grouped? (api/group-by DS :V1))
+(tc/grouped? (tc/group-by DS :V1))
 
 
 (md "
@@ -925,9 +972,9 @@ It can be important when you want to remove some groups (rows) from grouped data
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/as-regular-dataset)
-    (api/grouped?))
+    (tc/group-by :V1)
+    (tc/as-regular-dataset)
+    (tc/grouped?))
 
 
 (md "
@@ -936,9 +983,9 @@ You can also operate on grouped dataset as a regular one in case you want to acc
 
 
 (-> DS
-    (api/group-by [:V4 :V1])
-    (api/without-grouping->
-     (api/order-by (comp (juxt :V4 :V1) :name))))
+    (tc/group-by [:V4 :V1])
+    (tc/without-grouping->
+     (tc/order-by (comp (juxt :V4 :V1) :name))))
 
 
 (md "
@@ -951,9 +998,9 @@ If you want to implement your own mapping function on grouped dataset you can ca
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/process-group-data #(str "Shape: " (vector (api/row-count %) (api/column-count %))))
-    (api/as-regular-dataset))
+    (tc/group-by :V1)
+    (tc/process-group-data #(str "Shape: " (vector (tc/row-count %) (tc/column-count %))))
+    (tc/as-regular-dataset))
 
 
 (md "
@@ -997,7 +1044,7 @@ To select all column names you can use `column-names` function.
 ")
 
 
-(api/column-names DS)
+(tc/column-names DS)
 
 
 (md "
@@ -1005,7 +1052,7 @@ or
 ")
 
 
-(api/column-names DS :all)
+(tc/column-names DS :all)
 
 
 (md "
@@ -1013,7 +1060,7 @@ In case you want to select column which has name `:all` (or is sequence or map),
 ")
 
 
-(api/column-names DS [:all])
+(tc/column-names DS [:all])
 
 
 (md "
@@ -1023,8 +1070,8 @@ Obviously selecting single name returns it's name if available
 ")
 
 
-(api/column-names DS :V1)
-(api/column-names DS "no such column")
+(tc/column-names DS :V1)
+(tc/column-names DS "no such column")
 
 
 (md "
@@ -1034,7 +1081,7 @@ Select sequence of column names.
 ")
 
 
-(api/column-names DS [:V1 "V2" :V3 :V4 :V5])
+(tc/column-names DS [:V1 "V2" :V3 :V4 :V5])
 
 
 (md "
@@ -1044,17 +1091,17 @@ Select names based on regex, columns ends with `1` or `4`
 ")
 
 
-(api/column-names DS #".*[14]")
+(tc/column-names DS #".*[14]")
 
 
 (md "
 ---
 
-Select names based on regex operating on type of the column (to check what are the column types, call `(api/info DS :columns)`. Here we want to get integer columns only.
+Select names based on regex operating on type of the column (to check what are the column types, call `(tc/info DS :columns)`. Here we want to get integer columns only.
 ")
 
 
-(api/column-names DS #"^:int.*" :datatype)
+(tc/column-names DS #"^:int.*" :datatype)
 
 
 (md "
@@ -1063,7 +1110,7 @@ or
 ")
 
 
-(api/column-names DS :type/integer)
+(tc/column-names DS :type/integer)
 
 
 (md "
@@ -1073,7 +1120,7 @@ And finally we can use predicate to select names. Let's select double precision 
 ")
 
 
-(api/column-names DS #{:float64} :datatype)
+(tc/column-names DS #{:float64} :datatype)
 
 
 (md "
@@ -1081,7 +1128,7 @@ or
 ")
 
 
-(api/column-names DS :type/float64)
+(tc/column-names DS :type/float64)
 
 
 (md "
@@ -1091,9 +1138,9 @@ If you want to select all columns but given, use `complement` function. Works on
 ")
 
 
-(api/column-names DS (complement #{:V1}))
-(api/column-names DS (complement #{:float64}) :datatype)
-(api/column-names DS :!type/float64)
+(tc/column-names DS (complement #{:V1}))
+(tc/column-names DS (complement #{:float64}) :datatype)
+(tc/column-names DS :!type/float64)
 
 
 (md "
@@ -1103,7 +1150,7 @@ You can select column names based on all column metadata at once by using `:all`
 ")
 
 
-(api/column-names DS (fn [meta]
+(tc/column-names DS (fn [meta]
                        (and (= :int64 (:datatype meta))
                             (clojure.string/ends-with? (:name meta) "1"))) :all)
 
@@ -1119,14 +1166,14 @@ Select only float64 columns
 ")
 
 
-(api/select-columns DS #(= :float64 %) :datatype)
+(tc/select-columns DS #(= :float64 %) :datatype)
 
 
 (md "or
 ")
 
 
-(api/select-columns DS :type/float64)
+(tc/select-columns DS :type/float64)
 
 
 (md "
@@ -1137,7 +1184,7 @@ Select all but `:V1` columns
 ")
 
 
-(api/select-columns DS (complement #{:V1}))
+(tc/select-columns DS (complement #{:V1}))
 
 
 (md "
@@ -1148,9 +1195,9 @@ If we have grouped data set, column selection is applied to every group separate
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/select-columns [:V2 :V3])
-    (api/groups->map))
+    (tc/group-by :V1)
+    (tc/select-columns [:V2 :V3])
+    (tc/groups->map))
 
 
 (md "
@@ -1164,7 +1211,7 @@ Drop float64 columns
 ")
 
 
-(api/drop-columns DS #(= :float64 %) :datatype)
+(tc/drop-columns DS #(= :float64 %) :datatype)
 
 
 (md "
@@ -1172,7 +1219,7 @@ or
 ")
 
 
-(api/drop-columns DS :type/float64)
+(tc/drop-columns DS :type/float64)
 
 
 (md "
@@ -1182,7 +1229,7 @@ Drop all columns but `:V1` and `:V2`
 ")
 
 
-(api/drop-columns DS (complement #{:V1 :V2}))
+(tc/drop-columns DS (complement #{:V1 :V2}))
 
 
 (md "
@@ -1193,9 +1240,9 @@ If we have grouped data set, column selection is applied to every group separate
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/drop-columns [:V2 :V3])
-    (api/groups->map))
+    (tc/group-by :V1)
+    (tc/drop-columns [:V2 :V3])
+    (tc/groups->map))
 
 
 (md "
@@ -1207,7 +1254,7 @@ You can also pass mapping function with optional columns-selector
 ")
 
 
-(api/rename-columns DS {:V1 "v1"
+(tc/rename-columns DS {:V1 "v1"
                         :V2 "v2"
                         :V3 [1 2 3]
                         :V4 (Object.)})
@@ -1220,7 +1267,7 @@ Map all names with function
 ")
 
 
-(api/rename-columns DS (comp str second name))
+(tc/rename-columns DS (comp str second name))
 
 
 (md "
@@ -1230,7 +1277,7 @@ Map selected names with function
 ")
 
 
-(api/rename-columns DS [:V1 :V3] (comp str second name))
+(tc/rename-columns DS [:V1 :V3] (comp str second name))
 
 
 (md "
@@ -1241,12 +1288,12 @@ Function works on grouped dataset
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/rename-columns {:V1 "v1"
+    (tc/group-by :V1)
+    (tc/rename-columns {:V1 "v1"
                          :V2 "v2"
                          :V3 [1 2 3]
                          :V4 (Object.)})
-    (api/groups->map))
+    (tc/groups->map))
 
 
 (md "
@@ -1259,9 +1306,9 @@ To add (or replace existing) column call `add-column` function. Function accepts
 * `column-name` - if it's existing column name, column will be replaced
 * `column` - can be column (from other dataset), sequence, single value or function. Too big columns are always trimmed. Too small are cycled or extended with missing values (according to `size-strategy` argument)
 * `size-strategy` (optional) - when new column is shorter than dataset row count, following strategies are applied:
-- `:cycle` (default) - repeat data
-- `:na` - append missing values
-- `:strict` - throws an exception when sizes mismatch
+    - `:cycle` - repeat data
+    - `:na` - append missing values
+    - `:strict` - (default) throws an exception when sizes mismatch
 
 Function works on grouped dataset.
 
@@ -1271,7 +1318,7 @@ Add single value as column
 ")
 
 
-(api/add-column DS :V5 "X")
+(tc/add-column DS :V5 "X")
 
 
 (md "
@@ -1280,8 +1327,9 @@ Add single value as column
 Replace one column (column is trimmed)
 ")
 
+
 ^:note-to-test/skip
-(api/add-column DS :V1 (repeatedly rand))
+(tc/add-column DS :V1 (repeatedly rand))
 
 
 (md "
@@ -1291,7 +1339,7 @@ Copy column
 ")
 
 
-(api/add-column DS :V5 (DS :V1))
+(tc/add-column DS :V5 (DS :V1))
 
 
 (md "
@@ -1301,7 +1349,7 @@ When function is used, argument is whole dataset and the result should be column
 ")
 
 
-(api/add-column DS :row-count api/row-count)
+(tc/add-column DS :row-count tc/row-count)
 
 
 (md "
@@ -1312,9 +1360,9 @@ Above example run on grouped dataset, applies function on each group separately.
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/add-column :row-count api/row-count)
-    (api/ungroup))
+    (tc/group-by :V1)
+    (tc/add-column :row-count tc/row-count)
+    (tc/ungroup))
 
 
 (md "
@@ -1324,22 +1372,22 @@ When column which is added is longer than row count in dataset, column is trimme
 ")
 
 
-(api/add-column DS :V5 [:r :b])
+(tc/add-column DS :V5 [:r :b] :cycle)
 
 
 
 
 
-(api/add-column DS :V5 [:r :b] :na)
+(tc/add-column DS :V5 [:r :b] :na)
 
 
 (md "
-Exception is thrown when `:strict` strategy is used and column size is not equal row count
+Exception is thrown when `:strict` (default) strategy is used and column size is not equal row count
 ")
 
 
 (try
-  (api/add-column DS :V5 [:r :b] :strict)
+  (tc/add-column DS :V5 [:r :b])
   (catch Exception e (str "Exception caught: "(ex-message e))))
 
 
@@ -1351,9 +1399,9 @@ Tha same applies for grouped dataset
 
 
 (-> DS
-    (api/group-by :V3)
-    (api/add-column :V5 [:r :b] :na)
-    (api/ungroup))
+    (tc/group-by :V3)
+    (tc/add-column :V5 [:r :b] :na)
+    (tc/ungroup))
 
 
 (md "
@@ -1364,9 +1412,9 @@ Let's use other column to fill groups
 
 
 (-> DS
-    (api/group-by :V3)
-    (api/add-column :V5 (DS :V2))
-    (api/ungroup))
+    (tc/group-by :V3)
+    (tc/add-column :V5 (DS :V2) :cycle)
+    (tc/ungroup))
 
 
 (md "
@@ -1376,9 +1424,9 @@ In case you want to add or update several columns you can call `add-columns` and
 ")
 
 
-(api/add-columns DS {:V1 #(map inc (% :V1))
-                     :V5 #(map (comp keyword str) (% :V4))
-                     :V6 11})
+(tc/add-columns DS {:V1 #(map inc (% :V1))
+                               :V5 #(map (comp keyword str) (% :V4))
+                               :V6 11})
 
 
 (md "
@@ -1399,7 +1447,7 @@ Reverse of columns
 ")
 
 
-(api/update-columns DS :all reverse)
+(tc/update-columns DS :all reverse)
 
 
 (md "
@@ -1409,20 +1457,20 @@ Apply dec/inc on numerical columns
 ")
 
 
-(api/update-columns DS :type/numerical [(partial map dec)
+(tc/update-columns DS :type/numerical [(partial map dec)
                                         (partial map inc)])
 
 
 (md "
 ---
 
-You can also assing function to a column by packing operations into the map.
+You can also assign a function to a column by packing operations into the map.
 ")
 
 
 ^:note-to-test/skip
-(api/update-columns DS {:V1 reverse
-                        :V2 (comp shuffle seq)})
+(tc/update-columns DS {:V1 reverse
+                       :V2 (comp shuffle seq)})
 
 
 (md "
@@ -1444,9 +1492,9 @@ Let's add numerical columns together
 ")
 
 
-(api/map-columns DS
+(tc/map-columns DS
                  :sum-of-numbers
-                 (api/column-names DS  #{:int64 :float64} :datatype)
+                 (tc/column-names DS  #{:int64 :float64} :datatype)
                  (fn [& rows]
                    (reduce + rows)))
 
@@ -1457,12 +1505,12 @@ The same works on grouped dataset
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/map-columns :sum-of-numbers
-                     (api/column-names DS  #{:int64 :float64} :datatype)
+    (tc/group-by :V4)
+    (tc/map-columns :sum-of-numbers
+                     (tc/column-names DS  #{:int64 :float64} :datatype)
                      (fn [& rows]
                        (reduce + rows)))
-    (api/ungroup))
+    (tc/ungroup))
 
 
 (md "
@@ -1472,7 +1520,7 @@ To reorder columns use columns selectors to choose what columns go first. The un
 ")
 
 
-(api/reorder-columns DS :V4 [:V3 :V2])
+(tc/reorder-columns DS :V4 [:V3 :V2])
 
 
 (md "
@@ -1482,7 +1530,7 @@ This function doesn't let you select meta field, so you have to call `column-nam
 ")
 
 
-(api/reorder-columns DS (api/column-names DS (complement #{:int64}) :datatype))
+(tc/reorder-columns DS (tc/column-names DS (complement #{:int64}) :datatype))
 
 
 (md "
@@ -1513,8 +1561,8 @@ Basic conversion
 
 
 (-> DS
-    (api/convert-types :V1 :float64)
-    (api/info :columns))
+    (tc/convert-types :V1 :float64)
+    (tc/info :columns))
 
 
 (md "
@@ -1525,7 +1573,7 @@ Using custom converter. Let's treat `:V4` as haxadecimal values. See that this w
 
 
 (-> DS
-    (api/convert-types :V4 [[:int16 #(Integer/parseInt % 16)]]))
+    (tc/convert-types :V4 [[:int16 #(Integer/parseInt % 16)]]))
 
 
 (md "
@@ -1536,11 +1584,11 @@ You can process several columns at once
 
 
 (-> DS
-    (api/convert-types {:V1 :float64
+    (tc/convert-types {:V1 :float64
                         :V2 :object
                         :V3 [:boolean #(< % 1.0)]
                         :V4 :object})
-    (api/info :columns))
+    (tc/info :columns))
 
 
 (md "
@@ -1551,8 +1599,8 @@ Convert one type into another
 
 
 (-> DS
-    (api/convert-types :type/numerical :int16)
-    (api/info :columns))
+    (tc/convert-types :type/numerical :int16)
+    (tc/info :columns))
 
 
 (md "
@@ -1563,10 +1611,10 @@ Function works on the grouped dataset
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/convert-types :V1 :float32)
-    (api/ungroup)
-    (api/info :columns))
+    (tc/group-by :V1)
+    (tc/convert-types :V1 :float32)
+    (tc/ungroup)
+    (tc/info :columns))
 
 
 (md "
@@ -1576,7 +1624,7 @@ Double array conversion.
 ")
 
 
-(api/->array DS :V1)
+(tc/->array DS :V1)
 
 
 (md "
@@ -1587,8 +1635,8 @@ Function also works on grouped dataset
 
 
 (-> DS
-    (api/group-by :V3)
-    (api/->array :V2))
+    (tc/group-by :V3)
+    (tc/->array :V2))
 
 
 (md "
@@ -1598,8 +1646,8 @@ You can also cast the type to the other one (if casting is possible):
 ")
 
 
-(api/->array DS :V4 :string)
-(api/->array DS :V1 :float32)
+(tc/->array DS :V4 :string)
+(tc/->array DS :V1 :float32)
 
 
 (md "
@@ -1621,7 +1669,7 @@ Select fifth row
 ")
 
 
-(api/select-rows DS 4)
+(tc/select-rows DS 4)
 
 
 (md "
@@ -1631,7 +1679,7 @@ Select 3 rows
 ")
 
 
-(api/select-rows DS [1 4 5])
+(tc/select-rows DS [1 4 5])
 
 
 (md "
@@ -1641,7 +1689,7 @@ Select rows using sequence of true/false values
 ")
 
 
-(api/select-rows DS [true nil nil true])
+(tc/select-rows DS [true nil nil true])
 
 
 (md "
@@ -1651,7 +1699,7 @@ Select rows using predicate
 ")
 
 
-(api/select-rows DS (comp #(< % 1) :V3))
+(tc/select-rows DS (comp #(< % 1) :V3))
 
 
 (md "
@@ -1662,9 +1710,9 @@ The same works on grouped dataset, let's select first row from every group.
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/select-rows 0)
-    (api/ungroup))
+    (tc/group-by :V1)
+    (tc/select-rows 0)
+    (tc/ungroup))
 
 
 (md "
@@ -1675,10 +1723,10 @@ If you want to select `:V2` values which are lower than or equal mean in grouped
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/select-rows (fn [row] (<= (:V2 row) (:mean row)))
+    (tc/group-by :V4)
+    (tc/select-rows (fn [row] (<= (:V2 row) (:mean row)))
                      {:pre {:mean #(tech.v3.datatype.functional/mean (% :V2))}})
-    (api/ungroup))
+    (tc/ungroup))
 
 
 (md "
@@ -1693,10 +1741,23 @@ Drop values lower than or equal `:V2` column mean in grouped dataset.
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/drop-rows (fn [row] (<= (:V2 row) (:mean row)))
+    (tc/group-by :V4)
+    (tc/drop-rows (fn [row] (<= (:V2 row) (:mean row)))
                    {:pre {:mean #(tech.v3.datatype.functional/mean (% :V2))}})
-    (api/ungroup))
+    (tc/ungroup))
+
+
+(md "
+#### Map rows
+
+Call a mapping function for every row. Mapping function should return a map, where keys are column names (new or old) and values are column values.
+
+Works on grouped dataset too.
+")
+
+
+(tc/map-rows DS (fn [{:keys [V1 V2]}] {:V1 0
+                                       :V5 (/ (+ V1 V2) (double V2))}))
 
 
 (md "
@@ -1712,7 +1773,7 @@ First row
 ")
 
 
-(api/first DS)
+(tc/first DS)
 
 
 (md "
@@ -1722,7 +1783,7 @@ Last row
 ")
 
 
-(api/last DS)
+(tc/last DS)
 
 
 (md "
@@ -1731,8 +1792,9 @@ Last row
 Random row (single)
 ")
 
+
 ^:note-to-test/skip
-(api/rand-nth DS)
+(tc/rand-nth DS)
 
 
 (md "
@@ -1741,7 +1803,8 @@ Random row (single)
 Random row (single) with seed
 ")
 
-(api/rand-nth DS {:seed 42})
+
+(tc/rand-nth DS {:seed 42})
 
 
 (md "
@@ -1752,7 +1815,7 @@ Random `n` (default: row count) rows with repetition.
 
 
 ^:note-to-test/skip
-(api/random DS)
+(tc/random DS)
 
 
 (md "
@@ -1763,7 +1826,7 @@ Five random rows with repetition
 
 
 ^:note-to-test/skip
-(api/random DS 5)
+(tc/random DS 5)
 
 
 (md "
@@ -1774,7 +1837,7 @@ Five random, non-repeating rows
 
 
 ^:note-to-test/skip
-(api/random DS 5 {:repeat? false})
+(tc/random DS 5 {:repeat? false})
 
 
 (md "
@@ -1784,7 +1847,7 @@ Five random, with seed
 ")
 
 
-(api/random DS 5 {:seed 42})
+(tc/random DS 5 {:seed 42})
 
 
 (md "
@@ -1794,8 +1857,9 @@ Five random, with seed
 Shuffle dataset
 ")
 
+
 ^:note-to-test/skip
-(api/shuffle DS)
+(tc/shuffle DS)
 
 
 (md "
@@ -1805,7 +1869,7 @@ Shuffle with seed
 ")
 
 
-(api/shuffle DS {:seed 42})
+(tc/shuffle DS {:seed 42})
 
 
 (md "
@@ -1816,7 +1880,7 @@ First `n` rows (default 5)
 ")
 
 
-(api/head DS)
+(tc/head DS)
 
 
 (md "
@@ -1826,7 +1890,7 @@ Last `n` rows (default 5)
 ")
 
 
-(api/tail DS)
+(tc/tail DS)
 
 
 (md "
@@ -1842,13 +1906,13 @@ Last `n` rows (default 5)
 ")
 
 
-(api/by-rank DS :V3 zero?) ;; most V3 values
+(tc/by-rank DS :V3 zero?) ;; most V3 values
 
 
 
 
 
-(api/by-rank DS :V3 zero? {:desc? false}) ;; least V3 values
+(tc/by-rank DS :V3 zero? {:desc? false}) ;; least V3 values
 
 
 (md "
@@ -1858,7 +1922,7 @@ Rank also works on multiple columns
 ")
 
 
-(api/by-rank DS [:V1 :V3] zero? {:desc? false})
+(tc/by-rank DS [:V1 :V3] zero? {:desc? false})
 
 
 (md "
@@ -1870,9 +1934,9 @@ Select 5 random rows from each group
 
 ^:note-to-test/skip
 (-> DS
-    (api/group-by :V4)
-    (api/random 5)
-    (api/ungroup))
+    (tc/group-by :V4)
+    (tc/random 5)
+    (tc/ungroup))
 
 
 (md "
@@ -1894,7 +1958,7 @@ Let's calculate mean of some columns
 ")
 
 
-(api/aggregate DS #(reduce + (% :V2)))
+(tc/aggregate DS #(reduce + (% :V2)))
 
 
 (md "
@@ -1904,7 +1968,7 @@ Let's give resulting column a name.
 ")
 
 
-(api/aggregate DS {:sum-of-V2 #(reduce + (% :V2))})
+(tc/aggregate DS {:sum-of-V2 #(reduce + (% :V2))})
 
 
 (md "
@@ -1914,7 +1978,7 @@ Sequential result is spread into separate columns
 ")
 
 
-(api/aggregate DS #(take 5(% :V2)))
+(tc/aggregate DS #(take 5(% :V2)))
 
 
 (md "
@@ -1924,9 +1988,9 @@ You can combine all variants and rename default prefix
 ")
 
 
-(api/aggregate DS [#(take 3 (% :V2))
+(tc/aggregate DS [#(take 3 (% :V2))
                    (fn [ds] {:sum-v1 (reduce + (ds :V1))
-                             :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"})
+                            :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"})
 
 
 (md "
@@ -1937,10 +2001,10 @@ Processing grouped dataset
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/aggregate [#(take 3 (% :V2))
+    (tc/group-by [:V4])
+    (tc/aggregate [#(take 3 (% :V2))
                     (fn [ds] {:sum-v1 (reduce + (ds :V1))
-                              :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"}))
+                             :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"}))
 
 
 (md "
@@ -1949,11 +2013,11 @@ Result of aggregating is automatically ungrouped, you can skip this step by stet
 
 
 (-> DS
-    (api/group-by [:V3])
-    (api/aggregate [#(take 3 (% :V2))
+    (tc/group-by [:V3])
+    (tc/aggregate [#(take 3 (% :V2))
                     (fn [ds] {:sum-v1 (reduce + (ds :V1))
-                              :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"
-                                                               :ungroup? false}))
+                             :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"
+                                                              :ungroup? false}))
 
 
 (md "
@@ -1963,7 +2027,7 @@ You can perform columnar aggreagation also. `aggregate-columns` selects columns 
 ")
 
 
-(api/aggregate-columns DS [:V1 :V2 :V3] #(reduce + %))
+(tc/aggregate-columns DS [:V1 :V2 :V3] #(reduce + %))
 
 
 (md "
@@ -1971,7 +2035,7 @@ You can perform columnar aggreagation also. `aggregate-columns` selects columns 
 ")
 
 
-(api/aggregate-columns DS [:V1 :V2 :V3] [#(reduce + %)
+(tc/aggregate-columns DS [:V1 :V2 :V3] [#(reduce + %)
                                          #(reduce max %)
                                          #(reduce * %)])
 
@@ -1982,12 +2046,85 @@ You can perform columnar aggreagation also. `aggregate-columns` selects columns 
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/aggregate-columns [:V1 :V2 :V3] #(reduce + %)))
+    (tc/group-by [:V4])
+    (tc/aggregate-columns [:V1 :V2 :V3] #(reduce + %)))
+
+
+(md "
+You can also aggregate whole dataset
+")
+
+
+(-> DS
+    (tc/drop-columns :V4)
+    (tc/aggregate-columns #(reduce + %)))
 
 
 (md "
 
+#### Crosstab
+
+Cross tabulation built from two sets of columns. First rows and cols are used to construct grouped dataset, then aggregation function is applied for each pair. By default it counts rows from each group.
+
+Options are:
+
+* `:aggregator` - function which aggregates values of grouped dataset, default it's `row-count`
+* `:marginal-rows` and `:marginal-cols` - if true, sum of rows and cols are added as an additional columns and row. May be custom function which accepts pure row and col as a seq.
+* `:replace-missing?` - should missing values be replaced (default: true) with `:missing-value` (default: 0)
+* `:pivot?` - if false, flat aggregation result is returned (default: false)
+")
+
+
+(def ctds (tc/dataset {:a [:foo :foo :bar :bar :foo :foo]
+                       :b [:one :one :two :one :two :one]
+                       :c [:dull :dull :shiny :dull :dull :shiny]}))
+
+
+
+
+
+ctds
+
+
+(md "
+---
+")
+
+
+(tc/crosstab ctds :a [:b :c])
+
+
+(md "
+---
+
+With marginals
+")
+
+
+(tc/crosstab ctds :a [:b :c] {:marginal-rows true :marginal-cols true})
+
+
+(md "
+---
+
+Set missing value to `-1`
+")
+
+
+(tc/crosstab ctds :a [:b :c] {:missing-value -1})
+
+
+(md "
+---
+
+Turn off pivoting
+")
+
+
+(tc/crosstab ctds :a [:b :c] {:pivot? false})
+
+
+(md "
 ### Order
 
 Ordering can be done by column(s) or any function operating on row. Possible order can be:
@@ -2004,7 +2141,7 @@ Order by single column, ascending
 ")
 
 
-(api/order-by DS :V1)
+(tc/order-by DS :V1)
 
 
 (md "
@@ -2014,7 +2151,7 @@ Descending order
 ")
 
 
-(api/order-by DS :V1 :desc)
+(tc/order-by DS :V1 :desc)
 
 
 (md "
@@ -2024,7 +2161,7 @@ Order by two columns
 ")
 
 
-(api/order-by DS [:V1 :V2])
+(tc/order-by DS [:V1 :V2])
 
 
 (md "
@@ -2034,19 +2171,19 @@ Use different orders for columns
 ")
 
 
-(api/order-by DS [:V1 :V2] [:asc :desc])
+(tc/order-by DS [:V1 :V2] [:asc :desc])
 
 
 
 
 
-(api/order-by DS [:V1 :V2] [:desc :desc])
+(tc/order-by DS [:V1 :V2] [:desc :desc])
 
 
 
 
 
-(api/order-by DS [:V1 :V3] [:desc :asc])
+(tc/order-by DS [:V1 :V3] [:desc :asc])
 
 
 (md "
@@ -2056,9 +2193,9 @@ Custom function can be used to provided ordering key. Here order by `:V4` descen
 ")
 
 
-(api/order-by DS [:V4 (fn [row] (* (:V1 row)
-                                   (:V2 row)
-                                   (:V3 row)))] [:desc :asc])
+(tc/order-by DS [:V4 (fn [row] (* (:V1 row)
+                                  (:V2 row)
+                                  (:V3 row)))] [:desc :asc])
 
 
 (md "
@@ -2080,11 +2217,11 @@ Custom comparator also can be used in case objects are not comparable by default
 
 
 
-(api/order-by DS [:V1 :V2 :V3] (fn [[x1 y1 z1 :as v1] [x2 y2 z2 :as v2]]
-                                 (let [d (dist v1 v2)]
-                                   (if (< d 2.0)
-                                     (compare z1 z2)
-                                     (compare [x1 y1] [x2 y2])))))
+(tc/order-by DS [:V1 :V2 :V3] (fn [[x1 y1 z1 :as v1] [x2 y2 z2 :as v2]]
+                                (let [d (dist v1 v2)]
+                                  (if (< d 2.0)
+                                    (compare z1 z2)
+                                    (compare [x1 y1] [x2 y2])))))
 
 
 (md "
@@ -2100,7 +2237,7 @@ Remove duplicates from whole dataset
 ")
 
 
-(api/unique-by DS)
+(tc/unique-by DS)
 
 
 (md "
@@ -2110,7 +2247,7 @@ Remove duplicates from each group selected by column.
 ")
 
 
-(api/unique-by DS :V1)
+(tc/unique-by DS :V1)
 
 
 (md "
@@ -2120,7 +2257,7 @@ Pair of columns
 ")
 
 
-(api/unique-by DS [:V1 :V3])
+(tc/unique-by DS [:V1 :V3])
 
 
 (md "
@@ -2130,7 +2267,7 @@ Also function can be used, split dataset by modulo 3 on columns `:V2`
 ")
 
 
-(api/unique-by DS (fn [m] (mod (:V2 m) 3)))
+(tc/unique-by DS (fn [m] (mod (:V2 m) 3)))
 
 
 (md "
@@ -2141,9 +2278,9 @@ The same can be achived with `group-by`
 
 
 (-> DS
-    (api/group-by (fn [m] (mod (:V2 m) 3)))
-    (api/first)
-    (api/ungroup))
+    (tc/group-by (fn [m] (mod (:V2 m) 3)))
+    (tc/first)
+    (tc/ungroup))
 
 
 (md "
@@ -2154,9 +2291,9 @@ Grouped dataset
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/unique-by :V1)
-    (api/ungroup))
+    (tc/group-by :V4)
+    (tc/unique-by :V1)
+    (tc/ungroup))
 
 
 (md "
@@ -2175,7 +2312,7 @@ Last
 ")
 
 
-(api/unique-by DS :V1 {:strategy :last})
+(tc/unique-by DS :V1 {:strategy :last})
 
 
 (md "
@@ -2186,7 +2323,7 @@ Random
 
 
 ^:note-to-test/skip
-(api/unique-by DS :V1 {:strategy :random})
+(tc/unique-by DS :V1 {:strategy :random})
 
 
 (md "
@@ -2196,7 +2333,7 @@ Pack columns into vector
 ")
 
 
-(api/unique-by DS :V4 {:strategy vec})
+(tc/unique-by DS :V4 {:strategy vec})
 
 
 (md "
@@ -2206,7 +2343,7 @@ Sum columns
 ")
 
 
-(api/unique-by DS :V4 {:strategy (partial reduce +)})
+(tc/unique-by DS :V4 {:strategy (partial reduce +)})
 
 
 (md "
@@ -2216,7 +2353,7 @@ Group by function and apply functions
 ")
 
 
-(api/unique-by DS (fn [m] (mod (:V2 m) 3)) {:strategy vec})
+(tc/unique-by DS (fn [m] (mod (:V2 m) 3)) {:strategy vec})
 
 
 (md "
@@ -2227,9 +2364,9 @@ Grouped dataset
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/unique-by (fn [m] (mod (:V2 m) 3)) {:strategy vec})
-    (api/ungroup {:add-group-as-column :from-V1}))
+    (tc/group-by :V1)
+    (tc/unique-by (fn [m] (mod (:V2 m) 3)) {:strategy vec})
+    (tc/ungroup {:add-group-as-column :from-V1}))
 
 
 (md "
@@ -2243,10 +2380,10 @@ Let's define dataset which contains missing values
 ")
 
 
-(def DSm (api/dataset {:V1 (take 9 (cycle [1 2 nil]))
-                       :V2 (range 1 10)
-                       :V3 (take 9 (cycle [0.5 1.0 nil 1.5]))
-                       :V4 (take 9 (cycle ["A" "B" "C"]))}))
+(def DSm (tc/dataset {:V1 (take 9 (cycle [1 2 nil]))
+                      :V2 (range 1 10)
+                      :V3 (take 9 (cycle [0.5 1.0 nil 1.5]))
+                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
 
 
 
@@ -2262,7 +2399,7 @@ Select rows with missing values
 ")
 
 
-(api/select-missing DSm)
+(tc/select-missing DSm)
 
 
 (md "
@@ -2272,7 +2409,7 @@ Select rows with missing values in `:V1`
 ")
 
 
-(api/select-missing DSm :V1)
+(tc/select-missing DSm :V1)
 
 
 (md "
@@ -2283,9 +2420,9 @@ The same with grouped dataset
 
 
 (-> DSm
-    (api/group-by :V4)
-    (api/select-missing :V3)
-    (api/ungroup))
+    (tc/group-by :V4)
+    (tc/select-missing :V3)
+    (tc/ungroup))
 
 
 (md "
@@ -2295,7 +2432,7 @@ Drop rows with missing values
 ")
 
 
-(api/drop-missing DSm)
+(tc/drop-missing DSm)
 
 
 (md "
@@ -2305,7 +2442,7 @@ Drop rows with missing values in `:V1`
 ")
 
 
-(api/drop-missing DSm :V1)
+(tc/drop-missing DSm :V1)
 
 
 (md "
@@ -2316,9 +2453,9 @@ The same with grouped dataset
 
 
 (-> DSm
-    (api/group-by :V4)
-    (api/drop-missing :V1)
-    (api/ungroup))
+    (tc/group-by :V4)
+    (tc/drop-missing :V1)
+    (tc/ungroup))
 
 
 (md "
@@ -2330,15 +2467,18 @@ Missing values can be replaced using several strategies. `replace-missing` accep
 * column selector, default: `:all`
 * strategy, default: `:nearest`
 * value (optional)
-    - single value
-    - sequence of values (cycled)
-    - function, applied on column(s) with stripped missings
+  - single value
+  - sequence of values (cycled)
+  - function, applied on column(s) with stripped missings
+  - map with [index,value] pairs
 
 Strategies are:
 
 * `:value` - replace with given value
-* `:up` - copy values up and then down for missing values at the end
-* `:down` - copy values down and then up for missing values at the beginning
+* `:up` - copy values up
+* `:down` - copy values down
+* `:updown` - copy values up and then down for missing values at the end
+* `:downup` - copy values down and then up for missing values at the beginning
 * `:mid` or `:nearest` - copy values around known values
 * `:midpoint` - use average value from previous and next non-missing
 * `:lerp` - trying to lineary approximate values, works for numbers and datetime, otherwise applies `:nearest`. For numbers always results in `float` datatype.
@@ -2347,8 +2487,8 @@ Let's define special dataset here:
 ")
 
 
-(def DSm2 (api/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
-                        :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
+(def DSm2 (tc/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
+                       :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
 
 
 
@@ -2364,7 +2504,7 @@ Replace missing with default strategy for all columns
 ")
 
 
-(api/replace-missing DSm2)
+(tc/replace-missing DSm2)
 
 
 (md "
@@ -2374,7 +2514,7 @@ Replace missing with single value in whole dataset
 ")
 
 
-(api/replace-missing DSm2 :all :value 999)
+(tc/replace-missing DSm2 :all :value 999)
 
 
 (md "
@@ -2384,7 +2524,7 @@ Replace missing with single value in `:a` column
 ")
 
 
-(api/replace-missing DSm2 :a :value 999)
+(tc/replace-missing DSm2 :a :value 999)
 
 
 (md "
@@ -2394,7 +2534,7 @@ Replace missing with sequence in `:a` column
 ")
 
 
-(api/replace-missing DSm2 :a :value [-999 -998 -997])
+(tc/replace-missing DSm2 :a :value [-999 -998 -997])
 
 
 (md "
@@ -2404,7 +2544,17 @@ Replace missing with a function (mean)
 ")
 
 
-(api/replace-missing DSm2 :a :value tech.v3.datatype.functional/mean)
+(tc/replace-missing DSm2 :a :value tech.v3.datatype.functional/mean)
+
+
+(md "
+---
+
+Replace missing some missing values with a map
+")
+
+
+(tc/replace-missing DSm2 :a :value {0 100 1 -100 14 -1000})
 
 
 (md "
@@ -2414,7 +2564,7 @@ Using `:down` strategy, fills gaps with values from above. You can see that if m
 ")
 
 
-(api/replace-missing DSm2 [:a :b] :down)
+(tc/replace-missing DSm2 [:a :b] :downup)
 
 
 (md "
@@ -2424,7 +2574,7 @@ To fix above issue you can provide value
 ")
 
 
-(api/replace-missing DSm2 [:a :b] :down 999)
+(tc/replace-missing DSm2 [:a :b] :down 999)
 
 
 (md "
@@ -2434,7 +2584,15 @@ The same applies for `:up` strategy which is opposite direction.
 ")
 
 
-(api/replace-missing DSm2 [:a :b] :up)
+(tc/replace-missing DSm2 [:a :b] :up)
+
+
+(md "
+---
+")
+
+
+(tc/replace-missing DSm2 [:a :b] :updown)
 
 
 (md "
@@ -2444,7 +2602,7 @@ The same applies for `:up` strategy which is opposite direction.
 ")
 
 
-(api/replace-missing DSm2 [:a :b] :midpoint)
+(tc/replace-missing DSm2 [:a :b] :midpoint)
 
 
 (md "
@@ -2454,7 +2612,7 @@ We can use a function which is applied after applying `:up` or `:down`
 ")
 
 
-(api/replace-missing DSm2 [:a :b] :down tech.v3.datatype.functional/mean)
+(tc/replace-missing DSm2 [:a :b] :down tech.v3.datatype.functional/mean)
 
 
 (md "
@@ -2464,7 +2622,7 @@ Lerp tries to apply linear interpolation of the values
 ")
 
 
-(api/replace-missing DSm2 [:a :b] :lerp)
+(tc/replace-missing DSm2 [:a :b] :lerp)
 
 
 (md "
@@ -2474,10 +2632,10 @@ Lerp works also on dates
 ")
 
 
-(-> (api/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
-                       nil nil nil nil nil nil nil
-                       (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
-    (api/replace-missing :lerp))
+(-> (tc/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
+                      nil nil nil nil nil nil nil
+                      (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
+    (tc/replace-missing :lerp))
 
 
 (md "
@@ -2495,9 +2653,9 @@ When your column contains not continuous data range you can fill up with lacking
 ")
 
 
-(-> (api/dataset {:a [1 2 9]
-                  :b [:a :b :c]})
-    (api/fill-range-replace :a 1))
+(-> (tc/dataset {:a [1 2 9]
+                 :b [:a :b :c]})
+    (tc/fill-range-replace :a 1))
 
 
 (md "
@@ -2515,14 +2673,14 @@ Joining or separating columns are operations which can help to tidy messy datase
 * dataset
 * column selector (as in `select-columns`)
 * options
-    - `:separator` (default `\"-\"`)
-    - `:drop-columns?` - whether to drop source columns or not (default `true`)
-    - `:result-type`
-        * `:map` - packs data into map
-        * `:seq` - packs data into sequence
-        * `:string` - join strings with separator (default)
-        * or custom function which gets row as a vector
-    - `:missing-subst` - substitution for missing value
+- `:separator` (default `\"-\"`)
+- `:drop-columns?` - whether to drop source columns or not (default `true`)
+- `:result-type`
+* `:map` - packs data into map
+* `:seq` - packs data into sequence
+* `:string` - join strings with separator (default)
+* or custom function which gets row as a vector
+- `:missing-subst` - substitution for missing value
 
 ---
 
@@ -2530,7 +2688,7 @@ Default usage. Create `:joined` column out of other columns.
 ")
 
 
-(api/join-columns DSm :joined [:V1 :V2 :V4])
+(tc/join-columns DSm :joined [:V1 :V2 :V4])
 
 
 (md "
@@ -2540,7 +2698,7 @@ Without dropping source columns.
 ")
 
 
-(api/join-columns DSm :joined [:V1 :V2 :V4] {:drop-columns? false})
+(tc/join-columns DSm :joined [:V1 :V2 :V4] {:drop-columns? false})
 
 
 (md "
@@ -2550,7 +2708,7 @@ Let's replace missing value with \"NA\" string.
 ")
 
 
-(api/join-columns DSm :joined [:V1 :V2 :V4] {:missing-subst "NA"})
+(tc/join-columns DSm :joined [:V1 :V2 :V4] {:missing-subst "NA"})
 
 
 (md "
@@ -2560,8 +2718,8 @@ We can use custom separator.
 ")
 
 
-(api/join-columns DSm :joined [:V1 :V2 :V4] {:separator "/"
-                                             :missing-subst "."})
+(tc/join-columns DSm :joined [:V1 :V2 :V4] {:separator "/"
+                                            :missing-subst "."})
 
 
 (md "
@@ -2571,8 +2729,8 @@ Or even sequence of separators.
 ")
 
 
-(api/join-columns DSm :joined [:V1 :V2 :V4] {:separator ["-" "/"]
-                                             :missing-subst "."})
+(tc/join-columns DSm :joined [:V1 :V2 :V4] {:separator ["-" "/"]
+                                            :missing-subst "."})
 
 
 (md "
@@ -2582,7 +2740,7 @@ The other types of results, map:
 ")
 
 
-(api/join-columns DSm :joined [:V1 :V2 :V4] {:result-type :map})
+(tc/join-columns DSm :joined [:V1 :V2 :V4] {:result-type :map})
 
 
 (md "
@@ -2592,7 +2750,7 @@ Sequence
 ")
 
 
-(api/join-columns DSm :joined [:V1 :V2 :V4] {:result-type :seq})
+(tc/join-columns DSm :joined [:V1 :V2 :V4] {:result-type :seq})
 
 
 (md "
@@ -2602,7 +2760,7 @@ Custom function, calculate hash
 ")
 
 
-(api/join-columns DSm :joined [:V1 :V2 :V4] {:result-type hash})
+(tc/join-columns DSm :joined [:V1 :V2 :V4] {:result-type hash})
 
 
 (md "
@@ -2613,13 +2771,14 @@ Grouped dataset
 
 
 (-> DSm
-    (api/group-by :V4)
-    (api/join-columns :joined [:V1 :V2 :V4])
-    (api/ungroup))
+    (tc/group-by :V4)
+    (tc/join-columns :joined [:V1 :V2 :V4])
+    (tc/ungroup))
 
 
 (md "
 ---
+
 
 ##### Tidyr examples
 
@@ -2627,7 +2786,7 @@ Grouped dataset
 ")
 
 
-(def df (api/dataset {:x ["a" "a" nil nil]
+(def df (tc/dataset {:x ["a" "a" nil nil]
                       :y ["b" nil "b" nil]}))
 
 
@@ -2642,7 +2801,7 @@ df
 ")
 
 
-(api/join-columns df "z" [:x :y] {:drop-columns? false
+(tc/join-columns df "z" [:x :y] {:drop-columns? false
                                   :missing-subst "NA"
                                   :separator "_"})
 
@@ -2652,7 +2811,7 @@ df
 ")
 
 
-(api/join-columns df "z" [:x :y] {:drop-columns? false
+(tc/join-columns df "z" [:x :y] {:drop-columns? false
                                   :separator "_"})
 
 
@@ -2664,16 +2823,16 @@ Column can be also separated into several other columns using string as separato
 
 * dataset
 * source column
-* target columns - can be `nil` or `:infer` if `separator` returns map
+* target columns - can be `nil` or `:infer` to automatically create columns
 * separator as:
     - string - it's converted to regular expression and passed to `clojure.string/split` function
     - regex
     - or custom function (default: identity)
 * options
-    - `:drop-columns?` - whether drop source column(s) or not (default: `true` or `:all` in case of empty `target-columns`). When set to `:all` keeps only separation result.
+    - `:drop-columns?` - whether drop source column(s) or not (default: `true`). Set to `:all` to keep only separation result.
     - `:missing-subst` - values which should be treated as missing, can be set, sequence, value or function (default: `\"\"`)
 
-Custom function (as separator) should return seqence of values for given value.
+Custom function (as separator) should return seqence of values for given value or a sequence of map.
 
 ---
 
@@ -2681,7 +2840,7 @@ Separate float into integer and factional values
 ")
 
 
-(api/separate-column DS :V3 [:int-part :frac-part] (fn [^double v]
+(tc/separate-column DS :V3 [:int-part :frac-part] (fn [^double v]
                                                      [(int (quot v 1.0))
                                                       (mod v 1.0)]))
 
@@ -2693,7 +2852,7 @@ Source column can be kept
 ")
 
 
-(api/separate-column DS :V3 [:int-part :frac-part] (fn [^double v]
+(tc/separate-column DS :V3 [:int-part :frac-part] (fn [^double v]
                                                      [(int (quot v 1.0))
                                                       (mod v 1.0)]) {:drop-column? false})
 
@@ -2705,7 +2864,7 @@ We can treat `0` or `0.0` as missing value
 ")
 
 
-(api/separate-column DS :V3 [:int-part :frac-part] (fn [^double v]
+(tc/separate-column DS :V3 [:int-part :frac-part] (fn [^double v]
                                                      [(int (quot v 1.0))
                                                       (mod v 1.0)]) {:missing-subst [0 0.0]})
 
@@ -2718,21 +2877,21 @@ Works on grouped dataset
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/separate-column :V3 [:int-part :fract-part] (fn [^double v]
+    (tc/group-by :V4)
+    (tc/separate-column :V3 [:int-part :fract-part] (fn [^double v]
                                                        [(int (quot v 1.0))
                                                         (mod v 1.0)]))
-    (api/ungroup))
+    (tc/ungroup))
 
 
 (md "
 ---
 
-Separate using separator returning sequence of maps, in this case we drop all other columns.
+Separate using separator returning sequence of maps.
 ")
 
 
-(api/separate-column DS :V3 (fn [^double v]
+(tc/separate-column DS :V3 (fn [^double v]
                               {:int-part (int (quot v 1.0))
                                :fract-part (mod v 1.0)}))
 
@@ -2742,9 +2901,28 @@ Keeping all columns
 ")
 
 
-(api/separate-column DS :V3 nil (fn [^double v]
+(tc/separate-column DS :V3 nil (fn [^double v]
                                   {:int-part (int (quot v 1.0))
                                    :fract-part (mod v 1.0)}) {:drop-column? false})
+
+
+(md "
+Droping all colums but separated
+")
+
+
+(tc/separate-column DS :V3 nil (fn [^double v]
+                                 {:int-part (int (quot v 1.0))
+                                  :fract-part (mod v 1.0)}) {:drop-column? :all})
+
+
+(md "
+Infering column names
+")
+
+
+(tc/separate-column DS :V3 (fn [^double v]
+                             [(int (quot v 1.0)) (mod v 1.0)]))
 
 
 (md "
@@ -2756,16 +2934,16 @@ Join and separate together.
 
 
 (-> DSm
-    (api/join-columns :joined [:V1 :V2 :V4] {:result-type :map})
-    (api/separate-column :joined [:v1 :v2 :v4] (juxt :V1 :V2 :V4)))
+    (tc/join-columns :joined [:V1 :V2 :V4] {:result-type :map})
+    (tc/separate-column :joined [:v1 :v2 :v4] (juxt :V1 :V2 :V4)))
 
 
 
 
 
 (-> DSm
-    (api/join-columns :joined [:V1 :V2 :V4] {:result-type :seq})
-    (api/separate-column :joined [:v1 :v2 :v4] identity))
+    (tc/join-columns :joined [:V1 :V2 :V4] {:result-type :seq})
+    (tc/separate-column :joined [:v1 :v2 :v4] identity))
 
 
 (md "
@@ -2776,10 +2954,10 @@ Join and separate together.
 ")
 
 
-(def df-separate (api/dataset {:x [nil "a.b" "a.d" "b.c"]}))
-(def df-separate2 (api/dataset {:x ["a" "a b" nil "a b c"]}))
-(def df-separate3 (api/dataset {:x ["a?b" nil "a.b" "b:c"]}))
-(def df-extract (api/dataset {:x [nil "a-b" "a-d" "b-c" "d-e"]}))
+(def df-separate (tc/dataset {:x [nil "a.b" "a.d" "b.c"]}))
+(def df-separate2 (tc/dataset {:x ["a" "a b" nil "a b c"]}))
+(def df-separate3 (tc/dataset {:x ["a?b" nil "a.b" "b:c"]}))
+(def df-extract (tc/dataset {:x [nil "a-b" "a-d" "b-c" "d-e"]}))
 
 
 
@@ -2811,7 +2989,7 @@ df-extract
 ")
 
 
-(api/separate-column df-separate :x [:A :B] "\\.")
+(tc/separate-column df-separate :x [:A :B] "\\.")
 
 
 (md "
@@ -2821,7 +2999,7 @@ You can drop columns after separation by setting `nil` as a name. We need second
 ")
 
 
-(api/separate-column df-separate :x [nil :B] "\\.")
+(tc/separate-column df-separate :x [nil :B] "\\.")
 
 
 (md "
@@ -2831,7 +3009,7 @@ Extra data is dropped
 ")
 
 
-(api/separate-column df-separate2 :x ["a" "b"] " ")
+(tc/separate-column df-separate2 :x ["a" "b"] " ")
 
 
 (md "
@@ -2841,7 +3019,7 @@ Split with regular expression
 ")
 
 
-(api/separate-column df-separate3 :x ["a" "b"] "[?\\.:]")
+(tc/separate-column df-separate3 :x ["a" "b"] "[?\\.:]")
 
 
 (md "
@@ -2851,7 +3029,7 @@ Or just regular expression to extract values
 ")
 
 
-(api/separate-column df-separate3 :x ["a" "b"] #"(.).(.)")
+(tc/separate-column df-separate3 :x ["a" "b"] #"(.).(.)")
 
 
 (md "
@@ -2861,7 +3039,7 @@ Extract first value only
 ")
 
 
-(api/separate-column df-extract :x ["A"] "-")
+(tc/separate-column df-extract :x ["A"] "-")
 
 
 (md "
@@ -2871,7 +3049,7 @@ Split with regex
 ")
 
 
-(api/separate-column df-extract :x ["A" "B"] #"(\p{Alnum})-(\p{Alnum})")
+(tc/separate-column df-extract :x ["A" "B"] #"(\p{Alnum})-(\p{Alnum})")
 
 
 (md "
@@ -2881,10 +3059,41 @@ Only `a,b,c,d` strings
 ")
 
 
-(api/separate-column df-extract :x ["A" "B"] #"([a-d]+)-([a-d]+)")
+(tc/separate-column df-extract :x ["A" "B"] #"([a-d]+)-([a-d]+)")
 
 
 (md "
+
+#### Array column conversion
+
+A dataset can have as well columns of type java array. We can convert
+from normal columns to a single array column and back like this:
+")
+
+
+(-> (tc/dataset {:x [(double-array [1 2 3])
+                     (double-array [4 5 6])]
+                 :y [:a :b]})
+    (tc/array-column->columns :x))
+
+
+
+(md "
+and the other way around:
+")
+
+
+(-> (tc/dataset {0 [0.0 1 2]
+                 1 [3.0 4 5]
+                 :x [:a :b :c]})
+    (tc/columns->array-column [0 1] :y))
+
+
+
+(md "
+
+
+
 ### Fold/Unroll Rows
 
 To pack or unpack the data into single value you can use `fold-by` and `unroll` functions.
@@ -2897,7 +3106,7 @@ Group-by and pack columns into vector
 ")
 
 
-(api/fold-by DS [:V3 :V4 :V1])
+(tc/fold-by DS [:V3 :V4 :V1])
 
 
 (md "
@@ -2907,7 +3116,7 @@ You can pack several columns at once.
 ")
 
 
-(api/fold-by DS [:V4])
+(tc/fold-by DS [:V4])
 
 
 (md "
@@ -2917,7 +3126,7 @@ You can use custom packing function
 ")
 
 
-(api/fold-by DS [:V4] seq)
+(tc/fold-by DS [:V4] seq)
 
 
 (md "
@@ -2925,7 +3134,7 @@ or
 ")
 
 
-(api/fold-by DS [:V4] set)
+(tc/fold-by DS [:V4] set)
 
 
 (md "
@@ -2936,9 +3145,9 @@ This works also on grouped dataset
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/fold-by :V4)
-    (api/ungroup))
+    (tc/group-by :V1)
+    (tc/fold-by :V4)
+    (tc/ungroup))
 
 
 (md "
@@ -2957,7 +3166,7 @@ Unroll one column
 ")
 
 
-(api/unroll (api/fold-by DS [:V4]) [:V1])
+(tc/unroll (tc/fold-by DS [:V4]) [:V1])
 
 
 (md "
@@ -2967,7 +3176,7 @@ Unroll all folded columns
 ")
 
 
-(api/unroll (api/fold-by DS [:V4]) [:V1 :V2 :V3])
+(tc/unroll (tc/fold-by DS [:V4]) [:V1 :V2 :V3])
 
 
 (md "
@@ -2978,9 +3187,9 @@ Unroll one by one leads to cartesian product
 
 
 (-> DS
-    (api/fold-by [:V4 :V1])
-    (api/unroll [:V2])
-    (api/unroll [:V3]))
+    (tc/fold-by [:V4 :V1])
+    (tc/unroll [:V2])
+    (tc/unroll [:V3]))
 
 
 (md "
@@ -2990,13 +3199,13 @@ You can add indexes
 ")
 
 
-(api/unroll (api/fold-by DS [:V1]) [:V4 :V2 :V3] {:indexes? true})
+(tc/unroll (tc/fold-by DS [:V1]) [:V4 :V2 :V3] {:indexes? true})
 
 
 
 
 
-(api/unroll (api/fold-by DS [:V1]) [:V4 :V2 :V3] {:indexes? "vector idx"})
+(tc/unroll (tc/fold-by DS [:V1]) [:V4 :V2 :V3] {:indexes? "vector idx"})
 
 
 (md "
@@ -3007,11 +3216,11 @@ You can also force datatypes
 
 
 (-> DS
-    (api/fold-by [:V1])
-    (api/unroll [:V4 :V2 :V3] {:datatypes {:V4 :string
+    (tc/fold-by [:V1])
+    (tc/unroll [:V4 :V2 :V3] {:datatypes {:V4 :string
                                            :V2 :int16
                                            :V3 :float32}})
-    (api/info :columns))
+    (tc/info :columns))
 
 
 (md "
@@ -3022,10 +3231,10 @@ This works also on grouped dataset
 
 
 (-> DS
-    (api/group-by :V1)
-    (api/fold-by [:V1 :V4])
-    (api/unroll :V3 {:indexes? true})
-    (api/ungroup))
+    (tc/group-by :V1)
+    (tc/fold-by [:V1 :V4])
+    (tc/unroll :V3 {:indexes? true})
+    (tc/ungroup))
 
 
 (md "
@@ -3054,8 +3263,9 @@ Arguments:
     - `:target-columns` - names of the columns created or columns pattern (see below) (default: `:$column`)
     - `:value-column-name` - name of the column for values (default: `:$value`)
     - `:splitter` - string, regular expression or function which splits source column names into data
-    - `:drop-missing?` - remove rows with missing? (default: `:true`)
+    - `:drop-missing?` - remove rows with missing? (default: `true`)
     - `:datatypes` - map of target columns data types
+\t- `:coerce-to-number` - try to convert extracted values to numbers if possible (default: true)
 
 `:target-columns` - can be:
 
@@ -3069,7 +3279,7 @@ Create rows from all columns but `\"religion\"`.
 ")
 
 
-(def relig-income (api/dataset "data/relig_income.csv"))
+(def relig-income (tc/dataset "data/relig_income.csv"))
 
 
 
@@ -3081,7 +3291,7 @@ relig-income
 
 
 
-(api/pivot->longer relig-income (complement #{"religion"}))
+(tc/pivot->longer relig-income (complement #{"religion"}))
 
 
 (md "
@@ -3091,23 +3301,23 @@ Convert only columns starting with `\"wk\"` and pack them into `:week` column, v
 ")
 
 
-(def bilboard (-> (api/dataset "data/billboard.csv.gz")
-                  (api/drop-columns :type/boolean))) ;; drop some boolean columns, tidyr just skips them
+(def bilboard (-> (tc/dataset "data/billboard.csv.gz")
+                  (tc/drop-columns :type/boolean))) ;; drop some boolean columns, tidyr just skips them
 
 
 
 
 
 (->> bilboard
-     (api/column-names)
+     (tc/column-names)
      (take 13)
-     (api/select-columns bilboard))
+     (tc/select-columns bilboard))
 
 
 
 
 
-(api/pivot->longer bilboard #(clojure.string/starts-with? % "wk") {:target-columns :week
+(tc/pivot->longer bilboard #(clojure.string/starts-with? % "wk") {:target-columns :week
                                                                    :value-column-name :rank})
 
 
@@ -3118,7 +3328,7 @@ We can create numerical column out of column names
 ")
 
 
-(api/pivot->longer bilboard #(clojure.string/starts-with? % "wk") {:target-columns :week
+(tc/pivot->longer bilboard #(clojure.string/starts-with? % "wk") {:target-columns :week
                                                                    :value-column-name :rank
                                                                    :splitter #"wk(.*)"
                                                                    :datatypes {:week :int16}})
@@ -3132,22 +3342,22 @@ When column names contain observation data, such column names can be splitted an
 ")
 
 
-(def who (api/dataset "data/who.csv.gz"))
+(def who (tc/dataset "data/who.csv.gz"))
 
 
 
 
 
 (->> who
-     (api/column-names)
+     (tc/column-names)
      (take 10)
-     (api/select-columns who))
+     (tc/select-columns who))
 
 
 
 
 
-(api/pivot->longer who #(clojure.string/starts-with? % "new") {:target-columns [:diagnosis :gender :age]
+(tc/pivot->longer who #(clojure.string/starts-with? % "new") {:target-columns [:diagnosis :gender :age]
                                                                :splitter #"new_?(.*)_(.)(.*)"
                                                                :value-column-name :count})
 
@@ -3159,7 +3369,7 @@ When data contains multiple observations per row, we can use splitter and patter
 ")
 
 
-(def family (api/dataset "data/family.csv"))
+(def family (tc/dataset "data/family.csv"))
 
 
 
@@ -3171,7 +3381,7 @@ family
 
 
 
-(api/pivot->longer family (complement #{"family"}) {:target-columns [nil :child]
+(tc/pivot->longer family (complement #{"family"}) {:target-columns [nil :child]
                                                     :splitter "_"
                                                     :datatypes {"gender" :int16}})
 
@@ -3183,7 +3393,7 @@ Similar here, we have two observations: `x` and `y` in four groups.
 ")
 
 
-(def anscombe (api/dataset "data/anscombe.csv"))
+(def anscombe (tc/dataset "data/anscombe.csv"))
 
 
 
@@ -3195,7 +3405,7 @@ anscombe
 
 
 
-(api/pivot->longer anscombe :all {:splitter #"(.)(.)"
+(tc/pivot->longer anscombe :all {:splitter #"(.)(.)"
                                   :target-columns [nil :set]})
 
 
@@ -3205,13 +3415,13 @@ anscombe
 
 
 ^:note-to-test/skip
-(def pnl (api/dataset {:x [1 2 3 4]
-                       :a [1 1 0 0]
-                       :b [0 1 1 1]
-                       :y1 (repeatedly 4 rand)
-                       :y2 (repeatedly 4 rand)
-                       :z1 [3 3 3 3]
-                       :z2 [-2 -2 -2 -2]}))
+(def pnl (tc/dataset {:x [1 2 3 4]
+                      :a [1 1 0 0]
+                      :b [0 1 1 1]
+                      :y1 (repeatedly 4 rand)
+                      :y2 (repeatedly 4 rand)
+                      :z1 [3 3 3 3]
+                      :z2 [-2 -2 -2 -2]}))
 
 
 
@@ -3225,8 +3435,8 @@ pnl
 
 
 ^:note-to-test/skip
-(api/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
-                                          :splitter #":(.)(.)"})
+(tc/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
+                                         :splitter #":(.)(.)"})
 
 
 (md "
@@ -3254,7 +3464,7 @@ Use `station` as a name source for columns and `seen` for values
 ")
 
 
-(def fish (api/dataset "data/fish_encounters.csv"))
+(def fish (tc/dataset "data/fish_encounters.csv"))
 
 
 
@@ -3266,7 +3476,7 @@ fish
 
 
 
-(api/pivot->wider fish "station" "seen" {:drop-missing? false})
+(tc/pivot->wider fish "station" "seen" {:drop-missing? false})
 
 
 (md "
@@ -3276,7 +3486,7 @@ If selected columns contain multiple values, such values should be folded.
 ")
 
 
-(def warpbreaks (api/dataset "data/warpbreaks.csv"))
+(def warpbreaks (tc/dataset "data/warpbreaks.csv"))
 
 
 
@@ -3291,16 +3501,16 @@ Let's see how many values are for each type of `wool` and `tension` groups
 
 
 (-> warpbreaks
-    (api/group-by ["wool" "tension"])
-    (api/aggregate {:n api/row-count}))
+    (tc/group-by ["wool" "tension"])
+    (tc/aggregate {:n tc/row-count}))
 
 
 
 
 
 (-> warpbreaks
-    (api/reorder-columns ["wool" "tension" "breaks"])
-    (api/pivot->wider "wool" "breaks" {:fold-fn vec}))
+    (tc/reorder-columns ["wool" "tension" "breaks"])
+    (tc/pivot->wider "wool" "breaks" {:fold-fn vec}))
 
 
 (md "
@@ -3309,8 +3519,8 @@ We can also calculate mean (aggreate values)
 
 
 (-> warpbreaks
-    (api/reorder-columns ["wool" "tension" "breaks"])
-    (api/pivot->wider "wool" "breaks" {:fold-fn tech.v3.datatype.functional/mean}))
+    (tc/reorder-columns ["wool" "tension" "breaks"])
+    (tc/pivot->wider "wool" "breaks" {:fold-fn tech.v3.datatype.functional/mean}))
 
 
 (md "
@@ -3320,7 +3530,7 @@ Multiple source columns, joined with default separator.
 ")
 
 
-(def production (api/dataset "data/production.csv"))
+(def production (tc/dataset "data/production.csv"))
 
 
 
@@ -3332,7 +3542,7 @@ production
 
 
 
-(api/pivot->wider production ["product" "country"] "production")
+(tc/pivot->wider production ["product" "country"] "production")
 
 
 (md "
@@ -3340,7 +3550,7 @@ Joined with custom function
 ")
 
 
-(api/pivot->wider production ["product" "country"] "production" {:concat-columns-with vec})
+(tc/pivot->wider production ["product" "country"] "production" {:concat-columns-with vec})
 
 
 (md "
@@ -3350,7 +3560,7 @@ Multiple value columns
 ")
 
 
-(def income (api/dataset "data/us_rent_income.csv"))
+(def income (tc/dataset "data/us_rent_income.csv"))
 
 
 
@@ -3362,7 +3572,7 @@ income
 
 
 
-(api/pivot->wider income "variable" ["estimate" "moe"] {:drop-missing? false})
+(tc/pivot->wider income "variable" ["estimate" "moe"] {:drop-missing? false})
 
 
 (md "
@@ -3370,7 +3580,7 @@ Value concatenated by custom function
 ")
 
 
-(api/pivot->wider income "variable" ["estimate" "moe"] {:concat-columns-with vec
+(tc/pivot->wider income "variable" ["estimate" "moe"] {:concat-columns-with vec
                                                         :concat-value-with vector
                                                         :drop-missing? false})
 
@@ -3382,7 +3592,7 @@ Reshape contact data
 ")
 
 
-(def contacts (api/dataset "data/contacts.csv"))
+(def contacts (tc/dataset "data/contacts.csv"))
 
 
 
@@ -3394,7 +3604,7 @@ contacts
 
 
 
-(api/pivot->wider contacts "field" "value" {:drop-missing? false})
+(tc/pivot->wider contacts "field" "value" {:drop-missing? false})
 
 
 
@@ -3409,16 +3619,16 @@ A couple of `tidyr` examples of more complex reshaping.
 ")
 
 
-(def world-bank-pop (api/dataset "data/world_bank_pop.csv.gz"))
+(def world-bank-pop (tc/dataset "data/world_bank_pop.csv.gz"))
 
 
 
 
 
 (->> world-bank-pop
-     (api/column-names)
+     (tc/column-names)
      (take 8)
-     (api/select-columns world-bank-pop))
+     (tc/select-columns world-bank-pop))
 
 
 (md "
@@ -3426,7 +3636,7 @@ Step 1 - convert years column into values
 ")
 
 
-(def pop2 (api/pivot->longer world-bank-pop (map str (range 2000 2018)) {:drop-missing? false
+(def pop2 (tc/pivot->longer world-bank-pop (map str (range 2000 2018)) {:drop-missing? false
                                                                          :target-columns ["year"]
                                                                          :value-column-name "value"}))
 
@@ -3442,7 +3652,7 @@ Step 2 - separate `\"indicate\"` column
 ")
 
 
-(def pop3 (api/separate-column pop2
+(def pop3 (tc/separate-column pop2
                                "indicator" ["area" "variable"]
                                #(rest (clojure.string/split % #"\."))))
 
@@ -3458,7 +3668,7 @@ Step 3 - Make columns based on `\"variable\"` values.
 ")
 
 
-(api/pivot->wider pop3 "variable" "value" {:drop-missing? false})
+(tc/pivot->wider pop3 "variable" "value" {:drop-missing? false})
 
 
 (md "
@@ -3470,7 +3680,7 @@ Step 3 - Make columns based on `\"variable\"` values.
 ")
 
 
-(def multi (api/dataset {:id [1 2 3 4]
+(def multi (tc/dataset {:id [1 2 3 4]
                          :choice1 ["A" "C" "D" "B"]
                          :choice2 ["B" "B" nil "D"]
                          :choice3 ["C" nil nil nil]}))
@@ -3488,8 +3698,8 @@ Step 1 - convert all choices into rows and add artificial column to all values w
 
 
 (def multi2 (-> multi
-                (api/pivot->longer (complement #{:id}))
-                (api/add-column :checked true)))
+                (tc/pivot->longer (complement #{:id}))
+                (tc/add-column :checked true)))
 
 
 
@@ -3504,9 +3714,9 @@ Step 2 - Convert back to wide form with actual choices as columns
 
 
 (-> multi2
-    (api/drop-columns :$column)
-    (api/pivot->wider :$value :checked {:drop-missing? false})
-    (api/order-by :id))
+    (tc/drop-columns :$column)
+    (tc/pivot->wider :$value :checked {:drop-missing? false})
+    (tc/order-by :id))
 
 
 (md "
@@ -3518,7 +3728,7 @@ Step 2 - Convert back to wide form with actual choices as columns
 ")
 
 
-(def construction (api/dataset "data/construction.csv"))
+(def construction (tc/dataset "data/construction.csv"))
 (def construction-unit-map {"1 unit" "1"
                             "2 to 4 units" "2-4"
                             "5 units or more" "5+"})
@@ -3537,7 +3747,7 @@ Conversion 1 - Group two column types
 
 
 (-> construction
-    (api/pivot->longer #"^[125NWS].*|Midwest" {:target-columns [:units :region]
+    (tc/pivot->longer #"^[125NWS].*|Midwest" {:target-columns [:units :region]
                                                :splitter (fn [col-name]
                                                            (if (re-matches #"^[125].*" col-name)
                                                              [(construction-unit-map col-name) nil]
@@ -3552,15 +3762,15 @@ Conversion 2 - Convert to longer form and back and rename columns
 
 
 (-> construction
-    (api/pivot->longer #"^[125NWS].*|Midwest" {:target-columns [:units :region]
+    (tc/pivot->longer #"^[125NWS].*|Midwest" {:target-columns [:units :region]
                                                :splitter (fn [col-name]
                                                            (if (re-matches #"^[125].*" col-name)
                                                              [(construction-unit-map col-name) nil]
                                                              [nil col-name]))
                                                :value-column-name :n
                                                :drop-missing? false})
-    (api/pivot->wider [:units :region] :n {:drop-missing? false})
-    (api/rename-columns (zipmap (vals construction-unit-map)
+    (tc/pivot->wider [:units :region] :n {:drop-missing? false})
+    (tc/rename-columns (zipmap (vals construction-unit-map)
                                 (keys construction-unit-map))))
 
 
@@ -3571,7 +3781,7 @@ Various operations on stocks, examples taken from [gather](https://tidyr.tidyver
 ")
 
 
-(def stocks-tidyr (api/dataset "data/stockstidyr.csv"))
+(def stocks-tidyr (tc/dataset "data/stockstidyr.csv"))
 
 
 
@@ -3585,7 +3795,7 @@ Convert to longer form
 ")
 
 
-(def stocks-long (api/pivot->longer stocks-tidyr ["X" "Y" "Z"] {:value-column-name :price
+(def stocks-long (tc/pivot->longer stocks-tidyr ["X" "Y" "Z"] {:value-column-name :price
                                                                 :target-columns :stocks}))
 
 
@@ -3600,7 +3810,7 @@ Convert back to wide form
 ")
 
 
-(api/pivot->wider stocks-long :stocks :price)
+(tc/pivot->wider stocks-long :stocks :price)
 
 
 (md "
@@ -3609,8 +3819,8 @@ Convert to wide form on time column (let's limit values to a couple of rows)
 
 
 (-> stocks-long
-    (api/select-rows (range 0 30 4))
-    (api/pivot->wider "time" :price {:drop-missing? false}))
+    (tc/select-rows (range 0 30 4))
+    (tc/pivot->wider "time" :price {:drop-missing? false}))
 
 
 (md "
@@ -3620,7 +3830,11 @@ Dataset join and concatenation functions.
 
 Joins accept left-side and right-side datasets and columns selector. Options are the same as in `tech.ml.dataset` functions.
 
+A column selector can be a map with `:left` and `:right` keys to specify column names separate for left and right dataset.
+
 The difference between `tech.ml.dataset` join functions are: arguments order (first datasets) and possibility to join on multiple columns.
+
+Multiple columns joins create temporary index column from column selection. The method for creating index is based on `:hashing` option and defaults to `identity`. Prior to `7.000-beta-50` `hash` function was used, which caused hash collision for certain cases.
 
 Additionally set operations are defined: `intersect` and `difference`.
 
@@ -3636,13 +3850,14 @@ Datasets used in examples:
 ")
 
 
-(def ds1 (api/dataset {:a [1 2 1 2 3 4 nil nil 4]
+(def ds1 (tc/dataset {:a [1 2 1 2 3 4 nil nil 4]
                        :b (range 101 110)
                        :c (map str "abs tract")}))
-(def ds2 (api/dataset {:a [nil 1 2 5 4 3 2 1 nil]
-                       :b (range 110 101 -1)
-                       :c (map str "datatable")
-                       :d (symbol "X")}))
+(def ds2 (tc/dataset {:a [nil 1 2 5 4 3 2 1 nil]
+                      :b (range 110 101 -1)
+                      :c (map str "datatable")
+                      :d (symbol "X")
+                      :e [3 4 5 6 7 nil 8 1 1]}))
 
 
 
@@ -3657,7 +3872,7 @@ ds2
 ")
 
 
-(api/left-join ds1 ds2 :b)
+(tc/left-join ds1 ds2 :b)
 
 
 (md "
@@ -3665,7 +3880,7 @@ ds2
 ")
 
 
-(api/left-join ds2 ds1 :b)
+(tc/left-join ds2 ds1 :b)
 
 
 (md "
@@ -3673,7 +3888,7 @@ ds2
 ")
 
 
-(api/left-join ds1 ds2 [:a :b])
+(tc/left-join ds1 ds2 [:a :b])
 
 
 (md "
@@ -3681,15 +3896,32 @@ ds2
 ")
 
 
-(api/left-join ds2 ds1 [:a :b])
+(tc/left-join ds2 ds1 [:a :b])
 
 
 (md "
+---
+")
+
+
+(tc/left-join ds1 ds2 {:left :a :right :e})
+
+
+(md "
+---
+")
+
+
+(tc/left-join ds2 ds1 {:left :e :right :a})
+
+
+(md "
+
 #### Right
 ")
 
 
-(api/right-join ds1 ds2 :b)
+(tc/right-join ds1 ds2 :b)
 
 
 (md "
@@ -3697,7 +3929,7 @@ ds2
 ")
 
 
-(api/right-join ds2 ds1 :b)
+(tc/right-join ds2 ds1 :b)
 
 
 (md "
@@ -3705,7 +3937,7 @@ ds2
 ")
 
 
-(api/right-join ds1 ds2 [:a :b])
+(tc/right-join ds1 ds2 [:a :b])
 
 
 (md "
@@ -3713,15 +3945,32 @@ ds2
 ")
 
 
-(api/right-join ds2 ds1 [:a :b])
+(tc/right-join ds2 ds1 [:a :b])
 
 
 (md "
+---
+")
+
+
+(tc/right-join ds1 ds2 {:left :a :right :e})
+
+
+(md "
+---
+")
+
+
+(tc/right-join ds2 ds1 {:left :e :right :a})
+
+
+(md "
+
 #### Inner
 ")
 
 
-(api/inner-join ds1 ds2 :b)
+(tc/inner-join ds1 ds2 :b)
 
 
 (md "
@@ -3729,7 +3978,7 @@ ds2
 ")
 
 
-(api/inner-join ds2 ds1 :b)
+(tc/inner-join ds2 ds1 :b)
 
 
 (md "
@@ -3737,7 +3986,7 @@ ds2
 ")
 
 
-(api/inner-join ds1 ds2 [:a :b])
+(tc/inner-join ds1 ds2 [:a :b])
 
 
 (md "
@@ -3745,7 +3994,23 @@ ds2
 ")
 
 
-(api/inner-join ds2 ds1 [:a :b])
+(tc/inner-join ds2 ds1 [:a :b])
+
+
+(md "
+---
+")
+
+
+(tc/inner-join ds1 ds2 {:left :a :right :e})
+
+
+(md "
+---
+")
+
+
+(tc/inner-join ds2 ds1 {:left :e :right :a})
 
 
 (md "
@@ -3755,7 +4020,7 @@ Join keeping all rows
 ")
 
 
-(api/full-join ds1 ds2 :b)
+(tc/full-join ds1 ds2 :b)
 
 
 (md "
@@ -3763,7 +4028,7 @@ Join keeping all rows
 ")
 
 
-(api/full-join ds2 ds1 :b)
+(tc/full-join ds2 ds1 :b)
 
 
 (md "
@@ -3771,7 +4036,7 @@ Join keeping all rows
 ")
 
 
-(api/full-join ds1 ds2 [:a :b])
+(tc/full-join ds1 ds2 [:a :b])
 
 
 (md "
@@ -3779,17 +4044,34 @@ Join keeping all rows
 ")
 
 
-(api/full-join ds2 ds1 [:a :b])
+(tc/full-join ds2 ds1 [:a :b])
 
 
 (md "
+---
+")
+
+
+(tc/full-join ds1 ds2 {:left :a :right :e})
+
+
+(md "
+---
+")
+
+
+(tc/full-join ds2 ds1 {:left :e :right :a})
+
+
+(md "
+
 #### Semi
 
 Return rows from ds1 matching ds2
 ")
 
 
-(api/semi-join ds1 ds2 :b)
+(tc/semi-join ds1 ds2 :b)
 
 
 (md "
@@ -3797,7 +4079,7 @@ Return rows from ds1 matching ds2
 ")
 
 
-(api/semi-join ds2 ds1 :b)
+(tc/semi-join ds2 ds1 :b)
 
 
 (md "
@@ -3805,7 +4087,7 @@ Return rows from ds1 matching ds2
 ")
 
 
-(api/semi-join ds1 ds2 [:a :b])
+(tc/semi-join ds1 ds2 [:a :b])
 
 
 (md "
@@ -3813,7 +4095,23 @@ Return rows from ds1 matching ds2
 ")
 
 
-(api/semi-join ds2 ds1 [:a :b])
+(tc/semi-join ds2 ds1 [:a :b])
+
+
+(md "
+---
+")
+
+
+(tc/semi-join ds1 ds2 {:left :a :right :e})
+
+
+(md "
+---
+")
+
+
+(tc/semi-join ds2 ds1 {:left :e :right :a})
 
 
 (md "
@@ -3823,7 +4121,7 @@ Return rows from ds1 not matching ds2
 ")
 
 
-(api/anti-join ds1 ds2 :b)
+(tc/anti-join ds1 ds2 :b)
 
 
 (md "
@@ -3831,7 +4129,7 @@ Return rows from ds1 not matching ds2
 ")
 
 
-(api/anti-join ds2 ds1 :b)
+(tc/anti-join ds2 ds1 :b)
 
 
 (md "
@@ -3839,7 +4137,7 @@ Return rows from ds1 not matching ds2
 ")
 
 
-(api/anti-join ds1 ds2 [:a :b])
+(tc/anti-join ds1 ds2 [:a :b])
 
 
 (md "
@@ -3847,17 +4145,94 @@ Return rows from ds1 not matching ds2
 ")
 
 
-(api/anti-join ds2 ds1 [:a :b])
+(tc/anti-join ds1 ds2 {:left :a :right :e})
 
 
-(md "#### asof
+(md "
+---
 ")
 
 
-(def left-ds (api/dataset {:a [1 5 10]
-                           :left-val ["a" "b" "c"]}))
-(def right-ds (api/dataset {:a [1 2 3 6 7]
-                            :right-val [:a :b :c :d :e]}))
+(tc/anti-join ds2 ds1 {:left :e :right :a})
+
+
+(md "
+#### Hashing
+
+When `:hashing` option is used, data from join columns are preprocessed by applying `join-columns` funtion with `:result-type` set to the value of `:hashing`. This helps to create custom joining behaviour. Function used for hashing will get vector of row values from join columns.
+
+In the following example we will join columns on value modulo 5.
+")
+
+
+(tc/left-join ds1 ds2 :b {:hashing (fn [[v]] (mod v 5))})
+
+
+(md "
+#### Cross
+
+Cross product from selected columns
+")
+
+
+(tc/cross-join ds1 ds2 [:a :b])
+
+
+(md "
+---
+")
+
+
+(tc/cross-join ds1 ds2 {:left [:a :b] :right :e})
+
+
+(md "
+#### Expand
+
+Similar to cross product but works on a single dataset.
+")
+
+
+(tc/expand ds2 :a :c :d)
+
+
+(md "
+---
+
+Columns can be also bundled (nested) in tuples which are treated as a single entity during cross product.
+")
+
+
+(tc/expand ds2 [:a :c] [:e :b])
+
+
+(md "
+#### Complete
+
+Same as expand with all other columns preserved (filled with missing values if necessary).
+")
+
+
+(tc/complete ds2 :a :c :d)
+
+
+(md "
+---
+")
+
+
+(tc/complete ds2 [:a :c] [:e :b])
+
+
+(md "
+#### asof
+")
+
+
+(def left-ds (tc/dataset {:a [1 5 10]
+                          :left-val ["a" "b" "c"]}))
+(def right-ds (tc/dataset {:a [1 2 3 6 7]
+                           :right-val [:a :b :c :d :e]}))
 
 
 
@@ -3870,19 +4245,19 @@ right-ds
 
 
 
-(api/asof-join left-ds right-ds :a)
+(tc/asof-join left-ds right-ds :a)
 
 
 
 
 
-(api/asof-join left-ds right-ds :a {:asof-op :nearest})
+(tc/asof-join left-ds right-ds :a {:asof-op :nearest})
 
 
 
 
 
-(api/asof-join left-ds right-ds :a {:asof-op :>=})
+(tc/asof-join left-ds right-ds :a {:asof-op :>=})
 
 
 (md "
@@ -3892,7 +4267,7 @@ right-ds
 ")
 
 
-(api/concat ds1)
+(tc/concat ds1)
 
 
 (md "
@@ -3902,7 +4277,7 @@ right-ds
 ")
 
 
-(api/concat-copying ds1)
+(tc/concat-copying ds1)
 
 
 (md "
@@ -3910,7 +4285,7 @@ right-ds
 ")
 
 
-(api/concat ds1 (api/drop-columns ds2 :d))
+(tc/concat ds1 (tc/drop-columns ds2 :d))
 
 
 (md "
@@ -3919,7 +4294,7 @@ right-ds
 
 
 ^:note-to-test/skip
-(apply api/concat (repeatedly 3 #(api/random DS)))
+(apply tc/concat (repeatedly 3 #(tc/random DS)))
 
 
 (md "
@@ -3929,8 +4304,8 @@ Concatenation of grouped datasets results also in grouped dataset.
 ")
 
 
-(api/concat (api/group-by DS [:V3])
-            (api/group-by DS [:V4]))
+(tc/concat (tc/group-by DS [:V3])
+           (tc/group-by DS [:V4]))
 
 
 (md "
@@ -3941,7 +4316,7 @@ The same as `concat` but returns unique rows
 ")
 
 
-(apply api/union (api/drop-columns ds2 :d) (repeat 10 ds1))
+(apply tc/union (tc/drop-columns ds2 :d) (repeat 10 ds1))
 
 
 (md "
@@ -3950,7 +4325,7 @@ The same as `concat` but returns unique rows
 
 
 ^:note-to-test/skip
-(apply api/union (repeatedly 10 #(api/random DS)))
+(apply tc/union (repeatedly 10 #(tc/random DS)))
 
 
 (md "
@@ -3960,7 +4335,7 @@ The same as `concat` but returns unique rows
 ")
 
 
-(api/bind ds1 ds2)
+(tc/bind ds1 ds2)
 
 
 (md "
@@ -3968,7 +4343,7 @@ The same as `concat` but returns unique rows
 ")
 
 
-(api/bind ds2 ds1)
+(tc/bind ds2 ds1)
 
 
 (md "
@@ -3978,7 +4353,7 @@ The same as `concat` but returns unique rows
 ")
 
 
-(api/append ds1 ds2)
+(tc/append ds1 ds2)
 
 
 (md "
@@ -3986,8 +4361,8 @@ The same as `concat` but returns unique rows
 ")
 
 
-(api/intersect (api/select-columns ds1 :b)
-               (api/select-columns ds2 :b))
+(tc/intersect (tc/select-columns ds1 :b)
+              (tc/select-columns ds2 :b))
 
 
 (md "
@@ -3995,8 +4370,8 @@ The same as `concat` but returns unique rows
 ")
 
 
-(api/difference (api/select-columns ds1 :b)
-                (api/select-columns ds2 :b))
+(tc/difference (tc/select-columns ds1 :b)
+               (tc/select-columns ds2 :b))
 
 
 (md "
@@ -4004,8 +4379,8 @@ The same as `concat` but returns unique rows
 ")
 
 
-(api/difference (api/select-columns ds2 :b)
-                (api/select-columns ds1 :b))
+(tc/difference (tc/select-columns ds2 :b)
+               (tc/select-columns ds1 :b))
 
 
 (md "
@@ -4041,11 +4416,12 @@ In case of grouped dataset each group is processed separately.
 See [more](https://www.mitpressjournals.org/doi/pdf/10.1162/EVCO_a_00069)
 ")
 
+
 ^:note-to-test/skip
-(def for-splitting (api/dataset (map-indexed (fn [id v] {:id id
-                                                         :partition v
-                                                         :group (rand-nth [:g1 :g2 :g3])})
-                                             (concat (repeat 20 :a) (repeat 5 :b)))))
+(def for-splitting (tc/dataset (map-indexed (fn [id v] {:id id
+                                                        :partition v
+                                                        :group (rand-nth [:g1 :g2 :g3])})
+                                            (concat (repeat 20 :a) (repeat 5 :b)))))
 
 
 
@@ -4064,8 +4440,8 @@ Returns `k=5` maps
 
 ^:note-to-test/skip
 (-> for-splitting
-    (api/split)
-    (api/head 30))
+    (tc/split)
+    (tc/head 30))
 
 
 (md "
@@ -4075,8 +4451,8 @@ Partition according to `:k` column to reflect it's distribution
 
 ^:note-to-test/skip
 (-> for-splitting
-    (api/split :kfold {:partition-selector :partition})
-    (api/head 30))
+    (tc/split :kfold {:partition-selector :partition})
+    (tc/head 30))
 
 
 (md "
@@ -4085,7 +4461,7 @@ Partition according to `:k` column to reflect it's distribution
 
 
 ^:note-to-test/skip
-(api/split for-splitting :bootstrap)
+(tc/split for-splitting :bootstrap)
 
 
 (md "
@@ -4095,7 +4471,7 @@ with repeats, to get 100 splits
 
 ^:note-to-test/skip
 (-> for-splitting
-    (api/split :bootstrap {:repeats 100})
+    (tc/split :bootstrap {:repeats 100})
     (:$split-id)
     (distinct)
     (count))
@@ -4109,7 +4485,7 @@ with small ratio
 
 
 ^:note-to-test/skip
-(api/split for-splitting :holdout {:ratio 0.2})
+(tc/split for-splitting :holdout {:ratio 0.2})
 
 
 (md "
@@ -4118,7 +4494,7 @@ you can split to more than two subdatasets with holdout
 
 
 ^:note-to-test/skip
-(api/split for-splitting :holdout {:ratio [0.1 0.2 0.3 0.15 0.25]})
+(tc/split for-splitting :holdout {:ratio [0.1 0.2 0.3 0.15 0.25]})
 
 
 (md "
@@ -4127,8 +4503,8 @@ you can use also proportions with custom names
 
 
 ^:note-to-test/skip
-(api/split for-splitting :holdout {:ratio [5 3 11 2]
-                                   :split-names ["small" "smaller" "big" "the rest"]})
+(tc/split for-splitting :holdout {:ratio [5 3 11 2]
+                                  :split-names ["small" "smaller" "big" "the rest"]})
 
 
 (md "
@@ -4139,9 +4515,9 @@ With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with
 
 
 ^:note-to-test/skip
-(-> (api/split for-splitting :holdouts {:steps [0.05 0.95 1.5]
-                                        :shuffle? false})
-    (api/group-by [:$split-id :$split-name]))
+(-> (tc/split for-splitting :holdouts {:steps [0.05 0.95 1.5]
+                                       :shuffle? false})
+    (tc/group-by [:$split-id :$split-name]))
 
 
 (md "
@@ -4152,8 +4528,8 @@ With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with
 
 ^:note-to-test/skip
 (-> for-splitting
-    (api/split :loo)
-    (api/head 30))
+    (tc/split :loo)
+    (tc/head 30))
 
 
 
@@ -4161,8 +4537,8 @@ With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with
 
 ^:note-to-test/skip
 (-> for-splitting
-    (api/split :loo)
-    (api/row-count))
+    (tc/split :loo)
+    (tc/row-count))
 
 
 (md "
@@ -4172,8 +4548,8 @@ With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with
 
 ^:note-to-test/skip
 (-> for-splitting
-    (api/group-by :group)
-    (api/split :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8}))
+    (tc/group-by :group)
+    (tc/split :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8}))
 
 
 (md "
@@ -4185,7 +4561,7 @@ To get a sequence of pairs, use `split->seq` function
 
 ^:note-to-test/skip
 (-> for-splitting
-    (api/split->seq :kfold {:partition-selector :partition})
+    (tc/split->seq :kfold {:partition-selector :partition})
     (first))
 
 
@@ -4194,8 +4570,8 @@ To get a sequence of pairs, use `split->seq` function
 
 ^:note-to-test/skip
 (-> for-splitting
-    (api/group-by :group)
-    (api/split->seq :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8 :repeats 2})
+    (tc/group-by :group)
+    (tc/split->seq :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8 :repeats 2})
     (first))
 
 
@@ -4210,98 +4586,9 @@ There are two ways to create pipelines:
 * declarative, separating task declarations and concrete parametrization.
 
 Pipeline operations are prepared to work with [metamorph](https://github.com/scicloj/metamorph) library. That means that result of the pipeline is wrapped into a map and dataset is stored under `:metamorph/data` key.
-")
 
+> **Warning: Duplicated `metamorph` pipeline functions are removed from `tablecloth.pipeline` namespace.**
 
-(require '[tablecloth.pipeline :as pip])
-
-
-(md "
-### Functional
-
-To create composable function, call API function but defined in `tablecloth.pipeline` namespace and without `ds` argument.
-")
-
-
-(pip/select-columns :type/numerical)
-
-
-(md "
-Calling such function on a dataset gives a requested result.
-")
-
-
-((pip/select-columns :type/numerical) DS)
-
-
-(md "
-Pipeline functions can be composed using a `comp` function or `pipeline`. The latter is just reversed `comp` to create the order from first operation to last.
-")
-
-
-(let [p (pip/pipeline (pip/group-by :V1)
-                      (pip/fold-by :V4)
-                      (pip/ungroup))]
-  (p DS))
-
-
-(md "
-### Declarative
-
-To create a pipeline declarative way you can use `->pipeline` function and apply sequence of definition. Definition is simple a sequence where on the first position name of the operation is passed as a keyword, a symbol or var. The rest are operation parameters which are mostly the same as when calling a function.
-
-To help keeping pipeline declaration as a pure data structure you can use namespaced keywords to create reference to defined symbols. The special `ctx` namespace is used to refer to a values stored in an optional map passed as an argument to `->pipeline`.
-
-You can't used `type` and `!type` namespaces for a symbol reference, because they are reserved for column type selectors.
-")
-
-
-(def pipeline-declaration [[:pip/group-by :V1]
-                           [:pip/unique-by ::unique-by-operation {:strategy :ctx/strategy}]
-                           [:pip/ungroup {:add-group-as-column :from-V1}]])
-
-(def unique-by-operation (fn [m] (mod (:V2 m) 3)))
-
-(def pipeline-1 (pip/->pipeline {:strategy vec} pipeline-declaration))
-(def pipeline-2 (pip/->pipeline {:strategy set} pipeline-declaration))
-
-
-
-
-
-(pipeline-1 DS)
-
-
-
-
-
-(pipeline-2 DS)
-
-
-(md "
-### Custom operator
-
-Custom pipeline operator is just function which returns another function operating on a dataset. If you want it to work with `metamorph` you have to use `metamorph/lift` function.
-")
-
-
-(defn duplicate-columns
-  [column-selector]
-  (fn [ds]
-    (let [column-names (api/column-names ds column-selector)]
-      (reduce (fn [d n]
-                (api/add-column d (str n "-copy") (d n))) ds column-names))))
-
-(def pipeline (pip/->pipeline [[::duplicate-columns :type/numerical]]))
-
-
-
-
-
-(pipeline DS)
-
-
-(md "
 ## Functions
 
 This API doesn't provide any statistical, numerical or date/time functions. Use below namespaces:
@@ -4317,7 +4604,7 @@ This API doesn't provide any statistical, numerical or date/time functions. Use 
 ")
 
 
-(defonce stocks (api/dataset "https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv" {:key-fn keyword}))
+(defonce stocks (tc/dataset "https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv" {:key-fn keyword}))
 
 
 
@@ -4330,20 +4617,20 @@ stocks
 
 
 (-> stocks
-    (api/group-by (fn [row]
+    (tc/group-by (fn [row]
                     {:symbol (:symbol row)
                      :year (tech.v3.datatype.datetime/long-temporal-field :years (:date row))}))
-    (api/aggregate #(tech.v3.datatype.functional/mean (% :price)))
-    (api/order-by [:symbol :year]))
+    (tc/aggregate #(tech.v3.datatype.functional/mean (% :price)))
+    (tc/order-by [:symbol :year]))
 
 
 
 
 
 (-> stocks
-    (api/group-by (juxt :symbol #(tech.v3.datatype.datetime/long-temporal-field :years (% :date))))
-    (api/aggregate #(tech.v3.datatype.functional/mean (% :price)))
-    (api/rename-columns {:$group-name-0 :symbol
+    (tc/group-by (juxt :symbol #(tech.v3.datatype.datetime/long-temporal-field :years (% :date))))
+    (tc/aggregate #(tech.v3.datatype.functional/mean (% :price)))
+    (tc/rename-columns {:$group-name-0 :symbol
                          :$group-name-1 :year}))
 
 
@@ -4375,13 +4662,13 @@ Clojure
          '[tech.v3.datatype.argops :as aops]
          '[tech.v3.datatype :as dtype])
 
-(defonce flights (api/dataset "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"))
+(defonce flights (tc/dataset "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"))
 
 
 
 
 
-(api/head flights 6)
+(tc/head flights 6)
 
 
 (md "
@@ -4401,7 +4688,7 @@ Clojure
 ")
 
 
-(api/shape flights)
+(tc/shape flights)
 
 
 (md "
@@ -4428,7 +4715,7 @@ Clojure
 ")
 
 
-(def DT (api/dataset {:ID ["b" "b" "b" "a" "a" "c"]
+(def DT (tc/dataset {:ID ["b" "b" "b" "a" "a" "c"]
                       :a (range 1 7)
                       :b (range 7 13)
                       :c (range 13 19)}))
@@ -4463,9 +4750,9 @@ Clojure
 
 
 (-> flights
-    (api/select-rows (fn [row] (and (= (get row "origin") "JFK")
-                                    (= (get row "month") 6))))
-    (api/head 6))
+    (tc/select-rows (fn [row] (and (= (get row "origin") "JFK")
+                                   (= (get row "month") 6))))
+    (tc/head 6))
 
 
 (md "
@@ -4484,7 +4771,7 @@ Clojure
 ")
 
 
-(api/select-rows flights (range 2))
+(tc/select-rows flights (range 2))
 
 
 (md "
@@ -4504,8 +4791,8 @@ Clojure
 
 
 (-> flights
-    (api/order-by ["origin" "dest"] [:asc :desc])
-    (api/head 6))
+    (tc/order-by ["origin" "dest"] [:asc :desc])
+    (tc/head 6))
 
 
 (md "
@@ -4544,8 +4831,8 @@ Clojure
 
 
 (-> flights
-    (api/select-columns "arr_delay")
-    (api/head 6))
+    (tc/select-columns "arr_delay")
+    (tc/head 6))
 
 
 (md "
@@ -4565,8 +4852,8 @@ Clojure
 
 
 (-> flights
-    (api/select-columns ["arr_delay" "dep_delay"])
-    (api/head 6))
+    (tc/select-columns ["arr_delay" "dep_delay"])
+    (tc/head 6))
 
 
 (md "
@@ -4586,9 +4873,9 @@ Clojure
 
 
 (-> flights
-    (api/select-columns {"arr_delay" "delay_arr"
+    (tc/select-columns {"arr_delay" "delay_arr"
                          "dep_delay" "delay_arr"})
-    (api/head 6))
+    (tc/head 6))
 
 
 (md "
@@ -4640,9 +4927,9 @@ Clojure
 
 
 (-> flights
-    (api/select-rows (fn [row] (and (= (get row "origin") "JFK")
-                                    (= (get row "month") 6))))
-    (api/aggregate {:m_arr #(dfn/mean (% "arr_delay"))
+    (tc/select-rows (fn [row] (and (= (get row "origin") "JFK")
+                                   (= (get row "month") 6))))
+    (tc/aggregate {:m_arr #(dfn/mean (% "arr_delay"))
                     :m_dep #(dfn/mean (% "dep_delay"))}))
 
 
@@ -4670,9 +4957,9 @@ Clojure
 
 
 (-> flights
-    (api/select-rows (fn [row] (and (= (get row "origin") "JFK")
-                                    (= (get row "month") 6))))
-    (api/row-count))
+    (tc/select-rows (fn [row] (and (= (get row "origin") "JFK")
+                                   (= (get row "month") 6))))
+    (tc/row-count))
 
 
 (md "
@@ -4699,8 +4986,8 @@ Clojure
 
 
 (-> flights
-    (api/select-columns (complement #{"arr_delay" "dep_delay"}))
-    (api/head 6))
+    (tc/select-columns (complement #{"arr_delay" "dep_delay"}))
+    (tc/head 6))
 
 
 (md "
@@ -4722,8 +5009,8 @@ Clojure
 
 
 (-> flights
-    (api/group-by ["origin"])
-    (api/aggregate {:N api/row-count}))
+    (tc/group-by ["origin"])
+    (tc/aggregate {:N tc/row-count}))
 
 
 (md "
@@ -4743,9 +5030,9 @@ Clojure
 
 
 (-> flights
-    (api/select-rows #(= (get % "carrier") "AA"))
-    (api/group-by ["origin"])
-    (api/aggregate {:N api/row-count}))
+    (tc/select-rows #(= (get % "carrier") "AA"))
+    (tc/group-by ["origin"])
+    (tc/aggregate {:N tc/row-count}))
 
 
 (md "
@@ -4765,10 +5052,10 @@ Clojure
 
 
 (-> flights
-    (api/select-rows #(= (get % "carrier") "AA"))
-    (api/group-by ["origin" "dest"])
-    (api/aggregate {:N api/row-count})
-    (api/head 6))
+    (tc/select-rows #(= (get % "carrier") "AA"))
+    (tc/group-by ["origin" "dest"])
+    (tc/aggregate {:N tc/row-count})
+    (tc/head 6))
 
 
 (md "
@@ -4790,11 +5077,11 @@ Clojure
 
 
 (-> flights
-    (api/select-rows #(= (get % "carrier") "AA"))
-    (api/group-by ["origin" "dest" "month"])
-    (api/aggregate [#(dfn/mean (% "arr_delay"))
+    (tc/select-rows #(= (get % "carrier") "AA"))
+    (tc/group-by ["origin" "dest" "month"])
+    (tc/aggregate [#(dfn/mean (% "arr_delay"))
                     #(dfn/mean (% "dep_delay"))])
-    (api/head 10))
+    (tc/head 10))
 
 
 (md "
@@ -4816,12 +5103,12 @@ Clojure
 
 
 (-> flights
-    (api/select-rows #(= (get % "carrier") "AA"))
-    (api/group-by ["origin" "dest" "month"])
-    (api/aggregate [#(dfn/mean (% "arr_delay"))
+    (tc/select-rows #(= (get % "carrier") "AA"))
+    (tc/group-by ["origin" "dest" "month"])
+    (tc/aggregate [#(dfn/mean (% "arr_delay"))
                     #(dfn/mean (% "dep_delay"))])
-    (api/order-by ["origin" "dest" "month"])
-    (api/head 10))
+    (tc/order-by ["origin" "dest" "month"])
+    (tc/head 10))
 
 
 (md "
@@ -4841,10 +5128,10 @@ Clojure
 
 
 (-> flights
-    (api/group-by (fn [row]
+    (tc/group-by (fn [row]
                     {:dep_delay (pos? (get row "dep_delay"))
                      :arr_delay (pos? (get row "arr_delay"))}))
-    (api/aggregate {:N api/row-count}))
+    (tc/aggregate {:N tc/row-count}))
 
 
 (md "
@@ -4870,15 +5157,15 @@ Clojure
 
 DT
 
-(api/group-by DT :ID {:result-type :as-map})
+(tc/group-by DT :ID {:result-type :as-map})
 
 
 
 
 
 (-> DT
-    (api/group-by [:ID])
-    (api/aggregate-columns (complement #{:ID}) dfn/mean))
+    (tc/group-by [:ID])
+    (tc/aggregate-columns (complement #{:ID}) dfn/mean))
 
 
 (md "
@@ -4900,10 +5187,10 @@ Clojure
 
 
 (-> flights
-    (api/select-rows #(= (get % "carrier") "AA"))
-    (api/group-by ["origin" "dest" "month"])
-    (api/aggregate-columns ["arr_delay" "dep_delay"] dfn/mean)
-    (api/head 6))
+    (tc/select-rows #(= (get % "carrier") "AA"))
+    (tc/group-by ["origin" "dest" "month"])
+    (tc/aggregate-columns ["arr_delay" "dep_delay"] dfn/mean)
+    (tc/head 6))
 
 
 (md "
@@ -4923,10 +5210,10 @@ Clojure
 
 
 (-> flights
-    (api/group-by ["month"])
-    (api/head 2) ;; head applied on each group
-    (api/ungroup)
-    (api/head 6))
+    (tc/group-by ["month"])
+    (tc/head 2) ;; head applied on each group
+    (tc/ungroup)
+    (tc/head 6))
 
 
 (md "
@@ -4945,8 +5232,8 @@ Clojure
 
 
 (-> DT
-    (api/pivot->longer [:a :b] {:value-column-name :val})
-    (api/drop-columns [:$column :c]))
+    (tc/pivot->longer [:a :b] {:value-column-name :val})
+    (tc/drop-columns [:$column :c]))
 
 
 (md "
@@ -4965,9 +5252,9 @@ Clojure
 
 
 (-> DT
-    (api/pivot->longer [:a :b] {:value-column-name :val})
-    (api/drop-columns [:$column :c])
-    (api/fold-by :ID))
+    (tc/pivot->longer [:a :b] {:value-column-name :val})
+    (tc/drop-columns [:$column :c])
+    (tc/fold-by :ID))
 
 
 (md "
@@ -4981,7 +5268,7 @@ Example data
 ")
 
 
-(def DS (api/dataset {:V1 (take 9 (cycle [1 2]))
+(def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
                       :V2 (range 1 10)
                       :V3 (take 9 (cycle [0.5 1.0 1.5]))
                       :V4 (take 9 (cycle ["A" "B" "C"]))}))
@@ -4990,7 +5277,7 @@ Example data
 
 
 
-(api/dataset? DS)
+(tc/dataset? DS)
 (class DS)
 
 
@@ -5009,7 +5296,7 @@ Filter rows using indices
 ")
 
 
-(api/select-rows DS [2 3])
+(tc/select-rows DS [2 3])
 
 
 (md "
@@ -5021,7 +5308,7 @@ In Clojure API we have separate function for that: `drop-rows`.
 ")
 
 
-(api/drop-rows DS (range 2 7))
+(tc/drop-rows DS (range 2 7))
 
 
 (md "
@@ -5031,13 +5318,13 @@ Filter rows using a logical expression
 ")
 
 
-(api/select-rows DS (comp #(> % 5) :V2))
+(tc/select-rows DS (comp #(> % 5) :V2))
 
 
 
 
 
-(api/select-rows DS (comp #{"A" "C"} :V4))
+(tc/select-rows DS (comp #{"A" "C"} :V4))
 
 
 (md "
@@ -5047,7 +5334,7 @@ Filter rows using multiple conditions
 ")
 
 
-(api/select-rows DS #(and (= (:V1 %) 1)
+(tc/select-rows DS #(and (= (:V1 %) 1)
                           (= (:V4 %) "A")))
 
 
@@ -5058,13 +5345,13 @@ Filter unique rows
 ")
 
 
-(api/unique-by DS)
+(tc/unique-by DS)
 
 
 
 
 
-(api/unique-by DS [:V1 :V4])
+(tc/unique-by DS [:V1 :V4])
 
 
 (md "
@@ -5074,7 +5361,7 @@ Discard rows with missing values
 ")
 
 
-(api/drop-missing DS)
+(tc/drop-missing DS)
 
 
 (md "
@@ -5085,20 +5372,20 @@ Other filters
 
 
 ^:note-to-test/skip
-(api/random DS 3) ;; 3 random rows
+(tc/random DS 3) ;; 3 random rows
 
 
 
 
 
 ^:note-to-test/skip
-(api/random DS (/ (api/row-count DS) 2)) ;; fraction of random rows
+(tc/random DS (/ (tc/row-count DS) 2)) ;; fraction of random rows
 
 
 
 
 
-(api/by-rank DS :V1 zero?) ;; take top n entries
+(tc/by-rank DS :V1 zero?) ;; take top n entries
 
 
 (md "
@@ -5108,25 +5395,25 @@ Convenience functions
 ")
 
 
-(api/select-rows DS (comp (partial re-matches #"^B") str :V4))
+(tc/select-rows DS (comp (partial re-matches #"^B") str :V4))
 
 
 
 
 
-(api/select-rows DS (comp #(<= 3 % 5) :V2))
+(tc/select-rows DS (comp #(<= 3 % 5) :V2))
 
 
 
 
 
-(api/select-rows DS (comp #(< 3 % 5) :V2))
+(tc/select-rows DS (comp #(< 3 % 5) :V2))
 
 
 
 
 
-(api/select-rows DS (comp #(<= 3 % 5) :V2))
+(tc/select-rows DS (comp #(<= 3 % 5) :V2))
 
 
 (md "
@@ -5138,7 +5425,7 @@ Sort rows by column
 ")
 
 
-(api/order-by DS :V3)
+(tc/order-by DS :V3)
 
 
 (md "
@@ -5148,7 +5435,7 @@ Sort rows in decreasing order
 ")
 
 
-(api/order-by DS :V3 :desc)
+(tc/order-by DS :V3 :desc)
 
 
 (md "
@@ -5158,7 +5445,7 @@ Sort rows based on several columns
 ")
 
 
-(api/order-by DS [:V1 :V2] [:asc :desc])
+(tc/order-by DS [:V1 :V2] [:asc :desc])
 
 
 (md "
@@ -5168,13 +5455,13 @@ Select one column using an index (not recommended)
 ")
 
 
-(nth (api/columns DS :as-seq) 2) ;; as column (iterable)
+(nth (tc/columns DS :as-seq) 2) ;; as column (iterable)
 
 
 
 
 
-(api/dataset [(nth (api/columns DS :as-seq) 2)])
+(tc/dataset [(nth (tc/columns DS :as-seq) 2)])
 
 
 (md "
@@ -5184,13 +5471,13 @@ Select one column using column name
 ")
 
 
-(api/select-columns DS :V2) ;; as dataset
+(tc/select-columns DS :V2) ;; as dataset
 
 
 
 
 
-(api/select-columns DS [:V2]) ;; as dataset
+(tc/select-columns DS [:V2]) ;; as dataset
 
 
 
@@ -5206,7 +5493,7 @@ Select several columns
 ")
 
 
-(api/select-columns DS [:V2 :V3 :V4])
+(tc/select-columns DS [:V2 :V3 :V4])
 
 
 (md "
@@ -5216,13 +5503,13 @@ Exclude columns
 ")
 
 
-(api/select-columns DS (complement #{:V2 :V3 :V4}))
+(tc/select-columns DS (complement #{:V2 :V3 :V4}))
 
 
 
 
 
-(api/drop-columns DS [:V2 :V3 :V4])
+(tc/drop-columns DS [:V2 :V3 :V4])
 
 
 (md "
@@ -5234,43 +5521,43 @@ Other seletions
 
 (->> (range 1 3)
      (map (comp keyword (partial format "V%d")))
-     (api/select-columns DS))
+     (tc/select-columns DS))
 
 
 
 
 
-(api/reorder-columns DS :V4)
+(tc/reorder-columns DS :V4)
 
 
 
 
 
-(api/select-columns DS #(clojure.string/starts-with? (name %) "V"))
+(tc/select-columns DS #(clojure.string/starts-with? (name %) "V"))
 
 
 
 
 
-(api/select-columns DS #(clojure.string/ends-with? (name %) "3"))
+(tc/select-columns DS #(clojure.string/ends-with? (name %) "3"))
 
 
 
 
 
-(api/select-columns DS #"..2") ;; regex converts to string using `str` function
+(tc/select-columns DS #"..2") ;; regex converts to string using `str` function
 
 
 
 
 
-(api/select-columns DS #{:V1 "X"})
+(tc/select-columns DS #{:V1 "X"})
 
 
 
 
 
-(api/select-columns DS #(not (clojure.string/starts-with? (name %) "V2")))
+(tc/select-columns DS #(not (clojure.string/starts-with? (name %) "V2")))
 
 
 (md "
@@ -5286,13 +5573,13 @@ Summarise one column
 
 
 
-(api/aggregate-columns DS :V1 dfn/sum) ;; as dataset
+(tc/aggregate-columns DS :V1 dfn/sum) ;; as dataset
 
 
 
 
 
-(api/aggregate DS {:sumV1 #(dfn/sum (% :V1))})
+(tc/aggregate DS {:sumV1 #(dfn/sum (% :V1))})
 
 
 (md "
@@ -5302,14 +5589,14 @@ Summarize several columns
 ")
 
 
-(api/aggregate DS [#(dfn/sum (% :V1))
+(tc/aggregate DS [#(dfn/sum (% :V1))
                    #(dfn/standard-deviation (% :V3))])
 
 
 
 
 
-(api/aggregate-columns DS [:V1 :V3] [dfn/sum
+(tc/aggregate-columns DS [:V1 :V3] [dfn/sum
                                      dfn/standard-deviation])
 
 
@@ -5321,7 +5608,7 @@ Summarise several columns and assign column names
 ")
 
 
-(api/aggregate DS {:sumv1 #(dfn/sum (% :V1))
+(tc/aggregate DS {:sumv1 #(dfn/sum (% :V1))
                    :sdv3 #(dfn/standard-deviation (% :V3))})
 
 
@@ -5333,8 +5620,8 @@ Summarise a subset of rows
 
 
 (-> DS
-    (api/select-rows (range 4))
-    (api/aggregate-columns :V1 dfn/sum))
+    (tc/select-rows (range 4))
+    (tc/aggregate-columns :V1 dfn/sum))
 
 
 (md "
@@ -5344,39 +5631,39 @@ Summarise a subset of rows
 
 
 (-> DS
-    (api/first)
-    (api/select-columns :V3)) ;; select first row from `:V3` column
+    (tc/first)
+    (tc/select-columns :V3)) ;; select first row from `:V3` column
 
 
 
 
 
 (-> DS
-    (api/last)
-    (api/select-columns :V3)) ;; select last row from `:V3` column
+    (tc/last)
+    (tc/select-columns :V3)) ;; select last row from `:V3` column
 
 
 
 
 
 (-> DS
-    (api/select-rows 4)
-    (api/select-columns :V3)) ;; select forth row from `:V3` column
+    (tc/select-rows 4)
+    (tc/select-columns :V3)) ;; select forth row from `:V3` column
 
 
 
 
 
 (-> DS
-    (api/select :V3 4)) ;; select forth row from `:V3` column
+    (tc/select :V3 4)) ;; select forth row from `:V3` column
 
 
 
 
 
 (-> DS
-    (api/unique-by :V4)
-    (api/aggregate api/row-count)) ;; number of unique rows in `:V4` column, as dataset
+    (tc/unique-by :V4)
+    (tc/aggregate tc/row-count)) ;; number of unique rows in `:V4` column, as dataset
 
 
 (md "
@@ -5384,16 +5671,16 @@ Summarise a subset of rows
 
 
 (-> DS
-    (api/unique-by :V4)
-    (api/row-count)) ;; number of unique rows in `:V4` column, as value
+    (tc/unique-by :V4)
+    (tc/row-count)) ;; number of unique rows in `:V4` column, as value
 
 
 
 
 
 (-> DS
-    (api/unique-by)
-    (api/row-count)) ;; number of unique rows in dataset, as value
+    (tc/unique-by)
+    (tc/row-count)) ;; number of unique rows in dataset, as value
 
 
 (md "
@@ -5403,13 +5690,13 @@ Modify a column
 ")
 
 
-(api/map-columns DS :V1 [:V1] #(dfn/pow % 2))
+(tc/map-columns DS :V1 [:V1] #(dfn/pow % 2))
 
 
 
 
 
-(def DS (api/add-column DS :V1 (dfn/pow (DS :V1) 2)))
+(def DS (tc/add-column DS :V1 (dfn/pow (DS :V1) 2)))
 
 
 
@@ -5425,13 +5712,13 @@ Add one column
 ")
 
 
-(api/map-columns DS :v5 [:V1] dfn/log)
+(tc/map-columns DS :v5 [:V1] dfn/log)
 
 
 
 
 
-(def DS (api/add-column DS :v5 (dfn/log (DS :V1))))
+(def DS (tc/add-column DS :v5 (dfn/log (DS :V1))))
 
 
 
@@ -5447,8 +5734,8 @@ Add several columns
 ")
 
 
-(def DS (api/add-columns DS {:v6 (dfn/sqrt (DS :V1))
-                             :v7 "X"}))
+(def DS (tc/add-columns DS {:v6 (dfn/sqrt (DS :V1))
+                                       :v7 "X"}))
 
 
 
@@ -5464,7 +5751,7 @@ Create one column and remove the others
 ")
 
 
-(api/dataset {:v8 (dfn/+ (DS :V3) 1)})
+(tc/dataset {:v8 (dfn/+ (DS :V3) 1)})
 
 
 (md "
@@ -5474,7 +5761,7 @@ Remove one column
 ")
 
 
-(def DS (api/drop-columns DS :v5))
+(def DS (tc/drop-columns DS :v5))
 
 
 
@@ -5490,7 +5777,7 @@ Remove several columns
 ")
 
 
-(def DS (api/drop-columns DS [:v6 :v7]))
+(def DS (tc/drop-columns DS [:v6 :v7]))
 
 
 
@@ -5508,7 +5795,7 @@ We use set here.
 ")
 
 
-(def DS (api/select-columns DS (complement #{:V3})))
+(def DS (tc/select-columns DS (complement #{:V3})))
 
 
 
@@ -5524,7 +5811,7 @@ Replace values for rows matching a condition
 ")
 
 
-(def DS (api/map-columns DS :V2 [:V2] #(if (< % 4.0) 0.0 %)))
+(def DS (tc/map-columns DS :V2 [:V2] #(if (< % 4.0) 0.0 %)))
 
 
 
@@ -5541,8 +5828,8 @@ By group
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/aggregate {:sumV2 #(dfn/sum (% :V2))}))
+    (tc/group-by [:V4])
+    (tc/aggregate {:sumV2 #(dfn/sum (% :V2))}))
 
 
 (md "
@@ -5553,8 +5840,8 @@ By several groups
 
 
 (-> DS
-    (api/group-by [:V4 :V1])
-    (api/aggregate {:sumV2 #(dfn/sum (% :V2))}))
+    (tc/group-by [:V4 :V1])
+    (tc/aggregate {:sumV2 #(dfn/sum (% :V2))}))
 
 
 (md "
@@ -5565,9 +5852,9 @@ Calling function in by
 
 
 (-> DS
-    (api/group-by (fn [row]
+    (tc/group-by (fn [row]
                     (clojure.string/lower-case (:V4 row))))
-    (api/aggregate {:sumV1 #(dfn/sum (% :V1))}))
+    (tc/aggregate {:sumV1 #(dfn/sum (% :V1))}))
 
 
 (md "
@@ -5578,18 +5865,18 @@ Assigning column name in by
 
 
 (-> DS
-    (api/group-by (fn [row]
+    (tc/group-by (fn [row]
                     {:abc (clojure.string/lower-case (:V4 row))}))
-    (api/aggregate {:sumV1 #(dfn/sum (% :V1))}))
+    (tc/aggregate {:sumV1 #(dfn/sum (% :V1))}))
 
 
 
 
 
 (-> DS
-    (api/group-by (fn [row]
+    (tc/group-by (fn [row]
                     (clojure.string/lower-case (:V4 row))))
-    (api/aggregate {:sumV1 #(dfn/sum (% :V1))} {:add-group-as-column :abc}))
+    (tc/aggregate {:sumV1 #(dfn/sum (% :V1))} {:add-group-as-column :abc}))
 
 
 (md "
@@ -5600,8 +5887,8 @@ Using a condition in by
 
 
 (-> DS
-    (api/group-by #(= (:V4 %) "A"))
-    (api/aggregate #(dfn/sum (% :V1))))
+    (tc/group-by #(= (:V4 %) "A"))
+    (tc/aggregate #(dfn/sum (% :V1))))
 
 
 (md "
@@ -5612,9 +5899,9 @@ By on a subset of rows
 
 
 (-> DS
-    (api/select-rows (range 5))
-    (api/group-by :V4)
-    (api/aggregate {:sumV1 #(dfn/sum (% :V1))}))
+    (tc/select-rows (range 5))
+    (tc/group-by :V4)
+    (tc/aggregate {:sumV1 #(dfn/sum (% :V1))}))
 
 
 (md "
@@ -5625,8 +5912,8 @@ Count number of observations for each group
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/aggregate api/row-count))
+    (tc/group-by :V4)
+    (tc/aggregate tc/row-count))
 
 
 (md "
@@ -5637,9 +5924,9 @@ Add a column with number of observations for each group
 
 
 (-> DS
-    (api/group-by [:V1])
-    (api/add-column :n api/row-count)
-    (api/ungroup))
+    (tc/group-by [:V1])
+    (tc/add-column :n tc/row-count)
+    (tc/ungroup))
 
 
 (md "
@@ -5650,24 +5937,24 @@ Retrieve the first/last/nth observation for each group
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/aggregate-columns :V2 first))
+    (tc/group-by [:V4])
+    (tc/aggregate-columns :V2 first))
 
 
 
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/aggregate-columns :V2 last))
+    (tc/group-by [:V4])
+    (tc/aggregate-columns :V2 last))
 
 
 
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/aggregate-columns :V2 #(nth % 1)))
+    (tc/group-by [:V4])
+    (tc/aggregate-columns :V2 #(nth % 1)))
 
 
 (md "
@@ -5680,7 +5967,7 @@ Summarise all the columns
 
 
 ;; custom max function which works on every type
-(api/aggregate-columns DS :all (fn [col] (first (sort #(compare %2 %1) col))))
+(tc/aggregate-columns DS :all (fn [col] (first (sort #(compare %2 %1) col))))
 
 
 (md "
@@ -5690,7 +5977,7 @@ Summarise several columns
 ")
 
 
-(api/aggregate-columns DS [:V1 :V2] dfn/mean)
+(tc/aggregate-columns DS [:V1 :V2] dfn/mean)
 
 
 (md "
@@ -5701,8 +5988,8 @@ Summarise several columns by group
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/aggregate-columns [:V1 :V2] dfn/mean))
+    (tc/group-by [:V4])
+    (tc/aggregate-columns [:V1 :V2] dfn/mean))
 
 
 (md "
@@ -5713,8 +6000,8 @@ Summarise with more than one function by group
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/aggregate-columns [:V1 :V2] (fn [col]
+    (tc/group-by [:V4])
+    (tc/aggregate-columns [:V1 :V2] (fn [col]
                                        {:sum (dfn/sum col)
                                         :mean (dfn/mean col)})))
 
@@ -5725,8 +6012,8 @@ Summarise using a condition
 
 
 (-> DS
-    (api/select-columns :type/numerical)
-    (api/aggregate-columns :all dfn/mean))
+    (tc/select-columns :type/numerical)
+    (tc/aggregate-columns :all dfn/mean))
 
 
 (md "
@@ -5736,7 +6023,7 @@ Modify all the columns
 ")
 
 
-(api/update-columns DS :all reverse)
+(tc/update-columns DS :all reverse)
 
 
 (md "
@@ -5747,16 +6034,16 @@ Modify several columns (dropping the others)
 
 
 (-> DS
-    (api/select-columns [:V1 :V2])
-    (api/update-columns :all dfn/sqrt))
+    (tc/select-columns [:V1 :V2])
+    (tc/update-columns :all dfn/sqrt))
 
 
 
 
 
 (-> DS
-    (api/select-columns (complement #{:V4}))
-    (api/update-columns :all dfn/exp))
+    (tc/select-columns (complement #{:V4}))
+    (tc/update-columns :all dfn/exp))
 
 
 (md "
@@ -5766,7 +6053,7 @@ Modify several columns (keeping the others)
 ")
 
 
-(def DS (api/update-columns DS [:V1 :V2] dfn/sqrt))
+(def DS (tc/update-columns DS [:V1 :V2] dfn/sqrt))
 
 
 
@@ -5778,7 +6065,7 @@ DS
 
 
 
-(def DS (api/update-columns DS (complement #{:V4}) #(dfn/pow % 2)))
+(def DS (tc/update-columns DS (complement #{:V4}) #(dfn/pow % 2)))
 
 
 
@@ -5795,8 +6082,8 @@ Modify columns using a condition (dropping the others)
 
 
 (-> DS
-    (api/select-columns :type/numerical)
-    (api/update-columns :all #(dfn/- % 1)))
+    (tc/select-columns :type/numerical)
+    (tc/update-columns :all #(dfn/- % 1)))
 
 
 (md "
@@ -5806,7 +6093,7 @@ Modify columns using a condition (keeping the others)
 ")
 
 
-(def DS (api/convert-types DS :type/numerical :int32))
+(def DS (tc/convert-types DS :type/numerical :int32))
 
 
 
@@ -5823,10 +6110,10 @@ Use a complex expression
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/head 2)
-    (api/add-column :V2 "X")
-    (api/ungroup))
+    (tc/group-by [:V4])
+    (tc/head 2)
+    (tc/add-column :V2 "X")
+    (tc/ungroup))
 
 
 (md "
@@ -5836,10 +6123,10 @@ Use multiple expressions
 ")
 
 
-(api/dataset (let [x (dfn/+ (DS :V1) (dfn/sum (DS :V2)))]
+(tc/dataset (let [x (dfn/+ (DS :V1) (dfn/sum (DS :V2)))]
                (println (seq (DS :V1)))
-               (println (api/info (api/select-columns DS :V1)))
-               {:A (range 1 (inc (api/row-count DS)))
+               (println (tc/info (tc/select-columns DS :V1)))
+               {:A (range 1 (inc (tc/row-count DS)))
                 :B x}))
 
 
@@ -5851,18 +6138,18 @@ Expression chaining using >
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/aggregate {:V1sum #(dfn/sum (% :V1))})
-    (api/select-rows #(>= (:V1sum %) 5)))
+    (tc/group-by [:V4])
+    (tc/aggregate {:V1sum #(dfn/sum (% :V1))})
+    (tc/select-rows #(>= (:V1sum %) 5)))
 
 
 
 
 
 (-> DS
-    (api/group-by [:V4])
-    (api/aggregate {:V1sum #(dfn/sum (% :V1))})
-    (api/order-by :V1sum :desc))
+    (tc/group-by [:V4])
+    (tc/aggregate {:V1sum #(dfn/sum (% :V1))})
+    (tc/order-by :V1sum :desc))
 
 
 (md "
@@ -5872,7 +6159,7 @@ Set the key/index (order)
 ")
 
 
-(def DS (api/order-by DS :V4))
+(def DS (tc/order-by DS :V4))
 
 
 
@@ -5886,13 +6173,13 @@ Select the matching rows
 ")
 
 
-(api/select-rows DS #(= (:V4 %) "A"))
+(tc/select-rows DS #(= (:V4 %) "A"))
 
 
 
 
 
-(api/select-rows DS (comp #{"A" "C"} :V4))
+(tc/select-rows DS (comp #{"A" "C"} :V4))
 
 
 (md "
@@ -5903,16 +6190,16 @@ Select the first matching row
 
 
 (-> DS
-    (api/select-rows #(= (:V4 %) "B"))
-    (api/first))
+    (tc/select-rows #(= (:V4 %) "B"))
+    (tc/first))
 
 
 
 
 
 (-> DS
-    (api/unique-by :V4)
-    (api/select-rows (comp #{"B" "C"} :V4)))
+    (tc/unique-by :V4)
+    (tc/select-rows (comp #{"B" "C"} :V4)))
 
 
 (md "
@@ -5923,8 +6210,8 @@ Select the last matching row
 
 
 (-> DS
-    (api/select-rows #(= (:V4 %) "A"))
-    (api/last))
+    (tc/select-rows #(= (:V4 %) "A"))
+    (tc/last))
 
 
 (md "
@@ -5934,7 +6221,7 @@ Nomatch argument
 ")
 
 
-(api/select-rows DS (comp #{"A" "D"} :V4))
+(tc/select-rows DS (comp #{"A" "D"} :V4))
 
 
 (md "
@@ -5945,8 +6232,8 @@ Apply a function on the matching rows
 
 
 (-> DS
-    (api/select-rows (comp #{"A" "C"} :V4))
-    (api/aggregate-columns :V1 (fn [col]
+    (tc/select-rows (comp #{"A" "C"} :V4))
+    (tc/aggregate-columns :V1 (fn [col]
                                  {:sum (dfn/sum col)})))
 
 
@@ -5958,8 +6245,8 @@ Modify values for matching rows
 
 
 (def DS (-> DS
-            (api/map-columns :V1 [:V1 :V4] #(if (= %2 "A") 0 %1))
-            (api/order-by :V4)))
+            (tc/map-columns :V1 [:V1 :V4] #(if (= %2 "A") 0 %1))
+            (tc/order-by :V4)))
 
 
 
@@ -5976,9 +6263,9 @@ Use keys in by
 
 
 (-> DS
-    (api/select-rows (comp (complement #{"B"}) :V4))
-    (api/group-by [:V4])
-    (api/aggregate-columns :V1 dfn/sum))
+    (tc/select-rows (comp (complement #{"B"}) :V4))
+    (tc/group-by [:V4])
+    (tc/aggregate-columns :V1 dfn/sum))
 
 
 (md "
@@ -5988,7 +6275,7 @@ Set keys/indices for multiple columns (ordered)
 ")
 
 
-(api/order-by DS [:V4 :V1])
+(tc/order-by DS [:V4 :V1])
 
 
 (md "
@@ -5999,7 +6286,7 @@ Subset using multiple keys/indices
 
 
 (-> DS
-    (api/select-rows #(and (= (:V1 %) 1)
+    (tc/select-rows #(and (= (:V1 %) 1)
                            (= (:V4 %) "C"))))
 
 
@@ -6007,7 +6294,7 @@ Subset using multiple keys/indices
 
 
 (-> DS
-    (api/select-rows #(and (= (:V1 %) 1)
+    (tc/select-rows #(and (= (:V1 %) 1)
                            (#{"B" "C"} (:V4 %)))))
 
 
@@ -6015,7 +6302,7 @@ Subset using multiple keys/indices
 
 
 (-> DS
-    (api/select-rows #(and (= (:V1 %) 1)
+    (tc/select-rows #(and (= (:V1 %) 1)
                            (#{"B" "C"} (:V4 %))) {:result-type :as-indexes}))
 
 
@@ -6028,7 +6315,7 @@ There is no mutating operations `tech.ml.dataset` or easy way to set value.
 ")
 
 
-(def DS (api/update-columns DS :V2 #(map-indexed (fn [idx v]
+(def DS (tc/update-columns DS :V2 #(map-indexed (fn [idx v]
                                                    (if (zero? idx) 3 v)) %)))
 
 
@@ -6045,7 +6332,7 @@ Reorder rows
 ")
 
 
-(def DS (api/order-by DS [:V4 :V1] [:asc :desc]))
+(def DS (tc/order-by DS [:V4 :V1] [:asc :desc]))
 
 
 
@@ -6061,7 +6348,7 @@ Modify colnames
 ")
 
 
-(def DS (api/rename-columns DS {:V2 "v2"}))
+(def DS (tc/rename-columns DS {:V2 "v2"}))
 
 
 
@@ -6073,7 +6360,7 @@ DS
 
 
 
-(def DS (api/rename-columns DS {"v2" :V2})) ;; revert back
+(def DS (tc/rename-columns DS {"v2" :V2})) ;; revert back
 
 
 (md "
@@ -6083,7 +6370,7 @@ Reorder columns
 ")
 
 
-(def DS (api/reorder-columns DS :V4 :V1 :V2))
+(def DS (tc/reorder-columns DS :V4 :V1 :V2))
 
 
 
@@ -6100,27 +6387,27 @@ Select first/last/… row by group
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/first)
-    (api/ungroup))
+    (tc/group-by :V4)
+    (tc/first)
+    (tc/ungroup))
 
 
 
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/select-rows [0 2])
-    (api/ungroup))
+    (tc/group-by :V4)
+    (tc/select-rows [0 2])
+    (tc/ungroup))
 
 
 
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/tail 2)
-    (api/ungroup))
+    (tc/group-by :V4)
+    (tc/tail 2)
+    (tc/ungroup))
 
 
 (md "
@@ -6131,10 +6418,10 @@ Select rows using a nested query
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/order-by :V2)
-    (api/first)
-    (api/ungroup))
+    (tc/group-by :V4)
+    (tc/order-by :V2)
+    (tc/first)
+    (tc/ungroup))
 
 
 (md "
@@ -6143,8 +6430,8 @@ Add a group counter column
 
 
 (-> DS
-    (api/group-by [:V4 :V1])
-    (api/ungroup {:add-group-id-as-column :Grp}))
+    (tc/group-by [:V4 :V1])
+    (tc/ungroup {:add-group-id-as-column :Grp}))
 
 
 (md "
@@ -6155,32 +6442,32 @@ Get row number of first (and last) observation by group
 
 
 (-> DS
-    (api/add-column :row-id (range))
-    (api/select-columns [:V4 :row-id])
-    (api/group-by :V4)
-    (api/ungroup))
+    (tc/add-column :row-id (range))
+    (tc/select-columns [:V4 :row-id])
+    (tc/group-by :V4)
+    (tc/ungroup))
 
 
 
 
 
 (-> DS
-    (api/add-column :row-id (range))
-    (api/select-columns [:V4 :row-id])
-    (api/group-by :V4)
-    (api/first)
-    (api/ungroup))
+    (tc/add-column :row-id (range))
+    (tc/select-columns [:V4 :row-id])
+    (tc/group-by :V4)
+    (tc/first)
+    (tc/ungroup))
 
 
 
 
 
 (-> DS
-    (api/add-column :row-id (range))
-    (api/select-columns [:V4 :row-id])
-    (api/group-by :V4)
-    (api/select-rows [0 2])
-    (api/ungroup))
+    (tc/add-column :row-id (range))
+    (tc/select-columns [:V4 :row-id])
+    (tc/group-by :V4)
+    (tc/select-rows [0 2])
+    (tc/ungroup))
 
 
 (md "
@@ -6191,16 +6478,16 @@ Handle list-columns by group
 
 
 (-> DS
-    (api/select-columns [:V1 :V4])
-    (api/fold-by :V4))
+    (tc/select-columns [:V1 :V4])
+    (tc/fold-by :V4))
 
 
 
 
 
 (-> DS
-    (api/group-by :V4)
-    (api/unmark-group))
+    (tc/group-by :V4)
+    (tc/unmark-group))
 
 
 (md "
@@ -6218,7 +6505,7 @@ Write data to a csv file
 ")
 
 
-(api/write! DS "DF.csv")
+(tc/write! DS "DF.csv")
 
 
 (md "
@@ -6228,7 +6515,7 @@ Write data to a tab-delimited file
 ")
 
 
-(api/write! DS "DF.txt" {:separator \tab})
+(tc/write! DS "DF.txt" {:separator \tab})
 
 
 (md "
@@ -6236,7 +6523,7 @@ or
 ")
 
 
-(api/write! DS "DF.tsv")
+(tc/write! DS "DF.tsv")
 
 
 (md "
@@ -6246,19 +6533,20 @@ Read a csv / tab-delimited file
 ")
 
 
-(api/dataset "DF.csv" {:key-fn keyword})
+(tc/dataset "DF.csv" {:key-fn keyword})
 
 
 
 
 
-(api/dataset "DF.txt" {:key-fn keyword})
+^:note-to-test/skip
+(tc/dataset "DF.txt" {:key-fn keyword})
 
 
 
 
 
-(api/dataset "DF.tsv" {:key-fn keyword})
+(tc/dataset "DF.tsv" {:key-fn keyword})
 
 
 (md "
@@ -6268,14 +6556,14 @@ Read a csv file selecting / droping columns
 ")
 
 
-(api/dataset "DF.csv" {:key-fn keyword
+(tc/dataset "DF.csv" {:key-fn keyword
                        :column-whitelist ["V1" "V4"]})
 
 
 
 
 
-(api/dataset "DF.csv" {:key-fn keyword
+(tc/dataset "DF.csv" {:key-fn keyword
                        :column-blacklist ["V4"]})
 
 
@@ -6286,7 +6574,7 @@ Read and rbind several files
 ")
 
 
-(apply api/concat (map api/dataset ["DF.csv" "DF.csv"]))
+(apply tc/concat (map tc/dataset ["DF.csv" "DF.csv"]))
 
 
 (md "
@@ -6296,7 +6584,7 @@ Melt data (from wide to long)
 ")
 
 
-(def mDS (api/pivot->longer DS [:V1 :V2] {:target-columns :variable
+(def mDS (tc/pivot->longer DS [:V1 :V2] {:target-columns :variable
                                           :value-column-name :value}))
 
 
@@ -6314,25 +6602,25 @@ Cast data (from long to wide)
 
 
 (-> mDS
-    (api/pivot->wider :variable :value {:fold-fn vec})
-    (api/update-columns ["V1" "V2"] (partial map count)))
+    (tc/pivot->wider :variable :value {:fold-fn vec})
+    (tc/update-columns ["V1" "V2"] (partial map count)))
 
 
 
 
 
 (-> mDS
-    (api/pivot->wider :variable :value {:fold-fn vec})
-    (api/update-columns ["V1" "V2"] (partial map dfn/sum)))
+    (tc/pivot->wider :variable :value {:fold-fn vec})
+    (tc/update-columns ["V1" "V2"] (partial map dfn/sum)))
 
 
 
 
 
 (-> mDS
-    (api/map-columns :value #(> % 5))
-    (api/pivot->wider :value :variable {:fold-fn vec})
-    (api/update-columns ["true" "false"] (partial map #(if (sequential? %) (count %) 1))))
+    (tc/map-columns :value #(str (> % 5))) ;; coerce to strings
+    (tc/pivot->wider :value :variable {:fold-fn vec})
+    (tc/update-columns ["true" "false"] (partial map #(if (sequential? %) (count %) 1))))
 
 
 (md "
@@ -6342,7 +6630,7 @@ Split
 ")
 
 
-(api/group-by DS :V4 {:result-type :as-map})
+(tc/group-by DS :V4 {:result-type :as-map})
 
 
 (md "
@@ -6353,8 +6641,8 @@ Split and transpose a vector/column
 
 
 (-> {:a ["A:a" "B:b" "C:c"]}
-    (api/dataset)
-    (api/separate-column :a [:V1 :V2] ":"))
+    (tc/dataset)
+    (tc/separate-column :a [:V1 :V2] ":"))
 
 
 (md "
@@ -6366,10 +6654,10 @@ Skipped
 ")
 
 
-(def x (api/dataset {"Id" ["A" "B" "C" "C"]
+(def x (tc/dataset {"Id" ["A" "B" "C" "C"]
                      "X1" [1 3 5 7]
                      "XY" ["x2" "x4" "x6" "x8"]}))
-(def y (api/dataset {"Id" ["A" "B" "B" "D"]
+(def y (tc/dataset {"Id" ["A" "B" "B" "D"]
                      "Y1" [1 3 5 7]
                      "XY" ["y1" "y3" "y5" "y7"]}))
 
@@ -6387,7 +6675,7 @@ Join matching rows from y to x
 ")
 
 
-(api/left-join x y "Id")
+(tc/left-join x y "Id")
 
 
 (md "
@@ -6397,7 +6685,7 @@ Join matching rows from x to y
 ")
 
 
-(api/right-join x y "Id")
+(tc/right-join x y "Id")
 
 
 (md "
@@ -6407,7 +6695,7 @@ Join matching rows from both x and y
 ")
 
 
-(api/inner-join x y "Id")
+(tc/inner-join x y "Id")
 
 
 (md "
@@ -6417,7 +6705,7 @@ Join keeping all the rows
 ")
 
 
-(api/full-join x y "Id")
+(tc/full-join x y "Id")
 
 
 (md "
@@ -6427,7 +6715,7 @@ Return rows from x matching y
 ")
 
 
-(api/semi-join x y "Id")
+(tc/semi-join x y "Id")
 
 
 (md "
@@ -6437,7 +6725,7 @@ Return rows from x not matching y
 ")
 
 
-(api/anti-join x y "Id")
+(tc/anti-join x y "Id")
 
 
 (md "
@@ -6447,16 +6735,16 @@ Select columns while joining
 ")
 
 
-(api/right-join (api/select-columns x ["Id" "X1"])
-                (api/select-columns y ["Id" "XY"])
+(tc/right-join (tc/select-columns x ["Id" "X1"])
+                (tc/select-columns y ["Id" "XY"])
                 "Id")
 
 
 
 
 
-(api/right-join (api/select-columns x ["Id" "XY"])
-                (api/select-columns y ["Id" "XY"])
+(tc/right-join (tc/select-columns x ["Id" "XY"])
+                (tc/select-columns y ["Id" "XY"])
                 "Id")
 
 
@@ -6466,12 +6754,12 @@ Aggregate columns while joining
 
 
 (-> y
-    (api/group-by ["Id"])
-    (api/aggregate {"sumY1" #(dfn/sum (% "Y1"))})
-    (api/right-join x "Id")
-    (api/add-column "X1Y1" (fn [ds] (dfn/* (ds "sumY1")
-                                           (ds "X1"))))
-    (api/select-columns ["right.Id" "X1Y1"]))
+    (tc/group-by ["Id"])
+    (tc/aggregate {"sumY1" #(dfn/sum (% "Y1"))})
+    (tc/right-join x "Id")
+    (tc/add-column "X1Y1" (fn [ds] (dfn/* (ds "sumY1")
+                                                    (ds "X1"))))
+    (tc/select-columns ["right.Id" "X1Y1"]))
 
 
 (md "
@@ -6480,10 +6768,10 @@ Update columns while joining
 
 
 (-> x
-    (api/select-columns ["Id" "X1"])
-    (api/map-columns "SqX1" "X1" (fn [x] (* x x)))
-    (api/right-join y "Id")
-    (api/drop-columns ["X1" "Id"]))
+    (tc/select-columns ["Id" "X1"])
+    (tc/map-columns "SqX1" "X1" (fn [x] (* x x)))
+    (tc/right-join y "Id")
+    (tc/drop-columns ["X1" "Id"]))
 
 
 (md "
@@ -6494,9 +6782,9 @@ Adds a list column with rows from y matching x (nest-join)
 ")
 
 
-(-> (api/left-join x y "Id")
-    (api/drop-columns ["right.Id"])
-    (api/fold-by (api/column-names x)))
+(-> (tc/left-join x y "Id")
+    (tc/drop-columns ["right.Id"])
+    (tc/fold-by (tc/column-names x)))
 
 
 (md "
@@ -6510,7 +6798,7 @@ Cross join
 ")
 
 
-(def cjds (api/dataset {:V1 [[2 1 1]]
+(def cjds (tc/dataset {:V1 [[2 1 1]]
                         :V2 [[3 2]]}))
 
 
@@ -6523,14 +6811,14 @@ cjds
 
 
 
-(reduce #(api/unroll %1 %2) cjds (api/column-names cjds))
+(reduce #(tc/unroll %1 %2) cjds (tc/column-names cjds))
 
 
 
 
 
-(-> (reduce #(api/unroll %1 %2) cjds (api/column-names cjds))
-    (api/unique-by))
+(-> (reduce #(tc/unroll %1 %2) cjds (tc/column-names cjds))
+    (tc/unique-by))
 
 
 (md "
@@ -6538,10 +6826,10 @@ cjds
 ")
 
 
-(def x (api/dataset {:V1 [1 2 3]}))
-(def y (api/dataset {:V1 [4 5 6]}))
-(def z (api/dataset {:V1 [7 8 9]
-                     :V2 [0 0 0]}))
+(def x (tc/dataset {:V1 [1 2 3]}))
+(def y (tc/dataset {:V1 [4 5 6]}))
+(def z (tc/dataset {:V1 [7 8 9]
+                    :V2 [0 0 0]}))
 
 
 
@@ -6557,13 +6845,13 @@ Bind rows
 ")
 
 
-(api/bind x y)
+(tc/bind x y)
 
 
 
 
 
-(api/bind x z)
+(tc/bind x z)
 
 
 (md "
@@ -6574,8 +6862,8 @@ Bind rows using a list
 
 
 (->> [x y]
-     (map-indexed #(api/add-column %2 :id (repeat %1)))
-     (apply api/bind))
+     (map-indexed #(tc/add-column %2 :id (repeat %1)))
+     (apply tc/bind))
 
 
 (md "
@@ -6585,7 +6873,7 @@ Bind columns
 ")
 
 
-(api/append x y)
+(tc/append x y)
 
 
 (md "
@@ -6593,8 +6881,8 @@ Bind columns
 ")
 
 
-(def x (api/dataset {:V1 [1 2 2 3 3]}))
-(def y (api/dataset {:V1 [2 2 3 4 4]}))
+(def x (tc/dataset {:V1 [1 2 2 3 3]}))
+(def y (tc/dataset {:V1 [2 2 3 4 4]}))
 
 
 
@@ -6610,7 +6898,7 @@ Intersection
 ")
 
 
-(api/intersect x y)
+(tc/intersect x y)
 
 
 (md "
@@ -6620,7 +6908,7 @@ Difference
 ")
 
 
-(api/difference x y)
+(tc/difference x y)
 
 
 (md "
@@ -6630,13 +6918,13 @@ Union
 ")
 
 
-(api/union x y)
+(tc/union x y)
 
 
 
 
 
-(api/concat x y)
+(tc/concat x y)
 
 
 (md "
