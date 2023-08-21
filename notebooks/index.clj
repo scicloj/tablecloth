@@ -11,6 +11,8 @@
   :kind/void true}
 (clay/swap-options!
  assoc
+ :remote-repo {:git-url "https://github.com/daslu/tablecloth"
+               :branch "main"}
  :quarto {:format {:html {:toc true
                           :theme :spacelab
                           :embed-resources true}}
