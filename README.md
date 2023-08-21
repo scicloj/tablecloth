@@ -171,7 +171,7 @@ In this branch, we develop a new proposed dev workflow for Tablecloth:
 - [test/index_generated_test.clj](test/index_generated_test.clj) - tests automatically generated from the tutorial
 
 ### Actions
-- to render the notebook using Clay (assuming you have the Quarto CLI installed):
+- to render the notebook using Clay (assuming you have the Quarto CLI [installed](https://quarto.org/docs/get-started/)):
 ```clj
 (require '[scicloj.clay.v2.api :as clay]
          '[scicloj.kindly-default.v1.api :as kindly-default])
