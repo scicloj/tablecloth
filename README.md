@@ -158,6 +158,35 @@ run it before making documentation
   - tests
   - tutorials
 
+## New experimental dev workflow
+
+In this branch, we develop a new proposed dev workflow for Tablecloth:
+- namespace-as-a-notebook using [Kindly](https://scicloj.github.io/kindly) and [Clay](https://scicloj.github.io/clay)
+- testable docs using [note-to-test](https://github.com/scicloj/note-to-test)
+
+### Relevant files
+- [notebooks/index.clj](notebooks/index.clj) - the tutorial as a Kindly notebook (developed with Clay)
+  - [src/conversion.clj](src/conversion.clj) - the script used to generate the notebook from the original `Rmarkdown` tutorial (up to a few additional manual edits))
+- [docs/index_quarto.html] - the rendered tutorial (created using [Quarto](https://quarto.org/))
+- [tests/index_generated_test.clj] - tests automatically generated from the tutorial
+
+### Actions
+- to render the notebook using Clay (assuming you have the Quarto CLI installed):
+```clj
+(require '[scicloj.clay.v2.api :as clay]
+         '[scicloj.kindly-default.v1.api :as kindly-default])
+(kindly-default/setup!)
+(clay/generate-and-show-namespace-quarto! "notebooks/index.clj" {})
+```
+- to regenerate the tests for the current notebook:
+```clj
+(require '[scicloj.note-to-test.v1.api :as note-to-test])
+(note-to-test/gentest! "notebooks/index.clj"
+                       {:accept true
+                        :verbose true})
+```
+Here, `accept` means we allow overriding the previous tests even if there are some changes, and `verbose` means we are willing to know whether the tests have changed.
+
 ## Licence
 
 Copyright (c) 2020 Scicloj
