@@ -5,6 +5,7 @@
    [scicloj.kindly-default.v1.api :refer [md]]
    [tablecloth.api :as tc]
    [scicloj.note-to-test.v1.api :as note-to-test]
+   [scicloj.clay.v2.api :as clay]
    [tablecloth.api :as tc]
    [tech.v3.datatype.functional :as dfn]
    [tech.v3.datatype.functional :as dfn]
@@ -13,27 +14,93 @@
 
 (deftest test-everything
 
+  (is (= (note-to-test/represent-value
+          ^{:kindly/hide-code? true
+            :kind/void true}
+          (clay/swap-options!
+           assoc
+           :quarto {:format {:html {:toc true
+                                    :theme :spacelab
+                                    :embed-resources true}}
+                    :highlight-style :solarized
+                    :code-block-background true
+                    :embed-resources true}))
+       :ok))
+
+  (is (= (note-to-test/represent-value
+          ^{:kindly/hide-code? true
+            :kind/void true}
+          (note-to-test/define-value-representations!
+            [{:predicate (fn [v]
+                           (-> v
+                               meta
+                               :kindly/kind
+                               (= :kind/md)))
+              :representation (constantly :note-to-test/skip)}
+             {:predicate (comp #{:local-date
+                                 :local-date-time
+                                 :packed-local-date
+                                 :packed-local-date-time}
+                               tech.v3.datatype/datatype)
+              :representation (juxt class str)}
+             {:predicate (fn [v]
+                           (or (sequential? v)
+                               ;; https://stackoverflow.com/a/9090730
+                               (some-> v
+                                       class
+                                       (.isArray))
+                               (instance? tech.v3.dataset.impl.column.Column v)))
+              :representation (fn [values]
+                                (->> values
+                                     (take 20)
+                                     (map note-to-test/represent-value)
+                                     (into [])))}
+             {:predicate (partial instance? java.util.Map)
+              :representation (fn [m]
+                                (-> m
+                                    (update-keys note-to-test/represent-value)
+                                    (update-vals note-to-test/represent-value)))}
+             {:predicate (fn [v]
+                           (-> v
+                               class
+                               (= java.lang.Object)))
+              :representation class}
+             {:predicate symbol?
+              :representation (fn [s]
+                                [:symbol (name s)])}
+             {:predicate fn?
+              :representation (constantly :fn)}
+             {:predicate (fn [v]
+                           (or (var? v)
+                               (nil? v)))
+              ;; handling vars and nils the same way
+              ;; so that defonce will be represented consistently
+              :representation (constantly :var-or-nil)}
+             {:predicate (partial instance? org.roaringbitmap.RoaringBitmap)
+              :representation (constantly
+                               :org.roaringbitmap.RoaringBitmap)}
+             {:predicate (fn [x]
+                           (and (double? x)
+                                (Double/isNaN x)))
+              :representation (constantly :NaN)}]))
+       [:ok]))
 
 
   (is (= (note-to-test/represent-value
           (def tech-ml-version (get-in (read-string (slurp "deps.edn")) [:deps 'techascent/tech.ml.dataset :mvn/version])))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (def tablecloth-version (nth (read-string (slurp "project.clj")) 2)))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           tech-ml-version)
        "7.000-beta-51"))
 
-
   (is (= (note-to-test/represent-value
           tablecloth-version)
        "7.000-beta-51"))
-
 
 
   (is (= (note-to-test/represent-value
@@ -41,14 +108,12 @@
                    '[tech.v3.datatype.functional :as dfn]))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
                                :V2 (range 1 10)
                                :V3 (take 9 (cycle [0.5 1.0 1.5]))
                                :V4 (take 9 (cycle ["A" "B" "C"]))})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -58,11 +123,9 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset))
        {}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -70,11 +133,9 @@
        {:a [], :b []}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset [[:A 33] [:B 5] [:C :a]]))
        {:A [33], :B [5], :C [:a]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -82,21 +143,17 @@
        {:A [1 2 3 4 5 6], :B ["X" "X" "X" "X" "X" "X"], :C [:a :a :a :a :a :a]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset {:A 33}))
        {:A [33]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/dataset {:A [1 2 3]}))
        {:A [1 2 3]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset {:A [3 4 5] :B "X"}))
        {:A [3 4 5], :B ["X" "X" "X"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -104,22 +161,18 @@
        {:A [[3 4 5] [:a :b]], :B ["X" "X"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset [{:a 1 :b 3} {:b 2 :a 99}]))
        {:a [1 99], :b [3 2]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/dataset [{:a 1 :b [1 2 3]} {:a 2 :b [3 4]}]))
        {:a [1 2], :b [[1 2 3] [3 4]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset [{:a nil :b 1} {:a 3 :b 4} {:a 11}]))
        {:a [:var-or-nil 3 11], :b [1 4 :var-or-nil]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -129,13 +182,11 @@
        {0 [1 3 5], 1 [2 4 6]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> (map int-array [[1 2] [3 4] [5 6]])
               (into-array)
               (tc/dataset {:layout :as-columns})))
        {0 [1 2], 1 [3 4], 2 [5 6]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -146,7 +197,6 @@
        {:a [1 3 5], :b [2 4 6]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> (map to-array [[:a :z] ["ee" "ww"] [9 10]])
               (into-array)
@@ -155,13 +205,11 @@
        {:a [:a :z], :b ["ee" "ww"], :c [9 10]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/let-dataset [x (range 1 6)
                             y 1
                             z (dfn/+ x y)]))
        {:x [1 2 3 4 5], :y [1 1 1 1 1], :z [2 3 4 5 6]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -183,11 +231,9 @@
         "gender_child2" [2 :var-or-nil 2 1 1]}))
 
 
-
   (is (= (note-to-test/represent-value
           (defonce ds (tc/dataset "https://vega.github.io/vega-lite/examples/data/seattle-weather.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           ds)
@@ -319,19 +365,16 @@
          "snow"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset 999))
        {:$value [999],
         :$error ["Don't know how to create ISeq from: java.lang.Long"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset 999 {:single-value-column-name "my-single-value"
                            :error-column? false}))
        {"my-single-value" [999]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/dataset 999 {:single-value-column-name ""
@@ -340,22 +383,18 @@
        {0 [999]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/write! ds "output.tsv.gz"))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (.exists (clojure.java.io/file "output.tsv.gz")))
        true))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/write! DS "output.nippy.gz"))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (tc/dataset "output.nippy.gz"))
@@ -365,11 +404,9 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/row-count ds))
        1461))
-
 
 
   (is (= (note-to-test/represent-value
@@ -377,11 +414,9 @@
        6))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/shape ds))
        [1461 6]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -423,7 +458,6 @@
         [[java.time.LocalDate "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"],
         :last [[java.time.LocalDate "2015-12-31"] 0.0 5.6 -2.1 3.5 "sun"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/info ds :basic))
        {:name
@@ -431,7 +465,6 @@
         :grouped? [false],
         :rows [1461],
         :columns [6]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/info ds :columns))
@@ -443,11 +476,9 @@
         [:var-or-nil :var-or-nil :var-or-nil :var-or-nil :var-or-nil true]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset-name ds))
        "https://vega.github.io/vega-lite/examples/data/seattle-weather.csv"))
-
 
 
   (is (= (note-to-test/represent-value
@@ -455,7 +486,6 @@
                (tc/set-dataset-name ds)
                (tc/dataset-name)))
        "seattle-weather"))
-
 
 
   (is (= (note-to-test/represent-value
@@ -481,7 +511,6 @@
         1.6
         2.3]))
 
-
   (is (= (note-to-test/represent-value
           (tc/column ds "date"))
        [[java.time.LocalDate "2012-01-01"]
@@ -504,7 +533,6 @@
         [java.time.LocalDate "2012-01-18"]
         [java.time.LocalDate "2012-01-19"]
         [java.time.LocalDate "2012-01-20"]]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -551,18 +579,15 @@
          13.5]]))
 
 
-
   (is (= (note-to-test/represent-value
           (keys (tc/columns ds :as-map)))
        ["date" "precipitation" "temp_max" "temp_min" "wind" "weather"]))
-
 
 
   (is (= (note-to-test/represent-value
           (take 2 (tc/rows ds)))
        [[[java.time.LocalDate "2012-01-01"] 0.0 12.8 5.0 4.7 "drizzle"]
         [[java.time.LocalDate "2012-01-02"] 10.9 10.6 2.8 4.5 "rain"]]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -576,7 +601,6 @@
         [20.3 12.2 5.6 4.7]
         [1.3 8.9 2.8 6.1]]))
 
-
   (is (= (note-to-test/represent-value
           (-> ds
               (tc/select-columns :type/numerical)
@@ -588,38 +612,31 @@
         [4.7 4.5 2.3 4.7 6.1]]))
 
 
-
   (is (= (note-to-test/represent-value
           (clojure.pprint/pprint (take 2 (tc/rows ds :as-maps))))
        :var-or-nil))
-
 
 
   (is (= (note-to-test/represent-value
           (get-in ds ["wind" 2]))
        2.3))
 
-
   (is (= (note-to-test/represent-value
           (tc/get-entry ds "wind" 2))
        2.3))
-
 
 
   (is (= (note-to-test/represent-value
           (tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :markdown}))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :repl}))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :single}))
        :var-or-nil))
-
 
 
   (is (= (note-to-test/represent-value
@@ -629,14 +646,12 @@
        [:V1 :V2 :V3 :V4]))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V1)
               (tc/as-regular-dataset)
               (tc/column-names)))
        [:name :group-id :data]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -654,11 +669,9 @@
           :V4 ["B" "A" "C" "B"]}]}))
 
 
-
   (is (= (note-to-test/represent-value
           (keys (tc/group-by DS :V1 {:result-type :as-map})))
        [1 2]))
-
 
   (is (= (note-to-test/represent-value
           (vals (tc/group-by DS :V1 {:result-type :as-map})))
@@ -672,11 +685,9 @@
          :V4 ["B" "A" "C" "B"]}]))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/group-by DS :V1 {:result-type :as-indexes}))
        {1 [0 2 4 6 8], 2 [1 3 5 7]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -694,7 +705,6 @@
           :V4 ["B" "A" "C" "B"]}]}))
 
 
-
   (is (= (note-to-test/represent-value
           (let [ds (-> {"a" [1 1 2 2]
                         "b" ["a" "b" "c" "d"]}
@@ -703,7 +713,6 @@
             (seq (ds :data))))
        [{"a" [1 1], "b" ["a" "b"]} {"a" [2 2], "b" ["c" "d"]}]))
 
-
   (is (= (note-to-test/represent-value
           (-> {"a" [1 1 2 2]
                "b" ["a" "b" "c" "d"]}
@@ -711,7 +720,6 @@
               (tc/group-by "a")
               (tc/groups->seq)))
        [{"a" [1 1], "b" ["a" "b"]} {"a" [2 2], "b" ["c" "d"]}]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -723,7 +731,6 @@
        {1 {"a" [1 1], "b" ["a" "b"]}, 2 {"a" [2 2], "b" ["c" "d"]}}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/group-by DS [:V1 :V3] {:result-type :as-seq}))
        [{:V1 [1 1], :V2 [1 7], :V3 [0.5 0.5], :V4 ["A" "A"]}
@@ -732,7 +739,6 @@
         {:V1 [2], :V2 [4], :V3 [0.5], :V4 ["A"]}
         {:V1 [1], :V2 [5], :V3 [1.0], :V4 ["B"]}
         {:V1 [2], :V2 [6], :V3 [1.5], :V4 ["C"]}]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -748,7 +754,6 @@
          :V4 ["C" "C" "C" "B"]}]))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/group-by DS (fn [row] (* (:V1 row)
                                        (:V3 row))) {:result-type :as-seq}))
@@ -757,7 +762,6 @@
         {:V1 [1 1], :V2 [3 9], :V3 [1.5 1.5], :V4 ["C" "C"]}
         {:V1 [2 1], :V2 [4 5], :V3 [0.5 1.0], :V4 ["A" "B"]}
         {:V1 [2], :V2 [6], :V3 [1.5], :V4 ["C"]}]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -769,7 +773,6 @@
          :V4 ["B" "C" "B" "C" "B" "C"]}]))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/group-by DS (juxt :V1 :V3) {:result-type :as-seq}))
        [{:V1 [1 1], :V2 [1 7], :V3 [0.5 0.5], :V4 ["A" "A"]}
@@ -778,7 +781,6 @@
         {:V1 [2], :V2 [4], :V3 [0.5], :V4 ["A"]}
         {:V1 [1], :V2 [5], :V3 [1.0], :V4 ["B"]}
         {:V1 [2], :V2 [6], :V3 [1.5], :V4 ["C"]}]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -794,7 +796,6 @@
          :V4 ["B" "A" "C" "B"]}]))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V3)
@@ -803,7 +804,6 @@
         :V2 [1 4 7 2 5 8 3 6 9],
         :V3 [0.5 0.5 0.5 1.0 1.0 1.0 1.5 1.5 1.5],
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -817,7 +817,6 @@
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V3)
@@ -827,7 +826,6 @@
         :V2 [3 6 9 2 5 8 1 4 7],
         :V3 [1.5 1.5 1.5 1.0 1.0 1.0 0.5 0.5 0.5],
         :V4 ["C" "C" "C" "B" "B" "B" "A" "A" "A"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -841,7 +839,6 @@
         :V2 [1 2 3 4 5 6 7 8 9],
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -858,7 +855,6 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by (fn [row] {"V1 and V3 multiplied" (* (:V1 row)
@@ -871,7 +867,6 @@
         :V2 [1 7 2 8 3 9 4 5 6],
         :V3 [0.5 0.5 1.0 1.0 1.5 1.5 0.5 1.0 1.5],
         :V4 ["A" "A" "B" "B" "C" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -897,7 +892,6 @@
         :V4 ["A" "A" "B" "B" "C" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by (juxt :V1 :V3))
@@ -910,7 +904,6 @@
         :V4 ["A" "A" "B" "B" "C" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by (juxt :V1 :V3))
@@ -921,7 +914,6 @@
         :V2 [1 7 2 8 3 9 4 5 6],
         :V3 [0.5 0.5 1.0 1.0 1.5 1.5 0.5 1.0 1.5],
         :V4 ["A" "A" "B" "B" "C" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -945,16 +937,13 @@
         :V4 ["A" "A" "B" "B" "C" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/grouped? DS))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (tc/grouped? (tc/group-by DS :V1)))
        true))
-
 
 
   (is (= (note-to-test/represent-value
@@ -963,7 +952,6 @@
               (tc/as-regular-dataset)
               (tc/grouped?)))
        :var-or-nil))
-
 
 
   (is (= (note-to-test/represent-value
@@ -988,7 +976,6 @@
          {:V1 [2], :V2 [6], :V3 [1.5], :V4 ["C"]}]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V1)
@@ -997,11 +984,9 @@
        {:name [1 2], :group-id [0 1], :data ["Shape: [5 4]" "Shape: [4 4]"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/column-names DS))
        [:V1 :V2 :V3 :V4]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1009,22 +994,18 @@
        [:V1 :V2 :V3 :V4]))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/column-names DS [:all]))
        []))
-
 
 
   (is (= (note-to-test/represent-value
           (tc/column-names DS :V1))
        [:V1]))
 
-
   (is (= (note-to-test/represent-value
           (tc/column-names DS "no such column"))
        []))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1032,11 +1013,9 @@
        [:V1 :V3 :V4]))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/column-names DS #".*[14]"))
        [:V1 :V4]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1044,11 +1023,9 @@
        [:V1 :V2]))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/column-names DS :type/integer))
        [:V1 :V2]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1056,27 +1033,22 @@
        [:V3]))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/column-names DS :type/float64))
        [:V3]))
-
 
 
   (is (= (note-to-test/represent-value
           (tc/column-names DS (complement #{:V1})))
        [:V2 :V3 :V4]))
 
-
   (is (= (note-to-test/represent-value
           (tc/column-names DS (complement #{:float64}) :datatype))
        [:V1 :V2 :V4]))
 
-
   (is (= (note-to-test/represent-value
           (tc/column-names DS :!type/float64))
        [:V1 :V2 :V4]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1086,11 +1058,9 @@
        [:V1]))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-columns DS #(= :float64 %) :datatype))
        {:V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1098,13 +1068,11 @@
        {:V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-columns DS (complement #{:V1})))
        {:V2 [1 2 3 4 5 6 7 8 9],
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1116,13 +1084,11 @@
         2 {:V2 [2 4 6 8], :V3 [1.0 0.5 1.5 1.0]}}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/drop-columns DS #(= :float64 %) :datatype))
        {:V1 [1 2 1 2 1 2 1 2 1],
         :V2 [1 2 3 4 5 6 7 8 9],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1132,11 +1098,9 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/drop-columns DS (complement #{:V1 :V2})))
        {:V1 [1 2 1 2 1 2 1 2 1], :V2 [1 2 3 4 5 6 7 8 9]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1146,7 +1110,6 @@
               (tc/groups->map)))
        {1 {:V1 [1 1 1 1 1], :V4 ["A" "C" "B" "A" "C"]},
         2 {:V1 [2 2 2 2], :V4 ["B" "A" "C" "B"]}}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1160,7 +1123,6 @@
         java.lang.Object ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/rename-columns DS (comp str second name)))
        {"1" [1 2 1 2 1 2 1 2 1],
@@ -1169,14 +1131,12 @@
         "4" ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/rename-columns DS [:V1 :V3] (comp str second name)))
        {"1" [1 2 1 2 1 2 1 2 1],
         :V2 [1 2 3 4 5 6 7 8 9],
         "3" [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1199,7 +1159,6 @@
          java.lang.Object ["B" "A" "C" "B"]}}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/add-column DS :V5 "X"))
        {:V1 [1 2 1 2 1 2 1 2 1],
@@ -1207,7 +1166,6 @@
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"],
         :V5 ["X" "X" "X" "X" "X" "X" "X" "X" "X"]}))
-
 
 
 
@@ -1221,7 +1179,6 @@
         :V5 [1 2 1 2 1 2 1 2 1]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/add-column DS :row-count tc/row-count))
        {:V1 [1 2 1 2 1 2 1 2 1],
@@ -1229,7 +1186,6 @@
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"],
         :row-count [9 9 9 9 9 9 9 9 9]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1244,7 +1200,6 @@
         :row-count [5 5 5 5 5 4 4 4 4]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/add-column DS :V5 [:r :b] :cycle))
        {:V1 [1 2 1 2 1 2 1 2 1],
@@ -1252,7 +1207,6 @@
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"],
         :V5 [:r :b :r :b :r :b :r :b :r]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/add-column DS :V5 [:r :b] :na))
@@ -1272,13 +1226,11 @@
          :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (try
             (tc/add-column DS :V5 [:r :b])
             (catch Exception e (str "Exception caught: "(ex-message e)))))
        "Exception caught: Column size (2) should be exactly the same as dataset row count (9). Consider `:cycle` or `:na` strategy."))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1293,7 +1245,6 @@
         :V5 [:r :b :var-or-nil :r :b :var-or-nil :r :b :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V3)
@@ -1304,7 +1255,6 @@
         :V3 [0.5 0.5 0.5 1.0 1.0 1.0 1.5 1.5 1.5],
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"],
         :V5 [1 2 3 1 2 3 1 2 3]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1319,14 +1269,12 @@
         :V6 [11 11 11 11 11 11 11 11 11]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/update-columns DS :all reverse))
        {:V1 [1 2 1 2 1 2 1 2 1],
         :V2 [9 8 7 6 5 4 3 2 1],
         :V3 [1.5 1.0 0.5 1.5 1.0 0.5 1.5 1.0 0.5],
         :V4 ["C" "B" "A" "C" "B" "A" "C" "B" "A"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1336,7 +1284,6 @@
         :V2 [2 3 4 5 6 7 8 9 10],
         :V3 [-0.5 0.0 0.5 -0.5 0.0 0.5 -0.5 0.0 0.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
 
@@ -1354,7 +1301,6 @@
         :sum-of-numbers [2.5 5.0 5.5 6.5 7.0 9.5 8.5 11.0 11.5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V4)
@@ -1370,7 +1316,6 @@
         :sum-of-numbers [2.5 6.5 8.5 5.0 7.0 11.0 5.5 9.5 11.5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/reorder-columns DS :V4 [:V3 :V2]))
        {:V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"],
@@ -1379,14 +1324,12 @@
         :V1 [1 2 1 2 1 2 1 2 1]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/reorder-columns DS (tc/column-names DS (complement #{:int64}) :datatype)))
        {:V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"],
         :V1 [1 2 1 2 1 2 1 2 1],
         :V2 [1 2 3 4 5 6 7 8 9]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1405,7 +1348,6 @@
         :categorical? [:var-or-nil :var-or-nil :var-or-nil true]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/convert-types :V4 [[:int16 #(Integer/parseInt % 16)]])))
@@ -1413,7 +1355,6 @@
         :V2 [1 2 3 4 5 6 7 8 9],
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 [10 11 12 10 11 12 10 11 12]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1435,7 +1376,6 @@
         :categorical? [:var-or-nil true :var-or-nil true]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/convert-types :type/numerical :int16)
@@ -1450,7 +1390,6 @@
          :var-or-nil],
         :unparsed-data [[] [] [] :var-or-nil],
         :categorical? [:var-or-nil :var-or-nil :var-or-nil true]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1471,11 +1410,9 @@
         :categorical? [:var-or-nil :var-or-nil :var-or-nil true]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/->array DS :V1))
        [1 2 1 2 1 2 1 2 1]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1485,16 +1422,13 @@
        [[1 4 7] [2 5 8] [3 6 9]]))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/->array DS :V4 :string))
        ["A" "B" "C" "A" "B" "C" "A" "B" "C"]))
 
-
   (is (= (note-to-test/represent-value
           (tc/->array DS :V1 :float32))
        [1.0 2.0 1.0 2.0 1.0 2.0 1.0 2.0 1.0]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1502,11 +1436,9 @@
        {:V1 [1], :V2 [5], :V3 [1.0], :V4 ["B"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS [1 4 5]))
        {:V1 [2 1 2], :V2 [2 5 6], :V3 [1.0 1.0 1.5], :V4 ["B" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1514,11 +1446,9 @@
        {:V1 [1 2], :V2 [1 4], :V3 [0.5 0.5], :V4 ["A" "A"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS (comp #(< % 1) :V3)))
        {:V1 [1 2 1], :V2 [1 4 7], :V3 [0.5 0.5 0.5], :V4 ["A" "A" "A"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1527,7 +1457,6 @@
               (tc/select-rows 0)
               (tc/ungroup)))
        {:V1 [1 2], :V2 [1 2], :V3 [0.5 1.0], :V4 ["A" "B"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1542,7 +1471,6 @@
         :V4 ["A" "A" "B" "B" "C" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V4)
@@ -1550,7 +1478,6 @@
                              {:pre {:mean #(tech.v3.datatype.functional/mean (% :V2))}})
               (tc/ungroup)))
        {:V1 [1 2 1], :V2 [7 8 9], :V3 [0.5 1.0 1.5], :V4 ["A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1572,11 +1499,9 @@
          1.1111111111111112]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/first DS))
        {:V1 [1], :V2 [1], :V3 [0.5], :V4 ["A"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1586,11 +1511,9 @@
 
 
 
-
   (is (= (note-to-test/represent-value
           (tc/rand-nth DS {:seed 42}))
        {:V1 [2], :V2 [6], :V3 [1.5], :V4 ["C"]}))
-
 
 
 
@@ -1609,14 +1532,12 @@
 
 
 
-
   (is (= (note-to-test/represent-value
           (tc/shuffle DS {:seed 42}))
        {:V1 [1 2 2 2 2 1 1 1 1],
         :V2 [5 2 6 4 8 3 7 1 9],
         :V3 [1.0 1.0 1.5 0.5 1.0 1.5 0.5 0.5 1.5],
         :V4 ["B" "B" "C" "A" "B" "C" "A" "A" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1627,7 +1548,6 @@
         :V4 ["A" "B" "C" "A" "B"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/tail DS))
        {:V1 [1 2 1 2 1],
@@ -1636,16 +1556,13 @@
         :V4 ["B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/by-rank DS :V3 zero?))
        {:V1 [1 2 1], :V2 [3 6 9], :V3 [1.5 1.5 1.5], :V4 ["C" "C" "C"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/by-rank DS :V3 zero? {:desc? false}))
        {:V1 [1 2 1], :V2 [1 4 7], :V3 [0.5 0.5 0.5], :V4 ["A" "A" "A"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1655,17 +1572,14 @@
 
 
 
-
   (is (= (note-to-test/represent-value
           (tc/aggregate DS #(reduce + (% :V2))))
        {"summary" [45]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/aggregate DS {:sum-of-V2 #(reduce + (% :V2))}))
        {:sum-of-V2 [45]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1677,7 +1591,6 @@
         :summary-4 [5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/aggregate DS [#(take 3 (% :V2))
                              (fn [ds] {:sum-v1 (reduce + (ds :V1))
@@ -1687,7 +1600,6 @@
         :V2-value-0-2 [3],
         :V2-value-1-sum-v1 [13],
         :V2-value-1-prod-v3 [0.421875]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1702,7 +1614,6 @@
         :V2-value-0-2 [7 8 9],
         :V2-value-1-sum-v1 [4 5 4],
         :V2-value-1-prod-v3 [0.125 1.0 3.375]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1732,11 +1643,9 @@
           :V2-value-1-prod-v3 [3.375]}]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/aggregate-columns DS [:V1 :V2 :V3] #(reduce + %)))
        {:V1 [13], :V2 [45], :V3 [9.0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1746,13 +1655,11 @@
        {:V1 [13], :V2 [9], :V3 [0.421875]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by [:V4])
               (tc/aggregate-columns [:V1 :V2 :V3] #(reduce + %))))
        {:V4 ["A" "B" "C"], :V1 [4 5 4], :V2 [12 15 18], :V3 [1.5 3.0 4.5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1762,20 +1669,17 @@
        {:V1 [13], :V2 [45], :V3 [9.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def ctds (tc/dataset {:a [:foo :foo :bar :bar :foo :foo]
                                  :b [:one :one :two :one :two :one]
                                  :c [:dull :dull :shiny :dull :dull :shiny]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           ctds)
        {:a [:foo :foo :bar :bar :foo :foo],
         :b [:one :one :two :one :two :one],
         :c [:dull :dull :shiny :dull :dull :shiny]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1785,7 +1689,6 @@
         [:two :shiny] [0 1],
         [:two :dull] [1 0],
         [:one :shiny] [1 0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1798,7 +1701,6 @@
         :summary [4 2 6]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/crosstab ctds :a [:b :c] {:missing-value -1}))
        {"rows/cols" [:foo :bar],
@@ -1806,7 +1708,6 @@
         [:two :shiny] [-1 1],
         [:two :dull] [1 -1],
         [:one :shiny] [1 -1]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1817,14 +1718,12 @@
         "summary" [2 1 1 1 1]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/order-by DS :V1))
        {:V1 [1 1 1 1 1 2 2 2 2],
         :V2 [1 3 5 7 9 6 4 8 2],
         :V3 [0.5 1.5 1.0 0.5 1.5 1.5 0.5 1.0 1.0],
         :V4 ["A" "C" "B" "A" "C" "C" "A" "B" "B"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1835,14 +1734,12 @@
         :V4 ["B" "A" "C" "B" "B" "C" "A" "A" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/order-by DS [:V1 :V2]))
        {:V1 [1 1 1 1 1 2 2 2 2],
         :V2 [1 3 5 7 9 2 4 6 8],
         :V3 [0.5 1.5 1.0 0.5 1.5 1.0 0.5 1.5 1.0],
         :V4 ["A" "C" "B" "A" "C" "B" "A" "C" "B"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1852,7 +1749,6 @@
         :V3 [1.5 0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0],
         :V4 ["C" "A" "B" "C" "A" "B" "C" "A" "B"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/order-by DS [:V1 :V2] [:desc :desc]))
        {:V1 [2 2 2 2 1 1 1 1 1],
@@ -1860,14 +1756,12 @@
         :V3 [1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5 0.5],
         :V4 ["B" "C" "A" "B" "C" "A" "B" "C" "A"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/order-by DS [:V1 :V3] [:desc :asc]))
        {:V1 [2 2 2 2 1 1 1 1 1],
         :V2 [4 2 8 6 1 7 5 3 9],
         :V3 [0.5 1.0 1.0 1.5 0.5 0.5 1.0 1.5 1.5],
         :V4 ["A" "B" "B" "C" "A" "A" "B" "C" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1880,7 +1774,6 @@
         :V4 ["C" "C" "C" "B" "B" "B" "A" "A" "A"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (defn dist
             [v1 v2]
@@ -1890,7 +1783,6 @@
                  (reduce +)
                  (Math/sqrt))))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (tc/order-by DS [:V1 :V2 :V3] (fn [[x1 y1 z1 :as v1] [x2 y2 z2 :as v2]]
@@ -1904,7 +1796,6 @@
         :V4 ["A" "B" "A" "C" "B" "A" "C" "C" "B"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/unique-by DS))
        {:V1 [1 2 1 2 1 2 1 2 1],
@@ -1913,11 +1804,9 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/unique-by DS :V1))
        {:V1 [1 2], :V2 [1 2], :V3 [0.5 1.0], :V4 ["A" "B"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1928,11 +1817,9 @@
         :V4 ["A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/unique-by DS (fn [m] (mod (:V2 m) 3))))
        {:V1 [1 2 1], :V2 [1 2 3], :V3 [0.5 1.0 1.5], :V4 ["A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1941,7 +1828,6 @@
               (tc/first)
               (tc/ungroup)))
        {:V1 [1 2 1], :V2 [1 2 3], :V3 [0.5 1.0 1.5], :V4 ["A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1955,11 +1841,9 @@
         :V4 ["A" "A" "B" "B" "C" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/unique-by DS :V1 {:strategy :last}))
        {:V1 [2 1], :V2 [8 9], :V3 [1.0 1.5], :V4 ["B" "C"]}))
-
 
 
 
@@ -1971,11 +1855,9 @@
         :V3 [[0.5 0.5 0.5] [1.0 1.0 1.0] [1.5 1.5 1.5]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/unique-by DS :V4 {:strategy (partial reduce +)}))
        {:V1 [4 5 4], :V2 [12 15 18], :V3 [1.5 3.0 4.5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1984,7 +1866,6 @@
         :V2 [[1 4 7] [2 5 8] [3 6 9]],
         :V3 [[0.5 0.5 0.5] [1.0 1.0 1.0] [1.5 1.5 1.5]],
         :V4 [["A" "A" "A"] ["B" "B" "B"] ["C" "C" "C"]]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -1999,7 +1880,6 @@
         :V4 [["A" "A"] ["C" "C"] ["B"] ["B" "B"] ["A"] ["C"]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DSm (tc/dataset {:V1 (take 9 (cycle [1 2 nil]))
                                 :V2 (range 1 10)
@@ -2007,14 +1887,12 @@
                                 :V4 (take 9 (cycle ["A" "B" "C"]))})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           DSm)
        {:V1 [1 2 :var-or-nil 1 2 :var-or-nil 1 2 :var-or-nil],
         :V2 [1 2 3 4 5 6 7 8 9],
         :V3 [0.5 1.0 :var-or-nil 1.5 0.5 1.0 :var-or-nil 1.5 0.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2025,14 +1903,12 @@
         :V4 ["C" "C" "A" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-missing DSm :V1))
        {:V1 [:var-or-nil :var-or-nil :var-or-nil],
         :V2 [3 6 9],
         :V3 [:var-or-nil 1.0 0.5],
         :V4 ["C" "C" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2046,7 +1922,6 @@
         :V4 ["A" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/drop-missing DSm))
        {:V1 [1 2 1 2 2],
@@ -2055,14 +1930,12 @@
         :V4 ["A" "B" "A" "B" "B"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/drop-missing DSm :V1))
        {:V1 [1 2 1 2 1 2],
         :V2 [1 2 4 5 7 8],
         :V3 [0.5 1.0 1.5 0.5 :var-or-nil 1.5],
         :V4 ["A" "B" "A" "B" "A" "B"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2076,12 +1949,10 @@
         :V4 ["A" "A" "A" "B" "B" "B"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DSm2 (tc/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
                                  :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DSm2)
@@ -2119,12 +1990,10 @@
          5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/replace-missing DSm2))
        {:a [1.0 1.0 1.0 1.0 2.0 2.0 2.0 2.0 4.0 4.0 4.0 4.0 11.0 11.0 11.0],
         :b [2 2 2 2 2 2 13 13 13 13 13 3 4 5 5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2146,7 +2015,6 @@
          999.0
          999.0],
         :b [2 2 2 999 999 999 999 999 999 13 999 3 4 5 5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2185,7 +2053,6 @@
          5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/replace-missing DSm2 :a :value [-999 -998 -997]))
        {:a
@@ -2222,7 +2089,6 @@
          5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/replace-missing DSm2 :a :value tech.v3.datatype.functional/mean))
        {:a [4.5 4.5 4.5 1.0 2.0 4.5 4.5 4.5 4.5 4.5 4.0 4.5 11.0 4.5 4.5],
@@ -2242,7 +2108,6 @@
          4
          5
          5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2281,12 +2146,10 @@
          5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/replace-missing DSm2 [:a :b] :downup))
        {:a [1.0 1.0 1.0 1.0 2.0 2.0 2.0 2.0 2.0 2.0 4.0 4.0 11.0 11.0 11.0],
         :b [2 2 2 2 2 2 2 2 2 13 13 3 4 5 5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2310,7 +2173,6 @@
         :b [2 2 2 2 2 2 2 2 2 13 13 3 4 5 5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/replace-missing DSm2 [:a :b] :up))
        {:a
@@ -2332,12 +2194,10 @@
         :b [2 2 2 13 13 13 13 13 13 13 3 3 4 5 5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/replace-missing DSm2 [:a :b] :updown))
        {:a [1.0 1.0 1.0 1.0 2.0 4.0 4.0 4.0 4.0 4.0 4.0 11.0 11.0 11.0 11.0],
         :b [2 2 2 13 13 13 13 13 13 13 3 3 4 5 5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2346,12 +2206,10 @@
         :b [2.0 2.0 2.0 7.5 7.5 7.5 7.5 7.5 7.5 13.0 8.0 3.0 4.0 5.0 5.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/replace-missing DSm2 [:a :b] :down tech.v3.datatype.functional/mean))
        {:a [4.5 4.5 4.5 1.0 2.0 2.0 2.0 2.0 2.0 2.0 4.0 4.0 11.0 11.0 11.0],
         :b [2 2 2 2 2 2 2 2 2 13 13 3 4 5 5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2390,7 +2248,6 @@
          5.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> (tc/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
                                 nil nil nil nil nil nil nil
@@ -2408,7 +2265,6 @@
          [java.time.LocalDateTime "2020-10-01T01:01:01"]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> (tc/dataset {:a [1 2 9]
                            :b [:a :b :c]})
@@ -2417,13 +2273,11 @@
         :b [:a :b :b :b :b :b :b :b :c]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/join-columns DSm :joined [:V1 :V2 :V4]))
        {:V3 [0.5 1.0 :var-or-nil 1.5 0.5 1.0 :var-or-nil 1.5 0.5],
         :joined
         ["1-1-A" "2-2-B" "3-C" "1-4-A" "2-5-B" "6-C" "1-7-A" "2-8-B" "9-C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2434,7 +2288,6 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"],
         :joined
         ["1-1-A" "2-2-B" "3-C" "1-4-A" "2-5-B" "6-C" "1-7-A" "2-8-B" "9-C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2450,7 +2303,6 @@
          "1-7-A"
          "2-8-B"
          "NA-9-C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2469,7 +2321,6 @@
          "./9/C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/join-columns DSm :joined [:V1 :V2 :V4] {:separator ["-" "/"]
                                                       :missing-subst "."}))
@@ -2484,7 +2335,6 @@
          "1-7/A"
          "2-8/B"
          ".-9/C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2502,7 +2352,6 @@
          {:V1 :var-or-nil, :V2 9, :V4 "C"}]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/join-columns DSm :joined [:V1 :V2 :V4] {:result-type :seq}))
        {:V3 [0.5 1.0 :var-or-nil 1.5 0.5 1.0 :var-or-nil 1.5 0.5],
@@ -2516,7 +2365,6 @@
          [1 7 "A"]
          [2 8 "B"]
          [:var-or-nil 9 "C"]]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2534,7 +2382,6 @@
          1128367958]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DSm
               (tc/group-by :V4)
@@ -2545,18 +2392,15 @@
         ["1-1-A" "1-4-A" "1-7-A" "2-2-B" "2-5-B" "2-8-B" "3-C" "6-C" "9-C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def df (tc/dataset {:x ["a" "a" nil nil]
                                 :y ["b" nil "b" nil]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           df)
        {:x ["a" "a" :var-or-nil :var-or-nil],
         :y ["b" :var-or-nil "b" :var-or-nil]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2568,14 +2412,12 @@
         "z" ["a_b" "a_NA" "NA_b" "NA_NA"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/join-columns df "z" [:x :y] {:drop-columns? false
                                             :separator "_"}))
        {:x ["a" "a" :var-or-nil :var-or-nil],
         :y ["b" :var-or-nil "b" :var-or-nil],
         "z" ["a_b" "a" "b" :var-or-nil]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2587,7 +2429,6 @@
         :int-part [0 1 1 0 1 1 0 1 1],
         :frac-part [0.5 0.0 0.5 0.5 0.0 0.5 0.5 0.0 0.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2602,7 +2443,6 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/separate-column DS :V3 [:int-part :frac-part] (fn [^double v]
                                                                [(int (quot v 1.0))
@@ -2613,7 +2453,6 @@
         :frac-part
         [0.5 :var-or-nil 0.5 0.5 :var-or-nil 0.5 0.5 :var-or-nil 0.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2630,7 +2469,6 @@
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/separate-column DS :V3 (fn [^double v]
                                         {:int-part (int (quot v 1.0))
@@ -2640,7 +2478,6 @@
         :int-part [0 1 1 0 1 1 0 1 1],
         :fract-part [0.5 0.0 0.5 0.5 0.0 0.5 0.5 0.0 0.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2655,14 +2492,12 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/separate-column DS :V3 nil (fn [^double v]
                                            {:int-part (int (quot v 1.0))
                                             :fract-part (mod v 1.0)}) {:drop-column? :all}))
        {:int-part [0 1 1 0 1 1 0 1 1],
         :fract-part [0.5 0.0 0.5 0.5 0.0 0.5 0.5 0.0 0.5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2675,7 +2510,6 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DSm
               (tc/join-columns :joined [:V1 :V2 :V4] {:result-type :map})
@@ -2684,7 +2518,6 @@
         :v1 [1 2 :var-or-nil 1 2 :var-or-nil 1 2 :var-or-nil],
         :v2 [1 2 3 4 5 6 7 8 9],
         :v4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DSm
@@ -2696,46 +2529,37 @@
         :v4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def df-separate (tc/dataset {:x [nil "a.b" "a.d" "b.c"]})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (def df-separate2 (tc/dataset {:x ["a" "a b" nil "a b c"]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (def df-separate3 (tc/dataset {:x ["a?b" nil "a.b" "b:c"]})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (def df-extract (tc/dataset {:x [nil "a-b" "a-d" "b-c" "d-e"]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           df-separate)
        {:x [:var-or-nil "a.b" "a.d" "b.c"]}))
-
 
   (is (= (note-to-test/represent-value
           df-separate2)
        {:x ["a" "a b" :var-or-nil "a b c"]}))
 
-
   (is (= (note-to-test/represent-value
           df-separate3)
        {:x ["a?b" :var-or-nil "a.b" "b:c"]}))
 
-
   (is (= (note-to-test/represent-value
           df-extract)
        {:x [:var-or-nil "a-b" "a-d" "b-c" "d-e"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2743,11 +2567,9 @@
        {:A [:var-or-nil "a" "a" "b"], :B [:var-or-nil "b" "d" "c"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/separate-column df-separate :x [nil :B] "\\."))
        {:B [:var-or-nil "b" "d" "c"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2755,11 +2577,9 @@
        {"a" ["a" "a" :var-or-nil "a"], "b" [:var-or-nil "b" :var-or-nil "b"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/separate-column df-separate3 :x ["a" "b"] "[?\\.:]"))
        {"a" ["a" :var-or-nil "a" "b"], "b" ["b" :var-or-nil "b" "c"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2767,11 +2587,9 @@
        {"a" ["a" :var-or-nil "a" "b"], "b" ["b" :var-or-nil "b" "c"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/separate-column df-extract :x ["A"] "-"))
        {"A" [:var-or-nil "a" "a" "b" "d"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2779,12 +2597,10 @@
        {"A" [:var-or-nil "a" "a" "b" "d"], "B" [:var-or-nil "b" "d" "c" "e"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/separate-column df-extract :x ["A" "B"] #"([a-d]+)-([a-d]+)"))
        {"A" [:var-or-nil "a" "a" "b" :var-or-nil],
         "B" [:var-or-nil "b" "d" "c" :var-or-nil]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2795,14 +2611,12 @@
        {:y [:a :b], 0 [1.0 4.0], 1 [2.0 5.0], 2 [3.0 6.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> (tc/dataset {0 [0.0 1 2]
                            1 [3.0 4 5]
                            :x [:a :b :c]})
               (tc/columns->array-column [0 1] :y)))
        {:x [:a :b :c], :y [[0.0 3.0] [1.0 4.0] [2.0 5.0]]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2813,14 +2627,12 @@
         :V2 [[1 7] [2 8] [3 9] [4] [5] [6]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/fold-by DS [:V4]))
        {:V4 ["A" "B" "C"],
         :V1 [[1 2 1] [2 1 2] [1 2 1]],
         :V2 [[1 4 7] [2 5 8] [3 6 9]],
         :V3 [[0.5 0.5 0.5] [1.0 1.0 1.0] [1.5 1.5 1.5]]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2831,14 +2643,12 @@
         :V3 [[0.5 0.5 0.5] [1.0 1.0 1.0] [1.5 1.5 1.5]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/fold-by DS [:V4] set))
        {:V4 ["A" "B" "C"],
         :V1 [#{1 2} #{1 2} #{1 2}],
         :V2 [#{7 1 4} #{2 5 8} #{6 3 9}],
         :V3 [#{0.5} #{1.0} #{1.5}]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2850,7 +2660,6 @@
         :V1 [[1 1] [1 1] [1] [2 2] [2] [2]],
         :V2 [[1 7] [3 9] [5] [2 8] [4] [6]],
         :V3 [[0.5 0.5] [1.5 1.5] [1.0] [1.0 1.0] [0.5] [1.5]]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2879,14 +2688,12 @@
         :V1 [1 2 1 2 1 2 1 2 1]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/unroll (tc/fold-by DS [:V4]) [:V1 :V2 :V3]))
        {:V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"],
         :V1 [1 2 1 2 1 2 1 2 1],
         :V2 [1 4 7 2 5 8 3 6 9],
         :V3 [0.5 0.5 0.5 1.0 1.0 1.0 1.5 1.5 1.5]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2900,7 +2707,6 @@
         :V3 [0.5 0.5 0.5 0.5 1.0 1.0 1.0 1.0 1.5 1.5 1.5 1.5 0.5 1.0 1.5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/unroll (tc/fold-by DS [:V1]) [:V4 :V2 :V3] {:indexes? true}))
        {:V1 [1 1 1 1 1 2 2 2 2],
@@ -2909,7 +2715,6 @@
         :V2 [1 3 5 7 9 2 4 6 8],
         :V3 [0.5 1.5 1.0 0.5 1.5 1.0 0.5 1.5 1.0]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/unroll (tc/fold-by DS [:V1]) [:V4 :V2 :V3] {:indexes? "vector idx"}))
        {:V1 [1 1 1 1 1 2 2 2 2],
@@ -2917,7 +2722,6 @@
         :V4 ["A" "C" "B" "A" "C" "B" "A" "C" "B"],
         :V2 [1 3 5 7 9 2 4 6 8],
         :V3 [0.5 1.5 1.0 0.5 1.5 1.0 0.5 1.5 1.0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -2933,7 +2737,6 @@
         :categorical? [:var-or-nil true :var-or-nil :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V1)
@@ -2947,11 +2750,9 @@
         :V3 [0.5 0.5 1.5 1.5 1.0 1.0 1.0 0.5 1.5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def relig-income (tc/dataset "data/relig_income.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           relig-income)
@@ -2988,7 +2789,6 @@
          "Other Faiths"
          "Other World Religions"
          "Unaffiliated"]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/pivot->longer relig-income (complement #{"religion"})))
@@ -3037,12 +2837,10 @@
         :$value [27 12 27 418 15 575 1 228 20 19 289 29 6 13 9 20 5 217 96 76]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def bilboard (-> (tc/dataset "data/billboard.csv.gz")
                             (tc/drop-columns :type/boolean))))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (->> bilboard
@@ -3303,7 +3101,6 @@
          "Anthony, Marc"
          "Anthony, Marc"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/pivot->longer bilboard #(clojure.string/starts-with? % "wk") {:target-columns :week
                                                                              :value-column-name :rank}))
@@ -3394,7 +3191,6 @@
         :rank [4 34 22 5 8 5 14 27 33 21 22 18 73 93 83 3 79 23 29 18]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/pivot->longer bilboard #(clojure.string/starts-with? % "wk") {:target-columns :week
                                                                              :value-column-name :rank
@@ -3467,11 +3263,9 @@
         :rank [21 7 37 31 5 42 14 49 12 94 57 65 31 19 35 18 67 69 18 19]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def who (tc/dataset "data/who.csv.gz")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (->> who
@@ -3689,7 +3483,6 @@
          64
          21]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/pivot->longer who #(clojure.string/starts-with? % "new") {:target-columns [:diagnosis :gender :age]
                                                                          :splitter #"new_?(.*)_(.)(.*)"
@@ -3845,11 +3638,9 @@
         [60 1021 0 2992 0 1 1124 116 105 44 958 2 13 14705 0 162 63 8 301 0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def family (tc/dataset "data/family.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           family)
@@ -3868,7 +3659,6 @@
          [java.time.LocalDate "2005-02-28"]],
         "gender_child1" [1 2 2 1 2],
         "gender_child2" [2 :var-or-nil 2 1 1]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/pivot->longer family (complement #{"family"}) {:target-columns [nil :child]
@@ -3898,11 +3688,9 @@
         "gender" [1 2 2 1 2 2 2 1 1]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def anscombe (tc/dataset "data/anscombe.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           anscombe)
@@ -3914,7 +3702,6 @@
         "y2" [9.14 8.14 8.74 8.77 9.26 8.1 6.13 3.1 9.13 7.26 4.74],
         "y3" [7.46 6.77 12.74 7.11 7.81 8.84 6.08 5.39 8.15 6.42 5.73],
         "y4" [6.58 5.76 7.71 8.84 8.47 7.04 5.25 12.5 5.56 7.91 6.89]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/pivot->longer anscombe :all {:splitter #"(.)(.)"
@@ -3948,11 +3735,9 @@
 
 
 
-
   (is (= (note-to-test/represent-value
           (def fish (tc/dataset "data/fish_encounters.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           fish)
@@ -3999,7 +3784,6 @@
          "BCE2"
          "BCW2"],
         "seen" [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/pivot->wider fish "station" "seen" {:drop-missing? false}))
@@ -4207,11 +3991,9 @@
          4864]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def warpbreaks (tc/dataset "data/warpbreaks.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           warpbreaks)
@@ -4261,7 +4043,6 @@
          "H"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> warpbreaks
               (tc/group-by ["wool" "tension"])
@@ -4269,7 +4050,6 @@
        {"wool" ["A" "A" "A" "B" "B" "B"],
         "tension" ["L" "M" "H" "L" "M" "H"],
         :n [9 9 9 9 9 9]}))
-
 
   (is (= (note-to-test/represent-value
           (-> warpbreaks
@@ -4286,7 +4066,6 @@
          [20 21 24 17 13 15 15 16 28]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> warpbreaks
               (tc/reorder-columns ["wool" "tension" "breaks"])
@@ -4296,11 +4075,9 @@
         "B" [28.22222222222222 28.77777777777778 18.77777777777778]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def production (tc/dataset "data/production.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           production)
@@ -4389,7 +4166,6 @@
          -0.723396863031015
          0.47248951964453134]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/pivot->wider production ["product" "country"] "production"))
        {"year"
@@ -4456,7 +4232,6 @@
          -2.502627383821918
          -1.6275376866923248
          0.0332964450957834]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -4527,11 +4302,9 @@
          0.0332964450957834]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def income (tc/dataset "data/us_rent_income.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           income)
@@ -4600,7 +4373,6 @@
          25952
          1077],
         "moe" [136 3 508 13 148 4 165 5 109 3 109 5 195 5 247 10 681 17 70 3]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/pivot->wider income "variable" ["estimate" "moe"] {:drop-missing? false}))
@@ -4690,7 +4462,6 @@
          825
          808],
         "rent-moe" [3 13 4 5 3 5 5 10 17 3 3 18 7 3 3 4 5 4 4 7]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -4785,11 +4556,9 @@
         ["rent" "moe"] [3 13 4 5 3 5 5 10 17 3 3 18 7 3 3 4 5 4 4 7]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def contacts (tc/dataset "data/contacts.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           contacts)
@@ -4803,7 +4572,6 @@
          "Huxley Ratcliffe"],
         "person_id" [1 1 2 2 2 3]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/pivot->wider contacts "field" "value" {:drop-missing? false}))
        {"person_id" [2 1 3],
@@ -4812,11 +4580,9 @@
         "email" ["john@google.com" :var-or-nil :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def world-bank-pop (tc/dataset "data/world_bank_pop.csv.gz")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (->> world-bank-pop
@@ -4993,13 +4759,11 @@
          3.38241655431066]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def pop2 (tc/pivot->longer world-bank-pop (map str (range 2000 2018)) {:drop-missing? false
                                                                                    :target-columns ["year"]
                                                                                    :value-column-name "value"})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           pop2)
@@ -5089,13 +4853,11 @@
          -2.01331401109279]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def pop3 (tc/separate-column pop2
                                          "indicator" ["area" "variable"]
                                          #(rest (clojure.string/split % #"\.")))))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           pop3)
@@ -5204,7 +4966,6 @@
          -2.11923330970293
          80788.0
          -2.01331401109279]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -5316,14 +5077,12 @@
          0.139319888281354]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def multi (tc/dataset {:id [1 2 3 4]
                                    :choice1 ["A" "C" "D" "B"]
                                    :choice2 ["B" "B" nil "D"]
                                    :choice3 ["C" nil nil nil]})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           multi)
@@ -5333,13 +5092,11 @@
         :choice3 ["C" :var-or-nil :var-or-nil :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def multi2 (-> multi
                           (tc/pivot->longer (complement #{:id}))
                           (tc/add-column :checked true))))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           multi2)
@@ -5357,7 +5114,6 @@
         :checked [true true true true true true true true]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> multi2
               (tc/drop-columns :$column)
@@ -5370,18 +5126,15 @@
         "B" [true true :var-or-nil true]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def construction (tc/dataset "data/construction.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (def construction-unit-map {"1 unit" "1"
                                       "2 to 4 units" "2-4"
                                       "5 units or more" "5+"}))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           construction)
@@ -5412,7 +5165,6 @@
          "July"
          "August"
          "September"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -5531,7 +5283,6 @@
          400]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> construction
               (tc/pivot->longer #"^[125NWS].*|Midwest" {:target-columns [:units :region]
@@ -5573,11 +5324,9 @@
          "September"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def stocks-tidyr (tc/dataset "data/stockstidyr.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           stocks-tidyr)
@@ -5627,12 +5376,10 @@
          -2.559093207111715]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def stocks-long (tc/pivot->longer stocks-tidyr ["X" "Y" "Z"] {:value-column-name :price
                                                                           :target-columns :stocks})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           stocks-long)
@@ -5701,7 +5448,6 @@
          2.6861838168176297]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/pivot->wider stocks-long :stocks :price))
        {"time"
@@ -5750,7 +5496,6 @@
          -2.559093207111715]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> stocks-long
               (tc/select-rows (range 0 30 4))
@@ -5768,13 +5513,11 @@
         [-2.167948176956802 :var-or-nil :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def ds1 (tc/dataset {:a [1 2 1 2 3 4 nil nil 4]
                                  :b (range 101 110)
                                  :c (map str "abs tract")})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (def ds2 (tc/dataset {:a [nil 1 2 5 4 3 2 1 nil]
@@ -5784,13 +5527,11 @@
                                 :e [3 4 5 6 7 nil 8 1 1]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           ds1)
        {:a [1 2 1 2 3 4 :var-or-nil :var-or-nil 4],
         :b [101 102 103 104 105 106 107 108 109],
         :c ["a" "b" "s" " " "t" "r" "a" "c" "t"]}))
-
 
   (is (= (note-to-test/represent-value
           ds2)
@@ -5808,7 +5549,6 @@
          [:symbol "X"]
          [:symbol "X"]],
         :e [3 4 5 6 7 :var-or-nil 8 1 1]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -5832,7 +5572,6 @@
         :e [4 5 6 7 :var-or-nil 8 1 1 :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/left-join ds2 ds1 :b))
        {:b [102 103 104 105 106 107 108 109 110],
@@ -5852,7 +5591,6 @@
         :right.b [102 103 104 105 106 107 108 109 :var-or-nil],
         :right.a [2 1 2 3 4 :var-or-nil :var-or-nil 4 :var-or-nil],
         :right.c ["b" "s" " " "t" "r" "a" "c" "t" :var-or-nil]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -5904,7 +5642,6 @@
          :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/left-join ds2 ds1 [:a :b]))
        {:a [1 2 3 4 :var-or-nil 1 2 5 :var-or-nil],
@@ -5943,7 +5680,6 @@
          :var-or-nil
          :var-or-nil
          :var-or-nil]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -6000,7 +5736,6 @@
          :var-or-nil
          :var-or-nil
          :var-or-nil]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -6063,7 +5798,6 @@
          :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/right-join ds1 ds2 :b))
        {:b [109 108 107 106 105 104 103 102 :var-or-nil],
@@ -6085,7 +5819,6 @@
         :e [4 5 6 7 :var-or-nil 8 1 1 3]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/right-join ds2 ds1 :b))
        {:b [102 103 104 105 106 107 108 109 :var-or-nil],
@@ -6105,7 +5838,6 @@
         :right.b [102 103 104 105 106 107 108 109 101],
         :right.a [2 1 2 3 4 :var-or-nil :var-or-nil 4 1],
         :right.c ["b" "s" " " "t" "r" "a" "c" "t" "a"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -6146,7 +5878,6 @@
          [:symbol "X"]
          [:symbol "X"]],
         :e [7 :var-or-nil 8 1 3 4 5 6 1]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -6196,7 +5927,6 @@
         :right.a [1 2 3 4 1 2 :var-or-nil :var-or-nil 4],
         :right.b [103 104 105 106 101 102 107 108 109],
         :right.c ["s" " " "t" "r" "a" "b" "a" "c" "t"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -6259,7 +5989,6 @@
          [:symbol "X"]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/right-join ds2 ds1 {:left :e :right :a}))
        {:e [1 1 1 1 3 4 4 :var-or-nil :var-or-nil :var-or-nil :var-or-nil],
@@ -6316,7 +6045,6 @@
         :right.c ["a" "a" "s" "s" "t" "r" "t" "b" " " "a" "c"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/inner-join ds1 ds2 :b))
        {:b [109 108 107 106 105 104 103 102],
@@ -6334,7 +6062,6 @@
          [:symbol "X"]
          [:symbol "X"]],
         :e [4 5 6 7 :var-or-nil 8 1 1]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -6356,7 +6083,6 @@
         :right.c ["b" "s" " " "t" "r" "a" "c" "t"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/inner-join ds1 ds2 [:a :b]))
        {:a [4 3 2 1],
@@ -6369,7 +6095,6 @@
         :e [7 :var-or-nil 8 1]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/inner-join ds2 ds1 [:a :b]))
        {:a [1 2 3 4],
@@ -6380,7 +6105,6 @@
         :right.a [1 2 3 4],
         :right.b [103 104 105 106],
         :right.c ["s" " " "t" "r"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -6401,7 +6125,6 @@
          [:symbol "X"]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/inner-join ds2 ds1 {:left :e :right :a}))
        {:e [1 1 1 1 3 4 4],
@@ -6418,7 +6141,6 @@
          [:symbol "X"]],
         :right.b [101 101 103 103 105 106 109],
         :right.c ["a" "a" "s" "s" "t" "r" "t"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -6443,7 +6165,6 @@
         :e [4 5 6 7 :var-or-nil 8 1 1 :var-or-nil 3]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/full-join ds2 ds1 :b))
        {:b [102 103 104 105 106 107 108 109 110 :var-or-nil],
@@ -6464,7 +6185,6 @@
         :right.b [102 103 104 105 106 107 108 109 :var-or-nil 101],
         :right.a [2 1 2 3 4 :var-or-nil :var-or-nil 4 :var-or-nil 1],
         :right.c ["b" "s" " " "t" "r" "a" "c" "t" :var-or-nil "a"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -6591,7 +6311,6 @@
          1]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/full-join ds2 ds1 [:a :b]))
        {:a
@@ -6714,7 +6433,6 @@
          "a"
          "c"
          "t"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -6857,7 +6575,6 @@
          [:symbol "X"]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/full-join ds2 ds1 {:left :e :right :a}))
        {:e
@@ -6998,13 +6715,11 @@
          "c"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/semi-join ds1 ds2 :b))
        {:b [109 108 107 106 105 104 103 102],
         :a [4 :var-or-nil :var-or-nil 4 3 2 1 2],
         :c ["t" "c" "a" "r" "t" " " "s" "b"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7024,11 +6739,9 @@
         :e [1 1 8 :var-or-nil 7 6 5 4]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/semi-join ds1 ds2 [:a :b]))
        {:a [4 3 2 1], :b [106 105 104 103], :c ["r" "t" " " "s"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7040,13 +6753,11 @@
         :e [1 8 :var-or-nil 7]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/semi-join ds1 ds2 {:left :a :right :e}))
        {:a [3 4 4 1 1 :var-or-nil :var-or-nil],
         :b [105 106 109 101 103 107 108],
         :c ["t" "r" "t" "a" "s" "a" "c"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7063,17 +6774,14 @@
          [:symbol "X"]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/anti-join ds1 ds2 :b))
        {:b [101], :a [1], :c ["a"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/anti-join ds2 ds1 :b))
        {:b [110], :a [:var-or-nil], :c ["d"], :d [[:symbol "X"]], :e [3]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7083,11 +6791,9 @@
         :c ["a" "b" "a" "c" "t"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/anti-join ds1 ds2 {:left :a :right :e}))
        {:a [2 2], :b [102 104], :c ["b" " "]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7097,7 +6803,6 @@
         :b [108 107 106 104],
         :c ["t" "a" "t" "b"],
         :d [[:symbol "X"] [:symbol "X"] [:symbol "X"] [:symbol "X"]]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7145,7 +6850,6 @@
          [:symbol "X"]
          [:symbol "X"]],
         :e [3 4 4 5 5 6 6 7 7 :var-or-nil 8 8 1 1 1 1]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7216,7 +6920,6 @@
          109]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/cross-join ds1 ds2 {:left [:a :b] :right :e}))
        {:a [1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 1 1],
@@ -7242,7 +6945,6 @@
          103
          103],
         :e [3 4 5 6 7 :var-or-nil 8 1 1 3 4 5 6 7 :var-or-nil 8 1 1 3 4]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7312,7 +7014,6 @@
          [:symbol "X"]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/expand ds2 [:a :c] [:e :b]))
        {:a
@@ -7379,7 +7080,6 @@
          102
          110
          109]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7491,7 +7191,6 @@
          :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/complete ds2 [:a :c] [:e :b]))
        {:a
@@ -7581,28 +7280,23 @@
          :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def left-ds (tc/dataset {:a [1 5 10]
                                     :left-val ["a" "b" "c"]})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (def right-ds (tc/dataset {:a [1 2 3 6 7]
                                      :right-val [:a :b :c :d :e]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           left-ds)
        {:a [1 5 10], :left-val ["a" "b" "c"]}))
 
-
   (is (= (note-to-test/represent-value
           right-ds)
        {:a [1 2 3 6 7], :right-val [:a :b :c :d :e]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/asof-join left-ds right-ds :a))
@@ -7611,14 +7305,12 @@
         :right.a [1 6 :var-or-nil],
         :right-val [:a :d :var-or-nil]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/asof-join left-ds right-ds :a {:asof-op :nearest}))
        {:a [1 5 10],
         :left-val ["a" "b" "c"],
         :right.a [1 6 7],
         :right-val [:a :d :e]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/asof-join left-ds right-ds :a {:asof-op :>=}))
@@ -7628,7 +7320,6 @@
         :right-val [:a :c :e]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/concat ds1))
        {:a [1 2 1 2 3 4 :var-or-nil :var-or-nil 4],
@@ -7636,13 +7327,11 @@
         :c ["a" "b" "s" " " "t" "r" "a" "c" "t"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/concat-copying ds1))
        {:a [1 2 1 2 3 4 :var-or-nil :var-or-nil 4],
         :b [101 102 103 104 105 106 107 108 109],
         :c ["a" "b" "s" " " "t" "r" "a" "c" "t"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7727,7 +7416,6 @@
 
 
 
-
   (is (= (note-to-test/represent-value
           (tc/concat (tc/group-by DS [:V3])
                      (tc/group-by DS [:V4])))
@@ -7740,7 +7428,6 @@
          {:V1 [1 2 1], :V2 [1 4 7], :V3 [0.5 0.5 0.5], :V4 ["A" "A" "A"]}
          {:V1 [2 1 2], :V2 [2 5 8], :V3 [1.0 1.0 1.0], :V4 ["B" "B" "B"]}
          {:V1 [1 2 1], :V2 [3 6 9], :V3 [1.5 1.5 1.5], :V4 ["C" "C" "C"]}]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -7821,7 +7508,6 @@
          :var-or-nil
          :var-or-nil
          :var-or-nil]}))
-
 
 
 
@@ -7925,7 +7611,6 @@
          [:symbol "X"]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/bind ds2 ds1))
        {:a
@@ -8025,7 +7710,6 @@
          :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/append ds1 ds2))
        {:a [:var-or-nil 1 2 5 4 3 2 1 :var-or-nil],
@@ -8044,19 +7728,16 @@
         :e [3 4 5 6 7 :var-or-nil 8 1 1]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/intersect (tc/select-columns ds1 :b)
                         (tc/select-columns ds2 :b)))
        {:b [109 108 107 106 105 104 103 102]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/difference (tc/select-columns ds1 :b)
                          (tc/select-columns ds2 :b)))
        {:b [101]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8092,11 +7773,9 @@
 
 
 
-
   (is (= (note-to-test/represent-value
           (defonce stocks (tc/dataset "https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv" {:key-fn keyword})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           stocks)
@@ -8163,7 +7842,6 @@
          29.7
          26.93
          23.21]}))
-
 
   (is (= (note-to-test/represent-value
           (-> stocks
@@ -8236,7 +7914,6 @@
          69.9525
          69.015]}))
 
-
   (is (= (note-to-test/represent-value
           (-> stocks
               (tc/group-by (juxt :symbol #(tech.v3.datatype.datetime/long-temporal-field :years (% :date))))
@@ -8308,18 +7985,15 @@
          69.015]}))
 
 
-
   (is (= (note-to-test/represent-value
           (require '[tech.v3.datatype.functional :as dfn]
                    '[tech.v3.datatype.argops :as aops]
                    '[tech.v3.datatype :as dtype]))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (defonce flights (tc/dataset "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv")))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (tc/head flights 6))
@@ -8336,11 +8010,9 @@
         "carrier" ["AA" "AA" "AA" "AA" "AA" "AA"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/shape flights))
        [253316 11]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8350,7 +8022,6 @@
                                 :c (range 13 19)})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           DT)
        {:ID ["b" "b" "b" "a" "a" "c"],
@@ -8358,11 +8029,9 @@
         :b [7 8 9 10 11 12],
         :c [13 14 15 16 17 18]}))
 
-
   (is (= (note-to-test/represent-value
           (-> :ID DT meta :datatype))
        :string))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8383,7 +8052,6 @@
         "carrier" ["AA" "AA" "AA" "AA" "AA" "AA"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows flights (range 2)))
        {"dep_delay" [14 -3],
@@ -8397,7 +8065,6 @@
         "month" [1 1],
         "day" [1 1],
         "carrier" ["AA" "AA"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8417,11 +8084,9 @@
         "carrier" ["EV" "EV" "EV" "EV" "EV" "EV"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (take 6 (flights "arr_delay")))
        [13 13 9 -26 1 0]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8431,13 +8096,11 @@
        {"arr_delay" [13 13 9 -26 1 0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> flights
               (tc/select-columns ["arr_delay" "dep_delay"])
               (tc/head 6)))
        {"arr_delay" [13 13 9 -26 1 0], "dep_delay" [14 -3 2 -8 2 4]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8448,7 +8111,6 @@
        {"delay_arr" [14 -3 2 -8 2 4]}))
 
 
-
   (is (= (note-to-test/represent-value
           (->> (dfn/+ (flights "arr_delay") (flights "dep_delay"))
                (aops/argfilter #(< % 0.0))
@@ -8456,13 +8118,11 @@
        141814))
 
 
-
   (is (= (note-to-test/represent-value
           (->> (map + (flights "arr_delay") (flights "dep_delay"))
                (filter neg?)
                (count)))
        141814))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8474,14 +8134,12 @@
        {:m_arr [5.83934932320114], :m_dep [9.807884113037284]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> flights
               (tc/select-rows (fn [row] (and (= (get row "origin") "JFK")
                                              (= (get row "month") 6))))
               (tc/row-count)))
        8422))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8499,13 +8157,11 @@
         "carrier" ["AA" "AA" "AA" "AA" "AA" "AA"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> flights
               (tc/group-by ["origin"])
               (tc/aggregate {:N tc/row-count})))
        {"origin" ["JFK" "LGA" "EWR"], :N [81483 84433 87400]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8514,7 +8170,6 @@
               (tc/group-by ["origin"])
               (tc/aggregate {:N tc/row-count})))
        {"origin" ["JFK" "LGA" "EWR"], :N [11923 11730 2649]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8526,7 +8181,6 @@
        {"origin" ["JFK" "LGA" "EWR" "JFK" "JFK" "EWR"],
         "dest" ["LAX" "PBI" "LAX" "MIA" "SEA" "MIA"],
         :N [3387 245 62 1876 298 848]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8562,7 +8216,6 @@
          7.758064516129032
          12.123595505617978
          0.3103448275862069]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8601,7 +8254,6 @@
          18.8944099378882]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> flights
               (tc/group-by (fn [row]
@@ -8613,7 +8265,6 @@
         :N [72836 34583 119304 26593]}))
 
 
-
   (is (= (note-to-test/represent-value
           DT)
        {:ID ["b" "b" "b" "a" "a" "c"],
@@ -8621,13 +8272,11 @@
         :b [7 8 9 10 11 12],
         :c [13 14 15 16 17 18]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/group-by DT :ID {:result-type :as-map}))
        {"b" {:ID ["b" "b" "b"], :a [1 2 3], :b [7 8 9], :c [13 14 15]},
         "a" {:ID ["a" "a"], :a [4 5], :b [10 11], :c [16 17]},
         "c" {:ID ["c"], :a [6], :b [12], :c [18]}}))
-
 
   (is (= (note-to-test/represent-value
           (-> DT
@@ -8637,7 +8286,6 @@
         :a [2.0 4.5 6.0],
         :b [8.0 10.5 12.0],
         :c [14.0 16.5 18.0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8665,7 +8313,6 @@
          5.4175]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> flights
               (tc/group-by ["month"])
@@ -8685,14 +8332,12 @@
         "carrier" ["EV" "EV" "AA" "AA" "AA" "AA"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DT
               (tc/pivot->longer [:a :b] {:value-column-name :val})
               (tc/drop-columns [:$column :c])))
        {:ID ["b" "b" "b" "a" "a" "c" "b" "b" "b" "a" "a" "c"],
         :val [1 2 3 4 5 6 7 8 9 10 11 12]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8703,7 +8348,6 @@
        {:ID ["b" "a" "c"], :val [[1 2 3 7 8 9] [4 5 10 11] [6 12]]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
                                 :V2 (range 1 10)
@@ -8711,16 +8355,13 @@
                                 :V4 (take 9 (cycle ["A" "B" "C"]))})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset? DS))
        true))
 
-
   (is (= (note-to-test/represent-value
           (class DS))
        tech.v3.dataset.impl.dataset.Dataset))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -8730,11 +8371,9 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS [2 3]))
        {:V1 [1 2], :V2 [3 4], :V3 [1.5 0.5], :V4 ["C" "A"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8745,14 +8384,12 @@
         :V4 ["A" "B" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS (comp #(> % 5) :V2)))
        {:V1 [2 1 2 1],
         :V2 [6 7 8 9],
         :V3 [1.5 0.5 1.0 1.5],
         :V4 ["C" "A" "B" "C"]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/select-rows DS (comp #{"A" "C"} :V4)))
@@ -8762,12 +8399,10 @@
         :V4 ["A" "C" "A" "C" "A" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS #(and (= (:V1 %) 1)
                                     (= (:V4 %) "A"))))
        {:V1 [1 1], :V2 [1 7], :V3 [0.5 0.5], :V4 ["A" "A"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8777,14 +8412,12 @@
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/unique-by DS [:V1 :V4]))
        {:V1 [1 2 1 2 1 2],
         :V2 [1 2 3 4 5 6],
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8797,7 +8430,6 @@
 
 
 
-
   (is (= (note-to-test/represent-value
           (tc/by-rank DS :V1 zero?))
        {:V1 [2 2 2 2],
@@ -8806,26 +8438,21 @@
         :V4 ["B" "A" "C" "B"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS (comp (partial re-matches #"^B") str :V4)))
        {:V1 [2 1 2], :V2 [2 5 8], :V3 [1.0 1.0 1.0], :V4 ["B" "B" "B"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS (comp #(<= 3 % 5) :V2)))
        {:V1 [1 2 1], :V2 [3 4 5], :V3 [1.5 0.5 1.0], :V4 ["C" "A" "B"]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/select-rows DS (comp #(< 3 % 5) :V2)))
        {:V1 [2], :V2 [4], :V3 [0.5], :V4 ["A"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS (comp #(<= 3 % 5) :V2)))
        {:V1 [1 2 1], :V2 [3 4 5], :V3 [1.5 0.5 1.0], :V4 ["C" "A" "B"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8836,14 +8463,12 @@
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/order-by DS :V3 :desc))
        {:V1 [1 2 1 1 2 2 1 2 1],
         :V2 [3 6 9 5 2 8 7 4 1],
         :V3 [1.5 1.5 1.5 1.0 1.0 1.0 0.5 0.5 0.5],
         :V4 ["C" "C" "C" "B" "B" "B" "A" "A" "A"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8854,32 +8479,26 @@
         :V4 ["C" "A" "B" "C" "A" "B" "C" "A" "B"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (nth (tc/columns DS :as-seq) 2))
        [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5]))
-
 
   (is (= (note-to-test/represent-value
           (tc/dataset [(nth (tc/columns DS :as-seq) 2)]))
        {:V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-columns DS :V2))
        {:V2 [1 2 3 4 5 6 7 8 9]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/select-columns DS [:V2]))
        {:V2 [1 2 3 4 5 6 7 8 9]}))
 
-
   (is (= (note-to-test/represent-value
           (DS :V2))
        [1 2 3 4 5 6 7 8 9]))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8889,16 +8508,13 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-columns DS (complement #{:V2 :V3 :V4})))
        {:V1 [1 2 1 2 1 2 1 2 1]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/drop-columns DS [:V2 :V3 :V4]))
        {:V1 [1 2 1 2 1 2 1 2 1]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8907,14 +8523,12 @@
                (tc/select-columns DS)))
        {:V1 [1 2 1 2 1 2 1 2 1], :V2 [1 2 3 4 5 6 7 8 9]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/reorder-columns DS :V4))
        {:V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"],
         :V1 [1 2 1 2 1 2 1 2 1],
         :V2 [1 2 3 4 5 6 7 8 9],
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/select-columns DS #(clojure.string/starts-with? (name %) "V")))
@@ -8923,21 +8537,17 @@
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/select-columns DS #(clojure.string/ends-with? (name %) "3")))
        {:V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/select-columns DS #"..2"))
        {:V2 [1 2 3 4 5 6 7 8 9]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/select-columns DS #{:V1 "X"}))
        {:V1 [1 2 1 2 1 2 1 2 1]}))
-
 
   (is (= (note-to-test/represent-value
           (tc/select-columns DS #(not (clojure.string/starts-with? (name %) "V2"))))
@@ -8946,21 +8556,17 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (reduce + (DS :V1)))
        13))
-
 
   (is (= (note-to-test/represent-value
           (tc/aggregate-columns DS :V1 dfn/sum))
        {:V1 [13.0]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/aggregate DS {:sumV1 #(dfn/sum (% :V1))}))
        {:sumV1 [13.0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8968,19 +8574,16 @@
                              #(dfn/standard-deviation (% :V3))]))
        {:summary-0 [13.0], :summary-1 [0.4330127018922193]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/aggregate-columns DS [:V1 :V3] [dfn/sum
                                                dfn/standard-deviation]))
        {:V1 [13.0], :V3 [0.4330127018922193]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/aggregate DS {:sumv1 #(dfn/sum (% :V1))
                              :sdv3 #(dfn/standard-deviation (% :V3))}))
        {:sumv1 [13.0], :sdv3 [0.4330127018922193]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -8990,13 +8593,11 @@
        {:V1 [6.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/first)
               (tc/select-columns :V3)))
        {:V3 [0.5]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DS
@@ -9004,19 +8605,16 @@
               (tc/select-columns :V3)))
        {:V3 [1.5]}))
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/select-rows 4)
               (tc/select-columns :V3)))
        {:V3 [1.0]}))
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/select :V3 4)))
        {:V3 [1.0]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DS
@@ -9025,20 +8623,17 @@
        {"summary" [3]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/unique-by :V4)
               (tc/row-count)))
        3))
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/unique-by)
               (tc/row-count)))
        9))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9048,11 +8643,9 @@
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/add-column DS :V1 (dfn/pow (DS :V1) 2))))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9060,7 +8653,6 @@
         :V2 [1 2 3 4 5 6 7 8 9],
         :V3 [0.5 1.0 1.5 0.5 1.0 1.5 0.5 1.0 1.5],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9080,11 +8672,9 @@
          1.3862943611198906
          0.0]}))
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/add-column DS :v5 (dfn/log (DS :V1)))))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9104,12 +8694,10 @@
          0.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/add-columns DS {:v6 (dfn/sqrt (DS :V1))
                                                  :v7 "X"})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9131,17 +8719,14 @@
         :v7 ["X" "X" "X" "X" "X" "X" "X" "X" "X"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset {:v8 (dfn/+ (DS :V3) 1)}))
        {:v8 [1.5 2.0 2.5 1.5 2.0 2.5 1.5 2.0 2.5]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/drop-columns DS :v5)))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9153,11 +8738,9 @@
         :v7 ["X" "X" "X" "X" "X" "X" "X" "X" "X"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/drop-columns DS [:v6 :v7])))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9167,11 +8750,9 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/select-columns DS (complement #{:V3}))))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9180,11 +8761,9 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/map-columns DS :V2 [:V2] #(if (< % 4.0) 0.0 %))))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9193,13 +8772,11 @@
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by [:V4])
               (tc/aggregate {:sumV2 #(dfn/sum (% :V2))})))
        {:V4 ["A" "B" "C"], :sumV2 [11.0 13.0 15.0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9211,14 +8788,12 @@
         :sumV2 [7.0 8.0 9.0 4.0 5.0 6.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by (fn [row]
                               (clojure.string/lower-case (:V4 row))))
               (tc/aggregate {:sumV1 #(dfn/sum (% :V1))})))
        {:$group-name ["a" "b" "c"], :sumV1 [6.0 9.0 6.0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9228,7 +8803,6 @@
               (tc/aggregate {:sumV1 #(dfn/sum (% :V1))})))
        {:abc ["a" "b" "c"], :sumV1 [6.0 9.0 6.0]}))
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by (fn [row]
@@ -9237,13 +8811,11 @@
        {:$group-name ["a" "b" "c"], :sumV1 [6.0 9.0 6.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by #(= (:V4 %) "A"))
               (tc/aggregate #(dfn/sum (% :V1)))))
        {:$group-name [true false], "summary" [6.0 15.0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9254,13 +8826,11 @@
        {:$group-name ["A" "B" "C"], :sumV1 [5.0 5.0 1.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V4)
               (tc/aggregate tc/row-count)))
        {:$group-name ["A" "B" "C"], "summary" [3 3 3]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9274,20 +8844,17 @@
         :n [5 5 5 5 5 4 4 4 4]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by [:V4])
               (tc/aggregate-columns :V2 first)))
        {:V4 ["A" "B" "C"], :V2 [0.0 0.0 0.0]}))
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by [:V4])
               (tc/aggregate-columns :V2 last)))
        {:V4 ["A" "B" "C"], :V2 [7.0 8.0 9.0]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DS
@@ -9296,17 +8863,14 @@
        {:V4 ["A" "B" "C"], :V2 [4.0 5.0 6.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/aggregate-columns DS :all (fn [col] (first (sort #(compare %2 %1) col)))))
        {:V1 [4.0], :V2 [9.0], :V4 ["C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/aggregate-columns DS [:V1 :V2] dfn/mean))
        {:V1 [2.3333333333333335], :V2 [4.333333333333333]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9316,7 +8880,6 @@
        {:V4 ["A" "B" "C"],
         :V1 [2.0 3.0 2.0],
         :V2 [3.6666666666666665 4.333333333333333 5.0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9332,7 +8895,6 @@
         :V2-mean [3.6666666666666665 4.333333333333333 5.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/select-columns :type/numerical)
@@ -9340,13 +8902,11 @@
        {:V1 [2.3333333333333335], :V2 [4.333333333333333]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/update-columns DS :all reverse))
        {:V1 [1.0 4.0 1.0 4.0 1.0 4.0 1.0 4.0 1.0],
         :V2 [9.0 8.0 7.0 6.0 5.0 4.0 0.0 0.0 0.0],
         :V4 ["C" "B" "A" "C" "B" "A" "C" "B" "A"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9364,7 +8924,6 @@
          2.6457513110645907
          2.8284271247461903
          3.0]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DS
@@ -9392,11 +8951,9 @@
          8103.083927575384]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/update-columns DS [:V1 :V2] dfn/sqrt)))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9413,11 +8970,9 @@
          3.0],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/update-columns DS (complement #{:V4}) #(dfn/pow % 2))))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9433,7 +8988,6 @@
          8.000000000000002
          9.0],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9453,18 +9007,15 @@
          8.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/convert-types DS :type/numerical :int32)))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
        {:V1 [1 4 1 4 1 4 1 4 1],
         :V2 [0 0 0 4 5 5 7 8 9],
         :V4 ["A" "B" "C" "A" "B" "C" "A" "B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9478,7 +9029,6 @@
         :V4 ["A" "A" "B" "B" "C" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset (let [x (dfn/+ (DS :V1) (dfn/sum (DS :V2)))]
                          (println (seq (DS :V1)))
@@ -9489,14 +9039,12 @@
         :B [39.0 42.0 39.0 42.0 39.0 42.0 39.0 42.0 39.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by [:V4])
               (tc/aggregate {:V1sum #(dfn/sum (% :V1))})
               (tc/select-rows #(>= (:V1sum %) 5))))
        {:V4 ["A" "B" "C"], :V1sum [6.0 9.0 6.0]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DS
@@ -9506,11 +9054,9 @@
        {:V4 ["B" "A" "C"], :V1sum [9.0 6.0 6.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/order-by DS :V4)))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9519,16 +9065,13 @@
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS #(= (:V4 %) "A")))
        {:V1 [1 4 1], :V2 [0 4 7], :V4 ["A" "A" "A"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS (comp #{"A" "C"} :V4)))
        {:V1 [1 4 1 1 4 1], :V2 [0 4 7 0 5 9], :V4 ["A" "A" "A" "C" "C" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9537,13 +9080,11 @@
               (tc/first)))
        {:V1 [4], :V2 [0], :V4 ["B"]}))
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/unique-by :V4)
               (tc/select-rows (comp #{"B" "C"} :V4))))
        {:V1 [4 1], :V2 [0 0], :V4 ["B" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9553,11 +9094,9 @@
        {:V1 [1], :V2 [7], :V4 ["A"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/select-rows DS (comp #{"A" "D"} :V4)))
        {:V1 [1 4 1], :V2 [0 4 7], :V4 ["A" "A" "A"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9568,20 +9107,17 @@
        {:V1-sum [12.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (-> DS
                       (tc/map-columns :V1 [:V1 :V4] #(if (= %2 "A") 0 %1))
                       (tc/order-by :V4))))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           DS)
        {:V1 [0 0 0 4 1 4 1 4 1],
         :V2 [0 4 7 0 5 8 0 5 9],
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9592,13 +9128,11 @@
        {:V4 ["A" "C"], :V1 [0.0 6.0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/order-by DS [:V4 :V1]))
        {:V1 [0 0 0 1 4 4 1 1 4],
         :V2 [0 4 7 5 0 8 0 9 5],
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9607,13 +9141,11 @@
                                      (= (:V4 %) "C")))))
        {:V1 [1 1], :V2 [0 9], :V4 ["C" "C"]}))
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/select-rows #(and (= (:V1 %) 1)
                                      (#{"B" "C"} (:V4 %))))))
        {:V1 [1 1 1], :V2 [5 0 9], :V4 ["B" "C" "C"]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DS
@@ -9622,12 +9154,10 @@
        [4 6 8]))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/update-columns DS :V2 #(map-indexed (fn [idx v]
                                                              (if (zero? idx) 3 v)) %))))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9636,11 +9166,9 @@
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/order-by DS [:V4 :V1] [:asc :desc])))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9649,11 +9177,9 @@
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/rename-columns DS {:V2 "v2"})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           DS)
@@ -9661,24 +9187,20 @@
         "v2" [3 4 7 0 8 5 5 0 9],
         :V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"]}))
 
-
   (is (= (note-to-test/represent-value
           (def DS (tc/rename-columns DS {"v2" :V2})))
        :var-or-nil))
-
 
 
   (is (= (note-to-test/represent-value
           (def DS (tc/reorder-columns DS :V4 :V1 :V2)))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           DS)
        {:V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"],
         :V1 [0 0 0 4 4 1 4 1 1],
         :V2 [3 4 7 0 8 5 5 0 9]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9688,14 +9210,12 @@
               (tc/ungroup)))
        {:V4 ["A" "B" "C"], :V1 [0 4 4], :V2 [3 0 5]}))
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V4)
               (tc/select-rows [0 2])
               (tc/ungroup)))
        {:V4 ["A" "A" "B" "B" "C" "C"], :V1 [0 0 4 1 4 1], :V2 [3 7 0 5 5 9]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DS
@@ -9705,7 +9225,6 @@
        {:V4 ["A" "A" "B" "B" "C" "C"], :V1 [0 0 4 1 1 1], :V2 [4 7 8 5 0 9]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/group-by :V4)
@@ -9713,7 +9232,6 @@
               (tc/first)
               (tc/ungroup)))
        {:V4 ["A" "B" "C"], :V1 [0 4 1], :V2 [3 0 0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9726,7 +9244,6 @@
         :V2 [3 4 7 0 8 5 5 0 9]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/add-column :row-id (range))
@@ -9734,7 +9251,6 @@
               (tc/group-by :V4)
               (tc/ungroup)))
        {:V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"], :row-id [0 1 2 3 4 5 6 7 8]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DS
@@ -9744,7 +9260,6 @@
               (tc/first)
               (tc/ungroup)))
        {:V4 ["A" "B" "C"], :row-id [0 3 6]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DS
@@ -9756,13 +9271,11 @@
        {:V4 ["A" "A" "B" "B" "C" "C"], :row-id [0 2 3 5 6 8]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> DS
               (tc/select-columns [:V1 :V4])
               (tc/fold-by :V4)))
        {:V4 ["A" "B" "C"], :V1 [[0 0 0] [4 4 1] [4 1 1]]}))
-
 
   (is (= (note-to-test/represent-value
           (-> DS
@@ -9776,11 +9289,9 @@
          {:V4 ["C" "C" "C"], :V1 [4 1 1], :V2 [5 0 9]}]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/write! DS "DF.csv"))
        :var-or-nil))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9788,11 +9299,9 @@
        :var-or-nil))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/write! DS "DF.tsv"))
        :var-or-nil))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9802,7 +9311,6 @@
         :V2 [3 4 7 0 8 5 5 0 9]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset "DF.tsv" {:key-fn keyword}))
        {:V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"],
@@ -9810,18 +9318,15 @@
         :V2 [3 4 7 0 8 5 5 0 9]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset "DF.csv" {:key-fn keyword
                                  :column-whitelist ["V1" "V4"]}))
        {:V4 ["A" "A" "A" "B" "B" "B" "C" "C" "C"], :V1 [0 0 0 4 4 1 4 1 1]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/dataset "DF.csv" {:key-fn keyword
                                  :column-blacklist ["V4"]}))
        {:V1 [0 0 0 4 4 1 4 1 1], :V2 [3 4 7 0 8 5 5 0 9]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9849,12 +9354,10 @@
         "V2" [3 4 7 0 8 5 5 0 9 3 4 7 0 8 5 5 0 9]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def mDS (tc/pivot->longer DS [:V1 :V2] {:target-columns :variable
                                                     :value-column-name :value})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           mDS)
@@ -9899,7 +9402,6 @@
         :value [0 0 0 4 4 1 4 1 1 3 4 7 0 8 5 5 0 9]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> mDS
               (tc/pivot->wider :variable :value {:fold-fn vec})
@@ -9907,7 +9409,6 @@
        {:V4 ["A" "B" "C"],
         :V1 [[0 0 0] [4 4 1] [4 1 1]],
         :V2 [[3 4 7] [0 8 5] [5 0 9]]}))
-
 
   (is (= (note-to-test/represent-value
           (-> mDS
@@ -9917,14 +9418,12 @@
         :V1 [[0 0 0] [4 4 1] [4 1 1]],
         :V2 [[3 4 7] [0 8 5] [5 0 9]]}))
 
-
   (is (= (note-to-test/represent-value
           (-> mDS
               (tc/map-columns :value #(str (> % 5))) ;; coerce to strings
               (tc/pivot->wider :value :variable {:fold-fn vec})
               (tc/update-columns ["true" "false"] (partial map #(if (sequential? %) (count %) 1)))))
        {:V4 ["A" "B" "C"], "false" [5 5 5], "true" [1 1 1]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9934,13 +9433,11 @@
         "C" {:V4 ["C" "C" "C"], :V1 [4 1 1], :V2 [5 0 9]}}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> {:a ["A:a" "B:b" "C:c"]}
               (tc/dataset)
               (tc/separate-column :a [:V1 :V2] ":")))
        {:V1 ["A" "B" "C"], :V2 ["a" "b" "c"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9949,23 +9446,19 @@
                                "XY" ["x2" "x4" "x6" "x8"]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (def y (tc/dataset {"Id" ["A" "B" "B" "D"]
                                "Y1" [1 3 5 7]
                                "XY" ["y1" "y3" "y5" "y7"]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           x)
        {"Id" ["A" "B" "C" "C"], "X1" [1 3 5 7], "XY" ["x2" "x4" "x6" "x8"]}))
 
-
   (is (= (note-to-test/represent-value
           y)
        {"Id" ["A" "B" "B" "D"], "Y1" [1 3 5 7], "XY" ["y1" "y3" "y5" "y7"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -9978,7 +9471,6 @@
         "right.XY" ["y1" "y3" "y5" :var-or-nil :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/right-join x y "Id"))
        {"Id" ["A" "B" "B" :var-or-nil],
@@ -9989,7 +9481,6 @@
         "right.XY" ["y1" "y3" "y5" "y7"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/inner-join x y "Id"))
        {"Id" ["A" "B" "B"],
@@ -9997,7 +9488,6 @@
         "XY" ["x2" "x4" "x4"],
         "Y1" [1 3 5],
         "right.XY" ["y1" "y3" "y5"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -10010,17 +9500,14 @@
         "right.XY" ["y1" "y3" "y5" :var-or-nil :var-or-nil "y7"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/semi-join x y "Id"))
        {"Id" ["A" "B"], "X1" [1 3], "XY" ["x2" "x4"]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/anti-join x y "Id"))
        {"Id" ["C" "C"], "X1" [5 7], "XY" ["x6" "x8"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -10032,7 +9519,6 @@
         "right.Id" ["A" "B" "B" "D"],
         "XY" ["y1" "y3" "y5" "y7"]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/right-join (tc/select-columns x ["Id" "XY"])
                           (tc/select-columns y ["Id" "XY"])
@@ -10041,7 +9527,6 @@
         "XY" ["x2" "x4" "x4" :var-or-nil],
         "right.Id" ["A" "B" "B" "D"],
         "right.XY" ["y1" "y3" "y5" "y7"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -10056,7 +9541,6 @@
         "X1Y1" [1.0 24.0 :var-or-nil :var-or-nil]}))
 
 
-
   (is (= (note-to-test/represent-value
           (-> x
               (tc/select-columns ["Id" "X1"])
@@ -10067,7 +9551,6 @@
         "right.Id" ["A" "B" "B" "D"],
         "Y1" [1 3 5 7],
         "XY" ["y1" "y3" "y5" "y7"]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -10081,22 +9564,18 @@
         "right.XY" [["y1"] ["y3" "y5"] [] []]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def cjds (tc/dataset {:V1 [[2 1 1]]
                                   :V2 [[3 2]]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           cjds)
        {:V1 [[2 1 1]], :V2 [[3 2]]}))
 
-
   (is (= (note-to-test/represent-value
           (reduce #(tc/unroll %1 %2) cjds (tc/column-names cjds)))
        {:V1 [2 2 1 1 1 1], :V2 [3 2 3 2 3 2]}))
-
 
   (is (= (note-to-test/represent-value
           (-> (reduce #(tc/unroll %1 %2) cjds (tc/column-names cjds))
@@ -10104,48 +9583,39 @@
        {:V1 [2 2 1 1], :V2 [3 2 3 2]}))
 
 
-
   (is (= (note-to-test/represent-value
           (def x (tc/dataset {:V1 [1 2 3]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (def y (tc/dataset {:V1 [4 5 6]})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           (def z (tc/dataset {:V1 [7 8 9]
                               :V2 [0 0 0]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           x)
        {:V1 [1 2 3]}))
 
-
   (is (= (note-to-test/represent-value
           y)
        {:V1 [4 5 6]}))
-
 
   (is (= (note-to-test/represent-value
           z)
        {:V1 [7 8 9], :V2 [0 0 0]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/bind x y))
        {:V1 [1 2 3 4 5 6]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/bind x z))
        {:V1 [1 2 3 7 8 9], :V2 [:var-or-nil :var-or-nil :var-or-nil 0 0 0]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -10155,32 +9625,26 @@
        {:V1 [1 2 3 4 5 6], :id [0 0 0 1 1 1]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/append x y))
        {:V1 [4 5 6]}))
-
 
 
   (is (= (note-to-test/represent-value
           (def x (tc/dataset {:V1 [1 2 2 3 3]})))
        :var-or-nil))
 
-
   (is (= (note-to-test/represent-value
           (def y (tc/dataset {:V1 [2 2 3 4 4]})))
        :var-or-nil))
-
 
   (is (= (note-to-test/represent-value
           x)
        {:V1 [1 2 2 3 3]}))
 
-
   (is (= (note-to-test/represent-value
           y)
        {:V1 [2 2 3 4 4]}))
-
 
 
   (is (= (note-to-test/represent-value
@@ -10188,20 +9652,16 @@
        {:V1 [2 3]}))
 
 
-
   (is (= (note-to-test/represent-value
           (tc/difference x y))
        {:V1 [1]}))
-
 
 
   (is (= (note-to-test/represent-value
           (tc/union x y))
        {:V1 [1 2 3 4]}))
 
-
   (is (= (note-to-test/represent-value
           (tc/concat x y))
        {:V1 [1 2 2 3 3 2 2 3 4 4]}))
-
 )
