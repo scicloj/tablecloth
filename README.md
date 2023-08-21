@@ -167,8 +167,8 @@ In this branch, we develop a new proposed dev workflow for Tablecloth:
 ### Relevant files
 - [notebooks/index.clj](notebooks/index.clj) - the tutorial as a Kindly notebook (developed with Clay)
   - [src/conversion.clj](src/conversion.clj) - the script used to generate the notebook from the original `Rmarkdown` tutorial (up to a few additional manual edits))
-- [docs/index_quarto.html] - the rendered tutorial (created using [Quarto](https://quarto.org/))
-- [tests/index_generated_test.clj] - tests automatically generated from the tutorial
+- [docs/index_quarto.html](docs/index_quarto.html) - the rendered tutorial (created using [Quarto](https://quarto.org/))
+- [tests/index_generated_test.clj](tests/index_generated_test.clj) - tests automatically generated from the tutorial
 
 ### Actions
 - to render the notebook using Clay (assuming you have the Quarto CLI installed):
