@@ -1,12 +1,26 @@
-
+^{:kindly/hide-code? true
+  :kind/void true}
 (ns index
   (:require [scicloj.kindly.v3.kind :as kind]
             [scicloj.kindly-default.v1.api :refer [md]]
             [tablecloth.api :as tc]
-            [scicloj.note-to-test.v1.api :as note-to-test]))
+            [scicloj.note-to-test.v1.api :as note-to-test]
+            [scicloj.clay.v2.api :as clay]))
+
+^{:kindly/hide-code? true
+  :kind/void true}
+(clay/swap-options!
+ assoc
+ :quarto {:format {:html {:toc true
+                          :theme :spacelab
+                          :embed-resources true}}
+          :highlight-style :solarized
+          :code-block-background true
+          :embed-resources true})
 
 
-^:note-to-test/skip
+^{:kindly/hide-code? true
+  :kind/void true}
 (note-to-test/define-value-representations!
   [{:predicate (fn [v]
                  (-> v
@@ -62,8 +76,8 @@
     :representation (constantly :NaN)}])
 
 
-
-
+^{:kindly/hide-code? true
+  :kind/void true}
 (comment
   (time
    (note-to-test/gentest! "notebooks/index.clj"
