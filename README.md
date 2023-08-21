@@ -161,8 +161,8 @@ run it before making documentation
 ## New experimental dev workflow
 
 In this branch, we develop a new proposed dev workflow for Tablecloth:
-- namespace-as-a-notebook using [Kindly](https://scicloj.github.io/kindly) and [Clay](https://scicloj.github.io/clay)
-- testable docs using [note-to-test](https://github.com/scicloj/note-to-test)
+- namespace-as-a-notebook documentation using [Kindly](https://scicloj.github.io/kindly) and [Clay](https://scicloj.github.io/clay)
+- testing the documentation using [note-to-test](https://github.com/scicloj/note-to-test)
 
 ### Relevant files
 - [notebooks/index.clj](notebooks/index.clj) - the tutorial as a Kindly notebook (developed with Clay)
