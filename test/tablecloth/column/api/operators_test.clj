@@ -41,7 +41,8 @@
 
 (facts
 "about ops that take a single column and return a column"
-(let [ops [abs
+(let [ops [
+           abs
            acos
            asin
            atan
@@ -76,7 +77,8 @@
            tanh
            to-degrees
            to-radians
-           ulp]
+           ulp
+           ]
       a (sample-column 5)]
   (doseq [op ops]
     (op a) => column?)))

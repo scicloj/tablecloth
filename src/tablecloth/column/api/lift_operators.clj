@@ -56,12 +56,17 @@
               (return-scalar-or-column original-result#)))))))))
 
 (def serialized-lift-fn-lookup
-  {['*
+  {['<
+    '<=
+    '>
+    '>=
+    '*
     '+
     '-
     '/
     'abs
     'acos
+    'and
     'asin
     'atan
     'atan2
@@ -80,126 +85,84 @@
     'ceil
     'cos
     'cosh
+    'cumprod
+    'cumsum
+    'cummax
+    'cummin
+    'descriptive-statistics
+    'distance
+    'distance-squared
+    'dot-product
+    'even?
+    'equals
     'exp
     'expm1
+    'eq
+    'fill-range
+    'finite
     'floor
     'get-significand
     'hypot
     'identity
     'ieee-remainder
+    'infinite?
+    'kendalls-correlation
+    'kurtosis
     'log
     'log10
     'log1p
     'logistic
+    'mathematical-integer?
+    'magnitude
+    'magnitude-squared
     'max
+    'mean
+    'mean-fast
+    'median
     'min
+    'nan?
+    'neg?
     'next-down
     'next-up
+    'normalize
+    'not
+    'not-eq
+    'odd?
+    'or
+    'pearsons-correlation
+    'percentiles
+    'pos?
     'pow
+    'quartiles
+    'quartile-1
+    'quartile-3
     'quot
+    'reduce-min
+    'reduce-max
+    'reduce-*
+    'reduce-+
     'rem
     'rint
+    'round
+    'skew
+    'shift
     'signum
     'sin
     'sinh
+    'spearmans-correlation
     'sq
     'sqrt
+    'standard-deviation
+    'sum
+    'sum-fast
     'tan
     'tanh
     'to-degrees
     'to-radians
     'ulp
-    'unsigned-bit-shift-right] {:lift-fn lift-op}
-   ['kurtosis
-    'sum
-    'mean
-    'skew
+    'unsigned-bit-shift-right
     'variance
-    'standard-deviation
-    'quartile-3
-    'quartile-1
-    'median] {:lift-fn lift-op
-              :optional-args {:new-args {'[x] {'data 'x}
-                                         '[x options] {'data 'x}}}}
-   ['even?
-    'finite?
-    'infinite?
-    'mathematical-integer?
-    'nan?
-    'neg?
-    'not
-    'odd?
-    'pos?
-    'round
-    'zero?] {:lift-fn lift-op
-             :optional-args {:new-args {'[x] {'arg 'x}
-                                        '[x options] {'arg 'x}}}}
-   ['percentiles] {:lift-fn lift-op
-                   :optional-args
-                   {:new-args {'[x percentiles] {'data 'x
-                                                 'percentages 'percentiles}
-                               '[x percentiles options] {'data 'x
-                                                         'percentages 'percentiles}}}}
-   ['shift] {:lift-fn lift-op
-             :optional-args {'[x n] {'rdr 'x}}}
-   ['descriptive-statistics] {:lift-fn lift-op
-                              :optional-args {:new-args {'[x] {'rdr 'x}
-                                                         '[x stats-names] {'rdr 'x}
-                                                         '[x stats-names options] {'rdr 'x}
-                                                         '[x stats-names stats-data options] {'src-rdr 'x}}}}
-   ['quartiles] {:lift-fn lift-op
-                 :optional-args {:new-args {'[x] {'item 'x}
-                                            '[x options] {'item 'x}}}}
-   ['fill-range] {:lift-fn lift-op
-                  :optional-args {:new-args {'[x max-span] {'numeric-data 'x}}}}
-   ['reduce-min
-    'reduce-max
-    'reduce-*
-    'reduce-+] {:lift-fn lift-op
-                :optional-args {:new-args {'[x] {'rdr 'x}}}}
-  ['mean-fast
-   'sum-fast
-   'magnitude-squared] {:lift-fn lift-op
-                        :optional-args {:new-args {'[x] {'data 'x}}}}
-   ['kendalls-correlation
-    'pearsons-correlation
-    'spearmans-correlation] {:lift-fn lift-op
-                             :optional-args
-                             {:new-args {'[x y] {'lhs 'x
-                                                 'rhs 'y}
-                                         '[x y options] {'lhs 'x
-                                                         'rhs 'y}}}}
-   ['cumprod
-    'cumsum
-    'cummax
-    'cummin] {:lift-fn lift-op
-              :optional-args {:new-args {'[x] {'data 'x}}}}
-   ['normalize] {:lift-fn lift-op
-                 :optional-args {:new-args {'[x] {'item 'x}}}}
-   ['<
-    '<=
-    '>
-    '>=] {:lift-fn lift-op
-          :optional-args {:new-args {'[x y] {'lhs 'x
-                                             'rhs 'y}
-                                     '[x y z] {'lhs 'x
-                                               'mid 'y
-                                               'rhs 'z}}}}
-   ['equals] {:lift-fn lift-op
-              :optional-args {:new-args {'[x y & args] {'lhs 'x
-                                                        'rhs 'y}}}}
-   ['distance
-    'dot-product
-    'eq
-    'not-eq
-    'or
-    'distance-squared
-    'and] {:lift-fn lift-op :optional-args {:new-args {'[x y] {'lhs 'x
-                                                               'rhs 'y}}}}
-   ['magnitude] {:lift-fn lift-op :optional-args {:new-args {'[x] {'item 'x}
-                                                             '[x options] {'item 'x
-                                                                           '_options 'options}}}}
-   })
+    'zero?] {:lift-fn lift-op}})
 
 
 (comment
