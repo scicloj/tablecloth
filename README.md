@@ -164,6 +164,8 @@ In this branch, we develop a new proposed dev workflow for Tablecloth:
 - namespace-as-a-notebook documentation using [Kindly](https://scicloj.github.io/kindly) and [Clay](https://scicloj.github.io/clay)
 - testing the documentation using [note-to-test](https://github.com/scicloj/note-to-test)
 
+Note that `note-to-test` is still evolving, and this branch might be lagging and may need some adaptations to its newest version.
+
 ### Relevant files
 - [notebooks/index.clj](notebooks/index.clj) - the tutorial as a Kindly notebook (developed with Clay)
   - [src/conversion.clj](src/conversion.clj) - the script used to generate the notebook from the original `Rmarkdown` tutorial (up to a few additional manual edits))
