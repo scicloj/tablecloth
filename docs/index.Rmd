@@ -872,7 +872,7 @@ If you want to implement your own mapping function on grouped dataset you can ca
 
 ### Columns
 
-Column is a special `tech.ml.dataset`. For our purposes we cat treat columns as typed and named sequence bound to particular dataset.
+Column is a special `tech.ml.dataset` structure. For our purposes we cat treat columns as typed and named sequence bound to particular dataset.
 
 Type of the data is inferred from a sequence during column creation. 
 
