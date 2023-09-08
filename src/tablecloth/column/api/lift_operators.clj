@@ -99,7 +99,7 @@
     'expm1
     'eq
     'fill-range
-    'finite
+    'finite?
     'floor
     'get-significand
     'hypot
@@ -143,7 +143,7 @@
     'reduce-+
     'rem
     'rint
-    'round
+    ;; 'round
     'skew
     'shift
     'signum
@@ -162,7 +162,10 @@
     'ulp
     'unsigned-bit-shift-right
     'variance
-    'zero?] {:lift-fn lift-op}})
+    'zero?] {:lift-fn lift-op}
+   ['round] {:lift-fn lift-op
+             :optional-args {:new-args {['x] {'arg 'x}
+                                        ['x 'options] {'arg 'x}}}}})
 
 
 (comment

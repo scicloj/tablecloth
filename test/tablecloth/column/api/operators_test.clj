@@ -78,7 +78,7 @@
            to-degrees
            to-radians
            ulp
-           ]
+          ]
       a (sample-column 5)]
   (doseq [op ops]
     (op a) => column?)))

@@ -83,7 +83,7 @@
                log
                log10
                log1p
-              logistic
+               logistic
                mathematical-integer?
                nan?
                neg?
