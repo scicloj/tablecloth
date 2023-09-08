@@ -162,16 +162,19 @@
       (let [result (op ds :e [:a :b :c :d])]
         (contains? result :e) => true)))))
 
-;; (defn longest-vector [lst]
-;;   (reduce #(max-key count %1 %2) lst))
 
-;; (->> (ns-publics 'tablecloth.column.api.operators)
-;;      (map (fn [[sym var]] [sym (-> var meta :arglists)]))
-;;      (map (fn [[sym arglist]] [sym (longest-vector arglist)]))
-;;      (reduce (fn [memo [sym longest-arglist]]
-;;                (if (contains? memo longest-arglist)
-;;                  (update memo longest-arglist conj sym)
-;;                  (assoc memo longest-arglist [sym])))
-;;              {})
-;;      (reduce (fn [m [k v]] (update m k sort v)) {})
-;;      )
+(comment 
+  ;; some analysis I'll keep around for now b/c it may be useful later
+  (defn longest-vector [lst]
+    (reduce #(max-key count %1 %2) lst))
+
+  (->> (ns-publics 'tablecloth.column.api.operators)
+      (map (fn [[sym var]] [sym (-> var meta :arglists)]))
+      (map (fn [[sym arglist]] [sym (longest-vector arglist)]))
+      (reduce (fn [memo [sym longest-arglist]]
+                (if (contains? memo longest-arglist)
+                  (update memo longest-arglist conj sym)
+                  (assoc memo longest-arglist [sym])))
+              {})
+      (reduce (fn [m [k v]] (update m k sort v)) {})
+      ))
