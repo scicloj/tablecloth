@@ -41,8 +41,7 @@
 
 (facts
 "about ops that take a single column and return a column"
-(let [ops [
-           abs
+(let [ops [abs
            acos
            asin
            atan
