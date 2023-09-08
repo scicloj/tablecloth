@@ -143,7 +143,7 @@
     'reduce-+
     'rem
     'rint
-    ;; 'round
+    'round
     'skew
     'shift
     'signum
@@ -162,10 +162,7 @@
     'ulp
     'unsigned-bit-shift-right
     'variance
-    'zero?] {:lift-fn lift-op}
-   ['round] {:lift-fn lift-op
-             :optional-args {:new-args {['x] {'arg 'x}
-                                        ['x 'options] {'arg 'x}}}}})
+    'zero?] {:lift-fn lift-op}})
 
 
 (comment
