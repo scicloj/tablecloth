@@ -141,7 +141,7 @@ DS
 
 ### Dataset
 
-Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.datatype` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
+Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.dataset` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
 
 #### Dataset creation 
 
@@ -872,7 +872,7 @@ If you want to implement your own mapping function on grouped dataset you can ca
 
 ### Columns
 
-Column is a special `tech.ml.dataset` structure based on `tech.ml.datatype` library. For our purposes we cat treat columns as typed and named sequence bound to particular dataset. 
+Column is a special `tech.ml.dataset` structure. For our purposes we cat treat columns as typed and named sequence bound to particular dataset.
 
 Type of the data is inferred from a sequence during column creation. 
 
