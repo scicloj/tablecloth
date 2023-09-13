@@ -234,10 +234,11 @@
                                             join-name starting-ds-count fold-fn
                                             concat-columns-with concat-value-with)
                         starting-ds
-                        (ds/mapseq-reader grouped-ds))] ;; perform join on groups and create new columns
+                        (ds/mapseq-reader grouped-ds {:nil-missing? true}))] ;; perform join on groups and create new columns
      (cond-> (-> (if join-on-single? ;; finalize, recreate original columns from join column, and reorder stuff
                    result
                    (-> (separate-column result join-name rest-cols identity {:drop-column? true})
                        (reorder-columns rest-cols)))
                  (ds/set-dataset-name (ds/dataset-name ds)))
        drop-missing? (drop-missing)))))
+

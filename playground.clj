@@ -7,7 +7,9 @@
             [clojure.string :as str]
             [tech.v3.datatype.argops :as aop]
             [tech.v3.dataset.column :as col]
-            [clojure.test :as t]))
+            [tech.v3.io :as tio]
+            [tech.v3.dataset.io :as ds-io]
+            [tech.v3.dataset.zip :as zip]))
 
 (ds/concat
  (ds/new-dataset [(c/new-column :a [])])
@@ -1000,3 +1002,129 @@ DSm2
 ;;    |  4 |        4 |
 ;;    |  3 |        3 |
 ;;    |  2 |        2 |
+
+
+(tc/dataset "data/data/billboard/billboard.csv.gz")
+
+(with-open [io (-> (tio/input-stream "data.zip")
+                   (java.util.zip.ZipInputStream.))]
+  (ds-io/str->file-info (.getName (.getNextEntry io))))
+;; => {:gzipped? false, :file-type :unknown}
+
+(zip/zipfile->dataset-seq "data/data.zip")
+
+;;
+
+(defn get-rand [n col] (repeatedly n #(rand-nth col)))
+
+(def actions (tc/dataset {:campaign (get-rand 1000 [1000 1001 1002 1000 1000])
+                        :click (get-rand 1000 [true false false false])
+                        :skip (get-rand 1000 [true false])
+                        :abandon (get-rand 1000 [true true true false])}))
+
+(-> actions
+    (tc/convert-types :type/boolean :int16) ;; convert true/false to 1/0
+    (tc/group-by [:campaign])
+    (tc/aggregate {:impressions tc/row-count
+                   :clicks #(dfn/sum (:click %))
+                   :skips #(dfn/sum (:skip %))
+                   :abandons #(dfn/sum (:abandon %))})
+    (tc/map-rows (fn [{:keys [clicks abandons impressions]}]
+                   {:ctr% (* 100 (/ clicks impressions))
+                    :atr% (* 100 (/ abandons impressions))})))
+
+;; => _unnamed [3 7]:
+;;    | :campaign | :impressions | :clicks | :skips | :abandons |       :ctr% |       :atr% |
+;;    |----------:|-------------:|--------:|-------:|----------:|------------:|------------:|
+;;    |      1001 |          182 |    52.0 |   82.0 |     127.0 | 28.57142857 | 69.78021978 |
+;;    |      1000 |          609 |   157.0 |  314.0 |     450.0 | 25.77996716 | 73.89162562 |
+;;    |      1002 |          209 |    47.0 |  113.0 |     160.0 | 22.48803828 | 76.55502392 |
+
+
+(-> actions
+    (tc/convert-types :type/boolean :int16) ;; convert true/false to 1/0
+    (tc/add-column :impressions 1) ;; add artificial column filled with '1'
+    (tc/group-by [:campaign])
+    (tc/aggregate-columns [:impressions :click :skip :abandon] dfn/sum) ;; just sum selected columns
+    (tc/map-rows (fn [{:keys [click abandon impressions]}] ;; calculate
+                   {:ctr% (* 100 (/ click impressions))
+                    :atr% (* 100 (/ abandon impressions))}))
+    (tc/convert-types [:impressions :click :skip :abandon] :int32)
+    (tc/rename-columns {:click :clicks :skip :skips :abandon :abandons}))
+
+;; => _unnamed [3 7]:
+;;    | :campaign | :impressions | :clicks | :skips | :abandons |       :ctr% |       :atr% |
+;;    |----------:|-------------:|--------:|-------:|----------:|------------:|------------:|
+;;    |      1001 |          182 |      52 |     82 |       127 | 28.57142857 | 69.78021978 |
+;;    |      1000 |          609 |     157 |    314 |       450 | 25.77996716 | 73.89162562 |
+;;    |      1002 |          209 |      47 |    113 |       160 | 22.48803828 | 76.55502392 |
+
+
+(def ds1 (tc/dataset [{:a 1 :b "test"} {:a 2 :b "hi"}]))
+(def ds2 (tc/dataset [{:a 2 :b "hi"}]))
+
+(tc/difference ds1 ds2)
+;; => difference [1 2]:
+;;    | :a |   :b |
+;;    |---:|------|
+;;    |  1 | test |
+
+
+(def ds (tc/dataset {:a ["a" "" " " "b"]}))
+
+ds
+;; => _unnamed [4 1]:
+;;    | :a |
+;;    |----|
+;;    |  a |
+;;    |    |
+;;    |    |
+;;    |  b |
+
+(tc/info ds)
+;; => _unnamed: descriptive-stats [1 7]:
+;;    | :col-name | :datatype | :n-valid | :n-missing | :mode | :first | :last |
+;;    |-----------|-----------|---------:|-----------:|-------|--------|-------|
+;;    |        :a |   :string |        3 |          1 |     a |      a |     b |
+
+(tc/replace-missing ds :a :value "it was a missing value")
+;; => _unnamed [4 1]:
+;;    |                     :a |
+;;    |------------------------|
+;;    |                      a |
+;;    | it was a missing value |
+;;    |                        |
+;;    |                      b |
+
+
+(def ds (tc/dataset {:a [1 2 3 4]}))
+(def c (ds :a))
+
+c
+;; => #tech.v3.dataset.column<int64>[4]
+;;    :a
+;;    [1, 2, 3, 4]
+
+(associative? c) ;; => true
+(assoc c 2 11) ;; => [1 2 11 4]
+
+(sequential? c) ;; => true
+(seqable? c) ;; => true
+(seq c) ;; => (1 2 3 4)
+
+(reversible? c) ;; => true
+(reverse c) ;; => (4 3 2 1)
+
+(indexed? c) ;; => true
+(c 2) ;; => 3
+
+;; however
+
+(vector? c) ;; => false
+(seq? c) ;; => false
+
+
+(-> {:a [1 nil 2]
+     :b [3 4 nil]}
+    (tc/dataset)
+    (tc/rows :as-maps {:nil-missing? false}))

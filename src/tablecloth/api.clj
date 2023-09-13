@@ -295,7 +295,7 @@ column-names function returns names according to columns-selector
 
 
 (defn dataset
-  "Create `dataset`.
+  "Create a `dataset`.
   
   Dataset can be created from:
 
@@ -306,7 +306,111 @@ column-names function returns names according to columns-selector
   * array of arrays
   * single value
 
-  Single value is set only when it's not possible to find a path for given data. If tech.ml.dataset throws an exception, it's won;t be printed. To print a stack trace, set `stack-trace?` option to `true`."
+  Single value is set only when it's not possible to find a path for given data. If tech.ml.dataset throws an exception, it's won;t be printed. To print a stack trace, set `stack-trace?` option to `true`.
+
+  ds/->dataset documentation:
+
+  Create a dataset from either csv/tsv or a sequence of maps.
+
+   * A `String` be interpreted as a file (or gzipped file if it
+     ends with .gz) of tsv or csv data.  The system will attempt to autodetect if this
+     is csv or tsv and then engineering around detecting datatypes all of which can
+     be overridden.
+
+  * InputStreams have no file type and thus a `file-type` must be provided in the
+    options.
+
+  * A sequence of maps may be passed in in which case the first N maps are scanned in
+    order to derive the column datatypes before the actual columns are created.
+
+  Parquet, xlsx, and xls formats require that you require the appropriate libraries
+  which are `tech.v3.libs.parquet` for parquet, `tech.v3.libs.fastexcel` for xlsx,
+  and `tech.v3.libs.poi` for xls.
+
+
+  Arrow support is provided via the tech.v3.libs.Arrow namespace not via a file-type
+  overload as the Arrow project current has 3 different file types and it is not clear
+  what their final suffix will be or which of the three file types it will indicate.
+  Please see documentation in the `tech.v3.libs.arrow` namespace for further information
+  on Arrow file types.
+
+  Options:
+
+  - `:dataset-name` - set the name of the dataset.
+  - `:file-type` - Override filetype discovery mechanism for strings or force a particular
+      parser for an input stream.  Note that parquet must have paths on disk
+      and cannot currently load from input stream.  Acceptible file types are:
+      #{:csv :tsv :xlsx :xls :parquet}.
+  - `:gzipped?` - for file formats that support it, override autodetection and force
+     creation of a gzipped input stream as opposed to a normal input stream.
+  - `:column-whitelist` - either sequence of string column names or sequence of column
+     indices of columns to whitelist.
+  - `:column-blacklist` - either sequence of string column names or sequence of column
+     indices of columns to blacklist.
+  - `:num-rows` - Number of rows to read
+  - `:header-row?` - Defaults to true, indicates the first row is a header.
+  - `:key-fn` - function to be applied to column names.  Typical use is:
+     `:key-fn keyword`.
+  - `:separator` - Add a character separator to the list of separators to auto-detect.
+  - `:csv-parser` - Implementation of univocity's AbstractParser to use.  If not
+     provided a default permissive parser is used.  This way you parse anything that
+     univocity supports (so flat files and such).
+  - `:bad-row-policy` - One of three options: :skip, :error, :carry-on.  Defaults to
+     :carry-on.  Some csv data has ragged rows and in this case we have several
+     options. If the option is :carry-on then we either create a new column or add
+     missing values for columns that had no data for that row.
+  - `:skip-bad-rows?` - Legacy option.  Use :bad-row-policy.
+  - `:disable-comment-skipping?` - As default, the `#` character is recognised as a
+     line comment when found in the beginning of a line of text in a CSV file,
+     and the row will be ignored. Set `true` to disable this behavior.
+  - `:max-chars-per-column` - Defaults to 4096.  Columns with more characters that this
+     will result in an exception.
+  - `:max-num-columns` - Defaults to 8192.  CSV,TSV files with more columns than this
+     will fail to parse.  For more information on this option, please visit:
+     https://github.com/uniVocity/univocity-parsers/issues/301
+  - `:text-temp-dir` - The temporary directory to use for file-backed text.  Setting
+    this value to boolean 'false' turns off file backed text which is the default.  If a
+    tech.v3.resource stack context is opened the file will be deleted when the context
+    closes else it will be deleted when the gc cleans up the dataset.  A shutdown hook is
+    added as a last resort to ensure the file is cleaned up.
+  - `:n-initial-skip-rows` - Skip N rows initially.  This currently may include the
+     header row.  Works across both csv and spreadsheet datasets.
+  - `:parser-type` - Default parser to use if no parser-fn is specified for that column.
+     For csv files, the default parser type is `:string` which indicates a promotional
+     string parser.  For sequences of maps, the default parser type is :object.  It can
+     be useful in some contexts to use the `:string` parser with sequences of maps or
+     maps of columns.
+  - `:parser-fn` -
+      - `keyword?` - all columns parsed to this datatype. For example:
+        `{:parser-fn :string}`
+      - `map?` - `{column-name parse-method}` parse each column with specified
+        `parse-method`.
+        The `parse-method` can be:
+          - `keyword?` - parse the specified column to this datatype. For example:
+            `{:parser-fn {:answer :boolean :id :int32}}`
+          - tuple - pair of `[datatype parse-data]` in which case container of type
+            `[datatype]` will be created. `parse-data` can be one of:
+              - `:relaxed?` - data will be parsed such that parse failures of the standard
+                 parse functions do not stop the parsing process.  :unparsed-values and
+                 :unparsed-indexes are available in the metadata of the column that tell
+                 you the values that failed to parse and their respective indexes.
+              - `fn?` - function from str-> one of `:tech.v3.dataset/missing`,
+                 `:tech.v3.dataset/parse-failure`, or the parsed value.
+                 Exceptions here always kill the parse process.  :missing will get marked
+                 in the missing indexes, and :parse-failure will result in the index being
+                 added to missing, the unparsed the column's :unparsed-values and
+                 :unparsed-indexes will be updated.
+              - `string?` - for datetime types, this will turned into a DateTimeFormatter via
+                 DateTimeFormatter/ofPattern.  For `:text` you can specify the backing file
+                 to use.
+              - `DateTimeFormatter` - use with the appropriate temporal parse static function
+                 to parse the value.
+
+   - `map?` - the header-name-or-idx is used to lookup value.  If not nil, then
+           value can be any of the above options.  Else the default column parser
+           is used.
+
+  Returns a new dataset"
   ([]
   (tablecloth.api.dataset/dataset ))
   ([data]
@@ -508,8 +612,7 @@ column-names function returns names according to columns-selector
 
 (defn info
   "Returns a statistcial information about the columns of a dataset.
-  `result-type ` can be :descriptive or :columns
-  "
+  `result-type ` can be :descriptive or :columns"
   ([ds]
   (tablecloth.api.dataset/info ds))
   ([ds result-type]
@@ -532,9 +635,9 @@ column-names function returns names according to columns-selector
 
 (defn join-columns
   "Join clumns of dataset. Accepts:
-dataset
-column selector (as in select-columns)
-options
+  dataset
+  column selector (as in select-columns)
+  options
   `:separator` (default -)
   `:drop-columns?` - whether to drop source columns or not (default true)
   `:result-type`
@@ -649,7 +752,7 @@ options
 (defn print-dataset
   "Prints dataset into console. For options see
   tech.v3.dataset.print/dataset-data->str
-"
+  "
   ([ds]
   (tablecloth.api.dataset/print-dataset ds))
   ([ds options]
@@ -747,14 +850,19 @@ options
 
 (defn rows
   "Returns rows of dataset. Result type can be any of:
-  * `:as-maps`
-  * `:as-double-arrays`
-  * `:as-seqs`
-  "
+  * `:as-maps` - maps
+  * `:as-double-arrays` - double arrays
+  * `:as-seqs` - reader (sequence, default)
+  * `:as-vecs` - vectors
+
+  If you want to elide nils in maps set `:nil-missing?` option to false (default: `true`).
+  Another option - `:copying?` - when true row values are copied on read (default: `false`)."
   ([ds]
   (tablecloth.api.dataset/rows ds))
   ([ds result-type]
-  (tablecloth.api.dataset/rows ds result-type)))
+  (tablecloth.api.dataset/rows ds result-type))
+  ([ds result-type options]
+  (tablecloth.api.dataset/rows ds result-type options)))
 
 
 (defn select

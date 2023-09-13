@@ -424,6 +424,8 @@ Possible result types:
 - `:as-double-arrays` - array of double arrays 
 - `:as-vecs` - sequence of vectors (rows)
 
+For `rows` setting `:nil-missing?` option to `false` will elide keys for nil values.
+
 ---
 
 Select column.
@@ -483,6 +485,26 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (tc/rows ds :as-maps)))
 ```
 
+---
+
+Rows with missing values
+
+```{clojure}
+(-> {:a [1 nil 2]
+     :b [3 4 nil]}
+    (tc/dataset)
+    (tc/rows :as-maps))
+```
+
+Rows with elided missing values
+
+```{clojure}
+(-> {:a [1 nil 2]
+     :b [3 4 nil]}
+    (tc/dataset)
+    (tc/rows :as-maps {:nil-missing? false}))
+```
+
 #### Single entry
 
 Get single value from the table using `get-in` from Clojure API or `get-entry`. First argument is column name, second is row number.
@@ -532,12 +554,12 @@ Grouping is done by calling `group-by` function with arguments:
 * `ds` - dataset
 * `grouping-selector` - what to use for grouping
 * options:
-    - `:result-type` - what to return:
-        * `:as-dataset` (default) - return grouped dataset
-        * `:as-indexes` - return rows ids (row number from original dataset)
-        * `:as-map` - return map with group names as keys and subdataset as values
-        * `:as-seq` - return sequens of subdatasets
-    - `:select-keys` - list of the columns passed to a grouping selector function
+- `:result-type` - what to return:
+* `:as-dataset` (default) - return grouped dataset
+* `:as-indexes` - return rows ids (row number from original dataset)
+* `:as-map` - return map with group names as keys and subdataset as values
+* `:as-seq` - return sequens of subdatasets
+- `:select-keys` - list of the columns passed to a grouping selector function
 
 All subdatasets (groups) have set name as the group name, additionally `group-id` is in meta.
 
