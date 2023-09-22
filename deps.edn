@@ -1,9 +1,7 @@
 {:extra-paths ["data"]
  :deps {org.clojure/clojure              {:mvn/version "1.11.1"}
-        techascent/tech.ml.dataset       {:mvn/version "7.000-beta-51"}}
- :aliases {:dev {:extra-deps {org.scicloj/clay {:mvn/version "2-alpha31"}
-                              org.scicloj/kindly-default {:mvn/version "1-alpha10"}
+        techascent/tech.ml.dataset       {:mvn/version "7.007"}}
+ :aliases {:dev {:extra-deps {org.scicloj/clay {:mvn/version "2-alpha36"}
                               org.scicloj/note-to-test {:local/root "../../scicloj/note-to-test"}}}
-           :test {:extra-deps {org.scicloj/clay {:mvn/version "2-alpha31"}
-                               org.scicloj/kindly-default {:mvn/version "1-alpha10"}
-                               org.scicloj/note-to-test {:mvn/version "1-alpha5"}}}}}
+           :test {:extra-deps {org.scicloj/clay {:mvn/version "2-alpha36"}
+                               org.scicloj/note-to-test {:mvn/version "1-alpha6"}}}}}

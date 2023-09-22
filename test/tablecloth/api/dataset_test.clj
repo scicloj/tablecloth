@@ -86,25 +86,32 @@
 
 (fact "dataset-info"
       (fact
-       (-> (api/info DS)
-           (select-keys [:col-name :datatype]))
-       => {:col-name [:V1 :V2 :V3 :V4]
-           :datatype [:int64 :int64 :float64 :string]})
+        (-> (api/info DS)
+            (select-keys [:col-name :datatype]))
+        => {:col-name [:V1 :V2 :V3 :V4]
+            :datatype [:int64 :int64 :float64 :string]})
       (fact
-       (-> (api/info DS)
-           (api/column-names))
-       => '(:col-name :datatype :n-valid :n-missing :min :mean :mode :max :standard-deviation :skew :first :last))
+        (-> (api/info DS)
+            (api/column-names))
+        => '(:col-name :datatype :n-valid :n-missing :min :mean :mode :max :standard-deviation :skew :first :last))
       (fact
-       (-> (api/info DS :basic)
-           (api/rows :as-maps))
-       => [{:name "DS", :columns 4, :rows 9, :grouped? false}])
+        (-> (api/info DS :basic)
+            (api/rows :as-maps))
+        => [{:name "DS", :columns 4, :rows 9, :grouped? false}])
       (fact
-       (-> (api/info DS :columns)
-           (api/rows :as-maps))
-       => [{:name :V1, :n-elems 9, :categorical? nil, :datatype :int64}
-           {:name :V2, :n-elems 9, :categorical? nil, :datatype :int64}
-           {:name :V3, :n-elems 9, :categorical? nil, :datatype :float64}
-           {:name :V4, :n-elems 9, :categorical? true, :datatype :string}]))
+        (-> (api/info DS :columns)
+            (api/rows :as-maps))
+        => [{:name :V1, :n-elems 9, :categorical? nil, :datatype :int64}
+            {:name :V2, :n-elems 9, :categorical? nil, :datatype :int64}
+            {:name :V3, :n-elems 9, :categorical? nil, :datatype :float64}
+            {:name :V4, :n-elems 9, :categorical? true, :datatype :string}])
+      (fact
+        (-> (api/info DS :columns)
+            (api/rows :as-maps {:nil-missing? false}))
+        => [{:name :V1, :n-elems 9, :datatype :int64}
+            {:name :V2, :n-elems 9, :datatype :int64}
+            {:name :V3, :n-elems 9, :datatype :float64}
+            {:name :V4, :n-elems 9, :categorical? true, :datatype :string}]))
 
 (fact "as-double-arrays"
       (tabular (fact (-> (api/dataset {:a [1 2 3]

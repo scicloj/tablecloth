@@ -1,5 +1,15 @@
 # Change Log
 
+## [7.007]
+
+### Added
+
+* Extened documentation for `dataset` (copied from TMD), [#112](https://github.com/scicloj/tablecloth/issues/112)
+
+### Changed
+
+* `rows` accepts `:nil-missing?`(default: true) and `copying?`(default: false) options.
+
 ## [7.000-beta-51]
 
 Deps updated
