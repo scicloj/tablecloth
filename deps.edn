@@ -2,6 +2,6 @@
  :deps {org.clojure/clojure              {:mvn/version "1.11.1"}
         techascent/tech.ml.dataset       {:mvn/version "7.007"}}
  :aliases {:dev {:extra-deps {org.scicloj/clay {:mvn/version "2-alpha36"}
-                              org.scicloj/note-to-test {:local/root "../../scicloj/note-to-test"}}}
+                              org.scicloj/note-to-test {:mvn/version "1-alpha7"}}}
            :test {:extra-deps {org.scicloj/clay {:mvn/version "2-alpha36"}
-                               org.scicloj/note-to-test {:mvn/version "1-alpha6"}}}}}
+                               org.scicloj/note-to-test {:mvn/version "1-alpha7"}}}}}
