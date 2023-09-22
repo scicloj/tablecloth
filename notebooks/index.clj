@@ -1,11 +1,17 @@
 ^{:kindly/hide-code? true
   :kind/void true}
 (ns index
-  (:require [scicloj.kindly.v3.kind :as kind]
-            [scicloj.kindly-default.v1.api :refer [md]]
+  (:require [scicloj.kindly.v4.kind :as kind]
             [tablecloth.api :as tc]
             [scicloj.note-to-test.v1.api :as note-to-test]
             [scicloj.clay.v2.api :as clay]))
+
+^{:kindly/hide-code? true
+  :kind/void true}
+(defn md [text]
+  (vary-meta
+   (kind/md text)
+   assoc :kindly/hide-code? true))
 
 ^{:kindly/hide-code? true
   :kind/void true}
@@ -14,11 +20,10 @@
  :remote-repo {:git-url "https://github.com/daslu/tablecloth"
                :branch "main"}
  :quarto {:format {:html {:toc true
-                          :theme :spacelab
-                          :embed-resources true}}
+                          :theme :spacelab}}
           :highlight-style :solarized
           :code-block-background true
-          :embed-resources true})
+          :embed-resources false})
 
 
 ^{:kindly/hide-code? true
