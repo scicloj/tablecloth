@@ -137,9 +137,11 @@ Let's require main namespace and define dataset used in most examples:
 (require '[tablecloth.api :as tc]
          '[tech.v3.datatype.functional :as dfn])
 (def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
-                     :V2 (range 1 10)
-                     :V3 (take 9 (cycle [0.5 1.0 1.5]))
-                     :V4 (take 9 (cycle ["A" "B" "C"]))}))
+                      :V2 (range 1 10)
+                      :V3 (take 9 (cycle [0.5 1.0 1.5]))
+                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
+
+
 
 
 
@@ -147,13 +149,13 @@ DS
 
 
 (md "
-## Functionality
+## Functionality 
 
 ### Dataset
 
-Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.datatype` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
+Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.dataset` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
 
-#### Dataset creation
+#### Dataset creation 
 
 Dataset can be created from various of types of Clojure structures and files:
 
@@ -478,15 +480,17 @@ Setting a dataset name (operation is immutable).
 (md "
 #### Columns and rows
 
-Get columns and rows as sequences. `column`, `columns` and `rows` treat grouped dataset as regular one. See `Groups` to read more about grouped datasets.
+Get columns and rows as sequences. `column`, `columns` and `rows` treat grouped dataset as regular one. See `Groups` to read more about grouped datasets. 
 
 Possible result types:
 
 - `:as-seq` or `:as-seqs` - sequence of seqences (default)
 - `:as-maps` - sequence of maps (rows)
 - `:as-map` - map of sequences (columns)
-- `:as-double-arrays` - array of double arrays
+- `:as-double-arrays` - array of double arrays 
 - `:as-vecs` - sequence of vectors (rows)
+
+For `rows` setting `:nil-missing?` option to `false` will elide keys for nil values.
 
 ---
 
@@ -561,6 +565,30 @@ Rows as sequence of maps
 
 
 (md "
+---
+
+Rows with missing values
+")
+
+
+(-> {:a [1 nil 2]
+     :b [3 4 nil]}
+    (tc/dataset)
+    (tc/rows :as-maps))
+
+
+(md "
+Rows with elided missing values
+")
+
+
+(-> {:a [1 nil 2]
+     :b [3 4 nil]}
+    (tc/dataset)
+    (tc/rows :as-maps {:nil-missing? false}))
+
+
+(md "
 #### Single entry
 
 Get single value from the table using `get-in` from Clojure API or `get-entry`. First argument is column name, second is row number.
@@ -609,7 +637,7 @@ Grouped dataset is annotated in by `:grouped?` meta tag and consist following co
 * `:group-id` - integer assigned to the group
 * `:data` - groups as datasets
 
-Almost all functions recognize type of the dataset (grouped or not) and operate accordingly.
+Almost all functions recognize type of the dataset (grouped or not) and operate accordingly. 
 
 You can't apply reshaping or join/concat functions on grouped datasets.
 
@@ -620,12 +648,12 @@ Grouping is done by calling `group-by` function with arguments:
 * `ds` - dataset
 * `grouping-selector` - what to use for grouping
 * options:
-    - `:result-type` - what to return:
-        * `:as-dataset` (default) - return grouped dataset
-        * `:as-indexes` - return rows ids (row number from original dataset)
-        * `:as-map` - return map with group names as keys and subdataset as values
-        * `:as-seq` - return sequens of subdatasets
-    - `:select-keys` - list of the columns passed to a grouping selector function
+- `:result-type` - what to return:
+* `:as-dataset` (default) - return grouped dataset
+* `:as-indexes` - return rows ids (row number from original dataset)
+* `:as-map` - return map with group names as keys and subdataset as values
+* `:as-seq` - return sequens of subdatasets
+- `:select-keys` - list of the columns passed to a grouping selector function
 
 All subdatasets (groups) have set name as the group name, additionally `group-id` is in meta.
 
@@ -804,7 +832,7 @@ You can use any predicate on column to split dataset into two groups.
 
 
 (md "
----
+--- 
 
 `tech.ml.dataset` provides an option to limit columns which are passed to grouping functions. It's done for performance purposes.
 ")
@@ -1009,7 +1037,7 @@ You can also operate on grouped dataset as a regular one in case you want to acc
 
 This is considered internal.
 
-If you want to implement your own mapping function on grouped dataset you can call `process-group-data` and pass function operating on datasets. Result should be a dataset to have ungrouping working.
+If you want to implement your own mapping function on grouped dataset you can call `process-group-data` and pass function operating on datasets. Result should be a dataset to have ungrouping working. 
 ")
 
 
@@ -1022,9 +1050,9 @@ If you want to implement your own mapping function on grouped dataset you can ca
 (md "
 ### Columns
 
-Column is a special `tech.ml.dataset` structure based on `tech.ml.datatype` library. For our purposes we cat treat columns as typed and named sequence bound to particular dataset.
+Column is a special `tech.ml.dataset` structure. For our purposes we cat treat columns as typed and named sequence bound to particular dataset.
 
-Type of the data is inferred from a sequence during column creation.
+Type of the data is inferred from a sequence during column creation. 
 
 #### Names
 
@@ -1454,7 +1482,7 @@ If you want to modify specific column(s) you can call `update-columns`. Argument
 * one of:
     - `columns-selector` and function (or sequence of functions)
     - map where keys are column names and vals are function
-
+    
 Functions accept column and have to return column or sequence
 
 ---
@@ -1463,7 +1491,7 @@ Reverse of columns
 ")
 
 
-(tc/update-columns DS :all reverse)
+(tc/update-columns DS :all reverse) 
 
 
 (md "
@@ -1486,7 +1514,7 @@ You can also assign a function to a column by packing operations into the map.
 
 ^:note-to-test/skip
 (tc/update-columns DS {:V1 reverse
-                       :V2 (comp shuffle seq)})
+                        :V2 (comp shuffle seq)})
 
 
 (md "
@@ -1958,7 +1986,7 @@ Select 5 random rows from each group
 (md "
 ### Aggregate
 
-Aggregating is a function which produces single row out of dataset.
+Aggregating is a function which produces single row out of dataset. 
 
 Aggregator is a function or sequence or map of functions which accept dataset as an argument and result single value, sequence of values or map.
 
@@ -1988,7 +2016,7 @@ Let's give resulting column a name.
 
 
 (md "
----
+--- 
 
 Sequential result is spread into separate columns
 ")
@@ -2267,7 +2295,7 @@ Remove duplicates from each group selected by column.
 
 
 (md "
----
+--- 
 
 Pair of columns
 ")
@@ -3209,7 +3237,7 @@ Unroll one by one leads to cartesian product
 
 
 (md "
----
+--- 
 
 You can add indexes
 ")
@@ -3432,12 +3460,12 @@ anscombe
 
 ^:note-to-test/skip
 (def pnl (tc/dataset {:x [1 2 3 4]
-                      :a [1 1 0 0]
-                      :b [0 1 1 1]
-                      :y1 (repeatedly 4 rand)
-                      :y2 (repeatedly 4 rand)
-                      :z1 [3 3 3 3]
-                      :z2 [-2 -2 -2 -2]}))
+                       :a [1 1 0 0]
+                       :b [0 1 1 1]
+                       :y1 (repeatedly 4 rand)
+                       :y2 (repeatedly 4 rand)
+                       :z1 [3 3 3 3]
+                       :z2 [-2 -2 -2 -2]}))
 
 
 
@@ -3452,7 +3480,7 @@ pnl
 
 ^:note-to-test/skip
 (tc/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
-                                         :splitter #":(.)(.)"})
+                                          :splitter #":(.)(.)"})
 
 
 (md "
@@ -4365,7 +4393,7 @@ The same as `concat` but returns unique rows
 (md "
 #### Append
 
-`append` concats columns
+`append` concats columns 
 ")
 
 
@@ -4412,7 +4440,7 @@ In ML world very often you need to test given model and prepare collection of tr
 * `:kfold` (default) - k-fold strategy, `:k` defines number of folds (defaults to `5`), produces `k` splits
 * `:bootstrap` - `:ratio` defines ratio of observations put into result (defaults to `1.0`), produces `1` split
 * `:holdout` - split into two or more parts with given ratio(s) (defaults to `2/3`), produces `1` split
-* `:holdouts` - splits into two parts for ascending ratio. Range of rations is given by `steps` option
+* `:holdouts` - splits into two parts for ascending ratio. Range of rations is given by `steps` option 
 * `:loo` - leave one out, produces the same number of splits as number of observations
 
 `:holdout` can accept also probabilites or ratios and can split to more than 2 subdatasets
@@ -4448,7 +4476,7 @@ for-splitting
 
 
 (md "
-#### k-Fold
+#### k-Fold 
 
 Returns `k=5` maps
 ")
@@ -4526,7 +4554,7 @@ you can use also proportions with custom names
 (md "
 #### Holdouts
 
-With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with ascending rows in train dataset.
+With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with ascending rows in train dataset. 
 ")
 
 
@@ -6501,7 +6529,7 @@ Handle list-columns by group
 
 
 
-(-> DS
+(-> DS    
     (tc/group-by :V4)
     (tc/unmark-group))
 
@@ -6845,7 +6873,7 @@ cjds
 (def x (tc/dataset {:V1 [1 2 3]}))
 (def y (tc/dataset {:V1 [4 5 6]}))
 (def z (tc/dataset {:V1 [7 8 9]
-                    :V2 [0 0 0]}))
+                     :V2 [0 0 0]}))
 
 
 
