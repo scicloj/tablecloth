@@ -76,12 +76,11 @@
           `(~args
             (~let [selected-cols# (apply vector (tablecloth.api.dataset/columns
                                                  (select-columns ~'ds ~'columns-selector)))
-            
-       args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
+                   args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
              (if (>= ~max-cols (count selected-cols#))
                (->> args-to-pass#
-                 (apply ~fn-sym)
-                 ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
+                    (apply ~fn-sym)
+                    ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
                (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))))))
 
 (def serialized-lift-fn-lookup
