@@ -86,11 +86,17 @@ knit_engines$set(clojure = function(options) {
 
 ```{clojure include=FALSE}
 (def tech-ml-version (get-in (read-string (slurp "deps.edn")) [:deps 'techascent/tech.ml.dataset :mvn/version]))
+(def tablecloth-version (nth (read-string (slurp "project.clj")) 2))
 ```
 
 ```{clojure results="asis"}
 tech-ml-version
 ```
+
+```{clojure results="asis"}
+tablecloth-version
+```
+
 
 ## Introduction
 
@@ -135,7 +141,7 @@ DS
 
 ### Dataset
 
-Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.datatype` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
+Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.dataset` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
 
 #### Dataset creation 
 
@@ -418,6 +424,8 @@ Possible result types:
 - `:as-double-arrays` - array of double arrays 
 - `:as-vecs` - sequence of vectors (rows)
 
+For `rows` setting `:nil-missing?` option to `false` will elide keys for nil values.
+
 ---
 
 Select column.
@@ -477,6 +485,26 @@ Rows as sequence of maps
 (clojure.pprint/pprint (take 2 (tc/rows ds :as-maps)))
 ```
 
+---
+
+Rows with missing values
+
+```{clojure}
+(-> {:a [1 nil 2]
+     :b [3 4 nil]}
+    (tc/dataset)
+    (tc/rows :as-maps))
+```
+
+Rows with elided missing values
+
+```{clojure}
+(-> {:a [1 nil 2]
+     :b [3 4 nil]}
+    (tc/dataset)
+    (tc/rows :as-maps {:nil-missing? false}))
+```
+
 #### Single entry
 
 Get single value from the table using `get-in` from Clojure API or `get-entry`. First argument is column name, second is row number.
@@ -526,12 +554,12 @@ Grouping is done by calling `group-by` function with arguments:
 * `ds` - dataset
 * `grouping-selector` - what to use for grouping
 * options:
-    - `:result-type` - what to return:
-        * `:as-dataset` (default) - return grouped dataset
-        * `:as-indexes` - return rows ids (row number from original dataset)
-        * `:as-map` - return map with group names as keys and subdataset as values
-        * `:as-seq` - return sequens of subdatasets
-    - `:select-keys` - list of the columns passed to a grouping selector function
+- `:result-type` - what to return:
+* `:as-dataset` (default) - return grouped dataset
+* `:as-indexes` - return rows ids (row number from original dataset)
+* `:as-map` - return map with group names as keys and subdataset as values
+* `:as-seq` - return sequens of subdatasets
+- `:select-keys` - list of the columns passed to a grouping selector function
 
 All subdatasets (groups) have set name as the group name, additionally `group-id` is in meta.
 
@@ -866,7 +894,7 @@ If you want to implement your own mapping function on grouped dataset you can ca
 
 ### Columns
 
-Column is a special `tech.ml.dataset` structure based on `tech.ml.datatype` library. For our purposes we cat treat columns as typed and named sequence bound to particular dataset. 
+Column is a special `tech.ml.dataset` structure. For our purposes we cat treat columns as typed and named sequence bound to particular dataset.
 
 Type of the data is inferred from a sequence during column creation. 
 
@@ -2080,9 +2108,10 @@ Missing values can be replaced using several strategies. `replace-missing` accep
 * column selector, default: `:all`
 * strategy, default: `:nearest`
 * value (optional)
-- single value
-- sequence of values (cycled)
-- function, applied on column(s) with stripped missings
+  - single value
+  - sequence of values (cycled)
+  - function, applied on column(s) with stripped missings
+  - map with [index,value] pairs
 
 Strategies are:
 
@@ -2144,6 +2173,14 @@ Replace missing with a function (mean)
 
 ```{clojure results="asis"}
 (tc/replace-missing DSm2 :a :value tech.v3.datatype.functional/mean)
+```
+
+---
+
+Replace missing some missing values with a map
+
+```{clojure results="asis"}
+(tc/replace-missing DSm2 :a :value {0 100 1 -100 14 -1000})
 ```
 
 ---
@@ -3181,6 +3218,8 @@ A column selector can be a map with `:left` and `:right` keys to specify column 
 
 The difference between `tech.ml.dataset` join functions are: arguments order (first datasets) and possibility to join on multiple columns.
 
+Multiple columns joins create temporary index column from column selection. The method for creating index is based on `:hashing` option and defaults to `identity`. Prior to `7.000-beta-50` `hash` function was used, which caused hash collision for certain cases.
+
 Additionally set operations are defined: `intersect` and `difference`.
 
 To concat two datasets rowwise you can choose:
@@ -3426,6 +3465,16 @@ Return rows from ds1 not matching ds2
 
 ```{clojure results="asis"}
 (tc/anti-join ds2 ds1 {:left :e :right :a})
+```
+
+#### Hashing
+
+When `:hashing` option is used, data from join columns are preprocessed by applying `join-columns` funtion with `:result-type` set to the value of `:hashing`. This helps to create custom joining behaviour. Function used for hashing will get vector of row values from join columns.
+
+In the following example we will join columns on value modulo 5.
+
+```{clojure results="asis"}
+(tc/left-join ds1 ds2 :b {:hashing (fn [[v]] (mod v 5))})
 ```
 
 #### Cross

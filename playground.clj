@@ -5,7 +5,11 @@
             [tech.v3.dataset.join :as j]
             [tech.v3.datatype.functional :as dfn]
             [clojure.string :as str]
-            [tech.v3.datatype.argops :as aop]))
+            [tech.v3.datatype.argops :as aop]
+            [tech.v3.dataset.column :as col]
+            [tech.v3.io :as tio]
+            [tech.v3.dataset.io :as ds-io]
+            [tech.v3.dataset.zip :as zip]))
 
 (ds/concat
  (ds/new-dataset [(c/new-column :a [])])
@@ -632,3 +636,495 @@ agg
   :price-sum (ds-reduce/sum :price)
   :price-med (ds-reduce/prob-median :price)}
  (repeat 3 stocks'))
+
+
+(def DSm2 (tc/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
+                     :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
+
+DSm2
+;; => _unnamed [15 2]:
+;;    |   :a | :b |
+;;    |-----:|---:|
+;;    |      |  2 |
+;;    |      |  2 |
+;;    |      |  2 |
+;;    |  1.0 |    |
+;;    |  2.0 |    |
+;;    |      |    |
+;;    |      |    |
+;;    |      |    |
+;;    |      |    |
+;;    |      | 13 |
+;;    |  4.0 |    |
+;;    |      |  3 |
+;;    | 11.0 |  4 |
+;;    |      |  5 |
+;;    |      |  5 |
+
+;; indexes of missing values
+(col/missing (DSm2 :a)) ;; => {0,1,2,5,6,7,8,9,11,13,14}
+(col/missing (DSm2 :b)) ;; => {3,4,5,6,7,8,10}
+
+(class (col/missing (DSm2 :a))) ;; => org.roaringbitmap.RoaringBitmap
+
+;; index of the nearest non-missing value in column `:a` starting from 0
+(.nextAbsentValue (col/missing (DSm2 :a)) 0) ;; => 3
+;; there is no previous non-missing
+(.previousAbsentValue (col/missing (DSm2 :a)) 0) ;; => -1
+
+;; replace some missing values by hand
+(tc/replace-missing DSm2 :a :value {0 100 1 -100 14 -1000})
+;; => _unnamed [15 2]:
+;;    |      :a | :b |
+;;    |--------:|---:|
+;;    |   100.0 |  2 |
+;;    |  -100.0 |  2 |
+;;    |         |  2 |
+;;    |     1.0 |    |
+;;    |     2.0 |    |
+;;    |         |    |
+;;    |         |    |
+;;    |         |    |
+;;    |         |    |
+;;    |         | 13 |
+;;    |     4.0 |    |
+;;    |         |  3 |
+;;    |    11.0 |  4 |
+;;    |         |  5 |
+;;    | -1000.0 |  5 |
+
+;;
+
+(let [ds (ds/->dataset {:foo (range 0 5)
+                        :bar (repeatedly #(rand-int 100))
+                        :baz (repeatedly #(rand-int 100))})]
+  (ds/add-or-update-column ds :quz (apply col/column-map
+                                          (fn [foo bar baz]
+                                            (if (zero? (mod (+ foo bar baz) 7)) "mod 7" "not mod 7"))
+                                          nil (ds/columns ds))))
+
+
+
+(let [ds (ds/->dataset {:foo (range 0 5)
+                        :bar (repeatedly #(rand-int 100))})]
+  (ds/add-or-update-column ds :quz (apply col/column-map
+                                          (fn [foo bar]
+                                            (if (zero? (mod (+ foo bar) 7)) "mod 7" "not mod 7"))
+                                          nil (ds/columns ds))))
+;; => _unnamed [5 3]:
+;;    | :foo | :bar |      :quz |
+;;    |-----:|-----:|-----------|
+;;    |    0 |   63 |     mod 7 |
+;;    |    1 |   20 |     mod 7 |
+;;    |    2 |   15 | not mod 7 |
+;;    |    3 |   85 | not mod 7 |
+;;    |    4 |   46 | not mod 7 |
+
+
+;;
+
+
+(def ds (ds/->dataset [{"DestinationName" "CZ_1", "ProductName" "FG_1", "Quantity" 100, "Allocated-Qty" 0, "SourceName" "DC_1", :ratio 0.5} {"DestinationName" "CZ_1", "ProductName" "FG_1", "Quantity" 100, "Allocated-Qty" 0, "SourceName" "DC_2", :ratio 0.5}]))
+
+;; => _unnamed [2 6]:
+;;    | DestinationName | ProductName | Quantity | Allocated-Qty | SourceName | :ratio |
+;;    |-----------------|-------------|---------:|--------------:|------------|-------:|
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_1 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_2 |    0.5 |
+
+(ds/concat ds ds)
+
+;; => _unnamed [4 6]:
+;;    | DestinationName | ProductName | Quantity | Allocated-Qty | SourceName | :ratio |
+;;    |-----------------|-------------|---------:|--------------:|------------|-------:|
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_1 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_2 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_1 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_2 |    0.5 |
+
+(ds/concat-copying ds ds)
+
+;; => _unnamed [4 6]:
+;;    | DestinationName | ProductName | Quantity | Allocated-Qty | SourceName | :ratio |
+;;    |-----------------|-------------|---------:|--------------:|------------|-------:|
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_1 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_2 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_1 |    0.5 |
+;;    |            CZ_1 |        FG_1 |      100 |             0 |       DC_2 |    0.5 |
+
+
+
+;;
+
+(def joinrds (tc/dataset {:a (range 1 7)
+                        :b (range 7 13)
+                        :c (range 13 19)
+                        :ID (seq "bbbaac")
+                        :d ["hello" "hello" "hello" "water" "water" "world"]}))
+
+;; => _unnamed [6 5]:
+;;    | :a | :b | :c | :ID |    :d |
+;;    |---:|---:|---:|-----|-------|
+;;    |  1 |  7 | 13 |   b | hello |
+;;    |  2 |  8 | 14 |   b | hello |
+;;    |  3 |  9 | 15 |   b | hello |
+;;    |  4 | 10 | 16 |   a | water |
+;;    |  5 | 11 | 17 |   a | water |
+;;    |  6 | 12 | 18 |   c | world |
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/ungroup))
+
+;; => _unnamed [6 5]:
+;;    | :a | :b | :c | :ID |    :d |
+;;    |---:|---:|---:|-----|-------|
+;;    |  1 |  7 | 13 |   b | hello |
+;;    |  2 |  8 | 14 |   b | hello |
+;;    |  3 |  9 | 15 |   b | hello |
+;;    |  4 | 10 | 16 |   a | water |
+;;    |  5 | 11 | 17 |   a | water |
+;;    |  6 | 12 | 18 |   c | world |
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/ungroup {:add-group-id-as-column :blah}))
+
+;; => _unnamed [6 6]:
+;;    | :blah | :a | :b | :c | :ID |    :d |
+;;    |------:|---:|---:|---:|-----|-------|
+;;    |     0 |  1 |  7 | 13 |   b | hello |
+;;    |     0 |  2 |  8 | 14 |   b | hello |
+;;    |     0 |  3 |  9 | 15 |   b | hello |
+;;    |     1 |  4 | 10 | 16 |   a | water |
+;;    |     1 |  5 | 11 | 17 |   a | water |
+;;    |     2 |  6 | 12 | 18 |   c | world |
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/unmark-group))
+
+;; => _unnamed [3 3]:
+;;    |                :name | :group-id |                              :data |
+;;    |----------------------|----------:|------------------------------------|
+;;    | {:ID \b, :d "hello"} |         0 | Group: {:ID \b, :d "hello"} [3 5]: |
+;;    | {:ID \a, :d "water"} |         1 | Group: {:ID \a, :d "water"} [2 5]: |
+;;    | {:ID \c, :d "world"} |         2 | Group: {:ID \c, :d "world"} [1 5]: |
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/ungroup {:add-group-as-column :blah
+                 :separate? false}))
+
+;; => _unnamed [6 6]:
+;;    |                :blah | :a | :b | :c | :ID |    :d |
+;;    |----------------------|---:|---:|---:|-----|-------|
+;;    | {:ID \b, :d "hello"} |  1 |  7 | 13 |   b | hello |
+;;    | {:ID \b, :d "hello"} |  2 |  8 | 14 |   b | hello |
+;;    | {:ID \b, :d "hello"} |  3 |  9 | 15 |   b | hello |
+;;    | {:ID \a, :d "water"} |  4 | 10 | 16 |   a | water |
+;;    | {:ID \a, :d "water"} |  5 | 11 | 17 |   a | water |
+;;    | {:ID \c, :d "world"} |  6 | 12 | 18 |   c | world |
+
+
+(-> joinrds
+    (tc/group-by :ID)
+    (tc/ungroup {:add-group-as-column :blah}))
+
+;; => _unnamed [6 6]:
+;;    | :blah | :a | :b | :c | :ID |    :d |
+;;    |-------|---:|---:|---:|-----|-------|
+;;    |     b |  1 |  7 | 13 |   b | hello |
+;;    |     b |  2 |  8 | 14 |   b | hello |
+;;    |     b |  3 |  9 | 15 |   b | hello |
+;;    |     a |  4 | 10 | 16 |   a | water |
+;;    |     a |  5 | 11 | 17 |   a | water |
+;;    |     c |  6 | 12 | 18 |   c | world |
+
+
+(-> joinrds
+    (tc/group-by (juxt :ID :d))
+    (tc/unmark-group))
+
+;; => _unnamed [3 3]:
+;;    |        :name | :group-id |                      :data |
+;;    |--------------|----------:|----------------------------|
+;;    | [\b "hello"] |         0 | Group: [\b "hello"] [3 5]: |
+;;    | [\a "water"] |         1 | Group: [\a "water"] [2 5]: |
+;;    | [\c "world"] |         2 | Group: [\c "world"] [1 5]: |
+
+(-> joinrds
+    (tc/group-by (juxt :ID :d))
+    (tc/ungroup {:add-group-as-column :blah}))
+
+;; => _unnamed [6 7]:
+;;    | :blah-0 | :blah-1 | :a | :b | :c | :ID |    :d |
+;;    |---------|---------|---:|---:|---:|-----|-------|
+;;    |       b |   hello |  1 |  7 | 13 |   b | hello |
+;;    |       b |   hello |  2 |  8 | 14 |   b | hello |
+;;    |       b |   hello |  3 |  9 | 15 |   b | hello |
+;;    |       a |   water |  4 | 10 | 16 |   a | water |
+;;    |       a |   water |  5 | 11 | 17 |   a | water |
+;;    |       c |   world |  6 | 12 | 18 |   c | world |
+
+(-> joinrds
+    (tc/group-by (juxt :ID :d))
+    (tc/ungroup {:add-group-as-column :blah
+                 :separate? false}))
+
+;; => _unnamed [6 6]:
+;;    |        :blah | :a | :b | :c | :ID |    :d |
+;;    |--------------|---:|---:|---:|-----|-------|
+;;    | [\b "hello"] |  1 |  7 | 13 |   b | hello |
+;;    | [\b "hello"] |  2 |  8 | 14 |   b | hello |
+;;    | [\b "hello"] |  3 |  9 | 15 |   b | hello |
+;;    | [\a "water"] |  4 | 10 | 16 |   a | water |
+;;    | [\a "water"] |  5 | 11 | 17 |   a | water |
+;;    | [\c "world"] |  6 | 12 | 18 |   c | world |
+
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/aggregate-columns [:a :b :c] dfn/mean))
+
+;; => _unnamed [3 5]:
+;;    | :ID |    :d |  :a |   :b |   :c |
+;;    |-----|-------|----:|-----:|-----:|
+;;    |   b | hello | 2.0 |  8.0 | 14.0 |
+;;    |   a | water | 4.5 | 10.5 | 16.5 |
+;;    |   c | world | 6.0 | 12.0 | 18.0 |
+
+(-> joinrds
+    (tc/group-by [:ID :d])
+    (tc/aggregate-columns [:a :b :c] dfn/mean {:separate? false}))
+
+;; => _unnamed [3 4]:
+;;    |         :$group-name |  :a |   :b |   :c |
+;;    |----------------------|----:|-----:|-----:|
+;;    | {:ID \b, :d "hello"} | 2.0 |  8.0 | 14.0 |
+;;    | {:ID \a, :d "water"} | 4.5 | 10.5 | 16.5 |
+;;    | {:ID \c, :d "world"} | 6.0 | 12.0 | 18.0 |
+
+
+;; #108
+
+(let [qids ["AGYSUB" "LOC" "AGELVL" "EDLVL"]
+      per-val (-> (tc/dataset "per-val.csv.gz")
+                  (tc/set-dataset-name "per-val"))
+      per-qid (-> (tc/dataset "per-qid.csv.gz")
+                  (tc/set-dataset-name "per-qid"))]
+  (-> (tc/left-join per-val per-qid qids)
+      (tc/select-rows (fn [row]
+                        (or (not= (get row "per-qid.AGYSUB") (get row "AGYSUB"))
+                            (not= (get row "per-qid.LOC") (get row "LOC"))
+                            (not= (get row "per-qid.AGELVL") (get row "AGELVL"))
+                            (not= (get row "per-qid.EDLVL") (get row "EDLVL")))))))
+
+(ds/select-rows (ds/->dataset []) [0])
+;; => _unnamed [0 0]
+
+
+;;
+
+(get-in (read-string (slurp "deps.edn")) [:deps 'techascent/tech.ml.dataset :mvn/version])
+;; => "7.000-beta-50"
+
+(nth (read-string (slurp "project.clj")) 2)
+
+(def ds1 (tc/dataset {:a [1 2 1 2 3 4 nil nil 4]
+                    :b (range 101 110)
+                    :c (map str "abs tract")}))
+(def ds2 (tc/dataset {:a [nil 1 2 5 4 3 2 1 nil]
+                    :b (range 110 101 -1)
+                    :c (map str "datatable")
+                    :d (symbol "X")
+                    :e [3 4 5 6 7 nil 8 1 1]}))
+
+(tc/left-join ds1 ds2 :b {:hashing (fn [[v]] (mod v 5))})
+
+(defn last-char
+  [ds]
+  (->> (ds/value-reader ds)
+       (map (comp last str first))))
+
+(last-char ds1)
+;; => (\1 \2 \3 \4 \5 \6 \7 \8 \9)
+
+(last-char ds2)
+;; => (\0 \9 \8 \7 \6 \5 \4 \3 \2)
+
+(def new-ds1 (ds/add-or-update-column ds1 :z (last-char ds1)))
+(def new-ds2 (ds/add-or-update-column ds2 :z (last-char ds2)))
+
+(j/left-join :z new-ds1 new-ds2)
+
+
+(def ds1 (ds/->dataset {:a '(\1 \2 \3 \4 \5 \6 \7 \8 \9)}))
+(def ds2 (ds/->dataset {:a '(\0 \9 \8 \7 \6 \5 \4 \3 \2)}))
+
+(ds1 :a)
+;; => #tech.v3.dataset.column<char>[9]
+;;    :a
+;;    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+(ds2 :a)
+;; => #tech.v3.dataset.column<char>[9]
+;;    :a
+;;    [0, 9, 8, 7, 6, 5, 4, 3, 2]
+
+(j/left-join :a ds1 ds2)
+
+(j/left-join :a ds1 ds1)
+;; => left-outer-join [9 2]:
+;;    | :a | :right.a |
+;;    |----|----------|
+;;    |  1 |        1 |
+;;    |  2 |        2 |
+;;    |  3 |        3 |
+;;    |  4 |        4 |
+;;    |  5 |        5 |
+;;    |  6 |        6 |
+;;    |  7 |        7 |
+;;    |  8 |        8 |
+;;    |  9 |        9 |
+
+
+(j/left-join :a ds2 ds2)
+;; => left-outer-join [9 2]:
+;;    | :a | :right.a |
+;;    |----|----------|
+;;    |  0 |        0 |
+;;    |  9 |        9 |
+;;    |  8 |        8 |
+;;    |  7 |        7 |
+;;    |  6 |        6 |
+;;    |  5 |        5 |
+;;    |  4 |        4 |
+;;    |  3 |        3 |
+;;    |  2 |        2 |
+
+
+(tc/dataset "data/data/billboard/billboard.csv.gz")
+
+(with-open [io (-> (tio/input-stream "data.zip")
+                   (java.util.zip.ZipInputStream.))]
+  (ds-io/str->file-info (.getName (.getNextEntry io))))
+;; => {:gzipped? false, :file-type :unknown}
+
+(zip/zipfile->dataset-seq "data/data.zip")
+
+;;
+
+(defn get-rand [n col] (repeatedly n #(rand-nth col)))
+
+(def actions (tc/dataset {:campaign (get-rand 1000 [1000 1001 1002 1000 1000])
+                        :click (get-rand 1000 [true false false false])
+                        :skip (get-rand 1000 [true false])
+                        :abandon (get-rand 1000 [true true true false])}))
+
+(-> actions
+    (tc/convert-types :type/boolean :int16) ;; convert true/false to 1/0
+    (tc/group-by [:campaign])
+    (tc/aggregate {:impressions tc/row-count
+                   :clicks #(dfn/sum (:click %))
+                   :skips #(dfn/sum (:skip %))
+                   :abandons #(dfn/sum (:abandon %))})
+    (tc/map-rows (fn [{:keys [clicks abandons impressions]}]
+                   {:ctr% (* 100 (/ clicks impressions))
+                    :atr% (* 100 (/ abandons impressions))})))
+
+;; => _unnamed [3 7]:
+;;    | :campaign | :impressions | :clicks | :skips | :abandons |       :ctr% |       :atr% |
+;;    |----------:|-------------:|--------:|-------:|----------:|------------:|------------:|
+;;    |      1001 |          182 |    52.0 |   82.0 |     127.0 | 28.57142857 | 69.78021978 |
+;;    |      1000 |          609 |   157.0 |  314.0 |     450.0 | 25.77996716 | 73.89162562 |
+;;    |      1002 |          209 |    47.0 |  113.0 |     160.0 | 22.48803828 | 76.55502392 |
+
+
+(-> actions
+    (tc/convert-types :type/boolean :int16) ;; convert true/false to 1/0
+    (tc/add-column :impressions 1) ;; add artificial column filled with '1'
+    (tc/group-by [:campaign])
+    (tc/aggregate-columns [:impressions :click :skip :abandon] dfn/sum) ;; just sum selected columns
+    (tc/map-rows (fn [{:keys [click abandon impressions]}] ;; calculate
+                   {:ctr% (* 100 (/ click impressions))
+                    :atr% (* 100 (/ abandon impressions))}))
+    (tc/convert-types [:impressions :click :skip :abandon] :int32)
+    (tc/rename-columns {:click :clicks :skip :skips :abandon :abandons}))
+
+;; => _unnamed [3 7]:
+;;    | :campaign | :impressions | :clicks | :skips | :abandons |       :ctr% |       :atr% |
+;;    |----------:|-------------:|--------:|-------:|----------:|------------:|------------:|
+;;    |      1001 |          182 |      52 |     82 |       127 | 28.57142857 | 69.78021978 |
+;;    |      1000 |          609 |     157 |    314 |       450 | 25.77996716 | 73.89162562 |
+;;    |      1002 |          209 |      47 |    113 |       160 | 22.48803828 | 76.55502392 |
+
+
+(def ds1 (tc/dataset [{:a 1 :b "test"} {:a 2 :b "hi"}]))
+(def ds2 (tc/dataset [{:a 2 :b "hi"}]))
+
+(tc/difference ds1 ds2)
+;; => difference [1 2]:
+;;    | :a |   :b |
+;;    |---:|------|
+;;    |  1 | test |
+
+
+(def ds (tc/dataset {:a ["a" "" " " "b"]}))
+
+ds
+;; => _unnamed [4 1]:
+;;    | :a |
+;;    |----|
+;;    |  a |
+;;    |    |
+;;    |    |
+;;    |  b |
+
+(tc/info ds)
+;; => _unnamed: descriptive-stats [1 7]:
+;;    | :col-name | :datatype | :n-valid | :n-missing | :mode | :first | :last |
+;;    |-----------|-----------|---------:|-----------:|-------|--------|-------|
+;;    |        :a |   :string |        3 |          1 |     a |      a |     b |
+
+(tc/replace-missing ds :a :value "it was a missing value")
+;; => _unnamed [4 1]:
+;;    |                     :a |
+;;    |------------------------|
+;;    |                      a |
+;;    | it was a missing value |
+;;    |                        |
+;;    |                      b |
+
+
+(def ds (tc/dataset {:a [1 2 3 4]}))
+(def c (ds :a))
+
+c
+;; => #tech.v3.dataset.column<int64>[4]
+;;    :a
+;;    [1, 2, 3, 4]
+
+(associative? c) ;; => true
+(assoc c 2 11) ;; => [1 2 11 4]
+
+(sequential? c) ;; => true
+(seqable? c) ;; => true
+(seq c) ;; => (1 2 3 4)
+
+(reversible? c) ;; => true
+(reverse c) ;; => (4 3 2 1)
+
+(indexed? c) ;; => true
+(c 2) ;; => 3
+
+;; however
+
+(vector? c) ;; => false
+(seq? c) ;; => false
+
+
+(-> {:a [1 nil 2]
+     :b [3 4 nil]}
+    (tc/dataset)
+    (tc/rows :as-maps {:nil-missing? false}))

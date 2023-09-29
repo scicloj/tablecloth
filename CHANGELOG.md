@@ -1,5 +1,45 @@
 # Change Log
 
+## [7.007]
+
+### Added
+
+* Extened documentation for `dataset` (copied from TMD), [#112](https://github.com/scicloj/tablecloth/issues/112)
+
+### Changed
+
+* `rows` accepts `:nil-missing?`(default: true) and `copying?`(default: false) options.
+
+## [7.000-beta-51]
+
+Deps updated
+
+## [7.000-beta-50.2]
+
+### Added
+
+* `:hashing` is available for single column joins too
+
+## [7.000-beta-50.1]
+
+### Added
+
+* `:hashing` option determines method of creating an index for multicolumn joins (was `hash` is `identity`)
+
+### Fixed
+
+* [#108](https://github.com/scicloj/tablecloth/issues/108) - hashing replaced with packing data into the  sequence
+
+## [7.000-beta-50]
+
+Deps updated
+
+## [7.000-beta-38]
+
+### Fixed
+
+* dataset from singleton creation generated from wrong structure
+
 ## [7.000-beta-27]
 
 ### Added

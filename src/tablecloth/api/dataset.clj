@@ -47,7 +47,7 @@
 (defn- array-of-arrays? [in] (and in (= "[[" (subs (.getName (class in)) 0 2))))
 
 (defn dataset
-  "Create `dataset`.
+  "Create a `dataset`.
   
   Dataset can be created from:
 
@@ -58,7 +58,11 @@
   * array of arrays
   * single value
 
-  Single value is set only when it's not possible to find a path for given data. If tech.ml.dataset throws an exception, it's won;t be printed. To print a stack trace, set `stack-trace?` option to `true`."
+  Single value is set only when it's not possible to find a path for given data. If tech.ml.dataset throws an exception, it's won;t be printed. To print a stack trace, set `stack-trace?` option to `true`.
+
+  ds/->dataset documentation:
+
+  "
   ([] (ds/new-dataset nil))
   ([data]
    (dataset data nil))
@@ -89,9 +93,12 @@
                   (do
                     (when stack-trace? (.printStackTrace e))
                     (let [row {single-value-column-name data}]
-                      (ds/->dataset [(if error-column?
-                                       (assoc row :$error (.getMessage e))
-                                       row)] options))))))))
+                      (ds/->dataset (if error-column?
+                                      (assoc row :$error (.getMessage e))
+                                      row) options))))))))
+
+;; https://github.com/scicloj/tablecloth/issues/112
+(alter-meta! #'dataset update :doc str (:doc (meta #'ds/->dataset)))
 
 (defn shape
   "Returns shape of the dataset [rows, cols]"
@@ -107,8 +114,7 @@
 
 (defn info
   "Returns a statistcial information about the columns of a dataset.
-  `result-type ` can be :descriptive or :columns
-  "
+  `result-type ` can be :descriptive or :columns"
   ([ds] (info ds :descriptive))
   ([ds result-type]
    (condp = result-type
@@ -144,23 +150,29 @@
 
 (defn rows
   "Returns rows of dataset. Result type can be any of:
-  * `:as-maps`
-  * `:as-double-arrays`
-  * `:as-seqs`
-  "
+  * `:as-maps` - maps
+  * `:as-double-arrays` - double arrays
+  * `:as-seqs` - reader (sequence, default)
+  * `:as-vecs` - vectors
+
+  If you want to elide nils in maps set `:nil-missing?` option to false (default: `true`).
+  Another option - `:copying?` - when true row values are copied on read (default: `false`)."
   ([ds] (rows ds :as-seqs))
-  ([ds result-type]
-   (case result-type
-     :as-maps (ds/mapseq-reader ds)
-     :as-double-arrays (into-array (map double-array (ds/value-reader ds)))
-     :as-seqs (ds/value-reader ds)
-     :as-vecs (ds/rowvecs ds)
-     (ds/value-reader ds))))
+  ([ds result-type] (rows ds result-type nil))
+  ([ds result-type {:keys [nil-missing?]
+                    :or {nil-missing? true}
+                    :as options}]
+   (let [options (assoc options :nil-missing? nil-missing?)]
+     (case result-type
+       :as-maps (ds/mapseq-reader ds options)
+       :as-double-arrays (into-array (map double-array (ds/value-reader ds)))
+       :as-seqs (ds/value-reader ds options)
+       :as-vecs (ds/rowvecs ds options)
+       (ds/value-reader ds options)))))
 
 (defn print-dataset
   "Prints dataset into console. For options see
-  tech.v3.dataset.print/dataset-data->str
-"
+  tech.v3.dataset.print/dataset-data->str"
   ([ds] (println (p/dataset->str ds)))
   ([ds options] (println (p/dataset->str ds options))))
 

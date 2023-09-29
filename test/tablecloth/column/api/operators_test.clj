@@ -8,8 +8,6 @@
             [tablecloth.column.api :refer [column column? typeof]])
   (:use [tablecloth.column.api.operators]))
 
-(tech.v3.datatype.functional/spearmans-correlation [1 2] [2 1])
-
 (defn sample-column [n]
   (column (repeatedly n #(rand-int 100))))
 
@@ -78,7 +76,8 @@
            tanh
            to-degrees
            to-radians
-           ulp]
+           ulp
+          ]
       a (sample-column 5)]
   (doseq [op ops]
     (op a) => column?)))
