@@ -61,8 +61,9 @@
 
     Resulting signature:
     (lift-op [fn-sym]) => (fn [ds columns-selector target-col] ...)"
-  [fn-sym {:keys [return-ds?]
-           :or {return-ds? false}}]
+  [fn-sym {:keys [return-ds? make-aggregator?]
+           :or {return-ds? false
+                make-aggregator? false}}]
   (let [defn (symbol "defn")
         let (symbol "let")
         arglists (get-arglists fn-sym)
@@ -73,15 +74,36 @@
     `(~defn ~new-fn-sym
       ~new-docstring
       ~@(for [args lifted-arglists]
-          `(~args
-            (~let [selected-cols# (apply vector (tablecloth.api.dataset/columns
-                                                 (select-columns ~'ds ~'columns-selector)))
-                   args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
-             (if (>= ~max-cols (count selected-cols#))
-               (->> args-to-pass#
-                    (apply ~fn-sym)
-                    ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
-               (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))))))
+          (if make-aggregator?
+            ;; build an aggregator fn
+            `(~args
+              (~let [aggregator#
+                     (fn [ds#]
+                       (~let [ds-with-selected-cols#
+                              (select-columns ds# ~'columns-selector)
+                              cols-count#
+                              (-> ds-with-selected-cols#
+                                  tablecloth.api/column-names
+                                  count)
+                              selected-cols# (tablecloth.api/columns ds-with-selected-cols#)]
+                        (if (>= ~max-cols cols-count#)
+                          (apply ~fn-sym (apply vector selected-cols#))
+                          (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))]
+               (tablecloth.api/aggregate ~'ds aggregator#)))
+            ;; build either a fn that returns a dataset or the result of the operation
+            `(~args
+              (~let [selected-cols# (apply vector (tablecloth.api.dataset/columns
+                                                   (select-columns ~'ds ~'columns-selector)))
+                     args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
+               (if (>= ~max-cols (count selected-cols#))
+                 (->> args-to-pass#
+                      (apply ~fn-sym)
+                      ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
+                 (throw (Exception. (str "Exceeded maximum number of columns allowed for operation.")))))))))))
+
+(lift-op 'tablecloth.column.api.operators/bit-set {})
+
+(lift-op 'tablecloth.column.api.operators/mean {:make-aggregator? true})
 
 (def serialized-lift-fn-lookup
   {'[distance
@@ -104,7 +126,7 @@
      sum
      sum-fast
      variance]
-    {:lift-fn lift-op :optional-args {:return-ds? false}}
+    {:lift-fn lift-op :optional-args {:make-aggregator? true}}
    '[*
      +
      -

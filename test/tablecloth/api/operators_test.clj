@@ -177,4 +177,51 @@
                   (assoc memo longest-arglist [sym])))
               {})
       (reduce (fn [m [k v]] (update m k sort v)) {})
-      ))
+      )
+
+  (def ds (tablecloth.api/dataset {:label [:a :b :a :b :a :b]
+                                   :value [1 2 4 9 10 11]}))
+
+  
+  (tablecloth.api/select-columns ds [:a])
+
+  (tablecloth.api/group-by ds :label)
+
+  (-> ds
+      (tablecloth.api/group-by :label)
+      (tablecloth.api/select-columns [:label])
+
+      (tablecloth.api/columns)
+      ;; (tablecloth.api/column-count)
+      ;; (#(apply vector %))
+      ;; (tablecloth.api/column-names)
+      ;; (count)
+      ;; (tablecloth.api/ungroup)
+      #_(tablecloth.api/aggregate (fn [ds]
+                                  (tablecloth.column.api.operators/mean (:value ds)))))
+
+
+
+
+
+
+  ;; simple test, call directly on ungrouped ds
+  (mean ds [:value])
+
+  ;; now call on a grouped ds
+  (-> ds
+      (tablecloth.api/group-by :label)
+      (mean [:value]))
+
+  (tablecloth.api/aggregate
+   ds
+   )
+
+  (tablecloth.api/aggregate
+   ds
+   (fn [ds]
+     (tablecloth.column.api.operators/mean (:a ds))))
+
+  
+
+  )
