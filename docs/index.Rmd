@@ -589,11 +589,10 @@ Grouping can be done by:
 In the case of the first three of these methods, each sub-dataset contains all and only rows from the original data set that share the same grouping value:
 
 * the value of the row in a specified single column
-* the sequence of resulting values for a sequence of column names
+* a map from column names to corresponding values found in the row
 * the value returned by the function taking row as map
 
-In the case of the map from group names to sequences of indexes, each sub-dataset will contain all and only rows with the indexes in one value sequence of indexes.
-
+In the case of the map from group names to sequences of indexes, each sub-dataset will contain all and only rows with the indexes listed in the sequence for a given group name (a key).
 
 Note: currently dataset inside dataset is printed recursively so it renders poorly from markdown. So I will use `:as-seq` result type to show just group names and groups.
 
