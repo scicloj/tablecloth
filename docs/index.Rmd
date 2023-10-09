@@ -1704,7 +1704,7 @@ Aggregator is a function or sequence or map of functions which accept dataset as
 
 Where map is given as an input or result, keys are treated as column names.
 
-Grouped dataset is ungrouped after aggreation. This can be turned off by setting `:ungroup` to false. In case you want to pass additional ungrouping parameters add them to the options.
+Grouped dataset is ungrouped after aggreation. This can be turned off by setting `:ungroup?` to false. In case you want to pass additional ungrouping parameters add them to the options.
 
 By default resulting column names are prefixed with `summary` prefix (set it with `:default-column-name-prefix` option).
 
@@ -1754,7 +1754,7 @@ Processing grouped dataset
                              :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"}))
 ```
 
-Result of aggregating is automatically ungrouped, you can skip this step by stetting `:ungroup` option to `false`.
+Result of aggregating is automatically ungrouped, you can skip this step by stetting `:ungroup?` option to `false`.
 
 ```{clojure results="asis"}
 (-> DS
