@@ -1704,7 +1704,7 @@ Aggregator is a function or sequence or map of functions which accept dataset as
 
 Where map is given as an input or result, keys are treated as column names.
 
-Grouped dataset is ungrouped after aggreation. This can be turned off by setting `:ungroup?` to false. In case you want to pass additional ungrouping parameters add them to the options.
+Grouped dataset is ungrouped after aggregation. This can be turned off by setting `:ungroup?` to false. In case you want to pass additional ungrouping parameters add them to the options.
 
 By default resulting column names are prefixed with `summary` prefix (set it with `:default-column-name-prefix` option).
 
