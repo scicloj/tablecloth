@@ -308,6 +308,9 @@ tmp
                    :a (repeatedly 100 rand)
                    :b (repeatedly 100 #(rand 5))}))
 
+(-> ds
+    (tc/select-rows (fn [{:keys [a b]}] (> a b))))
+
 ds
 ;; => _unnamed [100 3]:
 ;;    | :group |         :a |         :b |
@@ -444,6 +447,15 @@ agg
                    :V3 (take 9 (cycle [0.5 1.0 1.5]))
                    :V4 (take 9 (cycle ["A" "B" "C"]))}))
 
+
+(-> (tc/group-by DS {:z [1 2 3]
+                     :b [0 1 2]})
+    (tc/ungroup))
+;; => _unnamed [2 3]:
+;;    |   :name | :group-id |                 :data |
+;;    |---------|----------:|-----------------------|
+;;    | {:V1 1} |         0 | Group: {:V1 1} [5 4]: |
+;;    | {:V1 2} |         1 | Group: {:V1 2} [4 4]: |
 
 (tc/map-rows DS (fn [{:keys [V1 V2]}] {:V1 0
                                       :V5 (/ (+ V1 V2) (double V2))}))
@@ -598,6 +610,37 @@ agg
 (tc/by-rank DS [:V1 :V3] zero? {:desc? false})
 
 (defonce flights (tc/dataset "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"))
+
+(tc/select-rows flights #(> (get % "dep_delay") 1000))
+;; => https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv [8 11]:
+;;    | year | month | day | dep_delay | arr_delay | carrier | origin | dest | air_time | distance | hour |
+;;    |-----:|------:|----:|----------:|----------:|---------|--------|------|---------:|---------:|-----:|
+;;    | 2014 |     2 |  15 |      1003 |       994 |      DL |    JFK |  DEN |      242 |     1626 |   12 |
+;;    | 2014 |     2 |  21 |      1014 |      1007 |      DL |    JFK |  MCO |      139 |      944 |    8 |
+;;    | 2014 |     4 |  15 |      1241 |      1223 |      AA |    JFK |  BOS |       39 |      187 |   13 |
+;;    | 2014 |     6 |  13 |      1071 |      1064 |      AA |    EWR |  DFW |      175 |     1372 |   10 |
+;;    | 2014 |     6 |  16 |      1022 |      1073 |      AA |    EWR |  DFW |      178 |     1372 |    7 |
+;;    | 2014 |     7 |  14 |      1087 |      1090 |      DL |    EWR |  ATL |       97 |      746 |    8 |
+;;    | 2014 |     9 |  12 |      1056 |      1115 |      AA |    EWR |  DFW |      198 |     1372 |    6 |
+;;    | 2014 |    10 |   4 |      1498 |      1494 |      AA |    EWR |  DFW |      200 |     1372 |    7 |
+
+(tc/select-rows flights #(> (get % "dep_delay") 1000) {:result-type :as-indexes})
+;; => (32306 37131 82591 131877 134039 158830 211512 230042)
+
+(tc/select-rows flights '(32306 37131 82591 131877 134039 158830 211512 230042))
+;; => https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv [8 11]:
+;;    | year | month | day | dep_delay | arr_delay | carrier | origin | dest | air_time | distance | hour |
+;;    |-----:|------:|----:|----------:|----------:|---------|--------|------|---------:|---------:|-----:|
+;;    | 2014 |     2 |  15 |      1003 |       994 |      DL |    JFK |  DEN |      242 |     1626 |   12 |
+;;    | 2014 |     2 |  21 |      1014 |      1007 |      DL |    JFK |  MCO |      139 |      944 |    8 |
+;;    | 2014 |     4 |  15 |      1241 |      1223 |      AA |    JFK |  BOS |       39 |      187 |   13 |
+;;    | 2014 |     6 |  13 |      1071 |      1064 |      AA |    EWR |  DFW |      175 |     1372 |   10 |
+;;    | 2014 |     6 |  16 |      1022 |      1073 |      AA |    EWR |  DFW |      178 |     1372 |    7 |
+;;    | 2014 |     7 |  14 |      1087 |      1090 |      DL |    EWR |  ATL |       97 |      746 |    8 |
+;;    | 2014 |     9 |  12 |      1056 |      1115 |      AA |    EWR |  DFW |      198 |     1372 |    6 |
+;;    | 2014 |    10 |   4 |      1498 |      1494 |      AA |    EWR |  DFW |      200 |     1372 |    7 |
+
+(tc/select-rows flights #(> (get % "dep_delay") 1000) {:pre {:mean #(dfn/mean (get % "dep_delay"))}})
 
 (->> flights
      (ds/mapseq-reader)
@@ -1004,7 +1047,7 @@ DSm2
 ;;    |  2 |        2 |
 
 
-(tc/dataset "data/data/billboard/billboard.csv.gz")
+(def billboard (tc/dataset "data/data/billboard/billboard.csv.gz"))
 
 (with-open [io (-> (tio/input-stream "data.zip")
                    (java.util.zip.ZipInputStream.))]
@@ -1128,3 +1171,98 @@ c
      :b [3 4 nil]}
     (tc/dataset)
     (tc/rows :as-maps {:nil-missing? false}))
+
+(->
+ (tablecloth.api/dataset {:a [1 2 3]})
+ (tablecloth.api/add-column :Survived [ "na"] :cycle)
+ :Survived)
+
+(tech.v3.dataset/new-column :Survived [""])
+;; => #tech.v3.dataset.column<boolean>[1]
+;;    :Survived
+;;    []
+
+(tech.v3.dataset/new-column :Survived ["na"])
+;; => #tech.v3.dataset.column<boolean>[1]
+;;    :Survived
+;;    []
+
+(let [ds (tech.v3.dataset/->dataset {:Survived (tech.v3.dataset/new-column :Survived [""])})]
+  (apply tech.v3.dataset/concat (repeat 3 ds)))
+;; => _unnamed [3 1]:
+;;    | :Survived |
+;;    |-----------|
+;;    |     false |
+;;    |     false |
+;;    |     false |
+
+(let [ds (tech.v3.dataset/->dataset {:Survived (tech.v3.dataset/new-column :Survived ["na"])})]
+  (apply tech.v3.dataset/concat (repeat 3 ds)))
+;; => _unnamed [3 1]:
+;;    | :Survived |
+;;    |-----------|
+;;    |     false |
+;;    |     false |
+;;    |     false |
+
+(let [ds (tech.v3.dataset/new-dataset [(tech.v3.dataset/new-column :Survived [""])])]
+  (apply tech.v3.dataset/concat (repeat 3 ds)))
+;; => _unnamed [3 1]:
+;;    | :Survived |
+;;    |-----------|
+;;    |           |
+;;    |           |
+;;    |           |
+
+
+(-> (tc/dataset [{:a "foo" :b true}
+                 {:a "bar" :b false}])
+    (tc/join-columns :join-columns-string [:a :b] {:drop-columns? false})
+    (tc/join-columns :join-columns-map    [:a :b] {:drop-columns? false
+                                                   :result-type   :map})
+    (tc/add-column :rows-as-maps (fn [ds] (-> ds
+                                             (tc/select-columns [:a :b])
+                                             (tc/rows :as-maps)))))
+
+;; => _unnamed [2 5]:
+;;    |  :a |    :b | :join-columns-string |    :join-columns-map |        :rows-as-maps |
+;;    |-----|-------|----------------------|----------------------|----------------------|
+;;    | foo |  true |             foo-true |  {:a "foo", :b true} |  {:a "foo", :b true} |
+;;    | bar | false |            bar-false | {:a "bar", :b false} | {:a "bar", :b false} |
+
+(def foo (tc/dataset [{:a "bar" :b nil :r 1}
+                    {:a "bar" :b nil :r 2}
+                    {:a "baz" :b nil :r 3}]))
+
+(-> foo
+    (tc/group-by [:a :b])
+    (tc/aggregate {:row-count tc/row-count}))
+
+
+(tc/fold-by foo [:a :b])
+
+(-> (tc/dataset [{:r   nil   :c "a" :x "2a"}
+                 {:r    1    :c "b" :x "1b"}])
+    (tc/pivot->wider :c :x {:drop-missing? false}))
+
+(require             '[tech.v3.dataset :as ds]
+                     '[tech.v3.dataset.column :as c]
+                     '[tech.v3.dataset.join :as j]
+                     )
+
+(let [left (ds/->dataset {:a [nil 1.2]
+                          :b [3 4]})
+      right (ds/->dataset {:a [nil 3.4]
+                           :b [6 7]})]
+  (j/left-join :a left right))
+;; => left-outer-join [2 4]:
+;;    | :a | :b | :right.a | :right.b |
+;;    |----|---:|---------:|---------:|
+;;    |    |  3 |          |        6 |
+;;    |  2 |  4 |          |          |
+
+;; => left-outer-join [2 4]:
+;;    | :a | :b | :right.a | :right.b |
+;;    |---:|---:|---------:|---------:|
+;;    |    |  3 |          |          |
+;;    |  2 |  4 |          |          |

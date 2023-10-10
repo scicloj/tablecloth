@@ -43,9 +43,9 @@
            "col-2" 6.0}])
 
 (fact "columns->array columns works"
-      (let [ ds (api/dataset {0 [0.0 1 2]
-                              1 [3.0 4 5]
-                              :x [:a :b :c]})
+      (let [ds (api/dataset {0 [0.0 1 2]
+                             1 [3.0 4 5]
+                             :x [:a :b :c]})
             ds-with-array-column
             (-> ds
                 (api/columns->array-column [0 1] :y))]
@@ -53,3 +53,12 @@
         (:x ds-with-array-column) => [:a :b :c]
         (->> ds-with-array-column :y (mapv vec))
         => [[0.0 3.0] [1.0 4.0] [2.0 5.0]]))
+
+(fact "false-is-not-missing"
+      (-> (api/dataset [{:a "foo" :b true}
+                        {:a "bar" :b false}])
+          (api/join-columns :join-columns-string [:a :b])
+
+          (api/rows)
+          (flatten))
+      => ["foo-true" "bar-false"])
