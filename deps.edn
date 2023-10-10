@@ -1,4 +1,4 @@
 {:extra-paths ["data"]
  :deps {org.clojure/clojure              {:mvn/version "1.11.1"}
-        techascent/tech.ml.dataset       {:mvn/version "7.011"}}
+        techascent/tech.ml.dataset       {:mvn/version "7.012"}}
  :aliases {:dev {:extra-deps {org.scicloj/clay {:mvn/version "1-alpha10"}}}}}
