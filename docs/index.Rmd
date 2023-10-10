@@ -535,17 +535,33 @@ Dataset is printed using `dataset->str` or `print-dataset` functions. Options ar
 
 ### Group-by
 
-Grouping by is an operation which splits dataset into subdatasets and pack it into new special type of... dataset. I distinguish two types of dataset: regular dataset and grouped dataset. The latter is the result of grouping.
+Grouping by is an operation which splits dataset into subdatasets and packs it into new special type of... dataset. I distinguish two types of dataset: regular dataset and grouped dataset. The latter is the result of grouping.
 
-Grouped dataset is annotated in by `:grouped?` meta tag and consist following columns:
+Operations that perform a transformation on a regular dataset, generally apply that same transformation to individual sub-datasets in a grouped dataset.  For example,
+
+```{clojure}
+(tc/select-rows DS [0 1 2])
+```
+
+returns a dataset containing only the first three rows of `DS`, while
+
+```{clojure}
+(-> DS
+    (tc/group-by :V1)
+    (tc/select-rows [0 1 2]))
+```
+
+returns a grouped dataset, in which each sub-dataset contains only the first three rows of the sub-datasets in the grouped dataset created by `(tc/group-by DS :V1)`.
+
+Almost all functions recognize type of the dataset (grouped or not) and operate accordingly.
+
+However, you can't apply reshaping or join/concat functions on grouped datasets.
+
+Grouped dataset is annotated by the `:grouped?` meta tag and consists of the following columns:
 
 * `:name` - group name or structure
 * `:group-id` - integer assigned to the group
 * `:data` - groups as datasets
-
-Almost all functions recognize type of the dataset (grouped or not) and operate accordingly. 
-
-You can't apply reshaping or join/concat functions on grouped datasets.
 
 #### Grouping
 
@@ -567,8 +583,16 @@ Grouping can be done by:
 
 * single column name
 * seq of column names
-* map of keys (group names) and row indexes
 * value returned by function taking row as map (limited to `:select-keys`)
+* map of keys (arbitrary group names) to sequences of row indexes
+
+In the case of the first three of these methods, each sub-dataset contains all and only rows from the original data set that share the same grouping value:
+
+* the value of the row in a specified single column
+* a map from column names to corresponding values found in the row
+* the value returned by the function taking row as map
+
+In the case of the map from group names to sequences of indexes, each sub-dataset will contain all and only rows with the indexes listed in the sequence for a given group name (a key).
 
 Note: currently dataset inside dataset is printed recursively so it renders poorly from markdown. So I will use `:as-seq` result type to show just group names and groups.
 
@@ -1680,7 +1704,7 @@ Aggregator is a function or sequence or map of functions which accept dataset as
 
 Where map is given as an input or result, keys are treated as column names.
 
-Grouped dataset is ungrouped after aggreation. This can be turned off by setting `:ungroup` to false. In case you want to pass additional ungrouping parameters add them to the options.
+Grouped dataset is ungrouped after aggregation. This can be turned off by setting `:ungroup?` to false. In case you want to pass additional ungrouping parameters add them to the options.
 
 By default resulting column names are prefixed with `summary` prefix (set it with `:default-column-name-prefix` option).
 
@@ -1730,7 +1754,7 @@ Processing grouped dataset
                              :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"}))
 ```
 
-Result of aggregating is automatically ungrouped, you can skip this step by stetting `:ungroup` option to `false`.
+Result of aggregating is automatically ungrouped, you can skip this step by stetting `:ungroup?` option to `false`.
 
 ```{clojure results="asis"}
 (-> DS
