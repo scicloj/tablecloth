@@ -1266,3 +1266,35 @@ c
 ;;    |---:|---:|---------:|---------:|
 ;;    |    |  3 |          |          |
 ;;    |  2 |  4 |          |          |
+
+(-> (tc/left-join (-> (tc/dataset [{:i "foo" :y 2022}]))
+                  (-> (tc/dataset [{:i "foo" :y 2022 :s "2022"}
+                                   {:i "foo" :y 2023 :s "2023"}]))
+                  [:i :y])
+    (tc/rows :as-maps))
+
+(-> (tc/left-join (-> (tc/dataset [{:i "foo" :y 2022}])
+                      (tc/convert-types {:y :int16}))
+                  (-> (tc/dataset [{:i "foo" :y 2022 :s "2022"}
+                                   {:i "foo" :y 2023 :s "2023"}]))
+                  [:i :y]))
+
+(-> (tc/dataset [{:i "foo" :y 2022}])
+    (tc/convert-types {:y :int16})
+    :y first class)
+
+
+(-> (j/left-join :z
+                 (ds/->dataset [{:z ["foo" (short 2022)]}])
+                 (ds/->dataset [{:z ["foo" (long 2022)] :s "2022"}
+                                {:z ["foo" (long 2023)] :s "2023"}])))
+;; => left-outer-join [2 3]:
+;;    |           :z |     :right.z |   :s |
+;;    |--------------|--------------|------|
+;;    | ["foo" 2022] | ["foo" 2022] | 2022 |
+;;    | ["foo" 2022] |              |      |
+
+(-> (j/left-join :z
+                 (ds/->dataset [{:z (short 2022)}])
+                 (ds/->dataset [{:z (long 2022) :s "2022"}
+                                {:z (long 2023) :s "2023"}])))

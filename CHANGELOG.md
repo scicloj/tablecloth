@@ -1,5 +1,9 @@
 # Change Log
 
+## [7.013]
+
+Deps updated to fix `j/left-join` issue.
+
 ## [7.012]
 
 ### Fixed
