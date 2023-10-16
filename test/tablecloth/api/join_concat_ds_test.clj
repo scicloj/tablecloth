@@ -71,3 +71,16 @@
           (api/row-count)) => 4
       (-> (api/semi-join ds2 ds1 [:a :b])
           (api/row-count)) => 4)
+
+(fact "eraderna int-string join"
+      (-> (api/left-join (-> (api/dataset [{:i "foo" :y 2022}]))
+                         (-> (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                           {:i "foo" :y 2023 :s "2023"}]))
+                         [:i :y])
+          (api/rows :as-maps))  => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}]
+      (-> (api/left-join (-> (api/dataset [{:i "foo" :y 2022}])
+                             (api/convert-types {:y :int16}))
+                         (-> (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                           {:i "foo" :y 2023 :s "2023"}]))
+                         [:i :y])
+          (api/rows :as-maps)) => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}])
