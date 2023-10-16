@@ -84,3 +84,10 @@
                                            {:i "foo" :y 2023 :s "2023"}]))
                          [:i :y])
           (api/rows :as-maps)) => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}])
+
+(fact "left join on shorts packed into the vector"
+      (-> (api/left-join (-> (api/dataset [{:iy ["foo" (short 2022)]}]))
+                         (-> (api/dataset [{:iy ["foo" (long 2022)] :s "2022"}
+                                           {:iy ["foo" (long 2023)] :s "2023"}]))
+                         :iy)
+          (api/rows :as-maps))  => [{:iy ["foo", 2022], :right.iy ["foo", 2022], :s "2022"}])

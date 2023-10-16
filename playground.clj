@@ -1298,3 +1298,33 @@ c
                  (ds/->dataset [{:z (short 2022)}])
                  (ds/->dataset [{:z (long 2022) :s "2022"}
                                 {:z (long 2023) :s "2023"}])))
+
+;;
+
+(def world-bank-pop (tc/dataset "data/world_bank_pop.csv.gz"))
+
+(->> world-bank-pop
+     (tc/column-names)
+     (take 8)
+     (tc/select-columns world-bank-pop))
+
+(def pop2 (tc/pivot->longer world-bank-pop (map str (range 2000 2018)) {:drop-missing? false
+                                                                      :target-columns ["year"]
+                                                                      :value-column-name "value"}))
+
+pop2
+
+
+(def pop3 (tc/separate-column pop2
+                            "indicator" ["area" "variable"]
+                            #(rest (clojure.string/split % #"\."))))
+pop3
+
+(tc/pivot->wider pop3 "variable" "value" {:drop-missing? false})
+
+;;
+
+(defn make-row [] {:row 1})
+(let [left (ds/->dataset (repeatedly 10000 make-row))
+      right (ds/->dataset (repeatedly 1000 make-row))]
+  (j/left-join :row left right))
