@@ -1,6 +1,5 @@
 (ns tablecloth.api.join-concat-ds-test
-  (:require [tablecloth.api.join-concat-ds :as sut]
-            [midje.sweet :as midje :refer [fact tabular =>]]
+  (:require [midje.sweet :as midje :refer [fact tabular =>]]
             [tablecloth.api :as api]))
 
 (def ds1 (api/dataset {:a [1 2 1 2 3 4 nil nil 4]
@@ -91,3 +90,24 @@
                                            {:iy ["foo" (long 2023)] :s "2023"}]))
                          :iy)
           (api/rows :as-maps))  => [{:iy ["foo", 2022], :right.iy ["foo", 2022], :s "2022"}])
+
+(fact "multiple same rows joins or nils by eraderna"
+      (-> (api/semi-join (api/dataset [{:k    nil    :v "\"nil\""}
+                                       {:k "bar"     :v "\"bar\""}
+                                       {:k "baz"     :v "\"baz\""}])
+                         (api/dataset [{:k "baz"}])
+                         [:k])
+          (api/rows :as-maps)) => [{:k "baz"     :v "\"baz\""}]
+      (-> (api/semi-join (api/dataset [{:k    nil    :v "\"nil\""}
+                                       {:k "bar"     :v "\"bar\""}
+                                       {:k "baz"     :v "\"baz\""}])
+                         (api/dataset [{:k "baz"}
+                                       {:k "baz"}])
+                         [:k])
+          (api/rows :as-maps)) => [{:k "baz", :v "\"baz\""}]
+      (-> (api/semi-join (api/dataset [{:k "bar"     :v "\"bar\""}
+                                       {:k "baz"     :v "\"baz\""}
+                                       {:k "baz"     :v "\"baz\""}])
+                         (api/dataset [{:k "baz"}])
+                         [:k])
+          (api/rows :as-maps)) => [{:k "baz", :v "\"baz\""} {:k "baz", :v "\"baz\""}])

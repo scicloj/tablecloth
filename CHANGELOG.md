@@ -1,5 +1,11 @@
 # Change Log
 
+## [7.017]
+
+### Fixed
+
+* semi and anti joins fail on table containing missing values, multi columns and duplicated rows
+
 ## [7.014]
 
 Deps updated to fix `j/left-join` issue.

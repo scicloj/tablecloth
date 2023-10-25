@@ -9,7 +9,9 @@
             [tech.v3.dataset.column :as col]
             [tech.v3.io :as tio]
             [tech.v3.dataset.io :as ds-io]
-            [tech.v3.dataset.zip :as zip]))
+            [tech.v3.dataset.zip :as zip]
+            )
+  (:import [org.roaringbitmap RoaringBitmap]))
 
 (ds/concat
  (ds/new-dataset [(c/new-column :a [])])
@@ -1328,3 +1330,88 @@ pop3
 (let [left (ds/->dataset (repeatedly 10000 make-row))
       right (ds/->dataset (repeatedly 1000 make-row))]
   (j/left-join :row left right))
+
+;;
+
+(let [rows-fn tc/drop-rows
+      join-column-name [:k]
+      lj (tc/left-join (tc/dataset [{:k    nil    :v "\"nil\""}
+                                    {:k "bar"     :v "\"bar\""}
+                                    {:k "baz"     :v "\"baz\""}])
+                       (tc/dataset [{:k "baz"}
+                                    {:k nil}])
+                       join-column-name)
+      _ (println lj)
+      right-columns (:right-column-names (meta lj))
+      missing-column (col/missing (lj (right-columns (if (vector? join-column-name)
+                                                       (first join-column-name)
+                                                       join-column-name))))
+      left-column (col/missing (lj (if (vector? join-column-name)
+                                     (first join-column-name)
+                                     join-column-name)))]
+  [missing-column left-column (RoaringBitmap/andNot missing-column left-column)
+   (-> lj
+       (rows-fn (RoaringBitmap/andNot missing-column left-column))
+       (tc/drop-columns (vals right-columns))
+       (ds/unique-by identity)       )])
+
+
+(def ds1 (tc/dataset {:a [1 2 1 2 3 4 nil nil 4]
+                    :b (range 101 110)
+                    :c (map str "abs tract")}))
+(def ds2 (tc/dataset {:a [nil 1 2 5 4 3 2 1 nil]
+                    :b (range 110 101 -1)
+                    :c (map str "datatable")
+                    :d (symbol "X")
+                    :e [3 4 5 6 7 nil 8 1 1]}))
+
+(tc/inner-join ds1 ds2 :b)
+
+
+(defn semi-join
+  [l r k]
+  (-> (tc/inner-join l r k)
+      (tc/select-columns (tc/column-names l))
+      (tc/unique-by)))
+
+(tc/left-join (tc/dataset [{:k nil    :v "\"nil\""}
+                           {:k "baz"     :v "\"bar\""}
+                           {:k "baz"     :v "\"bar\""}
+                           {:k "bar" :v "1"}])
+              (tc/dataset [{:k "baz"}])
+              :k)
+;; => left-outer-join [3 3]:
+;;    |  :k |    :v | :right.k |
+;;    |-----|-------|----------|
+;;    | baz | "baz" |      baz |
+;;    |     | "nil" |          |
+;;    | bar | "bar" |          |
+
+
+(semi-join (tc/dataset [{:k    nil    :v "\"nil\""}
+                        {:k "bar"     :v "\"bar\""}
+                        {:k "baz"     :v "\"baz\""}])
+           (tc/dataset [{:k "baz"}
+                        ])
+           [:k])
+;; => left-outer-join [3 3]:
+;;    |  :k |    :v | :right.k |
+;;    |-----|-------|----------|
+;;    | baz | "baz" |      baz |
+;;    |     | "nil" |          |
+;;    | bar | "bar" |          |
+
+(:lhs-indexes (j/hash-join :k (tc/dataset [{:k    nil    :v "\"nil\""}
+                                           {:k "bar"     :v "\"bar\""}
+                                           {:k "baz"     :v "\"baz\""}
+                                           {:k "baz" :v "ss"}
+                                           {:k "s" :v "d"}])
+                           (tc/dataset [{:k "baz"}]) {:lhs-missing? true}))
+
+
+(semi-join (tc/dataset [{:k    nil    :v "\"nil\""}
+                        {:k "bar"     :v "\"bar\""}
+                        {:k "baz"     :v "\"baz\""}])
+           (tc/dataset [{:k "baz"}
+                        {:k "baz"}])
+           [:k])
