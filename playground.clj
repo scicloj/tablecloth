@@ -1374,12 +1374,20 @@ pop3
       (tc/select-columns (tc/column-names l))
       (tc/unique-by)))
 
-(tc/left-join (tc/dataset [{:k nil    :v "\"nil\""}
-                           {:k "baz"     :v "\"bar\""}
-                           {:k "baz"     :v "\"bar\""}
-                           {:k "bar" :v "1"}])
-              (tc/dataset [{:k "baz"}])
-              :k)
+(let [ds1 (tc/dataset [{:k nil    :v "\"nil\""}
+                       {:k "baz"     :v "\"bar\""}
+                       {:k "baz"     :v "\"bar\""}
+                       {:k "bar" :v "1"}])
+      ds2 (tc/dataset [{:k "baz"}])]
+  (j/pd-merge ds1 ds2 {:on :k :how :outer}))
+
+(let [ds1 (tc/dataset {:x1 [:A :B :C]
+                       :x2 [1 2 3]})
+      ds2 (tc/dataset {:x1 [:A :B :D]
+                       :x3 [true false true]})]
+  (tc/full-join ds1 ds2 :x1))
+
+
 ;; => left-outer-join [3 3]:
 ;;    |  :k |    :v | :right.k |
 ;;    |-----|-------|----------|
@@ -1391,7 +1399,7 @@ pop3
 (semi-join (tc/dataset [{:k    nil    :v "\"nil\""}
                         {:k "bar"     :v "\"bar\""}
                         {:k "baz"     :v "\"baz\""}])
-           (tc/dataset [{:k "baz"}
+           (tc/dataset [{:qk "baz"}
                         ])
            [:k])
 ;; => left-outer-join [3 3]:
