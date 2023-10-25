@@ -2434,7 +2434,7 @@ Column can be also separated into several other columns using string as separato
     - regex
     - or custom function (default: identity)
 * options
-    - `:drop-columns?` - whether drop source column(s) or not (default: `true`). Set to `:all` to keep only separation result.
+    - `:drop-column?` - whether drop source column(s) or not (default: `true`). Set to `:all` to keep only separation result.
     - `:missing-subst` - values which should be treated as missing, can be set, sequence, value or function (default: `""`)
 
 Custom function (as separator) should return seqence of values for given value or a sequence of map.
