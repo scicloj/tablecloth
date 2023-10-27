@@ -9,16 +9,13 @@
   (:use [tablecloth.api.operators]))
 
 
-(defn scalar? [item]
-  (= (tech.v3.datatype.argtypes/arg-type item)
-     :scalar))
-
 (facts
  "about ops that return the op result"
 
  (facts
   "about ops that take a maximum of one column and return a scalar"
-  (let [ds (dataset {:a [1 2 3]})]
+  (let [ds (dataset {:label [:a :b :a :b]
+                     :value [1 2 3 4]})]
     (let [ops [kurtosis
                magnitude
                magnitude-squared
@@ -36,19 +33,36 @@
                sum-fast
                variance]]
       (doseq [op ops]
-        (let [result (op ds [:a])]
-          result => scalar?)))))
+        (fact "ops can aggregate a regular dataset"
+              (let [result (op ds [:value])]
+                result => tablecloth.api/dataset?
+                (contains? result "summary") => true))
+        (fact "ops can aggregate a grouped ds"
+              (let [result (-> ds
+                         (tablecloth.api/group-by :label)
+                         (op [:value]))]
+                result => tablecloth.api/dataset?
+                (contains? result "summary") => true))))))
 
  (facts
   "about ops that take a maximum of two columns and return a scalar"
-  (let [ds (dataset {:a [1 2 3]
-                     :b [4 5 6]})]
+  (let [ds (dataset {:label [:a :b :a :b]
+                     :values1 [1 2 3 4]
+                     :values2 [5 6 7 8]})]
     (let [ops [distance
                distance-squared
                dot-product]]
       (doseq [op ops]
-        (let [result (op ds [:a :b])]
-          result => scalar?))))))
+        (fact "ops can aggregate a regular dataset"
+              (let [result (op ds [:values1 :values2])]
+                result => tablecloth.api/dataset?
+                (contains? result "summary")))
+        (fact "ops can aggregate a grouped dataset"
+              (let [result (-> ds
+                               (tablecloth.api/group-by :label)
+                               (op [:values1 :values2]))]
+                result => tablecloth.api/dataset?
+                (contains? result "summary"))))))))
 
 (facts
  "about ops that return a dataset with a new column"
@@ -161,67 +175,3 @@
     (doseq [op ops]
       (let [result (op ds :e [:a :b :c :d])]
         (contains? result :e) => true)))))
-
-
-(comment 
-  ;; some analysis I'll keep around for now b/c it may be useful later
-  (defn longest-vector [lst]
-    (reduce #(max-key count %1 %2) lst))
-
-  (->> (ns-publics 'tablecloth.column.api.operators)
-      (map (fn [[sym var]] [sym (-> var meta :arglists)]))
-      (map (fn [[sym arglist]] [sym (longest-vector arglist)]))
-      (reduce (fn [memo [sym longest-arglist]]
-                (if (contains? memo longest-arglist)
-                  (update memo longest-arglist conj sym)
-                  (assoc memo longest-arglist [sym])))
-              {})
-      (reduce (fn [m [k v]] (update m k sort v)) {})
-      )
-
-  (def ds (tablecloth.api/dataset {:label [:a :b :a :b :a :b]
-                                   :value [1 2 4 9 10 11]}))
-
-  
-  (tablecloth.api/select-columns ds [:a])
-
-  (tablecloth.api/group-by ds :label)
-
-  (-> ds
-      (tablecloth.api/group-by :label)
-      (tablecloth.api/select-columns [:label])
-
-      (tablecloth.api/columns)
-      ;; (tablecloth.api/column-count)
-      ;; (#(apply vector %))
-      ;; (tablecloth.api/column-names)
-      ;; (count)
-      ;; (tablecloth.api/ungroup)
-      #_(tablecloth.api/aggregate (fn [ds]
-                                  (tablecloth.column.api.operators/mean (:value ds)))))
-
-
-
-
-
-
-  ;; simple test, call directly on ungrouped ds
-  (mean ds [:value])
-
-  ;; now call on a grouped ds
-  (-> ds
-      (tablecloth.api/group-by :label)
-      (mean [:value]))
-
-  (tablecloth.api/aggregate
-   ds
-   )
-
-  (tablecloth.api/aggregate
-   ds
-   (fn [ds]
-     (tablecloth.column.api.operators/mean (:a ds))))
-
-  
-
-  )
