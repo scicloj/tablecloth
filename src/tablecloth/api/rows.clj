@@ -97,7 +97,7 @@
      (ds/tail ds n))))
 
 (defn- shuffle-seq
-  [seq rng]
+  [seq ^java.util.Random rng]
   (let [^java.util.Collection s seq
         ar (java.util.ArrayList. s)]
     (if rng

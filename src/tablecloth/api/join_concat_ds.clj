@@ -10,14 +10,14 @@
             [tablecloth.api.rows :refer [select-rows drop-rows]]
             [tablecloth.api.join-separate :refer [join-columns]]
             [tablecloth.api.columns :refer [drop-columns select-columns]]
-            [tablecloth.api.utils :refer [column-names grouped? process-group-data]])
-  (:import [org.roaringbitmap RoaringBitmap]))
+            [tablecloth.api.utils :refer [column-names grouped? process-group-data]]))
 
 ;; joins
 
 (defn- multi-join
-  [ds-left ds-right join-fn cols-left cols-right {:keys [hashing]
-                                                  :or {hashing identity} :as options}]
+  [join-fn ds-left ds-right cols-left cols-right {:keys [hashing drop-join-column?]
+                                                  :or {hashing identity drop-join-column? true}
+                                                  :as options}]
   (let [join-column-name (gensym "^___join_column_hash")
         dsl (join-columns ds-left join-column-name cols-left (assoc options
                                                                     :result-type hashing
@@ -25,12 +25,13 @@
         dsr (join-columns ds-right join-column-name cols-right (assoc options
                                                                       :result-type hashing
                                                                       :drop-columns? false))
-        joined-ds (join-fn join-column-name dsl dsr options)]
-    (-> joined-ds
-        (ds/drop-columns [join-column-name (-> joined-ds
-                                               (meta)
-                                               :right-column-names
-                                               (get join-column-name))]))))
+        joined-ds (join-fn join-column-name dsl dsr (or options {}))]
+    (if drop-join-column?
+      (ds/drop-columns joined-ds [join-column-name (-> joined-ds
+                                                       (meta)
+                                                       :right-column-names
+                                                       (get join-column-name))])
+      joined-ds)))
 
 (defn- resolve-join-column-names
   [ds-left ds-right columns-selector]
@@ -42,56 +43,68 @@
           right  (column-names ds-right columns-selector)]
       {:left left :right right})))
 
-(defmacro make-join-fns
-  [join-fns-list]
-  `(do
-     ~@(for [[n impl] join-fns-list]
-         `(defn ~n
-            ([~'ds-left ~'ds-right ~'columns-selector] (~n ~'ds-left ~'ds-right ~'columns-selector nil))
-            ([~'ds-left ~'ds-right ~'columns-selector ~'options]
-             (let [cols# (resolve-join-column-names ~'ds-left ~'ds-right ~'columns-selector)
-                   cols-left# (:left cols#)
-                   cols-right# (:right cols#)
-                   opts# (or ~'options {})
-                   hashing# (:hashing opts#)]
-               (if (and (= 1 (count cols-left#)) (not hashing#))
-                 (~impl [(first cols-left#) (first cols-right#)] ~'ds-left ~'ds-right opts#)
-                 (multi-join ~'ds-left ~'ds-right ~impl cols-left# cols-right# opts#))))))))
+(defn- apply-join
+  [impl ds-left ds-right columns-selector options]
+  (let [cols (resolve-join-column-names ds-left ds-right columns-selector)
+        cols-left (:left cols)
+        cols-right (:right cols)
+        hashing (:hashing options)]
+    (if (and (= 1 (count cols-left)) (not hashing))
+      (impl [(first cols-left) (first cols-right)] ds-left ds-right (or options {}))
+      (multi-join impl ds-left ds-right cols-left cols-right options))))
 
-(make-join-fns [[left-join j/left-join]
-                [right-join j/right-join]
-                [inner-join j/inner-join]
-                [asof-join j/left-join-asof]])
+(defn left-join
+  ([ds-left ds-right columns-selector] (left-join ds-left ds-right columns-selector nil))
+  ([ds-left ds-right columns-selector options]
+   (apply-join j/left-join ds-left ds-right columns-selector options)))
+
+(defn right-join
+  ([ds-left ds-right columns-selector] (right-join ds-left ds-right columns-selector nil))
+  ([ds-left ds-right columns-selector options]
+   (apply-join j/right-join ds-left ds-right columns-selector options)))
+
+(defn inner-join
+  ([ds-left ds-right columns-selector] (inner-join ds-left ds-right columns-selector nil))
+  ([ds-left ds-right columns-selector options]
+   (apply-join j/inner-join ds-left ds-right columns-selector options)))
+
+(defn asof-join
+  ([ds-left ds-right columns-selector] (asof-join ds-left ds-right columns-selector nil))
+  ([ds-left ds-right columns-selector options]
+   (apply-join j/left-join-asof ds-left ds-right columns-selector options)))
+
+(defn- full-join-wrapper
+  [columns-selector ds-left ds-right options]
+  (let [[left right] (if (sequential? columns-selector)
+                       columns-selector
+                       (repeat 2 columns-selector))]
+    (j/pd-merge ds-left ds-right (assoc options :left-on left :right-on right :how :outer))))
 
 (defn full-join
   "Join keeping all rows"
   ([ds-left ds-right columns-selector] (full-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
-   (let [rj (right-join ds-left ds-right columns-selector options)]
-     (-> (->> rj
-              (ds/concat (left-join ds-left ds-right columns-selector options)))
-         (ds/unique-by identity)
-         (with-meta (assoc (meta rj) :name "full-join"))))))
+   (apply-join full-join-wrapper ds-left ds-right columns-selector options)))
 
-(defn- anti-semi-join-fn
-  ([nm rows-fn join-column-name dsl dsr] (anti-semi-join-fn nm rows-fn join-column-name dsl dsr nil))
-  ([nm rows-fn join-column-name dsl dsr options]
-   (let [lj (j/left-join join-column-name dsl dsr options)
-         right-columns (:right-column-names (meta lj))
-         ^RoaringBitmap missing-column (col/missing (lj (right-columns (if (vector? join-column-name)
-                                                                         (second join-column-name)
-                                                                         join-column-name))))
-         ^RoaringBitmap left-column (col/missing (lj (if (vector? join-column-name)
-                                                       (first join-column-name)
-                                                       join-column-name)))]
-     (-> lj
-         (rows-fn (RoaringBitmap/andNot missing-column left-column))
-         (drop-columns (vals right-columns))
-         (ds/unique-by identity)
-         (vary-meta assoc :name nm)))))
+(defn- semi-anti-join-indexes
+  [ds-left ds-right columns-selector options]
+  (-> (:lhs-indexes (apply-join j/hash-join ds-left ds-right columns-selector
+                                (assoc options
+                                       :lhs-missing? true
+                                       :drop-join-column? false)))
+      (distinct)))
 
-(make-join-fns [[anti-join (partial anti-semi-join-fn "anti-join" select-rows)]
-                [semi-join (partial anti-semi-join-fn "semi-join" drop-rows)]])
+(defn semi-join
+  ([ds-left ds-right columns-selector] (semi-join ds-left ds-right columns-selector nil))
+  ([ds-left ds-right columns-selector options]
+   (->> (semi-anti-join-indexes ds-left ds-right columns-selector options)
+        (select-rows ds-left))))
+
+(defn anti-join
+  ([ds-left ds-right columns-selector] (anti-join ds-left ds-right columns-selector nil))
+  ([ds-left ds-right columns-selector options]
+   (->> (semi-anti-join-indexes ds-left ds-right columns-selector options)
+        (drop-rows ds-left))))
 
 
 (defn cross-join

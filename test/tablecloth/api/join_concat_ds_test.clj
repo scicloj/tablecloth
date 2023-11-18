@@ -1,6 +1,5 @@
 (ns tablecloth.api.join-concat-ds-test
-  (:require [tablecloth.api.join-concat-ds :as sut]
-            [midje.sweet :as midje :refer [fact tabular =>]]
+  (:require [midje.sweet :as midje :refer [fact tabular =>]]
             [tablecloth.api :as api]))
 
 (def ds1 (api/dataset {:a [1 2 1 2 3 4 nil nil 4]
@@ -71,3 +70,44 @@
           (api/row-count)) => 4
       (-> (api/semi-join ds2 ds1 [:a :b])
           (api/row-count)) => 4)
+
+(fact "eraderna int-string join"
+      (-> (api/left-join (-> (api/dataset [{:i "foo" :y 2022}]))
+                         (-> (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                           {:i "foo" :y 2023 :s "2023"}]))
+                         [:i :y])
+          (api/rows :as-maps))  => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}]
+      (-> (api/left-join (-> (api/dataset [{:i "foo" :y 2022}])
+                             (api/convert-types {:y :int16}))
+                         (-> (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                           {:i "foo" :y 2023 :s "2023"}]))
+                         [:i :y])
+          (api/rows :as-maps)) => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}])
+
+(fact "left join on shorts packed into the vector"
+      (-> (api/left-join (-> (api/dataset [{:iy ["foo" (short 2022)]}]))
+                         (-> (api/dataset [{:iy ["foo" (long 2022)] :s "2022"}
+                                           {:iy ["foo" (long 2023)] :s "2023"}]))
+                         :iy)
+          (api/rows :as-maps))  => [{:iy ["foo", 2022], :right.iy ["foo", 2022], :s "2022"}])
+
+(fact "multiple same rows joins or nils by eraderna"
+      (-> (api/semi-join (api/dataset [{:k    nil    :v "\"nil\""}
+                                       {:k "bar"     :v "\"bar\""}
+                                       {:k "baz"     :v "\"baz\""}])
+                         (api/dataset [{:k "baz"}])
+                         [:k])
+          (api/rows :as-maps)) => [{:k "baz"     :v "\"baz\""}]
+      (-> (api/semi-join (api/dataset [{:k    nil    :v "\"nil\""}
+                                       {:k "bar"     :v "\"bar\""}
+                                       {:k "baz"     :v "\"baz\""}])
+                         (api/dataset [{:k "baz"}
+                                       {:k "baz"}])
+                         [:k])
+          (api/rows :as-maps)) => [{:k "baz", :v "\"baz\""}]
+      (-> (api/semi-join (api/dataset [{:k "bar"     :v "\"bar\""}
+                                       {:k "baz"     :v "\"baz\""}
+                                       {:k "baz"     :v "\"baz\""}])
+                         (api/dataset [{:k "baz"}])
+                         [:k])
+          (api/rows :as-maps)) => [{:k "baz", :v "\"baz\""} {:k "baz", :v "\"baz\""}])
