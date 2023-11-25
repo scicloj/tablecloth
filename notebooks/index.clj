@@ -15,19 +15,6 @@
 
 ^{:kindly/hide-code? true
   :kind/void true}
-(clay/swap-options!
- assoc
- :remote-repo {:git-url "https://github.com/daslu/tablecloth"
-               :branch "main"}
- :quarto {:format {:html {:toc true
-                          :theme :spacelab}}
-          :highlight-style :solarized
-          :code-block-background true
-          :embed-resources false})
-
-
-^{:kindly/hide-code? true
-  :kind/void true}
 (note-to-test/define-value-representations!
   [{:predicate (fn [v]
                  (-> v
