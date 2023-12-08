@@ -162,32 +162,20 @@ run it before making documentation
 
 In this branch, we develop a new proposed dev workflow for Tablecloth:
 - namespace-as-a-notebook documentation using [Kindly](https://scicloj.github.io/kindly) and [Clay](https://scicloj.github.io/clay)
-- testing the documentation using [note-to-test](https://github.com/scicloj/note-to-test)
-
-Note that `note-to-test` is still evolving, and this branch might be lagging and may need some adaptations to its newest version.
+- testing the documentation using [note-to-test](https://github.com/scicloj/note-to-test) - coming soon
 
 ### Relevant files
 - [notebooks/index.clj](notebooks/index.clj) - the tutorial as a Kindly notebook (developed with Clay)
   - [src/conversion.clj](src/conversion.clj) - the script used to generate the notebook from the original `Rmarkdown` tutorial (up to a few additional manual edits))
-- [docs/index_quarto.html](docs/index_quarto.html) - the tutorial rendered using Clay and [Quarto](https://quarto.org/) - see it [here](https://daslu.github.io/tablecloth/index_quarto)
-- [test/index_generated_test.clj](test/index_generated_test.clj) - tests automatically generated from the tutorial
+- [docs/index.html](docs/index.html) - the tutorial rendered using Clay and [Quarto](https://quarto.org/)
 
 ### Actions
 - to render the notebook using Clay (assuming you have the Quarto CLI [installed](https://quarto.org/docs/get-started/)):
 ```clj
-(require '[scicloj.clay.v2.api :as clay]
-         '[scicloj.kindly-default.v1.api :as kindly-default])
-(kindly-default/setup!)
-(clay/generate-and-show-namespace-quarto! "notebooks/index.clj" {})
+(require '[scicloj.clay.v2.api :as clay])
+(clay/make! {:format [:quarto :html]
+             :source-path "notebooks/index.clj"})
 ```
-- to regenerate the tests for the current notebook:
-```clj
-(require '[scicloj.note-to-test.v1.api :as note-to-test])
-(note-to-test/gentest! "notebooks/index.clj"
-                       {:accept true
-                        :verbose true})
-```
-Here, `accept` means we allow overriding the previous tests even if there are some changes, and `verbose` means we are willing to know whether the tests have changed.
 
 ## Licence
 
