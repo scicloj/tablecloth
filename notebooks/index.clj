@@ -1,12 +1,16 @@
-^{:kindly/hide-code? true
-  :kind/void true}
+^:kindly/hide-code?
 (ns index
-  (:require [scicloj.kindly.v4.kind :as kind
-             :refer [md]]
+  (:require [scicloj.kindly.v4.kind :as kind]
             [tablecloth.api :as tc]
             [scicloj.note-to-test.v1.api :as note-to-test]
             [scicloj.clay.v2.api :as clay]))
 
+^:kindly/hide-code?
+(defn md [text]
+  (-> text
+      kind/md
+      (vary-meta
+       assoc :kindly/hide-code? true)))
 
 (md
  "# Dataset (data frame) manipulation API for the tech.ml.dataset library
@@ -102,7 +106,7 @@ Dataset can be created from various of types of Clojure structures and files:
 
 `tc/let-dataset` accepts bindings `symbol`-`column-data` to simulate R's `tibble` function. Each binding is converted into a column. You can refer previous columns to in further bindings (as in `let`).
 
----
+----
 
 Empty dataset.
 ")
@@ -112,7 +116,7 @@ Empty dataset.
 
 
 (md "
----
+----
 
 Empty dataset with column names
 ")
@@ -122,7 +126,7 @@ Empty dataset with column names
 
 
 (md "
----
+----
 
 Sequence of pairs (first = column name, second = value(s)).
 ")
@@ -132,7 +136,7 @@ Sequence of pairs (first = column name, second = value(s)).
 
 
 (md "
----
+----
 
 Not sequential values are repeated row-count number of times.
 ")
@@ -142,7 +146,7 @@ Not sequential values are repeated row-count number of times.
 
 
 (md "
----
+----
 
 Dataset created from map (keys = column names, vals = value(s)). Works the same as sequence of pairs.
 ")
@@ -154,7 +158,7 @@ Dataset created from map (keys = column names, vals = value(s)). Works the same 
 
 
 (md "
----
+----
 
 You can put any value inside a column
 ")
@@ -164,7 +168,7 @@ You can put any value inside a column
 
 
 (md "
----
+----
 
 Sequence of maps
 ")
@@ -175,7 +179,7 @@ Sequence of maps
 
 
 (md "
----
+----
 
 Missing values are marked by `nil`
 ")
@@ -185,7 +189,7 @@ Missing values are marked by `nil`
 
 
 (md "
----
+----
 
 Reading from arrays, by default `:as-rows`
 ")
@@ -230,7 +234,7 @@ Any objects
 
 (md "
 
----
+----
 
 Create dataset using macro `let-dataset` to simulate R `tibble` function. Each binding is converted into a column.
 ")
@@ -242,7 +246,7 @@ Create dataset using macro `let-dataset` to simulate R `tibble` function. Each b
 
 
 (md "
----
+----
 
 Import CSV file
 ")
@@ -252,7 +256,7 @@ Import CSV file
 
 
 (md "
----
+----
 
 Import from URL
 ")
@@ -268,7 +272,7 @@ ds
 
 
 (md "
----
+----
 
 When none of above works, singleton dataset is created. Along with the error message from the exception thrown by `tech.ml.dataset`
 ")
@@ -280,7 +284,7 @@ When none of above works, singleton dataset is created. Along with the error mes
 (md "
 To see the stack trace, turn it on by setting `:stack-trace?` to `true`.
 
----
+----
 
 Set column name for single value. Also set the dataset name and turn off creating error message column.
 ")
@@ -329,7 +333,7 @@ Export dataset to a file or output stream can be done by calling `tc/write!`. Fu
 
 Summary functions about the dataset like number of rows, columns and basic stats.
 
----
+----
 
 Number of rows
 ")
@@ -339,7 +343,7 @@ Number of rows
 
 
 (md "
----
+----
 
 Number of columns
 ")
@@ -349,7 +353,7 @@ Number of columns
 
 
 (md "
----
+----
 
 Shape of the dataset, [row count, column count]
 ")
@@ -359,7 +363,7 @@ Shape of the dataset, [row count, column count]
 
 
 (md "
----
+----
 
 General info about dataset. There are three variants:
 
@@ -375,7 +379,7 @@ General info about dataset. There are three variants:
 
 
 (md "
----
+----
 
 Getting a dataset name
 ")
@@ -385,7 +389,7 @@ Getting a dataset name
 
 
 (md "
----
+----
 
 Setting a dataset name (operation is immutable).
 ")
@@ -411,7 +415,7 @@ Possible result types:
 
 For `rows` setting `:nil-missing?` option to `false` will elide keys for nil values.
 
----
+----
 
 Select column.
 ")
@@ -422,7 +426,7 @@ Select column.
 
 
 (md "
----
+----
 
 Columns as sequence
 ")
@@ -432,7 +436,7 @@ Columns as sequence
 
 
 (md "
----
+----
 
 Columns as map
 ")
@@ -442,7 +446,7 @@ Columns as map
 
 
 (md "
----
+----
 
 Rows as sequence of sequences
 ")
@@ -452,7 +456,7 @@ Rows as sequence of sequences
 
 
 (md "
----
+----
 
 Select rows/columns as double-double-array
 ")
@@ -474,7 +478,7 @@ Select rows/columns as double-double-array
 
 
 (md "
----
+----
 
 Rows as sequence of maps
 ")
@@ -484,7 +488,7 @@ Rows as sequence of maps
 
 
 (md "
----
+----
 
 Rows with missing values
 ")
@@ -585,7 +589,7 @@ Grouping can be done by:
 
 Note: currently dataset inside dataset is printed recursively so it renders poorly from markdown. So I will use `:as-seq` result type to show just group names and groups.
 
----
+----
 
 List of columns in grouped dataset
 ")
@@ -597,7 +601,7 @@ List of columns in grouped dataset
 
 
 (md "
----
+----
 
 List of columns in grouped dataset treated as regular dataset
 ")
@@ -611,7 +615,7 @@ List of columns in grouped dataset treated as regular dataset
 
 (md "
 
----
+----
 
 Content of the grouped dataset
 ")
@@ -621,7 +625,7 @@ Content of the grouped dataset
 
 
 (md "
----
+----
 
 Grouped dataset as map
 ")
@@ -637,7 +641,7 @@ Grouped dataset as map
 
 
 (md "
----
+----
 
 Group dataset as map of indexes (row ids)
 ")
@@ -647,7 +651,7 @@ Group dataset as map of indexes (row ids)
 
 
 (md "
----
+----
 
 Grouped datasets are printed as follows by default.
 ")
@@ -657,7 +661,7 @@ Grouped datasets are printed as follows by default.
 
 
 (md "
----
+----
 
 To get groups as sequence or a map can be done from grouped dataset using `groups->seq` and `groups->map` functions.
 
@@ -685,7 +689,7 @@ I will use temporary dataset here.
 
 
 (md "
----
+----
 
 Groups as map
 ")
@@ -699,7 +703,7 @@ Groups as map
 
 
 (md "
----
+----
 
 Grouping by more than one column. You can see that group names are maps. When ungrouping is done these maps are used to restore column names.
 ")
@@ -709,7 +713,7 @@ Grouping by more than one column. You can see that group names are maps. When un
 
 
 (md "
----
+----
 
 Grouping can be done by providing just row indexes. This way you can assign the same row to more than one group.
 ")
@@ -720,7 +724,7 @@ Grouping can be done by providing just row indexes. This way you can assign the 
 
 
 (md "
----
+----
 
 You can group by a result of grouping function which gets row as map and should return group name. When map is used as a group name, ungrouping restore original column names.
 ")
@@ -731,7 +735,7 @@ You can group by a result of grouping function which gets row as map and should 
 
 
 (md "
----
+----
 
 You can use any predicate on column to split dataset into two groups.
 ")
@@ -741,7 +745,7 @@ You can use any predicate on column to split dataset into two groups.
 
 
 (md "
----
+----
 
 `juxt` is also helpful
 ")
@@ -751,7 +755,7 @@ You can use any predicate on column to split dataset into two groups.
 
 
 (md "
----
+----
 
 `tech.ml.dataset` provides an option to limit columns which are passed to grouping functions. It's done for performance purposes.
 ")
@@ -777,7 +781,7 @@ If group name is a vector, it will be splitted into separate columns. If you wan
 
 After ungrouping, order of the rows is kept within the groups but groups are ordered according to the internal storage.
 
----
+----
 
 Grouping and ungrouping.
 ")
@@ -789,7 +793,7 @@ Grouping and ungrouping.
 
 
 (md "
----
+----
 
 Groups sorted by group name and named.
 ")
@@ -802,7 +806,7 @@ Groups sorted by group name and named.
 
 
 (md "
----
+----
 
 Groups sorted descending by group name and named.
 ")
@@ -815,7 +819,7 @@ Groups sorted descending by group name and named.
 
 
 (md "
----
+----
 
 Let's add group name and id as additional columns
 ")
@@ -828,7 +832,7 @@ Let's add group name and id as additional columns
 
 
 (md "
----
+----
 
 Let's assign different column names
 ")
@@ -841,7 +845,7 @@ Let's assign different column names
 
 
 (md "
----
+----
 
 If we group by map, we can automatically create new columns out of group names.
 ")
@@ -855,7 +859,7 @@ If we group by map, we can automatically create new columns out of group names.
 
 
 (md "
----
+----
 
 We can add group names without separation
 ")
@@ -870,7 +874,7 @@ We can add group names without separation
 
 
 (md "
----
+----
 
 The same applies to group names as sequences
 ")
@@ -882,7 +886,7 @@ The same applies to group names as sequences
 
 
 (md "
----
+----
 
 Let's provide column names
 ")
@@ -894,7 +898,7 @@ Let's provide column names
 
 
 (md "
----
+----
 
 Also we can supress separation
 ")
@@ -926,7 +930,7 @@ To check if dataset is grouped or not just use `grouped?` function.
 
 
 (md "
----
+----
 
 If you want to remove grouping annotation (to make all the functions work as with regular dataset) you can use `unmark-group` or `as-regular-dataset` (alias) functions.
 
@@ -952,7 +956,7 @@ You can also operate on grouped dataset as a regular one in case you want to acc
 
 
 (md "
----
+----
 
 This is considered internal.
 
@@ -1001,7 +1005,7 @@ Datatype groups are:
 
 If qualified keyword starts with `:!type`, complement set is used.
 
----
+----
 
 To select all column names you can use `column-names` function.
 ")
@@ -1027,7 +1031,7 @@ In case you want to select column which has name `:all` (or is sequence or map),
 
 
 (md "
----
+----
 
 Obviously selecting single name returns it's name if available
 ")
@@ -1038,7 +1042,7 @@ Obviously selecting single name returns it's name if available
 
 
 (md "
----
+----
 
 Select sequence of column names.
 ")
@@ -1048,7 +1052,7 @@ Select sequence of column names.
 
 
 (md "
----
+----
 
 Select names based on regex, columns ends with `1` or `4`
 ")
@@ -1058,7 +1062,7 @@ Select names based on regex, columns ends with `1` or `4`
 
 
 (md "
----
+----
 
 Select names based on regex operating on type of the column (to check what are the column types, call `(tc/info DS :columns)`. Here we want to get integer columns only.
 ")
@@ -1077,7 +1081,7 @@ or
 
 
 (md "
----
+----
 
 And finally we can use predicate to select names. Let's select double precision columns.
 ")
@@ -1095,7 +1099,7 @@ or
 
 
 (md "
----
+----
 
 If you want to select all columns but given, use `complement` function. Works only on a predicate.
 ")
@@ -1107,7 +1111,7 @@ If you want to select all columns but given, use `complement` function. Works on
 
 
 (md "
----
+----
 
 You can select column names based on all column metadata at once by using `:all` metadata selector. Below we want to select column names ending with `1` which have `long` datatype.
 ")
@@ -1123,7 +1127,7 @@ You can select column names based on all column metadata at once by using `:all`
 
 `select-columns` creates dataset with columns selected by `columns-selector` as described above. Function works on regular and grouped dataset.
 
----
+----
 
 Select only float64 columns
 ")
@@ -1141,7 +1145,7 @@ Select only float64 columns
 
 (md "
 
----
+----
 
 Select all but `:V1` columns
 ")
@@ -1151,7 +1155,7 @@ Select all but `:V1` columns
 
 
 (md "
----
+----
 
 If we have grouped data set, column selection is applied to every group separately.
 ")
@@ -1168,7 +1172,7 @@ If we have grouped data set, column selection is applied to every group separate
 
 `drop-columns` creates dataset with removed columns.
 
----
+----
 
 Drop float64 columns
 ")
@@ -1186,7 +1190,7 @@ or
 
 
 (md "
----
+----
 
 Drop all columns but `:V1` and `:V2`
 ")
@@ -1196,7 +1200,7 @@ Drop all columns but `:V1` and `:V2`
 
 
 (md "
----
+----
 
 If we have grouped data set, column selection is applied to every group separately. Selected columns are dropped.
 ")
@@ -1224,7 +1228,7 @@ You can also pass mapping function with optional columns-selector
 
 
 (md "
----
+----
 
 Map all names with function
 ")
@@ -1234,7 +1238,7 @@ Map all names with function
 
 
 (md "
----
+----
 
 Map selected names with function
 ")
@@ -1244,7 +1248,7 @@ Map selected names with function
 
 
 (md "
----
+----
 
 Function works on grouped dataset
 ")
@@ -1275,7 +1279,7 @@ To add (or replace existing) column call `add-column` function. Function accepts
 
 Function works on grouped dataset.
 
----
+----
 
 Add single value as column
 ")
@@ -1285,7 +1289,7 @@ Add single value as column
 
 
 (md "
----
+----
 
 Replace one column (column is trimmed)
 ")
@@ -1296,7 +1300,7 @@ Replace one column (column is trimmed)
 
 
 (md "
----
+----
 
 Copy column
 ")
@@ -1306,7 +1310,7 @@ Copy column
 
 
 (md "
----
+----
 
 When function is used, argument is whole dataset and the result should be column, sequence or single value
 ")
@@ -1316,7 +1320,7 @@ When function is used, argument is whole dataset and the result should be column
 
 
 (md "
----
+----
 
 Above example run on grouped dataset, applies function on each group separately.
 ")
@@ -1329,7 +1333,7 @@ Above example run on grouped dataset, applies function on each group separately.
 
 
 (md "
----
+----
 
 When column which is added is longer than row count in dataset, column is trimmed. When column is shorter, it's cycled or missing values are appended.
 ")
@@ -1355,7 +1359,7 @@ Exception is thrown when `:strict` (default) strategy is used and column size is
 
 
 (md "
----
+----
 
 Tha same applies for grouped dataset
 ")
@@ -1368,7 +1372,7 @@ Tha same applies for grouped dataset
 
 
 (md "
----
+----
 
 Let's use other column to fill groups
 ")
@@ -1381,7 +1385,7 @@ Let's use other column to fill groups
 
 
 (md "
----
+----
 
 In case you want to add or update several columns you can call `add-columns` and provide map where keys are column names, vals are columns.
 ")
@@ -1404,7 +1408,7 @@ If you want to modify specific column(s) you can call `update-columns`. Argument
 
 Functions accept column and have to return column or sequence
 
----
+----
 
 Reverse of columns
 ")
@@ -1414,7 +1418,7 @@ Reverse of columns
 
 
 (md "
----
+----
 
 Apply dec/inc on numerical columns
 ")
@@ -1425,7 +1429,7 @@ Apply dec/inc on numerical columns
 
 
 (md "
----
+----
 
 You can also assign a function to a column by packing operations into the map.
 ")
@@ -1449,7 +1453,7 @@ Arguments:
 * `columns-selector` - columns selected
 * `map-fn` - mapping function
 
----
+----
 
 Let's add numerical columns together
 ")
@@ -1487,7 +1491,7 @@ To reorder columns use columns selectors to choose what columns go first. The un
 
 
 (md "
----
+----
 
 This function doesn't let you select meta field, so you have to call `column-names` in such case. Below we want to add integer columns at the end.
 ")
@@ -1517,7 +1521,7 @@ After conversion additional infomation is given on problematic values.
 
 The other conversion is casting column into java array (`->array`) of the type column or provided as argument. Grouped dataset returns sequence of arrays.
 
----
+----
 
 Basic conversion
 ")
@@ -1529,7 +1533,7 @@ Basic conversion
 
 
 (md "
----
+----
 
 Using custom converter. Let's treat `:V4` as haxadecimal values. See that this way we can map column to any value.
 ")
@@ -1540,7 +1544,7 @@ Using custom converter. Let's treat `:V4` as haxadecimal values. See that this w
 
 
 (md "
----
+----
 
 You can process several columns at once
 ")
@@ -1555,7 +1559,7 @@ You can process several columns at once
 
 
 (md "
----
+----
 
 Convert one type into another
 ")
@@ -1567,7 +1571,7 @@ Convert one type into another
 
 
 (md "
----
+----
 
 Function works on the grouped dataset
 ")
@@ -1581,7 +1585,7 @@ Function works on the grouped dataset
 
 
 (md "
----
+----
 
 Double array conversion.
 ")
@@ -1591,7 +1595,7 @@ Double array conversion.
 
 
 (md "
----
+----
 
 Function also works on grouped dataset
 ")
@@ -1603,7 +1607,7 @@ Function also works on grouped dataset
 
 
 (md "
----
+----
 
 You can also cast the type to the other one (if casting is possible):
 ")
@@ -1636,7 +1640,7 @@ Select fifth row
 
 
 (md "
----
+----
 
 Select 3 rows
 ")
@@ -1646,7 +1650,7 @@ Select 3 rows
 
 
 (md "
----
+----
 
 Select rows using sequence of true/false values
 ")
@@ -1656,7 +1660,7 @@ Select rows using sequence of true/false values
 
 
 (md "
----
+----
 
 Select rows using predicate
 ")
@@ -1666,7 +1670,7 @@ Select rows using predicate
 
 
 (md "
----
+----
 
 The same works on grouped dataset, let's select first row from every group.
 ")
@@ -1679,7 +1683,7 @@ The same works on grouped dataset, let's select first row from every group.
 
 
 (md "
----
+----
 
 If you want to select `:V2` values which are lower than or equal mean in grouped dataset you have to precalculate it using `:pre`.
 ")
@@ -1697,7 +1701,7 @@ If you want to select `:V2` values which are lower than or equal mean in grouped
 
 `drop-rows` removes rows, and accepts exactly the same parameters as `select-rows`
 
----
+----
 
 Drop values lower than or equal `:V2` column mean in grouped dataset.
 ")
@@ -1730,7 +1734,7 @@ There are several function to select first, last, random rows, or display head, 
 
 All random functions accept `:seed` as an option if you want to fix returned result.
 
----
+----
 
 First row
 ")
@@ -1740,7 +1744,7 @@ First row
 
 
 (md "
----
+----
 
 Last row
 ")
@@ -1750,7 +1754,7 @@ Last row
 
 
 (md "
----
+----
 
 Random row (single)
 ")
@@ -1761,7 +1765,7 @@ Random row (single)
 
 
 (md "
----
+----
 
 Random row (single) with seed
 ")
@@ -1771,7 +1775,7 @@ Random row (single) with seed
 
 
 (md "
----
+----
 
 Random `n` (default: row count) rows with repetition.
 ")
@@ -1782,7 +1786,7 @@ Random `n` (default: row count) rows with repetition.
 
 
 (md "
----
+----
 
 Five random rows with repetition
 ")
@@ -1793,7 +1797,7 @@ Five random rows with repetition
 
 
 (md "
----
+----
 
 Five random, non-repeating rows
 ")
@@ -1804,7 +1808,7 @@ Five random, non-repeating rows
 
 
 (md "
----
+----
 
 Five random, with seed
 ")
@@ -1815,7 +1819,7 @@ Five random, with seed
 
 (md "
 
----
+----
 
 Shuffle dataset
 ")
@@ -1826,7 +1830,7 @@ Shuffle dataset
 
 
 (md "
----
+----
 
 Shuffle with seed
 ")
@@ -1837,7 +1841,7 @@ Shuffle with seed
 
 (md "
 
----
+----
 
 First `n` rows (default 5)
 ")
@@ -1847,7 +1851,7 @@ First `n` rows (default 5)
 
 
 (md "
----
+----
 
 Last `n` rows (default 5)
 ")
@@ -1857,7 +1861,7 @@ Last `n` rows (default 5)
 
 
 (md "
----
+----
 
 `by-rank` calculates rank on column(s). It's base on [R rank()](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/rank) with addition of `:dense` (default) tie strategy which give consecutive rank numbering.
 
@@ -1865,7 +1869,7 @@ Last `n` rows (default 5)
 
 `rank` is zero based and is defined at `tablecloth.api.utils` namespace.
 
----
+----
 ")
 
 
@@ -1879,7 +1883,7 @@ Last `n` rows (default 5)
 
 
 (md "
----
+----
 
 Rank also works on multiple columns
 ")
@@ -1889,7 +1893,7 @@ Rank also works on multiple columns
 
 
 (md "
----
+----
 
 Select 5 random rows from each group
 ")
@@ -1915,7 +1919,7 @@ Grouped dataset is ungrouped after aggreation. This can be turned off by setting
 
 By default resulting column names are prefixed with `summary` prefix (set it with `:default-column-name-prefix` option).
 
----
+----
 
 Let's calculate mean of some columns
 ")
@@ -1925,7 +1929,7 @@ Let's calculate mean of some columns
 
 
 (md "
----
+----
 
 Let's give resulting column a name.
 ")
@@ -1935,7 +1939,7 @@ Let's give resulting column a name.
 
 
 (md "
----
+----
 
 Sequential result is spread into separate columns
 ")
@@ -1945,7 +1949,7 @@ Sequential result is spread into separate columns
 
 
 (md "
----
+----
 
 You can combine all variants and rename default prefix
 ")
@@ -1957,7 +1961,7 @@ You can combine all variants and rename default prefix
 
 
 (md "
----
+----
 
 Processing grouped dataset
 ")
@@ -1994,7 +1998,7 @@ You can perform columnar aggreagation also. `aggregate-columns` selects columns 
 
 
 (md "
----
+----
 ")
 
 
@@ -2004,7 +2008,7 @@ You can perform columnar aggreagation also. `aggregate-columns` selects columns 
 
 
 (md "
----
+----
 ")
 
 
@@ -2050,7 +2054,7 @@ ctds
 
 
 (md "
----
+----
 ")
 
 
@@ -2058,7 +2062,7 @@ ctds
 
 
 (md "
----
+----
 
 With marginals
 ")
@@ -2068,7 +2072,7 @@ With marginals
 
 
 (md "
----
+----
 
 Set missing value to `-1`
 ")
@@ -2078,7 +2082,7 @@ Set missing value to `-1`
 
 
 (md "
----
+----
 
 Turn off pivoting
 ")
@@ -2098,7 +2102,7 @@ Ordering can be done by column(s) or any function operating on row. Possible ord
 
 `:select-keys` limits row map provided to ordering functions.
 
----
+----
 
 Order by single column, ascending
 ")
@@ -2108,7 +2112,7 @@ Order by single column, ascending
 
 
 (md "
----
+----
 
 Descending order
 ")
@@ -2118,7 +2122,7 @@ Descending order
 
 
 (md "
----
+----
 
 Order by two columns
 ")
@@ -2128,7 +2132,7 @@ Order by two columns
 
 
 (md "
----
+----
 
 Use different orders for columns
 ")
@@ -2150,7 +2154,7 @@ Use different orders for columns
 
 
 (md "
----
+----
 
 Custom function can be used to provided ordering key. Here order by `:V4` descending, then by product of other columns ascending.
 ")
@@ -2162,7 +2166,7 @@ Custom function can be used to provided ordering key. Here order by `:V4` descen
 
 
 (md "
----
+----
 
 Custom comparator also can be used in case objects are not comparable by default. Let's define artificial one: if Euclidean distance is lower than 2, compare along `z` else along `x` and `y`. We use first three columns for that.
 ")
@@ -2194,7 +2198,7 @@ Remove rows which contains the same data. By default `unique-by` removes duplica
 
 `unique-by` works on groups
 
----
+----
 
 Remove duplicates from whole dataset
 ")
@@ -2204,7 +2208,7 @@ Remove duplicates from whole dataset
 
 
 (md "
----
+----
 
 Remove duplicates from each group selected by column.
 ")
@@ -2214,7 +2218,7 @@ Remove duplicates from each group selected by column.
 
 
 (md "
----
+----
 
 Pair of columns
 ")
@@ -2224,7 +2228,7 @@ Pair of columns
 
 
 (md "
----
+----
 
 Also function can be used, split dataset by modulo 3 on columns `:V2`
 ")
@@ -2234,7 +2238,7 @@ Also function can be used, split dataset by modulo 3 on columns `:V2`
 
 
 (md "
----
+----
 
 The same can be achived with `group-by`
 ")
@@ -2247,7 +2251,7 @@ The same can be achived with `group-by`
 
 
 (md "
----
+----
 
 Grouped dataset
 ")
@@ -2269,7 +2273,7 @@ There are 4 strategies defined:
 * `:random` - select random row
 * any function - apply function to a columns which are subject of uniqueness
 
----
+----
 
 Last
 ")
@@ -2279,7 +2283,7 @@ Last
 
 
 (md "
----
+----
 
 Random
 ")
@@ -2290,7 +2294,7 @@ Random
 
 
 (md "
----
+----
 
 Pack columns into vector
 ")
@@ -2300,7 +2304,7 @@ Pack columns into vector
 
 
 (md "
----
+----
 
 Sum columns
 ")
@@ -2310,7 +2314,7 @@ Sum columns
 
 
 (md "
----
+----
 
 Group by function and apply functions
 ")
@@ -2320,7 +2324,7 @@ Group by function and apply functions
 
 
 (md "
----
+----
 
 Grouped dataset
 ")
@@ -2366,7 +2370,7 @@ Select rows with missing values
 
 
 (md "
----
+----
 
 Select rows with missing values in `:V1`
 ")
@@ -2376,7 +2380,7 @@ Select rows with missing values in `:V1`
 
 
 (md "
----
+----
 
 The same with grouped dataset
 ")
@@ -2399,7 +2403,7 @@ Drop rows with missing values
 
 
 (md "
----
+----
 
 Drop rows with missing values in `:V1`
 ")
@@ -2409,7 +2413,7 @@ Drop rows with missing values in `:V1`
 
 
 (md "
----
+----
 
 The same with grouped dataset
 ")
@@ -2461,7 +2465,7 @@ DSm2
 
 
 (md "
----
+----
 
 Replace missing with default strategy for all columns
 ")
@@ -2471,7 +2475,7 @@ Replace missing with default strategy for all columns
 
 
 (md "
----
+----
 
 Replace missing with single value in whole dataset
 ")
@@ -2481,7 +2485,7 @@ Replace missing with single value in whole dataset
 
 
 (md "
----
+----
 
 Replace missing with single value in `:a` column
 ")
@@ -2491,7 +2495,7 @@ Replace missing with single value in `:a` column
 
 
 (md "
----
+----
 
 Replace missing with sequence in `:a` column
 ")
@@ -2501,7 +2505,7 @@ Replace missing with sequence in `:a` column
 
 
 (md "
----
+----
 
 Replace missing with a function (mean)
 ")
@@ -2511,7 +2515,7 @@ Replace missing with a function (mean)
 
 
 (md "
----
+----
 
 Replace missing some missing values with a map
 ")
@@ -2521,7 +2525,7 @@ Replace missing some missing values with a map
 
 
 (md "
----
+----
 
 Using `:down` strategy, fills gaps with values from above. You can see that if missings are at the beginning, the are filled with first value
 ")
@@ -2531,7 +2535,7 @@ Using `:down` strategy, fills gaps with values from above. You can see that if m
 
 
 (md "
----
+----
 
 To fix above issue you can provide value
 ")
@@ -2541,7 +2545,7 @@ To fix above issue you can provide value
 
 
 (md "
----
+----
 
 The same applies for `:up` strategy which is opposite direction.
 ")
@@ -2551,7 +2555,7 @@ The same applies for `:up` strategy which is opposite direction.
 
 
 (md "
----
+----
 ")
 
 
@@ -2559,7 +2563,7 @@ The same applies for `:up` strategy which is opposite direction.
 
 
 (md "
----
+----
 
 The same applies for `:up` strategy which is opposite direction.
 ")
@@ -2569,7 +2573,7 @@ The same applies for `:up` strategy which is opposite direction.
 
 
 (md "
----
+----
 
 We can use a function which is applied after applying `:up` or `:down`
 ")
@@ -2579,7 +2583,7 @@ We can use a function which is applied after applying `:up` or `:down`
 
 
 (md "
----
+----
 
 Lerp tries to apply linear interpolation of the values
 ")
@@ -2589,7 +2593,7 @@ Lerp tries to apply linear interpolation of the values
 
 
 (md "
----
+----
 
 Lerp works also on dates
 ")
@@ -2612,7 +2616,7 @@ When your column contains not continuous data range you can fill up with lacking
 * (optional) `missing-strategy` - how to replace missing, default `:down` (set to `nil` if none)
 * (optional) `missing-value` - optional value for replace missing
 
----
+----
 ")
 
 
@@ -2645,7 +2649,7 @@ Joining or separating columns are operations which can help to tidy messy datase
 * or custom function which gets row as a vector
 - `:missing-subst` - substitution for missing value
 
----
+----
 
 Default usage. Create `:joined` column out of other columns.
 ")
@@ -2655,7 +2659,7 @@ Default usage. Create `:joined` column out of other columns.
 
 
 (md "
----
+----
 
 Without dropping source columns.
 ")
@@ -2665,7 +2669,7 @@ Without dropping source columns.
 
 
 (md "
----
+----
 
 Let's replace missing value with \"NA\" string.
 ")
@@ -2675,7 +2679,7 @@ Let's replace missing value with \"NA\" string.
 
 
 (md "
----
+----
 
 We can use custom separator.
 ")
@@ -2686,7 +2690,7 @@ We can use custom separator.
 
 
 (md "
----
+----
 
 Or even sequence of separators.
 ")
@@ -2697,7 +2701,7 @@ Or even sequence of separators.
 
 
 (md "
----
+----
 
 The other types of results, map:
 ")
@@ -2707,7 +2711,7 @@ The other types of results, map:
 
 
 (md "
----
+----
 
 Sequence
 ")
@@ -2717,7 +2721,7 @@ Sequence
 
 
 (md "
----
+----
 
 Custom function, calculate hash
 ")
@@ -2727,7 +2731,7 @@ Custom function, calculate hash
 
 
 (md "
----
+----
 
 Grouped dataset
 ")
@@ -2740,7 +2744,7 @@ Grouped dataset
 
 
 (md "
----
+----
 
 
 ##### Tidyr examples
@@ -2760,7 +2764,7 @@ df
 
 
 (md "
----
+----
 ")
 
 
@@ -2770,7 +2774,7 @@ df
 
 
 (md "
----
+----
 ")
 
 
@@ -2797,7 +2801,7 @@ Column can be also separated into several other columns using string as separato
 
 Custom function (as separator) should return seqence of values for given value or a sequence of map.
 
----
+----
 
 Separate float into integer and factional values
 ")
@@ -2809,7 +2813,7 @@ Separate float into integer and factional values
 
 
 (md "
----
+----
 
 Source column can be kept
 ")
@@ -2821,7 +2825,7 @@ Source column can be kept
 
 
 (md "
----
+----
 
 We can treat `0` or `0.0` as missing value
 ")
@@ -2833,7 +2837,7 @@ We can treat `0` or `0.0` as missing value
 
 
 (md "
----
+----
 
 Works on grouped dataset
 ")
@@ -2848,7 +2852,7 @@ Works on grouped dataset
 
 
 (md "
----
+----
 
 Separate using separator returning sequence of maps.
 ")
@@ -2890,7 +2894,7 @@ Infering column names
 
 (md "
 
----
+----
 
 Join and separate together.
 ")
@@ -2948,7 +2952,7 @@ df-extract
 
 
 (md "
----
+----
 ")
 
 
@@ -2956,7 +2960,7 @@ df-extract
 
 
 (md "
----
+----
 
 You can drop columns after separation by setting `nil` as a name. We need second value here.
 ")
@@ -2966,7 +2970,7 @@ You can drop columns after separation by setting `nil` as a name. We need second
 
 
 (md "
----
+----
 
 Extra data is dropped
 ")
@@ -2976,7 +2980,7 @@ Extra data is dropped
 
 
 (md "
----
+----
 
 Split with regular expression
 ")
@@ -2986,7 +2990,7 @@ Split with regular expression
 
 
 (md "
----
+----
 
 Or just regular expression to extract values
 ")
@@ -2996,7 +3000,7 @@ Or just regular expression to extract values
 
 
 (md "
----
+----
 
 Extract first value only
 ")
@@ -3006,7 +3010,7 @@ Extract first value only
 
 
 (md "
----
+----
 
 Split with regex
 ")
@@ -3016,7 +3020,7 @@ Split with regex
 
 
 (md "
----
+----
 
 Only `a,b,c,d` strings
 ")
@@ -3073,7 +3077,7 @@ Group-by and pack columns into vector
 
 
 (md "
----
+----
 
 You can pack several columns at once.
 ")
@@ -3083,7 +3087,7 @@ You can pack several columns at once.
 
 
 (md "
----
+----
 
 You can use custom packing function
 ")
@@ -3101,7 +3105,7 @@ or
 
 
 (md "
----
+----
 
 This works also on grouped dataset
 ")
@@ -3123,7 +3127,7 @@ Options:
 * `:indexes?` if true (or column name), information about index of unrolled sequence is added.
 * `:datatypes` list of datatypes which should be applied to restored columns, a map
 
----
+----
 
 Unroll one column
 ")
@@ -3133,7 +3137,7 @@ Unroll one column
 
 
 (md "
----
+----
 
 Unroll all folded columns
 ")
@@ -3143,7 +3147,7 @@ Unroll all folded columns
 
 
 (md "
----
+----
 
 Unroll one by one leads to cartesian product
 ")
@@ -3156,7 +3160,7 @@ Unroll one by one leads to cartesian product
 
 
 (md "
----
+----
 
 You can add indexes
 ")
@@ -3172,7 +3176,7 @@ You can add indexes
 
 
 (md "
----
+----
 
 You can also force datatypes
 ")
@@ -3187,7 +3191,7 @@ You can also force datatypes
 
 
 (md "
----
+----
 
 This works also on grouped dataset
 ")
@@ -3236,7 +3240,7 @@ Arguments:
 * column names as seqence - source columns names after split are put separately into `:target-columns` as data
 * pattern - is a sequence of names, where some of the names are `nil`. `nil` is replaced by a name taken from splitter and such column is used for values.
 
----
+----
 
 Create rows from all columns but `\"religion\"`.
 ")
@@ -3258,7 +3262,7 @@ relig-income
 
 
 (md "
----
+----
 
 Convert only columns starting with `\"wk\"` and pack them into `:week` column, values go to `:rank` column
 ")
@@ -3285,7 +3289,7 @@ Convert only columns starting with `\"wk\"` and pack them into `:week` column, v
 
 
 (md "
----
+----
 
 We can create numerical column out of column names
 ")
@@ -3299,7 +3303,7 @@ We can create numerical column out of column names
 
 
 (md "
----
+----
 
 When column names contain observation data, such column names can be splitted and data can be restored into separate columns.
 ")
@@ -3326,7 +3330,7 @@ When column names contain observation data, such column names can be splitted an
 
 
 (md "
----
+----
 
 When data contains multiple observations per row, we can use splitter and pattern for target columns to create new columns and put values there. In following dataset we have two obseravations `dob` and `gender` for two childs. We want to put child infomation into the column and leave dob and gender for values.
 ")
@@ -3350,7 +3354,7 @@ family
 
 
 (md "
----
+----
 
 Similar here, we have two observations: `x` and `y` in four groups.
 ")
@@ -3373,7 +3377,7 @@ anscombe
 
 
 (md "
----
+----
 ")
 
 
@@ -3421,7 +3425,7 @@ When `columns-selector` creates non unique set of values, they are folded using 
 When `value-columns` is a sequence, multiple observations as columns are created appending value column names into new columns. Column names are joined using `:concat-value-with` option.
 `:concat-value-with` can be a string or function (default: \"-\"). Function accepts current column name and value.
 
----
+----
 
 Use `station` as a name source for columns and `seen` for values
 ")
@@ -3443,7 +3447,7 @@ fish
 
 
 (md "
----
+----
 
 If selected columns contain multiple values, such values should be folded.
 ")
@@ -3487,7 +3491,7 @@ We can also calculate mean (aggreate values)
 
 
 (md "
----
+----
 
 Multiple source columns, joined with default separator.
 ")
@@ -3517,7 +3521,7 @@ Joined with custom function
 
 
 (md "
----
+----
 
 Multiple value columns
 ")
@@ -3549,7 +3553,7 @@ Value concatenated by custom function
 
 
 (md "
----
+----
 
 Reshape contact data
 ")
@@ -3576,7 +3580,7 @@ contacts
 
 A couple of `tidyr` examples of more complex reshaping.
 
----
+----
 
 [World bank](https://tidyr.tidyverse.org/articles/pivot.html#world-bank)
 ")
@@ -3635,9 +3639,9 @@ Step 3 - Make columns based on `\"variable\"` values.
 
 
 (md "
----
+----
 
----
+----
 
 [Multi-choice](https://tidyr.tidyverse.org/articles/pivot.html#multi-choice)
 ")
@@ -3684,9 +3688,9 @@ Step 2 - Convert back to wide form with actual choices as columns
 
 
 (md "
----
+----
 
----
+----
 
 [Construction](https://tidyr.tidyverse.org/articles/pivot.html#by-hand)
 ")
@@ -3739,7 +3743,7 @@ Conversion 2 - Convert to longer form and back and rename columns
 
 
 (md "
----
+----
 
 Various operations on stocks, examples taken from [gather](https://tidyr.tidyverse.org/reference/gather.html) and [spread](https://tidyr.tidyverse.org/reference/spread.html) manuals.
 ")
@@ -3841,7 +3845,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3849,7 +3853,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3857,7 +3861,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3865,7 +3869,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3873,7 +3877,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3890,7 +3894,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3898,7 +3902,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3906,7 +3910,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3914,7 +3918,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3922,7 +3926,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3939,7 +3943,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3947,7 +3951,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3955,7 +3959,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3963,7 +3967,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3971,7 +3975,7 @@ ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -3989,7 +3993,7 @@ Join keeping all rows
 
 
 (md "
----
+----
 ")
 
 
@@ -3997,7 +4001,7 @@ Join keeping all rows
 
 
 (md "
----
+----
 ")
 
 
@@ -4005,7 +4009,7 @@ Join keeping all rows
 
 
 (md "
----
+----
 ")
 
 
@@ -4013,7 +4017,7 @@ Join keeping all rows
 
 
 (md "
----
+----
 ")
 
 
@@ -4021,7 +4025,7 @@ Join keeping all rows
 
 
 (md "
----
+----
 ")
 
 
@@ -4040,7 +4044,7 @@ Return rows from ds1 matching ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -4048,7 +4052,7 @@ Return rows from ds1 matching ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -4056,7 +4060,7 @@ Return rows from ds1 matching ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -4064,7 +4068,7 @@ Return rows from ds1 matching ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -4072,7 +4076,7 @@ Return rows from ds1 matching ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -4090,7 +4094,7 @@ Return rows from ds1 not matching ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -4098,7 +4102,7 @@ Return rows from ds1 not matching ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -4106,7 +4110,7 @@ Return rows from ds1 not matching ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -4114,7 +4118,7 @@ Return rows from ds1 not matching ds2
 
 
 (md "
----
+----
 ")
 
 
@@ -4144,7 +4148,7 @@ Cross product from selected columns
 
 
 (md "
----
+----
 ")
 
 
@@ -4162,7 +4166,7 @@ Similar to cross product but works on a single dataset.
 
 
 (md "
----
+----
 
 Columns can be also bundled (nested) in tuples which are treated as a single entity during cross product.
 ")
@@ -4182,7 +4186,7 @@ Same as expand with all other columns preserved (filled with missing values if n
 
 
 (md "
----
+----
 ")
 
 
@@ -4236,7 +4240,7 @@ right-ds
 
 
 (md "
----
+----
 
 `concat-copying` ensures all readers are evaluated.
 ")
@@ -4246,7 +4250,7 @@ right-ds
 
 
 (md "
----
+----
 ")
 
 
@@ -4254,7 +4258,7 @@ right-ds
 
 
 (md "
----
+----
 ")
 
 
@@ -4285,7 +4289,7 @@ The same as `concat` but returns unique rows
 
 
 (md "
----
+----
 ")
 
 
@@ -4304,7 +4308,7 @@ The same as `concat` but returns unique rows
 
 
 (md "
----
+----
 ")
 
 
@@ -4340,7 +4344,7 @@ The same as `concat` but returns unique rows
 
 
 (md "
----
+----
 ")
 
 
@@ -4616,7 +4620,7 @@ stocks
 ;; kable(head(flights))
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4645,7 +4649,7 @@ stocks
 ;; dim(flights)
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4671,7 +4675,7 @@ stocks
 ;; class(DT$ID)
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4704,7 +4708,7 @@ DT
 ;; kable(head(ans))
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4725,7 +4729,7 @@ DT
 ;; kable(ans)
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4743,7 +4747,7 @@ DT
 ;; kable(head(ans))
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4763,7 +4767,7 @@ DT
 ;; head(ans)
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4781,7 +4785,7 @@ DT
 ;; kable(head(ans))
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4798,7 +4802,7 @@ DT
 
 ;; ``
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4818,7 +4822,7 @@ DT
 ;; kable(head(ans))
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4839,7 +4843,7 @@ DT
 ;; ans
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4870,7 +4874,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(ans)
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4899,7 +4903,7 @@ or pure Clojure functions (much, much slower)
 ;; ans
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4927,7 +4931,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(head(ans))
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4949,7 +4953,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(ans)
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4970,7 +4974,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(ans)
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -4991,7 +4995,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(head(ans))
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -5015,7 +5019,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(head(ans,10))
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -5040,7 +5044,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(head(ans,10))
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -5064,7 +5068,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(ans)
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -5091,7 +5095,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(DT[, lapply(.SD, mean), by = ID])
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -5121,7 +5125,7 @@ DT
 ;;                    .SDcols = c("arr_delay", "dep_delay")])) ## for just those specified in .SDcols
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -5143,7 +5147,7 @@ DT
 ;; kable(head(ans))
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -5164,7 +5168,7 @@ DT
 ;; kable(DT[, .(val = c(a,b)), by = ID])
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -5183,7 +5187,7 @@ DT
 ;; kable(DT[, .(val = list(c(a,b))), by = ID])
 ;; ```
 
-;; ---
+;; ----
 
 ;; Clojure
 
@@ -5817,7 +5821,7 @@ DS
 
 
 (md "
----
+----
 
 Using a condition in by
 ")
@@ -5829,7 +5833,7 @@ Using a condition in by
 
 
 (md "
----
+----
 
 By on a subset of rows
 ")
@@ -5842,7 +5846,7 @@ By on a subset of rows
 
 
 (md "
----
+----
 
 Count number of observations for each group
 ")
@@ -5854,7 +5858,7 @@ Count number of observations for each group
 
 
 (md "
----
+----
 
 Add a column with number of observations for each group
 ")
@@ -5867,7 +5871,7 @@ Add a column with number of observations for each group
 
 
 (md "
----
+----
 
 Retrieve the first/last/nth observation for each group
 ")
@@ -5908,7 +5912,7 @@ Summarise all the columns
 
 
 (md "
----
+----
 
 Summarise several columns
 ")
@@ -5918,7 +5922,7 @@ Summarise several columns
 
 
 (md "
----
+----
 
 Summarise several columns by group
 ")
@@ -5930,7 +5934,7 @@ Summarise several columns by group
 
 
 (md "
----
+----
 
 Summarise with more than one function by group
 ")
@@ -5954,7 +5958,7 @@ Summarise using a condition
 
 
 (md "
----
+----
 
 Modify all the columns
 ")
@@ -5964,7 +5968,7 @@ Modify all the columns
 
 
 (md "
----
+----
 
 Modify several columns (dropping the others)
 ")
@@ -5984,7 +5988,7 @@ Modify several columns (dropping the others)
 
 
 (md "
----
+----
 
 Modify several columns (keeping the others)
 ")
@@ -6012,7 +6016,7 @@ DS
 
 
 (md "
----
+----
 
 Modify columns using a condition (dropping the others)
 ")
@@ -6024,7 +6028,7 @@ Modify columns using a condition (dropping the others)
 
 
 (md "
----
+----
 
 Modify columns using a condition (keeping the others)
 ")
@@ -6040,7 +6044,7 @@ DS
 
 
 (md "
----
+----
 
 Use a complex expression
 ")
@@ -6054,7 +6058,7 @@ Use a complex expression
 
 
 (md "
----
+----
 
 Use multiple expressions
 ")
@@ -6120,7 +6124,7 @@ Select the matching rows
 
 
 (md "
----
+----
 
 Select the first matching row
 ")
@@ -6140,7 +6144,7 @@ Select the first matching row
 
 
 (md "
----
+----
 
 Select the last matching row
 ")
@@ -6152,7 +6156,7 @@ Select the last matching row
 
 
 (md "
----
+----
 
 Nomatch argument
 ")
@@ -6162,7 +6166,7 @@ Nomatch argument
 
 
 (md "
----
+----
 
 Apply a function on the matching rows
 ")
@@ -6175,7 +6179,7 @@ Apply a function on the matching rows
 
 
 (md "
----
+----
 
 Modify values for matching rows
 ")
@@ -6193,7 +6197,7 @@ DS
 
 
 (md "
----
+----
 
 Use keys in by
 ")
@@ -6206,7 +6210,7 @@ Use keys in by
 
 
 (md "
----
+----
 
 Set keys/indices for multiple columns (ordered)
 ")
@@ -6216,7 +6220,7 @@ Set keys/indices for multiple columns (ordered)
 
 
 (md "
----
+----
 
 Subset using multiple keys/indices
 ")
@@ -6263,7 +6267,7 @@ DS
 
 
 (md "
----
+----
 
 Reorder rows
 ")
@@ -6279,7 +6283,7 @@ DS
 
 
 (md "
----
+----
 
 Modify colnames
 ")
@@ -6301,7 +6305,7 @@ DS
 
 
 (md "
----
+----
 
 Reorder columns
 ")
@@ -6348,7 +6352,7 @@ Select first/last/… row by group
 
 
 (md "
----
+----
 
 Select rows using a nested query
 ")
@@ -6372,7 +6376,7 @@ Add a group counter column
 
 
 (md "
----
+----
 
 Get row number of first (and last) observation by group
 ")
@@ -6408,7 +6412,7 @@ Get row number of first (and last) observation by group
 
 
 (md "
----
+----
 
 Handle list-columns by group
 ")
@@ -6428,7 +6432,7 @@ Handle list-columns by group
 
 
 (md "
----
+----
 
 Grouping sets (multiple by at once)
 
@@ -6446,7 +6450,7 @@ Write data to a csv file
 
 
 (md "
----
+----
 
 Write data to a tab-delimited file
 ")
@@ -6464,7 +6468,7 @@ or
 
 
 (md "
----
+----
 
 Read a csv / tab-delimited file
 ")
@@ -6487,7 +6491,7 @@ Read a csv / tab-delimited file
 
 
 (md "
----
+----
 
 Read a csv file selecting / droping columns
 ")
@@ -6505,7 +6509,7 @@ Read a csv file selecting / droping columns
 
 
 (md "
----
+----
 
 Read and rbind several files
 ")
@@ -6532,7 +6536,7 @@ mDS
 
 
 (md "
----
+----
 
 Cast data (from long to wide)
 ")
@@ -6562,7 +6566,7 @@ Cast data (from long to wide)
 
 
 (md "
----
+----
 
 Split
 ")
@@ -6572,7 +6576,7 @@ Split
 
 
 (md "
----
+----
 
 Split and transpose a vector/column
 ")
@@ -6617,7 +6621,7 @@ Join matching rows from y to x
 
 
 (md "
----
+----
 
 Join matching rows from x to y
 ")
@@ -6627,7 +6631,7 @@ Join matching rows from x to y
 
 
 (md "
----
+----
 
 Join matching rows from both x and y
 ")
@@ -6637,7 +6641,7 @@ Join matching rows from both x and y
 
 
 (md "
----
+----
 
 Join keeping all the rows
 ")
@@ -6647,7 +6651,7 @@ Join keeping all the rows
 
 
 (md "
----
+----
 
 Return rows from x matching y
 ")
@@ -6657,7 +6661,7 @@ Return rows from x matching y
 
 
 (md "
----
+----
 
 Return rows from x not matching y
 ")
@@ -6713,7 +6717,7 @@ Update columns while joining
 
 
 (md "
----
+----
 
 Adds a list column with rows from y matching x (nest-join)
 
@@ -6726,11 +6730,11 @@ Adds a list column with rows from y matching x (nest-join)
 
 
 (md "
----
+----
 
 Some joins are skipped
 
----
+----
 
 Cross join
 ")
@@ -6777,7 +6781,7 @@ x y z
 
 
 (md "
----
+----
 
 Bind rows
 ")
@@ -6793,7 +6797,7 @@ Bind rows
 
 
 (md "
----
+----
 
 Bind rows using a list
 ")
@@ -6805,7 +6809,7 @@ Bind rows using a list
 
 
 (md "
----
+----
 
 Bind columns
 ")
@@ -6830,7 +6834,7 @@ x y
 
 
 (md "
----
+----
 
 Intersection
 ")
@@ -6840,7 +6844,7 @@ Intersection
 
 
 (md "
----
+----
 
 Difference
 ")
@@ -6850,7 +6854,7 @@ Difference
 
 
 (md "
----
+----
 
 Union
 ")
@@ -6866,6 +6870,6 @@ Union
 
 
 (md "
----
+----
 
 Equality not implemented")
