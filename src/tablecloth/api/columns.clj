@@ -67,8 +67,8 @@
                     (apply ds/concat))]
     (if (zero? r)
       (tmp-ds col-name)
-      ((-> (ds/concat tmp-ds
-                      (dataset [(dtype/sub-buffer column 0 r)]))) col-name))))
+      ((ds/concat tmp-ds
+                  (dataset [(dtype/sub-buffer column 0 r)])) col-name))))
 
 (defn- fix-column-size-column
   [column strategy cnt]

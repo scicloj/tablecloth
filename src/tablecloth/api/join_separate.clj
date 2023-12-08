@@ -22,21 +22,20 @@
   dataset
   column selector (as in select-columns)
   options
-  `:separator` (default -)
+  `:separator` (default \"-\")
   `:drop-columns?` - whether to drop source columns or not (default true)
   `:result-type`
      `:map` - packs data into map
      `:seq` - packs data into sequence
      `:string` - join strings with separator (default)
      or custom function which gets row as a vector
-  `:missing-subst` - substitution for missing value
-  "
+  `:missing-subst` - substitution for missing value"
   ([ds target-column columns-selector] (join-columns ds target-column columns-selector nil))
   ([ds target-column columns-selector {:keys [separator missing-subst drop-columns? result-type parallel?]
                                        :or {separator "-" drop-columns? true result-type :string}
                                        :as _conf}]
    
-   (let [missing-subst-fn #(mapv (fn [v] (or v missing-subst)) %)
+   (let [missing-subst-fn #(map (fn [v] (if (nil? v) missing-subst v)) %)
          col-names (column-names ds columns-selector)
          join-function (comp (cond
                                (= :map result-type) #(zipmap col-names %)
@@ -131,14 +130,11 @@
        (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?) parallel?)
        (process-separate-columns ds column target-columns replace-missing separator-fn drop-column?)))))
 
-
-
-
 (defn- prefix [prefix-name value]
-   (let [with-prefix (str (->str prefix-name) "-" value)]
-     (if (keyword? prefix-name)
-       (keyword with-prefix)
-       with-prefix)))
+  (let [with-prefix (str (->str prefix-name) "-" value)]
+    (if (keyword? prefix-name)
+      (keyword with-prefix)
+      with-prefix)))
 
 (defn array-column->columns
   "Converts a column of type java array into several columns,
@@ -171,9 +167,6 @@
          (ds/drop-columns [src-column]))))
   ([ds src-column]
    (array-column->columns ds src-column {})))
-
-
-
 
 (defn columns->array-column
   "Converts several columns to a single column of type array.

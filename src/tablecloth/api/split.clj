@@ -15,7 +15,7 @@
 (defonce ^:private ^Random private-rng (Random.))
 
 (defn- shuffle-with-rng
-  [^Collection coll rng]
+  [^Collection coll ^Random rng]
   (if-not rng
     coll
     (let [al (ArrayList. coll)]

@@ -30,28 +30,28 @@ During conversions of the examples I’ve come up how to reorganized
 existing `tech.ml.dataset` functions into simple to use API. The main
 goals were:
 
-  - Focus on dataset manipulation functionality, leaving other parts of
+-   Focus on dataset manipulation functionality, leaving other parts of
     `tech.ml` like pipelines, datatypes, readers, ML, etc.
-  - Single entry point for common operations - one function dispatching
+-   Single entry point for common operations - one function dispatching
     on given arguments.
-  - `group-by` results with special kind of dataset - a dataset
+-   `group-by` results with special kind of dataset - a dataset
     containing subsets created after grouping as a column.
-  - Most operations recognize regular dataset and grouped dataset and
+-   Most operations recognize regular dataset and grouped dataset and
     process data accordingly.
-  - One function form to enable thread-first on dataset.
+-   One function form to enable thread-first on dataset.
 
-Important\! This library is not the replacement of `tech.ml.dataset` nor
+Important! This library is not the replacement of `tech.ml.dataset` nor
 a separate library. It should be considered as a addition on the top of
 `tech.ml.dataset`.
 
 If you want to know more about `tech.ml.dataset` and `dtype-next` please
 refer their documentation:
 
-  - [tech.ml.dataset
+-   [tech.ml.dataset
     walkthrough](https://techascent.github.io/tech.ml.dataset/walkthrough.html)
-  - [dtype-next
+-   [dtype-next
     overview](https://cnuernber.github.io/dtype-next/overview.html)
-  - [dtype-next
+-   [dtype-next
     cheatsheet](https://cnuernber.github.io/dtype-next/cheatsheet.html)
 
 Join the discussion on
@@ -82,7 +82,7 @@ examples](https://scicloj.github.io/tablecloth/index.html)
 \_unnamed \[10 3\]:
 
 | :symbol | :year |      summary |
-| ------- | ----: | -----------: |
+|---------|------:|-------------:|
 | AAPL    |  2000 |  21.74833333 |
 | AAPL    |  2001 |  10.17583333 |
 | AAPL    |  2002 |   9.40833333 |
@@ -106,8 +106,8 @@ Documentation is written in RMarkdown, that means that you need R to
 create html/md/pdf files. Documentation contains around 600 code
 snippets which are run during build. There are two files:
 
-  - `README.Rmd`
-  - `docs/index.Rmd`
+-   `README.Rmd`
+-   `docs/index.Rmd`
 
 Prepare following software:
 
@@ -135,15 +135,15 @@ run it before making documentation
 
 ### Guideline
 
-1.  Before commiting changes please perform tests. I ususally do: `lein
-    do clean, check, test` and build documentation as described above
-    (which also tests whole library).
+1.  Before commiting changes please perform tests. I ususally do:
+    `lein do clean, check, test` and build documentation as described
+    above (which also tests whole library).
 2.  Keep API as simple as possible:
-      - first argument should be a dataset
-      - if parametrizations is complex, last argument should accept a
+    -   first argument should be a dataset
+    -   if parametrizations is complex, last argument should accept a
         map with not obligatory function arguments
-      - avoid variadic associative destructuring for function arguments
-      - usually function should working on grouped dataset as well,
+    -   avoid variadic associative destructuring for function arguments
+    -   usually function should working on grouped dataset as well,
         accept `parallel?` argument then (if applied).
 3.  Follow `potemkin` pattern and import functions to the API namespace
     using `tech.v3.datatype.export-symbols/export-symbols` function
@@ -155,8 +155,8 @@ run it before making documentation
 
 ## TODO
 
-  - tests
-  - tutorials
+-   tests
+-   tutorials
 
 ## New experimental dev workflow
 

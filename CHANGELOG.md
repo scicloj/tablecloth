@@ -1,5 +1,24 @@
 # Change Log
 
+## [7.017]
+
+### Fixed
+
+* semi and anti joins fail on table containing missing values, multi columns and duplicated rows
+
+## [7.014]
+
+Deps updated to fix `j/left-join` issue.
+
+## [7.012]
+
+### Fixed
+
+* join columns should consider `nil` as missing value only, [discussion](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/tablecloth.20join-columns.20is.20nil-ing.20false.3F.20values)
+* `:nil-missing?` in more places needed (group-by operations), [discussion](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/tablecloth.20group.20operations.20dropping.20a.20nil.20group-by.20column)
+* changes to the `group-by` documentation [PR115](https://github.com/scicloj/tablecloth/pull/115), thanks to [Marshall](https://github.com/mars0i)
+* reflection warning for `Collections/shuffle` removed 
+
 ## [7.007]
 
 ### Added

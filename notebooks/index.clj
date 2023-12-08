@@ -1,17 +1,11 @@
 ^{:kindly/hide-code? true
   :kind/void true}
 (ns index
-  (:require [scicloj.kindly.v4.kind :as kind]
+  (:require [scicloj.kindly.v4.kind :as kind
+             :refer [md]]
             [tablecloth.api :as tc]
             [scicloj.note-to-test.v1.api :as note-to-test]
             [scicloj.clay.v2.api :as clay]))
-
-^{:kindly/hide-code? true
-  :kind/void true}
-(defn md [text]
-  (vary-meta
-   (kind/md text)
-   assoc :kindly/hide-code? true))
 
 ^{:kindly/hide-code? true
   :kind/void true}

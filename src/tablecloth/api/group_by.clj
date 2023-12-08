@@ -14,10 +14,13 @@
   (cond
     (map-inst? grouping-selector) grouping-selector
     (iterable-sequence? grouping-selector) (ds/group-by->indexes
-                                            (ds/select-columns ds (column-names ds grouping-selector)) identity)
+                                            (ds/select-columns ds (column-names ds grouping-selector))
+                                            identity
+                                            {:nil-missing? true})
     (fn? grouping-selector) (ds/group-by->indexes
-                             (ds/select-columns ds (column-names ds selected-keys)) grouping-selector)
-    :else (ds/group-by-column->indexes ds grouping-selector)))
+                             (ds/select-columns ds (column-names ds selected-keys)) grouping-selector
+                             {:nil-missing? true})
+    :else (ds/group-by-column->indexes ds grouping-selector {:nil-missing? true})))
 
 (defn- subdataset
   [ds id k idxs]
@@ -145,8 +148,7 @@
   "Add optional group name and/or group-id as columns to a result of ungrouping."
   [ds add-group-as-column add-group-id-as-column separate? parallel?]
   (let [mapper (if parallel? pmap map)]
-    (->> ds
-         (ds/mapseq-reader)
+    (->> (ds/mapseq-reader ds {:nil-missing? true})
          (mapper (fn [{:keys [name group-id data] :as ds}]
                    (if (or add-group-as-column
                            add-group-id-as-column)
@@ -198,8 +200,7 @@
 (defn- process-and-ungroup
   [ds process-fn add-group-as-column add-group-id-as-column separate? parallel?]
   (let [mapper (if parallel? pmap map)]
-    (->> ds
-         (ds/mapseq-reader)
+    (->> (ds/mapseq-reader ds {:nil-missing? true})
          (mapper (fn [{:keys [name group-id data]}]
                    (into (array-map) (cond-> (process-fn data)
                                        add-group-id-as-column (conj [(maybe-name add-group-id-as-column :$group-id) group-id])

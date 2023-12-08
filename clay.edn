@@ -1,6 +1,2 @@
 {:remote-repo {:git-url "https://github.com/daslu/tablecloth"
-               :branch "main"}
- :quarto {:format {:html {:toc true
-                          :theme :spacelab}}
-          :highlight-style :solarized
-          :code-block-background true}}
+               :branch "main"}}

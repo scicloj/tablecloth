@@ -343,10 +343,10 @@ column-names function returns names according to columns-selector
       #{:csv :tsv :xlsx :xls :parquet}.
   - `:gzipped?` - for file formats that support it, override autodetection and force
      creation of a gzipped input stream as opposed to a normal input stream.
-  - `:column-whitelist` - either sequence of string column names or sequence of column
-     indices of columns to whitelist.
-  - `:column-blacklist` - either sequence of string column names or sequence of column
-     indices of columns to blacklist.
+  - `:column-allowlist` - either sequence of string column names or sequence of column
+     indices of columns to allowlist. This is preferred to `:column-whitelist`
+  - `:column-blocklist` - either sequence of string column names or sequence of column
+     indices of columns to blocklist. This is preferred to `:column-blacklist`
   - `:num-rows` - Number of rows to read
   - `:header-row?` - Defaults to true, indicates the first row is a header.
   - `:key-fn` - function to be applied to column names.  Typical use is:
@@ -638,15 +638,14 @@ column-names function returns names according to columns-selector
   dataset
   column selector (as in select-columns)
   options
-  `:separator` (default -)
+  `:separator` (default \"-\")
   `:drop-columns?` - whether to drop source columns or not (default true)
   `:result-type`
      `:map` - packs data into map
      `:seq` - packs data into sequence
      `:string` - join strings with separator (default)
      or custom function which gets row as a vector
-  `:missing-subst` - substitution for missing value
-  "
+  `:missing-subst` - substitution for missing value"
   ([ds target-column columns-selector]
   (tablecloth.api.join-separate/join-columns ds target-column columns-selector))
   ([ds target-column columns-selector conf]
@@ -751,8 +750,7 @@ column-names function returns names according to columns-selector
 
 (defn print-dataset
   "Prints dataset into console. For options see
-  tech.v3.dataset.print/dataset-data->str
-  "
+  tech.v3.dataset.print/dataset-data->str"
   ([ds]
   (tablecloth.api.dataset/print-dataset ds))
   ([ds options]

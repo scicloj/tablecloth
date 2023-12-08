@@ -9,7 +9,9 @@
             [tech.v3.dataset.column :as col]
             [tech.v3.io :as tio]
             [tech.v3.dataset.io :as ds-io]
-            [tech.v3.dataset.zip :as zip]))
+            [tech.v3.dataset.zip :as zip]
+            )
+  (:import [org.roaringbitmap RoaringBitmap]))
 
 (ds/concat
  (ds/new-dataset [(c/new-column :a [])])
@@ -308,6 +310,9 @@ tmp
                    :a (repeatedly 100 rand)
                    :b (repeatedly 100 #(rand 5))}))
 
+(-> ds
+    (tc/select-rows (fn [{:keys [a b]}] (> a b))))
+
 ds
 ;; => _unnamed [100 3]:
 ;;    | :group |         :a |         :b |
@@ -444,6 +449,15 @@ agg
                    :V3 (take 9 (cycle [0.5 1.0 1.5]))
                    :V4 (take 9 (cycle ["A" "B" "C"]))}))
 
+
+(-> (tc/group-by DS {:z [1 2 3]
+                     :b [0 1 2]})
+    (tc/ungroup))
+;; => _unnamed [2 3]:
+;;    |   :name | :group-id |                 :data |
+;;    |---------|----------:|-----------------------|
+;;    | {:V1 1} |         0 | Group: {:V1 1} [5 4]: |
+;;    | {:V1 2} |         1 | Group: {:V1 2} [4 4]: |
 
 (tc/map-rows DS (fn [{:keys [V1 V2]}] {:V1 0
                                       :V5 (/ (+ V1 V2) (double V2))}))
@@ -598,6 +612,37 @@ agg
 (tc/by-rank DS [:V1 :V3] zero? {:desc? false})
 
 (defonce flights (tc/dataset "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"))
+
+(tc/select-rows flights #(> (get % "dep_delay") 1000))
+;; => https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv [8 11]:
+;;    | year | month | day | dep_delay | arr_delay | carrier | origin | dest | air_time | distance | hour |
+;;    |-----:|------:|----:|----------:|----------:|---------|--------|------|---------:|---------:|-----:|
+;;    | 2014 |     2 |  15 |      1003 |       994 |      DL |    JFK |  DEN |      242 |     1626 |   12 |
+;;    | 2014 |     2 |  21 |      1014 |      1007 |      DL |    JFK |  MCO |      139 |      944 |    8 |
+;;    | 2014 |     4 |  15 |      1241 |      1223 |      AA |    JFK |  BOS |       39 |      187 |   13 |
+;;    | 2014 |     6 |  13 |      1071 |      1064 |      AA |    EWR |  DFW |      175 |     1372 |   10 |
+;;    | 2014 |     6 |  16 |      1022 |      1073 |      AA |    EWR |  DFW |      178 |     1372 |    7 |
+;;    | 2014 |     7 |  14 |      1087 |      1090 |      DL |    EWR |  ATL |       97 |      746 |    8 |
+;;    | 2014 |     9 |  12 |      1056 |      1115 |      AA |    EWR |  DFW |      198 |     1372 |    6 |
+;;    | 2014 |    10 |   4 |      1498 |      1494 |      AA |    EWR |  DFW |      200 |     1372 |    7 |
+
+(tc/select-rows flights #(> (get % "dep_delay") 1000) {:result-type :as-indexes})
+;; => (32306 37131 82591 131877 134039 158830 211512 230042)
+
+(tc/select-rows flights '(32306 37131 82591 131877 134039 158830 211512 230042))
+;; => https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv [8 11]:
+;;    | year | month | day | dep_delay | arr_delay | carrier | origin | dest | air_time | distance | hour |
+;;    |-----:|------:|----:|----------:|----------:|---------|--------|------|---------:|---------:|-----:|
+;;    | 2014 |     2 |  15 |      1003 |       994 |      DL |    JFK |  DEN |      242 |     1626 |   12 |
+;;    | 2014 |     2 |  21 |      1014 |      1007 |      DL |    JFK |  MCO |      139 |      944 |    8 |
+;;    | 2014 |     4 |  15 |      1241 |      1223 |      AA |    JFK |  BOS |       39 |      187 |   13 |
+;;    | 2014 |     6 |  13 |      1071 |      1064 |      AA |    EWR |  DFW |      175 |     1372 |   10 |
+;;    | 2014 |     6 |  16 |      1022 |      1073 |      AA |    EWR |  DFW |      178 |     1372 |    7 |
+;;    | 2014 |     7 |  14 |      1087 |      1090 |      DL |    EWR |  ATL |       97 |      746 |    8 |
+;;    | 2014 |     9 |  12 |      1056 |      1115 |      AA |    EWR |  DFW |      198 |     1372 |    6 |
+;;    | 2014 |    10 |   4 |      1498 |      1494 |      AA |    EWR |  DFW |      200 |     1372 |    7 |
+
+(tc/select-rows flights #(> (get % "dep_delay") 1000) {:pre {:mean #(dfn/mean (get % "dep_delay"))}})
 
 (->> flights
      (ds/mapseq-reader)
@@ -1004,7 +1049,7 @@ DSm2
 ;;    |  2 |        2 |
 
 
-(tc/dataset "data/data/billboard/billboard.csv.gz")
+(def billboard (tc/dataset "data/data/billboard/billboard.csv.gz"))
 
 (with-open [io (-> (tio/input-stream "data.zip")
                    (java.util.zip.ZipInputStream.))]
@@ -1128,3 +1173,253 @@ c
      :b [3 4 nil]}
     (tc/dataset)
     (tc/rows :as-maps {:nil-missing? false}))
+
+(->
+ (tablecloth.api/dataset {:a [1 2 3]})
+ (tablecloth.api/add-column :Survived [ "na"] :cycle)
+ :Survived)
+
+(tech.v3.dataset/new-column :Survived [""])
+;; => #tech.v3.dataset.column<boolean>[1]
+;;    :Survived
+;;    []
+
+(tech.v3.dataset/new-column :Survived ["na"])
+;; => #tech.v3.dataset.column<boolean>[1]
+;;    :Survived
+;;    []
+
+(let [ds (tech.v3.dataset/->dataset {:Survived (tech.v3.dataset/new-column :Survived [""])})]
+  (apply tech.v3.dataset/concat (repeat 3 ds)))
+;; => _unnamed [3 1]:
+;;    | :Survived |
+;;    |-----------|
+;;    |     false |
+;;    |     false |
+;;    |     false |
+
+(let [ds (tech.v3.dataset/->dataset {:Survived (tech.v3.dataset/new-column :Survived ["na"])})]
+  (apply tech.v3.dataset/concat (repeat 3 ds)))
+;; => _unnamed [3 1]:
+;;    | :Survived |
+;;    |-----------|
+;;    |     false |
+;;    |     false |
+;;    |     false |
+
+(let [ds (tech.v3.dataset/new-dataset [(tech.v3.dataset/new-column :Survived [""])])]
+  (apply tech.v3.dataset/concat (repeat 3 ds)))
+;; => _unnamed [3 1]:
+;;    | :Survived |
+;;    |-----------|
+;;    |           |
+;;    |           |
+;;    |           |
+
+
+(-> (tc/dataset [{:a "foo" :b true}
+                 {:a "bar" :b false}])
+    (tc/join-columns :join-columns-string [:a :b] {:drop-columns? false})
+    (tc/join-columns :join-columns-map    [:a :b] {:drop-columns? false
+                                                   :result-type   :map})
+    (tc/add-column :rows-as-maps (fn [ds] (-> ds
+                                             (tc/select-columns [:a :b])
+                                             (tc/rows :as-maps)))))
+
+;; => _unnamed [2 5]:
+;;    |  :a |    :b | :join-columns-string |    :join-columns-map |        :rows-as-maps |
+;;    |-----|-------|----------------------|----------------------|----------------------|
+;;    | foo |  true |             foo-true |  {:a "foo", :b true} |  {:a "foo", :b true} |
+;;    | bar | false |            bar-false | {:a "bar", :b false} | {:a "bar", :b false} |
+
+(def foo (tc/dataset [{:a "bar" :b nil :r 1}
+                    {:a "bar" :b nil :r 2}
+                    {:a "baz" :b nil :r 3}]))
+
+(-> foo
+    (tc/group-by [:a :b])
+    (tc/aggregate {:row-count tc/row-count}))
+
+
+(tc/fold-by foo [:a :b])
+
+(-> (tc/dataset [{:r   nil   :c "a" :x "2a"}
+                 {:r    1    :c "b" :x "1b"}])
+    (tc/pivot->wider :c :x {:drop-missing? false}))
+
+(require             '[tech.v3.dataset :as ds]
+                     '[tech.v3.dataset.column :as c]
+                     '[tech.v3.dataset.join :as j]
+                     )
+
+(let [left (ds/->dataset {:a [nil 1.2]
+                          :b [3 4]})
+      right (ds/->dataset {:a [nil 3.4]
+                           :b [6 7]})]
+  (j/left-join :a left right))
+;; => left-outer-join [2 4]:
+;;    | :a | :b | :right.a | :right.b |
+;;    |----|---:|---------:|---------:|
+;;    |    |  3 |          |        6 |
+;;    |  2 |  4 |          |          |
+
+;; => left-outer-join [2 4]:
+;;    | :a | :b | :right.a | :right.b |
+;;    |---:|---:|---------:|---------:|
+;;    |    |  3 |          |          |
+;;    |  2 |  4 |          |          |
+
+(-> (tc/left-join (-> (tc/dataset [{:i "foo" :y 2022}]))
+                  (-> (tc/dataset [{:i "foo" :y 2022 :s "2022"}
+                                   {:i "foo" :y 2023 :s "2023"}]))
+                  [:i :y])
+    (tc/rows :as-maps))
+
+(-> (tc/left-join (-> (tc/dataset [{:i "foo" :y 2022}])
+                      (tc/convert-types {:y :int16}))
+                  (-> (tc/dataset [{:i "foo" :y 2022 :s "2022"}
+                                   {:i "foo" :y 2023 :s "2023"}]))
+                  [:i :y]))
+
+(-> (tc/dataset [{:i "foo" :y 2022}])
+    (tc/convert-types {:y :int16})
+    :y first class)
+
+
+(-> (j/left-join :z
+                 (ds/->dataset [{:z ["foo" (short 2022)]}])
+                 (ds/->dataset [{:z ["foo" (long 2022)] :s "2022"}
+                                {:z ["foo" (long 2023)] :s "2023"}])))
+;; => left-outer-join [2 3]:
+;;    |           :z |     :right.z |   :s |
+;;    |--------------|--------------|------|
+;;    | ["foo" 2022] | ["foo" 2022] | 2022 |
+;;    | ["foo" 2022] |              |      |
+
+(-> (j/left-join :z
+                 (ds/->dataset [{:z (short 2022)}])
+                 (ds/->dataset [{:z (long 2022) :s "2022"}
+                                {:z (long 2023) :s "2023"}])))
+
+;;
+
+(def world-bank-pop (tc/dataset "data/world_bank_pop.csv.gz"))
+
+(->> world-bank-pop
+     (tc/column-names)
+     (take 8)
+     (tc/select-columns world-bank-pop))
+
+(def pop2 (tc/pivot->longer world-bank-pop (map str (range 2000 2018)) {:drop-missing? false
+                                                                      :target-columns ["year"]
+                                                                      :value-column-name "value"}))
+
+pop2
+
+
+(def pop3 (tc/separate-column pop2
+                            "indicator" ["area" "variable"]
+                            #(rest (clojure.string/split % #"\."))))
+pop3
+
+(tc/pivot->wider pop3 "variable" "value" {:drop-missing? false})
+
+;;
+
+(defn make-row [] {:row 1})
+(let [left (ds/->dataset (repeatedly 10000 make-row))
+      right (ds/->dataset (repeatedly 1000 make-row))]
+  (j/left-join :row left right))
+
+;;
+
+(let [rows-fn tc/drop-rows
+      join-column-name [:k]
+      lj (tc/left-join (tc/dataset [{:k    nil    :v "\"nil\""}
+                                    {:k "bar"     :v "\"bar\""}
+                                    {:k "baz"     :v "\"baz\""}])
+                       (tc/dataset [{:k "baz"}
+                                    {:k nil}])
+                       join-column-name)
+      _ (println lj)
+      right-columns (:right-column-names (meta lj))
+      missing-column (col/missing (lj (right-columns (if (vector? join-column-name)
+                                                       (first join-column-name)
+                                                       join-column-name))))
+      left-column (col/missing (lj (if (vector? join-column-name)
+                                     (first join-column-name)
+                                     join-column-name)))]
+  [missing-column left-column (RoaringBitmap/andNot missing-column left-column)
+   (-> lj
+       (rows-fn (RoaringBitmap/andNot missing-column left-column))
+       (tc/drop-columns (vals right-columns))
+       (ds/unique-by identity)       )])
+
+
+(def ds1 (tc/dataset {:a [1 2 1 2 3 4 nil nil 4]
+                    :b (range 101 110)
+                    :c (map str "abs tract")}))
+(def ds2 (tc/dataset {:a [nil 1 2 5 4 3 2 1 nil]
+                    :b (range 110 101 -1)
+                    :c (map str "datatable")
+                    :d (symbol "X")
+                    :e [3 4 5 6 7 nil 8 1 1]}))
+
+(tc/inner-join ds1 ds2 :b)
+
+
+(defn semi-join
+  [l r k]
+  (-> (tc/inner-join l r k)
+      (tc/select-columns (tc/column-names l))
+      (tc/unique-by)))
+
+(let [ds1 (tc/dataset [{:k nil    :v "\"nil\""}
+                       {:k "baz"     :v "\"bar\""}
+                       {:k "baz"     :v "\"bar\""}
+                       {:k "bar" :v "1"}])
+      ds2 (tc/dataset [{:k "baz"}])]
+  (j/pd-merge ds1 ds2 {:on :k :how :outer}))
+
+(let [ds1 (tc/dataset {:x1 [:A :B :C]
+                       :x2 [1 2 3]})
+      ds2 (tc/dataset {:x1 [:A :B :D]
+                       :x3 [true false true]})]
+  (tc/full-join ds1 ds2 :x1))
+
+
+;; => left-outer-join [3 3]:
+;;    |  :k |    :v | :right.k |
+;;    |-----|-------|----------|
+;;    | baz | "baz" |      baz |
+;;    |     | "nil" |          |
+;;    | bar | "bar" |          |
+
+
+(semi-join (tc/dataset [{:k    nil    :v "\"nil\""}
+                        {:k "bar"     :v "\"bar\""}
+                        {:k "baz"     :v "\"baz\""}])
+           (tc/dataset [{:qk "baz"}
+                        ])
+           [:k])
+;; => left-outer-join [3 3]:
+;;    |  :k |    :v | :right.k |
+;;    |-----|-------|----------|
+;;    | baz | "baz" |      baz |
+;;    |     | "nil" |          |
+;;    | bar | "bar" |          |
+
+(:lhs-indexes (j/hash-join :k (tc/dataset [{:k    nil    :v "\"nil\""}
+                                           {:k "bar"     :v "\"bar\""}
+                                           {:k "baz"     :v "\"baz\""}
+                                           {:k "baz" :v "ss"}
+                                           {:k "s" :v "d"}])
+                           (tc/dataset [{:k "baz"}]) {:lhs-missing? true}))
+
+
+(semi-join (tc/dataset [{:k    nil    :v "\"nil\""}
+                        {:k "bar"     :v "\"bar\""}
+                        {:k "baz"     :v "\"baz\""}])
+           (tc/dataset [{:k "baz"}
+                        {:k "baz"}])
+           [:k])
