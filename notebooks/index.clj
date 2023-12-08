@@ -7,73 +7,6 @@
             [scicloj.note-to-test.v1.api :as note-to-test]
             [scicloj.clay.v2.api :as clay]))
 
-^{:kindly/hide-code? true
-  :kind/void true}
-(note-to-test/define-value-representations!
-  [{:predicate (fn [v]
-                 (-> v
-                     meta
-                     :kindly/kind
-                     (= :kind/md)))
-    :representation (constantly :note-to-test/skip)}
-   {:predicate (comp #{:local-date
-                       :local-date-time
-                       :packed-local-date
-                       :packed-local-date-time}
-                     tech.v3.datatype/datatype)
-    :representation (juxt class str)}
-   {:predicate (fn [v]
-                 (or (sequential? v)
-                     ;; https://stackoverflow.com/a/9090730
-                     (some-> v
-                             class
-                             (.isArray))
-                     (instance? tech.v3.dataset.impl.column.Column v)))
-    :representation (fn [values]
-                      (->> values
-                           (take 20)
-                           (map note-to-test/represent-value)
-                           (into [])))}
-   {:predicate (partial instance? java.util.Map)
-    :representation (fn [m]
-                      (-> m
-                          (update-keys note-to-test/represent-value)
-                          (update-vals note-to-test/represent-value)))}
-   {:predicate (fn [v]
-                 (-> v
-                     class
-                     (= java.lang.Object)))
-    :representation class}
-   {:predicate symbol?
-    :representation (fn [s]
-                      [:symbol (name s)])}
-   {:predicate fn?
-    :representation (constantly :fn)}
-   {:predicate (fn [v]
-                 (or (var? v)
-                     (nil? v)))
-    ;; handling vars and nils the same way
-    ;; so that defonce will be represented consistently
-    :representation (constantly :var-or-nil)}
-   {:predicate (partial instance? org.roaringbitmap.RoaringBitmap)
-    :representation (constantly
-                     :org.roaringbitmap.RoaringBitmap)}
-   {:predicate (fn [x]
-                 (and (double? x)
-                      (Double/isNaN x)))
-    :representation (constantly :NaN)}])
-
-
-^{:kindly/hide-code? true
-  :kind/void true}
-(comment
-  (time
-   (note-to-test/gentest! "notebooks/index.clj"
-                          {:accept true
-                           :verbose true}))
-  ,)
-
-
 
 (md
  "# Dataset (data frame) manipulation API for the tech.ml.dataset library
@@ -4663,31 +4596,29 @@ stocks
     (tc/group-by (juxt :symbol #(tech.v3.datatype.datetime/long-temporal-field :years (% :date))))
     (tc/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (tc/rename-columns {:$group-name-0 :symbol
-                         :$group-name-1 :year}))
+                        :$group-name-1 :year}))
 
 
-(md "
-### data.table
+;; ### data.table
 
-Below you can find comparizon between functionality of `data.table` and Clojure dataset API. I leave it without comments, please refer original document explaining details:
+;; Below you can find comparizon between functionality of `data.table` and Clojure dataset API. I leave it without comments, please refer original document explaining details:
 
-[Introduction to `data.table`](https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html)
+;; [Introduction to `data.table`](https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html)
 
-R
+;; R
 
-```{r}
-library(data.table)
-library(knitr)
+;; ```{r}
+;; library(data.table)
+;; library(knitr)
 
-flights <- fread(\"https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv\")
+;; flights <- fread("https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv")
 
-kable(head(flights))
-```
+;; kable(head(flights))
+;; ```
 
----
+;; ---
 
-Clojure
-")
+;; Clojure
 
 
 (require '[tech.v3.datatype.functional :as dfn]
@@ -4703,54 +4634,52 @@ Clojure
 (tc/head flights 6)
 
 
-(md "
-#### Basics
 
-##### Shape of loaded data
+;; #### Basics
 
-R
+;; ##### Shape of loaded data
 
-```{r}
-dim(flights)
-```
+;; R
 
----
+;; ```{r}
+;; dim(flights)
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (tc/shape flights)
 
 
-(md "
-##### What is `data.table`?
 
-R
+;; ##### What is `data.table`?
 
-```{r}
-DT = data.table(
-  ID = c(\"b\",\"b\",\"b\",\"a\",\"a\",\"c\"),
-  a = 1:6,
-  b = 7:12,
-  c = 13:18
-)
+;; R
 
-kable(DT)
+;; ```{r}
+;; DT = data.table(
+;;                 ID = c("b","b","b","a","a","c"),
+;;                 a = 1:6,
+;;                 b = 7:12,
+;;                 c = 13:18
+;;                 )
 
-class(DT$ID)
-```
+;; kable(DT)
 
----
+;; class(DT$ID)
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (def DT (tc/dataset {:ID ["b" "b" "b" "a" "a" "c"]
-                      :a (range 1 7)
-                      :b (range 7 13)
-                      :c (range 13 19)}))
+                     :a (range 1 7)
+                     :b (range 7 13)
+                     :c (range 13 19)}))
 
 
 
@@ -4765,20 +4694,19 @@ DT
 (-> :ID DT meta :datatype)
 
 
-(md "
-##### Get all the flights with “JFK” as the origin airport in the month of June.
 
-R
+;; ##### Get all the flights with “JFK” as the origin airport in the month of June.
 
-```{r}
-ans <- flights[origin == \"JFK\" & month == 6L]
-kable(head(ans))
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[origin == "JFK" & month == 6L]
+;; kable(head(ans))
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -4787,39 +4715,37 @@ Clojure
     (tc/head 6))
 
 
-(md "
-##### Get the first two rows from `flights`.
 
-R
+;; ##### Get the first two rows from `flights`.
 
-```{r}
-ans <- flights[1:2]
-kable(ans)
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[1:2]
+;; kable(ans)
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (tc/select-rows flights (range 2))
 
 
-(md "
-##### Sort `flights` first by column `origin` in ascending order, and then by `dest` in descending order
 
-R
+;; ##### Sort `flights` first by column `origin` in ascending order, and then by `dest` in descending order
 
-```{r}
-ans <- flights[order(origin, -dest)]
-kable(head(ans))
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[order(origin, -dest)]
+;; kable(head(ans))
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -4827,39 +4753,37 @@ Clojure
     (tc/head 6))
 
 
-(md "
-##### Select `arr_delay` column, but return it as a vector
 
-R
+;; ##### Select `arr_delay` column, but return it as a vector
 
-```{r}
-ans <- flights[, arr_delay]
-head(ans)
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[, arr_delay]
+;; head(ans)
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (take 6 (flights "arr_delay"))
 
 
-(md "
-##### Select `arr_delay` column, but return as a data.table instead
 
-R
+;; ##### Select `arr_delay` column, but return as a data.table instead
 
-```{r}
-ans <- flights[, list(arr_delay)]
-kable(head(ans))
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[, list(arr_delay)]
+;; kable(head(ans))
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -4867,20 +4791,16 @@ Clojure
     (tc/head 6))
 
 
-(md "
-##### Select both `arr_delay` and `dep_delay` columns
 
-R
+;; ##### Select both `arr_delay` and `dep_delay` columns
 
-```{r}
-ans <- flights[, .(arr_delay, dep_delay)]
-kable(head(ans))
-```
+;; R
 
----
+;; ``
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -4888,42 +4808,40 @@ Clojure
     (tc/head 6))
 
 
-(md "
-##### Select both `arr_delay` and `dep_delay` columns and rename them to `delay_arr` and `delay_dep`
 
-R
+;; ##### Select both `arr_delay` and `dep_delay` columns and rename them to `delay_arr` and `delay_dep`
 
-```{r}
-ans <- flights[, .(delay_arr = arr_delay, delay_dep = dep_delay)]
-kable(head(ans))
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[, .(delay_arr = arr_delay, delay_dep = dep_delay)]
+;; kable(head(ans))
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
     (tc/select-columns {"arr_delay" "delay_arr"
-                         "dep_delay" "delay_arr"})
+                        "dep_delay" "delay_arr"})
     (tc/head 6))
 
 
-(md "
-##### How many trips have had total delay < 0?
 
-R
+;; ##### How many trips have had total delay < 0?
 
-```{r}
-ans <- flights[, sum( (arr_delay + dep_delay) < 0 )]
-ans
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[, sum( (arr_delay + dep_delay) < 0 )]
+;; ans
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (->> (dfn/+ (flights "arr_delay") (flights "dep_delay"))
@@ -4941,51 +4859,49 @@ or pure Clojure functions (much, much slower)
      (count))
 
 
-(md "
-##### Calculate the average arrival and departure delay for all flights with “JFK” as the origin airport in the month of June
 
-R
+;; ##### Calculate the average arrival and departure delay for all flights with “JFK” as the origin airport in the month of June
 
-```{r}
-ans <- flights[origin == \"JFK\" & month == 6L,
-               .(m_arr = mean(arr_delay), m_dep = mean(dep_delay))]
-kable(ans)
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[origin == "JFK" & month == 6L,
+;;                .(m_arr = mean(arr_delay), m_dep = mean(dep_delay))]
+;; kable(ans)
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
     (tc/select-rows (fn [row] (and (= (get row "origin") "JFK")
                                    (= (get row "month") 6))))
     (tc/aggregate {:m_arr #(dfn/mean (% "arr_delay"))
-                    :m_dep #(dfn/mean (% "dep_delay"))}))
+                   :m_dep #(dfn/mean (% "dep_delay"))}))
 
 
-(md "
-##### How many trips have been made in 2014 from “JFK” airport in the month of June?
 
-R
+;; ##### How many trips have been made in 2014 from “JFK” airport in the month of June?
 
-```{r}
-ans <- flights[origin == \"JFK\" & month == 6L, length(dest)]
-ans
-```
+;; R
 
-or
+;; ```{r}
+;; ans <- flights[origin == "JFK" & month == 6L, length(dest)]
+;; ans
+;; ```
 
-```{r}
-ans <- flights[origin == \"JFK\" & month == 6L, .N]
-ans
-```
+;; or
 
----
+;; ```{r}
+;; ans <- flights[origin == "JFK" & month == 6L, .N]
+;; ans
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -4994,27 +4910,26 @@ Clojure
     (tc/row-count))
 
 
-(md "
-##### deselect columns using - or !
 
-R
+;; ##### deselect columns using - or !
 
-```{r}
-ans <- flights[, !c(\"arr_delay\", \"dep_delay\")]
-kable(head(ans))
-```
+;; R
 
-or
+;; ```{r}
+;; ans <- flights[, !c("arr_delay", "dep_delay")]
+;; kable(head(ans))
+;; ```
 
-```{r}
-ans <- flights[, -c(\"arr_delay\", \"dep_delay\")]
-kable(head(ans))
-```
+;; or
 
----
+;; ```{r}
+;; ans <- flights[, -c("arr_delay", "dep_delay")]
+;; kable(head(ans))
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -5022,22 +4937,21 @@ Clojure
     (tc/head 6))
 
 
-(md "
-#### Aggregations
 
-##### How can we get the number of trips corresponding to each origin airport?
+;; #### Aggregations
 
-R
+;; ##### How can we get the number of trips corresponding to each origin airport?
 
-```{r}
-ans <- flights[, .(.N), by = .(origin)]
-kable(ans)
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[, .(.N), by = .(origin)]
+;; kable(ans)
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -5045,20 +4959,20 @@ Clojure
     (tc/aggregate {:N tc/row-count}))
 
 
-(md "
-##### How can we calculate the number of trips for each origin airport for carrier code \"AA\"?
 
-R
 
-```{r}
-ans <- flights[carrier == \"AA\", .N, by = origin]
-kable(ans)
-```
+;; ##### How can we calculate the number of trips for each origin airport for carrier code "AA"?
 
----
+;; R
 
-Clojure
-")
+;; ```{r}
+;; ans <- flights[carrier == "AA", .N, by = origin]
+;; kable(ans)
+;; ```
+
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -5067,20 +4981,19 @@ Clojure
     (tc/aggregate {:N tc/row-count}))
 
 
-(md "
-##### How can we get the total number of trips for each `origin`, `dest` pair for carrier code \"AA\"?
 
-R
+;; ##### How can we get the total number of trips for each `origin`, `dest` pair for carrier code "AA"?
 
-```{r}
-ans <- flights[carrier == \"AA\", .N, by = .(origin, dest)]
-kable(head(ans))
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[carrier == "AA", .N, by = .(origin, dest)]
+;; kable(head(ans))
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -5090,101 +5003,97 @@ Clojure
     (tc/head 6))
 
 
-(md "
-##### How can we get the average arrival and departure delay for each `orig`,`dest` pair for each month for carrier code \"AA\"?
 
-R
+;; ##### How can we get the average arrival and departure delay for each `orig`,`dest` pair for each month for carrier code "AA"?
 
-```{r}
-ans <- flights[carrier == \"AA\",
-        .(mean(arr_delay), mean(dep_delay)),
-        by = .(origin, dest, month)]
-kable(head(ans,10))
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[carrier == "AA",
+;;                .(mean(arr_delay), mean(dep_delay)),
+;;                by = .(origin, dest, month)]
+;; kable(head(ans,10))
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
     (tc/select-rows #(= (get % "carrier") "AA"))
     (tc/group-by ["origin" "dest" "month"])
     (tc/aggregate [#(dfn/mean (% "arr_delay"))
-                    #(dfn/mean (% "dep_delay"))])
+                   #(dfn/mean (% "dep_delay"))])
     (tc/head 10))
 
 
-(md "
-##### So how can we directly order by all the grouping variables?
 
-R
+;; ##### So how can we directly order by all the grouping variables?
 
-```{r}
-ans <- flights[carrier == \"AA\",
-        .(mean(arr_delay), mean(dep_delay)),
-        keyby = .(origin, dest, month)]
-kable(head(ans,10))
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[carrier == "AA",
+;;                .(mean(arr_delay), mean(dep_delay)),
+;;                keyby = .(origin, dest, month)]
+;; kable(head(ans,10))
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
     (tc/select-rows #(= (get % "carrier") "AA"))
     (tc/group-by ["origin" "dest" "month"])
     (tc/aggregate [#(dfn/mean (% "arr_delay"))
-                    #(dfn/mean (% "dep_delay"))])
+                   #(dfn/mean (% "dep_delay"))])
     (tc/order-by ["origin" "dest" "month"])
     (tc/head 10))
 
 
-(md "
-##### Can `by` accept expressions as well or does it just take columns?
 
-R
+;; ##### Can `by` accept expressions as well or does it just take columns?
 
-```{r}
-ans <- flights[, .N, .(dep_delay>0, arr_delay>0)]
-kable(ans)
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[, .N, .(dep_delay>0, arr_delay>0)]
+;; kable(ans)
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
     (tc/group-by (fn [row]
-                    {:dep_delay (pos? (get row "dep_delay"))
-                     :arr_delay (pos? (get row "arr_delay"))}))
+                   {:dep_delay (pos? (get row "dep_delay"))
+                    :arr_delay (pos? (get row "arr_delay"))}))
     (tc/aggregate {:N tc/row-count}))
 
 
-(md "
-##### Do we have to compute `mean()` for each column individually?
 
-R
+;; ##### Do we have to compute `mean()` for each column individually?
 
-```{r}
-kable(DT)
+;; R
 
-DT[, print(.SD), by = ID]
-```
+;; ```{r}
+;; kable(DT)
 
-```{r}
-kable(DT[, lapply(.SD, mean), by = ID])
-```
+;; DT[, print(.SD), by = ID]
+;; ```
 
----
+;; ```{r}
+;; kable(DT[, lapply(.SD, mean), by = ID])
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 DT
@@ -5200,22 +5109,21 @@ DT
     (tc/aggregate-columns (complement #{:ID}) dfn/mean))
 
 
-(md "
-##### How can we specify just the columns we would like to compute the `mean()` on?
 
-R
+;; ##### How can we specify just the columns we would like to compute the `mean()` on?
 
-```{r}
-kable(head(flights[carrier == \"AA\",                         ## Only on trips with carrier \"AA\"
-                   lapply(.SD, mean),                       ## compute the mean
-                   by = .(origin, dest, month),             ## for every 'origin,dest,month'
-                   .SDcols = c(\"arr_delay\", \"dep_delay\")])) ## for just those specified in .SDcols
-```
+;; R
 
----
+;; ```{r}
+;; kable(head(flights[carrier == "AA",                         ## Only on trips with carrier "AA"
+;;                    lapply(.SD, mean),                       ## compute the mean
+;;                    by = .(origin, dest, month),             ## for every 'origin,dest,month'
+;;                    .SDcols = c("arr_delay", "dep_delay")])) ## for just those specified in .SDcols
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -5225,20 +5133,19 @@ Clojure
     (tc/head 6))
 
 
-(md "
-##### How can we return the first two rows for each month?
 
-R
+;; ##### How can we return the first two rows for each month?
 
-```{r}
-ans <- flights[, head(.SD, 2), by = month]
-kable(head(ans))
-```
+;; R
 
----
+;; ```{r}
+;; ans <- flights[, head(.SD, 2), by = month]
+;; kable(head(ans))
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> flights
@@ -5248,19 +5155,18 @@ Clojure
     (tc/head 6))
 
 
-(md "
-##### How can we concatenate columns a and b for each group in ID?
 
-R
+;; ##### How can we concatenate columns a and b for each group in ID?
 
-```{r}
-kable(DT[, .(val = c(a,b)), by = ID])
-```
+;; R
 
----
+;; ```{r}
+;; kable(DT[, .(val = c(a,b)), by = ID])
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> DT
@@ -5268,19 +5174,18 @@ Clojure
     (tc/drop-columns [:$column :c]))
 
 
-(md "
-##### What if we would like to have all the values of column `a` and `b` concatenated, but returned as a list column?
 
-R
+;; ##### What if we would like to have all the values of column `a` and `b` concatenated, but returned as a list column?
 
-```{r}
-kable(DT[, .(val = list(c(a,b))), by = ID])
-```
+;; R
 
----
+;; ```{r}
+;; kable(DT[, .(val = list(c(a,b))), by = ID])
+;; ```
 
-Clojure
-")
+;; ---
+
+;; Clojure
 
 
 (-> DT
@@ -5290,14 +5195,14 @@ Clojure
 
 
 (md "
-### API tour
+               ### API tour
 
-Below snippets are taken from [A data.table and dplyr tour](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/) written by Atrebas (permission granted).
+               Below snippets are taken from [A data.table and dplyr tour](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/) written by Atrebas (permission granted).
 
-I keep structure and subtitles but I skip `data.table` and `dplyr` examples.
+               I keep structure and subtitles but I skip `data.table` and `dplyr` examples.
 
-Example data
-")
+               Example data
+               ")
 
 
 (def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
@@ -5320,34 +5225,34 @@ DS
 
 
 (md "
-#### Basic Operations
+               #### Basic Operations
 
-##### Filter rows
+               ##### Filter rows
 
-Filter rows using indices
-")
+               Filter rows using indices
+               ")
 
 
 (tc/select-rows DS [2 3])
 
 
 (md "
----
+               ---
 
-Discard rows using negative indices
+               Discard rows using negative indices
 
-In Clojure API we have separate function for that: `drop-rows`.
-")
+               In Clojure API we have separate function for that: `drop-rows`.
+               ")
 
 
 (tc/drop-rows DS (range 2 7))
 
 
 (md "
----
+               ---
 
-Filter rows using a logical expression
-")
+               Filter rows using a logical expression
+               ")
 
 
 (tc/select-rows DS (comp #(> % 5) :V2))
@@ -5360,10 +5265,10 @@ Filter rows using a logical expression
 
 
 (md "
----
+               ---
 
-Filter rows using multiple conditions
-")
+               Filter rows using multiple conditions
+               ")
 
 
 (tc/select-rows DS #(and (= (:V1 %) 1)
@@ -5371,10 +5276,10 @@ Filter rows using multiple conditions
 
 
 (md "
----
+               ---
 
-Filter unique rows
-")
+               Filter unique rows
+               ")
 
 
 (tc/unique-by DS)
@@ -5387,20 +5292,20 @@ Filter unique rows
 
 
 (md "
----
+               ---
 
-Discard rows with missing values
-")
+               Discard rows with missing values
+               ")
 
 
 (tc/drop-missing DS)
 
 
 (md "
----
+               ---
 
-Other filters
-")
+               Other filters
+               ")
 
 
 ^:note-to-test/skip
@@ -5421,10 +5326,10 @@ Other filters
 
 
 (md "
----
+               ---
 
-Convenience functions
-")
+               Convenience functions
+               ")
 
 
 (tc/select-rows DS (comp (partial re-matches #"^B") str :V4))
@@ -5449,42 +5354,42 @@ Convenience functions
 
 
 (md "
-Last example skipped.
+               Last example skipped.
 
-##### Sort rows
+               ##### Sort rows
 
-Sort rows by column
-")
+               Sort rows by column
+               ")
 
 
 (tc/order-by DS :V3)
 
 
 (md "
----
+               ---
 
-Sort rows in decreasing order
-")
+               Sort rows in decreasing order
+               ")
 
 
 (tc/order-by DS :V3 :desc)
 
 
 (md "
----
+               ---
 
-Sort rows based on several columns
-")
+               Sort rows based on several columns
+               ")
 
 
 (tc/order-by DS [:V1 :V2] [:asc :desc])
 
 
 (md "
-##### Select columns
+               ##### Select columns
 
-Select one column using an index (not recommended)
-")
+               Select one column using an index (not recommended)
+               ")
 
 
 (nth (tc/columns DS :as-seq) 2) ;; as column (iterable)
@@ -5497,10 +5402,10 @@ Select one column using an index (not recommended)
 
 
 (md "
----
+               ---
 
-Select one column using column name
-")
+               Select one column using column name
+               ")
 
 
 (tc/select-columns DS :V2) ;; as dataset
@@ -5519,20 +5424,20 @@ Select one column using column name
 
 
 (md "
----
+               ---
 
-Select several columns
-")
+               Select several columns
+               ")
 
 
 (tc/select-columns DS [:V2 :V3 :V4])
 
 
 (md "
----
+               ---
 
-Exclude columns
-")
+               Exclude columns
+               ")
 
 
 (tc/select-columns DS (complement #{:V2 :V3 :V4}))
@@ -5545,10 +5450,10 @@ Exclude columns
 
 
 (md "
----
+               ---
 
-Other seletions
-")
+               Other seletions
+               ")
 
 
 (->> (range 1 3)
@@ -5593,10 +5498,10 @@ Other seletions
 
 
 (md "
-##### Summarise data
+               ##### Summarise data
 
-Summarise one column
-")
+               Summarise one column
+               ")
 
 
 (reduce + (DS :V1)) ;; using pure Clojure, as value
@@ -5615,10 +5520,10 @@ Summarise one column
 
 
 (md "
----
+               ---
 
-Summarize several columns
-")
+               Summarize several columns
+               ")
 
 
 (tc/aggregate DS [#(dfn/sum (% :V1))
@@ -5634,10 +5539,10 @@ Summarize several columns
 
 (md "
 
----
+               ---
 
-Summarise several columns and assign column names
-")
+               Summarise several columns and assign column names
+               ")
 
 
 (tc/aggregate DS {:sumv1 #(dfn/sum (% :V1))
@@ -5645,10 +5550,10 @@ Summarise several columns and assign column names
 
 
 (md "
----
+               ---
 
-Summarise a subset of rows
-")
+               Summarise a subset of rows
+               ")
 
 
 (-> DS
@@ -5657,9 +5562,9 @@ Summarise a subset of rows
 
 
 (md "
-##### Additional helpers
+               ##### Additional helpers
 
-")
+               ")
 
 
 (-> DS
@@ -5699,7 +5604,7 @@ Summarise a subset of rows
 
 
 (md "
-")
+               ")
 
 
 (-> DS
@@ -5716,10 +5621,10 @@ Summarise a subset of rows
 
 
 (md "
-##### Add/update/delete columns
+               ##### Add/update/delete columns
 
-Modify a column
-")
+               Modify a column
+               ")
 
 
 (tc/map-columns DS :V1 [:V1] #(dfn/pow % 2))
@@ -5738,10 +5643,10 @@ DS
 
 
 (md "
----
+               ---
 
-Add one column
-")
+               Add one column
+               ")
 
 
 (tc/map-columns DS :v5 [:V1] dfn/log)
@@ -5760,10 +5665,10 @@ DS
 
 
 (md "
----
+               ---
 
-Add several columns
-")
+               Add several columns
+               ")
 
 
 (def DS (tc/add-columns DS {:v6 (dfn/sqrt (DS :V1))
@@ -5777,20 +5682,20 @@ DS
 
 
 (md "
----
+               ---
 
-Create one column and remove the others
-")
+               Create one column and remove the others
+               ")
 
 
 (tc/dataset {:v8 (dfn/+ (DS :V3) 1)})
 
 
 (md "
----
+               ---
 
-Remove one column
-")
+               Remove one column
+               ")
 
 
 (def DS (tc/drop-columns DS :v5))
@@ -5803,10 +5708,10 @@ DS
 
 
 (md "
----
+               ---
 
-Remove several columns
-")
+               Remove several columns
+               ")
 
 
 (def DS (tc/drop-columns DS [:v6 :v7]))
@@ -5819,12 +5724,12 @@ DS
 
 
 (md "
----
+               ---
 
-Remove columns using a vector of colnames
+               Remove columns using a vector of colnames
 
-We use set here.
-")
+               We use set here.
+               ")
 
 
 (def DS (tc/select-columns DS (complement #{:V3})))
@@ -5837,10 +5742,10 @@ DS
 
 
 (md "
----
+               ---
 
-Replace values for rows matching a condition
-")
+               Replace values for rows matching a condition
+               ")
 
 
 (def DS (tc/map-columns DS :V2 [:V2] #(if (< % 4.0) 0.0 %)))
@@ -5853,10 +5758,10 @@ DS
 
 
 (md "
-##### by
+               ##### by
 
-By group
-")
+               By group
+               ")
 
 
 (-> DS
@@ -5865,10 +5770,10 @@ By group
 
 
 (md "
----
+               ---
 
-By several groups
-")
+               By several groups
+               ")
 
 
 (-> DS
@@ -5877,10 +5782,10 @@ By several groups
 
 
 (md "
----
+               ---
 
-Calling function in by
-")
+               Calling function in by
+               ")
 
 
 (-> DS
@@ -5890,10 +5795,10 @@ Calling function in by
 
 
 (md "
----
+               ---
 
-Assigning column name in by
-")
+               Assigning column name in by
+               ")
 
 
 (-> DS
