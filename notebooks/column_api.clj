@@ -91,10 +91,17 @@
 (-> (tcc/column (range 10))
     (tcc/slice :start :end 2))
 
-;; If you need to create a discontinuous subset of the column, you can use the `select` function. This method accepts an array of index positions:
+;; If you need to create a discontinuous subset of the column, you can use the `select` function. This method accepts an array of index positions or an array of booleans. When using boolean select, a true value will select the value at the index positions containing true values:
 
 ;; Select the values at index positions 1 and 9:
 
 (-> (tcc/column (range 10))
     (tcc/select [1 9]))
+
+
+;; Select the values at index positions 0 and 2 using booelan select:
+
+(-> (tcc/column (range 10))
+    (tcc/select [true false true]))
+
 
