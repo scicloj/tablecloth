@@ -1,6 +1,8 @@
 (ns tablecloth.conversion
   (:require [clojure.string :as string]))
 
+;; This namespace has been used to convert the old `docs/index.Rmd` documentation to the new `notebooks/index.clj` documentation. Some additional manual editing was needed to make things work afterwards.
+
 (set! *print-length* 1000)
 
 (def example-doc
