@@ -4613,7 +4613,7 @@ stocks
 ;; kable(head(flights))
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4642,7 +4642,7 @@ stocks
 ;; dim(flights)
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4668,7 +4668,7 @@ stocks
 ;; class(DT$ID)
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4701,7 +4701,7 @@ DT
 ;; kable(head(ans))
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4722,7 +4722,7 @@ DT
 ;; kable(ans)
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4740,7 +4740,7 @@ DT
 ;; kable(head(ans))
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4760,7 +4760,7 @@ DT
 ;; head(ans)
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4778,7 +4778,7 @@ DT
 ;; kable(head(ans))
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4795,7 +4795,7 @@ DT
 
 ;; ``
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4815,7 +4815,7 @@ DT
 ;; kable(head(ans))
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4836,7 +4836,7 @@ DT
 ;; ans
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4867,7 +4867,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(ans)
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4896,7 +4896,7 @@ or pure Clojure functions (much, much slower)
 ;; ans
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4924,7 +4924,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(head(ans))
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4946,7 +4946,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(ans)
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4967,7 +4967,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(ans)
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -4988,7 +4988,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(head(ans))
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -5012,7 +5012,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(head(ans,10))
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -5037,7 +5037,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(head(ans,10))
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -5061,7 +5061,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(ans)
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -5088,7 +5088,7 @@ or pure Clojure functions (much, much slower)
 ;; kable(DT[, lapply(.SD, mean), by = ID])
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -5118,7 +5118,7 @@ DT
 ;;                    .SDcols = c("arr_delay", "dep_delay")])) ## for just those specified in .SDcols
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -5140,7 +5140,7 @@ DT
 ;; kable(head(ans))
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -5161,7 +5161,7 @@ DT
 ;; kable(DT[, .(val = c(a,b)), by = ID])
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
@@ -5180,7 +5180,7 @@ DT
 ;; kable(DT[, .(val = list(c(a,b))), by = ID])
 ;; ```
 
-;; ----
+;;
 
 ;; Clojure
 
