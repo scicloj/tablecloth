@@ -907,8 +907,7 @@ Also we can supress separation
 (-> DS
     (tc/group-by (juxt :V1 :V3))
     (tc/ungroup {:separate? false
-                  :add-group-as-column true}))
-;; => _unnamed [9 5]:
+                 :add-group-as-column true}))
 
 
 
