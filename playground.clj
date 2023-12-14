@@ -1423,3 +1423,48 @@ pop3
            (tc/dataset [{:k "baz"}
                         {:k "baz"}])
            [:k])
+
+
+(-> (tc/dataset {:a [0 0 1 2 0 0 0 0 1 2 0 0 10 0 0]})
+    (tc/map-columns :a  #(when (not (zero? %)) %)) ;; make 0 as missing value
+    (tc/replace-missing :a :downup)) ;; replace missing, first drag values down then up
+;; => _unnamed [15 1]:
+;;    | :a |
+;;    |---:|
+;;    |  1 |
+;;    |  1 |
+;;    |  1 |
+;;    |  2 |
+;;    |  2 |
+;;    |  2 |
+;;    |  2 |
+;;    |  2 |
+;;    |  1 |
+;;    |  2 |
+;;    |  2 |
+;;    |  2 |
+;;    | 10 |
+;;    | 10 |
+;;    | 10 |
+
+(let [data (map (fn [v] (when (not (zero? v)) v)) [0 0 1 2 0 0 0 0 1 2 0 0 10 0 0])]
+  (-> (tc/dataset {:a data})
+      (tc/replace-missing :a :downup)))
+;; => _unnamed [15 1]:
+;;    | :a |
+;;    |---:|
+;;    |  1 |
+;;    |  1 |
+;;    |  1 |
+;;    |  2 |
+;;    |  2 |
+;;    |  2 |
+;;    |  2 |
+;;    |  2 |
+;;    |  1 |
+;;    |  2 |
+;;    |  2 |
+;;    |  2 |
+;;    | 10 |
+;;    | 10 |
+;;    | 10 |

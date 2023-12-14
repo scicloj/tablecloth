@@ -54,9 +54,9 @@ Let's require main namespace and define dataset used in most examples:
 (require '[tablecloth.api :as tc]
          '[tech.v3.datatype.functional :as dfn])
 (def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
-                      :V2 (range 1 10)
-                      :V3 (take 9 (cycle [0.5 1.0 1.5]))
-                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
+                     :V2 (range 1 10)
+                     :V3 (take 9 (cycle [0.5 1.0 1.5]))
+                     :V4 (take 9 (cycle ["A" "B" "C"]))}))
 
 
 
