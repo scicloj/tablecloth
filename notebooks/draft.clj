@@ -1,5 +1,5 @@
 ^:kindly/hide-code?
-(ns index
+(ns draft
   (:require [scicloj.kindly.v4.kind :as kind
              :refer [md]]
             [tablecloth.api :as tc]
