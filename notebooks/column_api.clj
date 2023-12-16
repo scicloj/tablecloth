@@ -1,3 +1,4 @@
+^:kindly/hide-code?
 (ns column-api
   (:require [tablecloth.api :as tc]
             [tablecloth.column.api :as tcc]
