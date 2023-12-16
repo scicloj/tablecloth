@@ -30,17 +30,6 @@ tr:nth-child(even) {
 </style>
 <script src="column_api_files/md-default0.js" type="text/javascript"></script><script src="column_api_files/md-default1.js" type="text/javascript"></script>
 
-<div class="sourceClojure">
-```clojure
-(ns column-api
-  (:require [tablecloth.api :as tc]
-            [tablecloth.column.api :as tcc]
-            [scicloj.kindly.v4.kind :as kind :refer [md]]))
-```
-</div>
-
-
-
 ## Column API
 A `column` in tablecloth is a named sequence of typed data. This special type is defined in the `tech.ml.dataset`. It is roughly comparable to a R vector.
 
@@ -506,7 +495,7 @@ Select the values at index positions 0 and 2 using booelan select:
 <div class="sourceClojure">
 ```clojure
 (-> (tcc/column (range 10))
-    (tcc/select [true false true]))
+    (tcc/select (tcc/column [true false true])))
 ```
 </div>
 
@@ -514,9 +503,9 @@ Select the values at index positions 0 and 2 using booelan select:
 
 <div class="printedClojure">
 ```clojure
-#tech.v3.dataset.column&lt;int64&gt;[3]
+#tech.v3.dataset.column&lt;int64&gt;[2]
 null
-[1, 0, 1]
+[0, 2]
 
 ```
 </div>
