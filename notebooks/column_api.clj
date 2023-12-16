@@ -107,7 +107,7 @@
 
 ;; ### Column Operations
 
-;; The Column API contains the vast majority of column opeartions that have typically been available in the `tech.v3.datatype.functional` namespace.
+;; The Column API contains a large number of operations. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operations.  
 
 (def a (tcc/column [20 30 40 50]))
 (def b (tcc/column (range 4)))
