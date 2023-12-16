@@ -95,6 +95,8 @@ null
 </div>
 
 
+
+#### Ones & Zeros
 You can also quickly create columns of ones or zeros:
 
 
@@ -135,6 +137,8 @@ null
 </div>
 
 
+
+#### Column?
 Finally, you can use the `column?` function to check if an item is a column:
 
 
@@ -158,6 +162,26 @@ false
 <div class="sourceClojure">
 ```clojure
 (tcc/column? (tcc/column))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+true
+
+```
+</div>
+
+
+Tablecloth's datasets of course consists of columns:
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/column? (-> (tc/dataset {:a [1 2 3 4 5]})
+                 :a))
 ```
 </div>
 
@@ -208,6 +232,8 @@ The default set of types for a column are defined in the underlying "tech ml" sy
 </div>
 
 
+
+#### Typeof & Typeof?
 When you create a column, the underlying system will try to autodetect its type. We can see that here using the `tcc/typeof` function to check the type of a column:
 
 
@@ -343,7 +369,9 @@ true
 
 
 
-### Column access & manipulation
+### Column Access & Manipulation
+
+#### Column Access
 The method for accessing a particular index position in a column is the same as for Clojure vectors:
 
 
@@ -382,6 +410,8 @@ The method for accessing a particular index position in a column is the same as 
 </div>
 
 
+
+#### Slice
 You can also slice a column
 
 
@@ -467,6 +497,8 @@ null
 
 
 If you need to create a discontinuous subset of the column, you can use the `select` function. This method accepts an array of index positions or an array of booleans. When using boolean select, a true value will select the value at the index positions containing true values:
+
+#### Select
 Select the values at index positions 1 and 9:
 
 
@@ -512,8 +544,80 @@ null
 
 
 
+#### Sort  
+Use `sort-column` to sort a column:
+Default sort is in ascending order:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [:c :z :a :f])
+    (tcc/sort-column))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;keyword&gt;[4]
+null
+[:a, :c, :f, :z]
+
+```
+</div>
+
+
+You can provide the `:desc` and `:asc` keywords to change the default behavior:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [:c :z :a :f])
+    (tcc/sort-column :desc))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;keyword&gt;[4]
+null
+[:z, :f, :c, :a]
+
+```
+</div>
+
+
+You can also provide a comparator fn:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [{:position 2
+                  :text "and then stopped"}
+                 {:position 1
+                  :text "I ran fast"}])
+    (tcc/sort-column (fn [a b] (< (:position a) (:position b)))))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;persistent-map&gt;[2]
+null
+[{:position 1, :text "I ran fast"}, {:position 2, :text "and then stopped"}]
+
+```
+</div>
+
+
+
 ### Column Operations
-The Column API contains a large number of operations. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operations.  
+The Column API contains a large number of operations. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operations.  These operations all take a column as the first argument so they are easy to use with the pipe `->` macro, as with all functions in Tablecloth.
 
 
 <div class="sourceClojure">

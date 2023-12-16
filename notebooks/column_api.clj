@@ -20,22 +20,33 @@
 
 (tcc/column `(1 2 3 4 5))
 
+;; #### Ones & Zeros
+
 ;; You can also quickly create columns of ones or zeros:
 
 (tcc/ones 10)
 
 (tcc/zeros 10)
 
+;; #### Column?
+
 ;; Finally, you can use the `column?` function to check if an item is a column:
 
 (tcc/column? [1 2 3 4 5])
 (tcc/column? (tcc/column))
+
+;; Tablecloth's datasets of course consists of columns:
+
+(tcc/column? (-> (tc/dataset {:a [1 2 3 4 5]})
+                 :a))
 
 ;; ### Types and Type detection
 
 ;; The default set of types for a column are defined in the underlying "tech ml" system. We can see the set here:
 
 (tech.v3.datatype.casting/all-datatypes)
+
+;; #### Typeof & Typeof?
 
 ;; When you create a column, the underlying system will try to autodetect its type. We can see that here using the `tcc/typeof` function to check the type of a column:
 
@@ -66,7 +77,9 @@
 (-> (tcc/column [1 2 3 4 6])
     (tcc/typeof? :integer))
 
-;; ### Column access & manipulation
+;; ### Column Access & Manipulation
+
+;; #### Column Access
 
 ;; The method for accessing a particular index position in a column is the same as for Clojure vectors:
 
@@ -75,6 +88,8 @@
 
 (-> (tcc/column [1 2 3 4 5])
     (nth 3))
+
+;; #### Slice
 
 ;; You can also slice a column
 
@@ -94,6 +109,8 @@
 
 ;; If you need to create a discontinuous subset of the column, you can use the `select` function. This method accepts an array of index positions or an array of booleans. When using boolean select, a true value will select the value at the index positions containing true values:
 
+;; #### Select
+
 ;; Select the values at index positions 1 and 9:
 
 (-> (tcc/column (range 10))
@@ -105,9 +122,32 @@
 (-> (tcc/column (range 10))
     (tcc/select (tcc/column [true false true])))
 
+;; #### Sort  
+
+;; Use `sort-column` to sort a column:
+
+;; Default sort is in ascending order:
+
+(-> (tcc/column [:c :z :a :f])
+    (tcc/sort-column))
+
+;; You can provide the `:desc` and `:asc` keywords to change the default behavior:
+
+(-> (tcc/column [:c :z :a :f])
+    (tcc/sort-column :desc))
+
+;; You can also provide a comparator fn:
+
+(-> (tcc/column [{:position 2
+                  :text "and then stopped"}
+                 {:position 1
+                  :text "I ran fast"}])
+    (tcc/sort-column (fn [a b] (< (:position a) (:position b)))))
+
+
 ;; ### Column Operations
 
-;; The Column API contains a large number of operations. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operations.  
+;; The Column API contains a large number of operations. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operations.  These operations all take a column as the first argument so they are easy to use with the pipe `->` macro, as with all functions in Tablecloth.
 
 (def a (tcc/column [20 30 40 50]))
 (def b (tcc/column (range 4)))
