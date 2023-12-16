@@ -102,6 +102,26 @@
 ;; Select the values at index positions 0 and 2 using booelan select:
 
 (-> (tcc/column (range 10))
-    (tcc/select [true false true]))
+    (tcc/select (tcc/column [true false true])))
 
+;; ### Column Operations
 
+;; The Column API contains the vast majority of column opeartions that have typically been available in the `tech.v3.datatype.functional` namespace.
+
+(def a (tcc/column [20 30 40 50]))
+(def b (tcc/column (range 4)))
+
+(tcc/- a b)
+
+(tcc/pow a 2)
+
+(tcc/* 10 (tcc/sin a))
+
+(tcc/< a 35)
+
+;; All these operations take a column as their first argument and
+;; return a column, so they can be chained easily.
+
+(-> a
+    (tcc/* b)
+    (tcc/< 70))

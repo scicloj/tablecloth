@@ -477,7 +477,7 @@ null
 </div>
 
 
-If you need to create a discontinuous subset of the column, you can use the `select` function. This method accepts an array of index positions:
+If you need to create a discontinuous subset of the column, you can use the `select` function. This method accepts an array of index positions or an array of booleans. When using boolean select, a true value will select the value at the index positions containing true values:
 Select the values at index positions 1 and 9:
 
 
@@ -495,6 +495,148 @@ Select the values at index positions 1 and 9:
 #tech.v3.dataset.column&lt;int64&gt;[2]
 null
 [1, 9]
+
+```
+</div>
+
+
+Select the values at index positions 0 and 2 using booelan select:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column (range 10))
+    (tcc/select [true false true]))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[3]
+null
+[1, 0, 1]
+
+```
+</div>
+
+
+
+### Column Operations
+The Column API contains the vast majority of column opeartions that have typically been available in the `tech.v3.datatype.functional` namespace.
+
+
+<div class="sourceClojure">
+```clojure
+(def a (tcc/column [20 30 40 50]))
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(def b (tcc/column (range 4)))
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/- a b)
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[4]
+null
+[20, 29, 38, 47]
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/pow a 2)
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;float64&gt;[4]
+null
+[400.0, 900.0, 1600, 2500]
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/* 10 (tcc/sin a))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;float64&gt;[4]
+null
+[9.129, -9.880, 7.451, -2.624]
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/< a 35)
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;boolean&gt;[4]
+null
+[true, true, false, false]
+
+```
+</div>
+
+
+All these operations take a column as their first argument and
+return a column, so they can be chained easily.
+
+
+<div class="sourceClojure">
+```clojure
+(-> a
+    (tcc/* b)
+    (tcc/< 70))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;boolean&gt;[4]
+null
+[true, true, false, false]
 
 ```
 </div>
