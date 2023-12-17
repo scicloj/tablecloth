@@ -160,16 +160,16 @@ In this branch, we develop a new proposed dev workflow for Tablecloth:
 - testing the documentation using [note-to-test](https://github.com/scicloj/note-to-test) - coming soon
 
 ### Relevant files
-- [notebooks/index.clj](notebooks/index.clj) - the tutorial as a Kindly notebook (developed with Clay)
+- [notebooks/draft.clj](notebooks/draft.clj) - the tutorial as a Kindly notebook (developed with Clay)
   - [dev/conversion.clj](dev/conversion.clj) - the script used to generate the notebook from the original `Rmarkdown` tutorial (up to a few additional manual edits)
-- [docs/index.html](docs/index.html) - the tutorial rendered using Clay and [Quarto](https://quarto.org/)
+- [docs/draft.html](docs/draft.html) - the tutorial rendered using Clay and [Quarto](https://quarto.org/)
 
 ### Actions
 - to render the notebook using Clay (assuming you have the Quarto CLI [installed](https://quarto.org/docs/get-started/)):
 ```clj
 (require '[scicloj.clay.v2.api :as clay])
 (clay/make! {:format [:quarto :html]
-             :source-path "notebooks/index.clj"})
+             :source-path "notebooks/draft.clj"})
 ```
 
 ## Licence
