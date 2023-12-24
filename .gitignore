@@ -20,3 +20,4 @@ pom.xml.asc
 *.txt*
 .lsp/
 .clj-kondo/
+.clay.html
