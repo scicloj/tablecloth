@@ -79,4 +79,4 @@
       slurp
       markdown->markdown-with-extracted-clojure-chunks
       markdown-with-extracted-clojure-chunks->markdown-evaluated
-      (spit "README-evaluated.md")))
+      (spit "README.md")))
