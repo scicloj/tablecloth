@@ -75,8 +75,11 @@
 
 
 (defn generate! []
-  (-> "README-source.md"
-      slurp
-      markdown->markdown-with-extracted-clojure-chunks
-      markdown-with-extracted-clojure-chunks->markdown-evaluated
-      (spit "README.md")))
+  (->> "README-source.md"
+       slurp
+       markdown->markdown-with-extracted-clojure-chunks
+       markdown-with-extracted-clojure-chunks->markdown-evaluated
+       (spit "README.md")))
+
+(comment
+  (generate!))
