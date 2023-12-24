@@ -7,8 +7,9 @@
             [scicloj.clay.v2.api :as clay]))
 
 (md
- "# Dataset (data frame) manipulation API for the tech.ml.dataset library
-GenerateMe")
+ "Dataset (data frame) manipulation API for the [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) library
+
+*GenerateMe*")
 
 (def tech-ml-version (get-in (read-string (slurp "deps.edn")) [:deps 'techascent/tech.ml.dataset :mvn/version]))
 
