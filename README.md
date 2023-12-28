@@ -100,7 +100,7 @@ Documentation contains around 600 code snippets which are run during build. Ther
 
 ### README generation
 
-To generate `README.md`, run the `generate!` function at the [dev/readme_teneration.clj](./dev/readme_teneration.clj) script.
+To generate `README.md`, run the `generate!` function at the [dev/readme_generation.clj](./dev/readme_generation.clj) script.
 
 ### Detailed documentation generation
 
