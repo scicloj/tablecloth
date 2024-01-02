@@ -3,7 +3,7 @@
   (:require [scicloj.kindly.v4.api :as kindly]
             [scicloj.kindly.v4.kind :as kind :refer [md]]))
 
-(-> [:style ".table {width:auto; font-size: 14px}"]
+(-> [:style ".table {width:auto;}"]
     kind/hiccup
     kindly/hide-code)
 
