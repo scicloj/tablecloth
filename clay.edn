@@ -2,7 +2,8 @@
                :branch "main"}
  :quarto {:format {:html {:toc true
                           :toc-depth 4
-                          :theme :spacelab}}
+                          :theme :spacelab
+                          :fontsize "0.8em"}}
           :highlight-style :solarized
           :code-block-background true
           :include-in-header {:text "<link rel = \"icon\" href = \"data:,\" />"}
