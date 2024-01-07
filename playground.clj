@@ -1539,5 +1539,9 @@ exdata
 
 ;;
 
-(defrecord MyMap [a b])
 
+
+(-> (expand-grid input)
+    (tc/group-by :sex)
+    (tc/reorder-columns :sex :weight)
+    (tc/ungroup))
