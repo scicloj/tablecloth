@@ -1,5 +1,6 @@
 (ns tablecloth.playground
   (:require [tablecloth.api :as tc]
+            [tablecloth.api.utils :refer [rank]]
             [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as c]
             [tech.v3.dataset.join :as j]
@@ -1468,3 +1469,75 @@ pop3
 ;;    | 10 |
 ;;    | 10 |
 ;;    | 10 |
+
+;;
+
+(def exdata (tc/dataset {:cat1 (repeatedly 100 #(rand-nth [:a :b :c :c]))
+                       :cat2 (repeatedly 100 #(rand-nth ["A" "B" "A"]))
+                       :value (repeatedly 100 #(rand-nth (range 10)))}))
+
+exdata
+;; => _unnamed [100 3]:
+;;    | :cat1 | :cat2 | :value |
+;;    |-------|-------|-------:|
+;;    |    :c |     A |      6 |
+;;    |    :a |     B |      1 |
+;;    |    :b |     A |      2 |
+;;    |    :b |     B |      3 |
+;;    |    :c |     B |      9 |
+;;    |    :a |     A |      6 |
+;;    |    :c |     A |      3 |
+;;    |    :c |     A |      3 |
+;;    |    :c |     A |      8 |
+;;    |    :a |     A |      5 |
+;;    |   ... |   ... |    ... |
+;;    |    :a |     B |      2 |
+;;    |    :c |     B |      5 |
+;;    |    :b |     A |      0 |
+;;    |    :a |     A |      3 |
+;;    |    :b |     A |      0 |
+;;    |    :c |     B |      6 |
+;;    |    :b |     A |      9 |
+;;    |    :b |     A |      5 |
+;;    |    :b |     B |      4 |
+;;    |    :b |     A |      5 |
+;;    |    :c |     A |      0 |
+
+
+(-> exdata
+    (tc/group-by [:cat1 :cat2])
+    (tc/add-column :rank #(tablecloth.api.utils/rank (% :value) :max))
+    (tc/ungroup))
+;; => _unnamed [100 4]:
+;;    | :cat1 | :cat2 | :value | :rank |
+;;    |-------|-------|-------:|------:|
+;;    |    :c |     A |      6 |    20 |
+;;    |    :c |     A |      3 |    10 |
+;;    |    :c |     A |      3 |    10 |
+;;    |    :c |     A |      8 |    26 |
+;;    |    :c |     A |      9 |    30 |
+;;    |    :c |     A |      8 |    26 |
+;;    |    :c |     A |      2 |     7 |
+;;    |    :c |     A |      9 |    30 |
+;;    |    :c |     A |      5 |    17 |
+;;    |    :c |     A |      7 |    23 |
+;;    |   ... |   ... |    ... |   ... |
+;;    |    :a |     A |      4 |     8 |
+;;    |    :a |     A |      9 |    15 |
+;;    |    :a |     A |      0 |     1 |
+;;    |    :a |     A |      5 |    10 |
+;;    |    :a |     A |      7 |    13 |
+;;    |    :a |     A |      7 |    13 |
+;;    |    :a |     A |      4 |     8 |
+;;    |    :a |     A |      2 |     3 |
+;;    |    :a |     A |      3 |     5 |
+;;    |    :a |     A |      1 |     2 |
+;;    |    :a |     A |      3 |     5 |
+
+
+(tablecloth.api.utils/rank [1 2 2 3] :max);; => (0 2 2 3)
+
+;;
+
+(defrecord MyMap [a b])
+
