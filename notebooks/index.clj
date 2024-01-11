@@ -1,7 +1,10 @@
 ^:kindly/hide-code
 (ns index
   (:require [scicloj.kindly.v4.api :as kindly]
-            [scicloj.kindly.v4.kind :as kind :refer [md]]))
+            [scicloj.kindly.v4.kind :as kind]))
+
+(def md
+  (comp kindly/hide-code kind/md))
 
 (-> [:style ".table {width:auto;}"]
     kind/hiccup
