@@ -7,10 +7,6 @@
 (def md
   (comp kindly/hide-code kind/md))
 
-(-> [:style ".table {width:auto;}"]
-    kind/hiccup
-    kindly/hide-code)
-
 (md
  "Dataset (data frame) manipulation API for the [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) library
 
