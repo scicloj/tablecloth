@@ -1,5 +1,5 @@
-{:remote-repo {:git-url "https://github.com/daslu/tablecloth"
-               :branch "main"}
+{:remote-repo {:git-url "https://github.com/scicloj/tablecloth"
+               :branch "master"}
  :quarto {:format {:html {:toc true
                           :toc-depth 4
                           :theme [:spacelab "notebooks/custom.scss"]}}
