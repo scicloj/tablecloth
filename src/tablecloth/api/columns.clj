@@ -181,14 +181,16 @@
 (defn reorder-columns
   "Reorder columns using column selector(s). When column names are incomplete, the missing will be attached at the end."
   [ds columns-selector & columns-selectors]
-  (let [selected-cols (->> columns-selectors
-                           (map (partial column-names ds))
-                           (apply clojure.core/concat (column-names ds columns-selector)))
-        rest-cols (column-names ds (->> selected-cols
-                                        (set)
-                                        (partial contains?)
-                                        (complement)))]
-    (ds/select-columns ds (clojure.core/concat selected-cols rest-cols))))
+  (if (grouped? ds)
+    (process-group-data ds #(apply reorder-columns % columns-selector columns-selectors))
+    (let [selected-cols (->> columns-selectors
+                             (map (partial column-names ds))
+                             (apply clojure.core/concat (column-names ds columns-selector)))
+          rest-cols (column-names ds (->> selected-cols
+                                          (set)
+                                          (partial contains?)
+                                          (complement)))]
+      (ds/select-columns ds (clojure.core/concat selected-cols rest-cols)))))
 
 ;;
 

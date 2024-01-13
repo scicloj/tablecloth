@@ -1,10 +1,11 @@
-^:kindly/hide-code?
+^:kindly/hide-code
 (ns index
-  (:require [scicloj.kindly.v4.kind :as kind
-             :refer [md]]
-            [tablecloth.api :as tc]
-            [scicloj.note-to-test.v1.api :as note-to-test]
-            [scicloj.clay.v2.api :as clay]))
+  (:require [scicloj.kindly.v4.api :as kindly]
+            [scicloj.kindly.v4.kind :as kind]))
+
+^:kindly/hide-code
+(def md
+  (comp kindly/hide-code kind/md))
 
 (md
  "Dataset (data frame) manipulation API for the [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) library
