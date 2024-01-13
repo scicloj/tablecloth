@@ -1,4 +1,4 @@
-{:remote-repo {:git-url "https://github.com/daslu/tablecloth"
+{:remote-repo {:git-url "https://github.com/scicloj/tablecloth"
                :branch "main"}
  :quarto {:format {:html {:toc true
                           :toc-depth 4
