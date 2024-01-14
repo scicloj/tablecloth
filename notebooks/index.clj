@@ -68,13 +68,11 @@ DS
 
 
 (md "
-## Functionality
-
-### Dataset
+## Dataset
 
 Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.dataset` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
 
-#### Dataset creation
+### Dataset creation
 
 Dataset can be created from various of types of Clojure structures and files:
 
@@ -295,7 +293,7 @@ Set column name for single value. Also set the dataset name and turn off creatin
 
 (md "
 
-#### Saving
+### Saving
 
 Export dataset to a file or output stream can be done by calling `tc/write!`. Function accepts:
 
@@ -311,7 +309,7 @@ Export dataset to a file or output stream can be done by calling `tc/write!`. Fu
 
 
 (md "
-##### Nippy
+#### Nippy
 ")
 
 
@@ -325,7 +323,7 @@ Export dataset to a file or output stream can be done by calling `tc/write!`. Fu
 
 
 (md "
-#### Dataset related functions
+### Dataset related functions
 
 Summary functions about the dataset like number of rows, columns and basic stats.
 
@@ -397,7 +395,7 @@ Setting a dataset name (operation is immutable).
 
 
 (md "
-#### Columns and rows
+### Columns and rows
 
 Get columns and rows as sequences. `column`, `columns` and `rows` treat grouped dataset as regular one. See `Groups` to read more about grouped datasets.
 
@@ -508,7 +506,7 @@ Rows with elided missing values
 
 
 (md "
-#### Single entry
+### Single entry
 
 Get single value from the table using `get-in` from Clojure API or `get-entry`. First argument is column name, second is row number.
 ")
@@ -524,7 +522,7 @@ Get single value from the table using `get-in` from Clojure API or `get-entry`. 
 
 
 (md "
-#### Printing
+### Printing
 
 Dataset is printed using `dataset->str` or `print-dataset` functions. Options are the same as in `tech.ml.dataset/dataset-data->str`. Most important is `:print-line-policy` which can be one of the: `:single`, `:repl` or `:markdown`.
 ")
