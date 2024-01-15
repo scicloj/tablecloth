@@ -4689,7 +4689,11 @@ Let's begin by requiring the Column API, which we suggest you alias as `tcc`:")
 ;; ### Operations
 
 (md "
-The Column API contains a large number of operations. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operation.
+The Column API contains a large number of operations, which have been lifted from the underlying `tech.ml.dataset` library and adapted to Tablecloth. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operation. In other words, their signature is this general form:
+
+```
+(column1 column2 ...) => column | scalar
+```
 
 Because these functions all take a column as the first argument, they are easy to use with the pipe `->` macro, as with all functions in Tablecloth.
 
