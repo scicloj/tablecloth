@@ -10,6 +10,7 @@
             [tablecloth.api.join-concat-ds]
             [tablecloth.api.join-separate]
             [tablecloth.api.missing]
+            [tablecloth.api.operators]
             [tablecloth.api.order-by]
             [tablecloth.api.reshape]
             [tablecloth.api.rows]
@@ -21,12 +22,162 @@
             [tech.v3.datatype])
   (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle]))
 
+(defn *
+  "Applies the operation tablecloth.column.api.operators/* to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/* ds target-col columns-selector)))
+
+
+(defn +
+  "Applies the operation tablecloth.column.api.operators/+ to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/+ ds target-col columns-selector)))
+
+
+(defn -
+  "Applies the operation tablecloth.column.api.operators/- to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/- ds target-col columns-selector)))
+
+
 (defn ->array
   "Convert numerical column(s) to java array"
   ([ds colname]
   (tablecloth.api.columns/->array ds colname))
   ([ds colname datatype]
   (tablecloth.api.columns/->array ds colname datatype)))
+
+
+(defn /
+  "Applies the operation tablecloth.column.api.operators// to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators// ds target-col columns-selector)))
+
+
+(defn <
+  "Applies the operation tablecloth.column.api.operators/< to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 3 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/< ds target-col columns-selector)))
+
+
+(defn <=
+  "Applies the operation tablecloth.column.api.operators/<= to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 3 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/<= ds target-col columns-selector)))
+
+
+(defn >
+  "Applies the operation tablecloth.column.api.operators/> to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 3 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/> ds target-col columns-selector)))
+
+
+(defn >=
+  "Applies the operation tablecloth.column.api.operators/>= to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 3 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/>= ds target-col columns-selector)))
+
+
+(defn abs
+  "Applies the operation tablecloth.column.api.operators/abs to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/abs ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/abs ds target-col columns-selector)))
+
+
+(defn acos
+  "Applies the operation tablecloth.column.api.operators/acos to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/acos ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/acos ds target-col columns-selector)))
 
 
 (defn add-column
@@ -96,6 +247,21 @@
   (tablecloth.api.aggregate/aggregate-columns ds columns-selector column-aggregators options)))
 
 
+(defn and
+  "Applies the operation tablecloth.column.api.operators/and to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 2 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/and ds target-col columns-selector)))
+
+
 (defn anti-join
   ([ds-left ds-right columns-selector]
   (tablecloth.api.join-concat-ds/anti-join ds-left ds-right columns-selector))
@@ -131,6 +297,23 @@
   (tablecloth.api.utils/as-regular-dataset ds)))
 
 
+(defn asin
+  "Applies the operation tablecloth.column.api.operators/asin to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/asin ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/asin ds target-col columns-selector)))
+
+
 (defn asof-join
   ([ds-left ds-right columns-selector]
   (tablecloth.api.join-concat-ds/asof-join ds-left ds-right columns-selector))
@@ -138,9 +321,183 @@
   (tablecloth.api.join-concat-ds/asof-join ds-left ds-right columns-selector options)))
 
 
+(defn atan
+  "Applies the operation tablecloth.column.api.operators/atan to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/atan ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/atan ds target-col columns-selector)))
+
+
+(defn atan2
+  "Applies the operation tablecloth.column.api.operators/atan2 to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/atan2 ds target-col columns-selector)))
+
+
 (defn bind
   ([ds & args]
   (apply tablecloth.api.join-concat-ds/bind ds args)))
+
+
+(defn bit-and
+  "Applies the operation tablecloth.column.api.operators/bit-and to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/bit-and ds target-col columns-selector)))
+
+
+(defn bit-and-not
+  "Applies the operation tablecloth.column.api.operators/bit-and-not to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/bit-and-not ds target-col columns-selector)))
+
+
+(defn bit-clear
+  "Applies the operation tablecloth.column.api.operators/bit-clear to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/bit-clear ds target-col columns-selector)))
+
+
+(defn bit-flip
+  "Applies the operation tablecloth.column.api.operators/bit-flip to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/bit-flip ds target-col columns-selector)))
+
+
+(defn bit-not
+  "Applies the operation tablecloth.column.api.operators/bit-not to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/bit-not ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/bit-not ds target-col columns-selector)))
+
+
+(defn bit-or
+  "Applies the operation tablecloth.column.api.operators/bit-or to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/bit-or ds target-col columns-selector)))
+
+
+(defn bit-set
+  "Applies the operation tablecloth.column.api.operators/bit-set to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/bit-set ds target-col columns-selector)))
+
+
+(defn bit-shift-left
+  "Applies the operation tablecloth.column.api.operators/bit-shift-left to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/bit-shift-left ds target-col columns-selector)))
+
+
+(defn bit-shift-right
+  "Applies the operation tablecloth.column.api.operators/bit-shift-right to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/bit-shift-right ds target-col columns-selector)))
+
+
+(defn bit-xor
+  "Applies the operation tablecloth.column.api.operators/bit-xor to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/bit-xor ds target-col columns-selector)))
 
 
 (defn by-rank
@@ -157,6 +514,40 @@
   (tablecloth.api.rows/by-rank ds columns-selector rank-predicate))
   ([ds columns-selector rank-predicate options]
   (tablecloth.api.rows/by-rank ds columns-selector rank-predicate options)))
+
+
+(defn cbrt
+  "Applies the operation tablecloth.column.api.operators/cbrt to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/cbrt ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/cbrt ds target-col columns-selector)))
+
+
+(defn ceil
+  "Applies the operation tablecloth.column.api.operators/ceil to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/ceil ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/ceil ds target-col columns-selector)))
 
 
 (defn clone
@@ -266,6 +657,40 @@ column-names function returns names according to columns-selector
   (tablecloth.api.columns/convert-types ds columns-selector new-types)))
 
 
+(defn cos
+  "Applies the operation tablecloth.column.api.operators/cos to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/cos ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/cos ds target-col columns-selector)))
+
+
+(defn cosh
+  "Applies the operation tablecloth.column.api.operators/cosh to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/cosh ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/cosh ds target-col columns-selector)))
+
+
 (defn cross-join
   "Cross product from selected columns"
   ([ds-left ds-right]
@@ -292,6 +717,74 @@ column-names function returns names according to columns-selector
   (tablecloth.api.aggregate/crosstab ds row-selector col-selector))
   ([ds row-selector col-selector options]
   (tablecloth.api.aggregate/crosstab ds row-selector col-selector options)))
+
+
+(defn cummax
+  "Applies the operation tablecloth.column.api.operators/cummax to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/cummax ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/cummax ds target-col columns-selector)))
+
+
+(defn cummin
+  "Applies the operation tablecloth.column.api.operators/cummin to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/cummin ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/cummin ds target-col columns-selector)))
+
+
+(defn cumprod
+  "Applies the operation tablecloth.column.api.operators/cumprod to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/cumprod ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/cumprod ds target-col columns-selector)))
+
+
+(defn cumsum
+  "Applies the operation tablecloth.column.api.operators/cumsum to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/cumsum ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/cumsum ds target-col columns-selector)))
 
 
 (defn dataset
@@ -448,6 +941,51 @@ column-names function returns names according to columns-selector
   (tablecloth.api.join-concat-ds/difference ds-left ds-right options)))
 
 
+(defn distance
+  "Applies the operation tablecloth.column.api.operators/distance to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 2 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/distance ds columns-selector)))
+
+
+(defn distance-squared
+  "Applies the operation tablecloth.column.api.operators/distance-squared to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 2 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/distance-squared ds columns-selector)))
+
+
+(defn dot-product
+  "Applies the operation tablecloth.column.api.operators/dot-product to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 2 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/dot-product ds columns-selector)))
+
+
 (defn drop
   "Drop columns and rows."
   ([ds columns-selector rows-selector]
@@ -499,12 +1037,78 @@ column-names function returns names according to columns-selector
   (tablecloth.api.dataset/empty-ds? ds)))
 
 
+(defn eq
+  "Applies the operation tablecloth.column.api.operators/eq to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 2 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/eq ds target-col columns-selector)))
+
+
+(defn even?
+  "Applies the operation tablecloth.column.api.operators/even? to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/even? ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/even? ds target-col columns-selector)))
+
+
+(defn exp
+  "Applies the operation tablecloth.column.api.operators/exp to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/exp ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/exp ds target-col columns-selector)))
+
+
 (defn expand
   "TidyR expand.
 
   Creates all possible combinations of selected columns."
   ([ds columns-selector & args]
   (apply tablecloth.api.join-concat-ds/expand ds columns-selector args)))
+
+
+(defn expm1
+  "Applies the operation tablecloth.column.api.operators/expm1 to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/expm1 ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/expm1 ds target-col columns-selector)))
 
 
 (defn fill-range-replace
@@ -523,10 +1127,44 @@ column-names function returns names according to columns-selector
   (tablecloth.api.missing/fill-range-replace ds colname max-span missing-strategy missing-value)))
 
 
+(defn finite?
+  "Applies the operation tablecloth.column.api.operators/finite? to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/finite? ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/finite? ds target-col columns-selector)))
+
+
 (defn first
   "First row"
   ([ds]
   (tablecloth.api.rows/first ds)))
+
+
+(defn floor
+  "Applies the operation tablecloth.column.api.operators/floor to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/floor ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/floor ds target-col columns-selector)))
 
 
 (defn fold-by
@@ -552,6 +1190,23 @@ column-names function returns names according to columns-selector
   "Returns a single value from given column and row"
   ([ds column row]
   (tablecloth.api.dataset/get-entry ds column row)))
+
+
+(defn get-significand
+  "Applies the operation tablecloth.column.api.operators/get-significand to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/get-significand ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/get-significand ds target-col columns-selector)))
 
 
 (defn group-by
@@ -610,6 +1265,68 @@ column-names function returns names according to columns-selector
   (tablecloth.api.rows/head ds n)))
 
 
+(defn hypot
+  "Applies the operation tablecloth.column.api.operators/hypot to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/hypot ds target-col columns-selector)))
+
+
+(defn identity
+  "Applies the operation tablecloth.column.api.operators/identity to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/identity ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/identity ds target-col columns-selector)))
+
+
+(defn ieee-remainder
+  "Applies the operation tablecloth.column.api.operators/ieee-remainder to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/ieee-remainder ds target-col columns-selector)))
+
+
+(defn infinite?
+  "Applies the operation tablecloth.column.api.operators/infinite? to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/infinite? ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/infinite? ds target-col columns-selector)))
+
+
 (defn info
   "Returns a statistcial information about the columns of a dataset.
   `result-type ` can be :descriptive or :columns"
@@ -652,6 +1369,23 @@ column-names function returns names according to columns-selector
   (tablecloth.api.join-separate/join-columns ds target-column columns-selector conf)))
 
 
+(defn kurtosis
+  "Applies the operation tablecloth.column.api.operators/kurtosis to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector options]
+  (tablecloth.api.operators/kurtosis ds columns-selector options))
+  ([ds columns-selector]
+  (tablecloth.api.operators/kurtosis ds columns-selector)))
+
+
 (defn last
   "Last row"
   ([ds]
@@ -670,6 +1404,104 @@ column-names function returns names according to columns-selector
   `(tablecloth.api.api-template/let-dataset ~bindings))
   ([bindings options]
   `(tablecloth.api.api-template/let-dataset ~bindings ~options)))
+
+
+(defn log
+  "Applies the operation tablecloth.column.api.operators/log to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/log ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/log ds target-col columns-selector)))
+
+
+(defn log10
+  "Applies the operation tablecloth.column.api.operators/log10 to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/log10 ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/log10 ds target-col columns-selector)))
+
+
+(defn log1p
+  "Applies the operation tablecloth.column.api.operators/log1p to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/log1p ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/log1p ds target-col columns-selector)))
+
+
+(defn logistic
+  "Applies the operation tablecloth.column.api.operators/logistic to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/logistic ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/logistic ds target-col columns-selector)))
+
+
+(defn magnitude
+  "Applies the operation tablecloth.column.api.operators/magnitude to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/magnitude ds columns-selector)))
+
+
+(defn magnitude-squared
+  "Applies the operation tablecloth.column.api.operators/magnitude-squared to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/magnitude-squared ds columns-selector)))
 
 
 (defn map-columns
@@ -696,6 +1528,247 @@ column-names function returns names according to columns-selector
   (tablecloth.api.utils/mark-as-group ds)))
 
 
+(defn mathematical-integer?
+  "Applies the operation tablecloth.column.api.operators/mathematical-integer? to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/mathematical-integer? ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/mathematical-integer? ds target-col columns-selector)))
+
+
+(defn max
+  "Applies the operation tablecloth.column.api.operators/max to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/max ds target-col columns-selector)))
+
+
+(defn mean
+  "Applies the operation tablecloth.column.api.operators/mean to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector options]
+  (tablecloth.api.operators/mean ds columns-selector options))
+  ([ds columns-selector]
+  (tablecloth.api.operators/mean ds columns-selector)))
+
+
+(defn mean-fast
+  "Applies the operation tablecloth.column.api.operators/mean-fast to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/mean-fast ds columns-selector)))
+
+
+(defn median
+  "Applies the operation tablecloth.column.api.operators/median to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector options]
+  (tablecloth.api.operators/median ds columns-selector options))
+  ([ds columns-selector]
+  (tablecloth.api.operators/median ds columns-selector)))
+
+
+(defn min
+  "Applies the operation tablecloth.column.api.operators/min to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/min ds target-col columns-selector)))
+
+
+(defn nan?
+  "Applies the operation tablecloth.column.api.operators/nan? to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/nan? ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/nan? ds target-col columns-selector)))
+
+
+(defn neg?
+  "Applies the operation tablecloth.column.api.operators/neg? to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/neg? ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/neg? ds target-col columns-selector)))
+
+
+(defn next-down
+  "Applies the operation tablecloth.column.api.operators/next-down to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/next-down ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/next-down ds target-col columns-selector)))
+
+
+(defn next-up
+  "Applies the operation tablecloth.column.api.operators/next-up to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/next-up ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/next-up ds target-col columns-selector)))
+
+
+(defn normalize
+  "Applies the operation tablecloth.column.api.operators/normalize to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/normalize ds target-col columns-selector)))
+
+
+(defn not
+  "Applies the operation tablecloth.column.api.operators/not to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/not ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/not ds target-col columns-selector)))
+
+
+(defn not-eq
+  "Applies the operation tablecloth.column.api.operators/not-eq to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 2 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/not-eq ds target-col columns-selector)))
+
+
+(defn odd?
+  "Applies the operation tablecloth.column.api.operators/odd? to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/odd? ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/odd? ds target-col columns-selector)))
+
+
+(defn or
+  "Applies the operation tablecloth.column.api.operators/or to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 2 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/or ds target-col columns-selector)))
+
+
 (defn order-by
   "Order dataset by:
   - column name
@@ -712,6 +1785,23 @@ column-names function returns names according to columns-selector
   (tablecloth.api.order-by/order-by ds columns-or-fn comparators))
   ([ds columns-or-fn comparators options]
   (tablecloth.api.order-by/order-by ds columns-or-fn comparators options)))
+
+
+(defn percentiles
+  "Applies the operation tablecloth.column.api.operators/percentiles to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector percentages options]
+  (tablecloth.api.operators/percentiles ds target-col columns-selector percentages options))
+  ([ds target-col columns-selector percentages]
+  (tablecloth.api.operators/percentiles ds target-col columns-selector percentages)))
 
 
 (defn pivot->longer
@@ -748,6 +1838,37 @@ column-names function returns names according to columns-selector
   (tablecloth.api.reshape/pivot->wider ds columns-selector value-columns options)))
 
 
+(defn pos?
+  "Applies the operation tablecloth.column.api.operators/pos? to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/pos? ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/pos? ds target-col columns-selector)))
+
+
+(defn pow
+  "Applies the operation tablecloth.column.api.operators/pow to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/pow ds target-col columns-selector)))
+
+
 (defn print-dataset
   "Prints dataset into console. For options see
   tech.v3.dataset.print/dataset-data->str"
@@ -763,6 +1884,54 @@ column-names function returns names according to columns-selector
   (tablecloth.api.utils/process-group-data ds f))
   ([ds f parallel?]
   (tablecloth.api.utils/process-group-data ds f parallel?)))
+
+
+(defn quartile-1
+  "Applies the operation tablecloth.column.api.operators/quartile-1 to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector options]
+  (tablecloth.api.operators/quartile-1 ds columns-selector options))
+  ([ds columns-selector]
+  (tablecloth.api.operators/quartile-1 ds columns-selector)))
+
+
+(defn quartile-3
+  "Applies the operation tablecloth.column.api.operators/quartile-3 to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector options]
+  (tablecloth.api.operators/quartile-3 ds columns-selector options))
+  ([ds columns-selector]
+  (tablecloth.api.operators/quartile-3 ds columns-selector)))
+
+
+(defn quot
+  "Applies the operation tablecloth.column.api.operators/quot to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/quot ds target-col columns-selector)))
 
 
 (defn rand-nth
@@ -786,6 +1955,80 @@ column-names function returns names according to columns-selector
 (defn read-nippy
   ([filename]
   (tablecloth.api.utils/read-nippy filename)))
+
+
+(defn reduce-*
+  "Applies the operation tablecloth.column.api.operators/reduce-* to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/reduce-* ds columns-selector)))
+
+
+(defn reduce-+
+  "Applies the operation tablecloth.column.api.operators/reduce-+ to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/reduce-+ ds columns-selector)))
+
+
+(defn reduce-max
+  "Applies the operation tablecloth.column.api.operators/reduce-max to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/reduce-max ds columns-selector)))
+
+
+(defn reduce-min
+  "Applies the operation tablecloth.column.api.operators/reduce-min to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/reduce-min ds columns-selector)))
+
+
+(defn rem
+  "Applies the operation tablecloth.column.api.operators/rem to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/rem ds target-col columns-selector)))
 
 
 (defn rename-columns
@@ -839,6 +2082,40 @@ column-names function returns names according to columns-selector
   (tablecloth.api.join-concat-ds/right-join ds-left ds-right columns-selector))
   ([ds-left ds-right columns-selector options]
   (tablecloth.api.join-concat-ds/right-join ds-left ds-right columns-selector options)))
+
+
+(defn rint
+  "Applies the operation tablecloth.column.api.operators/rint to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/rint ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/rint ds target-col columns-selector)))
+
+
+(defn round
+  "Applies the operation tablecloth.column.api.operators/round to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/round ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/round ds target-col columns-selector)))
 
 
 (defn row-count
@@ -938,12 +2215,95 @@ column-names function returns names according to columns-selector
   (tablecloth.api.dataset/shape ds)))
 
 
+(defn shift
+  "Applies the operation tablecloth.column.api.operators/shift to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector n]
+  (tablecloth.api.operators/shift ds target-col columns-selector n)))
+
+
 (defn shuffle
   "Shuffle dataset (with seed)"
   ([ds]
   (tablecloth.api.rows/shuffle ds))
   ([ds options]
   (tablecloth.api.rows/shuffle ds options)))
+
+
+(defn signum
+  "Applies the operation tablecloth.column.api.operators/signum to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/signum ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/signum ds target-col columns-selector)))
+
+
+(defn sin
+  "Applies the operation tablecloth.column.api.operators/sin to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/sin ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/sin ds target-col columns-selector)))
+
+
+(defn sinh
+  "Applies the operation tablecloth.column.api.operators/sinh to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/sinh ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/sinh ds target-col columns-selector)))
+
+
+(defn skew
+  "Applies the operation tablecloth.column.api.operators/skew to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector options]
+  (tablecloth.api.operators/skew ds columns-selector options))
+  ([ds columns-selector]
+  (tablecloth.api.operators/skew ds columns-selector)))
 
 
 (defn split
@@ -996,12 +2356,163 @@ column-names function returns names according to columns-selector
   (tablecloth.api.split/split->seq ds split-type options)))
 
 
+(defn sq
+  "Applies the operation tablecloth.column.api.operators/sq to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/sq ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/sq ds target-col columns-selector)))
+
+
+(defn sqrt
+  "Applies the operation tablecloth.column.api.operators/sqrt to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/sqrt ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/sqrt ds target-col columns-selector)))
+
+
+(defn sum
+  "Applies the operation tablecloth.column.api.operators/sum to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector options]
+  (tablecloth.api.operators/sum ds columns-selector options))
+  ([ds columns-selector]
+  (tablecloth.api.operators/sum ds columns-selector)))
+
+
+(defn sum-fast
+  "Applies the operation tablecloth.column.api.operators/sum-fast to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector]
+  (tablecloth.api.operators/sum-fast ds columns-selector)))
+
+
 (defn tail
   "Last n rows (default 5)"
   ([ds]
   (tablecloth.api.rows/tail ds))
   ([ds n]
   (tablecloth.api.rows/tail ds n)))
+
+
+(defn tan
+  "Applies the operation tablecloth.column.api.operators/tan to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/tan ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/tan ds target-col columns-selector)))
+
+
+(defn tanh
+  "Applies the operation tablecloth.column.api.operators/tanh to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/tanh ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/tanh ds target-col columns-selector)))
+
+
+(defn to-degrees
+  "Applies the operation tablecloth.column.api.operators/to-degrees to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/to-degrees ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/to-degrees ds target-col columns-selector)))
+
+
+(defn to-radians
+  "Applies the operation tablecloth.column.api.operators/to-radians to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/to-radians ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/to-radians ds target-col columns-selector)))
+
+
+(defn ulp
+  "Applies the operation tablecloth.column.api.operators/ulp to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/ulp ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/ulp ds target-col columns-selector)))
 
 
 (defn ungroup
@@ -1056,11 +2567,42 @@ column-names function returns names according to columns-selector
   (tablecloth.api.fold-unroll/unroll ds columns-selector options)))
 
 
+(defn unsigned-bit-shift-right
+  "Applies the operation tablecloth.column.api.operators/unsigned-bit-shift-right to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. null
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/unsigned-bit-shift-right ds target-col columns-selector)))
+
+
 (defn update-columns
   ([ds columns-map]
   (tablecloth.api.columns/update-columns ds columns-map))
   ([ds columns-selector update-functions]
   (tablecloth.api.columns/update-columns ds columns-selector update-functions)))
+
+
+(defn variance
+  "Applies the operation tablecloth.column.api.operators/variance to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds columns-selector options]
+  (tablecloth.api.operators/variance ds columns-selector options))
+  ([ds columns-selector]
+  (tablecloth.api.operators/variance ds columns-selector)))
 
 
 (defmacro without-grouping->
@@ -1099,5 +2641,22 @@ Options:
 (defn write-nippy!
   ([ds filename]
   (tablecloth.api.utils/write-nippy! ds filename)))
+
+
+(defn zero?
+  "Applies the operation tablecloth.column.api.operators/zero? to the columns selected by
+      `columns-selector` and returns a new ds with the the result in
+      `target-col`. This operation takes a maximum of 1 columns, so
+         `columns-selector` can yield no more than that many columns.
+      
+      `columns-selector can be:
+      - name
+      - sequence of names
+      - map of names with new names (rename)
+      - function which filter names (via column metadata)"
+  ([ds target-col columns-selector options]
+  (tablecloth.api.operators/zero? ds target-col columns-selector options))
+  ([ds target-col columns-selector]
+  (tablecloth.api.operators/zero? ds target-col columns-selector)))
 
 
