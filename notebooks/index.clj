@@ -1609,6 +1609,57 @@ You can also cast the type to the other one (if casting is possible):
 (tc/->array DS :V4 :string)
 (tc/->array DS :V1 :float32)
 
+(md "
+### Column Operations
+
+There are a large number of column operations that can be performed on the columns in your dataset. These operations are a similar set as the [Column API operations](#operations), but instead of operating directly on columns, they take a Dataset and a [`columns-selector`](#columns-selector).
+
+The behavior of the operations differ based on their return value:
+
+* If an operation would return a scalar value, then the function behaves like an aggregator and can be used in group-by expresesions. Such functions will have the general signature:
+
+    ```
+    (dataset columns-selector) => dataset
+    ```
+
+* If an operation would return another column, then the function will not behave like an aggregator. Instead, it asks you to specify a target column, which it will add to the dataset that it returns. The signature of these functions is:
+
+
+    ```
+    (ds target-col columns-selector) => dataset
+    ```
+
+As there are a large number of operations, we will here simply illustrate their usage.
+
+
+To begin with, here are some examples of operations whose result is a new column:
+")
+
+DS
+
+(-> DS
+    (tc/+ :SUM [:V1 :V2]))
+
+(-> DS
+    (tc/* :MULTIPY [:V1 :V2]))
+
+
+;; Now let's look at operations that would return a scalar:
+
+(-> DS
+    (tc/mean [:V1]))
+
+(md "
+Notice that we did not supply a target column to the `mean` function. Since `mean` does not return a column, we do not provide this argument. Instead, we simply provide the dataset and a `columns-selector.` We then get back a dataset with the result.
+
+Now let's use this funciton within a grouping expression:")
+
+(-> DS
+    (tc/group-by [:V4])
+    (tc/mean [:V2]))
+
+;; In this example, we grouped `DS` and then passed the resulting grouped Dataset directly to the `mean` operation. Since `mean` returns a scalar, it operates as an aggregator, summarizing the results of each group.
+
 
 (md "
 ### Rows
