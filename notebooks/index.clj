@@ -4788,15 +4788,6 @@ Pipeline operations are prepared to work with [metamorph](https://github.com/sci
 
 > **Warning: Duplicated `metamorph` pipeline functions are removed from `tablecloth.pipeline` namespace.**
 
-## Functions
-
-This API doesn't provide any statistical, numerical or date/time functions. Use below namespaces:
-
-| Namespace | functions |
-|-----------|-----------|
-| `tech.v3.datatype.functional` | primitive oprations, reducers, statistics |
-| `tech.v3.datatype.datetime` | date/time converters and operations|
-
 ## Other examples
 
 ### Stocks
