@@ -1,5 +1,5 @@
 (ns tablecloth.api.lift-operators
-  (:require [tablecloth.api :refer [select-columns add-or-replace-column]]
+  (:require [tablecloth.api.columns :refer [select-columns add-or-replace-column]]
             [tablecloth.utils.codegen :refer [do-lift]]))
 
 (defn get-meta [fn-sym]
