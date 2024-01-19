@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a>
+  <li><a href="#dataset-api" id="toc-dataset-api" class="nav-link" data-scroll-target="#dataset-api">Dataset API</a>
   <ul>
   <li><a href="#dataset-creation" id="toc-dataset-creation" class="nav-link" data-scroll-target="#dataset-creation">Dataset creation</a></li>
   <li><a href="#saving" id="toc-saving" class="nav-link" data-scroll-target="#saving">Saving</a>
@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#split-as-a-sequence" id="toc-split-as-a-sequence" class="nav-link" data-scroll-target="#split-as-a-sequence">Split as a sequence</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#column-1" id="toc-column-1" class="nav-link" data-scroll-target="#column-1">Column</a>
+  <li><a href="#column-api" id="toc-column-api" class="nav-link" data-scroll-target="#column-api">Column API</a>
   <ul>
   <li><a href="#creation-identity" id="toc-creation-identity" class="nav-link" data-scroll-target="#creation-identity">Creation &amp; Identity</a></li>
   <li><a href="#datatypes" id="toc-datatypes" class="nav-link" data-scroll-target="#datatypes">Datatypes</a></li>
@@ -368,8 +368,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="dataset" class="level2">
-<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
+<section id="dataset-api" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-api">Dataset API</h2>
 <p>Dataset is a special type which can be considered as a map of columns implemented around <code>tech.ml.dataset</code> library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.</p>
 <section id="dataset-creation" class="level3">
 <h3 class="anchored" data-anchor-id="dataset-creation">Dataset creation</h3>
@@ -1541,13 +1541,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb60"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">take</span> <span class="dv">2</span> (tc/rows ds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="printedClojure">
-<div class="sourceCode" id="cb61"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>([#object[java.<span class="kw">time</span>.LocalDate <span class="bn">0x2cf0a400</span> <span class="st">"2012-01-01"</span>]</span>
+<div class="sourceCode" id="cb61"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>([#object[java.<span class="kw">time</span>.LocalDate <span class="bn">0x53dd53f8</span> <span class="st">"2012-01-01"</span>]</span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.0</span></span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fl">12.8</span></span>
 <span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fl">5.0</span></span>
 <span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  <span class="fl">4.7</span></span>
 <span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"drizzle"</span>]</span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a> [#object[java.<span class="kw">time</span>.LocalDate <span class="bn">0x36b0cea4</span> <span class="st">"2012-01-02"</span>]</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a> [#object[java.<span class="kw">time</span>.LocalDate <span class="bn">0x11638493</span> <span class="st">"2012-01-02"</span>]</span>
 <span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>  <span class="fl">10.9</span></span>
 <span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>  <span class="fl">10.6</span></span>
 <span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2.8</span></span>
@@ -5737,7 +5737,7 @@ B
 <th style="text-align: right;">v1</th>
 <th style="text-align: right;">v2</th>
 <th style="text-align: right;">[1 2 3]</th>
-<th>java.lang.Object@7a4fc98f</th>
+<th>java.lang.Object@112d474f</th>
 </tr>
 </thead>
 <tbody>
@@ -5986,7 +5986,7 @@ v2
 [1 2 3]
 </th>
 <th>
-java.lang.Object@2075c2c8
+java.lang.Object@695c7372
 </th>
 </tr>
 </thead>
@@ -6098,7 +6098,7 @@ v2
 [1 2 3]
 </th>
 <th>
-java.lang.Object@2075c2c8
+java.lang.Object@695c7372
 </th>
 </tr>
 </thead>
@@ -6289,55 +6289,55 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">0.35706683</td>
+<td style="text-align: right;">0.33427832</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0.48497987</td>
+<td style="text-align: right;">0.83048019</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">0.68424596</td>
+<td style="text-align: right;">0.18831793</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0.27710478</td>
+<td style="text-align: right;">0.75929043</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">0.43585260</td>
+<td style="text-align: right;">0.85041022</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0.15232525</td>
+<td style="text-align: right;">0.46596282</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">0.41445259</td>
+<td style="text-align: right;">0.58807946</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0.37619423</td>
+<td style="text-align: right;">0.11865375</td>
 <td style="text-align: right;">8</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">0.96638075</td>
+<td style="text-align: right;">0.08569196</td>
 <td style="text-align: right;">9</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
@@ -7206,37 +7206,37 @@ B
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">9</td>
+<td style="text-align: right;">8</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">3</td>
+<td style="text-align: right;">6</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">9</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
@@ -7248,7 +7248,7 @@ B
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
@@ -7972,7 +7972,7 @@ B
 </section>
 <section id="column-operations" class="level3">
 <h3 class="anchored" data-anchor-id="column-operations">Column Operations</h3>
-<p>There are a large number of column operations that can be performed on the columns in your dataset. These operations are a similar set as the <a href="#operations">Column API operations</a>, but instead of operating directly on columns, they take a Dataset and a <a href="#columns-selector"><code>columns-selector</code></a>.</p>
+<p>There are a large number of column operations that can be performed on the columns in your dataset. These operations are a similar set as the <a href="#operations">Column API operations</a>, but instead of operating directly on columns, they take a Dataset and a <a href="#names"><code>columns-selector</code></a>.</p>
 <p>The behavior of the operations differ based on their return value:</p>
 <ul>
 <li><p>If an operation would return a scalar value, then the function behaves like an aggregator and can be used in group-by expresesions. Such functions will have the general signature:</p>
@@ -7980,8 +7980,7 @@ B
 <li><p>If an operation would return another column, then the function will not behave like an aggregator. Instead, it asks you to specify a target column, which it will add to the dataset that it returns. The signature of these functions is:</p>
 <pre><code>(ds target-col columns-selector) =&gt; dataset</code></pre></li>
 </ul>
-<p>As there are a large number of operations, we will here simply illustrate their usage.</p>
-<p>To begin with, here are some examples of operations whose result is a new column:</p>
+<p>As there are a large number of operations, we will illustrate their usage. To begin with, here are some examples of operations whose result is a new column:</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb196"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a>DS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -8233,7 +8232,7 @@ B
 </tbody>
 </table>
 <p>Notice that we did not supply a target column to the <code>mean</code> function. Since <code>mean</code> does not return a column, we do not provide this argument. Instead, we simply provide the dataset and a <code>columns-selector.</code> We then get back a dataset with the result.</p>
-<p>Now let’s use this funciton within a grouping expression:</p>
+<p>Now let’s use this function within a grouping expression:</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb200"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> DS</span>
 <span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a>    (tc/group-by [<span class="at">:V4</span>])</span>
@@ -8694,9 +8693,9 @@ B
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -8742,58 +8741,58 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
 <tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
 <tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -8816,18 +8815,6 @@ B
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
 <td style="text-align: right;">8</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
@@ -8839,10 +8826,22 @@ B
 <td>A</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
 </tr>
 </tbody>
 </table>
@@ -8864,34 +8863,34 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">9</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -8961,10 +8960,10 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
@@ -8973,10 +8972,22 @@ B
 <td>B</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">9</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
@@ -8985,34 +8996,22 @@ B
 <td>A</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
 </tr>
 </tbody>
 </table>
@@ -9322,23 +9321,23 @@ B
 <td>A</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">8</td>
@@ -9346,8 +9345,8 @@ B
 <td>B</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
@@ -9383,7 +9382,7 @@ B
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">9</td>
+<td style="text-align: right;">3</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
@@ -9394,8 +9393,8 @@ B
 <td>C</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
@@ -14520,15 +14519,15 @@ B
 <tbody>
 <tr class="odd">
 <td>:a</td>
-<td>[D@eea3c24</td>
+<td>[D@748f75f8</td>
 </tr>
 <tr class="even">
 <td>:b</td>
-<td>[D@6adf3266</td>
+<td>[D@16b3665b</td>
 </tr>
 <tr class="odd">
 <td>:c</td>
-<td>[D@502e5e2c</td>
+<td>[D@7515921b</td>
 </tr>
 </tbody>
 </table>
@@ -17474,8 +17473,8 @@ B
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.99850402</td>
-<td style="text-align: right;">0.19791798</td>
+<td style="text-align: right;">0.23247682</td>
+<td style="text-align: right;">0.86040638</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">-2</td>
 </tr>
@@ -17483,8 +17482,8 @@ B
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.62333138</td>
-<td style="text-align: right;">0.22315058</td>
+<td style="text-align: right;">0.17112350</td>
+<td style="text-align: right;">0.78233469</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">-2</td>
 </tr>
@@ -17492,8 +17491,8 @@ B
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.21531713</td>
-<td style="text-align: right;">0.48377295</td>
+<td style="text-align: right;">0.85334120</td>
+<td style="text-align: right;">0.78209703</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">-2</td>
 </tr>
@@ -17501,8 +17500,8 @@ B
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.56872319</td>
-<td style="text-align: right;">0.51937955</td>
+<td style="text-align: right;">0.10646412</td>
+<td style="text-align: right;">0.08332125</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">-2</td>
 </tr>
@@ -17531,7 +17530,7 @@ B
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.99850402</td>
+<td style="text-align: right;">0.23247682</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
@@ -17539,7 +17538,7 @@ B
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.62333138</td>
+<td style="text-align: right;">0.17112350</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="odd">
@@ -17547,7 +17546,7 @@ B
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.21531713</td>
+<td style="text-align: right;">0.85334120</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
@@ -17555,7 +17554,7 @@ B
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.56872319</td>
+<td style="text-align: right;">0.10646412</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="odd">
@@ -17563,7 +17562,7 @@ B
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.19791798</td>
+<td style="text-align: right;">0.86040638</td>
 <td style="text-align: right;">-2</td>
 </tr>
 <tr class="even">
@@ -17571,7 +17570,7 @@ B
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.22315058</td>
+<td style="text-align: right;">0.78233469</td>
 <td style="text-align: right;">-2</td>
 </tr>
 <tr class="odd">
@@ -17579,7 +17578,7 @@ B
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.48377295</td>
+<td style="text-align: right;">0.78209703</td>
 <td style="text-align: right;">-2</td>
 </tr>
 <tr class="even">
@@ -17587,7 +17586,7 @@ B
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.51937955</td>
+<td style="text-align: right;">0.08332125</td>
 <td style="text-align: right;">-2</td>
 </tr>
 </tbody>
@@ -26092,118 +26091,10 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">…</td>
-<td style="text-align: right;">…</td>
-<td style="text-align: right;">…</td>
-<td>…</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
@@ -26219,9 +26110,117 @@ B
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">…</td>
+<td style="text-align: right;">…</td>
+<td style="text-align: right;">…</td>
+<td>…</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
 </tr>
 </tbody>
 </table>
@@ -26420,10 +26419,10 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
@@ -26432,16 +26431,16 @@ B
 <td>C</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
@@ -26451,27 +26450,27 @@ B
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -27013,17 +27012,17 @@ B
 <tr class="odd">
 <td style="text-align: right;">0</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">3</td>
@@ -27038,22 +27037,22 @@ B
 <tr class="even">
 <td style="text-align: right;">5</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">6</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">7</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">8</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">9</td>
@@ -27068,17 +27067,17 @@ B
 <tr class="even">
 <td style="text-align: right;">14</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">15</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">16</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">17</td>
@@ -27093,17 +27092,17 @@ B
 <tr class="odd">
 <td style="text-align: right;">19</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g1</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">20</td>
 <td>:b</td>
-<td>:g2</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">21</td>
 <td>:b</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">22</td>
@@ -27113,12 +27112,12 @@ B
 <tr class="odd">
 <td style="text-align: right;">23</td>
 <td>:b</td>
-<td>:g2</td>
+<td>:g1</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">24</td>
 <td>:b</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 </tbody>
 </table>
@@ -27144,135 +27143,9 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">4</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">10</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">12</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">8</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">15</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">19</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">9</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">0</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">20</td>
-<td>:b</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">18</td>
 <td>:a</td>
 <td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">24</td>
-<td>:b</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">14</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">7</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">11</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">16</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">23</td>
-<td>:b</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">21</td>
-<td>:b</td>
-<td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -27284,72 +27157,198 @@ B
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">17</td>
+<td style="text-align: right;">12</td>
 <td>:a</td>
-<td>:g3</td>
-<td>:test</td>
+<td>:g2</td>
+<td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">5</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
+<td style="text-align: right;">21</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">3</td>
+<td style="text-align: right;">16</td>
 <td>:a</td>
-<td>:g2</td>
-<td>:test</td>
+<td>:g3</td>
+<td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">6</td>
+<td style="text-align: right;">15</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
 <td>:a</td>
 <td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">13</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">17</td>
-<td>:a</td>
-<td>:g3</td>
 <td>:train</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">3</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td>:b</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td>:b</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">24</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">17</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">6</td>
+<td style="text-align: right;">2</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">13</td>
+<td style="text-align: right;">14</td>
 <td>:a</td>
 <td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td>:a</td>
+<td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
@@ -27375,21 +27374,49 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">9</td>
+<td style="text-align: right;">14</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
 <tr class="odd">
-<td style="text-align: right;">17</td>
+<td style="text-align: right;">16</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
@@ -27403,149 +27430,121 @@ B
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">15</td>
+<td style="text-align: right;">5</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">3</td>
+<td style="text-align: right;">7</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">19</td>
+<td style="text-align: right;">2</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">17</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
 <td style="text-align: right;">10</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
 <tr class="even">
-<td style="text-align: right;">18</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">16</td>
+<td style="text-align: right;">19</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">8</td>
+<tr class="odd">
+<td style="text-align: right;">0</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">8</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
 <td style="text-align: right;">4</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">5</td>
+<tr class="odd">
+<td style="text-align: right;">9</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">12</td>
 <td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">6</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">14</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">13</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">7</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">6</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">14</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">13</td>
-<td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">7</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
-</tr>
 <tr class="odd">
-<td style="text-align: right;">15</td>
+<td style="text-align: right;">16</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
@@ -27557,28 +27556,28 @@ B
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">19</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">10</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">18</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">18</td>
+<td style="text-align: right;">11</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
@@ -27593,7 +27592,7 @@ B
 <div class="sourceCode" id="cb471"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb471-1"><a href="#cb471-1" aria-hidden="true" tabindex="-1"></a>^<span class="at">:note-to-test/skip</span></span>
 <span id="cb471-2"><a href="#cb471-2" aria-hidden="true" tabindex="-1"></a>(tc/split for-splitting <span class="at">:bootstrap</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>_unnamed, (splitted) [31 5]:</p>
+<p>_unnamed, (splitted) [33 5]:</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -27606,15 +27605,57 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">11</td>
+<td style="text-align: right;">4</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">22</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">14</td>
 <td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td>:b</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
@@ -27622,23 +27663,23 @@ B
 <tr class="odd">
 <td style="text-align: right;">6</td>
 <td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">8</td>
-<td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">23</td>
 <td>:b</td>
-<td>:g2</td>
+<td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td style="text-align: right;">…</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">18</td>
@@ -27648,114 +27689,72 @@ B
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">11</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">11</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">19</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td style="text-align: right;">…</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">12</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">6</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">21</td>
+<td style="text-align: right;">23</td>
 <td>:b</td>
 <td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">0</td>
 <td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td>:a</td>
 <td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">11</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">10</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">15</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">16</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">17</td>
 <td>:a</td>
 <td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td>:a</td>
+<td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -27801,14 +27800,14 @@ B
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">15</td>
+<td style="text-align: right;">4</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">11</td>
+<td style="text-align: right;">10</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:train</td>
@@ -27817,49 +27816,49 @@ B
 <tr class="even">
 <td style="text-align: right;">2</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">23</td>
 <td>:b</td>
-<td>:g2</td>
+<td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">16</td>
+<td style="text-align: right;">3</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">5</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">10</td>
+<td style="text-align: right;">15</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">24</td>
-<td>:b</td>
-<td>:g3</td>
+<td style="text-align: right;">14</td>
+<td>:a</td>
+<td>:g2</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -27878,16 +27877,44 @@ B
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">7</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
 <td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">24</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">21</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -27899,7 +27926,7 @@ B
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">6</td>
+<td style="text-align: right;">11</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:test</td>
@@ -27913,37 +27940,9 @@ B
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">8</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">4</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">3</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">12</td>
+<td style="text-align: right;">19</td>
 <td>:a</td>
 <td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">18</td>
-<td>:a</td>
-<td>:g3</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -27967,105 +27966,119 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">15</td>
+<td style="text-align: right;">11</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">9</td>
+<td style="text-align: right;">17</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">21</td>
-<td>:b</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">14</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">23</td>
 <td>:b</td>
-<td>:g2</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">16</td>
-<td>:a</td>
 <td>:g1</td>
 <td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">6</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:split-2</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">11</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:split-2</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">19</td>
 <td>:a</td>
+<td>:g1</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td>:a</td>
 <td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">21</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td>:b</td>
+<td>:g3</td>
 <td>:split-2</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td style="text-align: right;">…</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">12</td>
 <td>:a</td>
-<td>:g1</td>
-<td>:split-3</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">24</td>
-<td>:b</td>
-<td>:g3</td>
-<td>:split-3</td>
+<td>:g2</td>
+<td>:split-2</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">22</td>
 <td>:b</td>
 <td>:g2</td>
+<td>:split-2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td style="text-align: right;">…</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td>:a</td>
+<td>:g3</td>
 <td>:split-3</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:split-3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:split-3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:split-4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:split-4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:split-4</td>
@@ -28079,44 +28092,30 @@ B
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">17</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:split-4</td>
 <td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">13</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:split-4</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">12</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:split-4</td>
-<td style="text-align: right;">0</td>
-</tr>
 <tr class="even">
-<td style="text-align: right;">20</td>
+<td style="text-align: right;">24</td>
 <td>:b</td>
 <td>:g2</td>
 <td>:split-4</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 <td>:split-4</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 <td>:split-4</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -28141,7 +28140,35 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">11</td>
+<td style="text-align: right;">6</td>
+<td>:a</td>
+<td>:g3</td>
+<td>small</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td>:a</td>
+<td>:g3</td>
+<td>small</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td>:a</td>
+<td>:g2</td>
+<td>small</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9</td>
+<td>:a</td>
+<td>:g3</td>
+<td>small</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
 <td>:a</td>
 <td>:g1</td>
 <td>small</td>
@@ -28150,63 +28177,35 @@ B
 <tr class="even">
 <td style="text-align: right;">7</td>
 <td>:a</td>
-<td>:g1</td>
-<td>small</td>
+<td>:g3</td>
+<td>smaller</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td>:a</td>
-<td>:g3</td>
-<td>small</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">3</td>
+<td style="text-align: right;">14</td>
 <td>:a</td>
 <td>:g2</td>
-<td>small</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">9</td>
-<td>:a</td>
-<td>:g3</td>
-<td>small</td>
+<td>smaller</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">21</td>
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g3</td>
+<td>smaller</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">22</td>
 <td>:b</td>
-<td>:g1</td>
-<td>smaller</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">15</td>
-<td>:a</td>
-<td>:g1</td>
-<td>smaller</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td>:a</td>
-<td>:g3</td>
-<td>smaller</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">16</td>
-<td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 <td>big</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">8</td>
+<td style="text-align: right;">11</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 <td>big</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -28216,6 +28215,34 @@ B
 <td>…</td>
 <td>…</td>
 <td style="text-align: right;">…</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td>:a</td>
+<td>:g1</td>
+<td>big</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td>:a</td>
+<td>:g3</td>
+<td>big</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">17</td>
+<td>:a</td>
+<td>:g3</td>
+<td>big</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g2</td>
+<td>big</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">10</td>
@@ -28227,70 +28254,42 @@ B
 <tr class="odd">
 <td style="text-align: right;">12</td>
 <td>:a</td>
-<td>:g1</td>
-<td>big</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">13</td>
-<td>:a</td>
 <td>:g2</td>
 <td>big</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">24</td>
-<td>:b</td>
-<td>:g3</td>
-<td>big</td>
-<td style="text-align: right;">0</td>
-</tr>
 <tr class="even">
-<td style="text-align: right;">23</td>
+<td style="text-align: right;">21</td>
 <td>:b</td>
 <td>:g2</td>
 <td>big</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">17</td>
+<td style="text-align: right;">3</td>
 <td>:a</td>
-<td>:g3</td>
-<td>big</td>
+<td>:g2</td>
+<td>the rest</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">19</td>
 <td>:a</td>
-<td>:g2</td>
-<td>big</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td>:a</td>
-<td>:g3</td>
-<td>the rest</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">14</td>
-<td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 <td>the rest</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">4</td>
-<td>:a</td>
-<td>:g3</td>
+<td style="text-align: right;">23</td>
+<td>:b</td>
+<td>:g1</td>
 <td>the rest</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">20</td>
 <td>:b</td>
-<td>:g2</td>
+<td>:g3</td>
 <td>the rest</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -28455,135 +28454,23 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">13</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">14</td>
 <td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">16</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">3</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">17</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">9</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">20</td>
-<td>:b</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">23</td>
-<td>:b</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">12</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">18</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
 <td style="text-align: right;">1</td>
 <td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">10</td>
-<td>:a</td>
 <td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">6</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">21</td>
-<td>:b</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">22</td>
-<td>:b</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">24</td>
 <td>:b</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">19</td>
-<td>:a</td>
 <td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">8</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">11</td>
-<td>:a</td>
-<td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -28595,70 +28482,182 @@ B
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">9</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">8</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
 <td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">21</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">12</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
 <td style="text-align: right;">5</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">15</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
 <tr class="even">
-<td style="text-align: right;">15</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">14</td>
+<td style="text-align: right;">7</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">16</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">3</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">22</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td>:b</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td>:b</td>
+<td>:g1</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
+<td>:b</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">17</td>
+<td style="text-align: right;">24</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
@@ -28695,19 +28694,19 @@ B
 </thead>
 <tbody>
 <tr class="odd">
-<td>:g1</td>
+<td>:g2</td>
 <td style="text-align: right;">0</td>
-<td>Group: :g1, (splitted) [10 5]:</td>
+<td>Group: :g2, (splitted) [12 5]:</td>
 </tr>
 <tr class="even">
-<td>:g3</td>
+<td>:g1</td>
 <td style="text-align: right;">1</td>
-<td>Group: :g3, (splitted) [12 5]:</td>
+<td>Group: :g1, (splitted) [8 5]:</td>
 </tr>
 <tr class="odd">
-<td>:g2</td>
+<td>:g3</td>
 <td style="text-align: right;">2</td>
-<td>Group: :g2, (splitted) [9 5]:</td>
+<td>Group: :g3, (splitted) [9 5]:</td>
 </tr>
 </tbody>
 </table>
@@ -28759,18 +28758,7 @@ Group: 0 [20 3]:
 <tbody>
 <tr>
 <td style="text-align:right;">
-4
-</td>
-<td>
-:a
-</td>
-<td>
-:g3
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-13
+15
 </td>
 <td>
 :a
@@ -28787,12 +28775,111 @@ Group: 0 [20 3]:
 :a
 </td>
 <td>
+:g1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td>
+:a
+</td>
+<td>
+:g1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td>
+:a
+</td>
+<td>
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td>
+:a
+</td>
+<td>
+:g1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td>
+:a
+</td>
+<td>
 :g3
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-8
+7
+</td>
+<td>
+:a
+</td>
+<td>
+:g3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td>
+:a
+</td>
+<td>
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td>
+:a
+</td>
+<td>
+:g1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td>
+:a
+</td>
+<td>
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td>
+:a
+</td>
+<td>
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
 </td>
 <td>
 :a
@@ -28814,73 +28901,7 @@ Group: 0 [20 3]:
 </tr>
 <tr>
 <td style="text-align:right;">
-18
-</td>
-<td>
-:a
-</td>
-<td>
-:g3
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-15
-</td>
-<td>
-:a
-</td>
-<td>
-:g1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-16
-</td>
-<td>
-:a
-</td>
-<td>
-:g1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td>
-:a
-</td>
-<td>
-:g3
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-14
-</td>
-<td>
-:a
-</td>
-<td>
-:g3
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-12
-</td>
-<td>
-:a
-</td>
-<td>
-:g1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-19
+8
 </td>
 <td>
 :a
@@ -28891,24 +28912,13 @@ Group: 0 [20 3]:
 </tr>
 <tr>
 <td style="text-align:right;">
-6
+2
 </td>
 <td>
 :a
 </td>
 <td>
 :g1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-9
-</td>
-<td>
-:a
-</td>
-<td>
-:g3
 </td>
 </tr>
 <tr>
@@ -28924,13 +28934,24 @@ Group: 0 [20 3]:
 </tr>
 <tr>
 <td style="text-align:right;">
-0
+23
 </td>
 <td>
-:a
+:b
 </td>
 <td>
 :g1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+21
+</td>
+<td>
+:b
+</td>
+<td>
+:g2
 </td>
 </tr>
 <tr>
@@ -28941,7 +28962,7 @@ Group: 0 [20 3]:
 :b
 </td>
 <td>
-:g3
+:g2
 </td>
 </tr>
 <tr>
@@ -28952,29 +28973,7 @@ Group: 0 [20 3]:
 :b
 </td>
 <td>
-:g2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-23
-</td>
-<td>
-:b
-</td>
-<td>
-:g2
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-22
-</td>
-<td>
-:b
-</td>
-<td>
-:g2
+:g3
 </td>
 </tr>
 </tbody>
@@ -29018,7 +29017,7 @@ Group: 0 [5 3]:
 <tbody>
 <tr>
 <td style="text-align:right;">
-5
+9
 </td>
 <td>
 :a
@@ -29029,13 +29028,13 @@ Group: 0 [5 3]:
 </tr>
 <tr>
 <td style="text-align:right;">
-11
+18
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g3
 </td>
 </tr>
 <tr>
@@ -29051,24 +29050,24 @@ Group: 0 [5 3]:
 </tr>
 <tr>
 <td style="text-align:right;">
-7
+6
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g3
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-21
+22
 </td>
 <td>
 :b
 </td>
 <td>
-:g1
+:g2
 </td>
 </tr>
 </tbody>
@@ -29098,7 +29097,7 @@ Group: 0 [5 3]:
 </p>
 <div style="margin-left:10%;width:110%;">
 <div>
-<pre><code class="language-clojure">:g1
+<pre><code class="language-clojure">:g2
 </code></pre>
 </div>
 <div>
@@ -29124,7 +29123,7 @@ Group: 0 [5 3]:
 <div style="margin-top:10px;">
 <div>
 <p>
-Group: 0 [8 3]:
+Group: 0 [9 3]:
 </p>
 
 <table class="table">
@@ -29144,46 +29143,13 @@ Group: 0 [8 3]:
 <tbody>
 <tr>
 <td style="text-align:right;">
-12
-</td>
-<td>
-:a
-</td>
-<td>
-:g1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
 15
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-11
-</td>
-<td>
-:a
-</td>
-<td>
-:g1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-6
-</td>
-<td>
-:a
-</td>
-<td>
-:g1
+:g2
 </td>
 </tr>
 <tr>
@@ -29194,29 +29160,51 @@ Group: 0 [8 3]:
 :a
 </td>
 <td>
-:g1
+:g2
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-7
+8
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g2
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-7
+15
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td>
+:a
+</td>
+<td>
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td>
+:a
+</td>
+<td>
+:g2
 </td>
 </tr>
 <tr>
@@ -29227,7 +29215,29 @@ Group: 0 [8 3]:
 :b
 </td>
 <td>
-:g1
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+24
+</td>
+<td>
+:b
+</td>
+<td>
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+22
+</td>
+<td>
+:b
+</td>
+<td>
+:g2
 </td>
 </tr>
 </tbody>
@@ -29271,24 +29281,24 @@ Group: 0 [2 3]:
 <tbody>
 <tr>
 <td style="text-align:right;">
-10
+3
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g2
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-16
+13
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g2
 </td>
 </tr>
 </tbody>
@@ -29323,7 +29333,7 @@ Group: 0 [2 3]:
 <div style="margin-top:10px;">
 <div>
 <p>
-Group: 1 [8 3]:
+Group: 1 [9 3]:
 </p>
 
 <table class="table">
@@ -29343,24 +29353,35 @@ Group: 1 [8 3]:
 <tbody>
 <tr>
 <td style="text-align:right;">
-6
+0
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g2
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-7
+15
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td>
+:a
+</td>
+<td>
+:g2
 </td>
 </tr>
 <tr>
@@ -29371,62 +29392,62 @@ Group: 1 [8 3]:
 :a
 </td>
 <td>
-:g1
+:g2
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-16
+8
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g2
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-0
+15
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g2
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-10
-</td>
-<td>
-:a
-</td>
-<td>
-:g1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-11
-</td>
-<td>
-:a
-</td>
-<td>
-:g1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-21
+22
 </td>
 <td>
 :b
 </td>
 <td>
-:g1
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+24
+</td>
+<td>
+:b
+</td>
+<td>
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+22
+</td>
+<td>
+:b
+</td>
+<td>
+:g2
 </td>
 </tr>
 </tbody>
@@ -29450,7 +29471,7 @@ Group: 1 [8 3]:
 <div style="margin-top:10px;">
 <div>
 <p>
-Group: 1 [1 3]:
+Group: 1 [3 3]:
 </p>
 
 <table class="table">
@@ -29470,13 +29491,35 @@ Group: 1 [1 3]:
 <tbody>
 <tr>
 <td style="text-align:right;">
-15
+3
 </td>
 <td>
 :a
 </td>
 <td>
-:g1
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td>
+:a
+</td>
+<td>
+:g2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+21
+</td>
+<td>
+:b
+</td>
+<td>
+:g2
 </td>
 </tr>
 </tbody>
@@ -29506,9 +29549,9 @@ Group: 1 [1 3]:
 </section>
 </section>
 </section>
-<section id="column-1" class="level2">
-<h2 class="anchored" data-anchor-id="column-1">Column</h2>
-<p>A <code>column</code> in tablecloth is a named sequence of typed data. This special type is defined in the <code>tech.ml.dataset</code>. It is roughly comparable to a R vector.</p>
+<section id="column-api" class="level2">
+<h2 class="anchored" data-anchor-id="column-api">Column API</h2>
+<p>A <code>column</code> in tablecloth is a named sequence of typed data. It is the building block of the <code>dataset</code> since datasets are at base just a map of columns. Like <code>dataset</code>, the <code>column</code> is defined in the <code>tech.ml.dataset</code>. In this section, we will show how you can interact with the column by itself.</p>
 <p>Let’s begin by requiring the Column API, which we suggest you alias as <code>tcc</code>:</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb484"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb484-1"><a href="#cb484-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[tablecloth.column.api <span class="at">:as</span> tcc])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -34108,16 +34151,16 @@ c
 <td>B</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -34138,28 +34181,28 @@ c
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>

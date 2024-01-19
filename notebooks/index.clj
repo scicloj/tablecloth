@@ -68,7 +68,7 @@ DS
 
 
 (md "
-## Dataset
+## Dataset API
 
 Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.dataset` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
 
@@ -1612,7 +1612,7 @@ You can also cast the type to the other one (if casting is possible):
 (md "
 ### Column Operations
 
-There are a large number of column operations that can be performed on the columns in your dataset. These operations are a similar set as the [Column API operations](#operations), but instead of operating directly on columns, they take a Dataset and a [`columns-selector`](#columns-selector).
+There are a large number of column operations that can be performed on the columns in your dataset. These operations are a similar set as the [Column API operations](#operations), but instead of operating directly on columns, they take a Dataset and a [`columns-selector`](#names).
 
 The behavior of the operations differ based on their return value:
 
@@ -1629,10 +1629,7 @@ The behavior of the operations differ based on their return value:
     (ds target-col columns-selector) => dataset
     ```
 
-As there are a large number of operations, we will here simply illustrate their usage.
-
-
-To begin with, here are some examples of operations whose result is a new column:
+As there are a large number of operations, we will illustrate their usage. To begin with, here are some examples of operations whose result is a new column:
 ")
 
 DS
@@ -1652,7 +1649,7 @@ DS
 (md "
 Notice that we did not supply a target column to the `mean` function. Since `mean` does not return a column, we do not provide this argument. Instead, we simply provide the dataset and a `columns-selector.` We then get back a dataset with the result.
 
-Now let's use this funciton within a grouping expression:")
+Now let's use this function within a grouping expression:")
 
 (-> DS
     (tc/group-by [:V4])
@@ -4588,9 +4585,9 @@ To get a sequence of pairs, use `split->seq` function
     (first))
 
 (md "
-## Column
+## Column API
 
-A `column` in tablecloth is a named sequence of typed data. This special type is defined in the `tech.ml.dataset`. It is roughly comparable to a R vector.
+A `column` in tablecloth is a named sequence of typed data. It is the building block of the `dataset` since datasets are at base just a map of columns. Like `dataset`, the `column` is defined in the `tech.ml.dataset`. In this section, we will show how you can interact with the column by itself.
 
 Let's begin by requiring the Column API, which we suggest you alias as `tcc`:")
 
