@@ -571,7 +571,7 @@ Grouping is done by calling `group-by` function with arguments:
 * `:as-dataset` (default) - return grouped dataset
 * `:as-indexes` - return rows ids (row number from original dataset)
 * `:as-map` - return map with group names as keys and subdataset as values
-* `:as-seq` - return sequens of subdatasets
+* `:as-seq` - return sequence of subdatasets
 - `:select-keys` - list of the columns passed to a grouping selector function
 
 All subdatasets (groups) have set name as the group name, additionally `group-id` is in meta.
