@@ -22,7 +22,6 @@
         col-symbol-set
         (set longest-arglist))))))
 
-
 (defn convert-arglists [arglists target-column?]
   (let [convert-arglist
         (fn [arglist]
@@ -100,10 +99,6 @@
                       (apply ~fn-sym)
                       ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
                  (throw (Exception. (str "Exceeded maximum number of columns allowed for operation.")))))))))))
-
-(lift-op 'tablecloth.column.api.operators/bit-set {})
-
-(lift-op 'tablecloth.column.api.operators/mean {:make-aggregator? true})
 
 (def serialized-lift-fn-lookup
   {'[distance
