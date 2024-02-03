@@ -128,8 +128,8 @@
                          split
                          split->seq)
 
-;; (exporter/export-symbols tablecloth.api.operators
-;;   * + - / < <= > >= abs acos and asin atan atan2 bit-and bit-and-not bit-clear bit-flip bit-not bit-or bit-set bit-shift-left bit-shift-right bit-xor cbrt ceil cos cosh cummax cummin cumprod cumsum distance distance-squared dot-product eq even? exp expm1 finite? floor get-significand hypot identity ieee-remainder infinite? kurtosis log log10 log1p logistic magnitude magnitude-squared mathematical-integer? max mean mean-fast median min nan? neg? next-down next-up normalize not not-eq odd? or percentiles pos? pow quartile-1 quartile-3 quot reduce-* reduce-+ reduce-max reduce-min rem rint round shift signum sin sinh skew sq sqrt sum sum-fast tan tanh to-degrees to-radians ulp unsigned-bit-shift-right variance zero?)
+ (exporter/export-symbols tablecloth.api.operators
+   * + - / < <= > >= abs acos and asin atan atan2 bit-and bit-and-not bit-clear bit-flip bit-not bit-or bit-set bit-shift-left bit-shift-right bit-xor cbrt ceil cos cosh cummax cummin cumprod cumsum distance distance-squared dot-product eq even? exp expm1 finite? floor get-significand hypot identity ieee-remainder infinite? kurtosis log log10 log1p logistic magnitude magnitude-squared mathematical-integer? max mean mean-fast median min nan? neg? next-down next-up normalize not not-eq odd? or percentiles pos? pow quartile-1 quartile-3 quot reduce-* reduce-+ reduce-max reduce-min rem rint round shift signum sin sinh skew sq sqrt sum sum-fast tan tanh to-degrees to-radians ulp unsigned-bit-shift-right variance zero?)
 
 ;;
 
