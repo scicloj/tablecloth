@@ -178,6 +178,4 @@
   (exporter/write-api! 'tablecloth.api.api-template
                        'tablecloth.api
                        "src/tablecloth/api.clj"
-                       '[group-by drop concat rand-nth first last shuffle])
-
-  )
+                       '[group-by drop concat rand-nth first last shuffle]))
