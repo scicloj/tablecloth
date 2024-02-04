@@ -1,5 +1,8 @@
 (ns tablecloth.api.lift-operators
-  (:require [tablecloth.api :refer [select-columns add-or-replace-column]]
+  (:require [tablecloth.api.dataset :refer [columns]]
+            [tablecloth.api.columns :refer [select-columns add-or-replace-column]]
+            [tablecloth.api.utils :refer [column-names]]
+            [tablecloth.api.aggregate :refer [aggregate]]
             [tablecloth.utils.codegen :refer [do-lift]]))
 
 (defn get-meta [fn-sym]
@@ -21,7 +24,6 @@
        (clojure.set/intersection
         col-symbol-set
         (set longest-arglist))))))
-
 
 (defn convert-arglists [arglists target-column?]
   (let [convert-arglist
@@ -83,16 +85,16 @@
                               (select-columns ds# ~'columns-selector)
                               cols-count#
                               (-> ds-with-selected-cols#
-                                  tablecloth.api/column-names
+                                  column-names
                                   count)
-                              selected-cols# (tablecloth.api/columns ds-with-selected-cols#)]
+                              selected-cols# (columns ds-with-selected-cols#)]
                         (if (>= ~max-cols cols-count#)
                           (apply ~fn-sym (apply vector selected-cols#))
                           (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))]
-               (tablecloth.api/aggregate ~'ds aggregator#)))
+               (aggregate ~'ds aggregator#)))
             ;; build either a fn that returns a dataset or the result of the operation
             `(~args
-              (~let [selected-cols# (apply vector (tablecloth.api.dataset/columns
+              (~let [selected-cols# (apply vector (columns
                                                    (select-columns ~'ds ~'columns-selector)))
                      args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
                (if (>= ~max-cols (count selected-cols#))
@@ -100,10 +102,6 @@
                       (apply ~fn-sym)
                       ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
                  (throw (Exception. (str "Exceeded maximum number of columns allowed for operation.")))))))))))
-
-(lift-op 'tablecloth.column.api.operators/bit-set {})
-
-(lift-op 'tablecloth.column.api.operators/mean {:make-aggregator? true})
 
 (def serialized-lift-fn-lookup
   {'[distance

@@ -1,6 +1,6 @@
 (ns tablecloth.column.api.lift-operators
   (:require [tablecloth.utils.codegen :refer [do-lift]]
-            [tablecloth.column.api :refer [column]]
+            [tablecloth.column.api.column :refer [column]]
             [tech.v3.datatype.argtypes :refer [arg-type]]))
 
 (defn get-meta [fn-sym]
