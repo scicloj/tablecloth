@@ -38,19 +38,23 @@
 
 pre > code.sourceCode > span {
   color: #657b83;
+  font-style: inherit;
 }
 
 code span {
   color: #657b83;
+  font-style: inherit;
 }
 
 code.sourceCode > span {
   color: #657b83;
+  font-style: inherit;
 }
 
 div.sourceCode,
 div.sourceCode pre.sourceCode {
   color: #657b83;
+  font-style: inherit;
 }
 
 code span.kw {
@@ -157,6 +161,7 @@ code span.cv {
 
 code span.re {
   color: #268bd2;
+  background-color: #eee8d5;
 }
 
 code span.in {
