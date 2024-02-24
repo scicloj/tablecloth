@@ -22,4 +22,4 @@ jobs:
         with:
           source-dir: ./docs/
           preview-branch: master
-          umbrella-dir: docs/pr-preview
+          umbrella-dir: pr-preview
