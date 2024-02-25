@@ -1,6 +1,9 @@
 name: Build and Deploy
 
 on:
+  pull_reqest:
+    branches:
+      - master
   push:
     branches:
       - master
