@@ -1,10 +1,10 @@
 name: Build and Deploy
 
-
 on:
-  pull_request:
+  push:
     branches:
       - master
+  workflow_dispatch:
 
 # This is just a guard against two of these actions
 # running at the same time. Not likely an issue for
@@ -16,8 +16,8 @@ jobs:
     runs-on: ubuntu-latest
 
     # Only run this job if there were changes in the docs folder
-    # paths:
-    #   - ./docs/*
+    paths:
+      - ./docs/*
     
     steps:
       - name: Checkout
