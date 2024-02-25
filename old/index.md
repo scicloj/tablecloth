@@ -55,25 +55,25 @@ During conversions of the examples I’ve come up how to reorganized
 existing `tech.ml.dataset` functions into simple to use API. The main
 goals were:
 
-- Focus on dataset manipulation functionality, leaving other parts of
-  `tech.ml` like pipelines, datatypes, readers, ML, etc.
-- Single entry point for common operations - one function dispatching on
-  given arguments.
-- `group-by` results with special kind of dataset - a dataset containing
-  subsets created after grouping as a column.
-- Most operations recognize regular dataset and grouped dataset and
-  process data accordingly.
-- One function form to enable thread-first on dataset.
+-   Focus on dataset manipulation functionality, leaving other parts of
+    `tech.ml` like pipelines, datatypes, readers, ML, etc.
+-   Single entry point for common operations - one function dispatching
+    on given arguments.
+-   `group-by` results with special kind of dataset - a dataset
+    containing subsets created after grouping as a column.
+-   Most operations recognize regular dataset and grouped dataset and
+    process data accordingly.
+-   One function form to enable thread-first on dataset.
 
 If you want to know more about `tech.ml.dataset` and `dtype-next` please
 refer their documentation:
 
-- [tech.ml.dataset
-  walkthrough](https://techascent.github.io/tech.ml.dataset/walkthrough.html)
-- [dtype-next
-  overview](https://cnuernber.github.io/dtype-next/overview.html)
-- [dtype-next
-  cheatsheet](https://cnuernber.github.io/dtype-next/cheatsheet.html)
+-   [tech.ml.dataset
+    walkthrough](https://techascent.github.io/tech.ml.dataset/walkthrough.html)
+-   [dtype-next
+    overview](https://cnuernber.github.io/dtype-next/overview.html)
+-   [dtype-next
+    cheatsheet](https://cnuernber.github.io/dtype-next/cheatsheet.html)
 
 [SOURCE CODE](https://github.com/scicloj/tablecloth)
 
@@ -123,33 +123,33 @@ integers, floats, string, boolean, date/time, objects etc.
 Dataset can be created from various of types of Clojure structures and
 files:
 
-- single values
-- sequence of maps
-- map of sequences or values
-- sequence of columns (taken from other dataset or created manually)
-- sequence of pairs: `[string column-data]` or `[keyword column-data]`
-- array of any arrays
-- file types: raw/gzipped csv/tsv, json, xls(x) taken from local file
-  system or URL
-- input stream
+-   single values
+-   sequence of maps
+-   map of sequences or values
+-   sequence of columns (taken from other dataset or created manually)
+-   sequence of pairs: `[string column-data]` or `[keyword column-data]`
+-   array of any arrays
+-   file types: raw/gzipped csv/tsv, json, xls(x) taken from local file
+    system or URL
+-   input stream
 
 `tc/dataset` accepts:
 
-- data
-- options (see documentation of `tech.ml.dataset/->dataset` function for
-  full list):
-  - `:dataset-name` - name of the dataset
-  - `:num-rows` - number of rows to read from file
-  - `:header-row?` - indication if first row in file is a header
-  - `:key-fn` - function applied to column names (eg. `keyword`, to
-    convert column names to keywords)
-  - `:separator` - column separator
-  - `:single-value-column-name` - name of the column when single value
-    is provided
-  - `:column-names` - in case you want to name columns - only works for
-    sequential input (arrays) or empty dataset
-  - `:layout` - for numerical, native array of arrays - treat entries
-    `:as-rows` or `:as-columns` (default)
+-   data
+-   options (see documentation of `tech.ml.dataset/->dataset` function
+    for full list):
+    -   `:dataset-name` - name of the dataset
+    -   `:num-rows` - number of rows to read from file
+    -   `:header-row?` - indication if first row in file is a header
+    -   `:key-fn` - function applied to column names (eg. `keyword`, to
+        convert column names to keywords)
+    -   `:separator` - column separator
+    -   `:single-value-column-name` - name of the column when single
+        value is provided
+    -   `:column-names` - in case you want to name columns - only works
+        for sequential input (arrays) or empty dataset
+    -   `:layout` - for numerical, native array of arrays - treat
+        entries `:as-rows` or `:as-columns` (default)
 
 `tc/let-dataset` accepts bindings `symbol`-`column-data` to simulate R’s
 `tibble` function. Each binding is converted into a column. You can
@@ -454,9 +454,9 @@ error message from the exception thrown by `tech.ml.dataset`
 
 \_unnamed \[1 2\]:
 
-| :$value | :$error |                                                    |
-|------------------:|----------------------------------------------------|
-|               999 | Don’t know how to create ISeq from: java.lang.Long |
+| :*v**a**l**u**e*\|:error |                                                    |
+|-------------------------:|----------------------------------------------------|
+|                      999 | Don’t know how to create ISeq from: java.lang.Long |
 
 To see the stack trace, turn it on by setting `:stack-trace?` to `true`.
 
@@ -490,11 +490,11 @@ Single value \[1 1\]:
 Export dataset to a file or output stream can be done by calling
 `tc/write!`. Function accepts:
 
-- dataset
-- file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and
-  `.tsv.gz` or output stream
-- options:
-- `:separator` - string or separator char.
+-   dataset
+-   file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and
+    `.tsv.gz` or output stream
+-   options:
+-   `:separator` - string or separator char.
 
 ``` clojure
 (tc/write! ds "output.tsv.gz")
@@ -569,10 +569,10 @@ Shape of the dataset, \[row count, column count\]
 
 General info about dataset. There are three variants:
 
-- default - containing information about columns with basic statistics
-- `:basic` - just name, row and column count and information if dataset
-  is a result of `group-by` operation
-- `:columns` - columns’ metadata
+-   default - containing information about columns with basic statistics
+-   `:basic` - just name, row and column count and information if
+    dataset is a result of `group-by` operation
+-   `:columns` - columns’ metadata
 
 ``` clojure
 (tc/info ds)
@@ -641,11 +641,11 @@ datasets.
 
 Possible result types:
 
-- `:as-seq` or `:as-seqs` - sequence of seqences (default)
-- `:as-maps` - sequence of maps (rows)
-- `:as-map` - map of sequences (columns)
-- `:as-double-arrays` - array of double arrays
-- `:as-vecs` - sequence of vectors (rows)
+-   `:as-seq` or `:as-seqs` - sequence of seqences (default)
+-   `:as-maps` - sequence of maps (rows)
+-   `:as-map` - map of sequences (columns)
+-   `:as-double-arrays` - array of double arrays
+-   `:as-vecs` - sequence of vectors (rows)
 
 For `rows` setting `:nil-missing?` option to `false` will elide keys for
 nil values.
@@ -890,44 +890,44 @@ datasets.
 Grouped dataset is annotated by the `:grouped?` meta tag and consists of
 the following columns:
 
-- `:name` - group name or structure
-- `:group-id` - integer assigned to the group
-- `:data` - groups as datasets
+-   `:name` - group name or structure
+-   `:group-id` - integer assigned to the group
+-   `:data` - groups as datasets
 
 #### Grouping
 
 Grouping is done by calling `group-by` function with arguments:
 
-- `ds` - dataset
-- `grouping-selector` - what to use for grouping
-- options:
-- `:result-type` - what to return:
-- `:as-dataset` (default) - return grouped dataset
-- `:as-indexes` - return rows ids (row number from original dataset)
-- `:as-map` - return map with group names as keys and subdataset as
-  values
-- `:as-seq` - return sequens of subdatasets
-- `:select-keys` - list of the columns passed to a grouping selector
-  function
+-   `ds` - dataset
+-   `grouping-selector` - what to use for grouping
+-   options:
+-   `:result-type` - what to return:
+-   `:as-dataset` (default) - return grouped dataset
+-   `:as-indexes` - return rows ids (row number from original dataset)
+-   `:as-map` - return map with group names as keys and subdataset as
+    values
+-   `:as-seq` - return sequens of subdatasets
+-   `:select-keys` - list of the columns passed to a grouping selector
+    function
 
 All subdatasets (groups) have set name as the group name, additionally
 `group-id` is in meta.
 
 Grouping can be done by:
 
-- single column name
-- seq of column names
-- value returned by function taking row as map (limited to
-  `:select-keys`)
-- map of keys (arbitrary group names) to sequences of row indexes
+-   single column name
+-   seq of column names
+-   value returned by function taking row as map (limited to
+    `:select-keys`)
+-   map of keys (arbitrary group names) to sequences of row indexes
 
 In the case of the first three of these methods, each sub-dataset
 contains all and only rows from the original data set that share the
 same grouping value:
 
-- the value of the row in a specified single column
-- a map from column names to corresponding values found in the row
-- the value returned by the function taking row as map
+-   the value of the row in a specified single column
+-   a map from column names to corresponding values found in the row
+-   the value returned by the function taking row as map
 
 In the case of the map from group names to sequences of indexes, each
 sub-dataset will contain all and only rows with the indexes listed in
@@ -1381,16 +1381,16 @@ Group: {:V1 2} \[4 4\]:
 Ungrouping simply concats all the groups into the dataset. Following
 options are possible
 
-- `:order?` - order groups according to the group name ascending order.
-  Default: `false`
-- `:add-group-as-column` - should group name become a column? If yes
-  column is created with provided name (or `:$group-name` if argument is
-  `true`). Default: `nil`.
-- `:add-group-id-as-column` - should group id become a column? If yes
-  column is created with provided name (or `:$group-id` if argument is
-  `true`). Default: `nil`.
-- `:dataset-name` - to name resulting dataset. Default: `nil`
-  (\_unnamed)
+-   `:order?` - order groups according to the group name ascending
+    order. Default: `false`
+-   `:add-group-as-column` - should group name become a column? If yes
+    column is created with provided name (or `:$group-name` if argument
+    is `true`). Default: `nil`.
+-   `:add-group-id-as-column` - should group id become a column? If yes
+    column is created with provided name (or `:$group-id` if argument is
+    `true`). Default: `nil`.
+-   `:dataset-name` - to name resulting dataset. Default: `nil`
+    (\_unnamed)
 
 If group name is a map, it will be splitted into separate columns. Be
 sure that groups (subdatasets) doesn’t contain the same columns already.
@@ -1489,17 +1489,17 @@ Let’s add group name and id as additional columns
 
 \_unnamed \[9 6\]:
 
-| :$group-name | :$group-id | :V1 | :V2 | :V3 | :V4 |     |
-|---------------------------|----:|----:|----:|----:|-----|
-| true                      |   0 |   1 |   1 | 0.5 | A   |
-| true                      |   0 |   2 |   2 | 1.0 | B   |
-| true                      |   0 |   1 |   3 | 1.5 | C   |
-| false                     |   1 |   2 |   4 | 0.5 | A   |
-| false                     |   1 |   1 |   5 | 1.0 | B   |
-| false                     |   1 |   2 |   6 | 1.5 | C   |
-| false                     |   1 |   1 |   7 | 0.5 | A   |
-| false                     |   1 |   2 |   8 | 1.0 | B   |
-| false                     |   1 |   1 |   9 | 1.5 | C   |
+| :*g**r**o**u**p* − *n**a**m**e*\|:group-id | :V1 | :V2 | :V3 | :V4 |     |
+|--------------------------------------------|----:|----:|----:|----:|-----|
+| true                                       |   0 |   1 |   1 | 0.5 | A   |
+| true                                       |   0 |   2 |   2 | 1.0 | B   |
+| true                                       |   0 |   1 |   3 | 1.5 | C   |
+| false                                      |   1 |   2 |   4 | 0.5 | A   |
+| false                                      |   1 |   1 |   5 | 1.0 | B   |
+| false                                      |   1 |   2 |   6 | 1.5 | C   |
+| false                                      |   1 |   1 |   7 | 0.5 | A   |
+| false                                      |   1 |   2 |   8 | 1.0 | B   |
+| false                                      |   1 |   1 |   9 | 1.5 | C   |
 
 ------------------------------------------------------------------------
 
@@ -1642,17 +1642,17 @@ Also we can supress separation
 
 \_unnamed \[9 5\]:
 
-| :\$group-name | :V1 | :V2 | :V3 | :V4 |
-|---------------|----:|----:|----:|-----|
-| \[1 0.5\]     |   1 |   1 | 0.5 | A   |
-| \[1 0.5\]     |   1 |   7 | 0.5 | A   |
-| \[2 1.0\]     |   2 |   2 | 1.0 | B   |
-| \[2 1.0\]     |   2 |   8 | 1.0 | B   |
-| \[1 1.5\]     |   1 |   3 | 1.5 | C   |
-| \[1 1.5\]     |   1 |   9 | 1.5 | C   |
-| \[2 0.5\]     |   2 |   4 | 0.5 | A   |
-| \[1 1.0\]     |   1 |   5 | 1.0 | B   |
-| \[2 1.5\]     |   2 |   6 | 1.5 | C   |
+| :$group-name | :V1 | :V2 | :V3 | :V4 |
+|--------------|----:|----:|----:|-----|
+| \[1 0.5\]    |   1 |   1 | 0.5 | A   |
+| \[1 0.5\]    |   1 |   7 | 0.5 | A   |
+| \[2 1.0\]    |   2 |   2 | 1.0 | B   |
+| \[2 1.0\]    |   2 |   8 | 1.0 | B   |
+| \[1 1.5\]    |   1 |   3 | 1.5 | C   |
+| \[1 1.5\]    |   1 |   9 | 1.5 | C   |
+| \[2 0.5\]    |   2 |   4 | 0.5 | A   |
+| \[1 1.0\]    |   1 |   5 | 1.0 | B   |
+| \[2 1.5\]    |   2 |   6 | 1.5 | C   |
 
 #### Other functions
 
@@ -1743,28 +1743,29 @@ Type of the data is inferred from a sequence during column creation.
 To select dataset columns or column names `columns-selector` is used.
 `columns-selector` can be one of the following:
 
-- `:all` keyword - selects all columns
-- column name - for single column
-- sequence of column names - for collection of columns
-- regex - to apply pattern on column names or datatype
-- filter predicate - to filter column names or datatype
-- `type` namespaced keyword for specific datatype or group of datatypes
+-   `:all` keyword - selects all columns
+-   column name - for single column
+-   sequence of column names - for collection of columns
+-   regex - to apply pattern on column names or datatype
+-   filter predicate - to filter column names or datatype
+-   `type` namespaced keyword for specific datatype or group of
+    datatypes
 
 Column name can be anything.
 
 `column-names` function returns names according to `columns-selector`
 and optional `meta-field`. `meta-field` is one of the following:
 
-- `:name` (default) - to operate on column names
-- `:datatype` - to operated on column types
-- `:all` - if you want to process all metadata
+-   `:name` (default) - to operate on column names
+-   `:datatype` - to operated on column types
+-   `:all` - if you want to process all metadata
 
 Datatype groups are:
 
-- `:type/numerical` - any numerical type
-- `:type/float` - floating point number (`:float32` and `:float64`)
-- `:type/integer` - any integer
-- `:type/datetime` - any datetime type
+-   `:type/numerical` - any numerical type
+-   `:type/float` - floating point number (`:float32` and `:float64`)
+-   `:type/integer` - any integer
+-   `:type/datetime` - any datetime type
 
 If qualified keyword starts with `:!type`, complement set is used.
 
@@ -2212,17 +2213,18 @@ Function works on grouped dataset
 To add (or replace existing) column call `add-column` function. Function
 accepts:
 
-- `ds` - a dataset
-- `column-name` - if it’s existing column name, column will be replaced
-- `column` - can be column (from other dataset), sequence, single value
-  or function. Too big columns are always trimmed. Too small are cycled
-  or extended with missing values (according to `size-strategy`
-  argument)
-- `size-strategy` (optional) - when new column is shorter than dataset
-  row count, following strategies are applied:
-  - `:cycle` - repeat data
-  - `:na` - append missing values
-  - `:strict` - (default) throws an exception when sizes mismatch
+-   `ds` - a dataset
+-   `column-name` - if it’s existing column name, column will be
+    replaced
+-   `column` - can be column (from other dataset), sequence, single
+    value or function. Too big columns are always trimmed. Too small are
+    cycled or extended with missing values (according to `size-strategy`
+    argument)
+-   `size-strategy` (optional) - when new column is shorter than dataset
+    row count, following strategies are applied:
+    -   `:cycle` - repeat data
+    -   `:na` - append missing values
+    -   `:strict` - (default) throws an exception when sizes mismatch
 
 Function works on grouped dataset.
 
@@ -2475,10 +2477,10 @@ columns.
 If you want to modify specific column(s) you can call `update-columns`.
 Arguments:
 
-- dataset
-- one of:
-  - `columns-selector` and function (or sequence of functions)
-  - map where keys are column names and vals are function
+-   dataset
+-   one of:
+    -   `columns-selector` and function (or sequence of functions)
+    -   map where keys are column names and vals are function
 
 Functions accept column and have to return column or sequence
 
@@ -2559,10 +2561,10 @@ number of selected columns.
 
 Arguments:
 
-- `ds` - dataset
-- `column-name` - target column name
-- `columns-selector` - columns selected
-- `map-fn` - mapping function
+-   `ds` - dataset
+-   `column-name` - target column name
+-   `columns-selector` - columns selected
+-   `map-fn` - mapping function
 
 ------------------------------------------------------------------------
 
@@ -2672,17 +2674,17 @@ conversion is not possible you can pass conversion function.
 
 Arguments:
 
-- `ds` - dataset
-- Two options:
-  - `coltype-map` in case when you want to convert several columns, keys
-    are column names, vals are new types
-  - `column-selector` and `new-types` - column name and new datatype (or
-    datatypes as sequence)
+-   `ds` - dataset
+-   Two options:
+    -   `coltype-map` in case when you want to convert several columns,
+        keys are column names, vals are new types
+    -   `column-selector` and `new-types` - column name and new datatype
+        (or datatypes as sequence)
 
 `new-types` can be:
 
-- a type like `:int64` or `:string` or sequence of types
-- or sequence of pair of datetype and conversion function
+-   a type like `:int64` or `:string` or sequence of types
+-   or sequence of pair of datetype and conversion function
 
 After conversion additional infomation is given on problematic values.
 
@@ -2833,10 +2835,10 @@ You can also cast the type to the other one (if casting is possible):
 
 Rows can be selected or dropped using various selectors:
 
-- row id(s) - row index as number or seqence of numbers (first row has
-  index `0`, second `1` and so on)
-- sequence of true/false values
-- filter by predicate (argument is row as a map)
+-   row id(s) - row index as number or seqence of numbers (first row has
+    index `0`, second `1` and so on)
+-   sequence of true/false values
+-   filter by predicate (argument is row as a map)
 
 When predicate is used you may want to limit columns passed to the
 function (`select-keys` option).
@@ -3051,7 +3053,7 @@ Random row (single)
 
 | :V1 | :V2 | :V3 | :V4 |
 |----:|----:|----:|-----|
-|   2 |   8 | 1.0 | B   |
+|   1 |   1 | 0.5 | A   |
 
 ------------------------------------------------------------------------
 
@@ -3088,9 +3090,6 @@ Random `n` (default: row count) rows with repetition.
 |   1 |   3 | 1.5 | C   |
 |   1 |   3 | 1.5 | C   |
 |   1 |   7 | 0.5 | A   |
-|   2 |   6 | 1.5 | C   |
-|   2 |   8 | 1.0 | B   |
-|   2 |   2 | 1.0 | B   |
 
 ------------------------------------------------------------------------
 
@@ -3108,10 +3107,7 @@ Five random rows with repetition
 |   2 |   4 | 0.5 | A   |
 |   1 |   9 | 1.5 | C   |
 |   2 |   2 | 1.0 | B   |
-|   1 |   7 | 0.5 | A   |
-|   2 |   8 | 1.0 | B   |
 |   2 |   6 | 1.5 | C   |
-|   1 |   1 | 0.5 | A   |
 
 ------------------------------------------------------------------------
 
@@ -3299,8 +3295,6 @@ Select 5 random rows from each group
 |----:|----:|----:|-----|
 |   1 |   7 | 0.5 | A   |
 |   1 |   1 | 0.5 | A   |
-|   1 |   1 | 0.5 | A   |
-|   2 |   4 | 0.5 | A   |
 |   1 |   7 | 0.5 | A   |
 |   1 |   7 | 0.5 | A   |
 |   1 |   1 | 0.5 | A   |
@@ -3499,15 +3493,15 @@ for each pair. By default it counts rows from each group.
 
 Options are:
 
-- `:aggregator` - function which aggregates values of grouped dataset,
-  default it’s `row-count`
-- `:marginal-rows` and `:marginal-cols` - if true, sum of rows and cols
-  are added as an additional columns and row. May be custom function
-  which accepts pure row and col as a seq.
-- `:replace-missing?` - should missing values be replaced (default:
-  true) with `:missing-value` (default: 0)
-- `:pivot?` - if false, flat aggregation result is returned (default:
-  false)
+-   `:aggregator` - function which aggregates values of grouped dataset,
+    default it’s `row-count`
+-   `:marginal-rows` and `:marginal-cols` - if true, sum of rows and
+    cols are added as an additional columns and row. May be custom
+    function which accepts pure row and col as a seq.
+-   `:replace-missing?` - should missing values be replaced (default:
+    true) with `:missing-value` (default: 0)
+-   `:pivot?` - if false, flat aggregation result is returned (default:
+    false)
 
 ``` clojure
 (def ctds (tc/dataset {:a [:foo :foo :bar :bar :foo :foo]
@@ -3599,9 +3593,9 @@ Turn off pivoting
 Ordering can be done by column(s) or any function operating on row.
 Possible order can be:
 
-- `:asc` for ascending order (default)
-- `:desc` for descending order
-- custom comparator
+-   `:asc` for ascending order (default)
+-   `:desc` for descending order
+-   custom comparator
 
 `:select-keys` limits row map provided to ordering functions.
 
@@ -3921,11 +3915,11 @@ Grouped dataset
 
 There are 4 strategies defined:
 
-- `:first` - select first row (default)
-- `:last` - select last row
-- `:random` - select random row
-- any function - apply function to a columns which are subject of
-  uniqueness
+-   `:first` - select first row (default)
+-   `:last` - select last row
+-   `:random` - select random row
+-   any function - apply function to a columns which are subject of
+    uniqueness
 
 ------------------------------------------------------------------------
 
@@ -4176,28 +4170,29 @@ The same with grouped dataset
 Missing values can be replaced using several strategies.
 `replace-missing` accepts:
 
-- dataset
-- column selector, default: `:all`
-- strategy, default: `:nearest`
-- value (optional)
-  - single value
-  - sequence of values (cycled)
-  - function, applied on column(s) with stripped missings
-  - map with \[index,value\] pairs
+-   dataset
+-   column selector, default: `:all`
+-   strategy, default: `:nearest`
+-   value (optional)
+    -   single value
+    -   sequence of values (cycled)
+    -   function, applied on column(s) with stripped missings
+    -   map with \[index,value\] pairs
 
 Strategies are:
 
-- `:value` - replace with given value
-- `:up` - copy values up
-- `:down` - copy values down
-- `:updown` - copy values up and then down for missing values at the end
-- `:downup` - copy values down and then up for missing values at the
-  beginning
-- `:mid` or `:nearest` - copy values around known values
-- `:midpoint` - use average value from previous and next non-missing
-- `:lerp` - trying to lineary approximate values, works for numbers and
-  datetime, otherwise applies `:nearest`. For numbers always results in
-  `float` datatype.
+-   `:value` - replace with given value
+-   `:up` - copy values up
+-   `:down` - copy values down
+-   `:updown` - copy values up and then down for missing values at the
+    end
+-   `:downup` - copy values down and then up for missing values at the
+    beginning
+-   `:mid` or `:nearest` - copy values around known values
+-   `:midpoint` - use average value from previous and next non-missing
+-   `:lerp` - trying to lineary approximate values, works for numbers
+    and datetime, otherwise applies `:nearest`. For numbers always
+    results in `float` datatype.
 
 Let’s define special dataset here:
 
@@ -4623,12 +4618,12 @@ Lerp works also on dates
 When your column contains not continuous data range you can fill up with
 lacking values. Arguments:
 
-- dataset
-- column name
-- expected step (`max-span`, milliseconds in case of datetime column)
-- (optional) `missing-strategy` - how to replace missing, default
-  `:down` (set to `nil` if none)
-- (optional) `missing-value` - optional value for replace missing
+-   dataset
+-   column name
+-   expected step (`max-span`, milliseconds in case of datetime column)
+-   (optional) `missing-strategy` - how to replace missing, default
+    `:down` (set to `nil` if none)
+-   (optional) `missing-value` - optional value for replace missing
 
 ------------------------------------------------------------------------
 
@@ -4657,27 +4652,27 @@ lacking values. Arguments:
 Joining or separating columns are operations which can help to tidy
 messy dataset.
 
-- `join-columns` joins content of the columns (as string concatenation
-  or other structure) and stores it in new column
-- `separate-column` splits content of the columns into set of new
-  columns
+-   `join-columns` joins content of the columns (as string concatenation
+    or other structure) and stores it in new column
+-   `separate-column` splits content of the columns into set of new
+    columns
 
 #### Join
 
 `join-columns` accepts:
 
-- dataset
-- column selector (as in `select-columns`)
-- options
-- `:separator` (default `"-"`)
-- `:drop-columns?` - whether to drop source columns or not (default
-  `true`)
-- `:result-type`
-- `:map` - packs data into map
-- `:seq` - packs data into sequence
-- `:string` - join strings with separator (default)
-- or custom function which gets row as a vector
-- `:missing-subst` - substitution for missing value
+-   dataset
+-   column selector (as in `select-columns`)
+-   options
+-   `:separator` (default `"-"`)
+-   `:drop-columns?` - whether to drop source columns or not (default
+    `true`)
+-   `:result-type`
+-   `:map` - packs data into map
+-   `:seq` - packs data into sequence
+-   `:string` - join strings with separator (default)
+-   or custom function which gets row as a vector
+-   `:missing-subst` - substitution for missing value
 
 ------------------------------------------------------------------------
 
@@ -4946,20 +4941,20 @@ df
 Column can be also separated into several other columns using string as
 separator, regex or custom function. Arguments:
 
-- dataset
-- source column
-- target columns - can be `nil` or `:infer` to automatically create
-  columns
-- separator as:
-  - string - it’s converted to regular expression and passed to
-    `clojure.string/split` function
-  - regex
-  - or custom function (default: identity)
-- options
-  - `:drop-column?` - whether drop source column(s) or not (default:
-    `true`). Set to `:all` to keep only separation result.
-  - `:missing-subst` - values which should be treated as missing, can be
-    set, sequence, value or function (default: `""`)
+-   dataset
+-   source column
+-   target columns - can be `nil` or `:infer` to automatically create
+    columns
+-   separator as:
+    -   string - it’s converted to regular expression and passed to
+        `clojure.string/split` function
+    -   regex
+    -   or custom function (default: identity)
+-   options
+    -   `:drop-column?` - whether drop source column(s) or not (default:
+        `true`). Set to `:all` to keep only separation result.
+    -   `:missing-subst` - values which should be treated as missing,
+        can be set, sequence, value or function (default: `""`)
 
 Custom function (as separator) should return seqence of values for given
 value or a sequence of map.
@@ -5544,10 +5539,10 @@ should have the same size!).
 
 Options:
 
-- `:indexes?` if true (or column name), information about index of
-  unrolled sequence is added.
-- `:datatypes` list of datatypes which should be applied to restored
-  columns, a map
+-   `:indexes?` if true (or column name), information about index of
+    unrolled sequence is added.
+-   `:datatypes` list of datatypes which should be applied to restored
+    columns, a map
 
 ------------------------------------------------------------------------
 
@@ -5716,8 +5711,8 @@ This works also on grouped dataset
 
 Reshaping data provides two types of operations:
 
-- `pivot->longer` - converting columns to rows
-- `pivot->wider` - converting rows to columns
+-   `pivot->longer` - converting columns to rows
+-   `pivot->wider` - converting rows to columns
 
 Both functions are inspired on
 [tidyr](https://tidyr.tidyverse.org/articles/pivot.html) R package and
@@ -5734,28 +5729,28 @@ data.
 
 Arguments:
 
-- dataset
-- columns selector
-- options:
-  - `:target-columns` - names of the columns created or columns pattern
-    (see below) (default: `:$column`)
-  - `:value-column-name` - name of the column for values (default:
-    `:$value`)
-  - `:splitter` - string, regular expression or function which splits
-    source column names into data
-  - `:drop-missing?` - remove rows with missing? (default: `true`)
-  - `:datatypes` - map of target columns data types
-  - `:coerce-to-number` - try to convert extracted values to numbers if
-    possible (default: true)
+-   dataset
+-   columns selector
+-   options:
+    -   `:target-columns` - names of the columns created or columns
+        pattern (see below) (default: `:$column`)
+    -   `:value-column-name` - name of the column for values (default:
+        `:$value`)
+    -   `:splitter` - string, regular expression or function which
+        splits source column names into data
+    -   `:drop-missing?` - remove rows with missing? (default: `true`)
+    -   `:datatypes` - map of target columns data types
+    -   `:coerce-to-number` - try to convert extracted values to numbers
+        if possible (default: true)
 
 `:target-columns` - can be:
 
-- column name - source columns names are put there as a data
-- column names as seqence - source columns names after split are put
-  separately into `:target-columns` as data
-- pattern - is a sequence of names, where some of the names are `nil`.
-  `nil` is replaced by a name taken from splitter and such column is
-  used for values.
+-   column name - source columns names are put there as a data
+-   column names as seqence - source columns names after split are put
+    separately into `:target-columns` as data
+-   pattern - is a sequence of names, where some of the names are `nil`.
+    `nil` is replaced by a name taken from splitter and such column is
+    used for values.
 
 ------------------------------------------------------------------------
 
@@ -5771,26 +5766,26 @@ relig-income
 
 data/relig_income.csv \[18 11\]:
 
-| religion                | \<\$10k | \$10-20k | \$20-30k | \$30-40k | \$40-50k | \$50-75k | \$75-100k | \$100-150k | \>150k | Don’t know/refused |
-|-------------------------|--------:|---------:|---------:|---------:|---------:|---------:|----------:|-----------:|-------:|-------------------:|
-| Agnostic                |      27 |       34 |       60 |       81 |       76 |      137 |       122 |        109 |     84 |                 96 |
-| Atheist                 |      12 |       27 |       37 |       52 |       35 |       70 |        73 |         59 |     74 |                 76 |
-| Buddhist                |      27 |       21 |       30 |       34 |       33 |       58 |        62 |         39 |     53 |                 54 |
-| Catholic                |     418 |      617 |      732 |      670 |      638 |     1116 |       949 |        792 |    633 |               1489 |
-| Don’t know/refused      |      15 |       14 |       15 |       11 |       10 |       35 |        21 |         17 |     18 |                116 |
-| Evangelical Prot        |     575 |      869 |     1064 |      982 |      881 |     1486 |       949 |        723 |    414 |               1529 |
-| Hindu                   |       1 |        9 |        7 |        9 |       11 |       34 |        47 |         48 |     54 |                 37 |
-| Historically Black Prot |     228 |      244 |      236 |      238 |      197 |      223 |       131 |         81 |     78 |                339 |
-| Jehovah’s Witness       |      20 |       27 |       24 |       24 |       21 |       30 |        15 |         11 |      6 |                 37 |
-| Jewish                  |      19 |       19 |       25 |       25 |       30 |       95 |        69 |         87 |    151 |                162 |
-| Mainline Prot           |     289 |      495 |      619 |      655 |      651 |     1107 |       939 |        753 |    634 |               1328 |
-| Mormon                  |      29 |       40 |       48 |       51 |       56 |      112 |        85 |         49 |     42 |                 69 |
-| Muslim                  |       6 |        7 |        9 |       10 |        9 |       23 |        16 |          8 |      6 |                 22 |
-| Orthodox                |      13 |       17 |       23 |       32 |       32 |       47 |        38 |         42 |     46 |                 73 |
-| Other Christian         |       9 |        7 |       11 |       13 |       13 |       14 |        18 |         14 |     12 |                 18 |
-| Other Faiths            |      20 |       33 |       40 |       46 |       49 |       63 |        46 |         40 |     41 |                 71 |
-| Other World Religions   |       5 |        2 |        3 |        4 |        2 |        7 |         3 |          4 |      4 |                  8 |
-| Unaffiliated            |     217 |      299 |      374 |      365 |      341 |      528 |       407 |        321 |    258 |                597 |
+| religion                | \<$10k | $10-20k | $20-30k | $30-40k | $40-50k | $50-75k | $75-100k | $100-150k | \>150k | Don’t know/refused |
+|-------------------------|-------:|--------:|--------:|--------:|--------:|--------:|---------:|----------:|-------:|-------------------:|
+| Agnostic                |     27 |      34 |      60 |      81 |      76 |     137 |      122 |       109 |     84 |                 96 |
+| Atheist                 |     12 |      27 |      37 |      52 |      35 |      70 |       73 |        59 |     74 |                 76 |
+| Buddhist                |     27 |      21 |      30 |      34 |      33 |      58 |       62 |        39 |     53 |                 54 |
+| Catholic                |    418 |     617 |     732 |     670 |     638 |    1116 |      949 |       792 |    633 |               1489 |
+| Don’t know/refused      |     15 |      14 |      15 |      11 |      10 |      35 |       21 |        17 |     18 |                116 |
+| Evangelical Prot        |    575 |     869 |    1064 |     982 |     881 |    1486 |      949 |       723 |    414 |               1529 |
+| Hindu                   |      1 |       9 |       7 |       9 |      11 |      34 |       47 |        48 |     54 |                 37 |
+| Historically Black Prot |    228 |     244 |     236 |     238 |     197 |     223 |      131 |        81 |     78 |                339 |
+| Jehovah’s Witness       |     20 |      27 |      24 |      24 |      21 |      30 |       15 |        11 |      6 |                 37 |
+| Jewish                  |     19 |      19 |      25 |      25 |      30 |      95 |       69 |        87 |    151 |                162 |
+| Mainline Prot           |    289 |     495 |     619 |     655 |     651 |    1107 |      939 |       753 |    634 |               1328 |
+| Mormon                  |     29 |      40 |      48 |      51 |      56 |     112 |       85 |        49 |     42 |                 69 |
+| Muslim                  |      6 |       7 |       9 |      10 |       9 |      23 |       16 |         8 |      6 |                 22 |
+| Orthodox                |     13 |      17 |      23 |      32 |      32 |      47 |       38 |        42 |     46 |                 73 |
+| Other Christian         |      9 |       7 |      11 |      13 |      13 |      14 |       18 |        14 |     12 |                 18 |
+| Other Faiths            |     20 |      33 |      40 |      46 |      49 |      63 |       46 |        40 |     41 |                 71 |
+| Other World Religions   |      5 |       2 |       3 |       4 |       2 |       7 |        3 |         4 |      4 |                  8 |
+| Unaffiliated            |    217 |     299 |     374 |     365 |     341 |     528 |      407 |       321 |    258 |                597 |
 
 ``` clojure
 (tc/pivot->longer relig-income (complement #{"religion"}))
@@ -5798,30 +5793,30 @@ data/relig_income.csv \[18 11\]:
 
 data/relig_income.csv \[180 3\]:
 
-| religion                | :$column | :$value |     |
-|-------------------------|--------------------|----:|
-| Agnostic                | \<\$10k            |  27 |
-| Atheist                 | \<\$10k            |  12 |
-| Buddhist                | \<\$10k            |  27 |
-| Catholic                | \<\$10k            | 418 |
-| Don’t know/refused      | \<\$10k            |  15 |
-| Evangelical Prot        | \<\$10k            | 575 |
-| Hindu                   | \<\$10k            |   1 |
-| Historically Black Prot | \<\$10k            | 228 |
-| Jehovah’s Witness       | \<\$10k            |  20 |
-| Jewish                  | \<\$10k            |  19 |
-| …                       | …                  |   … |
-| Historically Black Prot | \>150k             |  78 |
-| Jehovah’s Witness       | \>150k             |   6 |
-| Jewish                  | \>150k             | 151 |
-| Mainline Prot           | \>150k             | 634 |
-| Mormon                  | \>150k             |  42 |
-| Muslim                  | \>150k             |   6 |
-| Orthodox                | \>150k             |  46 |
-| Other Christian         | \>150k             |  12 |
-| Other Faiths            | \>150k             |  41 |
-| Other World Religions   | \>150k             |   4 |
-| Unaffiliated            | \>150k             | 258 |
+| religion                | :*c**o**l**u**m**n*\|:value |     |
+|-------------------------|-----------------------------|----:|
+| Agnostic                | \<$10k                      |  27 |
+| Atheist                 | \<$10k                      |  12 |
+| Buddhist                | \<$10k                      |  27 |
+| Catholic                | \<$10k                      | 418 |
+| Don’t know/refused      | \<$10k                      |  15 |
+| Evangelical Prot        | \<$10k                      | 575 |
+| Hindu                   | \<$10k                      |   1 |
+| Historically Black Prot | \<$10k                      | 228 |
+| Jehovah’s Witness       | \<$10k                      |  20 |
+| Jewish                  | \<$10k                      |  19 |
+| …                       | …                           |   … |
+| Historically Black Prot | \>150k                      |  78 |
+| Jehovah’s Witness       | \>150k                      |   6 |
+| Jewish                  | \>150k                      | 151 |
+| Mainline Prot           | \>150k                      | 634 |
+| Mormon                  | \>150k                      |  42 |
+| Muslim                  | \>150k                      |   6 |
+| Orthodox                | \>150k                      |  46 |
+| Other Christian         | \>150k                      |  12 |
+| Other Faiths            | \>150k                      |  41 |
+| Other World Religions   | \>150k                      |   4 |
+| Unaffiliated            | \>150k                      | 258 |
 
 ------------------------------------------------------------------------
 
@@ -6168,10 +6163,10 @@ pnl
 
 Arguments:
 
-- dataset
-- `columns-selector` - values from selected columns are converted to new
-  columns
-- `value-columns` - what are values
+-   dataset
+-   `columns-selector` - values from selected columns are converted to
+    new columns
+-   `value-columns` - what are values
 
 When multiple columns are used as columns selector, names are joined
 using `:concat-columns-with` option. `:concat-columns-with` can be a
@@ -6770,16 +6765,16 @@ multi2
 
 \_unnamed \[8 4\]:
 
-| :id | :$column | :$value | :checked |      |
-|----:|--------------------|----------|------|
-|   1 | :choice1           | A        | true |
-|   2 | :choice1           | C        | true |
-|   3 | :choice1           | D        | true |
-|   4 | :choice1           | B        | true |
-|   1 | :choice2           | B        | true |
-|   2 | :choice2           | B        | true |
-|   4 | :choice2           | D        | true |
-|   1 | :choice3           | C        | true |
+| :id | :*c**o**l**u**m**n*\|:value | :checked |      |
+|----:|-----------------------------|----------|------|
+|   1 | :choice1                    | A        | true |
+|   2 | :choice1                    | C        | true |
+|   3 | :choice1                    | D        | true |
+|   4 | :choice1                    | B        | true |
+|   1 | :choice2                    | B        | true |
+|   2 | :choice2                    | B        | true |
+|   4 | :choice2                    | D        | true |
+|   1 | :choice3                    | C        | true |
 
 Step 2 - Convert back to wide form with actual choices as columns
 
@@ -7027,10 +7022,10 @@ Additionally set operations are defined: `intersect` and `difference`.
 
 To concat two datasets rowwise you can choose:
 
-- `concat` - concats rows for matching columns, the number of columns
-  should be equal.
-- `union` - like concat but returns unique values
-- `bind` - concats rows add missing, empty columns
+-   `concat` - concats rows for matching columns, the number of columns
+    should be equal.
+-   `union` - like concat but returns unique values
+-   `bind` - concats rows add missing, empty columns
 
 To add two datasets columnwise use `bind`. The number of rows should be
 equal.
@@ -7174,14 +7169,14 @@ left-outer-join \[11 8\]:
 |   3 | 105 | t   |   3 |          |      110 | d        | X   |
 |   4 | 106 | r   |   4 |        1 |      109 | a        | X   |
 |   4 | 109 | t   |   4 |        1 |      109 | a        | X   |
+|     | 107 | a   |     |        3 |      105 | a        | X   |
+|     | 108 | c   |     |        3 |      105 | a        | X   |
 |   1 | 101 | a   |   1 |        1 |      103 | l        | X   |
 |   1 | 103 | s   |   1 |        1 |      103 | l        | X   |
 |   1 | 101 | a   |   1 |          |      102 | e        | X   |
 |   1 | 103 | s   |   1 |          |      102 | e        | X   |
 |   2 | 102 | b   |     |          |          |          |     |
 |   2 | 104 |     |     |          |          |          |     |
-|     | 107 | a   |     |          |          |          |     |
-|     | 108 | c   |     |          |          |          |     |
 
 ------------------------------------------------------------------------
 
@@ -7189,7 +7184,7 @@ left-outer-join \[11 8\]:
 (tc/left-join ds2 ds1 {:left :e :right :a})
 ```
 
-left-outer-join \[12 8\]:
+left-outer-join \[13 8\]:
 
 |  :e |  :a |  :b | :c  | :d  | :right.a | :right.b | :right.c |
 |----:|----:|----:|-----|-----|---------:|---------:|----------|
@@ -7199,11 +7194,12 @@ left-outer-join \[12 8\]:
 |   1 |     | 102 | e   | X   |        1 |      103 | s        |
 |   3 |     | 110 | d   | X   |        3 |      105 | t        |
 |   4 |   1 | 109 | a   | X   |        4 |      106 | r        |
+|     |   3 | 105 | a   | X   |          |      107 | a        |
+|     |   3 | 105 | a   | X   |          |      108 | c        |
 |   4 |   1 | 109 | a   | X   |        4 |      109 | t        |
 |   5 |   2 | 108 | t   | X   |          |          |          |
 |   6 |   5 | 107 | a   | X   |          |          |          |
 |   7 |   4 | 106 | t   | X   |          |          |          |
-|     |   3 | 105 | a   | X   |          |          |          |
 |   8 |   2 | 104 | b   | X   |          |          |          |
 
 #### Right
@@ -7292,13 +7288,15 @@ right-outer-join \[9 8\]:
 (tc/right-join ds1 ds2 {:left :a :right :e})
 ```
 
-right-outer-join \[12 8\]:
+right-outer-join \[13 8\]:
 
 |  :a |  :b | :c  |  :e | :right.a | :right.b | :right.c | :d  |
 |----:|----:|-----|----:|---------:|---------:|----------|-----|
 |   3 | 105 | t   |   3 |          |      110 | d        | X   |
 |   4 | 106 | r   |   4 |        1 |      109 | a        | X   |
 |   4 | 109 | t   |   4 |        1 |      109 | a        | X   |
+|     | 107 | a   |     |        3 |      105 | a        | X   |
+|     | 108 | c   |     |        3 |      105 | a        | X   |
 |   1 | 101 | a   |   1 |        1 |      103 | l        | X   |
 |   1 | 103 | s   |   1 |        1 |      103 | l        | X   |
 |   1 | 101 | a   |   1 |          |      102 | e        | X   |
@@ -7306,7 +7304,6 @@ right-outer-join \[12 8\]:
 |     |     |     |   5 |        2 |      108 | t        | X   |
 |     |     |     |   6 |        5 |      107 | a        | X   |
 |     |     |     |   7 |        4 |      106 | t        | X   |
-|     |     |     |     |        3 |      105 | a        | X   |
 |     |     |     |   8 |        2 |      104 | b        | X   |
 
 ------------------------------------------------------------------------
@@ -7325,11 +7322,11 @@ right-outer-join \[11 8\]:
 |   1 |     | 102 | e   | X   |        1 |      103 | s        |
 |   3 |     | 110 | d   | X   |        3 |      105 | t        |
 |   4 |   1 | 109 | a   | X   |        4 |      106 | r        |
+|     |   3 | 105 | a   | X   |          |      107 | a        |
+|     |   3 | 105 | a   | X   |          |      108 | c        |
 |   4 |   1 | 109 | a   | X   |        4 |      109 | t        |
 |     |     |     |     |     |        2 |      102 | b        |
 |     |     |     |     |     |        2 |      104 |          |
-|     |     |     |     |     |          |      107 | a        |
-|     |     |     |     |     |          |      108 | c        |
 
 #### Inner
 
@@ -7405,13 +7402,15 @@ inner-join \[4 8\]:
 (tc/inner-join ds1 ds2 {:left :a :right :e})
 ```
 
-inner-join \[7 7\]:
+inner-join \[9 7\]:
 
 |  :a |  :b | :c  | :right.a | :right.b | :right.c | :d  |
 |----:|----:|-----|---------:|---------:|----------|-----|
 |   3 | 105 | t   |          |      110 | d        | X   |
 |   4 | 106 | r   |        1 |      109 | a        | X   |
 |   4 | 109 | t   |        1 |      109 | a        | X   |
+|     | 107 | a   |        3 |      105 | a        | X   |
+|     | 108 | c   |        3 |      105 | a        | X   |
 |   1 | 101 | a   |        1 |      103 | l        | X   |
 |   1 | 103 | s   |        1 |      103 | l        | X   |
 |   1 | 101 | a   |          |      102 | e        | X   |
@@ -7423,7 +7422,7 @@ inner-join \[7 7\]:
 (tc/inner-join ds2 ds1 {:left :e :right :a})
 ```
 
-inner-join \[7 7\]:
+inner-join \[9 7\]:
 
 |  :e |  :a |  :b | :c  | :d  | :right.b | :right.c |
 |----:|----:|----:|-----|-----|---------:|----------|
@@ -7433,6 +7432,8 @@ inner-join \[7 7\]:
 |   1 |     | 102 | e   | X   |      103 | s        |
 |   3 |     | 110 | d   | X   |      105 | t        |
 |   4 |   1 | 109 | a   | X   |      106 | r        |
+|     |   3 | 105 | a   | X   |      107 | a        |
+|     |   3 | 105 | a   | X   |      108 | c        |
 |   4 |   1 | 109 | a   | X   |      109 | t        |
 
 #### Full
@@ -7443,20 +7444,20 @@ Join keeping all rows
 (tc/full-join ds1 ds2 :b)
 ```
 
-full-join \[10 8\]:
+outer-join \[10 7\]:
 
-|  :b |  :a | :c  | :right.b | :right.a | :right.c | :d  |  :e |
-|----:|----:|-----|---------:|---------:|----------|-----|----:|
-| 109 |   4 | t   |      109 |        1 | a        | X   |   4 |
-| 108 |     | c   |      108 |        2 | t        | X   |   5 |
-| 107 |     | a   |      107 |        5 | a        | X   |   6 |
-| 106 |   4 | r   |      106 |        4 | t        | X   |   7 |
-| 105 |   3 | t   |      105 |        3 | a        | X   |     |
-| 104 |   2 |     |      104 |        2 | b        | X   |   8 |
-| 103 |   1 | s   |      103 |        1 | l        | X   |   1 |
-| 102 |   2 | b   |      102 |          | e        | X   |   1 |
-| 101 |   1 | a   |          |          |          |     |     |
-|     |     |     |      110 |          | d        | X   |   3 |
+|  :b |  :a | :c  | :right.a | :right.c | :d  |  :e |
+|----:|----:|-----|---------:|----------|-----|----:|
+| 109 |   4 | t   |        1 | a        | X   |   4 |
+| 108 |     | c   |        2 | t        | X   |   5 |
+| 107 |     | a   |        5 | a        | X   |   6 |
+| 106 |   4 | r   |        4 | t        | X   |   7 |
+| 105 |   3 | t   |        3 | a        | X   |     |
+| 104 |   2 |     |        2 | b        | X   |   8 |
+| 103 |   1 | s   |        1 | l        | X   |   1 |
+| 102 |   2 | b   |          | e        | X   |   1 |
+| 101 |   1 | a   |          |          |     |     |
+| 110 |     |     |          | d        | X   |   3 |
 
 ------------------------------------------------------------------------
 
@@ -7464,20 +7465,20 @@ full-join \[10 8\]:
 (tc/full-join ds2 ds1 :b)
 ```
 
-full-join \[10 8\]:
+outer-join \[10 7\]:
 
-|  :b |  :a | :c  | :d  |  :e | :right.b | :right.a | :right.c |
-|----:|----:|-----|-----|----:|---------:|---------:|----------|
-| 102 |     | e   | X   |   1 |      102 |        2 | b        |
-| 103 |   1 | l   | X   |   1 |      103 |        1 | s        |
-| 104 |   2 | b   | X   |   8 |      104 |        2 |          |
-| 105 |   3 | a   | X   |     |      105 |        3 | t        |
-| 106 |   4 | t   | X   |   7 |      106 |        4 | r        |
-| 107 |   5 | a   | X   |   6 |      107 |          | a        |
-| 108 |   2 | t   | X   |   5 |      108 |          | c        |
-| 109 |   1 | a   | X   |   4 |      109 |        4 | t        |
-| 110 |     | d   | X   |   3 |          |          |          |
-|     |     |     |     |     |      101 |        1 | a        |
+|  :b |  :a | :c  | :d  |  :e | :right.a | :right.c |
+|----:|----:|-----|-----|----:|---------:|----------|
+| 102 |     | e   | X   |   1 |        2 | b        |
+| 103 |   1 | l   | X   |   1 |        1 | s        |
+| 104 |   2 | b   | X   |   8 |        2 |          |
+| 105 |   3 | a   | X   |     |        3 | t        |
+| 106 |   4 | t   | X   |   7 |        4 | r        |
+| 107 |   5 | a   | X   |   6 |          | a        |
+| 108 |   2 | t   | X   |   5 |          | c        |
+| 109 |   1 | a   | X   |   4 |        4 | t        |
+| 110 |     | d   | X   |   3 |          |          |
+| 101 |     |     |     |     |        1 | a        |
 
 ------------------------------------------------------------------------
 
@@ -7485,7 +7486,7 @@ full-join \[10 8\]:
 (tc/full-join ds1 ds2 [:a :b])
 ```
 
-full-join \[14 8\]:
+outer-join \[14 8\]:
 
 |  :a |  :b | :c  | :right.a | :right.b | :right.c | :d  |  :e |
 |----:|----:|-----|---------:|---------:|----------|-----|----:|
@@ -7510,7 +7511,7 @@ full-join \[14 8\]:
 (tc/full-join ds2 ds1 [:a :b])
 ```
 
-full-join \[14 8\]:
+outer-join \[14 8\]:
 
 |  :a |  :b | :c  | :d  |  :e | :right.a | :right.b | :right.c |
 |----:|----:|-----|-----|----:|---------:|---------:|----------|
@@ -7535,25 +7536,24 @@ full-join \[14 8\]:
 (tc/full-join ds1 ds2 {:left :a :right :e})
 ```
 
-full-join \[16 8\]:
+outer-join \[15 8\]:
 
 |  :a |  :b | :c  |  :e | :right.a | :right.b | :right.c | :d  |
 |----:|----:|-----|----:|---------:|---------:|----------|-----|
 |   3 | 105 | t   |   3 |          |      110 | d        | X   |
 |   4 | 106 | r   |   4 |        1 |      109 | a        | X   |
 |   4 | 109 | t   |   4 |        1 |      109 | a        | X   |
+|     | 107 | a   |     |        3 |      105 | a        | X   |
+|     | 108 | c   |     |        3 |      105 | a        | X   |
 |   1 | 101 | a   |   1 |        1 |      103 | l        | X   |
 |   1 | 103 | s   |   1 |        1 |      103 | l        | X   |
 |   1 | 101 | a   |   1 |          |      102 | e        | X   |
 |   1 | 103 | s   |   1 |          |      102 | e        | X   |
 |   2 | 102 | b   |     |          |          |          |     |
 |   2 | 104 |     |     |          |          |          |     |
-|     | 107 | a   |     |          |          |          |     |
-|     | 108 | c   |     |          |          |          |     |
 |     |     |     |   5 |        2 |      108 | t        | X   |
 |     |     |     |   6 |        5 |      107 | a        | X   |
 |     |     |     |   7 |        4 |      106 | t        | X   |
-|     |     |     |     |        3 |      105 | a        | X   |
 |     |     |     |   8 |        2 |      104 | b        | X   |
 
 ------------------------------------------------------------------------
@@ -7562,7 +7562,7 @@ full-join \[16 8\]:
 (tc/full-join ds2 ds1 {:left :e :right :a})
 ```
 
-full-join \[16 8\]:
+outer-join \[15 8\]:
 
 |  :e |  :a |  :b | :c  | :d  | :right.a | :right.b | :right.c |
 |----:|----:|----:|-----|-----|---------:|---------:|----------|
@@ -7572,16 +7572,15 @@ full-join \[16 8\]:
 |   1 |     | 102 | e   | X   |        1 |      103 | s        |
 |   3 |     | 110 | d   | X   |        3 |      105 | t        |
 |   4 |   1 | 109 | a   | X   |        4 |      106 | r        |
+|     |   3 | 105 | a   | X   |          |      107 | a        |
+|     |   3 | 105 | a   | X   |          |      108 | c        |
 |   4 |   1 | 109 | a   | X   |        4 |      109 | t        |
 |   5 |   2 | 108 | t   | X   |          |          |          |
 |   6 |   5 | 107 | a   | X   |          |          |          |
 |   7 |   4 | 106 | t   | X   |          |          |          |
-|     |   3 | 105 | a   | X   |          |          |          |
 |   8 |   2 | 104 | b   | X   |          |          |          |
 |     |     |     |     |     |        2 |      102 | b        |
 |     |     |     |     |     |        2 |      104 |          |
-|     |     |     |     |     |          |      107 | a        |
-|     |     |     |     |     |          |      108 | c        |
 
 #### Semi
 
@@ -7591,18 +7590,18 @@ Return rows from ds1 matching ds2
 (tc/semi-join ds1 ds2 :b)
 ```
 
-semi-join \[8 3\]:
+\_unnamed \[8 3\]:
 
-|  :b |  :a | :c  |
+|  :a |  :b | :c  |
 |----:|----:|-----|
-| 109 |   4 | t   |
-| 108 |     | c   |
-| 107 |     | a   |
-| 106 |   4 | r   |
-| 105 |   3 | t   |
-| 104 |   2 |     |
-| 103 |   1 | s   |
-| 102 |   2 | b   |
+|   4 | 109 | t   |
+|     | 108 | c   |
+|     | 107 | a   |
+|   4 | 106 | r   |
+|   3 | 105 | t   |
+|   2 | 104 |     |
+|   1 | 103 | s   |
+|   2 | 102 | b   |
 
 ------------------------------------------------------------------------
 
@@ -7610,18 +7609,18 @@ semi-join \[8 3\]:
 (tc/semi-join ds2 ds1 :b)
 ```
 
-semi-join \[8 5\]:
+\_unnamed \[8 5\]:
 
-|  :b |  :a | :c  | :d  |  :e |
+|  :a |  :b | :c  | :d  |  :e |
 |----:|----:|-----|-----|----:|
-| 102 |     | e   | X   |   1 |
-| 103 |   1 | l   | X   |   1 |
-| 104 |   2 | b   | X   |   8 |
-| 105 |   3 | a   | X   |     |
-| 106 |   4 | t   | X   |   7 |
-| 107 |   5 | a   | X   |   6 |
-| 108 |   2 | t   | X   |   5 |
-| 109 |   1 | a   | X   |   4 |
+|     | 102 | e   | X   |   1 |
+|   1 | 103 | l   | X   |   1 |
+|   2 | 104 | b   | X   |   8 |
+|   3 | 105 | a   | X   |     |
+|   4 | 106 | t   | X   |   7 |
+|   5 | 107 | a   | X   |   6 |
+|   2 | 108 | t   | X   |   5 |
+|   1 | 109 | a   | X   |   4 |
 
 ------------------------------------------------------------------------
 
@@ -7629,7 +7628,7 @@ semi-join \[8 5\]:
 (tc/semi-join ds1 ds2 [:a :b])
 ```
 
-semi-join \[4 3\]:
+\_unnamed \[4 3\]:
 
 |  :a |  :b | :c  |
 |----:|----:|-----|
@@ -7644,7 +7643,7 @@ semi-join \[4 3\]:
 (tc/semi-join ds2 ds1 [:a :b])
 ```
 
-semi-join \[4 5\]:
+\_unnamed \[4 5\]:
 
 |  :a |  :b | :c  | :d  |  :e |
 |----:|----:|-----|-----|----:|
@@ -7659,17 +7658,17 @@ semi-join \[4 5\]:
 (tc/semi-join ds1 ds2 {:left :a :right :e})
 ```
 
-semi-join \[7 3\]:
+\_unnamed \[7 3\]:
 
 |  :a |  :b | :c  |
 |----:|----:|-----|
 |   3 | 105 | t   |
 |   4 | 106 | r   |
 |   4 | 109 | t   |
-|   1 | 101 | a   |
-|   1 | 103 | s   |
 |     | 107 | a   |
 |     | 108 | c   |
+|   1 | 101 | a   |
+|   1 | 103 | s   |
 
 ------------------------------------------------------------------------
 
@@ -7677,15 +7676,15 @@ semi-join \[7 3\]:
 (tc/semi-join ds2 ds1 {:left :e :right :a})
 ```
 
-semi-join \[5 5\]:
+\_unnamed \[5 5\]:
 
-|  :e |  :a |  :b | :c  | :d  |
-|----:|----:|----:|-----|-----|
-|   1 |   1 | 103 | l   | X   |
-|   1 |     | 102 | e   | X   |
-|   3 |     | 110 | d   | X   |
-|   4 |   1 | 109 | a   | X   |
-|     |   3 | 105 | a   | X   |
+|  :a |  :b | :c  | :d  |  :e |
+|----:|----:|-----|-----|----:|
+|   1 | 103 | l   | X   |   1 |
+|     | 102 | e   | X   |   1 |
+|     | 110 | d   | X   |   3 |
+|   1 | 109 | a   | X   |   4 |
+|   3 | 105 | a   | X   |     |
 
 #### Anti
 
@@ -7695,11 +7694,11 @@ Return rows from ds1 not matching ds2
 (tc/anti-join ds1 ds2 :b)
 ```
 
-anti-join \[1 3\]:
+\_unnamed \[1 3\]:
 
-|  :b |  :a | :c  |
+|  :a |  :b | :c  |
 |----:|----:|-----|
-| 101 |   1 | a   |
+|   1 | 101 | a   |
 
 ------------------------------------------------------------------------
 
@@ -7707,11 +7706,11 @@ anti-join \[1 3\]:
 (tc/anti-join ds2 ds1 :b)
 ```
 
-anti-join \[1 5\]:
+\_unnamed \[1 5\]:
 
-|  :b |  :a | :c  | :d  |  :e |
+|  :a |  :b | :c  | :d  |  :e |
 |----:|----:|-----|-----|----:|
-| 110 |     | d   | X   |   3 |
+|     | 110 | d   | X   |   3 |
 
 ------------------------------------------------------------------------
 
@@ -7719,7 +7718,7 @@ anti-join \[1 5\]:
 (tc/anti-join ds1 ds2 [:a :b])
 ```
 
-anti-join \[5 3\]:
+\_unnamed \[5 3\]:
 
 |  :a |  :b | :c  |
 |----:|----:|-----|
@@ -7735,7 +7734,7 @@ anti-join \[5 3\]:
 (tc/anti-join ds1 ds2 {:left :a :right :e})
 ```
 
-anti-join \[2 3\]:
+\_unnamed \[2 3\]:
 
 |  :a |  :b | :c  |
 |----:|----:|-----|
@@ -7748,14 +7747,14 @@ anti-join \[2 3\]:
 (tc/anti-join ds2 ds1 {:left :e :right :a})
 ```
 
-anti-join \[4 5\]:
+\_unnamed \[4 5\]:
 
-|  :e |  :a |  :b | :c  | :d  |
-|----:|----:|----:|-----|-----|
-|   5 |   2 | 108 | t   | X   |
-|   6 |   5 | 107 | a   | X   |
-|   7 |   4 | 106 | t   | X   |
-|   8 |   2 | 104 | b   | X   |
+|  :a |  :b | :c  | :d  |  :e |
+|----:|----:|-----|-----|----:|
+|   2 | 108 | t   | X   |   5 |
+|   5 | 107 | a   | X   |   6 |
+|   4 | 106 | t   | X   |   7 |
+|   2 | 104 | b   | X   |   8 |
 
 #### Hashing
 
@@ -8172,12 +8171,6 @@ asof-\>= \[3 4\]:
 |   2 |   4 | 0.5 | A   |
 |   2 |   8 | 1.0 | B   |
 |   2 |   2 | 1.0 | B   |
-|   2 |   8 | 1.0 | B   |
-|   1 |   9 | 1.5 | C   |
-|   2 |   2 | 1.0 | B   |
-|   2 |   8 | 1.0 | B   |
-|   2 |   4 | 0.5 | A   |
-|   1 |   9 | 1.5 | C   |
 
 ##### Concat grouped dataset
 
@@ -8384,38 +8377,38 @@ In ML world very often you need to test given model and prepare
 collection of train and test datasets. `split` creates new dataset with
 two additional columns:
 
-- `:$split-name` - with `:train`, `:test`, `:split-2`, … values
-- `:$split-id` - id of splitted group (for k-fold and repeating)
+-   `:$split-name` - with `:train`, `:test`, `:split-2`, … values
+-   `:$split-id` - id of splitted group (for k-fold and repeating)
 
 `split-type` can be one of the following:
 
-- `:kfold` (default) - k-fold strategy, `:k` defines number of folds
-  (defaults to `5`), produces `k` splits
-- `:bootstrap` - `:ratio` defines ratio of observations put into result
-  (defaults to `1.0`), produces `1` split
-- `:holdout` - split into two or more parts with given ratio(s)
-  (defaults to `2/3`), produces `1` split
-- `:holdouts` - splits into two parts for ascending ratio. Range of
-  rations is given by `steps` option
-- `:loo` - leave one out, produces the same number of splits as number
-  of observations
+-   `:kfold` (default) - k-fold strategy, `:k` defines number of folds
+    (defaults to `5`), produces `k` splits
+-   `:bootstrap` - `:ratio` defines ratio of observations put into
+    result (defaults to `1.0`), produces `1` split
+-   `:holdout` - split into two or more parts with given ratio(s)
+    (defaults to `2/3`), produces `1` split
+-   `:holdouts` - splits into two parts for ascending ratio. Range of
+    rations is given by `steps` option
+-   `:loo` - leave one out, produces the same number of splits as number
+    of observations
 
 `:holdout` can accept also probabilites or ratios and can split to more
 than 2 subdatasets
 
 Additionally you can provide:
 
-- `:seed` - for random number generator
-- `:shuffle?` - turn on/off shuffle of the rows (default: `true`)
-- `:repeats` - repeat procedure `:repeats` times
-- `:partition-selector` - same as in `group-by` for stratified splitting
-  to reflect dataset structure in splits.
-- `:split-names` names of subdatasets different than default, ie.
-  `[:train :test :split-2 ...]`
-- `:split-col-name` - a column where name of split is stored, either
-  `:train` or `:test` values (default: `:$split-name`)
-- `:split-id-col-name` - a column where id of the train/test pair is
-  stored (default: `:$split-id`)
+-   `:seed` - for random number generator
+-   `:shuffle?` - turn on/off shuffle of the rows (default: `true`)
+-   `:repeats` - repeat procedure `:repeats` times
+-   `:partition-selector` - same as in `group-by` for stratified
+    splitting to reflect dataset structure in splits.
+-   `:split-names` names of subdatasets different than default, ie.
+    `[:train :test :split-2 ...]`
+-   `:split-col-name` - a column where name of split is stored, either
+    `:train` or `:test` values (default: `:$split-name`)
+-   `:split-id-col-name` - a column where id of the train/test pair is
+    stored (default: `:$split-id`)
 
 In case of grouped dataset each group is processed separately.
 
@@ -8708,30 +8701,30 @@ splits with ascending rows in train dataset.
 
 \_unnamed \[30 3\]:
 
-| :name                                | :group-id | :data                                                 |
-|--------------------------------------|----------:|-------------------------------------------------------|
-| {:$split-id 0, :$split-name :train}  |         0 | Group: {:$split-id 0, :$split-name :train} \[1 5\]:   |
-| {:$split-id 0, :$split-name :test}   |         1 | Group: {:$split-id 0, :$split-name :test} \[24 5\]:   |
-| {:$split-id 1, :$split-name :train}  |         2 | Group: {:$split-id 1, :$split-name :train} \[2 5\]:   |
-| {:$split-id 1, :$split-name :test}   |         3 | Group: {:$split-id 1, :$split-name :test} \[23 5\]:   |
-| {:$split-id 2, :$split-name :train}  |         4 | Group: {:$split-id 2, :$split-name :train} \[4 5\]:   |
-| {:$split-id 2, :$split-name :test}   |         5 | Group: {:$split-id 2, :$split-name :test} \[21 5\]:   |
-| {:$split-id 3, :$split-name :train}  |         6 | Group: {:$split-id 3, :$split-name :train} \[5 5\]:   |
-| {:$split-id 3, :$split-name :test}   |         7 | Group: {:$split-id 3, :$split-name :test} \[20 5\]:   |
-| {:$split-id 4, :$split-name :train}  |         8 | Group: {:$split-id 4, :$split-name :train} \[7 5\]:   |
-| {:$split-id 4, :$split-name :test}   |         9 | Group: {:$split-id 4, :$split-name :test} \[18 5\]:   |
-| …                                    |         … | …                                                     |
-| {:$split-id 9, :$split-name :test}   |        19 | Group: {:$split-id 9, :$split-name :test} \[11 5\]:   |
-| {:$split-id 10, :$split-name :train} |        20 | Group: {:$split-id 10, :$split-name :train} \[16 5\]: |
-| {:$split-id 10, :$split-name :test}  |        21 | Group: {:$split-id 10, :$split-name :test} \[9 5\]:   |
-| {:$split-id 11, :$split-name :train} |        22 | Group: {:$split-id 11, :$split-name :train} \[17 5\]: |
-| {:$split-id 11, :$split-name :test}  |        23 | Group: {:$split-id 11, :$split-name :test} \[8 5\]:   |
-| {:$split-id 12, :$split-name :train} |        24 | Group: {:$split-id 12, :$split-name :train} \[19 5\]: |
-| {:$split-id 12, :$split-name :test}  |        25 | Group: {:$split-id 12, :$split-name :test} \[6 5\]:   |
-| {:$split-id 13, :$split-name :train} |        26 | Group: {:$split-id 13, :$split-name :train} \[20 5\]: |
-| {:$split-id 13, :$split-name :test}  |        27 | Group: {:$split-id 13, :$split-name :test} \[5 5\]:   |
-| {:$split-id 14, :$split-name :train} |        28 | Group: {:$split-id 14, :$split-name :train} \[22 5\]: |
-| {:$split-id 14, :$split-name :test}  |        29 | Group: {:$split-id 14, :$split-name :test} \[3 5\]:   |
+| :name                                             | :group-id | :data                                                              |
+|---------------------------------------------------|----------:|--------------------------------------------------------------------|
+| {:*s**p**l**i**t* − *i**d*0, :split-name :train}  |         0 | Group: {:*s**p**l**i**t* − *i**d*0, :split-name :train} \[1 5\]:   |
+| {:*s**p**l**i**t* − *i**d*0, :split-name :test}   |         1 | Group: {:*s**p**l**i**t* − *i**d*0, :split-name :test} \[24 5\]:   |
+| {:*s**p**l**i**t* − *i**d*1, :split-name :train}  |         2 | Group: {:*s**p**l**i**t* − *i**d*1, :split-name :train} \[2 5\]:   |
+| {:*s**p**l**i**t* − *i**d*1, :split-name :test}   |         3 | Group: {:*s**p**l**i**t* − *i**d*1, :split-name :test} \[23 5\]:   |
+| {:*s**p**l**i**t* − *i**d*2, :split-name :train}  |         4 | Group: {:*s**p**l**i**t* − *i**d*2, :split-name :train} \[4 5\]:   |
+| {:*s**p**l**i**t* − *i**d*2, :split-name :test}   |         5 | Group: {:*s**p**l**i**t* − *i**d*2, :split-name :test} \[21 5\]:   |
+| {:*s**p**l**i**t* − *i**d*3, :split-name :train}  |         6 | Group: {:*s**p**l**i**t* − *i**d*3, :split-name :train} \[5 5\]:   |
+| {:*s**p**l**i**t* − *i**d*3, :split-name :test}   |         7 | Group: {:*s**p**l**i**t* − *i**d*3, :split-name :test} \[20 5\]:   |
+| {:*s**p**l**i**t* − *i**d*4, :split-name :train}  |         8 | Group: {:*s**p**l**i**t* − *i**d*4, :split-name :train} \[7 5\]:   |
+| {:*s**p**l**i**t* − *i**d*4, :split-name :test}   |         9 | Group: {:*s**p**l**i**t* − *i**d*4, :split-name :test} \[18 5\]:   |
+| …                                                 |         … | …                                                                  |
+| {:*s**p**l**i**t* − *i**d*9, :split-name :test}   |        19 | Group: {:*s**p**l**i**t* − *i**d*9, :split-name :test} \[11 5\]:   |
+| {:*s**p**l**i**t* − *i**d*10, :split-name :train} |        20 | Group: {:*s**p**l**i**t* − *i**d*10, :split-name :train} \[16 5\]: |
+| {:*s**p**l**i**t* − *i**d*10, :split-name :test}  |        21 | Group: {:*s**p**l**i**t* − *i**d*10, :split-name :test} \[9 5\]:   |
+| {:*s**p**l**i**t* − *i**d*11, :split-name :train} |        22 | Group: {:*s**p**l**i**t* − *i**d*11, :split-name :train} \[17 5\]: |
+| {:*s**p**l**i**t* − *i**d*11, :split-name :test}  |        23 | Group: {:*s**p**l**i**t* − *i**d*11, :split-name :test} \[8 5\]:   |
+| {:*s**p**l**i**t* − *i**d*12, :split-name :train} |        24 | Group: {:*s**p**l**i**t* − *i**d*12, :split-name :train} \[19 5\]: |
+| {:*s**p**l**i**t* − *i**d*12, :split-name :test}  |        25 | Group: {:*s**p**l**i**t* − *i**d*12, :split-name :test} \[6 5\]:   |
+| {:*s**p**l**i**t* − *i**d*13, :split-name :train} |        26 | Group: {:*s**p**l**i**t* − *i**d*13, :split-name :train} \[20 5\]: |
+| {:*s**p**l**i**t* − *i**d*13, :split-name :test}  |        27 | Group: {:*s**p**l**i**t* − *i**d*13, :split-name :test} \[5 5\]:   |
+| {:*s**p**l**i**t* − *i**d*14, :split-name :train} |        28 | Group: {:*s**p**l**i**t* − *i**d*14, :split-name :train} \[22 5\]: |
+| {:*s**p**l**i**t* − *i**d*14, :split-name :test}  |        29 | Group: {:*s**p**l**i**t* − *i**d*14, :split-name :test} \[3 5\]:   |
 
 #### Leave One Out
 
@@ -8864,9 +8857,9 @@ chain operations and compose them easily.
 
 There are two ways to create pipelines:
 
-- functional, as a composition of functions
-- declarative, separating task declarations and concrete
-  parametrization.
+-   functional, as a composition of functions
+-   declarative, separating task declarations and concrete
+    parametrization.
 
 Pipeline operations are prepared to work with
 [metamorph](https://github.com/scicloj/metamorph) library. That means
@@ -9696,16 +9689,16 @@ Clojure
 
 | origin | dest | month |  :summary-0 |  :summary-1 |
 |--------|------|------:|------------:|------------:|
-| EWR    | DFW  |     2 | 10.53676471 | 11.34558824 |
-| LGA    | ORD  |     2 |  5.28526646 |  8.78996865 |
-| JFK    | BOS  |     2 | 11.18000000 | 11.76000000 |
-| JFK    | LAX  |     2 | 22.75200000 | 15.08000000 |
-| EWR    | LAX  |     2 | 10.33333333 |  4.11111111 |
-| JFK    | SJU  |     2 | 10.35000000 | 10.81250000 |
-| LGA    | MIA  |     2 |  9.62500000 | 10.70000000 |
-| JFK    | STT  |     2 | 15.11538462 | 20.96153846 |
-| LGA    | DFW  |     2 |  5.37133550 |  7.47882736 |
-| EWR    | MIA  |     2 |  1.56410256 |  4.75641026 |
+| JFK    | LAX  |     1 |  6.59036145 | 14.22891566 |
+| LGA    | PBI  |     1 | -7.75862069 |  0.31034483 |
+| EWR    | LAX  |     1 |  1.36666667 |  7.50000000 |
+| JFK    | MIA  |     1 | 15.72067039 | 18.74301676 |
+| JFK    | SEA  |     1 | 14.35714286 | 30.75000000 |
+| EWR    | MIA  |     1 | 11.01123596 | 12.12359551 |
+| JFK    | SFO  |     1 | 19.25225225 | 28.63963964 |
+| JFK    | BOS  |     1 | 12.91964286 | 15.21428571 |
+| JFK    | ORD  |     1 | 31.58620690 | 40.17241379 |
+| JFK    | IAH  |     1 | 28.85714286 | 14.28571429 |
 
 ##### So how can we directly order by all the grouping variables?
 
@@ -9934,12 +9927,12 @@ Clojure
 
 | origin | dest | month |   arr_delay |   dep_delay |
 |--------|------|------:|------------:|------------:|
-| EWR    | DFW  |     2 | 10.53676471 | 11.34558824 |
-| LGA    | ORD  |     2 |  5.28526646 |  8.78996865 |
-| JFK    | BOS  |     2 | 11.18000000 | 11.76000000 |
-| JFK    | LAX  |     2 | 22.75200000 | 15.08000000 |
-| EWR    | LAX  |     2 | 10.33333333 |  4.11111111 |
-| JFK    | SJU  |     2 | 10.35000000 | 10.81250000 |
+| JFK    | LAX  |     1 |  6.59036145 | 14.22891566 |
+| LGA    | PBI  |     1 | -7.75862069 |  0.31034483 |
+| EWR    | LAX  |     1 |  1.36666667 |  7.50000000 |
+| JFK    | MIA  |     1 | 15.72067039 | 18.74301676 |
+| JFK    | SEA  |     1 | 14.35714286 | 30.75000000 |
+| EWR    | MIA  |     1 | 11.01123596 | 12.12359551 |
 
 ##### How can we return the first two rows for each month?
 
@@ -9975,12 +9968,12 @@ Clojure
 
 | year | month | day | dep_delay | arr_delay | carrier | origin | dest | air_time | distance | hour |
 |-----:|------:|----:|----------:|----------:|---------|--------|------|---------:|---------:|-----:|
-| 2014 |     2 |  20 |         4 |       -13 | DL      | LGA    | ATL  |      112 |      762 |   20 |
-| 2014 |     2 |  20 |         8 |         3 | DL      | LGA    | PBI  |      141 |     1035 |   10 |
+| 2014 |     1 |   1 |        14 |        13 | AA      | JFK    | LAX  |      359 |     2475 |    9 |
+| 2014 |     1 |   1 |        -3 |        13 | AA      | JFK    | LAX  |      363 |     2475 |   11 |
+| 2014 |     2 |   1 |        -1 |         1 | AA      | JFK    | LAX  |      358 |     2475 |    8 |
+| 2014 |     2 |   1 |        -5 |         3 | AA      | JFK    | LAX  |      358 |     2475 |   11 |
 | 2014 |     3 |   1 |       -11 |        36 | AA      | JFK    | LAX  |      375 |     2475 |    8 |
 | 2014 |     3 |   1 |        -3 |        14 | AA      | JFK    | LAX  |      368 |     2475 |   11 |
-| 2014 |     4 |   1 |        -8 |       -23 | MQ      | LGA    | BNA  |      113 |      764 |   18 |
-| 2014 |     4 |   1 |        -8 |       -11 | MQ      | LGA    | RDU  |       71 |      431 |   18 |
 
 ##### How can we concatenate columns a and b for each group in ID?
 
@@ -11144,11 +11137,11 @@ Calling function in by
 
 \_unnamed \[3 2\]:
 
-| :\$group-name | :sumV1 |
-|---------------|-------:|
-| a             |    6.0 |
-| b             |    9.0 |
-| c             |    6.0 |
+| :$group-name | :sumV1 |
+|--------------|-------:|
+| a            |    6.0 |
+| b            |    9.0 |
+| c            |    6.0 |
 
 ------------------------------------------------------------------------
 
@@ -11178,11 +11171,11 @@ Assigning column name in by
 
 \_unnamed \[3 2\]:
 
-| :\$group-name | :sumV1 |
-|---------------|-------:|
-| a             |    6.0 |
-| b             |    9.0 |
-| c             |    6.0 |
+| :$group-name | :sumV1 |
+|--------------|-------:|
+| a            |    6.0 |
+| b            |    9.0 |
+| c            |    6.0 |
 
 ------------------------------------------------------------------------
 
@@ -11196,10 +11189,10 @@ Using a condition in by
 
 \_unnamed \[2 2\]:
 
-| :\$group-name | summary |
-|---------------|--------:|
-| true          |     6.0 |
-| false         |    15.0 |
+| :$group-name | summary |
+|--------------|--------:|
+| true         |     6.0 |
+| false        |    15.0 |
 
 ------------------------------------------------------------------------
 
@@ -11214,11 +11207,11 @@ By on a subset of rows
 
 \_unnamed \[3 2\]:
 
-| :\$group-name | :sumV1 |
-|---------------|-------:|
-| A             |    5.0 |
-| B             |    5.0 |
-| C             |    1.0 |
+| :$group-name | :sumV1 |
+|--------------|-------:|
+| A            |    5.0 |
+| B            |    5.0 |
+| C            |    1.0 |
 
 ------------------------------------------------------------------------
 
@@ -11232,11 +11225,11 @@ Count number of observations for each group
 
 \_unnamed \[3 2\]:
 
-| :\$group-name | summary |
-|---------------|--------:|
-| A             |       3 |
-| B             |       3 |
-| C             |       3 |
+| :$group-name | summary |
+|--------------|--------:|
+| A            |       3 |
+| B            |       3 |
+| C            |       3 |
 
 ------------------------------------------------------------------------
 
@@ -12587,16 +12580,16 @@ Join keeping all the rows
 (tc/full-join x y "Id")
 ```
 
-full-join \[6 6\]:
+outer-join \[6 5\]:
 
-| Id  |  X1 | XY  | right.Id |  Y1 | right.XY |
-|-----|----:|-----|----------|----:|----------|
-| A   |   1 | x2  | A        |   1 | y1       |
-| B   |   3 | x4  | B        |   3 | y3       |
-| B   |   3 | x4  | B        |   5 | y5       |
-| C   |   5 | x6  |          |     |          |
-| C   |   7 | x8  |          |     |          |
-|     |     |     | D        |   7 | y7       |
+| Id  |  X1 | XY  |  Y1 | right.XY |
+|-----|----:|-----|----:|----------|
+| A   |   1 | x2  |   1 | y1       |
+| B   |   3 | x4  |   3 | y3       |
+| B   |   3 | x4  |   5 | y5       |
+| C   |   5 | x6  |     |          |
+| C   |   7 | x8  |     |          |
+| D   |     |     |   7 | y7       |
 
 ------------------------------------------------------------------------
 
@@ -12606,7 +12599,7 @@ Return rows from x matching y
 (tc/semi-join x y "Id")
 ```
 
-semi-join \[2 3\]:
+\_unnamed \[2 3\]:
 
 | Id  |  X1 | XY  |
 |-----|----:|-----|
@@ -12621,7 +12614,7 @@ Return rows from x not matching y
 (tc/anti-join x y "Id")
 ```
 
-anti-join \[2 3\]:
+\_unnamed \[2 3\]:
 
 | Id  |  X1 | XY  |
 |-----|----:|-----|
@@ -12920,11 +12913,13 @@ Intersection
 (tc/intersect x y)
 ```
 
-intersection \[2 1\]:
+intersection \[4 1\]:
 
 | :V1 |
 |----:|
 |   2 |
+|   2 |
+|   3 |
 |   3 |
 
 ------------------------------------------------------------------------
