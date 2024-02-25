@@ -1,0 +1,28 @@
+name: Build and Deploy
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ master ]
+permissions:
+  contents: write
+
+concurrency: build-and-deploy-${{ github.ref }}
+
+jobs:
+  # we may add a build job here at some point that for instance
+  # builds the docs so we don't have to generate them at run time
+  
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v4
+
+      - name: Deploy docs to gh-branches
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs
+          branch: gh-pages # default for this action, but including to be explicit
+
+
