@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - master
-  push:
-    branches:
-      - master
   workflow_dispatch:
 
 # This is just a guard against two of these actions
