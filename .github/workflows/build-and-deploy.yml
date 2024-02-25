@@ -3,17 +3,31 @@ name: Build and Deploy
 on:
   workflow_dispatch:
   pull_request:
-    branches: [ master ]
+    type: [closed]
 
+# This is just a guard against two of these actions
+# running at the same time. Not likely an issue for
+# us right now, but it could happen.
 concurrency: build-and-deploy-${{ github.ref }}
 
 jobs:
+  # With this job we will check if the PR was merged when closed. If not, we won't run these jobs.
+  check_pr_status:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+    
+    steps:
+      - name: Check PR status
+        run: echo "The PR was merged or manually triggered"
+
   # we may add a build job here at some point that for instance
   # builds the docs so we don't have to generate them at run time
   
   deploy:
     runs-on: ubuntu-latest
-
+    needs: check_pr_status
+    if: success()
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
