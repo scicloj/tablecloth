@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   pull_request:
     branches: [ master ]
-permissions:
-  contents: write
 
 concurrency: build-and-deploy-${{ github.ref }}
 
@@ -15,14 +13,14 @@ jobs:
   
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
-      - name: Deploy docs to gh-branches
+      - name: Deploy documentation
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs
           branch: gh-pages # default for this action, but including to be explicit
-
 
