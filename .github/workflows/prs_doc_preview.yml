@@ -7,8 +7,6 @@ on:
       - reopened
       - synchronize
       - closed
-  paths:
-    - ./docs/*
 
 concurrency: prs-doc-preview-${{ github.ref }}
 
