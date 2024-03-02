@@ -3,7 +3,7 @@ name: PR Docs Preview
 on:
   pull_request:
     paths:
-      - './docs/**/*'
+      - 'docs/**/*'
     types:
       - opened
       - reopened
