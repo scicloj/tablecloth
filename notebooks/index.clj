@@ -49,7 +49,7 @@ If you want to know more about `tech.ml.dataset` and `dtype-next` please refer t
 
 Join the discussion on [Zulip](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
 
-First, let's require main namespace and define dataset used in most examples:
+Let's require main namespace and define dataset used in most examples:
 ")
 
 
