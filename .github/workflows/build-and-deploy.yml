@@ -14,7 +14,6 @@ concurrency: build-and-deploy-${{ github.ref }}
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
-    needs: check-for-doc-changes 
 
     steps:
       - name: Checkout
