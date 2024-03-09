@@ -20,9 +20,9 @@ jobs:
         id: docs_check
         run: |
           if git diff --quiet HEAD^ HEAD --name-only | grep -q '^docs/'; then
-            echo "::set-output name=docs_changed::true"
+            echo "docs_changed=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=docs_changed::false"
+            echo "docs_changed=false" >> $GITHUB_OUTPUT
           fi
 
   deploy-docs:
