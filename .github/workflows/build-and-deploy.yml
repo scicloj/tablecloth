@@ -19,7 +19,7 @@ jobs:
       - name: Check for changes in docs folder
         id: docs_check
         run: |
-	  if git diff --quiet HEAD^ HEAD --name-only | grep -q '^docs/'; then
+          if git diff --quiet HEAD^ HEAD --name-only | grep -q '^docs/'; then
             echo "::set-output name=docs_changed::true"
           else
             echo "::set-output name=docs_changed::false"
