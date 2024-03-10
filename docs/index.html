@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -71,6 +71,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -218,7 +245,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <style></style>
 <style>.printedClojure .sourceCode {
@@ -1062,7 +1091,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <table class="table">
 <thead>
 <tr class="header">
-<th style="text-align: right;">:<span class="math inline">\(value | :\)</span>error</th>
+<th style="text-align: right;">:<span class="math inline">\(value |                                            :\)</span>error</th>
 <th></th>
 </tr>
 </thead>
@@ -1525,13 +1554,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb60"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">take</span> <span class="dv">2</span> (tc/rows ds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="printedClojure">
-<div class="sourceCode" id="cb61"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>([#object[java.<span class="kw">time</span>.LocalDate <span class="bn">0x73aad669</span> <span class="st">"2012-01-01"</span>]</span>
+<div class="sourceCode" id="cb61"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>([#object[java.<span class="kw">time</span>.LocalDate <span class="bn">0x7314410a</span> <span class="st">"2012-01-01"</span>]</span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.0</span></span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fl">12.8</span></span>
 <span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fl">5.0</span></span>
 <span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  <span class="fl">4.7</span></span>
 <span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"drizzle"</span>]</span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a> [#object[java.<span class="kw">time</span>.LocalDate <span class="bn">0x663d5b71</span> <span class="st">"2012-01-02"</span>]</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a> [#object[java.<span class="kw">time</span>.LocalDate <span class="bn">0xeb037cb</span> <span class="st">"2012-01-02"</span>]</span>
 <span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>  <span class="fl">10.9</span></span>
 <span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>  <span class="fl">10.6</span></span>
 <span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2.8</span></span>
@@ -1689,6 +1718,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceClojure">
 <div class="sourceCode" id="cb86"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>(tc/columns (tc/group-by DS <span class="at">:V1</span>) <span class="at">:as-map</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div>
 <div><p>{</p><div style="margin-left:10%;width:110%;"><div><pre><code class="sourceCode language-clojure printed-clojure">:name #tech.v3.dataset.column&lt;int64&gt;[2]
 :name
 [1, 2]</code></pre></div><div><pre><code class="sourceCode language-clojure printed-clojure">:group-id #tech.v3.dataset.column&lt;int64&gt;[2]
@@ -1708,7 +1738,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
 <p>(</p>
 <div style="margin-left:10%;width:110%;">
-Group: 1 [5 4]:Group: 2 [4 4]:
+Group: 1 [5 4]:<br>
+:V1:V2:V3:V4<br>
+110.5A<br>
+131.5C<br>
+151.0B<br>
+170.5A<br>
+191.5CGroup: 2 [4 4]:<br>
+:V1:V2:V3:V4<br>
+221.0B<br>
+240.5A<br>
+261.5C<br>
+281.0B
 </div>
 <p>)</p>
 </div>
@@ -1717,6 +1758,7 @@ Group: 1 [5 4]:Group: 2 [4 4]:
 </tbody>
 </table>
 </div><p>}</p></div>
+</div>
 <hr>
 <p>Grouped dataset as map</p>
 <div class="sourceClojure">
@@ -1841,6 +1883,7 @@ Group: 1 [5 4]:Group: 2 [4 4]:
 <span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>    (tc/group-by <span class="st">"a"</span>)</span>
 <span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>    (tc/groups-&gt;map))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div>
 <div><p>{</p><div style="margin-left:10%;width:110%;">
 <table data-quarto-postprocess="true" class="table">
 <colgroup>
@@ -1853,7 +1896,10 @@ Group: 1 [5 4]:Group: 2 [4 4]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>1</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 1 [2 2]:
+Group: 1 [2 2]:<br>
+ab<br>
+1a<br>
+1b
 </div></td>
 </tr>
 </tbody>
@@ -1869,12 +1915,16 @@ Group: 1 [2 2]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>2</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 2 [2 2]:
+Group: 2 [2 2]:<br>
+ab<br>
+2c<br>
+2d
 </div></td>
 </tr>
 </tbody>
 </table>
 </div><p>}</p></div>
+</div>
 <hr>
 <p>Grouping by more than one column. You can see that group names are maps. When ungrouping is done these maps are used to restore column names.</p>
 <div class="sourceClojure">
@@ -3381,6 +3431,7 @@ Group: 2 [2 2]:
 <span id="cb156-3"><a href="#cb156-3" aria-hidden="true" tabindex="-1"></a>    (tc/select-columns [<span class="at">:V2</span> <span class="at">:V3</span>])</span>
 <span id="cb156-4"><a href="#cb156-4" aria-hidden="true" tabindex="-1"></a>    (tc/groups-&gt;map))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div>
 <div><p>{</p><div style="margin-left:10%;width:110%;">
 <table data-quarto-postprocess="true" class="table">
 <colgroup>
@@ -3393,7 +3444,13 @@ Group: 2 [2 2]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>1</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 1 [5 2]:
+Group: 1 [5 2]:<br>
+:V2:V3<br>
+10.5<br>
+31.5<br>
+51.0<br>
+70.5<br>
+91.5
 </div></td>
 </tr>
 </tbody>
@@ -3409,12 +3466,18 @@ Group: 1 [5 2]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>2</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 2 [4 2]:
+Group: 2 [4 2]:<br>
+:V2:V3<br>
+21.0<br>
+40.5<br>
+61.5<br>
+81.0
 </div></td>
 </tr>
 </tbody>
 </table>
 </div><p>}</p></div>
+</div>
 </section>
 <section id="drop" class="level4">
 <h4 class="anchored" data-anchor-id="drop">Drop</h4>
@@ -3602,6 +3665,7 @@ Group: 2 [4 2]:
 <span id="cb162-3"><a href="#cb162-3" aria-hidden="true" tabindex="-1"></a>    (tc/drop-columns [<span class="at">:V2</span> <span class="at">:V3</span>])</span>
 <span id="cb162-4"><a href="#cb162-4" aria-hidden="true" tabindex="-1"></a>    (tc/groups-&gt;map))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div>
 <div><p>{</p><div style="margin-left:10%;width:110%;">
 <table data-quarto-postprocess="true" class="table">
 <colgroup>
@@ -3614,7 +3678,13 @@ Group: 2 [4 2]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>1</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 1 [5 2]:
+Group: 1 [5 2]:<br>
+:V1:V4<br>
+1A<br>
+1C<br>
+1B<br>
+1A<br>
+1C
 </div></td>
 </tr>
 </tbody>
@@ -3630,12 +3700,18 @@ Group: 1 [5 2]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>2</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 2 [4 2]:
+Group: 2 [4 2]:<br>
+:V1:V4<br>
+2B<br>
+2A<br>
+2C<br>
+2B
 </div></td>
 </tr>
 </tbody>
 </table>
 </div><p>}</p></div>
+</div>
 </section>
 <section id="rename" class="level4">
 <h4 class="anchored" data-anchor-id="rename">Rename</h4>
@@ -3654,7 +3730,7 @@ Group: 2 [4 2]:
 <th style="text-align: right;">v1</th>
 <th style="text-align: right;">v2</th>
 <th style="text-align: right;">[1 2 3]</th>
-<th>java.lang.Object@385dc80e</th>
+<th>java.lang.Object@232b42ec</th>
 </tr>
 </thead>
 <tbody>
@@ -3869,6 +3945,7 @@ Group: 2 [4 2]:
 <span id="cb168-6"><a href="#cb168-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">:V4</span> (Object.)})</span>
 <span id="cb168-7"><a href="#cb168-7" aria-hidden="true" tabindex="-1"></a>    (tc/groups-&gt;map))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div>
 <div><p>{</p><div style="margin-left:10%;width:110%;">
 <table data-quarto-postprocess="true" class="table">
 <colgroup>
@@ -3881,7 +3958,13 @@ Group: 2 [4 2]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>1</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 1 [5 4]:
+Group: 1 [5 4]:<br>
+v1v2[1 2 3]java.lang.Object@28433f6f<br>
+110.5A<br>
+131.5C<br>
+151.0B<br>
+170.5A<br>
+191.5C
 </div></td>
 </tr>
 </tbody>
@@ -3897,12 +3980,18 @@ Group: 1 [5 4]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>2</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 2 [4 4]:
+Group: 2 [4 4]:<br>
+v1v2[1 2 3]java.lang.Object@28433f6f<br>
+221.0B<br>
+240.5A<br>
+261.5C<br>
+281.0B
 </div></td>
 </tr>
 </tbody>
 </table>
 </div><p>}</p></div>
+</div>
 </section>
 <section id="add-or-update" class="level4">
 <h4 class="anchored" data-anchor-id="add-or-update">Add or update</h4>
@@ -4019,55 +4108,55 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">0.48830055</td>
+<td style="text-align: right;">0.12904549</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0.29098163</td>
+<td style="text-align: right;">0.14017079</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">0.67453746</td>
+<td style="text-align: right;">0.07189856</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0.74390154</td>
+<td style="text-align: right;">0.13006936</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">0.18780417</td>
+<td style="text-align: right;">0.33907144</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0.60370706</td>
+<td style="text-align: right;">0.01288904</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">0.07291113</td>
+<td style="text-align: right;">0.75409645</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0.33318282</td>
+<td style="text-align: right;">0.56484071</td>
 <td style="text-align: right;">8</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">0.14235509</td>
+<td style="text-align: right;">0.46129877</td>
 <td style="text-align: right;">9</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
@@ -4942,49 +5031,49 @@ Group: 2 [4 4]:
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">9</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
-<tr class="even">
+<tr class="odd">
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
@@ -6129,10 +6218,10 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
 </tr>
 </tbody>
 </table>
@@ -6178,50 +6267,14 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
@@ -6230,6 +6283,42 @@ Group: 2 [4 4]:
 <td style="text-align: right;">9</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -6257,28 +6346,28 @@ Group: 2 [4 4]:
 <td>B</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">9</td>
+<td style="text-align: right;">3</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
 </tr>
 </tbody>
 </table>
@@ -6300,34 +6389,34 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
 </tr>
 </tbody>
 </table>
@@ -6397,14 +6486,38 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
@@ -6416,37 +6529,13 @@ Group: 2 [4 4]:
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
 <td style="text-align: right;">9</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
@@ -6746,8 +6835,8 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
@@ -6759,13 +6848,13 @@ Group: 2 [4 4]:
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
@@ -6774,18 +6863,6 @@ Group: 2 [4 4]:
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
@@ -6807,7 +6884,19 @@ Group: 2 [4 4]:
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">9</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
@@ -6824,8 +6913,8 @@ Group: 2 [4 4]:
 <td>C</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
@@ -8324,9 +8413,9 @@ Group: 2 [4 4]:
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
@@ -11956,15 +12045,15 @@ Group: 2 [4 4]:
 <tbody>
 <tr class="odd">
 <td>:a</td>
-<td>[D@599c0940</td>
+<td>[D@2052830c</td>
 </tr>
 <tr class="even">
 <td>:b</td>
-<td>[D@2d0b3322</td>
+<td>[D@406b538c</td>
 </tr>
 <tr class="odd">
 <td>:c</td>
-<td>[D@2e1bf39d</td>
+<td>[D@1c5c6a9</td>
 </tr>
 </tbody>
 </table>
@@ -14910,8 +14999,8 @@ Group: 2 [4 4]:
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.57962012</td>
-<td style="text-align: right;">0.99896156</td>
+<td style="text-align: right;">0.01831687</td>
+<td style="text-align: right;">0.37889220</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">-2</td>
 </tr>
@@ -14919,8 +15008,8 @@ Group: 2 [4 4]:
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.08326986</td>
-<td style="text-align: right;">0.59128353</td>
+<td style="text-align: right;">0.64445047</td>
+<td style="text-align: right;">0.37419133</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">-2</td>
 </tr>
@@ -14928,8 +15017,8 @@ Group: 2 [4 4]:
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.20360377</td>
-<td style="text-align: right;">0.15487867</td>
+<td style="text-align: right;">0.24785146</td>
+<td style="text-align: right;">0.71050103</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">-2</td>
 </tr>
@@ -14937,8 +15026,8 @@ Group: 2 [4 4]:
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.69319026</td>
-<td style="text-align: right;">0.37104545</td>
+<td style="text-align: right;">0.97791847</td>
+<td style="text-align: right;">0.84234978</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">-2</td>
 </tr>
@@ -14967,7 +15056,7 @@ Group: 2 [4 4]:
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.57962012</td>
+<td style="text-align: right;">0.01831687</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
@@ -14975,7 +15064,7 @@ Group: 2 [4 4]:
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.08326986</td>
+<td style="text-align: right;">0.64445047</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="odd">
@@ -14983,7 +15072,7 @@ Group: 2 [4 4]:
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.20360377</td>
+<td style="text-align: right;">0.24785146</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
@@ -14991,7 +15080,7 @@ Group: 2 [4 4]:
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.69319026</td>
+<td style="text-align: right;">0.97791847</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="odd">
@@ -14999,7 +15088,7 @@ Group: 2 [4 4]:
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.99896156</td>
+<td style="text-align: right;">0.37889220</td>
 <td style="text-align: right;">-2</td>
 </tr>
 <tr class="even">
@@ -15007,7 +15096,7 @@ Group: 2 [4 4]:
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.59128353</td>
+<td style="text-align: right;">0.37419133</td>
 <td style="text-align: right;">-2</td>
 </tr>
 <tr class="odd">
@@ -15015,7 +15104,7 @@ Group: 2 [4 4]:
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.15487867</td>
+<td style="text-align: right;">0.71050103</td>
 <td style="text-align: right;">-2</td>
 </tr>
 <tr class="even">
@@ -15023,7 +15112,7 @@ Group: 2 [4 4]:
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">0.37104545</td>
+<td style="text-align: right;">0.84234978</td>
 <td style="text-align: right;">-2</td>
 </tr>
 </tbody>
@@ -23528,40 +23617,16 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
@@ -23570,20 +23635,44 @@ Group: 2 [4 4]:
 <td>B</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
 <td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
@@ -23594,68 +23683,68 @@ Group: 2 [4 4]:
 <td>…</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
 <td style="text-align: right;">1.0</td>
 <td>B</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
 </tr>
@@ -23857,43 +23946,7 @@ Group: 2 [4 4]:
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
@@ -23905,7 +23958,43 @@ Group: 2 [4 4]:
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
@@ -24449,7 +24538,7 @@ Group: 2 [4 4]:
 <tr class="odd">
 <td style="text-align: right;">0</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
@@ -24459,7 +24548,7 @@ Group: 2 [4 4]:
 <tr class="odd">
 <td style="text-align: right;">2</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">3</td>
@@ -24469,7 +24558,7 @@ Group: 2 [4 4]:
 <tr class="odd">
 <td style="text-align: right;">4</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">5</td>
@@ -24494,7 +24583,7 @@ Group: 2 [4 4]:
 <tr class="even">
 <td style="text-align: right;">9</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">…</td>
@@ -24504,47 +24593,47 @@ Group: 2 [4 4]:
 <tr class="even">
 <td style="text-align: right;">14</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">15</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">16</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">17</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g1</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">18</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">19</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g3</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">20</td>
 <td>:b</td>
-<td>:g2</td>
+<td>:g3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">21</td>
 <td>:b</td>
-<td>:g2</td>
+<td>:g1</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">22</td>
 <td>:b</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">23</td>
@@ -24554,7 +24643,7 @@ Group: 2 [4 4]:
 <tr class="even">
 <td style="text-align: right;">24</td>
 <td>:b</td>
-<td>:g1</td>
+<td>:g2</td>
 </tr>
 </tbody>
 </table>
@@ -24580,30 +24669,86 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">19</td>
+<td style="text-align: right;">6</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">22</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">18</td>
+<td style="text-align: right;">19</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">24</td>
-<td>:b</td>
-<td>:g1</td>
+<td style="text-align: right;">7</td>
+<td>:a</td>
+<td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">10</td>
+<td style="text-align: right;">11</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -24615,36 +24760,8 @@ Group: 2 [4 4]:
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">11</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">0</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">13</td>
-<td>:a</td>
+<td style="text-align: right;">24</td>
+<td>:b</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
@@ -24652,62 +24769,20 @@ Group: 2 [4 4]:
 <tr class="odd">
 <td style="text-align: right;">20</td>
 <td>:b</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">17</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">22</td>
-<td>:b</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">8</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">14</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">6</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">12</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">21</td>
-<td>:b</td>
+<td style="text-align: right;">15</td>
+<td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
@@ -24715,77 +24790,91 @@ Group: 2 [4 4]:
 <tr class="even">
 <td style="text-align: right;">16</td>
 <td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">4</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">15</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">9</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">12</td>
-<td>:a</td>
 <td>:g2</td>
-<td>:test</td>
+<td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">3</td>
 <td>:a</td>
 <td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">21</td>
+<td>:b</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td>:a</td>
+<td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">14</td>
 <td>:a</td>
 <td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">15</td>
+<td style="text-align: right;">5</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">9</td>
+<tr class="odd">
+<td style="text-align: right;">14</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">12</td>
+<tr class="even">
+<td style="text-align: right;">5</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">3</td>
+<tr class="odd">
+<td style="text-align: right;">18</td>
 <td>:a</td>
 <td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td>:a</td>
+<td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
@@ -24811,196 +24900,182 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">16</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">7</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">11</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">10</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">9</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">19</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">13</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">3</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">18</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">15</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">6</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">12</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">14</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
 <tr class="even">
 <td style="text-align: right;">0</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">8</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">17</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">14</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">8</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:train</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">17</td>
+<td style="text-align: right;">1</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">10</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">9</td>
 <td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">17</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
@@ -25014,7 +25089,21 @@ Group: 2 [4 4]:
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">19</td>
+<td style="text-align: right;">9</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
@@ -25029,7 +25118,7 @@ Group: 2 [4 4]:
 <div class="sourceCode" id="cb473"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb473-1"><a href="#cb473-1" aria-hidden="true" tabindex="-1"></a>^<span class="at">:note-to-test/skip</span></span>
 <span id="cb473-2"><a href="#cb473-2" aria-hidden="true" tabindex="-1"></a>(tc/split for-splitting <span class="at">:bootstrap</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>_unnamed, (splitted) [32 5]:</p>
+<p>_unnamed, (splitted) [33 5]:</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -25042,49 +25131,91 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">17</td>
+<td style="text-align: right;">11</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">12</td>
+<td style="text-align: right;">23</td>
+<td>:b</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
+<td>:b</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
 <tr class="odd">
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
 <td style="text-align: right;">8</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
+<tr class="odd">
+<td style="text-align: right;">24</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
 <tr class="even">
-<td style="text-align: right;">18</td>
+<td style="text-align: right;">19</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">18</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td style="text-align: right;">…</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">12</td>
+<td style="text-align: right;">4</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
@@ -25098,58 +25229,16 @@ Group: 2 [4 4]:
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">12</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td style="text-align: right;">…</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">19</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">11</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">0</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
 <td style="text-align: right;">1</td>
 <td>:a</td>
 <td>:g3</td>
-<td>:train</td>
+<td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -25161,7 +25250,7 @@ Group: 2 [4 4]:
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">14</td>
+<td style="text-align: right;">12</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:test</td>
@@ -25170,26 +25259,26 @@ Group: 2 [4 4]:
 <tr class="odd">
 <td style="text-align: right;">15</td>
 <td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">20</td>
-<td>:b</td>
 <td>:g2</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">22</td>
-<td>:b</td>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td>:a</td>
 <td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td>:b</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
 <tr class="even">
-<td style="text-align: right;">23</td>
+<td style="text-align: right;">21</td>
 <td>:b</td>
 <td>:g1</td>
 <td>:test</td>
@@ -25230,91 +25319,119 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">7</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">13</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">0</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">11</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">15</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
 <td style="text-align: right;">23</td>
 <td>:b</td>
 <td>:g1</td>
-<td>:test</td>
+<td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">24</td>
-<td>:b</td>
+<td style="text-align: right;">14</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">17</td>
+<td>:a</td>
 <td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">3</td>
+<td style="text-align: right;">11</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td style="text-align: right;">…</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td>:b</td>
+<td>:g3</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g2</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td style="text-align: right;">…</td>
+<td style="text-align: right;">8</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">4</td>
-<td>:a</td>
-<td>:g3</td>
+<td style="text-align: right;">21</td>
+<td>:b</td>
+<td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">12</td>
+<td style="text-align: right;">5</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:test</td>
@@ -25328,58 +25445,30 @@ Group: 2 [4 4]:
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">14</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">8</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">10</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">18</td>
 <td>:a</td>
-<td>:g3</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">22</td>
-<td>:b</td>
 <td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">9</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">16</td>
+<td style="text-align: right;">3</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">19</td>
+<tr class="odd">
+<td style="text-align: right;">4</td>
 <td>:a</td>
 <td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td>:a</td>
+<td>:g3</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -25403,35 +25492,35 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">20</td>
-<td>:b</td>
+<td style="text-align: right;">9</td>
+<td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">14</td>
+<td style="text-align: right;">16</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">17</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">5</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
 <td style="text-align: right;">18</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">10</td>
 <td>:a</td>
 <td>:g1</td>
 <td>:test</td>
@@ -25440,92 +25529,64 @@ Group: 2 [4 4]:
 <tr class="even">
 <td style="text-align: right;">13</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g3</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">8</td>
-<td>:a</td>
+<td style="text-align: right;">21</td>
+<td>:b</td>
 <td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">11</td>
+<td style="text-align: right;">10</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:split-2</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">0</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:split-2</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">6</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:split-2</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td style="text-align: right;">…</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">19</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:split-3</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:split-3</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">22</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:split-2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:split-2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td style="text-align: right;">…</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
 <td>:b</td>
 <td>:g1</td>
 <td>:split-3</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">7</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:split-4</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">2</td>
 <td>:a</td>
-<td>:g3</td>
-<td>:split-4</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">16</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:split-4</td>
+<td>:g2</td>
+<td>:split-3</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">15</td>
+<td style="text-align: right;">19</td>
 <td>:a</td>
-<td>:g1</td>
-<td>:split-4</td>
+<td>:g3</td>
+<td>:split-3</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
@@ -25536,23 +25597,51 @@ Group: 2 [4 4]:
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:split-4</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">23</td>
-<td>:b</td>
+<td style="text-align: right;">8</td>
+<td>:a</td>
 <td>:g1</td>
 <td>:split-4</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">9</td>
+<td style="text-align: right;">3</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:split-4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:split-4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
 <td>:a</td>
 <td>:g3</td>
+<td>:split-4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">24</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:split-4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td>:a</td>
+<td>:g2</td>
 <td>:split-4</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -25577,119 +25666,119 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">16</td>
-<td>:a</td>
-<td>:g1</td>
-<td>small</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td>:a</td>
-<td>:g3</td>
-<td>small</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">0</td>
-<td>:a</td>
-<td>:g3</td>
-<td>small</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">18</td>
-<td>:a</td>
-<td>:g3</td>
-<td>small</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">8</td>
-<td>:a</td>
-<td>:g1</td>
-<td>small</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">14</td>
+<td style="text-align: right;">12</td>
 <td>:a</td>
 <td>:g2</td>
-<td>smaller</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td>:a</td>
-<td>:g1</td>
-<td>smaller</td>
+<td>small</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">5</td>
 <td>:a</td>
 <td>:g2</td>
+<td>small</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td>:a</td>
+<td>:g1</td>
+<td>small</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g2</td>
+<td>small</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">24</td>
+<td>:b</td>
+<td>:g2</td>
+<td>small</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">22</td>
+<td>:b</td>
+<td>:g2</td>
 <td>smaller</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">16</td>
+<td>:a</td>
+<td>:g2</td>
+<td>smaller</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td>:a</td>
+<td>:g1</td>
+<td>smaller</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td>:a</td>
+<td>:g2</td>
+<td>big</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td>:a</td>
+<td>:g1</td>
+<td>big</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td style="text-align: right;">…</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">21</td>
+<td>:b</td>
+<td>:g1</td>
+<td>big</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td>:a</td>
+<td>:g2</td>
+<td>big</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
 <td style="text-align: right;">7</td>
 <td>:a</td>
 <td>:g3</td>
 <td>big</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">12</td>
-<td>:a</td>
-<td>:g2</td>
-<td>big</td>
-<td style="text-align: right;">0</td>
-</tr>
 <tr class="odd">
-<td style="text-align: right;">…</td>
-<td>…</td>
-<td>…</td>
-<td>…</td>
-<td style="text-align: right;">…</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">24</td>
-<td>:b</td>
-<td>:g1</td>
-<td>big</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">11</td>
 <td>:a</td>
 <td>:g3</td>
 <td>big</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">22</td>
-<td>:b</td>
-<td>:g1</td>
-<td>big</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">19</td>
-<td>:a</td>
-<td>:g2</td>
-<td>big</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">9</td>
+<td style="text-align: right;">6</td>
 <td>:a</td>
 <td>:g3</td>
 <td>big</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">14</td>
 <td>:a</td>
 <td>:g3</td>
 <td>big</td>
@@ -25698,35 +25787,35 @@ Group: 2 [4 4]:
 <tr class="even">
 <td style="text-align: right;">10</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 <td>big</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">21</td>
-<td>:b</td>
-<td>:g2</td>
+<td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g3</td>
 <td>the rest</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">11</td>
+<td style="text-align: right;">1</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g3</td>
 <td>the rest</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">23</td>
-<td>:b</td>
-<td>:g1</td>
+<td style="text-align: right;">0</td>
+<td>:a</td>
+<td>:g2</td>
 <td>the rest</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">13</td>
-<td>:a</td>
-<td>:g2</td>
+<td style="text-align: right;">20</td>
+<td>:b</td>
+<td>:g3</td>
 <td>the rest</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -25891,119 +25980,21 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">16</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">13</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">10</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">4</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">8</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">14</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td>:a</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">22</td>
-<td>:b</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">17</td>
-<td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">7</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
 <td style="text-align: right;">19</td>
 <td>:a</td>
-<td>:g2</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">6</td>
-<td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">9</td>
 <td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">11</td>
-<td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">18</td>
+<td style="text-align: right;">11</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
@@ -26012,12 +26003,26 @@ Group: 2 [4 4]:
 <tr class="even">
 <td style="text-align: right;">20</td>
 <td>:b</td>
-<td>:g2</td>
+<td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">17</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
 <td style="text-align: right;">23</td>
+<td>:b</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">21</td>
 <td>:b</td>
 <td>:g1</td>
 <td>:train</td>
@@ -26031,72 +26036,156 @@ Group: 2 [4 4]:
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">21</td>
-<td>:b</td>
+<td style="text-align: right;">0</td>
+<td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">22</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
 <td>:a</td>
 <td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
 <tr class="odd">
+<td style="text-align: right;">3</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
 <td style="text-align: right;">15</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">24</td>
-<td>:b</td>
-<td>:g1</td>
-<td>:train</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">0</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:test</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">0</td>
-<td>:a</td>
-<td>:g3</td>
-<td>:train</td>
-<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">5</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">24</td>
+<td>:b</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td>:a</td>
+<td>:g1</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">13</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td>:a</td>
+<td>:g2</td>
+<td>:train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:test</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td>:a</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
 <td>:a</td>
 <td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
-<tr class="odd">
-<td style="text-align: right;">10</td>
+<tr class="even">
+<td style="text-align: right;">11</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g3</td>
+<td>:train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td>:b</td>
+<td>:g3</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">17</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">1</td>
 </tr>
@@ -26131,19 +26220,19 @@ Group: 2 [4 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td>:g3</td>
+<td>:g2</td>
 <td style="text-align: right;">0</td>
-<td>Group: :g3, (splitted) [9 5]:</td>
+<td>Group: :g2, (splitted) [11 5]:</td>
 </tr>
 <tr class="even">
-<td>:g1</td>
+<td>:g3</td>
 <td style="text-align: right;">1</td>
-<td>Group: :g1, (splitted) [10 5]:</td>
+<td>Group: :g3, (splitted) [11 5]:</td>
 </tr>
 <tr class="odd">
-<td>:g2</td>
+<td>:g1</td>
 <td style="text-align: right;">2</td>
-<td>Group: :g2, (splitted) [10 5]:</td>
+<td>Group: :g1, (splitted) [7 5]:</td>
 </tr>
 </tbody>
 </table>
@@ -26157,6 +26246,7 @@ Group: 2 [4 4]:
 <span id="cb484-3"><a href="#cb484-3" aria-hidden="true" tabindex="-1"></a>    (tc/split-&gt;seq <span class="at">:kfold</span> {<span class="at">:partition-selector</span> <span class="at">:partition</span>})</span>
 <span id="cb484-4"><a href="#cb484-4" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">first</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div>
 <div><p>{</p><div style="margin-left:10%;width:110%;">
 <table data-quarto-postprocess="true" class="table">
 <colgroup>
@@ -26169,7 +26259,28 @@ Group: 2 [4 4]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>:train</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 0 [20 3]:
+Group: 0 [20 3]:<br>
+:id:partition:group<br>
+6:a:g3<br>
+0:a:g2<br>
+2:a:g2<br>
+18:a:g1<br>
+14:a:g3<br>
+5:a:g2<br>
+10:a:g2<br>
+11:a:g3<br>
+12:a:g2<br>
+19:a:g3<br>
+4:a:g2<br>
+1:a:g3<br>
+16:a:g2<br>
+8:a:g1<br>
+15:a:g2<br>
+9:a:g2<br>
+23:b:g1<br>
+24:b:g2<br>
+21:b:g1<br>
+20:b:g3
 </div></td>
 </tr>
 </tbody>
@@ -26185,12 +26296,19 @@ Group: 0 [20 3]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>:test</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 0 [5 3]:
+Group: 0 [5 3]:<br>
+:id:partition:group<br>
+3:a:g1<br>
+13:a:g3<br>
+17:a:g1<br>
+7:a:g3<br>
+22:b:g2
 </div></td>
 </tr>
 </tbody>
 </table>
 </div><p>}</p></div>
+</div>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb487"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb487-1"><a href="#cb487-1" aria-hidden="true" tabindex="-1"></a>^<span class="at">:note-to-test/skip</span></span>
 <span id="cb487-2"><a href="#cb487-2" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> for-splitting</span>
@@ -26198,7 +26316,8 @@ Group: 0 [5 3]:
 <span id="cb487-4"><a href="#cb487-4" aria-hidden="true" tabindex="-1"></a>    (tc/split-&gt;seq <span class="at">:bootstrap</span> {<span class="at">:partition-selector</span> <span class="at">:partition</span> <span class="at">:seed</span> <span class="dv">11</span> <span class="at">:ratio</span> <span class="fl">0.8</span> <span class="at">:repeats</span> <span class="dv">2</span>})</span>
 <span id="cb487-5"><a href="#cb487-5" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">first</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div><p>[</p><div style="margin-left:10%;width:110%;"><div><pre><code class="sourceCode language-clojure printed-clojure">:g3
+<div>
+<div><p>[</p><div style="margin-left:10%;width:110%;"><div><pre><code class="sourceCode language-clojure printed-clojure">:g2
 </code></pre></div><div><p>(</p><div style="margin-left:10%;width:110%;"><div><p>{</p><div style="margin-left:10%;width:110%;">
 <table data-quarto-postprocess="true" class="table">
 <colgroup>
@@ -26211,7 +26330,18 @@ Group: 0 [5 3]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>:train</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 0 [7 3]:
+Group: 0 [10 3]:<br>
+:id:partition:group<br>
+12:a:g2<br>
+0:a:g2<br>
+9:a:g2<br>
+16:a:g2<br>
+2:a:g2<br>
+5:a:g2<br>
+15:a:g2<br>
+10:a:g2<br>
+24:b:g2<br>
+22:b:g2
 </div></td>
 </tr>
 </tbody>
@@ -26227,12 +26357,16 @@ Group: 0 [7 3]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>:test</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 0 [2 3]:
+Group: 0 [1 3]:<br>
+:id:partition:group<br>
+4:a:g2
 </div></td>
 </tr>
 </tbody>
 </table>
+</div>
 <p>}</p>
+</div>
 <div>
 <p>{</p>
 <div style="margin-left:10%;width:110%;">
@@ -26247,7 +26381,18 @@ Group: 0 [2 3]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>:train</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 1 [7 3]:
+Group: 1 [10 3]:<br>
+:id:partition:group<br>
+5:a:g2<br>
+16:a:g2<br>
+10:a:g2<br>
+0:a:g2<br>
+4:a:g2<br>
+16:a:g2<br>
+2:a:g2<br>
+12:a:g2<br>
+22:b:g2<br>
+22:b:g2
 </div></td>
 </tr>
 </tbody>
@@ -26263,19 +26408,24 @@ Group: 1 [7 3]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>:test</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: 1 [1 3]:
+Group: 1 [3 3]:<br>
+:id:partition:group<br>
+9:a:g2<br>
+15:a:g2<br>
+24:b:g2
 </div></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-</div><p>}</p></div></div><p>)</p></div></div><p>]</p></div>
-</section>
-</section>
-</section>
+</div><p>}</p></div></div><p>)</p></div></div><p>]</p></section></section></section></main></div>
+
+
+
+
 <section id="pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="pipeline">Pipeline</h2>
+<h2 data-anchor-id="pipeline">Pipeline</h2>
 <p><code>tablecloth.pipeline</code> exports special versions of API which create functions operating only on dataset. This creates the possibility to chain operations and compose them easily.</p>
 <p>There are two ways to create pipelines:</p>
 <ul>
@@ -26288,7 +26438,7 @@ Group: 1 [1 3]:
 </blockquote>
 </section>
 <section id="functions" class="level2">
-<h2 class="anchored" data-anchor-id="functions">Functions</h2>
+<h2 data-anchor-id="functions">Functions</h2>
 <p>This API doesn’t provide any statistical, numerical or date/time functions. Use below namespaces:</p>
 <table class="table">
 <colgroup>
@@ -26314,9 +26464,9 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="other-examples" class="level2">
-<h2 class="anchored" data-anchor-id="other-examples">Other examples</h2>
+<h2 data-anchor-id="other-examples">Other examples</h2>
 <section id="stocks" class="level3">
-<h3 class="anchored" data-anchor-id="stocks">Stocks</h3>
+<h3 data-anchor-id="stocks">Stocks</h3>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb492"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb492-1"><a href="#cb492-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defonce</span><span class="fu"> stocks </span>(tc/dataset <span class="st">"https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv"</span> {<span class="at">:key-fn</span> <span class="kw">keyword</span>}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -26706,13 +26856,17 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="data.table" class="level3">
-<h3 class="anchored" data-anchor-id="data.table">data.table</h3>
-<p>Below you can find comparizon between functionality of <code>data.table</code> and Clojure dataset API. I leave it without comments, please refer original document explaining details: <a href="https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html">Introduction to <code>data.table</code></a> R</p>
+<h3 data-anchor-id="data.table">data.table</h3>
+<p>Below you can find comparizon between functionality of <code>data.table</code> and Clojure dataset API. I leave it without comments, please refer original document explaining details:</p>
+<p><a href="https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html">Introduction to <code>data.table</code></a></p>
+<p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb496"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb496-1"><a href="#cb496-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
 <span id="cb496-2"><a href="#cb496-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb496-3"><a href="#cb496-3" aria-hidden="true" tabindex="-1"></a>flights <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"</span>)</span>
-<span id="cb496-4"><a href="#cb496-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(flights))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb496-3"><a href="#cb496-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb496-4"><a href="#cb496-4" aria-hidden="true" tabindex="-1"></a>flights <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"</span>)</span>
+<span id="cb496-5"><a href="#cb496-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb496-6"><a href="#cb496-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(flights))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
@@ -26950,9 +27104,9 @@ Group: 1 [1 3]:
 </tbody>
 </table>
 <section id="basics" class="level4">
-<h4 class="anchored" data-anchor-id="basics">Basics</h4>
+<h4 data-anchor-id="basics">Basics</h4>
 <section id="shape-of-loaded-data" class="level5">
-<h5 class="anchored" data-anchor-id="shape-of-loaded-data">Shape of loaded data</h5>
+<h5 data-anchor-id="shape-of-loaded-data">Shape of loaded data</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb500"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb500-1"><a href="#cb500-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(flights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -26969,7 +27123,7 @@ Group: 1 [1 3]:
 </div>
 </section>
 <section id="what-is-data.table" class="level5">
-<h5 class="anchored" data-anchor-id="what-is-data.table">What is <code>data.table</code>?</h5>
+<h5 data-anchor-id="what-is-data.table">What is <code>data.table</code>?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb504"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb504-1"><a href="#cb504-1" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">=</span> <span class="fu">data.table</span>(</span>
@@ -26978,7 +27132,8 @@ Group: 1 [1 3]:
 <span id="cb504-4"><a href="#cb504-4" aria-hidden="true" tabindex="-1"></a><span class="at">b =</span> <span class="dv">7</span><span class="sc">:</span><span class="dv">12</span>,</span>
 <span id="cb504-5"><a href="#cb504-5" aria-hidden="true" tabindex="-1"></a><span class="at">c =</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">18</span></span>
 <span id="cb504-6"><a href="#cb504-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb504-7"><a href="#cb504-7" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb504-7"><a href="#cb504-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb504-8"><a href="#cb504-8" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -27101,10 +27256,10 @@ Group: 1 [1 3]:
 </div>
 </section>
 <section id="get-all-the-flights-with-jfk-as-the-origin-airport-in-the-month-of-june." class="level5">
-<h5 class="anchored" data-anchor-id="get-all-the-flights-with-jfk-as-the-origin-airport-in-the-month-of-june.">Get all the flights with “JFK” as the origin airport in the month of June.</h5>
+<h5 data-anchor-id="get-all-the-flights-with-jfk-as-the-origin-airport-in-the-month-of-june.">Get all the flights with “JFK” as the origin airport in the month of June.</h5>
 <p>R</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb511"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb511-1"><a href="#cb511-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[origin <span class="sc">==</span> <span class="st">"JFK"</span> <span class="sc">&amp;</span> month <span class="sc">==</span> 6L]</span>
+<div class="sourceCode cell-code" id="cb511"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb511-1"><a href="#cb511-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[origin <span class="sc">==</span> <span class="st">"JFK"</span> <span class="sc">&amp;</span> month <span class="sc">==</span> <span class="dv">6</span>L]</span>
 <span id="cb511-2"><a href="#cb511-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(ans))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -27339,7 +27494,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="get-the-first-two-rows-from-flights." class="level5">
-<h5 class="anchored" data-anchor-id="get-the-first-two-rows-from-flights.">Get the first two rows from <code>flights</code>.</h5>
+<h5 data-anchor-id="get-the-first-two-rows-from-flights.">Get the first two rows from <code>flights</code>.</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb513"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb513-1"><a href="#cb513-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
@@ -27470,7 +27625,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="sort-flights-first-by-column-origin-in-ascending-order-and-then-by-dest-in-descending-order" class="level5">
-<h5 class="anchored" data-anchor-id="sort-flights-first-by-column-origin-in-ascending-order-and-then-by-dest-in-descending-order">Sort <code>flights</code> first by column <code>origin</code> in ascending order, and then by <code>dest</code> in descending order</h5>
+<h5 data-anchor-id="sort-flights-first-by-column-origin-in-ascending-order-and-then-by-dest-in-descending-order">Sort <code>flights</code> first by column <code>origin</code> in ascending order, and then by <code>dest</code> in descending order</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb515"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb515-1"><a href="#cb515-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[<span class="fu">order</span>(origin, <span class="sc">-</span>dest)]</span>
@@ -27707,7 +27862,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="select-arr_delay-column-but-return-it-as-a-vector" class="level5">
-<h5 class="anchored" data-anchor-id="select-arr_delay-column-but-return-it-as-a-vector">Select <code>arr_delay</code> column, but return it as a vector</h5>
+<h5 data-anchor-id="select-arr_delay-column-but-return-it-as-a-vector">Select <code>arr_delay</code> column, but return it as a vector</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb517"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb517-1"><a href="#cb517-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[, arr_delay]</span>
@@ -27725,7 +27880,7 @@ Group: 1 [1 3]:
 </div>
 </section>
 <section id="select-arr_delay-column-but-return-as-a-data.table-instead" class="level5">
-<h5 class="anchored" data-anchor-id="select-arr_delay-column-but-return-as-a-data.table-instead">Select <code>arr_delay</code> column, but return as a data.table instead</h5>
+<h5 data-anchor-id="select-arr_delay-column-but-return-as-a-data.table-instead">Select <code>arr_delay</code> column, but return as a data.table instead</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb521"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb521-1"><a href="#cb521-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[, <span class="fu">list</span>(arr_delay)]</span>
@@ -27796,8 +27951,9 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="select-both-arr_delay-and-dep_delay-columns" class="level5">
-<h5 class="anchored" data-anchor-id="select-both-arr_delay-and-dep_delay-columns">Select both <code>arr_delay</code> and <code>dep_delay</code> columns</h5>
-<p>R ``</p>
+<h5 data-anchor-id="select-both-arr_delay-and-dep_delay-columns">Select both <code>arr_delay</code> and <code>dep_delay</code> columns</h5>
+<p>R</p>
+<p>``</p>
 <p>Clojure</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb523"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb523-1"><a href="#cb523-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> flights</span>
@@ -27841,7 +27997,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="select-both-arr_delay-and-dep_delay-columns-and-rename-them-to-delay_arr-and-delay_dep" class="level5">
-<h5 class="anchored" data-anchor-id="select-both-arr_delay-and-dep_delay-columns-and-rename-them-to-delay_arr-and-delay_dep">Select both <code>arr_delay</code> and <code>dep_delay</code> columns and rename them to <code>delay_arr</code> and <code>delay_dep</code></h5>
+<h5 data-anchor-id="select-both-arr_delay-and-dep_delay-columns-and-rename-them-to-delay_arr-and-delay_dep">Select both <code>arr_delay</code> and <code>dep_delay</code> columns and rename them to <code>delay_arr</code> and <code>delay_dep</code></h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb524"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb524-1"><a href="#cb524-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[, .(<span class="at">delay_arr =</span> arr_delay, <span class="at">delay_dep =</span> dep_delay)]</span>
@@ -27927,7 +28083,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="how-many-trips-have-had-total-delay-0" class="level5">
-<h5 class="anchored" data-anchor-id="how-many-trips-have-had-total-delay-0">How many trips have had total delay &lt; 0?</h5>
+<h5 data-anchor-id="how-many-trips-have-had-total-delay-0">How many trips have had total delay &lt; 0?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb526"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb526-1"><a href="#cb526-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[, <span class="fu">sum</span>( (arr_delay <span class="sc">+</span> dep_delay) <span class="sc">&lt;</span> <span class="dv">0</span> )]</span>
@@ -27956,10 +28112,10 @@ Group: 1 [1 3]:
 </div>
 </section>
 <section id="calculate-the-average-arrival-and-departure-delay-for-all-flights-with-jfk-as-the-origin-airport-in-the-month-of-june" class="level5">
-<h5 class="anchored" data-anchor-id="calculate-the-average-arrival-and-departure-delay-for-all-flights-with-jfk-as-the-origin-airport-in-the-month-of-june">Calculate the average arrival and departure delay for all flights with “JFK” as the origin airport in the month of June</h5>
+<h5 data-anchor-id="calculate-the-average-arrival-and-departure-delay-for-all-flights-with-jfk-as-the-origin-airport-in-the-month-of-june">Calculate the average arrival and departure delay for all flights with “JFK” as the origin airport in the month of June</h5>
 <p>R</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb532"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb532-1"><a href="#cb532-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[origin <span class="sc">==</span> <span class="st">"JFK"</span> <span class="sc">&amp;</span> month <span class="sc">==</span> 6L,</span>
+<div class="sourceCode cell-code" id="cb532"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb532-1"><a href="#cb532-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[origin <span class="sc">==</span> <span class="st">"JFK"</span> <span class="sc">&amp;</span> month <span class="sc">==</span> <span class="dv">6</span>L,</span>
 <span id="cb532-2"><a href="#cb532-2" aria-hidden="true" tabindex="-1"></a>.(<span class="at">m_arr =</span> <span class="fu">mean</span>(arr_delay), <span class="at">m_dep =</span> <span class="fu">mean</span>(dep_delay))]</span>
 <span id="cb532-3"><a href="#cb532-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ans)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -28004,10 +28160,10 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="how-many-trips-have-been-made-in-2014-from-jfk-airport-in-the-month-of-june" class="level5">
-<h5 class="anchored" data-anchor-id="how-many-trips-have-been-made-in-2014-from-jfk-airport-in-the-month-of-june">How many trips have been made in 2014 from “JFK” airport in the month of June?</h5>
+<h5 data-anchor-id="how-many-trips-have-been-made-in-2014-from-jfk-airport-in-the-month-of-june">How many trips have been made in 2014 from “JFK” airport in the month of June?</h5>
 <p>R</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb534"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb534-1"><a href="#cb534-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[origin <span class="sc">==</span> <span class="st">"JFK"</span> <span class="sc">&amp;</span> month <span class="sc">==</span> 6L, <span class="fu">length</span>(dest)]</span>
+<div class="sourceCode cell-code" id="cb534"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb534-1"><a href="#cb534-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[origin <span class="sc">==</span> <span class="st">"JFK"</span> <span class="sc">&amp;</span> month <span class="sc">==</span> <span class="dv">6</span>L, <span class="fu">length</span>(dest)]</span>
 <span id="cb534-2"><a href="#cb534-2" aria-hidden="true" tabindex="-1"></a>ans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8422</code></pre>
@@ -28015,7 +28171,7 @@ Group: 1 [1 3]:
 </div>
 <p>or</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb536"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb536-1"><a href="#cb536-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[origin <span class="sc">==</span> <span class="st">"JFK"</span> <span class="sc">&amp;</span> month <span class="sc">==</span> 6L, .N]</span>
+<div class="sourceCode cell-code" id="cb536"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb536-1"><a href="#cb536-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[origin <span class="sc">==</span> <span class="st">"JFK"</span> <span class="sc">&amp;</span> month <span class="sc">==</span> <span class="dv">6</span>L, .N]</span>
 <span id="cb536-2"><a href="#cb536-2" aria-hidden="true" tabindex="-1"></a>ans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8422</code></pre>
@@ -28033,7 +28189,7 @@ Group: 1 [1 3]:
 </div>
 </section>
 <section id="deselect-columns-using---or" class="level5">
-<h5 class="anchored" data-anchor-id="deselect-columns-using---or">deselect columns using - or !</h5>
+<h5 data-anchor-id="deselect-columns-using---or">deselect columns using - or !</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb540"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb540-1"><a href="#cb540-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[, <span class="sc">!</span><span class="fu">c</span>(<span class="st">"arr_delay"</span>, <span class="st">"dep_delay"</span>)]</span>
@@ -28318,9 +28474,9 @@ Group: 1 [1 3]:
 </section>
 </section>
 <section id="aggregations" class="level4">
-<h4 class="anchored" data-anchor-id="aggregations">Aggregations</h4>
+<h4 data-anchor-id="aggregations">Aggregations</h4>
 <section id="how-can-we-get-the-number-of-trips-corresponding-to-each-origin-airport" class="level5">
-<h5 class="anchored" data-anchor-id="how-can-we-get-the-number-of-trips-corresponding-to-each-origin-airport">How can we get the number of trips corresponding to each origin airport?</h5>
+<h5 data-anchor-id="how-can-we-get-the-number-of-trips-corresponding-to-each-origin-airport">How can we get the number of trips corresponding to each origin airport?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb543"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb543-1"><a href="#cb543-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[, .(.N), by <span class="ot">=</span> .(origin)]</span>
@@ -28381,7 +28537,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="how-can-we-calculate-the-number-of-trips-for-each-origin-airport-for-carrier-code-aa" class="level5">
-<h5 class="anchored" data-anchor-id="how-can-we-calculate-the-number-of-trips-for-each-origin-airport-for-carrier-code-aa">How can we calculate the number of trips for each origin airport for carrier code “AA”?</h5>
+<h5 data-anchor-id="how-can-we-calculate-the-number-of-trips-for-each-origin-airport-for-carrier-code-aa">How can we calculate the number of trips for each origin airport for carrier code “AA”?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb545"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb545-1"><a href="#cb545-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[carrier <span class="sc">==</span> <span class="st">"AA"</span>, .N, by <span class="ot">=</span> origin]</span>
@@ -28443,7 +28599,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="how-can-we-get-the-total-number-of-trips-for-each-origin-dest-pair-for-carrier-code-aa" class="level5">
-<h5 class="anchored" data-anchor-id="how-can-we-get-the-total-number-of-trips-for-each-origin-dest-pair-for-carrier-code-aa">How can we get the total number of trips for each <code>origin</code>, <code>dest</code> pair for carrier code “AA”?</h5>
+<h5 data-anchor-id="how-can-we-get-the-total-number-of-trips-for-each-origin-dest-pair-for-carrier-code-aa">How can we get the total number of trips for each <code>origin</code>, <code>dest</code> pair for carrier code “AA”?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb547"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb547-1"><a href="#cb547-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[carrier <span class="sc">==</span> <span class="st">"AA"</span>, .N, by <span class="ot">=</span> .(origin, dest)]</span>
@@ -28544,7 +28700,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="how-can-we-get-the-average-arrival-and-departure-delay-for-each-origdest-pair-for-each-month-for-carrier-code-aa" class="level5">
-<h5 class="anchored" data-anchor-id="how-can-we-get-the-average-arrival-and-departure-delay-for-each-origdest-pair-for-each-month-for-carrier-code-aa">How can we get the average arrival and departure delay for each <code>orig</code>,<code>dest</code> pair for each month for carrier code “AA”?</h5>
+<h5 data-anchor-id="how-can-we-get-the-average-arrival-and-departure-delay-for-each-origdest-pair-for-each-month-for-carrier-code-aa">How can we get the average arrival and departure delay for each <code>orig</code>,<code>dest</code> pair for each month for carrier code “AA”?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb549"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb549-1"><a href="#cb549-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[carrier <span class="sc">==</span> <span class="st">"AA"</span>,</span>
@@ -28732,7 +28888,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="so-how-can-we-directly-order-by-all-the-grouping-variables" class="level5">
-<h5 class="anchored" data-anchor-id="so-how-can-we-directly-order-by-all-the-grouping-variables">So how can we directly order by all the grouping variables?</h5>
+<h5 data-anchor-id="so-how-can-we-directly-order-by-all-the-grouping-variables">So how can we directly order by all the grouping variables?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb551"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb551-1"><a href="#cb551-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[carrier <span class="sc">==</span> <span class="st">"AA"</span>,</span>
@@ -28921,7 +29077,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="can-by-accept-expressions-as-well-or-does-it-just-take-columns" class="level5">
-<h5 class="anchored" data-anchor-id="can-by-accept-expressions-as-well-or-does-it-just-take-columns">Can <code>by</code> accept expressions as well or does it just take columns?</h5>
+<h5 data-anchor-id="can-by-accept-expressions-as-well-or-does-it-just-take-columns">Can <code>by</code> accept expressions as well or does it just take columns?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb553"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb553-1"><a href="#cb553-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[, .N, .(dep_delay<span class="sc">&gt;</span><span class="dv">0</span>, arr_delay<span class="sc">&gt;</span><span class="dv">0</span>)]</span>
@@ -29002,7 +29158,7 @@ Group: 1 [1 3]:
 </table>
 </section>
 <section id="do-we-have-to-compute-mean-for-each-column-individually" class="level5">
-<h5 class="anchored" data-anchor-id="do-we-have-to-compute-mean-for-each-column-individually">Do we have to compute <code>mean()</code> for each column individually?</h5>
+<h5 data-anchor-id="do-we-have-to-compute-mean-for-each-column-individually">Do we have to compute <code>mean()</code> for each column individually?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb555"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb555-1"><a href="#cb555-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -29163,6 +29319,7 @@ Group: 1 [1 3]:
 <div class="sourceClojure">
 <div class="sourceCode" id="cb561"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb561-1"><a href="#cb561-1" aria-hidden="true" tabindex="-1"></a>(tc/group-by DT <span class="at">:ID</span> {<span class="at">:result-type</span> <span class="at">:as-map</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div>
 <div><p>{</p><div style="margin-left:10%;width:110%;">
 <table data-quarto-postprocess="true" class="table">
 <colgroup>
@@ -29175,7 +29332,11 @@ Group: 1 [1 3]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>"b"</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: b [3 4]:
+Group: b [3 4]:<br>
+:ID:a:b:c<br>
+b1713<br>
+b2814<br>
+b3915
 </div></td>
 </tr>
 </tbody>
@@ -29191,7 +29352,10 @@ Group: b [3 4]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>"a"</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: a [2 4]:
+Group: a [2 4]:<br>
+:ID:a:b:c<br>
+a41016<br>
+a51117
 </div></td>
 </tr>
 </tbody>
@@ -29207,12 +29371,15 @@ Group: a [2 4]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>"c"</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: c [1 4]:
+Group: c [1 4]:<br>
+:ID:a:b:c<br>
+c61218
 </div></td>
 </tr>
 </tbody>
 </table>
 </div><p>}</p></div>
+</div>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb565"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb565-1"><a href="#cb565-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> DT</span>
 <span id="cb565-2"><a href="#cb565-2" aria-hidden="true" tabindex="-1"></a>    (tc/group-by [<span class="at">:ID</span>])</span>
@@ -29251,7 +29418,7 @@ Group: c [1 4]:
 </table>
 </section>
 <section id="how-can-we-specify-just-the-columns-we-would-like-to-compute-the-mean-on" class="level5">
-<h5 class="anchored" data-anchor-id="how-can-we-specify-just-the-columns-we-would-like-to-compute-the-mean-on">How can we specify just the columns we would like to compute the <code>mean()</code> on?</h5>
+<h5 data-anchor-id="how-can-we-specify-just-the-columns-we-would-like-to-compute-the-mean-on">How can we specify just the columns we would like to compute the <code>mean()</code> on?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb566"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb566-1"><a href="#cb566-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(flights[carrier <span class="sc">==</span> <span class="st">"AA"</span>,                         <span class="do">## Only on trips with carrier "AA"</span></span>
@@ -29382,7 +29549,7 @@ Group: c [1 4]:
 </table>
 </section>
 <section id="how-can-we-return-the-first-two-rows-for-each-month" class="level5">
-<h5 class="anchored" data-anchor-id="how-can-we-return-the-first-two-rows-for-each-month">How can we return the first two rows for each month?</h5>
+<h5 data-anchor-id="how-can-we-return-the-first-two-rows-for-each-month">How can we return the first two rows for each month?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb568"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb568-1"><a href="#cb568-1" aria-hidden="true" tabindex="-1"></a>ans <span class="ot">&lt;-</span> flights[, <span class="fu">head</span>(.SD, <span class="dv">2</span>), by <span class="ot">=</span> month]</span>
@@ -29621,7 +29788,7 @@ Group: c [1 4]:
 </table>
 </section>
 <section id="how-can-we-concatenate-columns-a-and-b-for-each-group-in-id" class="level5">
-<h5 class="anchored" data-anchor-id="how-can-we-concatenate-columns-a-and-b-for-each-group-in-id">How can we concatenate columns a and b for each group in ID?</h5>
+<h5 data-anchor-id="how-can-we-concatenate-columns-a-and-b-for-each-group-in-id">How can we concatenate columns a and b for each group in ID?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb570"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb570-1"><a href="#cb570-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DT[, .(<span class="at">val =</span> <span class="fu">c</span>(a,b)), <span class="at">by =</span> ID])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -29753,7 +29920,7 @@ Group: c [1 4]:
 </table>
 </section>
 <section id="what-if-we-would-like-to-have-all-the-values-of-column-a-and-b-concatenated-but-returned-as-a-list-column" class="level5">
-<h5 class="anchored" data-anchor-id="what-if-we-would-like-to-have-all-the-values-of-column-a-and-b-concatenated-but-returned-as-a-list-column">What if we would like to have all the values of column <code>a</code> and <code>b</code> concatenated, but returned as a list column?</h5>
+<h5 data-anchor-id="what-if-we-would-like-to-have-all-the-values-of-column-a-and-b-concatenated-but-returned-as-a-list-column">What if we would like to have all the values of column <code>a</code> and <code>b</code> concatenated, but returned as a list column?</h5>
 <p>R</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb572"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb572-1"><a href="#cb572-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DT[, .(<span class="at">val =</span> <span class="fu">list</span>(<span class="fu">c</span>(a,b))), <span class="at">by =</span> ID])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -30337,22 +30504,22 @@ Group: c [1 4]:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0.5</td>
-<td>A</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -30374,33 +30541,33 @@ Group: c [1 4]:
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">1.5</td>
 <td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">1.5</td>
-<td>C</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1.0</td>
-<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -32920,9 +33087,9 @@ Group: c [1 4]:
 </section>
 </section>
 <section id="going-further" class="level4">
-<h4 class="anchored" data-anchor-id="going-further">Going further</h4>
+<h4 data-anchor-id="going-further">Going further</h4>
 <section id="advanced-columns-manipulation" class="level5">
-<h5 class="anchored" data-anchor-id="advanced-columns-manipulation">Advanced columns manipulation</h5>
+<h5 data-anchor-id="advanced-columns-manipulation">Advanced columns manipulation</h5>
 <p>Summarise all the columns</p>
 <p>custom max function which works on every type</p>
 <div class="sourceClojure">
@@ -33588,7 +33755,7 @@ Group: c [1 4]:
 </table>
 </section>
 <section id="chain-expressions" class="level5">
-<h5 class="anchored" data-anchor-id="chain-expressions">Chain expressions</h5>
+<h5 data-anchor-id="chain-expressions">Chain expressions</h5>
 <p>Expression chaining using &gt;</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb712"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb712-1"><a href="#cb712-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> DS</span>
@@ -33650,7 +33817,7 @@ Group: c [1 4]:
 </table>
 </section>
 <section id="indexing-and-keys" class="level5">
-<h5 class="anchored" data-anchor-id="indexing-and-keys">Indexing and Keys</h5>
+<h5 data-anchor-id="indexing-and-keys">Indexing and Keys</h5>
 <p>Set the key/index (order)</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb714"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb714-1"><a href="#cb714-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> DS </span>(tc/order-by DS <span class="at">:V4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -34146,7 +34313,7 @@ Group: c [1 4]:
 </div>
 </section>
 <section id="set-modifications" class="level5">
-<h5 class="anchored" data-anchor-id="set-modifications">set*() modifications</h5>
+<h5 data-anchor-id="set-modifications">set*() modifications</h5>
 <p>Replace values</p>
 <p>There is no mutating operations <code>tech.ml.dataset</code> or easy way to set value.</p>
 <div class="sourceClojure">
@@ -34414,7 +34581,7 @@ Group: c [1 4]:
 </table>
 </section>
 <section id="advanced-use-of-by" class="level5">
-<h5 class="anchored" data-anchor-id="advanced-use-of-by">Advanced use of by</h5>
+<h5 data-anchor-id="advanced-use-of-by">Advanced use of by</h5>
 <p>Select first/last/… row by group</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb740"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb740-1"><a href="#cb740-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> DS</span>
@@ -34852,9 +35019,9 @@ Group: c [1 4]:
 </section>
 </section>
 <section id="miscellaneous" class="level4">
-<h4 class="anchored" data-anchor-id="miscellaneous">Miscellaneous</h4>
+<h4 data-anchor-id="miscellaneous">Miscellaneous</h4>
 <section id="read-write-data" class="level5">
-<h5 class="anchored" data-anchor-id="read-write-data">Read / Write data</h5>
+<h5 data-anchor-id="read-write-data">Read / Write data</h5>
 <p>Write data to a csv file</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb750"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb750-1"><a href="#cb750-1" aria-hidden="true" tabindex="-1"></a>(tc/write! DS <span class="st">"DF.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -35253,7 +35420,7 @@ Group: c [1 4]:
 </table>
 </section>
 <section id="reshape-data" class="level5">
-<h5 class="anchored" data-anchor-id="reshape-data">Reshape data</h5>
+<h5 data-anchor-id="reshape-data">Reshape data</h5>
 <p>Melt data (from wide to long)</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb762"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb762-1"><a href="#cb762-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> mDS </span>(tc/pivot-&gt;longer DS [<span class="at">:V1</span> <span class="at">:V2</span>] {<span class="at">:target-columns</span> <span class="at">:variable</span></span>
@@ -35469,6 +35636,7 @@ Group: c [1 4]:
 <div class="sourceClojure">
 <div class="sourceCode" id="cb767"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb767-1"><a href="#cb767-1" aria-hidden="true" tabindex="-1"></a>(tc/group-by DS <span class="at">:V4</span> {<span class="at">:result-type</span> <span class="at">:as-map</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div>
 <div><p>{</p><div style="margin-left:10%;width:110%;">
 <table data-quarto-postprocess="true" class="table">
 <colgroup>
@@ -35481,7 +35649,11 @@ Group: c [1 4]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>"A"</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: A [3 3]:
+Group: A [3 3]:<br>
+:V4:V1:V2<br>
+A03<br>
+A04<br>
+A07
 </div></td>
 </tr>
 </tbody>
@@ -35497,7 +35669,11 @@ Group: A [3 3]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>"B"</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: B [3 3]:
+Group: B [3 3]:<br>
+:V4:V1:V2<br>
+B40<br>
+B48<br>
+B15
 </div></td>
 </tr>
 </tbody>
@@ -35513,12 +35689,17 @@ Group: B [3 3]:
 <pre class="sourceCode language-clojure printed-clojure code-with-copy"><code>"C"</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre>
 </div></td>
 <td><div style="margin-left:10px;">
-Group: C [3 3]:
+Group: C [3 3]:<br>
+:V4:V1:V2<br>
+C45<br>
+C10<br>
+C19
 </div></td>
 </tr>
 </tbody>
 </table>
 </div><p>}</p></div>
+</div>
 <hr>
 <p>Split and transpose a vector/column</p>
 <div class="sourceClojure">
@@ -35551,12 +35732,12 @@ Group: C [3 3]:
 </table>
 </section>
 <section id="other-1" class="level5">
-<h5 class="anchored" data-anchor-id="other-1">Other</h5>
+<h5 data-anchor-id="other-1">Other</h5>
 <p>Skipped</p>
 </section>
 </section>
 <section id="joinbind-data-sets" class="level4">
-<h4 class="anchored" data-anchor-id="joinbind-data-sets">Join/Bind data sets</h4>
+<h4 data-anchor-id="joinbind-data-sets">Join/Bind data sets</h4>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb772"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb772-1"><a href="#cb772-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> x </span>(tc/dataset {<span class="st">"Id"</span> [<span class="st">"A"</span> <span class="st">"B"</span> <span class="st">"C"</span> <span class="st">"C"</span>]</span>
 <span id="cb772-2"><a href="#cb772-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"X1"</span> [<span class="dv">1</span> <span class="dv">3</span> <span class="dv">5</span> <span class="dv">7</span>]</span>
@@ -35638,7 +35819,7 @@ Group: C [3 3]:
 </tbody>
 </table>
 <section id="join-1" class="level5">
-<h5 class="anchored" data-anchor-id="join-1">Join</h5>
+<h5 data-anchor-id="join-1">Join</h5>
 <p>Join matching rows from y to x</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb776"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb776-1"><a href="#cb776-1" aria-hidden="true" tabindex="-1"></a>(tc/left-join x y <span class="st">"Id"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -35907,7 +36088,7 @@ Group: C [3 3]:
 </table>
 </section>
 <section id="more-joins" class="level5">
-<h5 class="anchored" data-anchor-id="more-joins">More joins</h5>
+<h5 data-anchor-id="more-joins">More joins</h5>
 <p>Select columns while joining</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb782"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb782-1"><a href="#cb782-1" aria-hidden="true" tabindex="-1"></a>(tc/right-join (tc/select-columns x [<span class="st">"Id"</span> <span class="st">"X1"</span>])</span>
@@ -36221,7 +36402,7 @@ Group: C [3 3]:
 </table>
 </section>
 <section id="bind-1" class="level5">
-<h5 class="anchored" data-anchor-id="bind-1">Bind</h5>
+<h5 data-anchor-id="bind-1">Bind</h5>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb791"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb791-1"><a href="#cb791-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> x </span>(tc/dataset {<span class="at">:V1</span> [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span>]}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -36445,7 +36626,7 @@ Group: C [3 3]:
 </table>
 </section>
 <section id="set-operations" class="level5">
-<h5 class="anchored" data-anchor-id="set-operations">Set operations</h5>
+<h5 data-anchor-id="set-operations">Set operations</h5>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb801"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb801-1"><a href="#cb801-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> x </span>(tc/dataset {<span class="at">:V1</span> [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">3</span>]}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -36626,14 +36807,13 @@ Group: C [3 3]:
 <hr>
 <p>Equality not implemented</p>
 <div style="background-color:grey;height:2px;width:100%;"></div>
-
 <div><pre><small><small>source: <a href="https://github.com/scicloj/tablecloth/blob/master/notebooks/index.clj">notebooks/index.clj</a></small></small></pre></div>
 </section>
 </section>
 </section>
 </section>
 
-</main>
+
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -36714,10 +36894,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -36727,8 +36906,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -36741,6 +36929,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -36784,6 +37091,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -36809,6 +37117,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -36868,7 +37202,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-</div> <!-- /content -->
+ <!-- /content -->
+
 
 
 
