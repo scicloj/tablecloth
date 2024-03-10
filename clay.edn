@@ -2,7 +2,7 @@
                :branch "master"}
  :quarto {:format {:html {:toc true
                           :toc-depth 4
-                          :theme [:spacelab "notebooks/custom.scss"]}}
+                          :theme [:cosmo "notebooks/custom.scss"]}}
           :fontsize "0.8em"
           :highlight-style :solarized
           :code-block-background true
