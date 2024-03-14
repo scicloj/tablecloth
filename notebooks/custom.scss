@@ -4,3 +4,9 @@
 .table {width:auto}
 
 code {font-family: 'Fira Code Medium', monospace;}
+
+.clay-dataset .table {
+    @extend .table-striped;
+    @extend .table-hover;
+    @extend .table-responsive;
+}
