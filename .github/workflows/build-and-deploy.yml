@@ -22,7 +22,7 @@ jobs:
       - name: Check for changes in docs folder
         id: docs_check
         run: |
-          if  git diff --name-only FETCH_HEAD './docs'; then
+          if  [[ $(git diff --name-only master './docs') ]]; then
             echo "There have been changes to the docs."
             echo "docs_changed=true" >> $GITHUB_OUTPUT
           else
