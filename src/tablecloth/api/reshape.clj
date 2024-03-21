@@ -1,19 +1,20 @@
 (ns tablecloth.api.reshape
   (:refer-clojure :exclude [group-by])
-  (:require [tech.v3.dataset :as ds]
-            [tech.v3.dataset.join :as j]
-            [tech.v3.dataset.column :as col]
-            [tech.v3.datatype :as dtype]
-            [clojure.string :as str]
-            [clojure.set :refer [difference]]
-
-            [tablecloth.api.utils :refer [iterable-sequence? column-names ->str]]
-            [tablecloth.api.columns :refer [drop-columns convert-types
-                                            reorder-columns rename-columns select-columns]]
-            [tablecloth.api.join-separate :refer [join-columns separate-column]]
-            [tablecloth.api.unique-by :refer [strategy-fold unique-by]]
-            [tablecloth.api.group-by :refer [group-by]]
-            [tablecloth.api.missing :refer [drop-missing]]))
+  (:require
+   [clojure.set :refer [difference]]
+   [clojure.string :as str]
+   [clojure.tools.logging :as logging]
+   [tablecloth.api.columns :refer [convert-types drop-columns rename-columns
+                                   reorder-columns select-columns]]
+   [tablecloth.api.group-by :refer [group-by]]
+   [tablecloth.api.join-separate :refer [join-columns separate-column]]
+   [tablecloth.api.missing :refer [drop-missing]]
+   [tablecloth.api.unique-by :refer [strategy-fold unique-by]]
+   [tablecloth.api.utils :refer [->str column-names iterable-sequence?]]
+   [tech.v3.dataset :as ds]
+   [tech.v3.dataset.column :as col]
+   [tech.v3.dataset.join :as j]
+   [tech.v3.datatype :as dtype]))
 
 (defn- fix-groups
   "Fill empty columns with nils if column is missing."
@@ -95,7 +96,7 @@
          cols-to-add (keys (clojure.core/first groups))
          ds-template (drop-columns ds cols)
          cnt (ds/row-count ds)]
-     (as-> (with-meta (->> groups                                        
+     (as-> (with-meta (->> groups
                            (map (partial pre-longer->target-columns ds-template cnt coerce-to-number?))
                            (apply ds/concat))
              (meta ds)) final-ds
@@ -104,7 +105,7 @@
          datatypes (convert-types datatypes)
          :always (reorder-columns (ds/column-names ds-template) (remove nil? target-columns)))))))
 
-;; 
+;;
 
 (defn- drop-join-leftovers
   [data join-name]
@@ -156,7 +157,7 @@
                                    (partial contains?)
                                    (complement)
                                    (column-names data)) fold-fn {:add-group-as-column true})
-          (do (println "WARNING: multiple values in result detected, data should be rolled in.")
+          (do (logging/warn "WARNING: multiple values in result detected, data should be rolled in.")
               data))
         data))))
 
@@ -241,4 +242,3 @@
                        (reorder-columns rest-cols)))
                  (ds/set-dataset-name (ds/dataset-name ds)))
        drop-missing? (drop-missing)))))
-
