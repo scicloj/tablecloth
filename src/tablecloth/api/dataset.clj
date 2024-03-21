@@ -6,7 +6,7 @@
             [tech.v3.dataset.print :as p]
             [tech.v3.tensor :as tensor]
             [tech.v3.dataset.tensor :as ds-tensor]
-            
+
             [tablecloth.api.utils :refer [iterable-sequence? grouped? mark-as-group map-inst?]])
   (:import [java.io FileNotFoundException]))
 
@@ -48,7 +48,7 @@
 
 (defn dataset
   "Create a `dataset`.
-  
+
   Dataset can be created from:
 
   * map of values and/or sequences
@@ -69,14 +69,13 @@
   ([data {:keys [single-value-column-name column-names layout dataset-name stack-trace? error-column?]
           :or {single-value-column-name :$value layout :as-rows stack-trace? false error-column? true}
           :as options}]
+   (when (and (iterable-sequence? data)
+              (every? iterable-sequence? data)
+              (every? #(and (= 2 (count %))) data))
+     (println "WARNING: Dataset creation behaviour changed for 2d 2-element arrays in v7.022. See https://github.com/scicloj/tablecloth/issues/142 for details."))
    (cond
      (prot/is-dataset? data) data
      (map-inst? data) (ds/->dataset data options)
-     (and (iterable-sequence? data)
-          (every? iterable-sequence? data)
-          (every? #(and (= 2 (count %))
-                        (or (keyword? (first %))
-                            (string? (first %)))) data)) (dataset (apply array-map (mapcat identity data)) options)
      (and (iterable-sequence? data)
           (every? col/is-column? data)) (ds/new-dataset options data)
      (or (array-of-arrays? data)
