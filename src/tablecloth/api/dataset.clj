@@ -174,7 +174,7 @@
   "Prints dataset into console. For options see
   tech.v3.dataset.print/dataset-data->str"
   ([ds] (println (p/dataset->str ds)))
-  ([ds options] (println (p/dataset->str ds options))))
+  ([ds options] (p/dataset->str ds options)))
 
 ;;
 
