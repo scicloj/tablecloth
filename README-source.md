@@ -120,9 +120,13 @@ To generate the detailed documentation, call the following. You will need the Qu
 5. Always update `README.Rmd`, `CHANGELOG.md`, `docs/index.Rmd`, tests and function docs are highly welcomed
 6. Always discuss changes and PRs first
 
+### Tests
+
+Tests are written and run using [midje](https://github.com/marick/Midje/). To run a test, evaluate a midje form. If it passes, it will return `true`, if it fails details will be printed to the REPL.
+
 ## TODO
 
-* tests
+* elaborate on tests
 * tutorials
 
 ## Licence

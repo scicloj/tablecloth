@@ -4,4 +4,6 @@
  :aliases {:dev {:extra-deps {org.scicloj/clay {:mvn/version "2-alpha82"}
                               org.scicloj/note-to-test {:mvn/version "1-alpha7"}}}
            :test {:extra-deps {org.scicloj/clay {:mvn/version "2-alpha82"}
-                               org.scicloj/note-to-test {:mvn/version "1-alpha7"}}}}}
+                               org.scicloj/note-to-test {:mvn/version "1-alpha7"}
+                               midje/midje {:mvn/version "1.10.10"}}
+                  :extra-paths ["test"]}}}
