@@ -91,7 +91,7 @@ Documentation is written in the [Kindly](https://scicloj.github.io/kindly/) conv
 
 The old documentation was written in RMarkdown and is kept under [docs/old/](./docs/old/).
 
-Documentation contains around 600 code snippets which are run during build. There are two source files:
+Documentation contains around 600 code snippets which are run during build. There are three relevant source files:
 
 * [README-source.md](./README-source.md) for README.md
 * [notebooks/index.clj](./notebooks/index.clj) for the detailed documentation
@@ -137,12 +137,16 @@ To generate the detailed documentation, call the following. You will need the Qu
     - usually function should working on grouped dataset as well, accept `parallel?` argument then (if applied).
 3. Follow `potemkin` pattern and import functions to the API namespace using `tech.v3.datatype.export-symbols/export-symbols` function
 4. Functions which are composed out of API function to cover specific case(s) should go to `tablecloth.utils` namespace.
-5. Always update `README.Rmd`, `CHANGELOG.md`, `docs/index.Rmd`, tests and function docs are highly welcomed
+5. Always update `README-source.md`, `CHANGELOG.md`, `notebooks/index.clj`, tests and function docs are highly welcomed.
 6. Always discuss changes and PRs first
+
+### Tests
+
+Tests are written and run using [midje](https://github.com/marick/Midje/). To run a test, evaluate a midje form. If it passes, it will return `true`, if it fails details will be printed to the REPL.
 
 ## TODO
 
-* tests
+* elaborate on tests
 * tutorials
 
 ## Licence
