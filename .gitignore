@@ -22,3 +22,4 @@ pom.xml.asc
 .clj-kondo/
 .clay.html
 *.qmd
+.quarto

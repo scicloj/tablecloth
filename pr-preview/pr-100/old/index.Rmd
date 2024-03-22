@@ -1,29 +1,102 @@
-^:kindly/hide-code
-(ns index
-  (:require [scicloj.kindly.v4.api :as kindly]
-            [scicloj.kindly.v4.kind :as kind]))
+---
+title: "Dataset (data frame) manipulation API for the tech.ml.dataset library"
+author: GenerateMe
+date: "`r Sys.Date()`"
+output:
+    html_document:
+        highlight: pygments
+        theme: simplex
+        toc: true
+        toc_depth: 4
+        toc_float:
+            smooth_scroll: true
+            collapsed: true
+        includes:
+            in_header: better_tables.html
+        smart: false
+    pdf_document:
+        highlight: tango
+    md_document:
+        variant: gfm
+---
 
-^:kindly/hide-code
-(def md
-  (comp kindly/hide-code kind/md))
+```{css echo=FALSE}
+.github-corner:hover.octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
+table { width: auto !important; margin-right: auto; margin-left: 2%; }
+h1, h2, h3, h4, h5, h6 { padding-top: 16px; border-bottom: 1px solid; }
+pre.sourceCode { position: relative; }
+pre.clojure::before {
+    content: "Clojure";
+    opacity: 0.2;
+    font-size: 150%;
+    position: absolute;
+    text-align: right;
+    right: 8px;
+    bottom: 0px;
+}
+pre.r::before {
+    content: "R";
+    opacity: 0.2;
+    font-size: 150%;
+    position: absolute;
+    text-align: right;
+    right: 8px;
+    bottom: 0px;
+}
+```
 
-(md
- "Dataset (data frame) manipulation API for the [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) library
+<a href="https://github.com/scicloj/tablecloth" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#d9230f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
-*GenerateMe*")
+```{r setup, include=FALSE}
+find_nrepl_port_up <- function() {
+    wd <- getwd()
+    while(wd != dirname(wd)) {
+        f <- paste0(wd,"/.nrepl-port")
+        if(file.exists(f)) return(paste0("@",f))
+        wd <- dirname(wd)
+        f <- NULL
+    }
+}
+port_file <- find_nrepl_port_up()
+if(is.null(port_file)) stop("nREPL port not found")
+library(knitr)
+knitr_one_string <- knitr:::one_string
+nrepl_cmd  <- "rep"
+opts_chunk$set(comment=NA, highlight=TRUE)
+knit_engines$set(clojure = function(options) {
+    rep_params <- if(isTRUE(options$stdout_only)) {
+                      "--print 'out,1,%{out}' --print 'value,1,' -p"
+                  } else {
+                      "-p"
+                  }
+    code <- paste(rep_params, port_file, shQuote(knitr_one_string(options$code)))
+    out <- if (options$eval) {
+               if (options$message) message('running: ', nrepl_cmd, ' ', code)
+               tryCatch(
+                   system2(nrepl_cmd, code, stdout = TRUE, stderr = TRUE, env = options$engine.env),
+                   error = function(e) {
+                       if (!options$error) stop(e)
+                       paste('Error in running command', nrepl_cmd)
+                   }
+               )
+           } else ''
+    if (!options$error && !is.null(attr(out, 'status'))) stop(knitr_one_string(out))
+    engine_output(options, options$code, out)})
+```
 
+```{clojure include=FALSE}
 (def tech-ml-version (get-in (read-string (slurp "deps.edn")) [:deps 'techascent/tech.ml.dataset :mvn/version]))
-
 (def tablecloth-version (nth (read-string (slurp "project.clj")) 2))
+```
 
-
+```{clojure results="asis"}
 tech-ml-version
+```
 
-
+```{clojure results="asis"}
 tablecloth-version
+```
 
-
-(md "
 
 ## Introduction
 
@@ -49,30 +122,28 @@ If you want to know more about `tech.ml.dataset` and `dtype-next` please refer t
 
 Join the discussion on [Zulip](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/api)
 
-First, let's require main namespace and define dataset used in most examples:
-")
+Let's require main namespace and define dataset used in most examples:
 
-
+```{clojure results="hide"}
 (require '[tablecloth.api :as tc]
          '[tech.v3.datatype.functional :as dfn])
 (def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
-                     :V2 (range 1 10)
-                     :V3 (take 9 (cycle [0.5 1.0 1.5]))
-                     :V4 (take 9 (cycle ["A" "B" "C"]))}))
+                      :V2 (range 1 10)
+                      :V3 (take 9 (cycle [0.5 1.0 1.5]))
+                      :V4 (take 9 (cycle ["A" "B" "C"]))}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
+## Functionality 
 
-(md "
-## Dataset API
+### Dataset
 
 Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.dataset` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
 
-### Dataset creation
+#### Dataset creation 
 
 Dataset can be created from various of types of Clojure structures and files:
 
@@ -100,200 +171,164 @@ Dataset can be created from various of types of Clojure structures and files:
 
 `tc/let-dataset` accepts bindings `symbol`-`column-data` to simulate R's `tibble` function. Each binding is converted into a column. You can refer previous columns to in further bindings (as in `let`).
 
-----
+---
 
 Empty dataset.
-")
 
-
+```{clojure}
 (tc/dataset)
+```
 
-
-(md "
-----
+---
 
 Empty dataset with column names
-")
 
-
+```{clojure}
 (tc/dataset nil {:column-names [:a :b]})
+```
 
-
-(md "
-----
+---
 
 Sequence of pairs (first = column name, second = value(s)).
-")
 
-
+```{clojure results="asis"}
 (tc/dataset [[:A 33] [:B 5] [:C :a]])
+```
 
-
-(md "
-----
+---
 
 Not sequential values are repeated row-count number of times.
-")
 
-
+```{clojure results="asis"}
 (tc/dataset [[:A [1 2 3 4 5 6]] [:B "X"] [:C :a]])
+```
 
-
-(md "
-----
+---
 
 Dataset created from map (keys = column names, vals = value(s)). Works the same as sequence of pairs.
-")
 
-
+```{clojure results="asis"}
 (tc/dataset {:A 33})
 (tc/dataset {:A [1 2 3]})
 (tc/dataset {:A [3 4 5] :B "X"})
+```
 
-
-(md "
-----
+---
 
 You can put any value inside a column
-")
 
-
+```{clojure results="asis"}
 (tc/dataset {:A [[3 4 5] [:a :b]] :B "X"})
+```
 
-
-(md "
-----
+---
 
 Sequence of maps
-")
 
-
+```{clojure results="asis"}
 (tc/dataset [{:a 1 :b 3} {:b 2 :a 99}])
 (tc/dataset [{:a 1 :b [1 2 3]} {:a 2 :b [3 4]}])
+```
 
-
-(md "
-----
+---
 
 Missing values are marked by `nil`
-")
 
-
+```{clojure results="asis"}
 (tc/dataset [{:a nil :b 1} {:a 3 :b 4} {:a 11}])
+```
 
-
-(md "
-----
+---
 
 Reading from arrays, by default `:as-rows`
-")
 
-
+```{clojure results="asis"}
 (-> (map int-array [[1 2] [3 4] [5 6]])
     (into-array)
     (tc/dataset))
+```
 
-
-(md "
 `:as-columns`
-")
 
-
+```{clojure results="asis"}
 (-> (map int-array [[1 2] [3 4] [5 6]])
     (into-array)
     (tc/dataset {:layout :as-columns}))
+```
 
-
-(md "
 `:as-rows` with names
-")
 
-
+```{clojure results="asis"}
 (-> (map int-array [[1 2] [3 4] [5 6]])
     (into-array)
     (tc/dataset {:layout :as-rows
                  :column-names [:a :b]}))
+```
 
-
-(md "
 Any objects
-")
 
-
+```{clojure results="asis"}
 (-> (map to-array [[:a :z] ["ee" "ww"] [9 10]])
     (into-array)
     (tc/dataset {:column-names [:a :b :c]
                  :layout :as-columns}))
+```
 
 
-(md "
-
-----
+---
 
 Create dataset using macro `let-dataset` to simulate R `tibble` function. Each binding is converted into a column.
-")
 
-
+```{clojure results="asis"}
 (tc/let-dataset [x (range 1 6)
                   y 1
                   z (dfn/+ x y)])
+```
 
-
-(md "
-----
+---
 
 Import CSV file
-")
 
-
+```{clojure results="asis"}
 (tc/dataset "data/family.csv")
+```
 
-
-(md "
-----
+---
 
 Import from URL
-")
 
-
+```{clojure results="hide"}
 (defonce ds (tc/dataset "https://vega.github.io/vega-lite/examples/data/seattle-weather.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 ds
+```
 
-
-(md "
-----
+---
 
 When none of above works, singleton dataset is created. Along with the error message from the exception thrown by `tech.ml.dataset`
-")
 
-
+```{clojure results="asis"}
 (tc/dataset 999)
+```
 
-
-(md "
 To see the stack trace, turn it on by setting `:stack-trace?` to `true`.
 
-----
+---
 
 Set column name for single value. Also set the dataset name and turn off creating error message column.
-")
 
-
+```{clojure results="asis"}
 (tc/dataset 999 {:single-value-column-name "my-single-value"
                  :error-column? false})
 (tc/dataset 999 {:single-value-column-name ""
                  :dataset-name "Single value"
                  :error-column? false})
+```
 
 
-(md "
-
-### Saving
+#### Saving
 
 Export dataset to a file or output stream can be done by calling `tc/write!`. Function accepts:
 
@@ -301,262 +336,232 @@ Export dataset to a file or output stream can be done by calling `tc/write!`. Fu
 * file name with one of the extensions: `.csv`, `.tsv`, `.csv.gz` and `.tsv.gz` or output stream
 * options:
 - `:separator` - string or separator char.
-")
 
-
+```{clojure}
 (tc/write! ds "output.tsv.gz")
 (.exists (clojure.java.io/file "output.tsv.gz"))
+```
 
+##### Nippy
 
-(md "
-#### Nippy
-")
-
-
+```{clojure}
 (tc/write! DS "output.nippy.gz")
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/dataset "output.nippy.gz")
+```
 
-
-(md "
-### Dataset related functions
+#### Dataset related functions
 
 Summary functions about the dataset like number of rows, columns and basic stats.
 
-----
+---
 
 Number of rows
-")
 
-
+```{clojure}
 (tc/row-count ds)
+```
 
-
-(md "
-----
+---
 
 Number of columns
-")
 
-
+```{clojure}
 (tc/column-count ds)
+```
 
-
-(md "
-----
+---
 
 Shape of the dataset, [row count, column count]
-")
 
-
+```{clojure}
 (tc/shape ds)
+```
 
-
-(md "
-----
+---
 
 General info about dataset. There are three variants:
 
 * default - containing information about columns with basic statistics
 - `:basic` - just name, row and column count and information if dataset is a result of `group-by` operation
 - `:columns` - columns' metadata
-")
 
-
+```{clojure results="asis"}
 (tc/info ds)
 (tc/info ds :basic)
 (tc/info ds :columns)
+```
 
-
-(md "
-----
+---
 
 Getting a dataset name
-")
 
-
+```{clojure}
 (tc/dataset-name ds)
+```
 
-
-(md "
-----
+---
 
 Setting a dataset name (operation is immutable).
-")
 
-
+```{clojure}
 (->> "seattle-weather"
      (tc/set-dataset-name ds)
      (tc/dataset-name))
+```
 
+#### Columns and rows
 
-(md "
-### Columns and rows
-
-Get columns and rows as sequences. `column`, `columns` and `rows` treat grouped dataset as regular one. See `Groups` to read more about grouped datasets.
+Get columns and rows as sequences. `column`, `columns` and `rows` treat grouped dataset as regular one. See `Groups` to read more about grouped datasets. 
 
 Possible result types:
 
 - `:as-seq` or `:as-seqs` - sequence of seqences (default)
 - `:as-maps` - sequence of maps (rows)
 - `:as-map` - map of sequences (columns)
-- `:as-double-arrays` - array of double arrays
+- `:as-double-arrays` - array of double arrays 
 - `:as-vecs` - sequence of vectors (rows)
 
 For `rows` setting `:nil-missing?` option to `false` will elide keys for nil values.
 
-----
+---
 
 Select column.
-")
 
-
+```{clojure}
 (ds "wind")
 (tc/column ds "date")
+```
 
-
-(md "
-----
+---
 
 Columns as sequence
-")
 
-
+```{clojure}
 (take 2 (tc/columns ds))
+```
 
-
-(md "
-----
+---
 
 Columns as map
-")
 
-
+```{clojure}
 (keys (tc/columns ds :as-map))
+```
 
-
-(md "
-----
+---
 
 Rows as sequence of sequences
-")
 
-
+```{clojure}
 (take 2 (tc/rows ds))
+```
 
-
-(md "
-----
+---
 
 Select rows/columns as double-double-array
-")
 
-
+```{clojure}
 (-> ds
     (tc/select-columns :type/numerical)
     (tc/head)
     (tc/rows :as-double-arrays))
+```
 
-
-
-
-
+```{clojure}
 (-> ds
     (tc/select-columns :type/numerical)
     (tc/head)
     (tc/columns :as-double-arrays))
+```
 
-
-(md "
-----
+---
 
 Rows as sequence of maps
-")
 
-
+```{clojure stdout_only=TRUE}
 (clojure.pprint/pprint (take 2 (tc/rows ds :as-maps)))
+```
 
-
-(md "
-----
+---
 
 Rows with missing values
-")
 
-
+```{clojure}
 (-> {:a [1 nil 2]
      :b [3 4 nil]}
     (tc/dataset)
     (tc/rows :as-maps))
+```
 
-
-(md "
 Rows with elided missing values
-")
 
-
+```{clojure}
 (-> {:a [1 nil 2]
      :b [3 4 nil]}
     (tc/dataset)
     (tc/rows :as-maps {:nil-missing? false}))
+```
 
-
-(md "
-### Single entry
+#### Single entry
 
 Get single value from the table using `get-in` from Clojure API or `get-entry`. First argument is column name, second is row number.
-")
 
-
+```{clojure}
 (get-in ds ["wind" 2])
+```
 
-
-
-
-
+```{clojure}
 (tc/get-entry ds "wind" 2)
+```
 
-
-(md "
-### Printing
+#### Printing
 
 Dataset is printed using `dataset->str` or `print-dataset` functions. Options are the same as in `tech.ml.dataset/dataset-data->str`. Most important is `:print-line-policy` which can be one of the: `:single`, `:repl` or `:markdown`.
-")
 
-
+```{clojure stdout_only=TRUE}
 (tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :markdown})
+```
 
-
-
-
-
+```{clojure stdout_only=TRUE}
 (tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :repl})
+```
 
-
-
-
-
+```{clojure stdout_only=TRUE}
 (tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :single})
+```
 
-
-(md "
 ### Group-by
 
-Grouping by is an operation which splits dataset into subdatasets and pack it into new special type of... dataset. I distinguish two types of dataset: regular dataset and grouped dataset. The latter is the result of grouping.
+Grouping by is an operation which splits dataset into subdatasets and packs it into new special type of... dataset. I distinguish two types of dataset: regular dataset and grouped dataset. The latter is the result of grouping.
 
-Grouped dataset is annotated in by `:grouped?` meta tag and consist following columns:
+Operations that perform a transformation on a regular dataset, generally apply that same transformation to individual sub-datasets in a grouped dataset.  For example,
+
+```{clojure}
+(tc/select-rows DS [0 1 2])
+```
+
+returns a dataset containing only the first three rows of `DS`, while
+
+```{clojure}
+(-> DS
+    (tc/group-by :V1)
+    (tc/select-rows [0 1 2]))
+```
+
+returns a grouped dataset, in which each sub-dataset contains only the first three rows of the sub-datasets in the grouped dataset created by `(tc/group-by DS :V1)`.
+
+Almost all functions recognize type of the dataset (grouped or not) and operate accordingly.
+
+However, you can't apply reshaping or join/concat functions on grouped datasets.
+
+Grouped dataset is annotated by the `:grouped?` meta tag and consists of the following columns:
 
 * `:name` - group name or structure
 * `:group-id` - integer assigned to the group
 * `:data` - groups as datasets
-
-Almost all functions recognize type of the dataset (grouped or not) and operate accordingly.
-
-You can't apply reshaping or join/concat functions on grouped datasets.
 
 #### Grouping
 
@@ -578,188 +583,164 @@ Grouping can be done by:
 
 * single column name
 * seq of column names
-* map of keys (group names) and row indexes
 * value returned by function taking row as map (limited to `:select-keys`)
+* map of keys (arbitrary group names) to sequences of row indexes
+
+In the case of the first three of these methods, each sub-dataset contains all and only rows from the original data set that share the same grouping value:
+
+* the value of the row in a specified single column
+* a map from column names to corresponding values found in the row
+* the value returned by the function taking row as map
+
+In the case of the map from group names to sequences of indexes, each sub-dataset will contain all and only rows with the indexes listed in the sequence for a given group name (a key).
 
 Note: currently dataset inside dataset is printed recursively so it renders poorly from markdown. So I will use `:as-seq` result type to show just group names and groups.
 
-----
+---
 
 List of columns in grouped dataset
-")
 
-
+```{clojure}
 (-> DS
     (tc/group-by :V1)
     (tc/column-names))
+```
 
-
-(md "
-----
+---
 
 List of columns in grouped dataset treated as regular dataset
-")
 
-
+```{clojure}
 (-> DS
     (tc/group-by :V1)
     (tc/as-regular-dataset)
     (tc/column-names))
+```
 
 
-(md "
-
-----
+---
 
 Content of the grouped dataset
-")
 
-
+```{clojure}
 (tc/columns (tc/group-by DS :V1) :as-map)
+```
 
-
-(md "
-----
+---
 
 Grouped dataset as map
-")
 
-
+```{clojure}
 (keys (tc/group-by DS :V1 {:result-type :as-map}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (vals (tc/group-by DS :V1 {:result-type :as-map}))
+```
 
-
-(md "
-----
+---
 
 Group dataset as map of indexes (row ids)
-")
 
-
+```{clojure}
 (tc/group-by DS :V1 {:result-type :as-indexes})
+```
 
-
-(md "
-----
+---
 
 Grouped datasets are printed as follows by default.
-")
 
-
+```{clojure results="asis"}
 (tc/group-by DS :V1)
+```
 
-
-(md "
-----
+---
 
 To get groups as sequence or a map can be done from grouped dataset using `groups->seq` and `groups->map` functions.
 
 Groups as seq can be obtained by just accessing `:data` column.
 
 I will use temporary dataset here.
-")
 
-
+```{clojure results="asis"}
 (let [ds (-> {"a" [1 1 2 2]
               "b" ["a" "b" "c" "d"]}
              (tc/dataset)
              (tc/group-by "a"))]
   (seq (ds :data))) ;; seq is not necessary but Markdown treats `:data` as command here
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> {"a" [1 1 2 2]
      "b" ["a" "b" "c" "d"]}
     (tc/dataset)
     (tc/group-by "a")
     (tc/groups->seq))
+```
 
-
-(md "
-----
+---
 
 Groups as map
-")
 
-
+```{clojure results="asis"}
 (-> {"a" [1 1 2 2]
      "b" ["a" "b" "c" "d"]}
     (tc/dataset)
     (tc/group-by "a")
     (tc/groups->map))
+```
 
-
-(md "
-----
+---
 
 Grouping by more than one column. You can see that group names are maps. When ungrouping is done these maps are used to restore column names.
-")
 
-
+```{clojure results="asis"}
 (tc/group-by DS [:V1 :V3] {:result-type :as-seq})
+```
 
-
-(md "
-----
+---
 
 Grouping can be done by providing just row indexes. This way you can assign the same row to more than one group.
-")
 
-
+```{clojure results="asis"}
 (tc/group-by DS {"group-a" [1 2 1 2]
                   "group-b" [5 5 5 1]} {:result-type :as-seq})
+```
 
-
-(md "
-----
+---
 
 You can group by a result of grouping function which gets row as map and should return group name. When map is used as a group name, ungrouping restore original column names.
-")
 
-
+```{clojure results="asis"}
 (tc/group-by DS (fn [row] (* (:V1 row)
                              (:V3 row))) {:result-type :as-seq})
+```
 
-
-(md "
-----
+---
 
 You can use any predicate on column to split dataset into two groups.
-")
 
-
+```{clojure results="asis"}
 (tc/group-by DS (comp #(< % 1.0) :V3) {:result-type :as-seq})
+```
 
-
-(md "
-----
+---
 
 `juxt` is also helpful
-")
 
-
+```{clojure results="asis"}
 (tc/group-by DS (juxt :V1 :V3) {:result-type :as-seq})
+```
 
-
-(md "
-----
+--- 
 
 `tech.ml.dataset` provides an option to limit columns which are passed to grouping functions. It's done for performance purposes.
-")
 
-
+```{clojure results="asis"}
 (tc/group-by DS identity {:result-type :as-seq
                            :select-keys [:V1]})
+```
 
-
-(md "
 #### Ungrouping
 
 Ungrouping simply concats all the groups into the dataset. Following options are possible
@@ -775,200 +756,171 @@ If group name is a vector, it will be splitted into separate columns. If you wan
 
 After ungrouping, order of the rows is kept within the groups but groups are ordered according to the internal storage.
 
-----
+---
 
 Grouping and ungrouping.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V3)
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 Groups sorted by group name and named.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V3)
     (tc/ungroup {:order? true
                   :dataset-name "Ordered by V3"}))
+```
 
-
-(md "
-----
+---
 
 Groups sorted descending by group name and named.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V3)
     (tc/ungroup {:order? :desc
                   :dataset-name "Ordered by V3 descending"}))
+```
 
-
-(md "
-----
+---
 
 Let's add group name and id as additional columns
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (comp #(< % 4) :V2))
     (tc/ungroup {:add-group-as-column true
                   :add-group-id-as-column true}))
+```
 
-
-(md "
-----
+---
 
 Let's assign different column names
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (comp #(< % 4) :V2))
     (tc/ungroup {:add-group-as-column "Is V2 less than 4?"
                   :add-group-id-as-column "group id"}))
+```
 
-
-(md "
-----
+---
 
 If we group by map, we can automatically create new columns out of group names.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (fn [row] {"V1 and V3 multiplied" (* (:V1 row)
                                                       (:V3 row))
                             "V4 as lowercase" (clojure.string/lower-case (:V4 row))}))
     (tc/ungroup {:add-group-as-column true}))
+```
 
-
-(md "
-----
+---
 
 We can add group names without separation
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (fn [row] {"V1 and V3 multiplied" (* (:V1 row)
                                                       (:V3 row))
                             "V4 as lowercase" (clojure.string/lower-case (:V4 row))}))
     (tc/ungroup {:add-group-as-column "just map"
                   :separate? false}))
+```
 
-
-(md "
-----
+---
 
 The same applies to group names as sequences
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (juxt :V1 :V3))
     (tc/ungroup {:add-group-as-column "abc"}))
+```
 
-
-(md "
-----
+---
 
 Let's provide column names
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (juxt :V1 :V3))
     (tc/ungroup {:add-group-as-column ["v1" "v3"]}))
+```
 
-
-(md "
-----
+---
 
 Also we can supress separation
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (juxt :V1 :V3))
     (tc/ungroup {:separate? false
-                 :add-group-as-column true}))
+                  :add-group-as-column true}))
+;; => _unnamed [9 5]:
 
 
+```
 
-
-(md "
 #### Other functions
 
 To check if dataset is grouped or not just use `grouped?` function.
-")
 
-
+```{clojure}
 (tc/grouped? DS)
+```
 
-
-
-
-
+```{clojure}
 (tc/grouped? (tc/group-by DS :V1))
+```
 
-
-(md "
-----
+---
 
 If you want to remove grouping annotation (to make all the functions work as with regular dataset) you can use `unmark-group` or `as-regular-dataset` (alias) functions.
 
 It can be important when you want to remove some groups (rows) from grouped dataset using `drop-rows` or something like that.
-")
 
-
+```{clojure}
 (-> DS
     (tc/group-by :V1)
     (tc/as-regular-dataset)
     (tc/grouped?))
+```
 
-
-(md "
 You can also operate on grouped dataset as a regular one in case you want to access its columns using `without-grouping->` threading macro.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4 :V1])
     (tc/without-grouping->
      (tc/order-by (comp (juxt :V4 :V1) :name))))
+```
 
-
-(md "
-----
+---
 
 This is considered internal.
 
-If you want to implement your own mapping function on grouped dataset you can call `process-group-data` and pass function operating on datasets. Result should be a dataset to have ungrouping working.
-")
+If you want to implement your own mapping function on grouped dataset you can call `process-group-data` and pass function operating on datasets. Result should be a dataset to have ungrouping working. 
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V1)
     (tc/process-group-data #(str "Shape: " (vector (tc/row-count %) (tc/column-count %))))
     (tc/as-regular-dataset))
+```
 
-
-(md "
 ### Columns
 
 Column is a special `tech.ml.dataset` structure. For our purposes we cat treat columns as typed and named sequence bound to particular dataset.
 
-Type of the data is inferred from a sequence during column creation.
+Type of the data is inferred from a sequence during column creation. 
 
 #### Names
 
@@ -998,255 +950,208 @@ Datatype groups are:
 
 If qualified keyword starts with `:!type`, complement set is used.
 
-----
+---
 
 To select all column names you can use `column-names` function.
-")
 
-
+```{clojure}
 (tc/column-names DS)
+```
 
-
-(md "
 or
-")
 
-
+```{clojure}
 (tc/column-names DS :all)
+```
 
-
-(md "
 In case you want to select column which has name `:all` (or is sequence or map), put it into a vector. Below code returns empty sequence since there is no such column in the dataset.
-")
 
-
+```{clojure}
 (tc/column-names DS [:all])
+```
 
-
-(md "
-----
+---
 
 Obviously selecting single name returns it's name if available
-")
 
-
+```{clojure}
 (tc/column-names DS :V1)
 (tc/column-names DS "no such column")
+```
 
-
-(md "
-----
+---
 
 Select sequence of column names.
-")
 
-
+```{clojure}
 (tc/column-names DS [:V1 "V2" :V3 :V4 :V5])
+```
 
-
-(md "
-----
+---
 
 Select names based on regex, columns ends with `1` or `4`
-")
 
-
+```{clojure}
 (tc/column-names DS #".*[14]")
+```
 
-
-(md "
-----
+---
 
 Select names based on regex operating on type of the column (to check what are the column types, call `(tc/info DS :columns)`. Here we want to get integer columns only.
-")
 
-
+```{clojure}
 (tc/column-names DS #"^:int.*" :datatype)
+```
 
-
-(md "
 or
 
-")
 
-
+```{clojure}
 (tc/column-names DS :type/integer)
+```
 
-
-(md "
-----
+---
 
 And finally we can use predicate to select names. Let's select double precision columns.
-")
 
-
+```{clojure}
 (tc/column-names DS #{:float64} :datatype)
+```
 
-
-(md "
 or
-")
 
-
+```{clojure}
 (tc/column-names DS :type/float64)
+```
 
-
-(md "
-----
+---
 
 If you want to select all columns but given, use `complement` function. Works only on a predicate.
-")
 
-
+```{clojure}
 (tc/column-names DS (complement #{:V1}))
 (tc/column-names DS (complement #{:float64}) :datatype)
 (tc/column-names DS :!type/float64)
+```
 
-
-(md "
-----
+---
 
 You can select column names based on all column metadata at once by using `:all` metadata selector. Below we want to select column names ending with `1` which have `long` datatype.
-")
 
-
+```{clojure}
 (tc/column-names DS (fn [meta]
                        (and (= :int64 (:datatype meta))
                             (clojure.string/ends-with? (:name meta) "1"))) :all)
+```
 
-
-(md "
 #### Select
 
 `select-columns` creates dataset with columns selected by `columns-selector` as described above. Function works on regular and grouped dataset.
 
-----
+---
 
 Select only float64 columns
-")
 
-
+```{clojure results="asis"}
 (tc/select-columns DS #(= :float64 %) :datatype)
+```
+or
 
-
-(md "or
-")
-
-
+```{clojure results="asis"}
 (tc/select-columns DS :type/float64)
+```
 
 
-(md "
-
-----
+---
 
 Select all but `:V1` columns
-")
 
-
+```{clojure results="asis"}
 (tc/select-columns DS (complement #{:V1}))
+```
 
-
-(md "
-----
+---
 
 If we have grouped data set, column selection is applied to every group separately.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V1)
     (tc/select-columns [:V2 :V3])
     (tc/groups->map))
+```
 
-
-(md "
 #### Drop
 
 `drop-columns` creates dataset with removed columns.
 
-----
+---
 
 Drop float64 columns
-")
 
-
+```{clojure results="asis"}
 (tc/drop-columns DS #(= :float64 %) :datatype)
+```
 
-
-(md "
 or
-")
 
-
+```{clojure results="asis"}
 (tc/drop-columns DS :type/float64)
+```
 
-
-(md "
-----
+---
 
 Drop all columns but `:V1` and `:V2`
-")
 
-
+```{clojure results="asis"}
 (tc/drop-columns DS (complement #{:V1 :V2}))
+```
 
-
-(md "
-----
+---
 
 If we have grouped data set, column selection is applied to every group separately. Selected columns are dropped.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V1)
     (tc/drop-columns [:V2 :V3])
     (tc/groups->map))
+```
 
-
-(md "
 #### Rename
 
 If you want to rename colums use `rename-columns` and pass map where keys are old names, values new ones.
 
 You can also pass mapping function with optional columns-selector
-")
 
-
+```{clojure results="asis"}
 (tc/rename-columns DS {:V1 "v1"
                         :V2 "v2"
                         :V3 [1 2 3]
                         :V4 (Object.)})
+```
 
-
-(md "
-----
+---
 
 Map all names with function
-")
 
-
+```{clojure results="asis"}
 (tc/rename-columns DS (comp str second name))
+```
 
-
-(md "
-----
+---
 
 Map selected names with function
-")
 
-
+```{clojure results="asis"}
 (tc/rename-columns DS [:V1 :V3] (comp str second name))
+```
 
-
-(md "
-----
+---
 
 Function works on grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V1)
     (tc/rename-columns {:V1 "v1"
@@ -1254,9 +1159,8 @@ Function works on grouped dataset
                          :V3 [1 2 3]
                          :V4 (Object.)})
     (tc/groups->map))
+```
 
-
-(md "
 
 #### Add or update
 
@@ -1272,124 +1176,101 @@ To add (or replace existing) column call `add-column` function. Function accepts
 
 Function works on grouped dataset.
 
-----
+---
 
 Add single value as column
-")
 
-
+```{clojure results="asis"}
 (tc/add-column DS :V5 "X")
+```
 
-
-(md "
-----
+---
 
 Replace one column (column is trimmed)
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/add-column DS :V1 (repeatedly rand))
+```
 
-
-(md "
-----
+---
 
 Copy column
-")
 
-
+```{clojure results="asis"}
 (tc/add-column DS :V5 (DS :V1))
+```
 
-
-(md "
-----
+---
 
 When function is used, argument is whole dataset and the result should be column, sequence or single value
-")
 
-
+```{clojure results="asis"}
 (tc/add-column DS :row-count tc/row-count)
+```
 
-
-(md "
-----
+---
 
 Above example run on grouped dataset, applies function on each group separately.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V1)
     (tc/add-column :row-count tc/row-count)
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 When column which is added is longer than row count in dataset, column is trimmed. When column is shorter, it's cycled or missing values are appended.
-")
 
-
+```{clojure results="asis"}
 (tc/add-column DS :V5 [:r :b] :cycle)
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/add-column DS :V5 [:r :b] :na)
+```
 
-
-(md "
 Exception is thrown when `:strict` (default) strategy is used and column size is not equal row count
-")
 
-
+```{clojure}
 (try
   (tc/add-column DS :V5 [:r :b])
   (catch Exception e (str "Exception caught: "(ex-message e))))
+```
 
-
-(md "
-----
+---
 
 Tha same applies for grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V3)
     (tc/add-column :V5 [:r :b] :na)
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 Let's use other column to fill groups
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V3)
     (tc/add-column :V5 (DS :V2) :cycle)
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 In case you want to add or update several columns you can call `add-columns` and provide map where keys are column names, vals are columns.
-")
 
-
+```{clojure results="asis"}
 (tc/add-columns DS {:V1 #(map inc (% :V1))
                                :V5 #(map (comp keyword str) (% :V4))
                                :V6 11})
+```
 
-
-(md "
 #### Update
 
 If you want to modify specific column(s) you can call `update-columns`. Arguments:
@@ -1398,42 +1279,35 @@ If you want to modify specific column(s) you can call `update-columns`. Argument
 * one of:
     - `columns-selector` and function (or sequence of functions)
     - map where keys are column names and vals are function
-
+    
 Functions accept column and have to return column or sequence
 
-----
+---
 
 Reverse of columns
-")
 
+```{clojure results="asis"}
+(tc/update-columns DS :all reverse) 
+```
 
-(tc/update-columns DS :all reverse)
-
-
-(md "
-----
+---
 
 Apply dec/inc on numerical columns
-")
 
-
+```{clojure results="asis"}
 (tc/update-columns DS :type/numerical [(partial map dec)
                                         (partial map inc)])
+```
 
-
-(md "
-----
+---
 
 You can also assign a function to a column by packing operations into the map.
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/update-columns DS {:V1 reverse
                         :V2 (comp shuffle seq)})
+```
 
-
-(md "
 
 #### Map
 
@@ -1446,24 +1320,21 @@ Arguments:
 * `columns-selector` - columns selected
 * `map-fn` - mapping function
 
-----
+---
 
 Let's add numerical columns together
-")
 
-
+```{clojure results="asis"}
 (tc/map-columns DS
                  :sum-of-numbers
                  (tc/column-names DS  #{:int64 :float64} :datatype)
                  (fn [& rows]
                    (reduce + rows)))
+```
 
-
-(md "
 The same works on grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/map-columns :sum-of-numbers
@@ -1471,29 +1342,24 @@ The same works on grouped dataset
                      (fn [& rows]
                        (reduce + rows)))
     (tc/ungroup))
+```
 
-
-(md "
 #### Reorder
 
 To reorder columns use columns selectors to choose what columns go first. The unseleted columns are appended to the end.
-")
 
-
+```{clojure results="asis"}
 (tc/reorder-columns DS :V4 [:V3 :V2])
+```
 
-
-(md "
-----
+---
 
 This function doesn't let you select meta field, so you have to call `column-names` in such case. Below we want to add integer columns at the end.
-")
 
-
+```{clojure results="asis"}
 (tc/reorder-columns DS (tc/column-names DS (complement #{:int64}) :datatype))
+```
 
-
-(md "
 #### Type conversion
 
 To convert column into given datatype can be done using `convert-types` function. Not all the types can be converted automatically also some types require slow parsing (every conversion from string). In case where conversion is not possible you can pass conversion function.
@@ -1514,151 +1380,87 @@ After conversion additional infomation is given on problematic values.
 
 The other conversion is casting column into java array (`->array`) of the type column or provided as argument. Grouped dataset returns sequence of arrays.
 
-----
+---
 
 Basic conversion
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/convert-types :V1 :float64)
     (tc/info :columns))
+```
 
-
-(md "
-----
+---
 
 Using custom converter. Let's treat `:V4` as haxadecimal values. See that this way we can map column to any value.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/convert-types :V4 [[:int16 #(Integer/parseInt % 16)]]))
+```
 
-
-(md "
-----
+---
 
 You can process several columns at once
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/convert-types {:V1 :float64
                         :V2 :object
                         :V3 [:boolean #(< % 1.0)]
                         :V4 :object})
     (tc/info :columns))
+```
 
-
-(md "
-----
+---
 
 Convert one type into another
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/convert-types :type/numerical :int16)
     (tc/info :columns))
+```
 
-
-(md "
-----
+---
 
 Function works on the grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V1)
     (tc/convert-types :V1 :float32)
     (tc/ungroup)
     (tc/info :columns))
+```
 
-
-(md "
-----
+---
 
 Double array conversion.
-")
 
-
+```{clojure}
 (tc/->array DS :V1)
+```
 
-
-(md "
-----
+---
 
 Function also works on grouped dataset
-")
 
-
+```{clojure}
 (-> DS
     (tc/group-by :V3)
     (tc/->array :V2))
+```
 
-
-(md "
-----
+---
 
 You can also cast the type to the other one (if casting is possible):
-")
 
-
+```{clojure}
 (tc/->array DS :V4 :string)
 (tc/->array DS :V1 :float32)
+```
 
-(md "
-### Column Operations
-
-There are a large number of column operations that can be performed on the columns in your dataset. These operations are a similar set as the [Column API operations](#operations), but instead of operating directly on columns, they take a Dataset and a [`columns-selector`](#names).
-
-The behavior of the operations differ based on their return value:
-
-* If an operation would return a scalar value, then the function behaves like an aggregator and can be used in group-by expresesions. Such functions will have the general signature:
-
-    ```
-    (dataset columns-selector) => dataset
-    ```
-
-* If an operation would return another column, then the function will not behave like an aggregator. Instead, it asks you to specify a target column, which it will add to the dataset that it returns. The signature of these functions is:
-
-
-    ```
-    (ds target-col columns-selector) => dataset
-    ```
-
-As there are a large number of operations, we will illustrate their usage. To begin with, here are some examples of operations whose result is a new column:
-")
-
-DS
-
-(-> DS
-    (tc/+ :SUM [:V1 :V2]))
-
-(-> DS
-    (tc/* :MULTIPY [:V1 :V2]))
-
-
-;; Now let's look at operations that would return a scalar:
-
-(-> DS
-    (tc/mean [:V1]))
-
-(md "
-Notice that we did not supply a target column to the `mean` function. Since `mean` does not return a column, we do not provide this argument. Instead, we simply provide the dataset and a `columns-selector.` We then get back a dataset with the result.
-
-Now let's use this function within a grouping expression:")
-
-(-> DS
-    (tc/group-by [:V4])
-    (tc/mean [:V2]))
-
-;; In this example, we grouped `DS` and then passed the resulting grouped Dataset directly to the `mean` operation. Since `mean` returns a scalar, it operates as an aggregator, summarizing the results of each group.
-
-
-(md "
 ### Rows
 
 Rows can be selected or dropped using various selectors:
@@ -1674,235 +1476,190 @@ Additionally you may want to precalculate some values which will be visible for 
 #### Select
 
 Select fifth row
-")
 
-
+```{clojure results="asis"}
 (tc/select-rows DS 4)
+```
 
-
-(md "
-----
+---
 
 Select 3 rows
-")
 
-
+```{clojure results="asis"}
 (tc/select-rows DS [1 4 5])
+```
 
-
-(md "
-----
+---
 
 Select rows using sequence of true/false values
-")
 
-
+```{clojure results="asis"}
 (tc/select-rows DS [true nil nil true])
+```
 
-
-(md "
-----
+---
 
 Select rows using predicate
-")
 
-
+```{clojure results="asis"}
 (tc/select-rows DS (comp #(< % 1) :V3))
+```
 
-
-(md "
-----
+---
 
 The same works on grouped dataset, let's select first row from every group.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V1)
     (tc/select-rows 0)
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 If you want to select `:V2` values which are lower than or equal mean in grouped dataset you have to precalculate it using `:pre`.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/select-rows (fn [row] (<= (:V2 row) (:mean row)))
                      {:pre {:mean #(tech.v3.datatype.functional/mean (% :V2))}})
     (tc/ungroup))
+```
 
-
-(md "
 #### Drop
 
 `drop-rows` removes rows, and accepts exactly the same parameters as `select-rows`
 
-----
+---
 
 Drop values lower than or equal `:V2` column mean in grouped dataset.
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/drop-rows (fn [row] (<= (:V2 row) (:mean row)))
                    {:pre {:mean #(tech.v3.datatype.functional/mean (% :V2))}})
     (tc/ungroup))
+```
 
-
-(md "
 #### Map rows
 
 Call a mapping function for every row. Mapping function should return a map, where keys are column names (new or old) and values are column values.
 
 Works on grouped dataset too.
-")
 
-
+```{clojure results="asis"}
 (tc/map-rows DS (fn [{:keys [V1 V2]}] {:V1 0
                                        :V5 (/ (+ V1 V2) (double V2))}))
+```
 
-
-(md "
 #### Other
 
 There are several function to select first, last, random rows, or display head, tail of the dataset. All functions work on grouped dataset.
 
 All random functions accept `:seed` as an option if you want to fix returned result.
 
-----
+---
 
 First row
-")
 
-
+```{clojure results="asis"}
 (tc/first DS)
+```
 
-
-(md "
-----
+---
 
 Last row
-")
 
-
+```{clojure results="asis"}
 (tc/last DS)
+```
 
-
-(md "
-----
+---
 
 Random row (single)
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/rand-nth DS)
+```
 
-
-(md "
-----
+---
 
 Random row (single) with seed
-")
 
-
+```{clojure results="asis"}
 (tc/rand-nth DS {:seed 42})
+```
 
-
-(md "
-----
+---
 
 Random `n` (default: row count) rows with repetition.
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/random DS)
+```
 
-
-(md "
-----
+---
 
 Five random rows with repetition
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/random DS 5)
+```
 
-
-(md "
-----
+---
 
 Five random, non-repeating rows
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/random DS 5 {:repeat? false})
+```
 
-
-(md "
-----
+---
 
 Five random, with seed
-")
 
-
+```{clojure results="asis"}
 (tc/random DS 5 {:seed 42})
+```
 
 
-(md "
-
-----
+---
 
 Shuffle dataset
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/shuffle DS)
+```
 
-
-(md "
-----
+---
 
 Shuffle with seed
-")
 
-
+```{clojure results="asis"}
 (tc/shuffle DS {:seed 42})
+```
 
 
-(md "
-
-----
+---
 
 First `n` rows (default 5)
-")
 
-
+```{clojure results="asis"}
 (tc/head DS)
+```
 
-
-(md "
-----
+---
 
 Last `n` rows (default 5)
-")
 
-
+```{clojure results="asis"}
 (tc/tail DS)
+```
 
-
-(md "
-----
+---
 
 `by-rank` calculates rank on column(s). It's base on [R rank()](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/rank) with addition of `:dense` (default) tie strategy which give consecutive rank numbering.
 
@@ -1910,165 +1667,136 @@ Last `n` rows (default 5)
 
 `rank` is zero based and is defined at `tablecloth.api.utils` namespace.
 
-----
-")
+---
 
-
+```{clojure results="asis"}
 (tc/by-rank DS :V3 zero?) ;; most V3 values
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/by-rank DS :V3 zero? {:desc? false}) ;; least V3 values
+```
 
-
-(md "
-----
+---
 
 Rank also works on multiple columns
-")
 
-
+```{clojure results="asis"}
 (tc/by-rank DS [:V1 :V3] zero? {:desc? false})
+```
 
-
-(md "
-----
+---
 
 Select 5 random rows from each group
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/random 5)
     (tc/ungroup))
+```
 
-
-(md "
 ### Aggregate
 
-Aggregating is a function which produces single row out of dataset.
+Aggregating is a function which produces single row out of dataset. 
 
 Aggregator is a function or sequence or map of functions which accept dataset as an argument and result single value, sequence of values or map.
 
 Where map is given as an input or result, keys are treated as column names.
 
-Grouped dataset is ungrouped after aggreation. This can be turned off by setting `:ungroup` to false. In case you want to pass additional ungrouping parameters add them to the options.
+Grouped dataset is ungrouped after aggregation. This can be turned off by setting `:ungroup?` to false. In case you want to pass additional ungrouping parameters add them to the options.
 
 By default resulting column names are prefixed with `summary` prefix (set it with `:default-column-name-prefix` option).
 
-----
+---
 
 Let's calculate mean of some columns
-")
 
-
+```{clojure results="asis"}
 (tc/aggregate DS #(reduce + (% :V2)))
+```
 
-
-(md "
-----
+---
 
 Let's give resulting column a name.
-")
 
-
+```{clojure results="asis"}
 (tc/aggregate DS {:sum-of-V2 #(reduce + (% :V2))})
+```
 
-
-(md "
-----
+--- 
 
 Sequential result is spread into separate columns
-")
 
-
+```{clojure results="asis"}
 (tc/aggregate DS #(take 5(% :V2)))
+```
 
-
-(md "
-----
+---
 
 You can combine all variants and rename default prefix
-")
 
-
+```{clojure results="asis"}
 (tc/aggregate DS [#(take 3 (% :V2))
                    (fn [ds] {:sum-v1 (reduce + (ds :V1))
                             :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"})
+```
 
-
-(md "
-----
+---
 
 Processing grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/aggregate [#(take 3 (% :V2))
                     (fn [ds] {:sum-v1 (reduce + (ds :V1))
                              :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"}))
+```
 
+Result of aggregating is automatically ungrouped, you can skip this step by stetting `:ungroup?` option to `false`.
 
-(md "
-Result of aggregating is automatically ungrouped, you can skip this step by stetting `:ungroup` option to `false`.
-")
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V3])
     (tc/aggregate [#(take 3 (% :V2))
                     (fn [ds] {:sum-v1 (reduce + (ds :V1))
                              :prod-v3 (reduce * (ds :V3))})] {:default-column-name-prefix "V2-value"
                                                               :ungroup? false}))
+```
 
-
-(md "
 #### Column
 
 You can perform columnar aggreagation also. `aggregate-columns` selects columns and apply aggregating function (or sequence of functions) for each column separately.
-")
 
-
+```{clojure results="asis"}
 (tc/aggregate-columns DS [:V1 :V2 :V3] #(reduce + %))
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/aggregate-columns DS [:V1 :V2 :V3] [#(reduce + %)
                                          #(reduce max %)
                                          #(reduce * %)])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/aggregate-columns [:V1 :V2 :V3] #(reduce + %)))
+```
 
-
-(md "
 You can also aggregate whole dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/drop-columns :V4)
     (tc/aggregate-columns #(reduce + %)))
+```
 
-
-(md "
 
 #### Crosstab
 
@@ -2080,59 +1808,47 @@ Options are:
 * `:marginal-rows` and `:marginal-cols` - if true, sum of rows and cols are added as an additional columns and row. May be custom function which accepts pure row and col as a seq.
 * `:replace-missing?` - should missing values be replaced (default: true) with `:missing-value` (default: 0)
 * `:pivot?` - if false, flat aggregation result is returned (default: false)
-")
 
-
+```{clojure results="asis"}
 (def ctds (tc/dataset {:a [:foo :foo :bar :bar :foo :foo]
                        :b [:one :one :two :one :two :one]
                        :c [:dull :dull :shiny :dull :dull :shiny]}))
+```
 
-
-
-
-
+```{clojure results"asis"}
 ctds
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/crosstab ctds :a [:b :c])
+```
 
-
-(md "
-----
+---
 
 With marginals
-")
 
-
+```{clojure results="asis"}
 (tc/crosstab ctds :a [:b :c] {:marginal-rows true :marginal-cols true})
+```
 
-
-(md "
-----
+---
 
 Set missing value to `-1`
-")
 
-
+```{clojure results="asis"}
 (tc/crosstab ctds :a [:b :c] {:missing-value -1})
+```
 
-
-(md "
-----
+---
 
 Turn off pivoting
-")
 
-
+```{clojure results="asis"}
 (tc/crosstab ctds :a [:b :c] {:pivot? false})
+```
 
-
-(md "
 ### Order
 
 Ordering can be done by column(s) or any function operating on row. Possible order can be:
@@ -2143,76 +1859,61 @@ Ordering can be done by column(s) or any function operating on row. Possible ord
 
 `:select-keys` limits row map provided to ordering functions.
 
-----
+---
 
 Order by single column, ascending
-")
 
-
+```{clojure results="asis"}
 (tc/order-by DS :V1)
+```
 
-
-(md "
-----
+---
 
 Descending order
-")
 
-
+```{clojure results="asis"}
 (tc/order-by DS :V1 :desc)
+```
 
-
-(md "
-----
+---
 
 Order by two columns
-")
 
-
+```{clojure results="asis"}
 (tc/order-by DS [:V1 :V2])
+```
 
-
-(md "
-----
+---
 
 Use different orders for columns
-")
 
-
+```{clojure results="asis"}
 (tc/order-by DS [:V1 :V2] [:asc :desc])
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/order-by DS [:V1 :V2] [:desc :desc])
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/order-by DS [:V1 :V3] [:desc :asc])
+```
 
-
-(md "
-----
+---
 
 Custom function can be used to provided ordering key. Here order by `:V4` descending, then by product of other columns ascending.
-")
 
-
+```{clojure results="asis"}
 (tc/order-by DS [:V4 (fn [row] (* (:V1 row)
                                   (:V2 row)
                                   (:V3 row)))] [:desc :asc])
+```
 
-
-(md "
-----
+---
 
 Custom comparator also can be used in case objects are not comparable by default. Let's define artificial one: if Euclidean distance is lower than 2, compare along `z` else along `x` and `y`. We use first three columns for that.
-")
 
-
+```{clojure}
 (defn dist
   [v1 v2]
   (->> v2
@@ -2220,91 +1921,76 @@ Custom comparator also can be used in case objects are not comparable by default
        (map #(* % %))
        (reduce +)
        (Math/sqrt)))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/order-by DS [:V1 :V2 :V3] (fn [[x1 y1 z1 :as v1] [x2 y2 z2 :as v2]]
                                 (let [d (dist v1 v2)]
                                   (if (< d 2.0)
                                     (compare z1 z2)
                                     (compare [x1 y1] [x2 y2])))))
+```
 
-
-(md "
 ### Unique
 
 Remove rows which contains the same data. By default `unique-by` removes duplicates from whole dataset. You can also pass list of columns or functions (similar as in `group-by`) to remove duplicates limited by them. Default strategy is to keep the first row. More strategies below.
 
 `unique-by` works on groups
 
-----
+---
 
 Remove duplicates from whole dataset
-")
 
-
+```{clojure results="asis"}
 (tc/unique-by DS)
+```
 
-
-(md "
-----
+---
 
 Remove duplicates from each group selected by column.
-")
 
-
+```{clojure results="asis"}
 (tc/unique-by DS :V1)
+```
 
-
-(md "
-----
+--- 
 
 Pair of columns
-")
 
-
+```{clojure results="asis"}
 (tc/unique-by DS [:V1 :V3])
+```
 
-
-(md "
-----
+---
 
 Also function can be used, split dataset by modulo 3 on columns `:V2`
-")
 
-
+```{clojure results="asis"}
 (tc/unique-by DS (fn [m] (mod (:V2 m) 3)))
+```
 
-
-(md "
-----
+---
 
 The same can be achived with `group-by`
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (fn [m] (mod (:V2 m) 3)))
     (tc/first)
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 Grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/unique-by :V1)
     (tc/ungroup))
+```
 
-
-(md "
 #### Strategies
 
 There are 4 strategies defined:
@@ -2314,70 +2000,57 @@ There are 4 strategies defined:
 * `:random` - select random row
 * any function - apply function to a columns which are subject of uniqueness
 
-----
+---
 
 Last
-")
 
-
+```{clojure results="asis"}
 (tc/unique-by DS :V1 {:strategy :last})
+```
 
-
-(md "
-----
+---
 
 Random
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/unique-by DS :V1 {:strategy :random})
+```
 
-
-(md "
-----
+---
 
 Pack columns into vector
-")
 
-
+```{clojure results="asis"}
 (tc/unique-by DS :V4 {:strategy vec})
+```
 
-
-(md "
-----
+---
 
 Sum columns
-")
 
-
+```{clojure results="asis"}
 (tc/unique-by DS :V4 {:strategy (partial reduce +)})
+```
 
-
-(md "
-----
+---
 
 Group by function and apply functions
-")
 
-
+```{clojure results="asis"}
 (tc/unique-by DS (fn [m] (mod (:V2 m) 3)) {:strategy vec})
+```
 
-
-(md "
-----
+---
 
 Grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V1)
     (tc/unique-by (fn [m] (mod (:V2 m) 3)) {:strategy vec})
     (tc/ungroup {:add-group-as-column :from-V1}))
+```
 
-
-(md "
 ### Missing
 
 When dataset contains missing values you can select or drop rows with missing values or replace them using some strategy.
@@ -2385,88 +2058,72 @@ When dataset contains missing values you can select or drop rows with missing va
 `column-selector` can be used to limit considered columns
 
 Let's define dataset which contains missing values
-")
 
-
+```{clojure results="hide"}
 (def DSm (tc/dataset {:V1 (take 9 (cycle [1 2 nil]))
                       :V2 (range 1 10)
                       :V3 (take 9 (cycle [0.5 1.0 nil 1.5]))
                       :V4 (take 9 (cycle ["A" "B" "C"]))}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DSm
+```
 
-
-(md "
 #### Select
 
 Select rows with missing values
-")
 
-
+```{clojure results="asis"}
 (tc/select-missing DSm)
+```
 
-
-(md "
-----
+---
 
 Select rows with missing values in `:V1`
-")
 
-
+```{clojure results="asis"}
 (tc/select-missing DSm :V1)
+```
 
-
-(md "
-----
+---
 
 The same with grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DSm
     (tc/group-by :V4)
     (tc/select-missing :V3)
     (tc/ungroup))
+```
 
-
-(md "
 #### Drop
 
 Drop rows with missing values
-")
 
-
+```{clojure results="asis"}
 (tc/drop-missing DSm)
+```
 
-
-(md "
-----
+---
 
 Drop rows with missing values in `:V1`
-")
 
-
+```{clojure results="asis"}
 (tc/drop-missing DSm :V1)
+```
 
-
-(md "
-----
+---
 
 The same with grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DSm
     (tc/group-by :V4)
     (tc/drop-missing :V1)
     (tc/ungroup))
+```
 
-
-(md "
 #### Replace
 
 Missing values can be replaced using several strategies. `replace-missing` accepts:
@@ -2492,161 +2149,129 @@ Strategies are:
 * `:lerp` - trying to lineary approximate values, works for numbers and datetime, otherwise applies `:nearest`. For numbers always results in `float` datatype.
 
 Let's define special dataset here:
-")
 
-
+```{clojure results="hide"}
 (def DSm2 (tc/dataset {:a [nil nil nil 1.0 2  nil nil nil nil  nil 4   nil  11 nil nil]
                        :b [2   2   2 nil nil nil nil nil nil 13   nil   3  4  5 5]}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DSm2
+```
 
-
-(md "
-----
+---
 
 Replace missing with default strategy for all columns
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2)
+```
 
-
-(md "
-----
+---
 
 Replace missing with single value in whole dataset
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 :all :value 999)
+```
 
-
-(md "
-----
+---
 
 Replace missing with single value in `:a` column
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 :a :value 999)
+```
 
-
-(md "
-----
+---
 
 Replace missing with sequence in `:a` column
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 :a :value [-999 -998 -997])
+```
 
-
-(md "
-----
+---
 
 Replace missing with a function (mean)
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 :a :value tech.v3.datatype.functional/mean)
+```
 
-
-(md "
-----
+---
 
 Replace missing some missing values with a map
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 :a :value {0 100 1 -100 14 -1000})
+```
 
-
-(md "
-----
+---
 
 Using `:down` strategy, fills gaps with values from above. You can see that if missings are at the beginning, the are filled with first value
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 [:a :b] :downup)
+```
 
-
-(md "
-----
+---
 
 To fix above issue you can provide value
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 [:a :b] :down 999)
+```
 
-
-(md "
-----
+---
 
 The same applies for `:up` strategy which is opposite direction.
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 [:a :b] :up)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 [:a :b] :updown)
+```
 
-
-(md "
-----
+---
 
 The same applies for `:up` strategy which is opposite direction.
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 [:a :b] :midpoint)
+```
 
-
-(md "
-----
+---
 
 We can use a function which is applied after applying `:up` or `:down`
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 [:a :b] :down tech.v3.datatype.functional/mean)
+```
 
-
-(md "
-----
+---
 
 Lerp tries to apply linear interpolation of the values
-")
 
-
+```{clojure results="asis"}
 (tc/replace-missing DSm2 [:a :b] :lerp)
+```
 
-
-(md "
-----
+---
 
 Lerp works also on dates
-")
 
-
+```{clojure results="asis"}
 (-> (tc/dataset {:dt [(java.time.LocalDateTime/of 2020 1 1 11 22 33)
                       nil nil nil nil nil nil nil
                       (java.time.LocalDateTime/of 2020 10 1 1 1 1)]})
     (tc/replace-missing :lerp))
+```
 
-
-(md "
 #### Inject
 
 When your column contains not continuous data range you can fill up with lacking values. Arguments:
@@ -2657,16 +2282,14 @@ When your column contains not continuous data range you can fill up with lacking
 * (optional) `missing-strategy` - how to replace missing, default `:down` (set to `nil` if none)
 * (optional) `missing-value` - optional value for replace missing
 
-----
-")
+---
 
-
+```{clojure results="asis"}
 (-> (tc/dataset {:a [1 2 9]
                  :b [:a :b :c]})
     (tc/fill-range-replace :a 1))
+```
 
-
-(md "
 ### Join/Separate Columns
 
 Joining or separating columns are operations which can help to tidy messy dataset.
@@ -2681,7 +2304,7 @@ Joining or separating columns are operations which can help to tidy messy datase
 * dataset
 * column selector (as in `select-columns`)
 * options
-- `:separator` (default `\"-\"`)
+- `:separator` (default `"-"`)
 - `:drop-columns?` - whether to drop source columns or not (default `true`)
 - `:result-type`
 * `:map` - packs data into map
@@ -2690,140 +2313,114 @@ Joining or separating columns are operations which can help to tidy messy datase
 * or custom function which gets row as a vector
 - `:missing-subst` - substitution for missing value
 
-----
+---
 
 Default usage. Create `:joined` column out of other columns.
-")
 
-
+```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4])
+```
 
-
-(md "
-----
+---
 
 Without dropping source columns.
-")
 
-
+```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:drop-columns? false})
+```
 
+---
 
-(md "
-----
+Let's replace missing value with "NA" string.
 
-Let's replace missing value with \"NA\" string.
-")
-
-
+```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:missing-subst "NA"})
+```
 
-
-(md "
-----
+---
 
 We can use custom separator.
-")
 
-
+```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:separator "/"
                                             :missing-subst "."})
+```
 
-
-(md "
-----
+---
 
 Or even sequence of separators.
-")
 
-
+```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:separator ["-" "/"]
                                             :missing-subst "."})
+```
 
-
-(md "
-----
+---
 
 The other types of results, map:
-")
 
-
+```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:result-type :map})
+```
 
-
-(md "
-----
+---
 
 Sequence
-")
 
-
+```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:result-type :seq})
+```
 
-
-(md "
-----
+---
 
 Custom function, calculate hash
-")
 
-
+```{clojure results="asis"}
 (tc/join-columns DSm :joined [:V1 :V2 :V4] {:result-type hash})
+```
 
-
-(md "
-----
+---
 
 Grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DSm
     (tc/group-by :V4)
     (tc/join-columns :joined [:V1 :V2 :V4])
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 
 ##### Tidyr examples
 
 [source](https://tidyr.tidyverse.org/reference/unite.html)
-")
 
-
+```{clojure}
 (def df (tc/dataset {:x ["a" "a" nil nil]
                       :y ["b" nil "b" nil]}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 df
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/join-columns df "z" [:x :y] {:drop-columns? false
                                   :missing-subst "NA"
                                   :separator "_"})
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/join-columns df "z" [:x :y] {:drop-columns? false
                                   :separator "_"})
+```
 
-
-(md "
 
 #### Separate
 
@@ -2837,268 +2434,218 @@ Column can be also separated into several other columns using string as separato
     - regex
     - or custom function (default: identity)
 * options
-    - `:drop-columns?` - whether drop source column(s) or not (default: `true`). Set to `:all` to keep only separation result.
-    - `:missing-subst` - values which should be treated as missing, can be set, sequence, value or function (default: `\"\"`)
+    - `:drop-column?` - whether drop source column(s) or not (default: `true`). Set to `:all` to keep only separation result.
+    - `:missing-subst` - values which should be treated as missing, can be set, sequence, value or function (default: `""`)
 
 Custom function (as separator) should return seqence of values for given value or a sequence of map.
 
-----
+---
 
 Separate float into integer and factional values
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column DS :V3 [:int-part :frac-part] (fn [^double v]
                                                      [(int (quot v 1.0))
                                                       (mod v 1.0)]))
+```
 
-
-(md "
-----
+---
 
 Source column can be kept
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column DS :V3 [:int-part :frac-part] (fn [^double v]
                                                      [(int (quot v 1.0))
                                                       (mod v 1.0)]) {:drop-column? false})
+```
 
-
-(md "
-----
+---
 
 We can treat `0` or `0.0` as missing value
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column DS :V3 [:int-part :frac-part] (fn [^double v]
                                                      [(int (quot v 1.0))
                                                       (mod v 1.0)]) {:missing-subst [0 0.0]})
+```
 
-
-(md "
-----
+---
 
 Works on grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/separate-column :V3 [:int-part :fract-part] (fn [^double v]
                                                        [(int (quot v 1.0))
                                                         (mod v 1.0)]))
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 Separate using separator returning sequence of maps.
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column DS :V3 (fn [^double v]
                               {:int-part (int (quot v 1.0))
                                :fract-part (mod v 1.0)}))
+```
 
-
-(md "
 Keeping all columns
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column DS :V3 nil (fn [^double v]
                                   {:int-part (int (quot v 1.0))
                                    :fract-part (mod v 1.0)}) {:drop-column? false})
+```
 
-
-(md "
 Droping all colums but separated
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column DS :V3 nil (fn [^double v]
                                  {:int-part (int (quot v 1.0))
                                   :fract-part (mod v 1.0)}) {:drop-column? :all})
+```
 
-
-(md "
 Infering column names
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column DS :V3 (fn [^double v]
                              [(int (quot v 1.0)) (mod v 1.0)]))
+```
 
 
-(md "
-
-----
+---
 
 Join and separate together.
-")
 
-
+```{clojure results="asis"}
 (-> DSm
     (tc/join-columns :joined [:V1 :V2 :V4] {:result-type :map})
     (tc/separate-column :joined [:v1 :v2 :v4] (juxt :V1 :V2 :V4)))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DSm
     (tc/join-columns :joined [:V1 :V2 :V4] {:result-type :seq})
     (tc/separate-column :joined [:v1 :v2 :v4] identity))
+```
 
-
-(md "
 ##### Tidyr examples
 
 [separate source](https://tidyr.tidyverse.org/reference/separate.html)
 [extract source](https://tidyr.tidyverse.org/reference/extract.html)
-")
 
-
+```{clojure}
 (def df-separate (tc/dataset {:x [nil "a.b" "a.d" "b.c"]}))
 (def df-separate2 (tc/dataset {:x ["a" "a b" nil "a b c"]}))
 (def df-separate3 (tc/dataset {:x ["a?b" nil "a.b" "b:c"]}))
 (def df-extract (tc/dataset {:x [nil "a-b" "a-d" "b-c" "d-e"]}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 df-separate
+```
 
-
-
-
-
+```{clojure results="asis"}
 df-separate2
+```
 
-
-
-
-
+```{clojure results="asis"}
 df-separate3
+```
 
-
-
-
-
+```{clojure results="asis"}
 df-extract
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/separate-column df-separate :x [:A :B] "\\.")
+```
 
-
-(md "
-----
+---
 
 You can drop columns after separation by setting `nil` as a name. We need second value here.
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column df-separate :x [nil :B] "\\.")
+```
 
-
-(md "
-----
+---
 
 Extra data is dropped
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column df-separate2 :x ["a" "b"] " ")
+```
 
-
-(md "
-----
+---
 
 Split with regular expression
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column df-separate3 :x ["a" "b"] "[?\\.:]")
+```
 
-
-(md "
-----
+---
 
 Or just regular expression to extract values
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column df-separate3 :x ["a" "b"] #"(.).(.)")
+```
 
-
-(md "
-----
+---
 
 Extract first value only
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column df-extract :x ["A"] "-")
+```
 
-
-(md "
-----
+---
 
 Split with regex
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column df-extract :x ["A" "B"] #"(\p{Alnum})-(\p{Alnum})")
+```
 
-
-(md "
-----
+---
 
 Only `a,b,c,d` strings
-")
 
-
+```{clojure results="asis"}
 (tc/separate-column df-extract :x ["A" "B"] #"([a-d]+)-([a-d]+)")
+```
 
-
-(md "
 
 #### Array column conversion
 
 A dataset can have as well columns of type java array. We can convert
 from normal columns to a single array column and back like this:
-")
 
-
+```{clojure result="asis"}
 (-> (tc/dataset {:x [(double-array [1 2 3])
                      (double-array [4 5 6])]
                  :y [:a :b]})
     (tc/array-column->columns :x))
 
+```
 
-
-(md "
 and the other way around:
-")
 
-
+```{clojure result="asis"}
 (-> (tc/dataset {0 [0.0 1 2]
                  1 [3.0 4 5]
                  :x [:a :b :c]})
     (tc/columns->array-column [0 1] :y))
 
+```
 
-
-(md "
 
 
 
@@ -3111,54 +2658,44 @@ To pack or unpack the data into single value you can use `fold-by` and `unroll` 
 #### Fold-by
 
 Group-by and pack columns into vector
-")
 
-
+```{clojure results="asis"}
 (tc/fold-by DS [:V3 :V4 :V1])
+```
 
-
-(md "
-----
+---
 
 You can pack several columns at once.
-")
 
-
+```{clojure results="asis"}
 (tc/fold-by DS [:V4])
+```
 
-
-(md "
-----
+---
 
 You can use custom packing function
-")
 
-
+```{clojure results="asis"}
 (tc/fold-by DS [:V4] seq)
+```
 
-
-(md "
 or
-")
 
-
+```{clojure results="asis"}
 (tc/fold-by DS [:V4] set)
+```
 
-
-(md "
-----
+---
 
 This works also on grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V1)
     (tc/fold-by :V4)
     (tc/ungroup))
+```
 
-
-(md "
 #### Unroll
 
 `unroll` unfolds sequences stored in data, multiplying other ones when necessary. You can unroll more than one column at once (folded data should have the same size!).
@@ -3168,84 +2705,70 @@ Options:
 * `:indexes?` if true (or column name), information about index of unrolled sequence is added.
 * `:datatypes` list of datatypes which should be applied to restored columns, a map
 
-----
+---
 
 Unroll one column
-")
 
-
+```{clojure results="asis"}
 (tc/unroll (tc/fold-by DS [:V4]) [:V1])
+```
 
-
-(md "
-----
+---
 
 Unroll all folded columns
-")
 
-
+```{clojure results="asis"}
 (tc/unroll (tc/fold-by DS [:V4]) [:V1 :V2 :V3])
+```
 
-
-(md "
-----
+---
 
 Unroll one by one leads to cartesian product
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/fold-by [:V4 :V1])
     (tc/unroll [:V2])
     (tc/unroll [:V3]))
+```
 
-
-(md "
-----
+--- 
 
 You can add indexes
-")
 
-
+```{clojure results="asis"}
 (tc/unroll (tc/fold-by DS [:V1]) [:V4 :V2 :V3] {:indexes? true})
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/unroll (tc/fold-by DS [:V1]) [:V4 :V2 :V3] {:indexes? "vector idx"})
+```
 
-
-(md "
-----
+---
 
 You can also force datatypes
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/fold-by [:V1])
     (tc/unroll [:V4 :V2 :V3] {:datatypes {:V4 :string
                                            :V2 :int16
                                            :V3 :float32}})
     (tc/info :columns))
+```
 
-
-(md "
-----
+---
 
 This works also on grouped dataset
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V1)
     (tc/fold-by [:V1 :V4])
     (tc/unroll :V3 {:indexes? true})
     (tc/ungroup))
+```
 
-
-(md "
 ### Reshape
 
 Reshaping data provides two types of operations:
@@ -3273,7 +2796,7 @@ Arguments:
     - `:splitter` - string, regular expression or function which splits source column names into data
     - `:drop-missing?` - remove rows with missing? (default: `true`)
     - `:datatypes` - map of target columns data types
-\t- `:coerce-to-number` - try to convert extracted values to numbers if possible (default: true)
+	- `:coerce-to-number` - try to convert extracted values to numbers if possible (default: true)
 
 `:target-columns` - can be:
 
@@ -3281,148 +2804,114 @@ Arguments:
 * column names as seqence - source columns names after split are put separately into `:target-columns` as data
 * pattern - is a sequence of names, where some of the names are `nil`. `nil` is replaced by a name taken from splitter and such column is used for values.
 
-----
+---
 
-Create rows from all columns but `\"religion\"`.
-")
+Create rows from all columns but `"religion"`.
 
-
+```{clojure results="hide"}
 (def relig-income (tc/dataset "data/relig_income.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 relig-income
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/pivot->longer relig-income (complement #{"religion"}))
+```
 
+---
 
-(md "
-----
+Convert only columns starting with `"wk"` and pack them into `:week` column, values go to `:rank` column
 
-Convert only columns starting with `\"wk\"` and pack them into `:week` column, values go to `:rank` column
-")
-
-
+```{clojure results="hide"}
 (def bilboard (-> (tc/dataset "data/billboard.csv.gz")
                   (tc/drop-columns :type/boolean))) ;; drop some boolean columns, tidyr just skips them
+```
 
-
-
-
-
+```{clojure results="asis"}
 (->> bilboard
      (tc/column-names)
      (take 13)
      (tc/select-columns bilboard))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/pivot->longer bilboard #(clojure.string/starts-with? % "wk") {:target-columns :week
                                                                    :value-column-name :rank})
+```
 
-
-(md "
-----
+---
 
 We can create numerical column out of column names
-")
 
-
+```{clojure results="asis"}
 (tc/pivot->longer bilboard #(clojure.string/starts-with? % "wk") {:target-columns :week
                                                                    :value-column-name :rank
                                                                    :splitter #"wk(.*)"
                                                                    :datatypes {:week :int16}})
 
+```
 
-
-(md "
-----
+---
 
 When column names contain observation data, such column names can be splitted and data can be restored into separate columns.
-")
 
-
+```{clojure results="hide"}
 (def who (tc/dataset "data/who.csv.gz"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (->> who
      (tc/column-names)
      (take 10)
      (tc/select-columns who))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/pivot->longer who #(clojure.string/starts-with? % "new") {:target-columns [:diagnosis :gender :age]
                                                                :splitter #"new_?(.*)_(.)(.*)"
                                                                :value-column-name :count})
+```
 
-
-(md "
-----
+---
 
 When data contains multiple observations per row, we can use splitter and pattern for target columns to create new columns and put values there. In following dataset we have two obseravations `dob` and `gender` for two childs. We want to put child infomation into the column and leave dob and gender for values.
-")
 
-
+```{clojure results="hide"}
 (def family (tc/dataset "data/family.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 family
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/pivot->longer family (complement #{"family"}) {:target-columns [nil :child]
                                                     :splitter "_"
                                                     :datatypes {"gender" :int16}})
+```
 
-
-(md "
-----
+---
 
 Similar here, we have two observations: `x` and `y` in four groups.
-")
 
-
+```{clojure results="hide"}
 (def anscombe (tc/dataset "data/anscombe.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 anscombe
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/pivot->longer anscombe :all {:splitter #"(.)(.)"
                                   :target-columns [nil :set]})
+```
 
+---
 
-(md "
-----
-")
-
-
-^:note-to-test/skip
+```{clojure results="hide"}
 (def pnl (tc/dataset {:x [1 2 3 4]
                        :a [1 1 0 0]
                        :b [0 1 1 1]
@@ -3430,24 +2919,17 @@ anscombe
                        :y2 (repeatedly 4 rand)
                        :z1 [3 3 3 3]
                        :z2 [-2 -2 -2 -2]}))
+```
 
-
-
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 pnl
+```
 
-
-
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/pivot->longer pnl [:y1 :y2 :z1 :z2] {:target-columns [nil :times]
                                           :splitter #":(.)(.)"})
+```
 
-
-(md "
 #### Wider
 
 `pivot->wider` converts rows to columns.
@@ -3459,302 +2941,234 @@ Arguments:
 * `value-columns` - what are values
 
 When multiple columns are used as columns selector, names are joined using `:concat-columns-with` option.
-`:concat-columns-with` can be a string or function (default: \"_\"). Function accepts sequence of names.
+`:concat-columns-with` can be a string or function (default: "_"). Function accepts sequence of names.
 
 When `columns-selector` creates non unique set of values, they are folded using `:fold-fn` (default: `vec`) option.
 
 When `value-columns` is a sequence, multiple observations as columns are created appending value column names into new columns. Column names are joined using `:concat-value-with` option.
-`:concat-value-with` can be a string or function (default: \"-\"). Function accepts current column name and value.
+`:concat-value-with` can be a string or function (default: "-"). Function accepts current column name and value.
 
-----
+---
 
 Use `station` as a name source for columns and `seen` for values
-")
 
-
+```{clojure results="hide"}
 (def fish (tc/dataset "data/fish_encounters.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 fish
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/pivot->wider fish "station" "seen" {:drop-missing? false})
+```
 
-
-(md "
-----
+---
 
 If selected columns contain multiple values, such values should be folded.
-")
 
-
+```{clojure results="hide"}
 (def warpbreaks (tc/dataset "data/warpbreaks.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 warpbreaks
+```
 
-
-(md "
 Let's see how many values are for each type of `wool` and `tension` groups
-")
 
-
+```{clojure results="asis"}
 (-> warpbreaks
     (tc/group-by ["wool" "tension"])
     (tc/aggregate {:n tc/row-count}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> warpbreaks
     (tc/reorder-columns ["wool" "tension" "breaks"])
     (tc/pivot->wider "wool" "breaks" {:fold-fn vec}))
+```
 
-
-(md "
 We can also calculate mean (aggreate values)
-")
 
-
+```{clojure results="asis"}
 (-> warpbreaks
     (tc/reorder-columns ["wool" "tension" "breaks"])
     (tc/pivot->wider "wool" "breaks" {:fold-fn tech.v3.datatype.functional/mean}))
+```
 
-
-(md "
-----
+---
 
 Multiple source columns, joined with default separator.
-")
 
-
+```{clojure results="hide"}
 (def production (tc/dataset "data/production.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 production
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/pivot->wider production ["product" "country"] "production")
+```
 
-
-(md "
 Joined with custom function
-")
 
-
+```{clojure results="asis"}
 (tc/pivot->wider production ["product" "country"] "production" {:concat-columns-with vec})
+```
 
-
-(md "
-----
+---
 
 Multiple value columns
-")
 
-
+```{clojure results="hide"}
 (def income (tc/dataset "data/us_rent_income.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 income
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/pivot->wider income "variable" ["estimate" "moe"] {:drop-missing? false})
+```
 
-
-(md "
 Value concatenated by custom function
-")
 
-
+```{clojure results="asis"}
 (tc/pivot->wider income "variable" ["estimate" "moe"] {:concat-columns-with vec
                                                         :concat-value-with vector
                                                         :drop-missing? false})
+```
 
-
-(md "
-----
+---
 
 Reshape contact data
-")
 
-
+```{clojure results="hide"}
 (def contacts (tc/dataset "data/contacts.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 contacts
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/pivot->wider contacts "field" "value" {:drop-missing? false})
 
+```
 
-
-(md "
 #### Reshaping
 
 A couple of `tidyr` examples of more complex reshaping.
 
-----
+---
 
 [World bank](https://tidyr.tidyverse.org/articles/pivot.html#world-bank)
-")
 
-
+```{clojure results="hide"}
 (def world-bank-pop (tc/dataset "data/world_bank_pop.csv.gz"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (->> world-bank-pop
      (tc/column-names)
      (take 8)
      (tc/select-columns world-bank-pop))
+```
 
-
-(md "
 Step 1 - convert years column into values
-")
 
-
+```{clojure results="hide"}
 (def pop2 (tc/pivot->longer world-bank-pop (map str (range 2000 2018)) {:drop-missing? false
                                                                          :target-columns ["year"]
                                                                          :value-column-name "value"}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 pop2
+```
 
+Step 2 - separate `"indicate"` column
 
-(md "
-Step 2 - separate `\"indicate\"` column
-")
-
-
+```{clojure results="hide"}
 (def pop3 (tc/separate-column pop2
                                "indicator" ["area" "variable"]
                                #(rest (clojure.string/split % #"\."))))
+```
 
-
-
-
-
+```{clojure results="asis"}
 pop3
+```
 
+Step 3 - Make columns based on `"variable"` values.
 
-(md "
-Step 3 - Make columns based on `\"variable\"` values.
-")
-
-
+```{clojure results="asis"}
 (tc/pivot->wider pop3 "variable" "value" {:drop-missing? false})
+```
 
+---
 
-(md "
-----
-
-----
+---
 
 [Multi-choice](https://tidyr.tidyverse.org/articles/pivot.html#multi-choice)
-")
 
-
+```{clojure results="hide"}
 (def multi (tc/dataset {:id [1 2 3 4]
                          :choice1 ["A" "C" "D" "B"]
                          :choice2 ["B" "B" nil "D"]
                          :choice3 ["C" nil nil nil]}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 multi
+```
 
-
-(md "
 Step 1 - convert all choices into rows and add artificial column to all values which are not missing.
-")
 
-
+```{clojure results="hide"}
 (def multi2 (-> multi
                 (tc/pivot->longer (complement #{:id}))
                 (tc/add-column :checked true)))
+```
 
-
-
-
-
+```{clojure results="asis"}
 multi2
+```
 
-
-(md "
 Step 2 - Convert back to wide form with actual choices as columns
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> multi2
     (tc/drop-columns :$column)
     (tc/pivot->wider :$value :checked {:drop-missing? false})
     (tc/order-by :id))
+```
 
+---
 
-(md "
-----
-
-----
+---
 
 [Construction](https://tidyr.tidyverse.org/articles/pivot.html#by-hand)
-")
 
-
+```{clojure results="hide"}
 (def construction (tc/dataset "data/construction.csv"))
 (def construction-unit-map {"1 unit" "1"
                             "2 to 4 units" "2-4"
                             "5 units or more" "5+"})
 
+```
 
-
-
-
-
+```{clojure results="asis"}
 construction
+```
 
-
-(md "
 Conversion 1 - Group two column types
-")
 
-
+```{clojure results="asis"}
 (-> construction
     (tc/pivot->longer #"^[125NWS].*|Midwest" {:target-columns [:units :region]
                                                :splitter (fn [col-name]
@@ -3763,13 +3177,11 @@ Conversion 1 - Group two column types
                                                              [nil col-name]))
                                                :value-column-name :n
                                                :drop-missing? false}))
+```
 
-
-(md "
 Conversion 2 - Convert to longer form and back and rename columns
-")
 
-
+```{clojure results="asis"}
 (-> construction
     (tc/pivot->longer #"^[125NWS].*|Midwest" {:target-columns [:units :region]
                                                :splitter (fn [col-name]
@@ -3781,59 +3193,45 @@ Conversion 2 - Convert to longer form and back and rename columns
     (tc/pivot->wider [:units :region] :n {:drop-missing? false})
     (tc/rename-columns (zipmap (vals construction-unit-map)
                                 (keys construction-unit-map))))
+```
 
-
-(md "
-----
+---
 
 Various operations on stocks, examples taken from [gather](https://tidyr.tidyverse.org/reference/gather.html) and [spread](https://tidyr.tidyverse.org/reference/spread.html) manuals.
-")
 
-
+```{clojure results="hide"}
 (def stocks-tidyr (tc/dataset "data/stockstidyr.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 stocks-tidyr
+```
 
-
-(md "
 Convert to longer form
-")
 
-
+```{clojure results="hide"}
 (def stocks-long (tc/pivot->longer stocks-tidyr ["X" "Y" "Z"] {:value-column-name :price
                                                                 :target-columns :stocks}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 stocks-long
+```
 
-
-(md "
 Convert back to wide form
-")
 
-
+```{clojure results="asis"}
 (tc/pivot->wider stocks-long :stocks :price)
+```
 
-
-(md "
 Convert to wide form on time column (let's limit values to a couple of rows)
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> stocks-long
     (tc/select-rows (range 0 30 4))
     (tc/pivot->wider "time" :price {:drop-missing? false}))
+```
 
-
-(md "
 ### Join/Concat Datasets
 
 Dataset join and concatenation functions.
@@ -3857,9 +3255,8 @@ To concat two datasets rowwise you can choose:
 To add two datasets columnwise use `bind`. The number of rows should be equal.
 
 Datasets used in examples:
-")
 
-
+```{clojure results="hide"}
 (def ds1 (tc/dataset {:a [1 2 1 2 3 4 nil nil 4]
                        :b (range 101 110)
                        :c (map str "abs tract")}))
@@ -3868,532 +3265,407 @@ Datasets used in examples:
                       :c (map str "datatable")
                       :d (symbol "X")
                       :e [3 4 5 6 7 nil 8 1 1]}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 ds1
 ds2
+```
 
-
-(md "
 #### Left
-")
 
-
+```{clojure results="asis"}
 (tc/left-join ds1 ds2 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/left-join ds2 ds1 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/left-join ds1 ds2 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/left-join ds2 ds1 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/left-join ds1 ds2 {:left :a :right :e})
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/left-join ds2 ds1 {:left :e :right :a})
+```
 
-
-(md "
 
 #### Right
-")
 
-
+```{clojure results="asis"}
 (tc/right-join ds1 ds2 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/right-join ds2 ds1 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/right-join ds1 ds2 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/right-join ds2 ds1 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/right-join ds1 ds2 {:left :a :right :e})
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/right-join ds2 ds1 {:left :e :right :a})
+```
 
-
-(md "
 
 #### Inner
-")
 
-
+```{clojure results="asis"}
 (tc/inner-join ds1 ds2 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/inner-join ds2 ds1 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/inner-join ds1 ds2 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/inner-join ds2 ds1 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/inner-join ds1 ds2 {:left :a :right :e})
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/inner-join ds2 ds1 {:left :e :right :a})
+```
 
-
-(md "
 #### Full
 
 Join keeping all rows
-")
 
-
+```{clojure results="asis"}
 (tc/full-join ds1 ds2 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/full-join ds2 ds1 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/full-join ds1 ds2 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/full-join ds2 ds1 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/full-join ds1 ds2 {:left :a :right :e})
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/full-join ds2 ds1 {:left :e :right :a})
+```
 
-
-(md "
 
 #### Semi
 
 Return rows from ds1 matching ds2
-")
 
-
+```{clojure results="asis"}
 (tc/semi-join ds1 ds2 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/semi-join ds2 ds1 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/semi-join ds1 ds2 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/semi-join ds2 ds1 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/semi-join ds1 ds2 {:left :a :right :e})
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/semi-join ds2 ds1 {:left :e :right :a})
+```
 
-
-(md "
 #### Anti
 
 Return rows from ds1 not matching ds2
-")
 
-
+```{clojure results="asis"}
 (tc/anti-join ds1 ds2 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/anti-join ds2 ds1 :b)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/anti-join ds1 ds2 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/anti-join ds1 ds2 {:left :a :right :e})
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/anti-join ds2 ds1 {:left :e :right :a})
+```
 
-
-(md "
 #### Hashing
 
 When `:hashing` option is used, data from join columns are preprocessed by applying `join-columns` funtion with `:result-type` set to the value of `:hashing`. This helps to create custom joining behaviour. Function used for hashing will get vector of row values from join columns.
 
 In the following example we will join columns on value modulo 5.
-")
 
-
+```{clojure results="asis"}
 (tc/left-join ds1 ds2 :b {:hashing (fn [[v]] (mod v 5))})
+```
 
-
-(md "
 #### Cross
 
 Cross product from selected columns
-")
 
-
+```{clojure results="asis"}
 (tc/cross-join ds1 ds2 [:a :b])
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/cross-join ds1 ds2 {:left [:a :b] :right :e})
+```
 
-
-(md "
 #### Expand
 
 Similar to cross product but works on a single dataset.
-")
 
-
+```{clojure results="asis"}
 (tc/expand ds2 :a :c :d)
+```
 
-
-(md "
-----
+---
 
 Columns can be also bundled (nested) in tuples which are treated as a single entity during cross product.
-")
 
-
+```{clojure results="asis"}
 (tc/expand ds2 [:a :c] [:e :b])
+```
 
-
-(md "
 #### Complete
 
 Same as expand with all other columns preserved (filled with missing values if necessary).
-")
 
-
+```{clojure results="asis"}
 (tc/complete ds2 :a :c :d)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/complete ds2 [:a :c] [:e :b])
+```
 
-
-(md "
 #### asof
-")
 
-
+```{clojure results="hide"}
 (def left-ds (tc/dataset {:a [1 5 10]
                           :left-val ["a" "b" "c"]}))
 (def right-ds (tc/dataset {:a [1 2 3 6 7]
                            :right-val [:a :b :c :d :e]}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 left-ds
 right-ds
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/asof-join left-ds right-ds :a)
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/asof-join left-ds right-ds :a {:asof-op :nearest})
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/asof-join left-ds right-ds :a {:asof-op :>=})
+```
 
-
-(md "
 #### Concat
 
 `contact` joins rows from other datasets
-")
 
-
+```{clojure results="asis"}
 (tc/concat ds1)
+```
 
-
-(md "
-----
+---
 
 `concat-copying` ensures all readers are evaluated.
-")
 
-
+```{clojure results="asis"}
 (tc/concat-copying ds1)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/concat ds1 (tc/drop-columns ds2 :d))
+```
 
+---
 
-(md "
-----
-")
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (apply tc/concat (repeatedly 3 #(tc/random DS)))
+```
 
-
-(md "
 ##### Concat grouped dataset
 
 Concatenation of grouped datasets results also in grouped dataset.
-")
 
-
+```{clojure results="asis"}
 (tc/concat (tc/group-by DS [:V3])
            (tc/group-by DS [:V4]))
+```
 
-
-(md "
 
 #### Union
 
 The same as `concat` but returns unique rows
-")
 
-
+```{clojure results="asis"}
 (apply tc/union (tc/drop-columns ds2 :d) (repeat 10 ds1))
+```
 
+---
 
-(md "
-----
-")
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (apply tc/union (repeatedly 10 #(tc/random DS)))
+```
 
-
-(md "
 #### Bind
 
 `bind` adds empty columns during concat
-")
 
-
+```{clojure results="asis"}
 (tc/bind ds1 ds2)
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/bind ds2 ds1)
+```
 
-
-(md "
 #### Append
 
-`append` concats columns
-")
+`append` concats columns 
 
-
+```{clojure results="asis"}
 (tc/append ds1 ds2)
+```
 
-
-(md "
 #### Intersection
-")
 
-
+```{clojure results="asis"}
 (tc/intersect (tc/select-columns ds1 :b)
               (tc/select-columns ds2 :b))
+```
 
-
-(md "
 #### Difference
-")
 
-
+```{clojure results="asis"}
 (tc/difference (tc/select-columns ds1 :b)
                (tc/select-columns ds2 :b))
+```
 
+---
 
-(md "
-----
-")
-
-
+```{clojure results="asis"}
 (tc/difference (tc/select-columns ds2 :b)
                (tc/select-columns ds1 :b))
+```
 
-
-(md "
 ### Split into train/test
 
 In ML world very often you need to test given model and prepare collection of train and test datasets. `split` creates new dataset with two additional columns:
@@ -4406,7 +3678,7 @@ In ML world very often you need to test given model and prepare collection of tr
 * `:kfold` (default) - k-fold strategy, `:k` defines number of folds (defaults to `5`), produces `k` splits
 * `:bootstrap` - `:ratio` defines ratio of observations put into result (defaults to `1.0`), produces `1` split
 * `:holdout` - split into two or more parts with given ratio(s) (defaults to `2/3`), produces `1` split
-* `:holdouts` - splits into two parts for ascending ratio. Range of rations is given by `steps` option
+* `:holdouts` - splits into two parts for ascending ratio. Range of rations is given by `steps` option 
 * `:loo` - leave one out, produces the same number of splits as number of observations
 
 `:holdout` can accept also probabilites or ratios and can split to more than 2 subdatasets
@@ -4424,357 +3696,123 @@ Additionally you can provide:
 In case of grouped dataset each group is processed separately.
 
 See [more](https://www.mitpressjournals.org/doi/pdf/10.1162/EVCO_a_00069)
-")
 
-
-^:note-to-test/skip
+```{clojure results="hide"}
 (def for-splitting (tc/dataset (map-indexed (fn [id v] {:id id
                                                         :partition v
                                                         :group (rand-nth [:g1 :g2 :g3])})
                                             (concat (repeat 20 :a) (repeat 5 :b)))))
+```
 
-
-
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 for-splitting
+```
 
-
-(md "
-#### k-Fold
+#### k-Fold 
 
 Returns `k=5` maps
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> for-splitting
     (tc/split)
     (tc/head 30))
+```
 
-
-(md "
 Partition according to `:k` column to reflect it's distribution
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> for-splitting
     (tc/split :kfold {:partition-selector :partition})
     (tc/head 30))
+```
 
-
-(md "
 #### Bootstrap
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/split for-splitting :bootstrap)
+```
 
-
-(md "
 with repeats, to get 100 splits
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> for-splitting
     (tc/split :bootstrap {:repeats 100})
     (:$split-id)
     (distinct)
     (count))
+```
 
-
-(md "
 #### Holdout
 
 with small ratio
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/split for-splitting :holdout {:ratio 0.2})
+```
 
-
-(md "
 you can split to more than two subdatasets with holdout
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/split for-splitting :holdout {:ratio [0.1 0.2 0.3 0.15 0.25]})
+```
 
-
-(md "
 you can use also proportions with custom names
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/split for-splitting :holdout {:ratio [5 3 11 2]
                                   :split-names ["small" "smaller" "big" "the rest"]})
+```
 
-
-(md "
 #### Holdouts
 
-With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with ascending rows in train dataset.
-")
+With ratios from 5% to 95% of the dataset with step 1.5 generates 15 splits with ascending rows in train dataset. 
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> (tc/split for-splitting :holdouts {:steps [0.05 0.95 1.5]
                                        :shuffle? false})
     (tc/group-by [:$split-id :$split-name]))
+```
 
-
-(md "
 
 #### Leave One Out
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> for-splitting
     (tc/split :loo)
     (tc/head 30))
+```
 
-
-
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> for-splitting
     (tc/split :loo)
     (tc/row-count))
+```
 
-
-(md "
 #### Grouped dataset with partitioning
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> for-splitting
     (tc/group-by :group)
     (tc/split :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8}))
+```
 
-
-(md "
 #### Split as a sequence
 
 To get a sequence of pairs, use `split->seq` function
-")
 
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> for-splitting
     (tc/split->seq :kfold {:partition-selector :partition})
     (first))
+```
 
-
-
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> for-splitting
     (tc/group-by :group)
     (tc/split->seq :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8 :repeats 2})
     (first))
-
-(md "
-## Column API
-
-A `column` in tablecloth is a named sequence of typed data. It is the building block of the `dataset` since datasets are at base just a map of columns. Like `dataset`, the `column` is defined in the `tech.ml.dataset`. In this section, we will show how you can interact with the column by itself.
-
-Let's begin by requiring the Column API, which we suggest you alias as `tcc`:")
-
-(require '[tablecloth.column.api :as tcc])
-
-;; ### Creation & Identity
-
-;; Creating an empty column is pretty straightforward:
-
-(tcc/column)
-
-;; You can also create a Column from a vector or a sequence
-
-(tcc/column [1 2 3 4 5])
-
-(tcc/column `(1 2 3 4 5))
-
-;; You can also quickly create columns of ones or zeros:
-
-(tcc/ones 10)
-
-(tcc/zeros 10)
-
-;; Finally, to identify a column, you can use the `column?` function to check if an item is a column:
-
-(tcc/column? [1 2 3 4 5])
-(tcc/column? (tcc/column))
-
-;; Tablecloth's datasets of course consists of columns:
-
-(tcc/column? (-> (tc/dataset {:a [1 2 3 4 5]})
-                 :a))
-
-;; ### Datatypes
-
-;; The default set of types for a column are defined in the underlying "tech ml" system. We can see the set here:
-
-(tech.v3.datatype.casting/all-datatypes)
-
-;; When you create a column, the underlying system will try to autodetect its type. We can illustrate that behavior using the `tcc/typeof` function to check the type of a column:
-
-(-> (tcc/column [1 2 3 4 5])
-    (tcc/typeof))
-
-(-> (tcc/column [:a :b :c :d :e])
-    (tcc/typeof))
-
-;; Columns containing heterogenous data will receive type `:object`:
-
-(-> (tcc/column [1 :b 3 :c 5])
-    (tcc/typeof))
-
-;; You can also use the `tcc/typeof?` function to check the value of a function as an asssertion:
-
-(-> (tcc/column [1 2 3 4 6])
-    (tcc/typeof? :boolean))
-
-(-> (tcc/column [1 2 3 4 6])
-    (tcc/typeof? :int64))
-
-;; Tablecloth has a concept of "concrete" and "general" types. A general type is the broad category of type and the concrete type is the actual type in memory. For example, a concrete type is a 64-bit integer `:int64`, which is also of the general type `:integer`.
-
-;; The `typeof?` function supports checking both.
-
-(-> (tcc/column [1 2 3 4 6])
-    (tcc/typeof? :int64))
-
-(-> (tcc/column [1 2 3 4 6])
-    (tcc/typeof? :integer))
-
-;; ### Access & Manipulation
-
-;; #### Column Access
-
-;; The method for accessing a particular index position in a column is the same as for Clojure vectors:
-
-(-> (tcc/column [1 2 3 4 5])
-    (get 3))
-
-(-> (tcc/column [1 2 3 4 5])
-    (nth 3))
-
-;; #### Slice
-
-;; You can also slice a column
-
-(-> (tcc/column (range 10))
-    (tcc/slice 5))
-
-(-> (tcc/column (range 10))
-    (tcc/slice 1 4))
-
-(-> (tcc/column (range 10))
-    (tcc/slice 0 9 2))
-
-;; The `slice` method supports the `:end` and `:start` keywords, which can add clarity to your code:
-
-(-> (tcc/column (range 10))
-    (tcc/slice :start :end 2))
-
-;; #### Select
-
-;; If you need to create a discontinuous subset of the column, you can use the `select` function. This method accepts an array of index positions or an array of booleans. When using boolean select, a true value will select the value at the index positions containing true values:
-
-;; Select the values at index positions 1 and 9:
-
-(-> (tcc/column (range 10))
-    (tcc/select [1 9]))
-
-;; Select the values at index positions 0 and 2 using booelan select:
-
-(-> (tcc/column (range 10))
-    (tcc/select (tcc/column [true false true])))
-
-;; The boolean select feature is particularly useful when used with the large number of operations (see [below](#operations)) that the Column API includes:
-
-(let [col (tcc/column (range 10))]
-  (-> col
-      (tcc/odd?)
-      (->> (tcc/select col))))
-
-;; Here, we used the `odd?` operator to create a boolean array indicating all index positions in the Column that included an odd value. Then we pass that boolean Column to the `select` function using the `->>` to send it to the second argument position.
-
-;; #### Sort  
-
-;; Use `sort-column` to sort a column:
-
-;; Default sort is in ascending order:
-
-(-> (tcc/column [:c :z :a :f])
-    (tcc/sort-column))
-
-;; You can provide the `:desc` and `:asc` keywords to change the default behavior:
-
-(-> (tcc/column [:c :z :a :f])
-    (tcc/sort-column :desc))
-
-;; You can also provide a comparator fn:
-
-(-> (tcc/column [{:position 2
-                  :text "and then stopped"}
-                 {:position 1
-                  :text "I ran fast"}])
-    (tcc/sort-column (fn [a b] (< (:position a) (:position b)))))
-
-
-;; ### Operations
-
-(md "
-The Column API contains a large number of operations, which have been lifted from the underlying `tech.ml.dataset` library and adapted to Tablecloth. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operation. In other words, their signature is this general form:
-
-```
-(column1 column2 ...) => column | scalar
 ```
 
-Because these functions all take a column as the first argument, they are easy to use with the pipe `->` macro, as with all functions in Tablecloth.
-
-Given the incredibly large number of available functions, we will illustrate instead how these operations can be used.
-
-We'll start with two columns `a` and `b`:
-")
-
-(def a (tcc/column [20 30 40 50]))
-(def b (tcc/column (range 4)))
-
-;; Here is a small sampling of operator functions:
-
-(tcc/- a b)
-
-(tcc/* a b)
-
-(tcc// a 2)
-
-(tcc/pow a 2)
-
-(tcc/* 10 (tcc/sin a))
-
-(tcc/< a 35)
-
-;; All these operations take a column as their first argument and
-;; return a column, so they can be chained easily.
-
-(-> a
-    (tcc/* b)
-    (tcc/< 70))
-
-(md "
 ## Pipeline
 
 `tablecloth.pipeline` exports special versions of API which create functions operating only on dataset. This creates the possibility to chain operations and compose them easily.
@@ -4788,1872 +3826,1573 @@ Pipeline operations are prepared to work with [metamorph](https://github.com/sci
 
 > **Warning: Duplicated `metamorph` pipeline functions are removed from `tablecloth.pipeline` namespace.**
 
+## Functions
+
+This API doesn't provide any statistical, numerical or date/time functions. Use below namespaces:
+
+| Namespace | functions |
+|-----------|-----------|
+| `tech.v3.datatype.functional` | primitive oprations, reducers, statistics |
+| `tech.v3.datatype.datetime` | date/time converters and operations|
+
 ## Other examples
 
 ### Stocks
-")
 
-
+```{clojure results="hide"}
 (defonce stocks (tc/dataset "https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv" {:key-fn keyword}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 stocks
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> stocks
     (tc/group-by (fn [row]
                     {:symbol (:symbol row)
                      :year (tech.v3.datatype.datetime/long-temporal-field :years (:date row))}))
     (tc/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (tc/order-by [:symbol :year]))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> stocks
     (tc/group-by (juxt :symbol #(tech.v3.datatype.datetime/long-temporal-field :years (% :date))))
     (tc/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (tc/rename-columns {:$group-name-0 :symbol
-                        :$group-name-1 :year}))
+                         :$group-name-1 :year}))
+```
 
+### data.table
 
-;; ### data.table
+Below you can find comparizon between functionality of `data.table` and Clojure dataset API. I leave it without comments, please refer original document explaining details:
 
-;; Below you can find comparizon between functionality of `data.table` and Clojure dataset API. I leave it without comments, please refer original document explaining details:
+[Introduction to `data.table`](https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html)
 
-;; [Introduction to `data.table`](https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html)
+R
 
-;; R
+```{r}
+library(data.table)
+library(knitr)
 
-;; ```{r}
-;; library(data.table)
-;; library(knitr)
+flights <- fread("https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv")
 
-;; flights <- fread("https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv")
+kable(head(flights))
+```
 
-;; kable(head(flights))
-;; ```
+---
 
-;;
+Clojure
 
-;; Clojure
-
-
+```{clojure results="hide"}
 (require '[tech.v3.datatype.functional :as dfn]
          '[tech.v3.datatype.argops :as aops]
          '[tech.v3.datatype :as dtype])
 
 (defonce flights (tc/dataset "https://raw.githubusercontent.com/Rdatatable/data.table/master/vignettes/flights14.csv"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/head flights 6)
+```
 
+#### Basics
 
+##### Shape of loaded data
 
-;; #### Basics
+R
 
-;; ##### Shape of loaded data
+```{r}
+dim(flights)
+```
 
-;; R
+---
 
-;; ```{r}
-;; dim(flights)
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure}
 (tc/shape flights)
+```
 
+##### What is `data.table`?
 
+R
 
-;; ##### What is `data.table`?
+```{r}
+DT = data.table(
+  ID = c("b","b","b","a","a","c"),
+  a = 1:6,
+  b = 7:12,
+  c = 13:18
+)
 
-;; R
+kable(DT)
 
-;; ```{r}
-;; DT = data.table(
-;;                 ID = c("b","b","b","a","a","c"),
-;;                 a = 1:6,
-;;                 b = 7:12,
-;;                 c = 13:18
-;;                 )
+class(DT$ID)
+```
 
-;; kable(DT)
+---
 
-;; class(DT$ID)
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="hide"}
 (def DT (tc/dataset {:ID ["b" "b" "b" "a" "a" "c"]
-                     :a (range 1 7)
-                     :b (range 7 13)
-                     :c (range 13 19)}))
+                      :a (range 1 7)
+                      :b (range 7 13)
+                      :c (range 13 19)}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DT
+```
 
-
-
-
-
+```{clojure}
 (-> :ID DT meta :datatype)
+```
 
+##### Get all the flights with “JFK” as the origin airport in the month of June.
 
+R
 
-;; ##### Get all the flights with “JFK” as the origin airport in the month of June.
+```{r}
+ans <- flights[origin == "JFK" & month == 6L]
+kable(head(ans))
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[origin == "JFK" & month == 6L]
-;; kable(head(ans))
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-rows (fn [row] (and (= (get row "origin") "JFK")
                                    (= (get row "month") 6))))
     (tc/head 6))
+```
 
+##### Get the first two rows from `flights`.
 
+R
 
-;; ##### Get the first two rows from `flights`.
+```{r}
+ans <- flights[1:2]
+kable(ans)
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[1:2]
-;; kable(ans)
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (tc/select-rows flights (range 2))
+```
 
+##### Sort `flights` first by column `origin` in ascending order, and then by `dest` in descending order
 
+R
 
-;; ##### Sort `flights` first by column `origin` in ascending order, and then by `dest` in descending order
+```{r}
+ans <- flights[order(origin, -dest)]
+kable(head(ans))
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[order(origin, -dest)]
-;; kable(head(ans))
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/order-by ["origin" "dest"] [:asc :desc])
     (tc/head 6))
+```
 
+##### Select `arr_delay` column, but return it as a vector
 
+R
 
-;; ##### Select `arr_delay` column, but return it as a vector
+```{r}
+ans <- flights[, arr_delay]
+head(ans)
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[, arr_delay]
-;; head(ans)
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure}
 (take 6 (flights "arr_delay"))
+```
 
+##### Select `arr_delay` column, but return as a data.table instead
 
+R
 
-;; ##### Select `arr_delay` column, but return as a data.table instead
+```{r}
+ans <- flights[, list(arr_delay)]
+kable(head(ans))
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[, list(arr_delay)]
-;; kable(head(ans))
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-columns "arr_delay")
     (tc/head 6))
+```
 
+##### Select both `arr_delay` and `dep_delay` columns
 
+R
 
-;; ##### Select both `arr_delay` and `dep_delay` columns
+```{r}
+ans <- flights[, .(arr_delay, dep_delay)]
+kable(head(ans))
+```
 
-;; R
+---
 
-;; ``
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-columns ["arr_delay" "dep_delay"])
     (tc/head 6))
+```
 
+##### Select both `arr_delay` and `dep_delay` columns and rename them to `delay_arr` and `delay_dep`
 
+R
 
-;; ##### Select both `arr_delay` and `dep_delay` columns and rename them to `delay_arr` and `delay_dep`
+```{r}
+ans <- flights[, .(delay_arr = arr_delay, delay_dep = dep_delay)]
+kable(head(ans))
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[, .(delay_arr = arr_delay, delay_dep = dep_delay)]
-;; kable(head(ans))
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-columns {"arr_delay" "delay_arr"
-                        "dep_delay" "delay_arr"})
+                         "dep_delay" "delay_arr"})
     (tc/head 6))
+```
 
+##### How many trips have had total delay < 0?
 
+R
 
-;; ##### How many trips have had total delay < 0?
+```{r}
+ans <- flights[, sum( (arr_delay + dep_delay) < 0 )]
+ans
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[, sum( (arr_delay + dep_delay) < 0 )]
-;; ans
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure}
 (->> (dfn/+ (flights "arr_delay") (flights "dep_delay"))
      (aops/argfilter #(< % 0.0))
      (dtype/ecount))
+```
 
-
-(md "
 or pure Clojure functions (much, much slower)
-")
 
-
+```{clojure}
 (->> (map + (flights "arr_delay") (flights "dep_delay"))
      (filter neg?)
      (count))
+```
 
+##### Calculate the average arrival and departure delay for all flights with “JFK” as the origin airport in the month of June
 
+R
 
-;; ##### Calculate the average arrival and departure delay for all flights with “JFK” as the origin airport in the month of June
+```{r}
+ans <- flights[origin == "JFK" & month == 6L,
+               .(m_arr = mean(arr_delay), m_dep = mean(dep_delay))]
+kable(ans)
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[origin == "JFK" & month == 6L,
-;;                .(m_arr = mean(arr_delay), m_dep = mean(dep_delay))]
-;; kable(ans)
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-rows (fn [row] (and (= (get row "origin") "JFK")
                                    (= (get row "month") 6))))
     (tc/aggregate {:m_arr #(dfn/mean (% "arr_delay"))
-                   :m_dep #(dfn/mean (% "dep_delay"))}))
+                    :m_dep #(dfn/mean (% "dep_delay"))}))
+```
 
+##### How many trips have been made in 2014 from “JFK” airport in the month of June?
 
+R
 
-;; ##### How many trips have been made in 2014 from “JFK” airport in the month of June?
+```{r}
+ans <- flights[origin == "JFK" & month == 6L, length(dest)]
+ans
+```
 
-;; R
+or
 
-;; ```{r}
-;; ans <- flights[origin == "JFK" & month == 6L, length(dest)]
-;; ans
-;; ```
+```{r}
+ans <- flights[origin == "JFK" & month == 6L, .N]
+ans
+```
 
-;; or
+---
 
-;; ```{r}
-;; ans <- flights[origin == "JFK" & month == 6L, .N]
-;; ans
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure}
 (-> flights
     (tc/select-rows (fn [row] (and (= (get row "origin") "JFK")
                                    (= (get row "month") 6))))
     (tc/row-count))
+```
 
+##### deselect columns using - or !
 
+R
 
-;; ##### deselect columns using - or !
+```{r}
+ans <- flights[, !c("arr_delay", "dep_delay")]
+kable(head(ans))
+```
 
-;; R
+or
 
-;; ```{r}
-;; ans <- flights[, !c("arr_delay", "dep_delay")]
-;; kable(head(ans))
-;; ```
+```{r}
+ans <- flights[, -c("arr_delay", "dep_delay")]
+kable(head(ans))
+```
 
-;; or
+---
 
-;; ```{r}
-;; ans <- flights[, -c("arr_delay", "dep_delay")]
-;; kable(head(ans))
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-columns (complement #{"arr_delay" "dep_delay"}))
     (tc/head 6))
+```
 
+#### Aggregations
 
+##### How can we get the number of trips corresponding to each origin airport?
 
-;; #### Aggregations
+R
 
-;; ##### How can we get the number of trips corresponding to each origin airport?
+```{r}
+ans <- flights[, .(.N), by = .(origin)]
+kable(ans)
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[, .(.N), by = .(origin)]
-;; kable(ans)
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/group-by ["origin"])
     (tc/aggregate {:N tc/row-count}))
+```
 
+##### How can we calculate the number of trips for each origin airport for carrier code "AA"?
 
+R
 
+```{r}
+ans <- flights[carrier == "AA", .N, by = origin]
+kable(ans)
+```
 
-;; ##### How can we calculate the number of trips for each origin airport for carrier code "AA"?
+---
 
-;; R
+Clojure
 
-;; ```{r}
-;; ans <- flights[carrier == "AA", .N, by = origin]
-;; kable(ans)
-;; ```
-
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-rows #(= (get % "carrier") "AA"))
     (tc/group-by ["origin"])
     (tc/aggregate {:N tc/row-count}))
+```
 
+##### How can we get the total number of trips for each `origin`, `dest` pair for carrier code "AA"?
 
+R
 
-;; ##### How can we get the total number of trips for each `origin`, `dest` pair for carrier code "AA"?
+```{r}
+ans <- flights[carrier == "AA", .N, by = .(origin, dest)]
+kable(head(ans))
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[carrier == "AA", .N, by = .(origin, dest)]
-;; kable(head(ans))
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-rows #(= (get % "carrier") "AA"))
     (tc/group-by ["origin" "dest"])
     (tc/aggregate {:N tc/row-count})
     (tc/head 6))
+```
 
+##### How can we get the average arrival and departure delay for each `orig`,`dest` pair for each month for carrier code "AA"?
 
+R
 
-;; ##### How can we get the average arrival and departure delay for each `orig`,`dest` pair for each month for carrier code "AA"?
+```{r}
+ans <- flights[carrier == "AA",
+        .(mean(arr_delay), mean(dep_delay)),
+        by = .(origin, dest, month)]
+kable(head(ans,10))
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[carrier == "AA",
-;;                .(mean(arr_delay), mean(dep_delay)),
-;;                by = .(origin, dest, month)]
-;; kable(head(ans,10))
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-rows #(= (get % "carrier") "AA"))
     (tc/group-by ["origin" "dest" "month"])
     (tc/aggregate [#(dfn/mean (% "arr_delay"))
-                   #(dfn/mean (% "dep_delay"))])
+                    #(dfn/mean (% "dep_delay"))])
     (tc/head 10))
+```
 
+##### So how can we directly order by all the grouping variables?
 
+R
 
-;; ##### So how can we directly order by all the grouping variables?
+```{r}
+ans <- flights[carrier == "AA",
+        .(mean(arr_delay), mean(dep_delay)),
+        keyby = .(origin, dest, month)]
+kable(head(ans,10))
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[carrier == "AA",
-;;                .(mean(arr_delay), mean(dep_delay)),
-;;                keyby = .(origin, dest, month)]
-;; kable(head(ans,10))
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-rows #(= (get % "carrier") "AA"))
     (tc/group-by ["origin" "dest" "month"])
     (tc/aggregate [#(dfn/mean (% "arr_delay"))
-                   #(dfn/mean (% "dep_delay"))])
+                    #(dfn/mean (% "dep_delay"))])
     (tc/order-by ["origin" "dest" "month"])
     (tc/head 10))
+```
 
+##### Can `by` accept expressions as well or does it just take columns?
 
+R
 
-;; ##### Can `by` accept expressions as well or does it just take columns?
+```{r}
+ans <- flights[, .N, .(dep_delay>0, arr_delay>0)]
+kable(ans)
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[, .N, .(dep_delay>0, arr_delay>0)]
-;; kable(ans)
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/group-by (fn [row]
-                   {:dep_delay (pos? (get row "dep_delay"))
-                    :arr_delay (pos? (get row "arr_delay"))}))
+                    {:dep_delay (pos? (get row "dep_delay"))
+                     :arr_delay (pos? (get row "arr_delay"))}))
     (tc/aggregate {:N tc/row-count}))
+```
 
+##### Do we have to compute `mean()` for each column individually?
 
+R
 
-;; ##### Do we have to compute `mean()` for each column individually?
+```{r}
+kable(DT)
 
-;; R
+DT[, print(.SD), by = ID]
+```
 
-;; ```{r}
-;; kable(DT)
+```{r}
+kable(DT[, lapply(.SD, mean), by = ID])
+```
 
-;; DT[, print(.SD), by = ID]
-;; ```
+---
 
-;; ```{r}
-;; kable(DT[, lapply(.SD, mean), by = ID])
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 DT
 
 (tc/group-by DT :ID {:result-type :as-map})
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DT
     (tc/group-by [:ID])
     (tc/aggregate-columns (complement #{:ID}) dfn/mean))
+```
 
+##### How can we specify just the columns we would like to compute the `mean()` on?
 
+R
 
-;; ##### How can we specify just the columns we would like to compute the `mean()` on?
+```{r}
+kable(head(flights[carrier == "AA",                         ## Only on trips with carrier "AA"
+                   lapply(.SD, mean),                       ## compute the mean
+                   by = .(origin, dest, month),             ## for every 'origin,dest,month'
+                   .SDcols = c("arr_delay", "dep_delay")])) ## for just those specified in .SDcols
+```
 
-;; R
+---
 
-;; ```{r}
-;; kable(head(flights[carrier == "AA",                         ## Only on trips with carrier "AA"
-;;                    lapply(.SD, mean),                       ## compute the mean
-;;                    by = .(origin, dest, month),             ## for every 'origin,dest,month'
-;;                    .SDcols = c("arr_delay", "dep_delay")])) ## for just those specified in .SDcols
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/select-rows #(= (get % "carrier") "AA"))
     (tc/group-by ["origin" "dest" "month"])
     (tc/aggregate-columns ["arr_delay" "dep_delay"] dfn/mean)
     (tc/head 6))
+```
 
+##### How can we return the first two rows for each month?
 
+R
 
-;; ##### How can we return the first two rows for each month?
+```{r}
+ans <- flights[, head(.SD, 2), by = month]
+kable(head(ans))
+```
 
-;; R
+---
 
-;; ```{r}
-;; ans <- flights[, head(.SD, 2), by = month]
-;; kable(head(ans))
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> flights
     (tc/group-by ["month"])
     (tc/head 2) ;; head applied on each group
     (tc/ungroup)
     (tc/head 6))
+```
 
+##### How can we concatenate columns a and b for each group in ID?
 
+R
 
-;; ##### How can we concatenate columns a and b for each group in ID?
+```{r}
+kable(DT[, .(val = c(a,b)), by = ID])
+```
 
-;; R
+---
 
-;; ```{r}
-;; kable(DT[, .(val = c(a,b)), by = ID])
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> DT
     (tc/pivot->longer [:a :b] {:value-column-name :val})
     (tc/drop-columns [:$column :c]))
+```
 
+##### What if we would like to have all the values of column `a` and `b` concatenated, but returned as a list column?
 
+R
 
-;; ##### What if we would like to have all the values of column `a` and `b` concatenated, but returned as a list column?
+```{r}
+kable(DT[, .(val = list(c(a,b))), by = ID])
+```
 
-;; R
+---
 
-;; ```{r}
-;; kable(DT[, .(val = list(c(a,b))), by = ID])
-;; ```
+Clojure
 
-;;
-
-;; Clojure
-
-
+```{clojure results="asis"}
 (-> DT
     (tc/pivot->longer [:a :b] {:value-column-name :val})
     (tc/drop-columns [:$column :c])
     (tc/fold-by :ID))
+```
 
+### API tour
 
-(md "
-               ### API tour
+Below snippets are taken from [A data.table and dplyr tour](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/) written by Atrebas (permission granted).
 
-               Below snippets are taken from [A data.table and dplyr tour](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/) written by Atrebas (permission granted).
+I keep structure and subtitles but I skip `data.table` and `dplyr` examples.
 
-               I keep structure and subtitles but I skip `data.table` and `dplyr` examples.
+Example data
 
-               Example data
-               ")
-
-
+```{clojure results="hide"}
 (def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
                       :V2 (range 1 10)
                       :V3 (take 9 (cycle [0.5 1.0 1.5]))
                       :V4 (take 9 (cycle ["A" "B" "C"]))}))
+```
 
-
-
-
-
+```{clojure}
 (tc/dataset? DS)
 (class DS)
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
+#### Basic Operations
 
-(md "
-               #### Basic Operations
+##### Filter rows
 
-               ##### Filter rows
+Filter rows using indices
 
-               Filter rows using indices
-               ")
-
-
+```{clojure results="asis"}
 (tc/select-rows DS [2 3])
+```
 
+---
 
-(md "
-               ---
+Discard rows using negative indices
 
-               Discard rows using negative indices
+In Clojure API we have separate function for that: `drop-rows`.
 
-               In Clojure API we have separate function for that: `drop-rows`.
-               ")
-
-
+```{clojure results="asis"}
 (tc/drop-rows DS (range 2 7))
+```
 
+---
 
-(md "
-               ---
+Filter rows using a logical expression
 
-               Filter rows using a logical expression
-               ")
-
-
+```{clojure results="asis"}
 (tc/select-rows DS (comp #(> % 5) :V2))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-rows DS (comp #{"A" "C"} :V4))
+```
 
+---
 
-(md "
-               ---
+Filter rows using multiple conditions
 
-               Filter rows using multiple conditions
-               ")
-
-
+```{clojure results="asis"}
 (tc/select-rows DS #(and (= (:V1 %) 1)
                           (= (:V4 %) "A")))
+```
 
+---
 
-(md "
-               ---
+Filter unique rows
 
-               Filter unique rows
-               ")
-
-
+```{clojure results="asis"}
 (tc/unique-by DS)
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/unique-by DS [:V1 :V4])
+```
 
+---
 
-(md "
-               ---
+Discard rows with missing values
 
-               Discard rows with missing values
-               ")
-
-
+```{clojure results="asis"}
 (tc/drop-missing DS)
+```
 
+---
 
-(md "
-               ---
+Other filters
 
-               Other filters
-               ")
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/random DS 3) ;; 3 random rows
+```
 
-
-
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/random DS (/ (tc/row-count DS) 2)) ;; fraction of random rows
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/by-rank DS :V1 zero?) ;; take top n entries
+```
 
+---
 
-(md "
-               ---
+Convenience functions
 
-               Convenience functions
-               ")
-
-
+```{clojure results="asis"}
 (tc/select-rows DS (comp (partial re-matches #"^B") str :V4))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-rows DS (comp #(<= 3 % 5) :V2))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-rows DS (comp #(< 3 % 5) :V2))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-rows DS (comp #(<= 3 % 5) :V2))
+```
 
+Last example skipped.
 
-(md "
-               Last example skipped.
+##### Sort rows
 
-               ##### Sort rows
+Sort rows by column
 
-               Sort rows by column
-               ")
-
-
+```{clojure results="asis"}
 (tc/order-by DS :V3)
+```
 
+---
 
-(md "
-               ---
+Sort rows in decreasing order
 
-               Sort rows in decreasing order
-               ")
-
-
+```{clojure results="asis"}
 (tc/order-by DS :V3 :desc)
+```
 
+---
 
-(md "
-               ---
+Sort rows based on several columns
 
-               Sort rows based on several columns
-               ")
-
-
+```{clojure results="asis"}
 (tc/order-by DS [:V1 :V2] [:asc :desc])
+```
 
+##### Select columns
 
-(md "
-               ##### Select columns
+Select one column using an index (not recommended)
 
-               Select one column using an index (not recommended)
-               ")
-
-
+```{clojure}
 (nth (tc/columns DS :as-seq) 2) ;; as column (iterable)
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/dataset [(nth (tc/columns DS :as-seq) 2)])
+```
 
+---
 
-(md "
-               ---
+Select one column using column name
 
-               Select one column using column name
-               ")
-
-
+```{clojure results="asis"}
 (tc/select-columns DS :V2) ;; as dataset
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-columns DS [:V2]) ;; as dataset
+```
 
-
-
-
-
+```{clojure}
 (DS :V2) ;; as column (iterable)
+```
 
+---
 
-(md "
-               ---
+Select several columns
 
-               Select several columns
-               ")
-
-
+```{clojure results="asis"}
 (tc/select-columns DS [:V2 :V3 :V4])
+```
 
+---
 
-(md "
-               ---
+Exclude columns
 
-               Exclude columns
-               ")
-
-
+```{clojure results="asis"}
 (tc/select-columns DS (complement #{:V2 :V3 :V4}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/drop-columns DS [:V2 :V3 :V4])
+```
 
+---
 
-(md "
-               ---
+Other seletions
 
-               Other seletions
-               ")
-
-
+```{clojure results="asis"}
 (->> (range 1 3)
      (map (comp keyword (partial format "V%d")))
      (tc/select-columns DS))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/reorder-columns DS :V4)
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-columns DS #(clojure.string/starts-with? (name %) "V"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-columns DS #(clojure.string/ends-with? (name %) "3"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-columns DS #"..2") ;; regex converts to string using `str` function
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-columns DS #{:V1 "X"})
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-columns DS #(not (clojure.string/starts-with? (name %) "V2")))
+```
 
+##### Summarise data
 
-(md "
-               ##### Summarise data
+Summarise one column
 
-               Summarise one column
-               ")
-
-
+```{clojure}
 (reduce + (DS :V1)) ;; using pure Clojure, as value
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/aggregate-columns DS :V1 dfn/sum) ;; as dataset
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/aggregate DS {:sumV1 #(dfn/sum (% :V1))})
+```
 
+---
 
-(md "
-               ---
+Summarize several columns
 
-               Summarize several columns
-               ")
-
-
+```{clojure results="asis"}
 (tc/aggregate DS [#(dfn/sum (% :V1))
                    #(dfn/standard-deviation (% :V3))])
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/aggregate-columns DS [:V1 :V3] [dfn/sum
                                      dfn/standard-deviation])
+```
 
 
-(md "
+---
 
-               ---
+Summarise several columns and assign column names
 
-               Summarise several columns and assign column names
-               ")
-
-
+```{clojure results="asis"}
 (tc/aggregate DS {:sumv1 #(dfn/sum (% :V1))
                    :sdv3 #(dfn/standard-deviation (% :V3))})
+```
 
+---
 
-(md "
-               ---
+Summarise a subset of rows
 
-               Summarise a subset of rows
-               ")
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-rows (range 4))
     (tc/aggregate-columns :V1 dfn/sum))
+```
+
+##### Additional helpers
 
 
-(md "
-               ##### Additional helpers
-
-               ")
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/first)
     (tc/select-columns :V3)) ;; select first row from `:V3` column
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/last)
     (tc/select-columns :V3)) ;; select last row from `:V3` column
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-rows 4)
     (tc/select-columns :V3)) ;; select forth row from `:V3` column
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/select :V3 4)) ;; select forth row from `:V3` column
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/unique-by :V4)
     (tc/aggregate tc/row-count)) ;; number of unique rows in `:V4` column, as dataset
+```
 
 
-(md "
-               ")
-
-
+```{clojure}
 (-> DS
     (tc/unique-by :V4)
     (tc/row-count)) ;; number of unique rows in `:V4` column, as value
+```
 
-
-
-
-
+```{clojure}
 (-> DS
     (tc/unique-by)
     (tc/row-count)) ;; number of unique rows in dataset, as value
+```
 
+##### Add/update/delete columns
 
-(md "
-               ##### Add/update/delete columns
+Modify a column
 
-               Modify a column
-               ")
-
-
+```{clojure results="asis"}
 (tc/map-columns DS :V1 [:V1] #(dfn/pow % 2))
+```
 
-
-
-
-
+```{clojure results="hide"}
 (def DS (tc/add-column DS :V1 (dfn/pow (DS :V1) 2)))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
+---
 
-(md "
-               ---
+Add one column
 
-               Add one column
-               ")
-
-
+```{clojure results="asis"}
 (tc/map-columns DS :v5 [:V1] dfn/log)
+```
 
-
-
-
-
+```{clojure results="hide"}
 (def DS (tc/add-column DS :v5 (dfn/log (DS :V1))))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
+---
 
-(md "
-               ---
+Add several columns
 
-               Add several columns
-               ")
-
-
+```{clojure results="hide"}
 (def DS (tc/add-columns DS {:v6 (dfn/sqrt (DS :V1))
                                        :v7 "X"}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
+---
 
-(md "
-               ---
+Create one column and remove the others
 
-               Create one column and remove the others
-               ")
-
-
+```{clojure results="asis"}
 (tc/dataset {:v8 (dfn/+ (DS :V3) 1)})
+```
 
+---
 
-(md "
-               ---
+Remove one column
 
-               Remove one column
-               ")
-
-
+```{clojure results="hide"}
 (def DS (tc/drop-columns DS :v5))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
+---
 
-(md "
-               ---
+Remove several columns
 
-               Remove several columns
-               ")
-
-
+```{clojure results="hide"}
 (def DS (tc/drop-columns DS [:v6 :v7]))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
+---
 
-(md "
-               ---
+Remove columns using a vector of colnames
 
-               Remove columns using a vector of colnames
+We use set here.
 
-               We use set here.
-               ")
-
-
+```{clojure results="hide"}
 (def DS (tc/select-columns DS (complement #{:V3})))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
+---
 
-(md "
-               ---
+Replace values for rows matching a condition
 
-               Replace values for rows matching a condition
-               ")
-
-
+```{clojure results="hide"}
 (def DS (tc/map-columns DS :V2 [:V2] #(if (< % 4.0) 0.0 %)))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
+##### by
 
-(md "
-               ##### by
+By group
 
-               By group
-               ")
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/aggregate {:sumV2 #(dfn/sum (% :V2))}))
+```
 
+---
 
-(md "
-               ---
+By several groups
 
-               By several groups
-               ")
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4 :V1])
     (tc/aggregate {:sumV2 #(dfn/sum (% :V2))}))
+```
 
+---
 
-(md "
-               ---
+Calling function in by
 
-               Calling function in by
-               ")
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (fn [row]
                     (clojure.string/lower-case (:V4 row))))
     (tc/aggregate {:sumV1 #(dfn/sum (% :V1))}))
+```
 
+---
 
-(md "
-               ---
+Assigning column name in by
 
-               Assigning column name in by
-               ")
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (fn [row]
                     {:abc (clojure.string/lower-case (:V4 row))}))
     (tc/aggregate {:sumV1 #(dfn/sum (% :V1))}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by (fn [row]
                     (clojure.string/lower-case (:V4 row))))
     (tc/aggregate {:sumV1 #(dfn/sum (% :V1))} {:add-group-as-column :abc}))
+```
 
-
-(md "
-----
+---
 
 Using a condition in by
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by #(= (:V4 %) "A"))
     (tc/aggregate #(dfn/sum (% :V1))))
+```
 
-
-(md "
-----
+---
 
 By on a subset of rows
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-rows (range 5))
     (tc/group-by :V4)
     (tc/aggregate {:sumV1 #(dfn/sum (% :V1))}))
+```
 
-
-(md "
-----
+---
 
 Count number of observations for each group
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/aggregate tc/row-count))
+```
 
-
-(md "
-----
+---
 
 Add a column with number of observations for each group
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V1])
     (tc/add-column :n tc/row-count)
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 Retrieve the first/last/nth observation for each group
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/aggregate-columns :V2 first))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/aggregate-columns :V2 last))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/aggregate-columns :V2 #(nth % 1)))
+```
 
-
-(md "
 #### Going further
 
 ##### Advanced columns manipulation
 
 Summarise all the columns
-")
 
-
+```{clojure results="asis"}
 ;; custom max function which works on every type
 (tc/aggregate-columns DS :all (fn [col] (first (sort #(compare %2 %1) col))))
+```
 
-
-(md "
-----
+---
 
 Summarise several columns
-")
 
-
+```{clojure results="asis"}
 (tc/aggregate-columns DS [:V1 :V2] dfn/mean)
+```
 
-
-(md "
-----
+---
 
 Summarise several columns by group
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/aggregate-columns [:V1 :V2] dfn/mean))
+```
 
-
-(md "
-----
+---
 
 Summarise with more than one function by group
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/aggregate-columns [:V1 :V2] (fn [col]
                                        {:sum (dfn/sum col)
                                         :mean (dfn/mean col)})))
+```
 
-
-(md "
 Summarise using a condition
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-columns :type/numerical)
     (tc/aggregate-columns :all dfn/mean))
+```
 
-
-(md "
-----
+---
 
 Modify all the columns
-")
 
-
+```{clojure results="asis"}
 (tc/update-columns DS :all reverse)
+```
 
-
-(md "
-----
+---
 
 Modify several columns (dropping the others)
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-columns [:V1 :V2])
     (tc/update-columns :all dfn/sqrt))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-columns (complement #{:V4}))
     (tc/update-columns :all dfn/exp))
+```
 
-
-(md "
-----
+---
 
 Modify several columns (keeping the others)
-")
 
-
+```{clojure results="hide"}
 (def DS (tc/update-columns DS [:V1 :V2] dfn/sqrt))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
-
-
-
-
+```{clojure results="hide"}
 (def DS (tc/update-columns DS (complement #{:V4}) #(dfn/pow % 2)))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
-
-(md "
-----
+---
 
 Modify columns using a condition (dropping the others)
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-columns :type/numerical)
     (tc/update-columns :all #(dfn/- % 1)))
+```
 
-
-(md "
-----
+---
 
 Modify columns using a condition (keeping the others)
-")
 
-
+```{clojure results="hide"}
 (def DS (tc/convert-types DS :type/numerical :int32))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
-
-(md "
-----
+---
 
 Use a complex expression
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/head 2)
     (tc/add-column :V2 "X")
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 Use multiple expressions
-")
 
-
+```{clojure results="asis"}
 (tc/dataset (let [x (dfn/+ (DS :V1) (dfn/sum (DS :V2)))]
                (println (seq (DS :V1)))
                (println (tc/info (tc/select-columns DS :V1)))
                {:A (range 1 (inc (tc/row-count DS)))
                 :B x}))
+```
 
-
-(md "
 ##### Chain expressions
 
 Expression chaining using >
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/aggregate {:V1sum #(dfn/sum (% :V1))})
     (tc/select-rows #(>= (:V1sum %) 5)))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4])
     (tc/aggregate {:V1sum #(dfn/sum (% :V1))})
     (tc/order-by :V1sum :desc))
+```
 
-
-(md "
 ##### Indexing and Keys
 
 Set the key/index (order)
-")
 
-
+```{clojure results="hide"}
 (def DS (tc/order-by DS :V4))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
-
-(md "
 Select the matching rows
-")
 
-
+```{clojure results="asis"}
 (tc/select-rows DS #(= (:V4 %) "A"))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/select-rows DS (comp #{"A" "C"} :V4))
+```
 
-
-(md "
-----
+---
 
 Select the first matching row
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-rows #(= (:V4 %) "B"))
     (tc/first))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/unique-by :V4)
     (tc/select-rows (comp #{"B" "C"} :V4)))
+```
 
-
-(md "
-----
+---
 
 Select the last matching row
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-rows #(= (:V4 %) "A"))
     (tc/last))
+```
 
-
-(md "
-----
+---
 
 Nomatch argument
-")
 
-
+```{clojure results="asis"}
 (tc/select-rows DS (comp #{"A" "D"} :V4))
+```
 
-
-(md "
-----
+---
 
 Apply a function on the matching rows
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-rows (comp #{"A" "C"} :V4))
     (tc/aggregate-columns :V1 (fn [col]
                                  {:sum (dfn/sum col)})))
+```
 
-
-(md "
-----
+---
 
 Modify values for matching rows
-")
 
-
+```{clojure results="hide"}
 (def DS (-> DS
             (tc/map-columns :V1 [:V1 :V4] #(if (= %2 "A") 0 %1))
             (tc/order-by :V4)))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
-
-(md "
-----
+---
 
 Use keys in by
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-rows (comp (complement #{"B"}) :V4))
     (tc/group-by [:V4])
     (tc/aggregate-columns :V1 dfn/sum))
+```
 
-
-(md "
-----
+---
 
 Set keys/indices for multiple columns (ordered)
-")
 
-
+```{clojure results="asis"}
 (tc/order-by DS [:V4 :V1])
+```
 
-
-(md "
-----
+---
 
 Subset using multiple keys/indices
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-rows #(and (= (:V1 %) 1)
                            (= (:V4 %) "C"))))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-rows #(and (= (:V1 %) 1)
                            (#{"B" "C"} (:V4 %)))))
+```
 
-
-
-
-
+```{clojure}
 (-> DS
     (tc/select-rows #(and (= (:V1 %) 1)
                            (#{"B" "C"} (:V4 %))) {:result-type :as-indexes}))
+```
 
-
-(md "
 ##### set*() modifications
 
 Replace values
 
 There is no mutating operations `tech.ml.dataset` or easy way to set value.
-")
 
-
+```{clojure results="hide"}
 (def DS (tc/update-columns DS :V2 #(map-indexed (fn [idx v]
                                                    (if (zero? idx) 3 v)) %)))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
-
-(md "
-----
+---
 
 Reorder rows
-")
 
-
+```{clojure results="hide"}
 (def DS (tc/order-by DS [:V4 :V1] [:asc :desc]))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
-
-(md "
-----
+---
 
 Modify colnames
-")
 
-
+```{clojure results="hide"}
 (def DS (tc/rename-columns DS {:V2 "v2"}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
-
-
-
-
+```{clojure results="hide"}
 (def DS (tc/rename-columns DS {"v2" :V2})) ;; revert back
+```
 
-
-(md "
-----
+---
 
 Reorder columns
-")
 
-
+```{clojure results="hide"}
 (def DS (tc/reorder-columns DS :V4 :V1 :V2))
+```
 
-
-
-
-
+```{clojure results="asis"}
 DS
+```
 
-
-(md "
 ##### Advanced use of by
 
 Select first/last/… row by group
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/first)
     (tc/ungroup))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/select-rows [0 2])
     (tc/ungroup))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/tail 2)
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 Select rows using a nested query
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by :V4)
     (tc/order-by :V2)
     (tc/first)
     (tc/ungroup))
+```
 
-
-(md "
 Add a group counter column
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/group-by [:V4 :V1])
     (tc/ungroup {:add-group-id-as-column :Grp}))
+```
 
-
-(md "
-----
+---
 
 Get row number of first (and last) observation by group
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/add-column :row-id (range))
     (tc/select-columns [:V4 :row-id])
     (tc/group-by :V4)
     (tc/ungroup))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/add-column :row-id (range))
     (tc/select-columns [:V4 :row-id])
     (tc/group-by :V4)
     (tc/first)
     (tc/ungroup))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> DS
     (tc/add-column :row-id (range))
     (tc/select-columns [:V4 :row-id])
     (tc/group-by :V4)
     (tc/select-rows [0 2])
     (tc/ungroup))
+```
 
-
-(md "
-----
+---
 
 Handle list-columns by group
-")
 
-
+```{clojure results="asis"}
 (-> DS
     (tc/select-columns [:V1 :V4])
     (tc/fold-by :V4))
+```
 
-
-
-
-
-(-> DS
+```{clojure results="asis"}
+(-> DS    
     (tc/group-by :V4)
     (tc/unmark-group))
+```
 
-
-(md "
-----
+---
 
 Grouping sets (multiple by at once)
 
@@ -6664,258 +5403,203 @@ Not available.
 ##### Read / Write data
 
 Write data to a csv file
-")
 
-
+```{clojure}
 (tc/write! DS "DF.csv")
+```
 
-
-(md "
-----
+---
 
 Write data to a tab-delimited file
-")
 
-
+```{clojure}
 (tc/write! DS "DF.txt" {:separator \tab})
+```
 
-
-(md "
 or
-")
 
-
+```{clojure}
 (tc/write! DS "DF.tsv")
+```
 
-
-(md "
-----
+---
 
 Read a csv / tab-delimited file
-")
 
-
+```{clojure results="asis"}
 (tc/dataset "DF.csv" {:key-fn keyword})
+```
 
-
-
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (tc/dataset "DF.txt" {:key-fn keyword})
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/dataset "DF.tsv" {:key-fn keyword})
+```
 
-
-(md "
-----
+---
 
 Read a csv file selecting / droping columns
-")
 
-
+```{clojure results="asis"}
 (tc/dataset "DF.csv" {:key-fn keyword
                        :column-whitelist ["V1" "V4"]})
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/dataset "DF.csv" {:key-fn keyword
                        :column-blacklist ["V4"]})
+```
 
-
-(md "
-----
+---
 
 Read and rbind several files
-")
 
-
+```{clojure results="asis"}
 (apply tc/concat (map tc/dataset ["DF.csv" "DF.csv"]))
+```
 
-
-(md "
 ##### Reshape data
 
 Melt data (from wide to long)
-")
 
-
+```{clojure results="hide"}
 (def mDS (tc/pivot->longer DS [:V1 :V2] {:target-columns :variable
                                           :value-column-name :value}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 mDS
+```
 
-
-(md "
-----
+---
 
 Cast data (from long to wide)
-")
 
-
+```{clojure results="asis"}
 (-> mDS
     (tc/pivot->wider :variable :value {:fold-fn vec})
     (tc/update-columns ["V1" "V2"] (partial map count)))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> mDS
     (tc/pivot->wider :variable :value {:fold-fn vec})
     (tc/update-columns ["V1" "V2"] (partial map dfn/sum)))
+```
 
-
-
-
-
-^:note-to-test/skip
+```{clojure results="asis"}
 (-> mDS
     (tc/map-columns :value #(str (> % 5))) ;; coerce to strings
     (tc/pivot->wider :value :variable {:fold-fn vec})
     (tc/update-columns ["true" "false"] (partial map #(if (sequential? %) (count %) 1))))
+```
 
-
-(md "
-----
+---
 
 Split
-")
 
-
+```{clojure results="asis"}
 (tc/group-by DS :V4 {:result-type :as-map})
+```
 
-
-(md "
-----
+---
 
 Split and transpose a vector/column
-")
 
-
+```{clojure results="asis"}
 (-> {:a ["A:a" "B:b" "C:c"]}
     (tc/dataset)
     (tc/separate-column :a [:V1 :V2] ":"))
+```
 
-
-(md "
 ##### Other
 
 Skipped
 
 #### Join/Bind data sets
-")
 
-
+```{clojure results="hide"}
 (def x (tc/dataset {"Id" ["A" "B" "C" "C"]
                      "X1" [1 3 5 7]
                      "XY" ["x2" "x4" "x6" "x8"]}))
 (def y (tc/dataset {"Id" ["A" "B" "B" "D"]
                      "Y1" [1 3 5 7]
                      "XY" ["y1" "y3" "y5" "y7"]}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 x y
+```
 
-
-(md "
 ##### Join
 
 Join matching rows from y to x
-")
 
-
+```{clojure results="asis"}
 (tc/left-join x y "Id")
+```
 
-
-(md "
-----
+---
 
 Join matching rows from x to y
-")
 
-
+```{clojure results="asis"}
 (tc/right-join x y "Id")
+```
 
-
-(md "
-----
+---
 
 Join matching rows from both x and y
-")
 
-
+```{clojure results="asis"}
 (tc/inner-join x y "Id")
+```
 
-
-(md "
-----
+---
 
 Join keeping all the rows
-")
 
-
+```{clojure results="asis"}
 (tc/full-join x y "Id")
+```
 
-
-(md "
-----
+---
 
 Return rows from x matching y
-")
 
-
+```{clojure results="asis"}
 (tc/semi-join x y "Id")
+```
 
-
-(md "
-----
+---
 
 Return rows from x not matching y
-")
 
-
+```{clojure results="asis"}
 (tc/anti-join x y "Id")
+```
 
-
-(md "
 ##### More joins
 
 Select columns while joining
-")
 
-
+```{clojure results="asis"}
 (tc/right-join (tc/select-columns x ["Id" "X1"])
                 (tc/select-columns y ["Id" "XY"])
                 "Id")
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/right-join (tc/select-columns x ["Id" "XY"])
                 (tc/select-columns y ["Id" "XY"])
                 "Id")
+```
 
-
-(md "
 Aggregate columns while joining
-")
 
-
+```{clojure results="asis"}
 (-> y
     (tc/group-by ["Id"])
     (tc/aggregate {"sumY1" #(dfn/sum (% "Y1"))})
@@ -6923,174 +5607,137 @@ Aggregate columns while joining
     (tc/add-column "X1Y1" (fn [ds] (dfn/* (ds "sumY1")
                                                     (ds "X1"))))
     (tc/select-columns ["right.Id" "X1Y1"]))
+```
 
-
-(md "
 Update columns while joining
-")
 
-
+```{clojure results="asis"}
 (-> x
     (tc/select-columns ["Id" "X1"])
     (tc/map-columns "SqX1" "X1" (fn [x] (* x x)))
     (tc/right-join y "Id")
     (tc/drop-columns ["X1" "Id"]))
+```
 
-
-(md "
-----
+---
 
 Adds a list column with rows from y matching x (nest-join)
 
-")
 
-
+```{clojure results="asis"}
 (-> (tc/left-join x y "Id")
     (tc/drop-columns ["right.Id"])
     (tc/fold-by (tc/column-names x)))
+```
 
-
-(md "
-----
+---
 
 Some joins are skipped
 
-----
+---
 
 Cross join
-")
 
-
+```{clojure results="hide"}
 (def cjds (tc/dataset {:V1 [[2 1 1]]
                         :V2 [[3 2]]}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 cjds
+```
 
-
-
-
-
+```{clojure results="asis"}
 (reduce #(tc/unroll %1 %2) cjds (tc/column-names cjds))
+```
 
-
-
-
-
+```{clojure results="asis"}
 (-> (reduce #(tc/unroll %1 %2) cjds (tc/column-names cjds))
     (tc/unique-by))
+```
 
-
-(md "
 ##### Bind
-")
 
-
+```{clojure results="hide"}
 (def x (tc/dataset {:V1 [1 2 3]}))
 (def y (tc/dataset {:V1 [4 5 6]}))
 (def z (tc/dataset {:V1 [7 8 9]
                      :V2 [0 0 0]}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 x y z
+```
 
-
-(md "
-----
+---
 
 Bind rows
-")
 
-
+```{clojure results="asis"}
 (tc/bind x y)
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/bind x z)
+```
 
-
-(md "
-----
+---
 
 Bind rows using a list
-")
 
-
+```{clojure results="asis"}
 (->> [x y]
      (map-indexed #(tc/add-column %2 :id (repeat %1)))
      (apply tc/bind))
+```
 
-
-(md "
-----
+---
 
 Bind columns
-")
 
-
+```{clojure results="asis"}
 (tc/append x y)
+```
 
-
-(md "
 ##### Set operations
-")
 
-
+```{clojure results="hide"}
 (def x (tc/dataset {:V1 [1 2 2 3 3]}))
 (def y (tc/dataset {:V1 [2 2 3 4 4]}))
+```
 
-
-
-
-
+```{clojure results="asis"}
 x y
+```
 
-
-(md "
-----
+---
 
 Intersection
-")
 
-
+```{clojure results="asis"}
 (tc/intersect x y)
+```
 
-
-(md "
-----
+---
 
 Difference
-")
 
-
+```{clojure results="asis"}
 (tc/difference x y)
+```
 
-
-(md "
-----
+---
 
 Union
-")
 
-
+```{clojure results="asis"}
 (tc/union x y)
+```
 
-
-
-
-
+```{clojure results="asis"}
 (tc/concat x y)
+```
 
+---
 
-(md "
-----
-
-Equality not implemented")
+Equality not implemented

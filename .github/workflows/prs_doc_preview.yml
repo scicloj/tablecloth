@@ -1,0 +1,27 @@
+name: PR Docs Preview
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**/*'
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+concurrency: prs-doc-preview-${{ github.ref }}
+
+jobs:
+  deploy-docs-preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./docs/
+          preview-branch: gh-pages
