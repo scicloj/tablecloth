@@ -134,3 +134,7 @@
               => '(4 6 3 6 2 0 5 1 2 4 2))))
 
 
+(fact "->general-types describes the set of general types for a concrete datatype"
+      (sut/->general-types :int32) => #{:integer :numerical}
+      (sut/->general-types :float32) => #{:float :numerical}
+      (sut/->general-types :string) => #{:textual})

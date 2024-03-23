@@ -110,17 +110,17 @@ window.Quarto = {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#functionality" id="toc-functionality" class="nav-link" data-scroll-target="#functionality">Functionality</a>
+  <li><a href="#dataset-api" id="toc-dataset-api" class="nav-link" data-scroll-target="#dataset-api">Dataset API</a>
   <ul>
-  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a>
-  <ul class="collapse">
   <li><a href="#dataset-creation" id="toc-dataset-creation" class="nav-link" data-scroll-target="#dataset-creation">Dataset creation</a></li>
-  <li><a href="#saving" id="toc-saving" class="nav-link" data-scroll-target="#saving">Saving</a></li>
+  <li><a href="#saving" id="toc-saving" class="nav-link" data-scroll-target="#saving">Saving</a>
+  <ul class="collapse">
+  <li><a href="#nippy" id="toc-nippy" class="nav-link" data-scroll-target="#nippy">Nippy</a></li>
+  </ul></li>
   <li><a href="#dataset-related-functions" id="toc-dataset-related-functions" class="nav-link" data-scroll-target="#dataset-related-functions">Dataset related functions</a></li>
   <li><a href="#columns-and-rows" id="toc-columns-and-rows" class="nav-link" data-scroll-target="#columns-and-rows">Columns and rows</a></li>
   <li><a href="#single-entry" id="toc-single-entry" class="nav-link" data-scroll-target="#single-entry">Single entry</a></li>
   <li><a href="#printing" id="toc-printing" class="nav-link" data-scroll-target="#printing">Printing</a></li>
-  </ul></li>
   <li><a href="#group-by" id="toc-group-by" class="nav-link" data-scroll-target="#group-by">Group-by</a>
   <ul class="collapse">
   <li><a href="#grouping" id="toc-grouping" class="nav-link" data-scroll-target="#grouping">Grouping</a></li>
@@ -139,6 +139,7 @@ window.Quarto = {
   <li><a href="#reorder" id="toc-reorder" class="nav-link" data-scroll-target="#reorder">Reorder</a></li>
   <li><a href="#type-conversion" id="toc-type-conversion" class="nav-link" data-scroll-target="#type-conversion">Type conversion</a></li>
   </ul></li>
+  <li><a href="#column-operations" id="toc-column-operations" class="nav-link" data-scroll-target="#column-operations">Column Operations</a></li>
   <li><a href="#rows" id="toc-rows" class="nav-link" data-scroll-target="#rows">Rows</a>
   <ul class="collapse">
   <li><a href="#select-1" id="toc-select-1" class="nav-link" data-scroll-target="#select-1">Select</a></li>
@@ -210,6 +211,19 @@ window.Quarto = {
   <li><a href="#grouped-dataset-with-partitioning" id="toc-grouped-dataset-with-partitioning" class="nav-link" data-scroll-target="#grouped-dataset-with-partitioning">Grouped dataset with partitioning</a></li>
   <li><a href="#split-as-a-sequence" id="toc-split-as-a-sequence" class="nav-link" data-scroll-target="#split-as-a-sequence">Split as a sequence</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#column-api" id="toc-column-api" class="nav-link" data-scroll-target="#column-api">Column API</a>
+  <ul>
+  <li><a href="#creation-identity" id="toc-creation-identity" class="nav-link" data-scroll-target="#creation-identity">Creation &amp; Identity</a></li>
+  <li><a href="#datatypes" id="toc-datatypes" class="nav-link" data-scroll-target="#datatypes">Datatypes</a></li>
+  <li><a href="#access-manipulation" id="toc-access-manipulation" class="nav-link" data-scroll-target="#access-manipulation">Access &amp; Manipulation</a>
+  <ul class="collapse">
+  <li><a href="#column-access" id="toc-column-access" class="nav-link" data-scroll-target="#column-access">Column Access</a></li>
+  <li><a href="#slice" id="toc-slice" class="nav-link" data-scroll-target="#slice">Slice</a></li>
+  <li><a href="#select-3" id="toc-select-3" class="nav-link" data-scroll-target="#select-3">Select</a></li>
+  <li><a href="#sort" id="toc-sort" class="nav-link" data-scroll-target="#sort">Sort</a></li>
+  </ul></li>
+  <li><a href="#operations" id="toc-operations" class="nav-link" data-scroll-target="#operations">Operations</a></li>
   </ul></li>
   <li><a href="#pipeline" id="toc-pipeline" class="nav-link" data-scroll-target="#pipeline">Pipeline</a></li>
   <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a></li>
@@ -383,13 +397,11 @@ window.Quarto = {
 </table>
 </div>
 </section>
-<section id="functionality" class="level2">
-<h2 class="anchored" data-anchor-id="functionality">Functionality</h2>
-<section id="dataset" class="level3">
-<h3 class="anchored" data-anchor-id="dataset">Dataset</h3>
+<section id="dataset-api" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-api">Dataset API</h2>
 <p>Dataset is a special type which can be considered as a map of columns implemented around <code>tech.ml.dataset</code> library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.</p>
-<section id="dataset-creation" class="level4">
-<h4 class="anchored" data-anchor-id="dataset-creation">Dataset creation</h4>
+<section id="dataset-creation" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-creation">Dataset creation</h3>
 <p>Dataset can be created from various of types of Clojure structures and files:</p>
 <ul>
 <li>single values</li>
@@ -1187,8 +1199,8 @@ window.Quarto = {
 </table>
 </div>
 </section>
-<section id="saving" class="level4">
-<h4 class="anchored" data-anchor-id="saving">Saving</h4>
+<section id="saving" class="level3">
+<h3 class="anchored" data-anchor-id="saving">Saving</h3>
 <p>Export dataset to a file or output stream can be done by calling <code>tc/write!</code>. Function accepts:</p>
 <ul>
 <li>dataset</li>
@@ -1208,8 +1220,8 @@ window.Quarto = {
 <div class="printedClojure">
 <div class="sourceCode" id="cb35"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="nippy" class="level5">
-<h5 class="anchored" data-anchor-id="nippy">Nippy</h5>
+<section id="nippy" class="level4">
+<h4 class="anchored" data-anchor-id="nippy">Nippy</h4>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb36"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>(tc/write! DS <span class="st">"output.nippy.gz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1290,8 +1302,8 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="dataset-related-functions" class="level4">
-<h4 class="anchored" data-anchor-id="dataset-related-functions">Dataset related functions</h4>
+<section id="dataset-related-functions" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-related-functions">Dataset related functions</h3>
 <p>Summary functions about the dataset like number of rows, columns and basic stats.</p>
 <hr>
 <p>Number of rows</p>
@@ -1551,8 +1563,8 @@ window.Quarto = {
 <div class="sourceCode" id="cb51"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="st">"seattle-weather"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="columns-and-rows" class="level4">
-<h4 class="anchored" data-anchor-id="columns-and-rows">Columns and rows</h4>
+<section id="columns-and-rows" class="level3">
+<h3 class="anchored" data-anchor-id="columns-and-rows">Columns and rows</h3>
 <p>Get columns and rows as sequences. <code>column</code>, <code>columns</code> and <code>rows</code> treat grouped dataset as regular one. See <code>Groups</code> to read more about grouped datasets.</p>
 <p>Possible result types:</p>
 <ul>
@@ -1673,8 +1685,8 @@ window.Quarto = {
 <div class="sourceCode" id="cb71"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>[{<span class="at">:a</span> <span class="dv">1</span>, <span class="at">:b</span> <span class="dv">3</span>} {<span class="at">:b</span> <span class="dv">4</span>} {<span class="at">:a</span> <span class="dv">2</span>}]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="single-entry" class="level4">
-<h4 class="anchored" data-anchor-id="single-entry">Single entry</h4>
+<section id="single-entry" class="level3">
+<h3 class="anchored" data-anchor-id="single-entry">Single entry</h3>
 <p>Get single value from the table using <code>get-in</code> from Clojure API or <code>get-entry</code>. First argument is column name, second is row number.</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb72"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">get-in</span> ds [<span class="st">"wind"</span> <span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1689,8 +1701,8 @@ window.Quarto = {
 <div class="sourceCode" id="cb75"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fl">2.3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="printing" class="level4">
-<h4 class="anchored" data-anchor-id="printing">Printing</h4>
+<section id="printing" class="level3">
+<h3 class="anchored" data-anchor-id="printing">Printing</h3>
 <p>Dataset is printed using <code>dataset-&gt;str</code> or <code>print-dataset</code> functions. Options are the same as in <code>tech.ml.dataset/dataset-data-&gt;str</code>. Most important is <code>:print-line-policy</code> which can be one of the: <code>:single</code>, <code>:repl</code> or <code>:markdown</code>.</p>
 <div class="sourceClojure">
 <div class="sourceCode" id="cb76"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>(tc/print-dataset (tc/group-by DS <span class="at">:V1</span>) {<span class="at">:print-line-policy</span> <span class="at">:markdown</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1710,7 +1722,6 @@ window.Quarto = {
 <div class="printedClojure">
 <div class="sourceCode" id="cb81"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="va">nil</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
 </section>
 <section id="group-by" class="level3">
 <h3 class="anchored" data-anchor-id="group-by">Group-by</h3>
@@ -6782,6 +6793,299 @@ window.Quarto = {
 </div>
 </section>
 </section>
+<section id="column-operations" class="level3">
+<h3 class="anchored" data-anchor-id="column-operations">Column Operations</h3>
+<p>There are a large number of column operations that can be performed on the columns in your dataset. These operations are a similar set as the <a href="#operations">Column API operations</a>, but instead of operating directly on columns, they take a Dataset and a <a href="#names"><code>columns-selector</code></a>.</p>
+<p>The behavior of the operations differ based on their return value:</p>
+<ul>
+<li><p>If an operation would return a scalar value, then the function behaves like an aggregator and can be used in group-by expresesions. Such functions will have the general signature:</p>
+<pre><code>(dataset columns-selector) =&gt; dataset</code></pre></li>
+<li><p>If an operation would return another column, then the function will not behave like an aggregator. Instead, it asks you to specify a target column, which it will add to the dataset that it returns. The signature of these functions is:</p>
+<pre><code>(ds target-col columns-selector) =&gt; dataset</code></pre></li>
+</ul>
+<p>As there are a large number of operations, we will illustrate their usage. To begin with, here are some examples of operations whose result is a new column:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb196"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a>DS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>_unnamed [9 4]:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">:V1</th>
+<th style="text-align: right;">:V2</th>
+<th style="text-align: right;">:V3</th>
+<th>:V4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb197"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> DS</span>
+<span id="cb197-2"><a href="#cb197-2" aria-hidden="true" tabindex="-1"></a>    (tc/+ <span class="at">:SUM</span> [<span class="at">:V1</span> <span class="at">:V2</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>_unnamed [9 5]:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">:V1</th>
+<th style="text-align: right;">:V2</th>
+<th style="text-align: right;">:V3</th>
+<th>:V4</th>
+<th style="text-align: right;">:SUM</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb198"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> DS</span>
+<span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a>    (tc/* <span class="at">:MULTIPY</span> [<span class="at">:V1</span> <span class="at">:V2</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>_unnamed [9 5]:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">:V1</th>
+<th style="text-align: right;">:V2</th>
+<th style="text-align: right;">:V3</th>
+<th>:V4</th>
+<th style="text-align: right;">:MULTIPY</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+<td style="text-align: right;">9</td>
+</tr>
+</tbody>
+</table>
+<p>Now let’s look at operations that would return a scalar:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb199"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> DS</span>
+<span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a>    (tc/mean [<span class="at">:V1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>_unnamed [1 1]:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">summary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1.44444444</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that we did not supply a target column to the <code>mean</code> function. Since <code>mean</code> does not return a column, we do not provide this argument. Instead, we simply provide the dataset and a <code>columns-selector.</code> We then get back a dataset with the result.</p>
+<p>Now let’s use this function within a grouping expression:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb200"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> DS</span>
+<span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a>    (tc/group-by [<span class="at">:V4</span>])</span>
+<span id="cb200-3"><a href="#cb200-3" aria-hidden="true" tabindex="-1"></a>    (tc/mean [<span class="at">:V2</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>_unnamed [3 2]:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>:V4</th>
+<th style="text-align: right;">summary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">4.0</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">5.0</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td style="text-align: right;">6.0</td>
+</tr>
+</tbody>
+</table>
+<p>In this example, we grouped <code>DS</code> and then passed the resulting grouped Dataset directly to the <code>mean</code> operation. Since <code>mean</code> returns a scalar, it operates as an aggregator, summarizing the results of each group.</p>
+</section>
 <section id="rows" class="level3">
 <h3 class="anchored" data-anchor-id="rows">Rows</h3>
 <p>Rows can be selected or dropped using various selectors:</p>
@@ -7439,6 +7743,67 @@ window.Quarto = {
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0.5</td>
 <td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Five random, non-repeating rows</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb215"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a>^<span class="at">:note-to-test/skip</span></span>
+<span id="cb215-2"><a href="#cb215-2" aria-hidden="true" tabindex="-1"></a>(tc/random DS <span class="dv">5</span> {<span class="at">:repeat</span>? <span class="va">false</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>_unnamed [5 4]:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">:V1</th>
+<th style="text-align: right;">:V2</th>
+<th style="text-align: right;">:V3</th>
+<th>:V4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.5</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5</td>
+<td>A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.0</td>
+<td>B</td>
 </tr>
 </tbody>
 </table>
@@ -26641,7 +27006,7 @@ window.Quarto = {
 <tr class="odd">
 <td style="text-align: right;">0</td>
 <td>:a</td>
-<td>:g1</td>
+<td>:g2</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -26936,7 +27301,7 @@ window.Quarto = {
 <tr class="even">
 <td style="text-align: right;">8</td>
 <td>:a</td>
-<td>:g3</td>
+<td>:g1</td>
 <td>:test</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -27591,7 +27956,7 @@ window.Quarto = {
 <tr class="even">
 <td style="text-align: right;">10</td>
 <td>:a</td>
-<td>:g2</td>
+<td>:g1</td>
 <td>:train</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -28112,6 +28477,368 @@ window.Quarto = {
 </div><p>}</p></div></div><p>)</p></div></div><p>]</p></div>
 </div>
 </section>
+</section>
+</section>
+<section id="column-api" class="level2">
+<h2 class="anchored" data-anchor-id="column-api">Column API</h2>
+<p>A <code>column</code> in tablecloth is a named sequence of typed data. It is the building block of the <code>dataset</code> since datasets are at base just a map of columns. Like <code>dataset</code>, the <code>column</code> is defined in the <code>tech.ml.dataset</code>. In this section, we will show how you can interact with the column by itself.</p>
+<p>Let’s begin by requiring the Column API, which we suggest you alias as <code>tcc</code>:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb484"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb484-1"><a href="#cb484-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> '[tablecloth.column.api <span class="at">:as</span> tcc])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="creation-identity" class="level3">
+<h3 class="anchored" data-anchor-id="creation-identity">Creation &amp; Identity</h3>
+<p>Creating an empty column is pretty straightforward:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb485"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb485-1"><a href="#cb485-1" aria-hidden="true" tabindex="-1"></a>(tcc/column)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb486"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb486-1"><a href="#cb486-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;boolean&amp;gt;[0]</span></span>
+<span id="cb486-2"><a href="#cb486-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb486-3"><a href="#cb486-3" aria-hidden="true" tabindex="-1"></a>[]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can also create a Column from a vector or a sequence</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb487"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb487-1"><a href="#cb487-1" aria-hidden="true" tabindex="-1"></a>(tcc/column [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb488"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb488-1"><a href="#cb488-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[5]</span></span>
+<span id="cb488-2"><a href="#cb488-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb488-3"><a href="#cb488-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb489"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb489-1"><a href="#cb489-1" aria-hidden="true" tabindex="-1"></a>(tcc/column `(<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb490"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb490-1"><a href="#cb490-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[5]</span></span>
+<span id="cb490-2"><a href="#cb490-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb490-3"><a href="#cb490-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can also quickly create columns of ones or zeros:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb491"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb491-1"><a href="#cb491-1" aria-hidden="true" tabindex="-1"></a>(tcc/ones <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb492"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb492-1"><a href="#cb492-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[10]</span></span>
+<span id="cb492-2"><a href="#cb492-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb492-3"><a href="#cb492-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb493"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb493-1"><a href="#cb493-1" aria-hidden="true" tabindex="-1"></a>(tcc/zeros <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb494"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb494-1"><a href="#cb494-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[10]</span></span>
+<span id="cb494-2"><a href="#cb494-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb494-3"><a href="#cb494-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, to identify a column, you can use the <code>column?</code> function to check if an item is a column:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb495"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb495-1"><a href="#cb495-1" aria-hidden="true" tabindex="-1"></a>(tcc/column? [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb496"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb496-1"><a href="#cb496-1" aria-hidden="true" tabindex="-1"></a><span class="va">false</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb497"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb497-1"><a href="#cb497-1" aria-hidden="true" tabindex="-1"></a>(tcc/column? (tcc/column))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb498"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb498-1"><a href="#cb498-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Tablecloth’s datasets of course consists of columns:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb499"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb499-1"><a href="#cb499-1" aria-hidden="true" tabindex="-1"></a>(tcc/column? (<span class="kw">-&gt;</span> (tc/dataset {<span class="at">:a</span> [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>]})</span>
+<span id="cb499-2"><a href="#cb499-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">:a</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb500"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb500-1"><a href="#cb500-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="datatypes" class="level3">
+<h3 class="anchored" data-anchor-id="datatypes">Datatypes</h3>
+<p>The default set of types for a column are defined in the underlying “tech ml” system. We can see the set here:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb501"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb501-1"><a href="#cb501-1" aria-hidden="true" tabindex="-1"></a>(tech.v3.datatype.casting/all-datatypes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb502"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb502-1"><a href="#cb502-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">:int32</span></span>
+<span id="cb502-2"><a href="#cb502-2" aria-hidden="true" tabindex="-1"></a> <span class="at">:int16</span></span>
+<span id="cb502-3"><a href="#cb502-3" aria-hidden="true" tabindex="-1"></a> <span class="at">:float32</span></span>
+<span id="cb502-4"><a href="#cb502-4" aria-hidden="true" tabindex="-1"></a> <span class="at">:float64</span></span>
+<span id="cb502-5"><a href="#cb502-5" aria-hidden="true" tabindex="-1"></a> <span class="at">:int64</span></span>
+<span id="cb502-6"><a href="#cb502-6" aria-hidden="true" tabindex="-1"></a> <span class="at">:uint64</span></span>
+<span id="cb502-7"><a href="#cb502-7" aria-hidden="true" tabindex="-1"></a> <span class="at">:string</span></span>
+<span id="cb502-8"><a href="#cb502-8" aria-hidden="true" tabindex="-1"></a> <span class="at">:uint16</span></span>
+<span id="cb502-9"><a href="#cb502-9" aria-hidden="true" tabindex="-1"></a> <span class="at">:int8</span></span>
+<span id="cb502-10"><a href="#cb502-10" aria-hidden="true" tabindex="-1"></a> <span class="at">:uint32</span></span>
+<span id="cb502-11"><a href="#cb502-11" aria-hidden="true" tabindex="-1"></a> <span class="at">:keyword</span></span>
+<span id="cb502-12"><a href="#cb502-12" aria-hidden="true" tabindex="-1"></a> <span class="at">:decimal</span></span>
+<span id="cb502-13"><a href="#cb502-13" aria-hidden="true" tabindex="-1"></a> <span class="at">:uuid</span></span>
+<span id="cb502-14"><a href="#cb502-14" aria-hidden="true" tabindex="-1"></a> <span class="at">:boolean</span></span>
+<span id="cb502-15"><a href="#cb502-15" aria-hidden="true" tabindex="-1"></a> <span class="at">:object</span></span>
+<span id="cb502-16"><a href="#cb502-16" aria-hidden="true" tabindex="-1"></a> <span class="at">:char</span></span>
+<span id="cb502-17"><a href="#cb502-17" aria-hidden="true" tabindex="-1"></a> <span class="at">:uint8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When you create a column, the underlying system will try to autodetect its type. We can illustrate that behavior using the <code>tcc/typeof</code> function to check the type of a column:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb503"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb503-1"><a href="#cb503-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>])</span>
+<span id="cb503-2"><a href="#cb503-2" aria-hidden="true" tabindex="-1"></a>    (tcc/typeof))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb504"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb504-1"><a href="#cb504-1" aria-hidden="true" tabindex="-1"></a><span class="at">:int64</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb505"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb505-1"><a href="#cb505-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="at">:a</span> <span class="at">:b</span> <span class="at">:c</span> <span class="at">:d</span> <span class="at">:e</span>])</span>
+<span id="cb505-2"><a href="#cb505-2" aria-hidden="true" tabindex="-1"></a>    (tcc/typeof))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb506"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb506-1"><a href="#cb506-1" aria-hidden="true" tabindex="-1"></a><span class="at">:keyword</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Columns containing heterogenous data will receive type <code>:object</code>:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb507"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb507-1"><a href="#cb507-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="dv">1</span> <span class="at">:b</span> <span class="dv">3</span> <span class="at">:c</span> <span class="dv">5</span>])</span>
+<span id="cb507-2"><a href="#cb507-2" aria-hidden="true" tabindex="-1"></a>    (tcc/typeof))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb508"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb508-1"><a href="#cb508-1" aria-hidden="true" tabindex="-1"></a><span class="at">:object</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can also use the <code>tcc/typeof?</code> function to check the value of a function as an asssertion:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb509"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb509-1"><a href="#cb509-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">6</span>])</span>
+<span id="cb509-2"><a href="#cb509-2" aria-hidden="true" tabindex="-1"></a>    (tcc/typeof? <span class="at">:boolean</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb510"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb510-1"><a href="#cb510-1" aria-hidden="true" tabindex="-1"></a><span class="va">false</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb511"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb511-1"><a href="#cb511-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">6</span>])</span>
+<span id="cb511-2"><a href="#cb511-2" aria-hidden="true" tabindex="-1"></a>    (tcc/typeof? <span class="at">:int64</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb512"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb512-1"><a href="#cb512-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Tablecloth has a concept of “concrete” and “general” types. A general type is the broad category of type and the concrete type is the actual type in memory. For example, a concrete type is a 64-bit integer <code>:int64</code>, which is also of the general type <code>:integer</code>. The <code>typeof?</code> function supports checking both.</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb513"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb513-1"><a href="#cb513-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">6</span>])</span>
+<span id="cb513-2"><a href="#cb513-2" aria-hidden="true" tabindex="-1"></a>    (tcc/typeof? <span class="at">:int64</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb514"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb514-1"><a href="#cb514-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb515"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb515-1"><a href="#cb515-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">6</span>])</span>
+<span id="cb515-2"><a href="#cb515-2" aria-hidden="true" tabindex="-1"></a>    (tcc/typeof? <span class="at">:integer</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb516"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb516-1"><a href="#cb516-1" aria-hidden="true" tabindex="-1"></a><span class="va">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="access-manipulation" class="level3">
+<h3 class="anchored" data-anchor-id="access-manipulation">Access &amp; Manipulation</h3>
+<section id="column-access" class="level4">
+<h4 class="anchored" data-anchor-id="column-access">Column Access</h4>
+<p>The method for accessing a particular index position in a column is the same as for Clojure vectors:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb517"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb517-1"><a href="#cb517-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>])</span>
+<span id="cb517-2"><a href="#cb517-2" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">get</span> <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb518"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb518-1"><a href="#cb518-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb519"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb519-1"><a href="#cb519-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>])</span>
+<span id="cb519-2"><a href="#cb519-2" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">nth</span> <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb520"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb520-1"><a href="#cb520-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="slice" class="level4">
+<h4 class="anchored" data-anchor-id="slice">Slice</h4>
+<p>You can also slice a column</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb521"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb521-1"><a href="#cb521-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column (<span class="kw">range</span> <span class="dv">10</span>))</span>
+<span id="cb521-2"><a href="#cb521-2" aria-hidden="true" tabindex="-1"></a>    (tcc/slice <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb522"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb522-1"><a href="#cb522-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[5]</span></span>
+<span id="cb522-2"><a href="#cb522-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb522-3"><a href="#cb522-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb523"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb523-1"><a href="#cb523-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column (<span class="kw">range</span> <span class="dv">10</span>))</span>
+<span id="cb523-2"><a href="#cb523-2" aria-hidden="true" tabindex="-1"></a>    (tcc/slice <span class="dv">1</span> <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb524"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb524-1"><a href="#cb524-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[4]</span></span>
+<span id="cb524-2"><a href="#cb524-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb524-3"><a href="#cb524-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb525"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb525-1"><a href="#cb525-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column (<span class="kw">range</span> <span class="dv">10</span>))</span>
+<span id="cb525-2"><a href="#cb525-2" aria-hidden="true" tabindex="-1"></a>    (tcc/slice <span class="dv">0</span> <span class="dv">9</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb526"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb526-1"><a href="#cb526-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[5]</span></span>
+<span id="cb526-2"><a href="#cb526-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb526-3"><a href="#cb526-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>slice</code> method supports the <code>:end</code> and <code>:start</code> keywords, which can add clarity to your code:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb527"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb527-1"><a href="#cb527-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column (<span class="kw">range</span> <span class="dv">10</span>))</span>
+<span id="cb527-2"><a href="#cb527-2" aria-hidden="true" tabindex="-1"></a>    (tcc/slice <span class="at">:start</span> <span class="at">:end</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb528"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb528-1"><a href="#cb528-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[5]</span></span>
+<span id="cb528-2"><a href="#cb528-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb528-3"><a href="#cb528-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-3" class="level4">
+<h4 class="anchored" data-anchor-id="select-3">Select</h4>
+<p>If you need to create a discontinuous subset of the column, you can use the <code>select</code> function. This method accepts an array of index positions or an array of booleans. When using boolean select, a true value will select the value at the index positions containing true values: Select the values at index positions 1 and 9:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb529"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb529-1"><a href="#cb529-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column (<span class="kw">range</span> <span class="dv">10</span>))</span>
+<span id="cb529-2"><a href="#cb529-2" aria-hidden="true" tabindex="-1"></a>    (tcc/select [<span class="dv">1</span> <span class="dv">9</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb530"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb530-1"><a href="#cb530-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[2]</span></span>
+<span id="cb530-2"><a href="#cb530-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb530-3"><a href="#cb530-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, <span class="dv">9</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Select the values at index positions 0 and 2 using booelan select:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb531"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb531-1"><a href="#cb531-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column (<span class="kw">range</span> <span class="dv">10</span>))</span>
+<span id="cb531-2"><a href="#cb531-2" aria-hidden="true" tabindex="-1"></a>    (tcc/select (tcc/column [<span class="va">true</span> <span class="va">false</span> <span class="va">true</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb532"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb532-1"><a href="#cb532-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[2]</span></span>
+<span id="cb532-2"><a href="#cb532-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb532-3"><a href="#cb532-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span>, <span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The boolean select feature is particularly useful when used with the large number of operations (see <a href="#operations">below</a>) that the Column API includes:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb533"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb533-1"><a href="#cb533-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [col (tcc/column (<span class="kw">range</span> <span class="dv">10</span>))]</span>
+<span id="cb533-2"><a href="#cb533-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> col</span>
+<span id="cb533-3"><a href="#cb533-3" aria-hidden="true" tabindex="-1"></a>      (tcc/odd?)</span>
+<span id="cb533-4"><a href="#cb533-4" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">-&gt;&gt;</span> (tcc/select col))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb534"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb534-1"><a href="#cb534-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[5]</span></span>
+<span id="cb534-2"><a href="#cb534-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb534-3"><a href="#cb534-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here, we used the <code>odd?</code> operator to create a boolean array indicating all index positions in the Column that included an odd value. Then we pass that boolean Column to the <code>select</code> function using the <code>-&gt;&gt;</code> to send it to the second argument position.</p>
+</section>
+<section id="sort" class="level4">
+<h4 class="anchored" data-anchor-id="sort">Sort</h4>
+<p>Use <code>sort-column</code> to sort a column: Default sort is in ascending order:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb535"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb535-1"><a href="#cb535-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="at">:c</span> <span class="at">:z</span> <span class="at">:a</span> <span class="at">:f</span>])</span>
+<span id="cb535-2"><a href="#cb535-2" aria-hidden="true" tabindex="-1"></a>    (tcc/sort-column))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb536"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb536-1"><a href="#cb536-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;keyword&amp;gt;[4]</span></span>
+<span id="cb536-2"><a href="#cb536-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb536-3"><a href="#cb536-3" aria-hidden="true" tabindex="-1"></a>[<span class="at">:a</span>, <span class="at">:c</span>, <span class="at">:f</span>, <span class="at">:z</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can provide the <code>:desc</code> and <code>:asc</code> keywords to change the default behavior:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb537"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb537-1"><a href="#cb537-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [<span class="at">:c</span> <span class="at">:z</span> <span class="at">:a</span> <span class="at">:f</span>])</span>
+<span id="cb537-2"><a href="#cb537-2" aria-hidden="true" tabindex="-1"></a>    (tcc/sort-column <span class="at">:desc</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb538"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb538-1"><a href="#cb538-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;keyword&amp;gt;[4]</span></span>
+<span id="cb538-2"><a href="#cb538-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb538-3"><a href="#cb538-3" aria-hidden="true" tabindex="-1"></a>[<span class="at">:z</span>, <span class="at">:f</span>, <span class="at">:c</span>, <span class="at">:a</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can also provide a comparator fn:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb539"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb539-1"><a href="#cb539-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> (tcc/column [{<span class="at">:position</span> <span class="dv">2</span></span>
+<span id="cb539-2"><a href="#cb539-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">:text</span> <span class="st">"and then stopped"</span>}</span>
+<span id="cb539-3"><a href="#cb539-3" aria-hidden="true" tabindex="-1"></a>                 {<span class="at">:position</span> <span class="dv">1</span></span>
+<span id="cb539-4"><a href="#cb539-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">:text</span> <span class="st">"I ran fast"</span>}])</span>
+<span id="cb539-5"><a href="#cb539-5" aria-hidden="true" tabindex="-1"></a>    (tcc/sort-column (<span class="kw">fn</span> [a b] (<span class="kw">&lt;</span> (<span class="at">:position</span> a) (<span class="at">:position</span> b)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb540"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb540-1"><a href="#cb540-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;persistent-map&amp;gt;[2]</span></span>
+<span id="cb540-2"><a href="#cb540-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb540-3"><a href="#cb540-3" aria-hidden="true" tabindex="-1"></a>[{<span class="at">:position</span> <span class="dv">1</span>, <span class="at">:text</span> <span class="st">"I ran fast"</span>}, {<span class="at">:position</span> <span class="dv">2</span>, <span class="at">:text</span> <span class="st">"and then stopped"</span>}]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="operations" class="level3">
+<h3 class="anchored" data-anchor-id="operations">Operations</h3>
+<p>The Column API contains a large number of operations, which have been lifted from the underlying <code>tech.ml.dataset</code> library and adapted to Tablecloth. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operation. In other words, their signature is this general form:</p>
+<pre><code>(column1 column2 ...) =&gt; column | scalar</code></pre>
+<p>Because these functions all take a column as the first argument, they are easy to use with the pipe <code>-&gt;</code> macro, as with all functions in Tablecloth.</p>
+<p>Given the incredibly large number of available functions, we will illustrate instead how these operations can be used.</p>
+<p>We’ll start with two columns <code>a</code> and <code>b</code>:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb542"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb542-1"><a href="#cb542-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> a </span>(tcc/column [<span class="dv">20</span> <span class="dv">30</span> <span class="dv">40</span> <span class="dv">50</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb543"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb543-1"><a href="#cb543-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> b </span>(tcc/column (<span class="kw">range</span> <span class="dv">4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is a small sampling of operator functions:</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb544"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb544-1"><a href="#cb544-1" aria-hidden="true" tabindex="-1"></a>(tcc/- a b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb545"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb545-1"><a href="#cb545-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[4]</span></span>
+<span id="cb545-2"><a href="#cb545-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb545-3"><a href="#cb545-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">20</span>, <span class="dv">29</span>, <span class="dv">38</span>, <span class="dv">47</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb546"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb546-1"><a href="#cb546-1" aria-hidden="true" tabindex="-1"></a>(tcc/* a b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb547"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb547-1"><a href="#cb547-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[4]</span></span>
+<span id="cb547-2"><a href="#cb547-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb547-3"><a href="#cb547-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">80</span>, <span class="dv">150</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb548"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb548-1"><a href="#cb548-1" aria-hidden="true" tabindex="-1"></a>(tcc// a <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb549"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb549-1"><a href="#cb549-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;int64&amp;gt;[4]</span></span>
+<span id="cb549-2"><a href="#cb549-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb549-3"><a href="#cb549-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">25</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb550"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb550-1"><a href="#cb550-1" aria-hidden="true" tabindex="-1"></a>(tcc/pow a <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb551"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb551-1"><a href="#cb551-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;float64&amp;gt;[4]</span></span>
+<span id="cb551-2"><a href="#cb551-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb551-3"><a href="#cb551-3" aria-hidden="true" tabindex="-1"></a>[<span class="fl">400.0</span>, <span class="fl">900.0</span>, <span class="dv">1600</span>, <span class="dv">2500</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb552"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb552-1"><a href="#cb552-1" aria-hidden="true" tabindex="-1"></a>(tcc/* <span class="dv">10</span> (tcc/sin a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb553"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb553-1"><a href="#cb553-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;float64&amp;gt;[4]</span></span>
+<span id="cb553-2"><a href="#cb553-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb553-3"><a href="#cb553-3" aria-hidden="true" tabindex="-1"></a>[<span class="fl">9.129</span>, -<span class="fl">9.880</span>, <span class="fl">7.451</span>, -<span class="fl">2.624</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb554"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb554-1"><a href="#cb554-1" aria-hidden="true" tabindex="-1"></a>(tcc/&lt; a <span class="dv">35</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb555"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb555-1"><a href="#cb555-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;boolean&amp;gt;[4]</span></span>
+<span id="cb555-2"><a href="#cb555-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb555-3"><a href="#cb555-3" aria-hidden="true" tabindex="-1"></a>[<span class="va">true</span>, <span class="va">true</span>, <span class="va">false</span>, <span class="va">false</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>All these operations take a column as their first argument and return a column, so they can be chained easily.</p>
+<div class="sourceClojure">
+<div class="sourceCode" id="cb556"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb556-1"><a href="#cb556-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> a</span>
+<span id="cb556-2"><a href="#cb556-2" aria-hidden="true" tabindex="-1"></a>    (tcc/* b)</span>
+<span id="cb556-3"><a href="#cb556-3" aria-hidden="true" tabindex="-1"></a>    (tcc/&lt; <span class="dv">70</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="printedClojure">
+<div class="sourceCode" id="cb557"><pre class="sourceCode clojure code-with-copy"><code class="sourceCode clojure"><span id="cb557-1"><a href="#cb557-1" aria-hidden="true" tabindex="-1"></a>#tech.v3.dataset.column&amp;lt<span class="co">;boolean&amp;gt;[4]</span></span>
+<span id="cb557-2"><a href="#cb557-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb557-3"><a href="#cb557-3" aria-hidden="true" tabindex="-1"></a>[<span class="va">true</span>, <span class="va">true</span>, <span class="va">false</span>, <span class="va">false</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 </section>
 <section id="pipeline" class="level2">

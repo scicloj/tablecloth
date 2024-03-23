@@ -66,7 +66,44 @@
    :numerical #{:int8 :int16 :int32 :int64 :uint8 :uint16 :uint32 :uint64
                 :long :int :short :byte
                 :float32 :float64 :double :float}
-   :textual #{:text :string}})
+   :textual #{:text :string}
+   :logical #{:boolean}})
+
+;; This lookup is hardcoded as an optimization. Downside: this
+;; lookup must be kept up to date. However, so long as `type-sets`
+;; is up-to-date it can be generated from that set.
+(def ^:private general-types-lookup
+  {:int32 #{:integer :numerical},
+    :int16 #{:integer :numerical},
+    :float32 #{:float :numerical},
+    :packed-local-time #{:datetime},
+    :local-date-time #{:datetime},
+    :packed-zoned-date-time #{:datetime},
+    :float64 #{:float :numerical},
+    :long #{:integer :numerical},
+    :double #{:float :numerical},
+    :short #{:integer :numerical},
+    :packed-local-date-time #{:datetime},
+    :zoned-date-time #{:datetime},
+    :instant #{:datetime},
+    :packed-local-date #{:datetime},
+    :int #{:integer :numerical},
+    :int64 #{:integer :numerical},
+    :local-time #{:datetime},
+    :packed-duration #{:datetime},
+    :uint64 #{:integer :numerical},
+    :float #{:float :numerical},
+    :duration #{:datetime},
+    :string #{:textual},
+    :uint16 #{:integer :numerical},
+    :int8 #{:integer :numerical},
+    :uint32 #{:integer :numerical},
+    :byte #{:integer :numerical},
+    :local-date #{:datetime},
+    :boolean #{:logical},
+    :packed-instant #{:datetime},
+    :text #{:textual},
+    :uint8 #{:integer :numerical}})
 
 (defn type?
   ([general-type]
@@ -75,10 +112,32 @@
   ([general-type datatype]
    ((type-sets general-type) datatype)))
 
+(defn ->general-types
+  "Given a concrete `datatype` (e.g. `:int32`), returns the general
+  set of general types (e.g. `#{:integer numerical}`)."
+  [datatype]
+  (general-types-lookup datatype))
+
+(defn types
+  "Returns the set of concrete types e.g. (:int32, :float32, etc)"
+  []
+  (apply clojure.set/union (vals type-sets)))
+
+(defn general-types
+  "Returns the set of general types e.g. (:integer, :logical, etc)"
+  []
+  (vals type-sets))
+
+(defn concrete-type?
+  "Returns true if `datatype` is a concrete datatype (e.g. :int32)."
+  [datatype]
+  (not (nil? ((types) datatype))))
+
 (defn- prepare-datatype-set
   [datatype-columns-selector]
   (let [k (-> datatype-columns-selector name keyword)]
     (get type-sets k #{k})))
+
 
 (defn- filter-column-names
   "Filter column names"
