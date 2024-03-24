@@ -2,4 +2,4 @@
   .
   ((cider-clojure-cli-aliases
     .
-    "dev"))))
+    "dev:test"))))

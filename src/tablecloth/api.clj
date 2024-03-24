@@ -296,7 +296,7 @@ column-names function returns names according to columns-selector
 
 (defn dataset
   "Create a `dataset`.
-  
+
   Dataset can be created from:
 
   * map of values and/or sequences

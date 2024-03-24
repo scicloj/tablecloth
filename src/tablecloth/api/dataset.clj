@@ -1,14 +1,17 @@
 (ns tablecloth.api.dataset
   (:refer-clojure :exclude [concat])
-  (:require [tech.v3.dataset :as ds]
-            [tech.v3.dataset.column :as col]
-            [tech.v3.dataset.protocols :as prot]
-            [tech.v3.dataset.print :as p]
-            [tech.v3.tensor :as tensor]
-            [tech.v3.dataset.tensor :as ds-tensor]
-            
-            [tablecloth.api.utils :refer [iterable-sequence? grouped? mark-as-group map-inst?]])
-  (:import [java.io FileNotFoundException]))
+  (:require
+   [clojure.tools.logging :as logging]
+   [tablecloth.api.utils :refer [grouped? iterable-sequence? map-inst?
+                                 mark-as-group]]
+   [tech.v3.dataset :as ds]
+   [tech.v3.dataset.column :as col]
+   [tech.v3.dataset.print :as p]
+   [tech.v3.dataset.protocols :as prot]
+   [tech.v3.dataset.tensor :as ds-tensor]
+   [tech.v3.tensor :as tensor])
+  (:import
+   [java.io FileNotFoundException]))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; DATASET CREATION
@@ -48,7 +51,7 @@
 
 (defn dataset
   "Create a `dataset`.
-  
+
   Dataset can be created from:
 
   * map of values and/or sequences
@@ -69,14 +72,13 @@
   ([data {:keys [single-value-column-name column-names layout dataset-name stack-trace? error-column?]
           :or {single-value-column-name :$value layout :as-rows stack-trace? false error-column? true}
           :as options}]
+   (when (and (iterable-sequence? data)
+              (every? iterable-sequence? data)
+              (every? #(and (= 2 (count %))) data))
+     (logging/warn "WARNING: Dataset creation behaviour changed for 2d 2-element arrays in v7.022. See https://github.com/scicloj/tablecloth/issues/142 for details."))
    (cond
      (prot/is-dataset? data) data
      (map-inst? data) (ds/->dataset data options)
-     (and (iterable-sequence? data)
-          (every? iterable-sequence? data)
-          (every? #(and (= 2 (count %))
-                        (or (keyword? (first %))
-                            (string? (first %)))) data)) (dataset (apply array-map (mapcat identity data)) options)
      (and (iterable-sequence? data)
           (every? col/is-column? data)) (ds/new-dataset options data)
      (or (array-of-arrays? data)
