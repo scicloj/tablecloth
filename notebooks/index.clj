@@ -4578,16 +4578,12 @@ stocks
 
 
 
-
-
 (-> stocks
     (tc/group-by (fn [row]
-                    {:symbol (:symbol row)
-                     :year (tech.v3.datatype.datetime/long-temporal-field :years (:date row))}))
+                   {:symbol (:symbol row)
+                    :year (tech.v3.datatype.datetime/long-temporal-field :years (:date row))}))
     (tc/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (tc/order-by [:symbol :year]))
-
-
 
 
 
