@@ -157,7 +157,7 @@
                                    (partial contains?)
                                    (complement)
                                    (column-names data)) fold-fn {:add-group-as-column true})
-          (do (logging/warn "WARNING: multiple values in result detected, data should be rolled in.")
+          (do (logging/warn "Multiple values in result detected, data should be rolled in.")
               data))
         data))))
 

@@ -74,8 +74,8 @@
           :as options}]
    (when (and (iterable-sequence? data)
               (every? iterable-sequence? data)
-              (every? #(and (= 2 (count %))) data))
-     (logging/warn "WARNING: Dataset creation behaviour changed for 2d 2-element arrays in v7.022. See https://github.com/scicloj/tablecloth/issues/142 for details."))
+              (every? #(= 2 (count %)) data))
+     (logging/warn "Dataset creation behaviour changed for 2d 2-element arrays in v7.029. See https://github.com/scicloj/tablecloth/issues/142 for details."))
    (cond
      (prot/is-dataset? data) data
      (map-inst? data) (ds/->dataset data options)

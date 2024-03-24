@@ -6037,10 +6037,8 @@ Use multiple expressions
 
 
 (tc/dataset (let [x (dfn/+ (DS :V1) (dfn/sum (DS :V2)))]
-               (println (seq (DS :V1)))
-               (println (tc/info (tc/select-columns DS :V1)))
-               {:A (range 1 (inc (tc/row-count DS)))
-                :B x}))
+              {:A (range 1 (inc (tc/row-count DS)))
+               :B x}))
 
 
 (md "
