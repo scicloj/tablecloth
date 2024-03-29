@@ -1,10 +1,14 @@
 # Change Log
 
-## [next version]
+## [7.029]
 
 ### Added
 
 * `reorder-columns` can work on grouped dataset now
+
+### Fixed
+
+* arrays of 2 element arrays behave as expected on dataset creation ([#142](https://github.com/scicloj/tablecloth/issues/142))
 
 ## [7.021]
 
@@ -29,7 +33,7 @@ Deps updated to fix `j/left-join` issue.
 * join columns should consider `nil` as missing value only, [discussion](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/tablecloth.20join-columns.20is.20nil-ing.20false.3F.20values)
 * `:nil-missing?` in more places needed (group-by operations), [discussion](https://clojurians.zulipchat.com/#narrow/stream/236259-tech.2Eml.2Edataset.2Edev/topic/tablecloth.20group.20operations.20dropping.20a.20nil.20group-by.20column)
 * changes to the `group-by` documentation [PR115](https://github.com/scicloj/tablecloth/pull/115), thanks to [Marshall](https://github.com/mars0i)
-* reflection warning for `Collections/shuffle` removed 
+* reflection warning for `Collections/shuffle` removed
 
 ## [7.007]
 
@@ -105,7 +109,7 @@ Differences:
 
 ## [6.103]
 
-Clojure upgraded to 1.11.1 
+Clojure upgraded to 1.11.1
 
 ### Added
 
@@ -113,7 +117,7 @@ Clojure upgraded to 1.11.1
 
 ### Changed
 
-* [breaking][minor] `separate-column` repleces source column with target on every case 
+* [breaking][minor] `separate-column` repleces source column with target on every case
 
 ## [6.102]
 
@@ -185,7 +189,7 @@ Version bump
 
 ### Added
 
-* docstring for `unroll` and `fold-by` by @holyjak (#60 and #61) 
+* docstring for `unroll` and `fold-by` by @holyjak (#60 and #61)
 
 ## [6.051]
 
@@ -235,7 +239,7 @@ Version bump
 
 ### Fixed
 
-* `update-columns` on grouped dataset 
+* `update-columns` on grouped dataset
 
 ## [6.002]
 
@@ -296,7 +300,7 @@ tech.ml.dataset version bump, this introduces the change of the order of the gro
 ### Added
 
 * `split :holdout` supports any number of splits (minimum 2) [#28]
-* `split` supports `split-names` to provide custom names for subdatasets 
+* `split` supports `split-names` to provide custom names for subdatasets
 * `concat` and `concat-copying` are working with grouped datasets
 
 ### Fixed
@@ -438,7 +442,7 @@ t.m.d update
 * version number to match t.m.dataset version
 * documentation:
     - gfm renderer for markdown
-    
+
 ### Fixed
 
 * code block language alignment fix in css
@@ -502,4 +506,3 @@ t.m.d update
 * `pivot->wider` drops missing rows by default
 * `pivto->wider` order of concatenated column names is reversed (first: colnames, last: value), was opposite.
 * `pivot->longer` `:splitter` accepts string used for splitting column name
-

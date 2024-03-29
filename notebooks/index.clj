@@ -79,8 +79,7 @@ Dataset can be created from various of types of Clojure structures and files:
 * single values
 * sequence of maps
 * map of sequences or values
-* sequence of columns (taken from other dataset or created manually)
-* sequence of pairs: `[string column-data]` or `[keyword column-data]`
+* sequence of `tech.v3.dataset.column`s (taken from other dataset or created manually)
 * array of any arrays
 * file types: raw/gzipped csv/tsv, json, xls(x) taken from local file system or URL
 * input stream
@@ -122,33 +121,21 @@ Empty dataset with column names
 (md "
 ----
 
-Sequence of pairs (first = column name, second = value(s)).
+Dataset created from map (keys = column names, vals = value(s)).
 ")
-
-
-(tc/dataset [[:A 33] [:B 5] [:C :a]])
-
-
-(md "
-----
-
-Not sequential values are repeated row-count number of times.
-")
-
-
-(tc/dataset [[:A [1 2 3 4 5 6]] [:B "X"] [:C :a]])
-
-
-(md "
-----
-
-Dataset created from map (keys = column names, vals = value(s)). Works the same as sequence of pairs.
-")
-
 
 (tc/dataset {:A 33})
 (tc/dataset {:A [1 2 3]})
-(tc/dataset {:A [3 4 5] :B "X"})
+(tc/dataset {:A [3 4 5] :B ["X" "Y" "Z"]})
+
+
+(md "
+----
+
+Non-sequential values are repeated row-count number of times.
+")
+
+(tc/dataset {:A [1 2 3 4 5 6] :B "X" :C :a})
 
 
 (md "
@@ -187,6 +174,8 @@ Missing values are marked by `nil`
 
 Reading from arrays, by default `:as-rows`
 ")
+
+(tc/dataset [[:a 1] [:b 2] [:c 3]])
 
 
 (-> (map int-array [[1 2] [3 4] [5 6]])
@@ -4796,25 +4785,14 @@ Pipeline operations are prepared to work with [metamorph](https://github.com/sci
 
 (defonce stocks (tc/dataset "https://raw.githubusercontent.com/techascent/tech.ml.dataset/master/test/data/stocks.csv" {:key-fn keyword}))
 
-
-
-
-
 stocks
-
-
-
-
 
 (-> stocks
     (tc/group-by (fn [row]
-                    {:symbol (:symbol row)
-                     :year (tech.v3.datatype.datetime/long-temporal-field :years (:date row))}))
+                   {:symbol (:symbol row)
+                    :year (tech.v3.datatype.datetime/long-temporal-field :years (:date row))}))
     (tc/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (tc/order-by [:symbol :year]))
-
-
-
 
 
 (-> stocks
@@ -4822,7 +4800,6 @@ stocks
     (tc/aggregate #(tech.v3.datatype.functional/mean (% :price)))
     (tc/rename-columns {:$group-name-0 :symbol
                         :$group-name-1 :year}))
-
 
 ;; ### data.table
 
@@ -6286,10 +6263,8 @@ Use multiple expressions
 
 
 (tc/dataset (let [x (dfn/+ (DS :V1) (dfn/sum (DS :V2)))]
-               (println (seq (DS :V1)))
-               (println (tc/info (tc/select-columns DS :V1)))
-               {:A (range 1 (inc (tc/row-count DS)))
-                :B x}))
+              {:A (range 1 (inc (tc/row-count DS)))
+               :B x}))
 
 
 (md "
