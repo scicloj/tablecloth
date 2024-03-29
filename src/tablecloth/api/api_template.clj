@@ -136,11 +136,11 @@
 (defn- select-or-drop
   "Select columns and rows"
   [fc fs ds columns-selector rows-selector]
-  (let [ds (if (and columns-selector
+  (let [ds (if (clojure.core/and columns-selector
                     (not= :all columns-selector))
              (fc ds columns-selector)
              ds)]
-    (if (and rows-selector
+    (if (clojure.core/and rows-selector
              (not= :all rows-selector))
       (fs ds rows-selector)
       ds)))
