@@ -4576,7 +4576,7 @@ To get a sequence of pairs, use `split->seq` function
 (md "
 ## Column API
 
-A `column` in tablecloth is a named sequence of typed data. It is the building block of the `dataset` since datasets are at base just a map of columns. Like `dataset`, the `column` is defined in the `tech.ml.dataset`. In this section, we will show how you can interact with the column by itself.
+A `column` in tablecloth is a named sequence of typed data. It is the building block of the `dataset` since datasets are at base just a map of columns. Like `dataset`, the `column` is defined within `tech.ml.dataset`. In this section, we will show how you can interact with the column by itself.
 
 Let's begin by requiring the Column API, which we suggest you alias as `tcc`:")
 
@@ -4762,6 +4762,49 @@ We'll start with two columns `a` and `b`:
 (-> a
     (tcc/* b)
     (tcc/< 70))
+
+;; ### Missing Values
+
+;; The `column` API includes utilities to handle missing values. Let's go through them.
+
+;; We start with a column that has missing values:
+
+(def missing (tcc/column [1 2 nil 8 10 nil 20]))
+
+missing
+
+;; In many cases, running an operation on this column will still work without any handling:
+
+(tcc/* missing (tcc/column [1 2 3 4 5 6 7]))
+
+;; You can count the number of missing values.
+
+(tcc/count-missing missing)
+
+;; You can drop them.
+
+(tcc/drop-missing missing)
+
+(md "
+You can replace them. This function includes different strategies, and the default is `:nearest`.
+
+- `:down` -	Take the previous value, or use provided value.
+- `:up` - Take the next value, or use provided value.
+- `:downup` - Take the previous value, otherwise take the next value.
+- `:updown` - Take the next value, otherwise take the previous value.
+- `:nearest` - Use the nearest of next or previous values. (Strategy `:mid` is an alias for `:nearest`).
+- `:midpoint` - Use the midpoint of averaged values between previous and next (non-missing) values.
+- `:abb` - Impute missing value with approximate Bayesian bootstrap.
+            See [r's ABB](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/ABB.html).
+- `:lerp` - Linearly interpolate values between previous and next nonmissing rows.
+- `:value` - Provide a value explicitly.  Value may be a function in which
+              case it will be called on the column with missing values elided
+              and the return will be used to as the filler.
+")
+
+(tcc/replace-missing missing)
+
+(tcc/replace-missing missing :value 100)
 
 (md "
 ## Pipeline

@@ -693,7 +693,7 @@
 
 
 (defn replace-missing
-  "Replace missing values in column `col` with give `strategy`.
+  "Replace missing values in column `col` with give `strategy`. Default is `:nearest`. 
 
     Strategies may be:
 
