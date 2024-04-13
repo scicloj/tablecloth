@@ -68,13 +68,11 @@ DS
 
 
 (md "
-## Functionality
-
-### Dataset
+## Dataset API
 
 Dataset is a special type which can be considered as a map of columns implemented around `tech.ml.dataset` library. Each column can be considered as named sequence of typed data. Supported types include integers, floats, string, boolean, date/time, objects etc.
 
-#### Dataset creation
+### Dataset creation
 
 Dataset can be created from various of types of Clojure structures and files:
 
@@ -284,7 +282,7 @@ Set column name for single value. Also set the dataset name and turn off creatin
 
 (md "
 
-#### Saving
+### Saving
 
 Export dataset to a file or output stream can be done by calling `tc/write!`. Function accepts:
 
@@ -300,7 +298,7 @@ Export dataset to a file or output stream can be done by calling `tc/write!`. Fu
 
 
 (md "
-##### Nippy
+#### Nippy
 ")
 
 
@@ -314,7 +312,7 @@ Export dataset to a file or output stream can be done by calling `tc/write!`. Fu
 
 
 (md "
-#### Dataset related functions
+### Dataset related functions
 
 Summary functions about the dataset like number of rows, columns and basic stats.
 
@@ -386,7 +384,7 @@ Setting a dataset name (operation is immutable).
 
 
 (md "
-#### Columns and rows
+### Columns and rows
 
 Get columns and rows as sequences. `column`, `columns` and `rows` treat grouped dataset as regular one. See `Groups` to read more about grouped datasets.
 
@@ -497,7 +495,7 @@ Rows with elided missing values
 
 
 (md "
-#### Single entry
+### Single entry
 
 Get single value from the table using `get-in` from Clojure API or `get-entry`. First argument is column name, second is row number.
 ")
@@ -513,7 +511,7 @@ Get single value from the table using `get-in` from Clojure API or `get-entry`. 
 
 
 (md "
-#### Printing
+### Printing
 
 Dataset is printed using `dataset->str` or `print-dataset` functions. Options are the same as in `tech.ml.dataset/dataset-data->str`. Most important is `:print-line-policy` which can be one of the: `:single`, `:repl` or `:markdown`.
 ")
@@ -1599,6 +1597,54 @@ You can also cast the type to the other one (if casting is possible):
 
 (tc/->array DS :V4 :string)
 (tc/->array DS :V1 :float32)
+
+(md "
+### Column Operations
+
+There are a large number of column operations that can be performed on the columns in your dataset. These operations are a similar set as the [Column API operations](#operations), but instead of operating directly on columns, they take a Dataset and a [`columns-selector`](#names).
+
+The behavior of the operations differ based on their return value:
+
+* If an operation would return a scalar value, then the function behaves like an aggregator and can be used in group-by expresesions. Such functions will have the general signature:
+
+    ```
+    (dataset columns-selector) => dataset
+    ```
+
+* If an operation would return another column, then the function will not behave like an aggregator. Instead, it asks you to specify a target column, which it will add to the dataset that it returns. The signature of these functions is:
+
+
+    ```
+    (ds target-col columns-selector) => dataset
+    ```
+
+As there are a large number of operations, we will illustrate their usage. To begin with, here are some examples of operations whose result is a new column:
+")
+
+DS
+
+(-> DS
+    (tc/+ :SUM [:V1 :V2]))
+
+(-> DS
+    (tc/* :MULTIPY [:V1 :V2]))
+
+
+;; Now let's look at operations that would return a scalar:
+
+(-> DS
+    (tc/mean [:V1]))
+
+(md "
+Notice that we did not supply a target column to the `mean` function. Since `mean` does not return a column, we do not provide this argument. Instead, we simply provide the dataset and a `columns-selector.` We then get back a dataset with the result.
+
+Now let's use this function within a grouping expression:")
+
+(-> DS
+    (tc/group-by [:V4])
+    (tc/mean [:V2]))
+
+;; In this example, we grouped `DS` and then passed the resulting grouped Dataset directly to the `mean` operation. Since `mean` returns a scalar, it operates as an aggregator, summarizing the results of each group.
 
 
 (md "
@@ -4527,6 +4573,238 @@ To get a sequence of pairs, use `split->seq` function
     (tc/split->seq :bootstrap {:partition-selector :partition :seed 11 :ratio 0.8 :repeats 2})
     (first))
 
+(md "
+## Column API
+
+A `column` in tablecloth is a named sequence of typed data. It is the building block of the `dataset` since datasets are at base just a map of columns. Like `dataset`, the `column` is defined within `tech.ml.dataset`. In this section, we will show how you can interact with the column by itself.
+
+Let's begin by requiring the Column API, which we suggest you alias as `tcc`:")
+
+(require '[tablecloth.column.api :as tcc])
+
+;; ### Creation & Identity
+
+;; Creating an empty column is pretty straightforward:
+
+(tcc/column)
+
+;; You can also create a Column from a vector or a sequence
+
+(tcc/column [1 2 3 4 5])
+
+(tcc/column `(1 2 3 4 5))
+
+;; You can also quickly create columns of ones or zeros:
+
+(tcc/ones 10)
+
+(tcc/zeros 10)
+
+;; Finally, to identify a column, you can use the `column?` function to check if an item is a column:
+
+(tcc/column? [1 2 3 4 5])
+(tcc/column? (tcc/column))
+
+;; Tablecloth's datasets of course consists of columns:
+
+(tcc/column? (-> (tc/dataset {:a [1 2 3 4 5]})
+                 :a))
+
+;; ### Datatypes
+
+;; The default set of types for a column are defined in the underlying "tech ml" system. We can see the set here:
+
+(tech.v3.datatype.casting/all-datatypes)
+
+;; When you create a column, the underlying system will try to autodetect its type. We can illustrate that behavior using the `tcc/typeof` function to check the type of a column:
+
+(-> (tcc/column [1 2 3 4 5])
+    (tcc/typeof))
+
+(-> (tcc/column [:a :b :c :d :e])
+    (tcc/typeof))
+
+;; Columns containing heterogenous data will receive type `:object`:
+
+(-> (tcc/column [1 :b 3 :c 5])
+    (tcc/typeof))
+
+;; You can also use the `tcc/typeof?` function to check the value of a function as an asssertion:
+
+(-> (tcc/column [1 2 3 4 6])
+    (tcc/typeof? :boolean))
+
+(-> (tcc/column [1 2 3 4 6])
+    (tcc/typeof? :int64))
+
+;; Tablecloth has a concept of "concrete" and "general" types. A general type is the broad category of type and the concrete type is the actual type in memory. For example, a concrete type is a 64-bit integer `:int64`, which is also of the general type `:integer`.
+
+;; The `typeof?` function supports checking both.
+
+(-> (tcc/column [1 2 3 4 6])
+    (tcc/typeof? :int64))
+
+(-> (tcc/column [1 2 3 4 6])
+    (tcc/typeof? :integer))
+
+;; ### Access & Manipulation
+
+;; #### Column Access
+
+;; The method for accessing a particular index position in a column is the same as for Clojure vectors:
+
+(-> (tcc/column [1 2 3 4 5])
+    (get 3))
+
+(-> (tcc/column [1 2 3 4 5])
+    (nth 3))
+
+;; #### Slice
+
+;; You can also slice a column
+
+(-> (tcc/column (range 10))
+    (tcc/slice 5))
+
+(-> (tcc/column (range 10))
+    (tcc/slice 1 4))
+
+(-> (tcc/column (range 10))
+    (tcc/slice 0 9 2))
+
+;; The `slice` method supports the `:end` and `:start` keywords, which can add clarity to your code:
+
+(-> (tcc/column (range 10))
+    (tcc/slice :start :end 2))
+
+;; #### Select
+
+;; If you need to create a discontinuous subset of the column, you can use the `select` function. This method accepts an array of index positions or an array of booleans. When using boolean select, a true value will select the value at the index positions containing true values:
+
+;; Select the values at index positions 1 and 9:
+
+(-> (tcc/column (range 10))
+    (tcc/select [1 9]))
+
+;; Select the values at index positions 0 and 2 using booelan select:
+
+(-> (tcc/column (range 10))
+    (tcc/select (tcc/column [true false true])))
+
+;; The boolean select feature is particularly useful when used with the large number of operations (see [below](#operations)) that the Column API includes:
+
+(let [col (tcc/column (range 10))]
+  (-> col
+      (tcc/odd?)
+      (->> (tcc/select col))))
+
+;; Here, we used the `odd?` operator to create a boolean array indicating all index positions in the Column that included an odd value. Then we pass that boolean Column to the `select` function using the `->>` to send it to the second argument position.
+
+;; #### Sort  
+
+;; Use `sort-column` to sort a column:
+
+;; Default sort is in ascending order:
+
+(-> (tcc/column [:c :z :a :f])
+    (tcc/sort-column))
+
+;; You can provide the `:desc` and `:asc` keywords to change the default behavior:
+
+(-> (tcc/column [:c :z :a :f])
+    (tcc/sort-column :desc))
+
+;; You can also provide a comparator fn:
+
+(-> (tcc/column [{:position 2
+                  :text "and then stopped"}
+                 {:position 1
+                  :text "I ran fast"}])
+    (tcc/sort-column (fn [a b] (< (:position a) (:position b)))))
+
+
+;; ### Operations
+
+(md "
+The Column API contains a large number of operations, which have been lifted from the underlying `tech.ml.dataset` library and adapted to Tablecloth. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operation. In other words, their signature is this general form:
+
+```
+(column1 column2 ...) => column | scalar
+```
+
+Because these functions all take a column as the first argument, they are easy to use with the pipe `->` macro, as with all functions in Tablecloth.
+
+Given the incredibly large number of available functions, we will illustrate instead how these operations can be used.
+
+We'll start with two columns `a` and `b`:
+")
+
+(def a (tcc/column [20 30 40 50]))
+(def b (tcc/column (range 4)))
+
+;; Here is a small sampling of operator functions:
+
+(tcc/- a b)
+
+(tcc/* a b)
+
+(tcc// a 2)
+
+(tcc/pow a 2)
+
+(tcc/* 10 (tcc/sin a))
+
+(tcc/< a 35)
+
+;; All these operations take a column as their first argument and
+;; return a column, so they can be chained easily.
+
+(-> a
+    (tcc/* b)
+    (tcc/< 70))
+
+;; ### Missing Values
+
+;; The `column` API includes utilities to handle missing values. Let's go through them.
+
+;; We start with a column that has missing values:
+
+(def missing (tcc/column [1 2 nil 8 10 nil 20]))
+
+missing
+
+;; In many cases, running an operation on this column will still work without any handling:
+
+(tcc/* missing (tcc/column [1 2 3 4 5 6 7]))
+
+;; You can count the number of missing values.
+
+(tcc/count-missing missing)
+
+;; You can drop them.
+
+(tcc/drop-missing missing)
+
+(md "
+You can replace them. This function includes different strategies, and the default is `:nearest`.
+
+- `:down` -	Take the previous value, or use provided value.
+- `:up` - Take the next value, or use provided value.
+- `:downup` - Take the previous value, otherwise take the next value.
+- `:updown` - Take the next value, otherwise take the previous value.
+- `:nearest` - Use the nearest of next or previous values. (Strategy `:mid` is an alias for `:nearest`).
+- `:midpoint` - Use the midpoint of averaged values between previous and next (non-missing) values.
+- `:abb` - Impute missing value with approximate Bayesian bootstrap.
+            See [r's ABB](https://search.r-project.org/CRAN/refmans/LaplacesDemon/html/ABB.html).
+- `:lerp` - Linearly interpolate values between previous and next nonmissing rows.
+- `:value` - Provide a value explicitly.  Value may be a function in which
+              case it will be called on the column with missing values elided
+              and the return will be used to as the filler.
+")
+
+(tcc/replace-missing missing)
+
+(tcc/replace-missing missing :value 100)
 
 (md "
 ## Pipeline
@@ -4541,15 +4819,6 @@ There are two ways to create pipelines:
 Pipeline operations are prepared to work with [metamorph](https://github.com/scicloj/metamorph) library. That means that result of the pipeline is wrapped into a map and dataset is stored under `:metamorph/data` key.
 
 > **Warning: Duplicated `metamorph` pipeline functions are removed from `tablecloth.pipeline` namespace.**
-
-## Functions
-
-This API doesn't provide any statistical, numerical or date/time functions. Use below namespaces:
-
-| Namespace | functions |
-|-----------|-----------|
-| `tech.v3.datatype.functional` | primitive oprations, reducers, statistics |
-| `tech.v3.datatype.datetime` | date/time converters and operations|
 
 ## Other examples
 
