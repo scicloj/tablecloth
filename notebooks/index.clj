@@ -3915,6 +3915,13 @@ ds2
 
 
 (md "
+---
+")
+
+(tc/left-join ds2 ds1 {:left [:b :e] :right [:b :a]})
+
+
+(md "
 
 #### Right
 ")
