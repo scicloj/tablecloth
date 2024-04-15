@@ -107,6 +107,8 @@ To generate `README.md`, run the `generate!` function at the [dev/readme_generat
 
 To generate the detailed documentation, call the following. You will need the Quarto CLI [installed](https://quarto.org/docs/get-started/) in your system.
 
+Currently (April 2024), we use Quarto's [v1.5.10 pre-release](https://github.com/quarto-dev/quarto-cli/releases/tag/v1.5.10) (specifically this version, not the later ones) due to some Quarto bugs.
+
 ```{clojure}
 (require '[scicloj.clay.v2.api :as clay])
 (clay/make! {:format [:quarto :html]
