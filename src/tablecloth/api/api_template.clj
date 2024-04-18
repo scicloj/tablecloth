@@ -1,6 +1,10 @@
 (ns tablecloth.api.api-template
   "Tablecloth API"
-  (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle])  
+  (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle * + / - < <= > >=
+                            abs bit-and bit-and-not bit-clear bit-flip bit-not bit-or bit-set
+                            bit-shift-left bit-shift-right bit-xor and even? identity infinite?
+                            max min neg? not odd? or pos? quot rem unsigned-bit-shift-right
+                            zero?])
   (:require [tech.v3.datatype.export-symbols :as exporter]))
 
 (exporter/export-symbols tech.v3.datatype
@@ -178,4 +182,8 @@
   (exporter/write-api! 'tablecloth.api.api-template
                        'tablecloth.api
                        "src/tablecloth/api.clj"
-                       '[group-by drop concat rand-nth first last shuffle]))
+                       '[group-by drop concat rand-nth first last shuffle * + - / < <= >= >
+                         abs and bit-and bit-and-not bit-clear bit-flip bit-not bit-or bit-set
+                         bit-shift-left bit-shift-right bit-xor even? identity infinite? max min
+                         neg? not odd? or pos? quot rem unsigned-bit-shift-right zero?])
+  )
