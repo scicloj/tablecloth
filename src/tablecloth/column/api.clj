@@ -5,7 +5,8 @@
             [tablecloth.column.api.column]
             [tablecloth.column.api.missing]
             [tablecloth.column.api.operators]
-            [tech.v3.dataset.column]))
+            [tech.v3.dataset.column])
+  (:refer-clojure :exclude [* + - / < <= >= > abs and bit-and bit-and-not bit-clear bit-flip bit-not bit-or bit-set bit-shift-left bit-shift-right bit-xor even? identity infinite? max min neg? not odd? or pos? quot rem unsigned-bit-shift-right zero?]))
 
 (defn *
   ([x y]
@@ -693,7 +694,7 @@
 
 
 (defn replace-missing
-  "Replace missing values in column `col` with give `strategy`. Default is `:nearest`. 
+  "Replace missing values in column `col` with give `strategy`.
 
     Strategies may be:
 

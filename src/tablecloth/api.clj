@@ -20,7 +20,7 @@
             [tech.v3.dataset]
             [tech.v3.dataset.print]
             [tech.v3.datatype])
-  (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle]))
+  (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle * + - / < <= >= > abs and bit-and bit-and-not bit-clear bit-flip bit-not bit-or bit-set bit-shift-left bit-shift-right bit-xor even? identity infinite? max min neg? not odd? or pos? quot rem unsigned-bit-shift-right zero?]))
 
 (defn *
   "Applies the operation tablecloth.column.api.operators/* to the columns selected by
