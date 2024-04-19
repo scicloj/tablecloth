@@ -1539,9 +1539,27 @@ exdata
 
 ;;
 
-
-
 (-> (expand-grid input)
     (tc/group-by :sex)
     (tc/reorder-columns :sex :weight)
     (tc/ungroup))
+
+
+
+
+(require '[clojure.data.json :as json])
+
+(def ds-with-json (tc/dataset [{:x 1, :y 2 :properties "{\"a\": 1, \"b\": 1}"}
+                             {:x 2, :y 3 :properties "{\"a\": 2, \"b\": 2}"}]))
+
+
+(->> (:properties ds-with-json)
+     (map json/read-str)
+     (tc/dataset)
+     (tc/append (tc/drop-columns ds-with-json :properties)))
+
+;; => _unnamed [2 4]:
+;;    | :x | :y | a | b |
+;;    |---:|---:|--:|--:|
+;;    |  1 |  2 | 1 | 1 |
+;;    |  2 |  3 | 2 | 2 |
