@@ -24,6 +24,7 @@
   ([fn-sym {:keys [new-args]}]
    (let [defn (symbol "defn")
          let  (symbol "let")
+         apply (symbol "apply")
          docstring (get-docstring fn-sym)
          original-args (get-arglists fn-sym)
          sort-by-arg-count (fn [argslist]
@@ -52,7 +53,7 @@
             arg
             `(~let [original-result# ~(if (empty? rest-arg-expr)
                                         `(~fn-sym ~@explicit-args)
-                                        `(apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
+                                        `(~apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
               (return-scalar-or-column original-result#)))))))))
 
 (def serialized-lift-fn-lookup
