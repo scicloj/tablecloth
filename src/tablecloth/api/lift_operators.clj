@@ -68,6 +68,10 @@
                 make-aggregator? false}}]
   (let [defn (symbol "defn")
         let (symbol "let")
+        fn (symbol "fn")
+        if (symbol "if")
+        -> (symbol "->")
+        ->> (symbol "->>")
         arglists (get-arglists fn-sym)
         max-cols (max-cols-allowed arglists)
         lifted-arglists (convert-arglists arglists return-ds?)
@@ -80,15 +84,15 @@
             ;; build an aggregator fn
             `(~args
               (~let [aggregator#
-                     (fn [ds#]
+                     (~fn [ds#]
                        (~let [ds-with-selected-cols#
                               (select-columns ds# ~'columns-selector)
                               cols-count#
-                              (-> ds-with-selected-cols#
+                              (~-> ds-with-selected-cols#
                                   column-names
                                   count)
                               selected-cols# (columns ds-with-selected-cols#)]
-                        (if (>= ~max-cols cols-count#)
+                        (~if (>= ~max-cols cols-count#)
                           (apply ~fn-sym (apply vector selected-cols#))
                           (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))]
                (aggregate ~'ds aggregator#)))
@@ -97,8 +101,8 @@
               (~let [selected-cols# (apply vector (columns
                                                    (select-columns ~'ds ~'columns-selector)))
                      args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
-               (if (>= ~max-cols (count selected-cols#))
-                 (->> args-to-pass#
+               (~if (>= ~max-cols (count selected-cols#))
+                 (~->> args-to-pass#
                       (apply ~fn-sym)
                       ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
                  (throw (Exception. (str "Exceeded maximum number of columns allowed for operation.")))))))))))
