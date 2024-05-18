@@ -72,6 +72,11 @@
         if (symbol "if")
         -> (symbol "->")
         ->> (symbol "->>")
+        str (symbol "str")
+        apply (symbol "apply")
+        count (symbol "count")
+        vector (symbol "vector")
+        concat (symbol "concat")
         arglists (get-arglists fn-sym)
         max-cols (max-cols-allowed arglists)
         lifted-arglists (convert-arglists arglists return-ds?)
@@ -90,22 +95,22 @@
                               cols-count#
                               (~-> ds-with-selected-cols#
                                   column-names
-                                  count)
+                                  ~count)
                               selected-cols# (columns ds-with-selected-cols#)]
                         (~if (>= ~max-cols cols-count#)
-                          (apply ~fn-sym (apply vector selected-cols#))
-                          (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))]
+                          (~apply ~fn-sym (~apply ~vector selected-cols#))
+                          (throw (Exception. (~str "Exceeded maximum number of columns allowed for operation."))))))]
                (aggregate ~'ds aggregator#)))
             ;; build either a fn that returns a dataset or the result of the operation
             `(~args
-              (~let [selected-cols# (apply vector (columns
+              (~let [selected-cols# (~apply ~vector (columns
                                                    (select-columns ~'ds ~'columns-selector)))
-                     args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
-               (~if (>= ~max-cols (count selected-cols#))
+                     args-to-pass# (~concat selected-cols# [~@(drop 3 args)])]
+               (~if (>= ~max-cols (~count selected-cols#))
                  (~->> args-to-pass#
-                      (apply ~fn-sym)
+                      (~apply ~fn-sym)
                       ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
-                 (throw (Exception. (str "Exceeded maximum number of columns allowed for operation.")))))))))))
+                 (throw (Exception. (~str "Exceeded maximum number of columns allowed for operation.")))))))))))
 
 (def serialized-lift-fn-lookup
   {'[distance
