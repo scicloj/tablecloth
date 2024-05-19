@@ -44,80 +44,80 @@
 
 (defn
  kurtosis
- "Applies the operation tablecloth.column.api.operators/kurtosis to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/kurtosis to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector options]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/kurtosis
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__)))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__)))
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/kurtosis
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  bit-set
- "Applies the operation tablecloth.column.api.operators/bit-set to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/bit-set to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-set)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -127,20 +127,20 @@
 
 (defn
  finite?
- "Applies the operation tablecloth.column.api.operators/finite? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/finite? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/finite?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -149,17 +149,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/finite?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -169,84 +169,84 @@
 
 (defn
  distance
- "Applies the operation tablecloth.column.api.operators/distance to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 2 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/distance to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 2 cols-count__34024__auto__)
+       (clojure.core/>= 2 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/distance
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  reduce-min
- "Applies the operation tablecloth.column.api.operators/reduce-min to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/reduce-min to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/reduce-min
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  to-radians
- "Applies the operation tablecloth.column.api.operators/to-radians to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/to-radians to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/to-radians)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -255,17 +255,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/to-radians)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -275,20 +275,20 @@
 
 (defn
  bit-shift-right
- "Applies the operation tablecloth.column.api.operators/bit-shift-right to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/bit-shift-right to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-shift-right)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -298,20 +298,20 @@
 
 (defn
  ieee-remainder
- "Applies the operation tablecloth.column.api.operators/ieee-remainder to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/ieee-remainder to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/ieee-remainder)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -321,20 +321,20 @@
 
 (defn
  log
- "Applies the operation tablecloth.column.api.operators/log to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/log to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/log)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -343,17 +343,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/log)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -363,20 +363,20 @@
 
 (defn
  bit-shift-left
- "Applies the operation tablecloth.column.api.operators/bit-shift-left to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/bit-shift-left to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-shift-left)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -386,20 +386,20 @@
 
 (defn
  acos
- "Applies the operation tablecloth.column.api.operators/acos to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/acos to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/acos)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -408,17 +408,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/acos)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -428,20 +428,20 @@
 
 (defn
  to-degrees
- "Applies the operation tablecloth.column.api.operators/to-degrees to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/to-degrees to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/to-degrees)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -450,17 +450,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/to-degrees)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -470,20 +470,20 @@
 
 (defn
  <
- "Applies the operation tablecloth.column.api.operators/< to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 3 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/< to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 3 (count selected-cols__34026__auto__))
+    (clojure.core/>= 3 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/<)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -493,20 +493,20 @@
 
 (defn
  floor
- "Applies the operation tablecloth.column.api.operators/floor to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/floor to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/floor)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -515,17 +515,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/floor)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -535,20 +535,20 @@
 
 (defn
  atan2
- "Applies the operation tablecloth.column.api.operators/atan2 to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/atan2 to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/atan2)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -558,20 +558,20 @@
 
 (defn
  normalize
- "Applies the operation tablecloth.column.api.operators/normalize to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/normalize to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/normalize)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -581,20 +581,20 @@
 
 (defn
  hypot
- "Applies the operation tablecloth.column.api.operators/hypot to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/hypot to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/hypot)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -604,20 +604,20 @@
 
 (defn
  tanh
- "Applies the operation tablecloth.column.api.operators/tanh to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/tanh to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/tanh)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -626,17 +626,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/tanh)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -646,20 +646,20 @@
 
 (defn
  sq
- "Applies the operation tablecloth.column.api.operators/sq to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/sq to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/sq)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -668,17 +668,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/sq)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -688,80 +688,80 @@
 
 (defn
  sum
- "Applies the operation tablecloth.column.api.operators/sum to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/sum to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector options]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/sum
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__)))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__)))
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/sum
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  pos?
- "Applies the operation tablecloth.column.api.operators/pos? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/pos? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/pos?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -770,17 +770,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/pos?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -790,20 +790,20 @@
 
 (defn
  shift
- "Applies the operation tablecloth.column.api.operators/shift to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/shift to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector n]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [n])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [n])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/shift)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -813,20 +813,20 @@
 
 (defn
  ceil
- "Applies the operation tablecloth.column.api.operators/ceil to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/ceil to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/ceil)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -835,17 +835,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/ceil)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -855,20 +855,20 @@
 
 (defn
  bit-xor
- "Applies the operation tablecloth.column.api.operators/bit-xor to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/bit-xor to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-xor)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -878,20 +878,20 @@
 
 (defn
  unsigned-bit-shift-right
- "Applies the operation tablecloth.column.api.operators/unsigned-bit-shift-right to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/unsigned-bit-shift-right to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/unsigned-bit-shift-right)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -901,20 +901,20 @@
 
 (defn
  neg?
- "Applies the operation tablecloth.column.api.operators/neg? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/neg? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/neg?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -923,17 +923,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/neg?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -943,20 +943,20 @@
 
 (defn
  <=
- "Applies the operation tablecloth.column.api.operators/<= to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 3 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/<= to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 3 (count selected-cols__34026__auto__))
+    (clojure.core/>= 3 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/<=)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -966,20 +966,20 @@
 
 (defn
  *
- "Applies the operation tablecloth.column.api.operators/* to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/* to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/*)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -989,20 +989,20 @@
 
 (defn
  min
- "Applies the operation tablecloth.column.api.operators/min to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/min to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/min)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1012,20 +1012,20 @@
 
 (defn
  atan
- "Applies the operation tablecloth.column.api.operators/atan to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/atan to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/atan)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1034,17 +1034,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/atan)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1054,20 +1054,20 @@
 
 (defn
  mathematical-integer?
- "Applies the operation tablecloth.column.api.operators/mathematical-integer? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/mathematical-integer? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/mathematical-integer?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1076,17 +1076,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/mathematical-integer?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1096,20 +1096,20 @@
 
 (defn
  cumprod
- "Applies the operation tablecloth.column.api.operators/cumprod to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/cumprod to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cumprod)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1118,17 +1118,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cumprod)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1138,20 +1138,20 @@
 
 (defn
  expm1
- "Applies the operation tablecloth.column.api.operators/expm1 to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/expm1 to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/expm1)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1160,17 +1160,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/expm1)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1180,20 +1180,20 @@
 
 (defn
  identity
- "Applies the operation tablecloth.column.api.operators/identity to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/identity to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/identity)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1202,17 +1202,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/identity)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1222,52 +1222,52 @@
 
 (defn
  reduce-max
- "Applies the operation tablecloth.column.api.operators/reduce-max to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/reduce-max to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/reduce-max
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  cumsum
- "Applies the operation tablecloth.column.api.operators/cumsum to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/cumsum to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cumsum)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1276,17 +1276,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cumsum)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1296,20 +1296,20 @@
 
 (defn
  nan?
- "Applies the operation tablecloth.column.api.operators/nan? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/nan? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/nan?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1318,17 +1318,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/nan?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1338,20 +1338,20 @@
 
 (defn
  bit-and-not
- "Applies the operation tablecloth.column.api.operators/bit-and-not to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/bit-and-not to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-and-not)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1361,20 +1361,20 @@
 
 (defn
  logistic
- "Applies the operation tablecloth.column.api.operators/logistic to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/logistic to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/logistic)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1383,17 +1383,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/logistic)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1403,20 +1403,20 @@
 
 (defn
  cos
- "Applies the operation tablecloth.column.api.operators/cos to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/cos to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cos)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1425,17 +1425,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cos)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1445,20 +1445,20 @@
 
 (defn
  log10
- "Applies the operation tablecloth.column.api.operators/log10 to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/log10 to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/log10)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1467,17 +1467,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/log10)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1487,20 +1487,20 @@
 
 (defn
  quot
- "Applies the operation tablecloth.column.api.operators/quot to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/quot to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/quot)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1510,52 +1510,52 @@
 
 (defn
  dot-product
- "Applies the operation tablecloth.column.api.operators/dot-product to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 2 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/dot-product to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 2 cols-count__34024__auto__)
+       (clojure.core/>= 2 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/dot-product
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  tan
- "Applies the operation tablecloth.column.api.operators/tan to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/tan to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/tan)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1564,17 +1564,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/tan)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1584,20 +1584,20 @@
 
 (defn
  cbrt
- "Applies the operation tablecloth.column.api.operators/cbrt to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/cbrt to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cbrt)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1606,17 +1606,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cbrt)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1626,20 +1626,20 @@
 
 (defn
  eq
- "Applies the operation tablecloth.column.api.operators/eq to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 2 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/eq to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 2 (count selected-cols__34026__auto__))
+    (clojure.core/>= 2 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/eq)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1649,80 +1649,80 @@
 
 (defn
  mean
- "Applies the operation tablecloth.column.api.operators/mean to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/mean to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector options]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/mean
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__)))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__)))
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/mean
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  >
- "Applies the operation tablecloth.column.api.operators/> to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 3 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/> to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 3 (count selected-cols__34026__auto__))
+    (clojure.core/>= 3 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/>)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1732,20 +1732,20 @@
 
 (defn
  not-eq
- "Applies the operation tablecloth.column.api.operators/not-eq to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 2 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/not-eq to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 2 (count selected-cols__34026__auto__))
+    (clojure.core/>= 2 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/not-eq)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1755,20 +1755,20 @@
 
 (defn
  even?
- "Applies the operation tablecloth.column.api.operators/even? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/even? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/even?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1777,17 +1777,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/even?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1797,20 +1797,20 @@
 
 (defn
  sqrt
- "Applies the operation tablecloth.column.api.operators/sqrt to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/sqrt to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/sqrt)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1819,17 +1819,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/sqrt)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1839,52 +1839,52 @@
 
 (defn
  reduce-*
- "Applies the operation tablecloth.column.api.operators/reduce-* to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/reduce-* to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/reduce-*
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  next-down
- "Applies the operation tablecloth.column.api.operators/next-down to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/next-down to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/next-down)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1893,17 +1893,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/next-down)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1913,20 +1913,20 @@
 
 (defn
  -
- "Applies the operation tablecloth.column.api.operators/- to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/- to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/-)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1936,20 +1936,20 @@
 
 (defn
  or
- "Applies the operation tablecloth.column.api.operators/or to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 2 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/or to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 2 (count selected-cols__34026__auto__))
+    (clojure.core/>= 2 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/or)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -1959,52 +1959,52 @@
 
 (defn
  distance-squared
- "Applies the operation tablecloth.column.api.operators/distance-squared to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 2 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/distance-squared to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 2 cols-count__34024__auto__)
+       (clojure.core/>= 2 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/distance-squared
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  pow
- "Applies the operation tablecloth.column.api.operators/pow to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/pow to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/pow)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2014,20 +2014,20 @@
 
 (defn
  next-up
- "Applies the operation tablecloth.column.api.operators/next-up to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/next-up to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/next-up)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2036,17 +2036,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/next-up)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2056,80 +2056,80 @@
 
 (defn
  skew
- "Applies the operation tablecloth.column.api.operators/skew to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/skew to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector options]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/skew
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__)))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__)))
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/skew
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  exp
- "Applies the operation tablecloth.column.api.operators/exp to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/exp to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/exp)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2138,17 +2138,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/exp)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2158,52 +2158,52 @@
 
 (defn
  mean-fast
- "Applies the operation tablecloth.column.api.operators/mean-fast to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/mean-fast to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/mean-fast
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  zero?
- "Applies the operation tablecloth.column.api.operators/zero? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/zero? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/zero?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2212,17 +2212,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/zero?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2232,20 +2232,20 @@
 
 (defn
  rem
- "Applies the operation tablecloth.column.api.operators/rem to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/rem to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/rem)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2255,20 +2255,20 @@
 
 (defn
  cosh
- "Applies the operation tablecloth.column.api.operators/cosh to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/cosh to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cosh)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2277,17 +2277,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cosh)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2297,112 +2297,112 @@
 
 (defn
  variance
- "Applies the operation tablecloth.column.api.operators/variance to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/variance to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector options]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/variance
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__)))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__)))
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/variance
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  reduce-+
- "Applies the operation tablecloth.column.api.operators/reduce-+ to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/reduce-+ to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/reduce-+
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  get-significand
- "Applies the operation tablecloth.column.api.operators/get-significand to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/get-significand to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/get-significand)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2411,17 +2411,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/get-significand)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2431,20 +2431,20 @@
 
 (defn
  bit-and
- "Applies the operation tablecloth.column.api.operators/bit-and to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/bit-and to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-and)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2454,20 +2454,20 @@
 
 (defn
  not
- "Applies the operation tablecloth.column.api.operators/not to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/not to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/not)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2476,17 +2476,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/not)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2496,20 +2496,20 @@
 
 (defn
  cummin
- "Applies the operation tablecloth.column.api.operators/cummin to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/cummin to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cummin)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2518,17 +2518,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cummin)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2538,52 +2538,52 @@
 
 (defn
  magnitude
- "Applies the operation tablecloth.column.api.operators/magnitude to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/magnitude to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/magnitude
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  cummax
- "Applies the operation tablecloth.column.api.operators/cummax to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/cummax to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cummax)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2592,17 +2592,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/cummax)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2612,20 +2612,20 @@
 
 (defn
  /
- "Applies the operation tablecloth.column.api.operators// to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators// to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators//)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2635,20 +2635,20 @@
 
 (defn
  bit-or
- "Applies the operation tablecloth.column.api.operators/bit-or to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/bit-or to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-or)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2658,20 +2658,20 @@
 
 (defn
  >=
- "Applies the operation tablecloth.column.api.operators/>= to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 3 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/>= to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 3 (count selected-cols__34026__auto__))
+    (clojure.core/>= 3 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/>=)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2681,20 +2681,20 @@
 
 (defn
  bit-flip
- "Applies the operation tablecloth.column.api.operators/bit-flip to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/bit-flip to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-flip)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2704,20 +2704,20 @@
 
 (defn
  log1p
- "Applies the operation tablecloth.column.api.operators/log1p to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/log1p to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/log1p)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2726,17 +2726,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/log1p)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2746,20 +2746,20 @@
 
 (defn
  asin
- "Applies the operation tablecloth.column.api.operators/asin to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/asin to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/asin)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2768,17 +2768,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/asin)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2788,80 +2788,80 @@
 
 (defn
  quartile-3
- "Applies the operation tablecloth.column.api.operators/quartile-3 to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/quartile-3 to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector options]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/quartile-3
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__)))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__)))
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/quartile-3
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  infinite?
- "Applies the operation tablecloth.column.api.operators/infinite? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/infinite? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/infinite?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2870,17 +2870,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/infinite?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2890,20 +2890,20 @@
 
 (defn
  round
- "Applies the operation tablecloth.column.api.operators/round to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/round to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/round)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2912,17 +2912,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/round)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -2932,80 +2932,80 @@
 
 (defn
  quartile-1
- "Applies the operation tablecloth.column.api.operators/quartile-1 to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/quartile-1 to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector options]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/quartile-1
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__)))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__)))
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/quartile-1
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  odd?
- "Applies the operation tablecloth.column.api.operators/odd? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/odd? to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/odd?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3014,17 +3014,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/odd?)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3034,20 +3034,20 @@
 
 (defn
  bit-clear
- "Applies the operation tablecloth.column.api.operators/bit-clear to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/bit-clear to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-clear)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3057,20 +3057,20 @@
 
 (defn
  +
- "Applies the operation tablecloth.column.api.operators/+ to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/+ to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/+)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3080,20 +3080,20 @@
 
 (defn
  abs
- "Applies the operation tablecloth.column.api.operators/abs to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/abs to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/abs)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3102,17 +3102,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/abs)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3122,80 +3122,80 @@
 
 (defn
  median
- "Applies the operation tablecloth.column.api.operators/median to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/median to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector options]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/median
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__)))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__)))
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/median
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  sinh
- "Applies the operation tablecloth.column.api.operators/sinh to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/sinh to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/sinh)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3204,17 +3204,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/sinh)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3224,20 +3224,20 @@
 
 (defn
  rint
- "Applies the operation tablecloth.column.api.operators/rint to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/rint to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/rint)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3246,17 +3246,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/rint)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3266,20 +3266,20 @@
 
 (defn
  bit-not
- "Applies the operation tablecloth.column.api.operators/bit-not to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/bit-not to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-not)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3288,17 +3288,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/bit-not)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3308,20 +3308,20 @@
 
 (defn
  max
- "Applies the operation tablecloth.column.api.operators/max to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. null\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/max to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= ##Inf (count selected-cols__34026__auto__))
+    (clojure.core/>= ##Inf (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/max)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3331,20 +3331,20 @@
 
 (defn
  ulp
- "Applies the operation tablecloth.column.api.operators/ulp to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/ulp to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/ulp)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3353,17 +3353,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/ulp)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3373,20 +3373,20 @@
 
 (defn
  percentiles
- "Applies the operation tablecloth.column.api.operators/percentiles to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/percentiles to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector percentages options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [percentages options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [percentages options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/percentiles)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3395,17 +3395,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector percentages]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [percentages])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [percentages])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/percentiles)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3415,20 +3415,20 @@
 
 (defn
  sin
- "Applies the operation tablecloth.column.api.operators/sin to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/sin to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/sin)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3437,17 +3437,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/sin)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3457,52 +3457,52 @@
 
 (defn
  sum-fast
- "Applies the operation tablecloth.column.api.operators/sum-fast to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/sum-fast to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/sum-fast
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  signum
- "Applies the operation tablecloth.column.api.operators/signum to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/signum to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector options]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [options])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [options])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/signum)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3511,17 +3511,17 @@
        "Exceeded maximum number of columns allowed for operation."))))))
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 1 (count selected-cols__34026__auto__))
+    (clojure.core/>= 1 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/signum)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw
@@ -3531,52 +3531,52 @@
 
 (defn
  magnitude-squared
- "Applies the operation tablecloth.column.api.operators/magnitude-squared to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 1 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/magnitude-squared to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds columns-selector]
   (let
-   [aggregator__34021__auto__
+   [aggregator__34072__auto__
     (fn
-     [ds__34022__auto__]
+     [ds__34073__auto__]
      (let
-      [ds-with-selected-cols__34023__auto__
+      [ds-with-selected-cols__34074__auto__
        (tablecloth.api.columns/select-columns
-        ds__34022__auto__
+        ds__34073__auto__
         columns-selector)
-       cols-count__34024__auto__
+       cols-count__34075__auto__
        (->
-        ds-with-selected-cols__34023__auto__
+        ds-with-selected-cols__34074__auto__
         tablecloth.api.utils/column-names
         count)
-       selected-cols__34025__auto__
+       selected-cols__34076__auto__
        (tablecloth.api.dataset/columns
-        ds-with-selected-cols__34023__auto__)]
+        ds-with-selected-cols__34074__auto__)]
       (if
-       (clojure.core/>= 1 cols-count__34024__auto__)
+       (clojure.core/>= 1 cols-count__34075__auto__)
        (apply
         tablecloth.column.api.operators/magnitude-squared
-        (apply vector selected-cols__34025__auto__))
+        (apply vector selected-cols__34076__auto__))
        (throw
         (java.lang.Exception.
          (str
           "Exceeded maximum number of columns allowed for operation."))))))]
-   (tablecloth.api.aggregate/aggregate ds aggregator__34021__auto__))))
+   (tablecloth.api.aggregate/aggregate ds aggregator__34072__auto__))))
 
 (defn
  and
- "Applies the operation tablecloth.column.api.operators/and to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`. This operation takes a maximum of 2 columns, so\n         `columns-selector` can yield no more than that many columns.\n      \n      `columns-selector can be:\n      - name\n      - sequence of names\n      - map of names with new names (rename)\n      - function which filter names (via column metadata)"
+ "Applies the operation tablecloth.column.api.operators/and to the columns selected by\n      `columns-selector` and returns a new ds with the the result in\n      `target-col`.\n      \n      columns-selector can be:\n        - name\n        - sequence of names\n        - map of names with new names (rename)\n        - function which filter names (via column metadata)"
  ([ds target-col columns-selector]
   (let
-   [selected-cols__34026__auto__
+   [selected-cols__34077__auto__
     (apply
      vector
      (tablecloth.api.dataset/columns
       (tablecloth.api.columns/select-columns ds columns-selector)))
-    args-to-pass__34027__auto__
-    (concat selected-cols__34026__auto__ [])]
+    args-to-pass__34078__auto__
+    (concat selected-cols__34077__auto__ [])]
    (if
-    (clojure.core/>= 2 (count selected-cols__34026__auto__))
+    (clojure.core/>= 2 (count selected-cols__34077__auto__))
     (->>
-     args-to-pass__34027__auto__
+     args-to-pass__34078__auto__
      (apply tablecloth.column.api.operators/and)
      (tablecloth.api.columns/add-or-replace-column ds target-col))
     (throw

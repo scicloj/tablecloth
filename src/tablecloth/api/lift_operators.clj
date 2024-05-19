@@ -42,13 +42,13 @@
     (format 
      "Applies the operation %s to the columns selected by
       `columns-selector` and returns a new ds with the the result in
-      `target-col`. %s
+      `target-col`.
       
-      `columns-selector can be:
-      - name
-      - sequence of names
-      - map of names with new names (rename)
-      - function which filter names (via column metadata)"
+      columns-selector can be:
+        - name
+        - sequence of names
+        - map of names with new names (rename)
+        - function which filter names (via column metadata)"
      fn-sym
      (when (< max-allowed Double/POSITIVE_INFINITY)
        (format
