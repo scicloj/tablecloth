@@ -27,6 +27,8 @@ tablecloth-version
 
 ## Introduction
 
+....
+
 [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) is a great and fast library which brings columnar dataset to the Clojure. Chris Nuernberger has been working on this library for last year as a part of bigger `tech.ml` stack.
 
 I've started to test the library and help to fix uncovered bugs. My main goal was to compare functionalities with the other standards from other platforms. I focused on R solutions: [dplyr](https://dplyr.tidyverse.org/), [tidyr](https://tidyr.tidyverse.org/) and [data.table](https://rdatatable.gitlab.io/data.table/).
@@ -4707,7 +4709,7 @@ Let's begin by requiring the Column API, which we suggest you alias as `tcc`:")
 
 ;; Here, we used the `odd?` operator to create a boolean array indicating all index positions in the Column that included an odd value. Then we pass that boolean Column to the `select` function using the `->>` to send it to the second argument position.
 
-;; #### Sort  
+;; #### Sort
 
 ;; Use `sort-column` to sort a column:
 
