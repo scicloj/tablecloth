@@ -3511,7 +3511,7 @@ Let's see how many values are for each type of `wool` and `tension` groups
 
 
 (md "
-We can also calculate mean (aggreate values)
+We can also calculate mean (aggregate values)
 ")
 
 
