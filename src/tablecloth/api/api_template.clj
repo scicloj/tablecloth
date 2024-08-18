@@ -163,6 +163,8 @@
 ;; tibble macro
 
 (defmacro let-dataset
+  {:clj-kondo/lint-as 'clojure.core/let
+   :clj-kondo/ignore [:unused-binding]} 
   ([bindings] `(let-dataset ~bindings nil))
   ([bindings options]
    (let [cols (take-nth 2 bindings)

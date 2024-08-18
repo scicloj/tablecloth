@@ -1400,7 +1400,6 @@ column-names function returns names according to columns-selector
 
 
 (defmacro let-dataset
-  {:clj-kondo/lint-as 'clojure.core/let}
   ([bindings]
   `(tablecloth.api.api-template/let-dataset ~bindings))
   ([bindings options]
