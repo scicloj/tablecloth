@@ -9,17 +9,13 @@
   "Group-by and pack columns into vector - the output data set has a row for each unique combination
   of the provided columns while each remaining column has its valu(es) collected into a vector, similar
   to how clojure.core/group-by works.
-  See https://scicloj.github.io/tablecloth/index.html#fold-by
+  See https://scicloj.github.io/tablecloth/index.html#fold-by"
 
-  options:
-  `:drop-missing?` - remove rows with missing? (default: true)"
-
-  ([ds columns-selector options] (fold-by ds columns-selector vec options))
-  ([ds columns-selector folding-function options]
+  ([ds columns-selector] (fold-by ds columns-selector vec))
+  ([ds columns-selector folding-function & {:keys [drop-missing?] :or {drop-missing? true}}]
    (unique-by ds columns-selector {:strategy folding-function
-                                   :add-group-as-column true}
-              (merge {:drop-missing? true} options))))
-
+                                   :add-group-as-column true
+                                   :drop-missing? drop-missing?})))
 (defn- process-unroll
   [ds colnames-set colnames options]
   (let [unrolled-dss (map (fn [colname]
