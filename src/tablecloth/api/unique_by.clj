@@ -91,20 +91,20 @@
 
   ([ds] (unique-by ds (ds/column-names ds)))
   ([ds columns-selector] (unique-by ds columns-selector nil))
-  ([ds columns-selector {:keys [strategy select-keys parallel? remove-missing?]
-                         :or {strategy :first remove-missing? true}
+  ([ds columns-selector {:keys [strategy select-keys parallel? drop-missing?]
+                         :or {strategy :first drop-missing? true}
                          :as options}]
    (let [selected-keys (column-names ds select-keys)
          ufn (unique-by-fn strategy columns-selector selected-keys options)
          ufn (partial maybe-empty (if (fn? strategy) ufn (partial maybe-skip-unique ufn)))]
-     (println "remove-missing? " remove-missing?)
+     (println "drop-missing? " drop-missing?)
      (if (grouped? ds)
        (process-group-data ds ufn parallel?)
        (ufn ds)))))
 
-(require '[tablecloth.api :as tc])
+;; (require '[tablecloth.api :as tc])
 
-(-> {:x (take 9 (cycle [1 nil 2]))
-     :y (take 9 (cycle ["A" "B" "C"]))}
-    tc/dataset
-    (tc/fold-by :y {:remove-missing? false}))
+;; (-> {:x (take 9 (cycle [1 nil 2]))
+;;      :y (take 9 (cycle ["A" "B" "C"]))}
+;;     tc/dataset
+;;     (tc/fold-by :y {:drop-missing? false}))
