@@ -54,6 +54,10 @@
       (multi-join impl ds-left ds-right cols-left cols-right options))))
 
 (defn left-join
+  ([ds-left ds-right]
+   (let [cols-l (set (column-names ds-left :all))
+         cols-r (set (column-names ds-right :all))]
+    (left-join ds-left ds-right (vec (s/intersection cols-l cols-r)))))
   ([ds-left ds-right columns-selector] (left-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (apply-join j/left-join ds-left ds-right columns-selector options)))
