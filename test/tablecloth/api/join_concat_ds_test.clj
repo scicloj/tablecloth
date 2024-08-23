@@ -84,7 +84,7 @@
                          [:i :y])
           (api/rows :as-maps)) => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}])
 
-(fact "eraderna int-string join with automatic column selector"
+(fact "int-string join with automatic column selector"
       (-> (api/left-join (-> (api/dataset [{:i "foo" :y 2022}]))
                          (-> (api/dataset [{:i "foo" :y 2022 :s "2022"}
                                            {:i "foo" :y 2023 :s "2023"}])))

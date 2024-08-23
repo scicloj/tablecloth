@@ -53,26 +53,35 @@
       (impl [(first cols-left) (first cols-right)] ds-left ds-right (or options {}))
       (multi-join impl ds-left ds-right cols-left cols-right options))))
 
-(defn left-join
-  ([ds-left ds-right]
+(defn- automatic-columns-selector [ds-left ds-right]
    (let [cols-l (set (column-names ds-left :all))
          cols-r (set (column-names ds-right :all))]
-    (left-join ds-left ds-right (vec (s/intersection cols-l cols-r)))))
+         (vec (s/intersection cols-l cols-r))) )
+
+(defn left-join
+  ([ds-left ds-right]
+   (left-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (left-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (apply-join j/left-join ds-left ds-right columns-selector options)))
 
 (defn right-join
+  ([ds-left ds-right]
+   (right-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (right-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (apply-join j/right-join ds-left ds-right columns-selector options)))
 
 (defn inner-join
+  ([ds-left ds-right]
+   (inner-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (inner-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (apply-join j/inner-join ds-left ds-right columns-selector options)))
 
 (defn asof-join
+  ([ds-left ds-right]
+   (asof-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (asof-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (apply-join j/left-join-asof ds-left ds-right columns-selector options)))
@@ -86,6 +95,8 @@
 
 (defn full-join
   "Join keeping all rows"
+  ([ds-left ds-right]
+   (full-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (full-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (apply-join full-join-wrapper ds-left ds-right columns-selector options)))
@@ -99,12 +110,16 @@
       (distinct)))
 
 (defn semi-join
+  ([ds-left ds-right]
+   (semi-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (semi-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (->> (semi-anti-join-indexes ds-left ds-right columns-selector options)
         (select-rows ds-left))))
 
 (defn anti-join
+  ([ds-left ds-right]
+    (anti-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (anti-join ds-left ds-right columns-selector nil))
   ([ds-left ds-right columns-selector options]
    (->> (semi-anti-join-indexes ds-left ds-right columns-selector options)
