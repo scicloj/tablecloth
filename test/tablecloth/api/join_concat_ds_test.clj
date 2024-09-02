@@ -95,6 +95,11 @@
                                            {:i "foo" :y 2023 :s "2023"}])))
           (api/rows :as-maps)) => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}])
 
+(fact "int-string join with automatic column selector - when there are no common columns"
+      (-> (api/left-join (-> (api/dataset [{:i "foo" :x 2022}]))
+                         (-> (api/dataset [{:y 2022 :z "bar"}])))
+          (api/rows :as-maps))  => [{:i "foo", :x 2022, :y 2022 :z "bar"}])
+
 (fact "left join on shorts packed into the vector"
       (-> (api/left-join (-> (api/dataset [{:iy ["foo" (short 2022)]}]))
                          (-> (api/dataset [{:iy ["foo" (long 2022)] :s "2022"}
