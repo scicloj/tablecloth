@@ -8,6 +8,6 @@
   :lein-tools-deps/config {:config-files [:install :user :project]}
   :profiles {:dev {:cloverage    {:runner :midje}
                    :dependencies [[midje "1.10.10"]
-                                  [org.scicloj/clay "2-beta9"]]
+                                  [org.scicloj/clay "2-beta11"]]
                    :plugins      [[lein-midje "3.2.1"]
                                   [lein-cloverage "1.2.4"]]}})
