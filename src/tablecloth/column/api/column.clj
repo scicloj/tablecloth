@@ -88,10 +88,10 @@
                 (fn? order-or-comparator)))
      (throw (IllegalArgumentException.
              "`order-or-comparator` must be `:asc`, `:desc`, or a function.")))
-   (let [order-fn-lookup {:asc fun/<, :desc fun/>}
-         comparator-fn (if (fn? order-or-comparator)
-                         order-or-comparator
-                         (order-fn-lookup order-or-comparator)) 
+   (let [comparator-fn (cond
+                         (fn? order-or-comparator) order-or-comparator
+                         (= :asc order-or-comparator) compare
+                         (= :desc order-or-comparator) #(compare %2 %1))
          sorted-indices (argsort comparator-fn col)]
      (col/select col sorted-indices))))
 
