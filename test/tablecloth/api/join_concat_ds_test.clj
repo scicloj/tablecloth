@@ -127,3 +127,39 @@
                          (api/dataset [{:k "baz"}])
                          [:k])
           (api/rows :as-maps)) => [{:k "baz", :v "\"baz\""} {:k "baz", :v "\"baz\""}])
+
+(fact "right join with automatic column selector"
+      (-> (api/right-join (api/dataset [{:i "foo" :y 2022}])
+                          (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                        {:i "foo" :y 2023 :s "2023"}]))
+          (api/rows :as-maps))  => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}
+                                    {:i nil, :y nil, :right.i "foo", :right.y 2023, :s "2023"}])
+
+(fact "inner join with automatic column selector"
+      (-> (api/inner-join (api/dataset [{:i "foo" :y 2022}])
+                          (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                        {:i "foo" :y 2023 :s "2023"}]))
+          (api/rows :as-maps))  => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}])
+
+(fact "full join with automatic column selector"
+      (-> (api/full-join (api/dataset [{:i "foo" :y 2022}
+                                       {:i "bar" :y 2021 }])
+                          (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                        {:i "foo" :y 2023 :s "2023"}]))
+          (api/rows :as-maps))  => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}
+                                    {:i "bar", :y 2021, :right.i nil, :right.y nil, :s nil}
+                                    {:i nil, :y nil, :right.i "foo", :right.y 2023, :s "2023"}])
+
+(fact "anti join with automatic column selector"
+      (-> (api/anti-join (api/dataset [{:i "foo" :y 2022}
+                                       {:i "bar" :y 2021 }])
+                         (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                       {:i "foo" :y 2023 :s "2023"}]))
+          (api/rows :as-maps))  => [{:i "bar", :y 2021}])
+
+(fact "semi join with automatic column selector"
+      (-> (api/semi-join (api/dataset [{:i "foo" :y 2022}
+                                       {:i "bar" :y 2021 }])
+                         (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                       {:i "foo" :y 2023 :s "2023"}]))
+          (api/rows :as-maps))  => [{:i "foo", :y 2022}])
