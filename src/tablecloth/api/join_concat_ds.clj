@@ -59,6 +59,10 @@
          (vec (s/intersection cols-l cols-r))) )
 
 (defn left-join
+  "Applies the left-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - hashing - Hashing function to use (default identity)
+   - drop-join-column? - Remove joined columns (default true)"
   ([ds-left ds-right]
    (left-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (left-join ds-left ds-right columns-selector nil))
