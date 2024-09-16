@@ -1359,7 +1359,7 @@ column-names function returns names according to columns-selector
 
 
 (defn join-columns
-  "Join clumns of dataset. Accepts:
+  "Join columns of dataset. Accepts:
   dataset
   column selector (as in select-columns)
   options

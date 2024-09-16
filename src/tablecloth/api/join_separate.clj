@@ -18,7 +18,7 @@
     (if drop-columns? (drop-columns result col-names) result)))
 
 (defn join-columns
-  "Join clumns of dataset. Accepts:
+  "Join columns of dataset. Accepts:
   dataset
   column selector (as in select-columns)
   options
