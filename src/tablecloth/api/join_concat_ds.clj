@@ -61,8 +61,8 @@
 (defn left-join
   "Applies the left-join operation on the datasets. If no automatic selector is
   provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
-   - hashing - Hashing function to use (default identity)
-   - drop-join-column? - Remove joined columns (default true)"
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
    (left-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (left-join ds-left ds-right columns-selector nil))
@@ -70,6 +70,10 @@
    (apply-join j/left-join ds-left ds-right columns-selector options)))
 
 (defn right-join
+  "Applies the right-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
    (right-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (right-join ds-left ds-right columns-selector nil))
@@ -77,6 +81,10 @@
    (apply-join j/right-join ds-left ds-right columns-selector options)))
 
 (defn inner-join
+  "Applies the inner-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
    (inner-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (inner-join ds-left ds-right columns-selector nil))
@@ -84,6 +92,10 @@
    (apply-join j/inner-join ds-left ds-right columns-selector options)))
 
 (defn asof-join
+  "Applies the asof-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
    (asof-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (asof-join ds-left ds-right columns-selector nil))
@@ -98,7 +110,10 @@
     (j/pd-merge ds-left ds-right (assoc options :left-on left :right-on right :how :outer))))
 
 (defn full-join
-  "Join keeping all rows"
+  "Join keeping all rows. If no automatic selector is
+   provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+       - `hashing` - Hashing function to use (default identity)
+       - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
    (full-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (full-join ds-left ds-right columns-selector nil))
@@ -114,6 +129,10 @@
       (distinct)))
 
 (defn semi-join
+  "Applies the semi-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
    (semi-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (semi-join ds-left ds-right columns-selector nil))
@@ -122,6 +141,10 @@
         (select-rows ds-left))))
 
 (defn anti-join
+  "Applies the anti-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
     (anti-join ds-left ds-right (automatic-columns-selector ds-left ds-right)))
   ([ds-left ds-right columns-selector] (anti-join ds-left ds-right columns-selector nil))
