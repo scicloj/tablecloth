@@ -111,7 +111,7 @@
                          pivot->longer
                          pivot->wider)
 
-(exporter/export-symbols tablecloth.api.join-concat-ds                         
+(exporter/export-symbols tablecloth.api.join-concat-ds
                          left-join
                          right-join
                          inner-join
@@ -166,7 +166,7 @@
   ([bindings] `(let-dataset ~bindings nil))
   ([bindings options]
    (let [cols (take-nth 2 bindings)
-         col-defs (mapv vector (map keyword cols) cols)]
+         col-defs (into (array-map) (map vector (map keyword cols) cols))]
      `(let [~@bindings]
         (dataset ~col-defs ~options)))))
 
