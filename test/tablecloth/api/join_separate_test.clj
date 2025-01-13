@@ -10,7 +10,16 @@
                         :y [:a :b]})
           (api/array-column->columns :x)
           (api/rows :as-maps))
-      => [{:y :a 0 1.0 1 2.0 2 3.0} {:y :b 0 4.0 1 5.0 2 6.0}])
+      => [{:y :a 0 1.0 1 2.0 2 3.0} {:y :b 0 4.0 1 5.0 2 6.0}]
+
+      (-> {"a" [[4 4] [3 2] [2 0]]}
+          api/dataset
+          (api/array-column->columns "a" { :prefix "c"})
+          (api/rows :as-maps)
+          
+          )
+      => [{"c-0" 4, "c-1" 4} {"c-0" 3, "c-1" 2} {"c-0" 2, "c-1" 0}]
+      )
 
 (fact "array-column->columns works can prefix columns with key-word"
       (-> (api/dataset {:x [(double-array [1 2 3])
