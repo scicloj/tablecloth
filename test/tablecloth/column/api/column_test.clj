@@ -87,5 +87,3 @@
          (fact "it moves missing values to the end"
                (sort-column (column [nil 100 nil 3 -10])) => [-10 3 100 nil nil])))
 
-
-

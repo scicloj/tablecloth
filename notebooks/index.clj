@@ -8,9 +8,7 @@
   (comp kindly/hide-code kind/md))
 
 (md
- "Dataset (data frame) manipulation API for the [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) library
-
-*GenerateMe*")
+ "Dataset (data frame) manipulation API for the [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) library.")
 
 (def tech-ml-version (get-in (read-string (slurp "deps.edn")) [:deps 'techascent/tech.ml.dataset :mvn/version]))
 
@@ -3529,7 +3527,7 @@ Let's see how many values are for each type of `wool` and `tension` groups
 
 
 (md "
-We can also calculate mean (aggreate values)
+We can also calculate mean (aggregate values)
 ")
 
 
@@ -4725,7 +4723,7 @@ Let's begin by requiring the Column API, which we suggest you alias as `tcc`:")
 
 ;; Here, we used the `odd?` operator to create a boolean array indicating all index positions in the Column that included an odd value. Then we pass that boolean Column to the `select` function using the `->>` to send it to the second argument position.
 
-;; #### Sort  
+;; #### Sort
 
 ;; Use `sort-column` to sort a column:
 

@@ -209,10 +209,10 @@ The new columns are appropriately named and typed, maintaining the type consiste
   "
   ([ds src-column opts]
    (assert (not (grouped? ds)) "Not supported on grouped datasets")
-   (let [len-arrays (-> ds src-column first count)
+   (let [len-arrays (-> ds (get src-column) first count)
          new-ds
          (->
-          (dtt/concat-buffers (ds src-column))
+          (dtt/concat-buffers (get ds src-column))
           (tens/reshape [(ds/row-count ds) len-arrays])
           (tech.v3.dataset.tensor/tensor->dataset))
 

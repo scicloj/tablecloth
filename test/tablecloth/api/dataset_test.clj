@@ -1,5 +1,6 @@
 (ns tablecloth.api.dataset-test
   (:require [tablecloth.api :as api]
+            [tablecloth.column.api :as tcc]
             [tablecloth.common-test :refer [DS]]
             [clojure.java.io :as io]
             [midje.sweet :refer [tabular fact => throws]])
@@ -128,3 +129,9 @@
                ?f ?v
                api/rows  '((1.0 5.0) (2.0 6.0) (3.0 7.0))
                api/columns '((1.0 2.0 3.0) (5.0 6.0 7.0))))
+
+(fact "let-dataset"
+      (fact (api/let-dataset [x (range 4) y 10 z (tcc/+ x y)])
+            => (api/dataset {:x [0 1 2 3]
+                             :y [10 10 10 10]
+                             :z [10 11 12 13]})))

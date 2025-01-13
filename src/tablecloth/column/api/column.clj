@@ -53,15 +53,18 @@
   number, it is treated as an index from the end of the column. The
   `:start` and `:end` keywords can be used to represent the start and
   end of the column, respectively.
+  The `step` parameter determines the increment between each index in the
+  slice. It defaults to 1 if not provided.
 
   Examples:
-  (def column [1 2 3 4 5])
-  (slice column 1 3)     ;=> [2 3]
-  (slice column 2)        ;=> [3 4 5]
-  (slice column -3 -1)    ;=> [3 4 5]
-  (slice column :start 2) ;=> [1 2 3 4 5]
-  (slice column 2 :end)   ;=> [3 4 5]
-  (slice column -2 :end)  ;=> [4 5]"
+  (def c (column [1 2 3 4 5]))
+  (slice c 1 3)     ;=> [2 3 4]
+  (slice c 2)        ;=> [3 4 5]
+  (slice c -3 -1)    ;=> [3 4 5]
+  (slice c :start 2) ;=> [1 2 3]
+  (slice c 2 :end)   ;=> [3 4 5]
+  (slice c -2 :end)  ;=> [4 5]
+  (slice c 0 :end 2) ;=> [1 3 5]"
   ([col from]
    (slice col from :end))
   ([col from to]
@@ -69,7 +72,7 @@
   ([col from to step]
    (let [len (count col)
          from (or (when-not (or (= from :start) (nil? from)) from) 0)
-         to (or (when-not (or (= to :end) (nil? :end)) to) (dec len))]
+         to (or (when-not (or (= to :end) (nil? to)) to) (dec len))]
      (col/select col (range (if (neg? from) (+ len from) from)
                             (inc (if (neg? to) (+ len to) to))
                             step)))))
@@ -88,10 +91,10 @@
                 (fn? order-or-comparator)))
      (throw (IllegalArgumentException.
              "`order-or-comparator` must be `:asc`, `:desc`, or a function.")))
-   (let [order-fn-lookup {:asc fun/<, :desc fun/>}
-         comparator-fn (if (fn? order-or-comparator)
-                         order-or-comparator
-                         (order-fn-lookup order-or-comparator)) 
+   (let [comparator-fn (cond
+                         (fn? order-or-comparator) order-or-comparator
+                         (= :asc order-or-comparator) compare
+                         (= :desc order-or-comparator) #(compare %2 %1))
          sorted-indices (argsort comparator-fn col)]
      (col/select col sorted-indices))))
 
