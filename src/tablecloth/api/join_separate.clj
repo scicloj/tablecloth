@@ -2,13 +2,15 @@
   (:refer-clojure :exclude [pmap])
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
+            
             [tech.v3.tensor :as tens]
             [tech.v3.datatype :as dtt]
             [clojure.string :as str]
             [tech.v3.parallel.for :refer [pmap]]
             [tech.v3.dataset.tensor]
-            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data ->str]]
-            [tablecloth.api.columns :refer [select-columns drop-columns add-column]]))
+            [tablecloth.api.dataset :as tc-dataset]
+            [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data ->str ]]
+            [tablecloth.api.columns :refer [select-columns drop-columns add-column rename-columns]]))
 
 (defn- process-join-columns
   [ds target-column join-function col-names drop-columns?]
@@ -135,6 +137,65 @@
     (if (keyword? prefix-name)
       (keyword with-prefix)
       with-prefix)))
+
+
+(defn- combine-with-dash [arg1 arg2]
+  (let [to-string (fn [x]
+                    (cond
+                      (string? x) x
+                      (keyword? x) (name x)
+                      (symbol? x) (name x)
+                      :else (str x)))
+        combined-str (str (to-string arg1) "-" (to-string arg2))]
+    (cond
+      (keyword? arg1) (keyword combined-str)
+      (symbol? arg1) (symbol combined-str)
+      (string? arg1) combined-str
+      :else combined-str)))
+
+(defn map-column->columns 
+  "
+   The map-column->columns function transforms a dataset by expanding a column containing map values into 
+   multiple new columns. Specifically, it takes a source dataset ds and a source column src-col within that dataset (which contains map values), and performs the following operations:
+
+- Extracts the map data from src-col.
+- Creates a new dataset from this map data, where each key in the maps becomes a column.
+- Generates new column names by combining the name of src-col with each of the original map keys, using a dash (-) as a separator. The type (keyword, symbol, or string) of the new column names matches the type of src-col.
+- Appends these new columns to the original dataset ds.
+- Removes the original src-col from ds.
+
+The result is a new dataset that includes all original columns (except src-col) and the newly expanded columns derived from the maps in src-col.
+Parameters
+ 
+
+'ds': The input dataset, expected to be a Tablecloth dataset or any dataset compatible with the functions used.
+'src-col': The name (keyword, symbol, or string) of the source column in ds that contains map values.
+
+   Return Value
+ 
+A new dataset with the following characteristics:
+
+Contains all columns from the original dataset ds, except the src-col.
+Includes new columns derived from the keys of the maps in src-col, with names formed by combining src-col and the map keys.
+The new columns are appropriately named and typed, maintaining the type consistency with src-col.
+   "
+  [ds src-col]
+  (let [columns-ds
+        (tc-dataset/dataset (get ds src-col))
+
+        new-col-names
+        (map #(combine-with-dash src-col %)
+             (column-names columns-ds))
+
+        renamed-columns-ds
+        (rename-columns columns-ds
+                           (zipmap
+                            (column-names columns-ds)
+                            new-col-names))]
+    (->
+     (ds/append-columns ds (tc-dataset/columns renamed-columns-ds))
+     (ds/remove-column src-col))))
+
 
 (defn array-column->columns
   "Converts a column of type java array into several columns,

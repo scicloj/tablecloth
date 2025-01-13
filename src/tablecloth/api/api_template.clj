@@ -101,7 +101,9 @@
                          join-columns
                          separate-column
                          array-column->columns
-                         columns->array-column)
+                         columns->array-column
+                         map-column->columns
+                         )
 
 (exporter/export-symbols tablecloth.api.fold-unroll
                          fold-by

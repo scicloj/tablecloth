@@ -1,5 +1,8 @@
 # Change Log
 
+## [unreleased]
+* added fn 'map-column->columns' ([#178])(https://github.com/scicloj/tablecloth/issues/178)
+
 ## [7.029]
 
 ### Added

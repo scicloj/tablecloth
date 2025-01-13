@@ -1504,6 +1504,11 @@ column-names function returns names according to columns-selector
   (tablecloth.api.operators/magnitude-squared ds columns-selector)))
 
 
+(defn map-column->columns
+  ([ds src-col]
+  (tablecloth.api.join-separate/map-column->columns ds src-col)))
+
+
 (defn map-columns
   "Map over rows using a map function. The arity should match the columns selected."
   ([ds column-name map-fn]

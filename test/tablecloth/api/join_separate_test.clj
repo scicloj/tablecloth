@@ -62,3 +62,27 @@
           (api/rows)
           (flatten))
       => ["foo-true" "bar-false"])
+
+(fact "map-column->columns work"
+      (->
+       (api/dataset {:m [{:a 1 :b 2} {:a 3 :b 4}]
+                     "n" [{:a 10 :b 20} {:a 30 :b 40}]})
+       (api/map-column->columns :m)
+       (api/rows :as-maps))
+      => [{"n" {:a 10, :b 20}, :m-a 1, :m-b 2} {"n" {:a 30, :b 40}, :m-a 3, :m-b 4}]
+
+
+
+      (->
+       (api/dataset {:m [{:a 1 :b 2} {:a 3 :b 4}]
+                     "n" [{:a 10 :b 20} {:a 30 :b 40}]})
+       (api/map-column->columns "n")
+       (api/rows :as-maps))
+      => [{:m {:a 1, :b 2}, "n-a" 10, "n-b" 20} {:m {:a 3, :b 4}, "n-a" 30, "n-b" 40}]
+
+      (->
+       (api/dataset {:m [{:a 1 :b 2 :d 4} {:a 3 :c "hello"}]})
+       (api/map-column->columns :m)
+       (api/rows :as-maps))
+      => [{:m-a 1, :m-b 2, :m-d 4, :m-c nil} 
+          {:m-a 3, :m-b nil, :m-d nil, :m-c "hello"}])
