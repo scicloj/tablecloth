@@ -11,7 +11,8 @@
             [tech.v3.io :as tio]
             [tech.v3.dataset.io :as ds-io]
             [tech.v3.dataset.zip :as zip]
-            )
+
+            [clojure.test :as t])
   (:import [org.roaringbitmap RoaringBitmap]))
 
 (ds/concat
@@ -1563,3 +1564,148 @@ exdata
 ;;    |---:|---:|--:|--:|
 ;;    |  1 |  2 | 1 | 1 |
 ;;    |  2 |  3 | 2 | 2 |
+
+;;
+
+(def ds (tc/dataset {:a ["2.3300", "02.1100"]}))
+
+(tc/info ds)
+;; => _unnamed: descriptive-stats [1 7]:
+;;    | :col-name | :datatype | :n-valid | :n-missing |  :mode | :first |   :last |
+;;    |-----------|-----------|---------:|-----------:|--------|--------|---------|
+;;    |        :a |   :string |        2 |          0 | 2.3300 | 2.3300 | 02.1100 |
+
+(tc/write-csv! ds "z.csv")
+
+;; read as float64
+(def read-ds (tc/dataset "z.csv"))
+
+(tc/info read-ds)
+;; => z.csv: descriptive-stats [1 11]:
+;;    | :col-name | :datatype | :n-valid | :n-missing | :min | :mean | :max | :standard-deviation | :skew | :first | :last |
+;;    |-----------|-----------|---------:|-----------:|-----:|------:|-----:|--------------------:|-------|-------:|------:|
+;;    |         a |  :float64 |        2 |          0 | 2.11 |  2.22 | 2.33 |          0.15556349 |       |   2.33 |  2.11 |
+
+;; read as string
+(def read-ds2 (tc/dataset "z.csv" {:parser-fn {"a" :string}}))
+
+(tc/info read-ds2)
+;; => z.csv: descriptive-stats [1 7]:
+;;    | :col-name | :datatype | :n-valid | :n-missing |  :mode | :first |   :last |
+;;    |-----------|-----------|---------:|-----------:|--------|--------|---------|
+;;    |         a |   :string |        2 |          0 | 2.3300 | 2.3300 | 02.1100 |
+
+read-ds2
+;; => z.csv [2 1]:
+;;    |       a |
+;;    |---------|
+;;    |  2.3300 |
+;;    | 02.1100 |
+
+(def ds1 (tc/dataset {:x (range 10)}))
+
+(def ds2
+  (time
+   (-> ds1
+       (tc/select-rows (fn [row]
+                         (Thread/sleep 10)
+                         (-> row :x (< 500)))
+                       {:result-type :as-indexes}))))
+
+(class ds2)
+
+(defn- ->predicate
+  [f]
+  (reify java.util.function.Predicate
+    (test [_ v] (boolean (f v)))))
+
+(def ds1 (tc/dataset {:x (range 10)}))
+
+;; NOT LAZY
+(def idxs1 (tech.v3.datatype.argops/argfilter (fn [row]
+                                              (println row)
+                                              (-> row :x (< 4)))
+                                            (ds/mapseq-reader ds1)))
+
+;; LAZY
+(def idxs2 (tech.v3.datatype.argops/argfilter (fn [row]
+                                              (println row)
+                                              (-> row :x (< 4)))
+                                            (map (partial zipmap [:x]) (:x ds1))))
+
+
+(count idxs)
+
+
+;;
+
+
+(def ds (tc/dataset {:a []}))
+
+ds
+;; => _unnamed [0 1]:
+;;    | :a |
+;;    |----|
+
+;; (tc/group-by ds [:a])
+(-> (tc/dataset {:name [{:a 1}] :group-id [0] :data [ds]})
+    (tc/mark-as-group)
+    (tc/aggregate {:frequency tc/row-count}))
+;; => _unnamed [1 2]:
+;;    | :a | :frequency |
+;;    |---:|-----------:|
+;;    |  1 |          0 |
+
+;; (tc/group-by ds :a)
+(-> (tc/dataset {:name [1] :group-id [0] :data [ds]})
+    (tc/mark-as-group)
+    (tc/aggregate {:frequency tc/row-count}))
+;; => _unnamed [1 2]:
+;;    | :$group-name | :frequency |
+;;    |-------------:|-----------:|
+;;    |            1 |          0 |
+
+
+(tc/group-by ds [:a])
+
+(tc/aggregate ds {:frequency tc/row-count})
+;; => _unnamed [1 1]:
+;;    | :frequency |
+;;    |-----------:|
+;;    |          0 |
+
+;; => _unnamed [1 1]:
+;;    | :frequenct |
+;;    |-----------:|
+;;    |          0 |
+
+(-> ds
+    (tc/group-by :a)
+    (tc/aggregate {:frequency tc/row-count}))
+;; => _unnamed [0 0]
+
+(-> ds
+    (tc/group-by [:b])
+    (tc/aggregate {:frequency tc/row-count}))
+;; => _unnamed [0 0]
+
+(tc/dataset ())
+
+(def DS (tc/dataset {:V1 (take 9 (cycle [1 2]))
+                   :V2 (range 1 10)
+                   :V3 (take 9 (cycle [0.5 1.0 1.5]))
+                   :V4 (take 9 (cycle ["A" "B" "C"]))}))
+
+(tc/group-by DS :V1)
+;; => _unnamed [2 3]:
+;;    | :name | :group-id |           :data |
+;;    |------:|----------:|-----------------|
+;;    |     1 |         0 | Group: 1 [5 4]: |
+;;    |     2 |         1 | Group: 2 [4 4]: |
+
+(tc/group-by DS [:V1])
+;; => _unnamed [2 3]:
+;;    |   :name | :group-id |                 :data |
+;;    |---------|----------:|-----------------------|
+;;    | {:V1 1} |         0 | Group: {:V1 1} [5 4]: |
+;;    | {:V1 2} |         1 | Group: {:V1 2} [4 4]: |

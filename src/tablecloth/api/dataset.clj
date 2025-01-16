@@ -73,6 +73,7 @@
           :or {single-value-column-name :$value layout :as-rows stack-trace? false error-column? true}
           :as options}]
    (when (and (iterable-sequence? data)
+              (pos? (count data)) ;; shouldn't be empty
               (every? iterable-sequence? data)
               (every? #(= 2 (count %)) data))
      (logging/warn "Dataset creation behaviour changed for 2d 2-element arrays in v7.029. See https://github.com/scicloj/tablecloth/issues/142 for details."))

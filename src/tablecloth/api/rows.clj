@@ -17,13 +17,18 @@
          (take (ds/row-count ds))
          (aop/argfilter boolean))))
 
+(defn- ->predicate
+  [f]
+  (reify java.util.function.Predicate ;; should be a lazy path
+    (test [_ v] (boolean (f v)))))
+
 (defn- find-indexes-from-fn
   "Filter rows"
   [ds rows-selector selected-keys]
   (->> (or selected-keys :all)
        (ds/select-columns ds)
        (ds/mapseq-reader)
-       (aop/argfilter (comp boolean rows-selector))))
+       (aop/argfilter (->predicate rows-selector))))
 
 (defn- find-indexes
   ([ds rows-selector] (find-indexes ds rows-selector nil))

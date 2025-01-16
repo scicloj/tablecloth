@@ -23,11 +23,15 @@
     :else (ds/group-by-column->indexes ds grouping-selector {:nil-missing? true})))
 
 (defn- subdataset
-  [ds id k idxs]
-  (-> ds
-      (ds/select :all idxs)
-      (ds/set-dataset-name (str "Group: " k))
-      (vary-meta assoc :group-id id)))
+  ([ds id] (subdataset ds id nil))
+  ([ds id k]
+   (-> ds
+       (ds/set-dataset-name (str "Group: " k))
+       (vary-meta assoc :group-id id)))
+  ([ds id k idxs]
+   (-> ds
+       (ds/select :all idxs)
+       (subdataset id k))))
 
 (defn- group-indexes->map
   "Create map representing grouped dataset from indexes"
@@ -39,7 +43,10 @@
 (defn- group-by->dataset
   "Create grouped dataset from indexes"
   [ds group-indexes options]
-  (-> (map-indexed (partial group-indexes->map ds) group-indexes)
+  (-> #_(if (empty? group-indexes) ;; preparation for group empty dataset
+          [{:name nil :group-id 0 :data (subdataset ds 0)}]
+          (map-indexed (partial group-indexes->map ds) group-indexes))
+      (map-indexed (partial group-indexes->map ds) group-indexes)
       (dataset options)
       (mark-as-group)))
 
