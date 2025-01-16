@@ -5,8 +5,7 @@
 
 	"features": {
 		"ghcr.io/devcontainers-contrib/features/apt-get-packages:1": {
-			"ppas": ["ppa:ubuntuhandbook1/emacs"],
-			"packages": "r-base-dev,rlwrap,fonts-hack"
+			"packages": "r-base-dev,rlwrap"
 		},
 		"ghcr.io/rocker-org/devcontainer-features/quarto-cli:1": {},
 		"ghcr.io/rocker-org/devcontainer-features/r-apt:0": {},
@@ -16,9 +15,9 @@
 			"installSystemRequirements": true
 		},
 		"ghcr.io/wxw-matt/devcontainer-features/command_runner:latest": {
-                        "command1": "bash < <(curl -s https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install)",
-                        "command2": "bash < <(curl -s https://raw.githubusercontent.com/babashka/babashka/master/install)",
-			"command3": "bash -c 'wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -O /usr/local/bin/lein && chmod +x /usr/local/bin/lein'"
+                "command1": "bash < <(curl -s https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install)",
+                "command2": "bash < <(curl -s https://raw.githubusercontent.com/babashka/babashka/master/install)",
+    			"command3": "bash -c 'wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -O /usr/local/bin/lein && chmod +x /usr/local/bin/lein'"
                 }
 	},
 	"overrideFeatureInstallOrder": [
@@ -35,6 +34,6 @@
 		}
 	}
       
-
-	}
 }
+
+
