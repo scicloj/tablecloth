@@ -1,5 +1,9 @@
 # Change Log
 
+## [7.042]
+
+Deps updated
+
 ## [7.029]
 
 ### Added
