@@ -3084,6 +3084,24 @@ and the other way around:
     (tc/columns->array-column [0 1] :y))
 
 
+(md "
+
+#### Map column conversion
+
+A dataset can have as well columns of type seq of maps. 
+
+     
+We can convert them to separate columns (one new column per key) where
+ev. missing keys will be filled with nil. 
+
+
+The new column names will be formed as 'oldName-key'
+")
+
+(->
+ (tc/dataset {:m [{:a 1 :b 2} {:a 3 :b 4} {:a 5}]})
+ (tc/map-column->columns :m))
+
 
 (md "
 
