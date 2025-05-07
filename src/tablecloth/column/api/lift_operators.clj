@@ -22,14 +22,12 @@
   ([fn-sym]
    (lift-op fn-sym nil))
   ([fn-sym {:keys [new-args]}]
-   (let [defn (symbol "defn")
-         let  (symbol "let")
-         docstring (get-docstring fn-sym)
+   (let [docstring (get-docstring fn-sym)
          original-args (get-arglists fn-sym)
          sort-by-arg-count (fn [argslist]
                              (sort #(< (count %1) (count %2)) argslist))]
      (if new-args
-      `(~defn ~(symbol (name fn-sym))
+      `(~'defn ~(symbol (name fn-sym))
         ~(or docstring "")
         ~@(for [[new-arg new-arg-lookup original-arg]
                 (map vector (sort-by-arg-count (keys new-args))
@@ -38,21 +36,21 @@
                 :let [filtered-original-arg (filter (partial not= '&) original-arg)]]
             (list
              (if new-arg new-arg original-arg)
-            `(~let [original-result# (~fn-sym
+            `(~'let [original-result# (~fn-sym
                                       ~@(for [oldarg filtered-original-arg]
                                           (if (nil? (get new-arg-lookup oldarg))
                                             oldarg
                                             (get new-arg-lookup oldarg))))]
               (return-scalar-or-column original-result#)))))
-      `(~defn ~(symbol (name fn-sym)) 
+      `(~'defn ~(symbol (name fn-sym)) 
         ~(or docstring "") 
         ~@(for [arg original-args
                 :let [[explicit-args rest-arg-expr] (split-with (partial not= '&) arg)]]
             (list
             arg
-            `(~let [original-result# ~(if (empty? rest-arg-expr)
+            `(~'let [original-result# ~(if (empty? rest-arg-expr)
                                         `(~fn-sym ~@explicit-args)
-                                        `(apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
+                                        `(~'apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
               (return-scalar-or-column original-result#)))))))))
 
 (def serialized-lift-fn-lookup
