@@ -136,13 +136,6 @@
        (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?) parallel?)
        (process-separate-columns ds column target-columns replace-missing separator-fn drop-column?)))))
 
-(defn- prefix [prefix-name value]
-  (let [with-prefix (str (->str prefix-name) "-" value)]
-    (if (keyword? prefix-name)
-      (keyword with-prefix)
-      with-prefix)))
-
-
 (defn- combine-with-dash [arg1 arg2]
   (let [to-string (fn [x]
                     (cond
