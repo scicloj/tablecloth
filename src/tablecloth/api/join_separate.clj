@@ -61,12 +61,16 @@
        (process-group-data ds #(process-join-columns % target-column join-function col-names drop-columns?) parallel?)
        (process-join-columns ds target-column join-function col-names drop-columns?)))))
 
-;;
+(defn- prefix [prefix-name value]
+  (let [with-prefix (str (->str prefix-name) "-" value)]
+    (if (keyword? prefix-name)
+      (keyword with-prefix)
+      with-prefix)))
 
 (defn- infer-target-columns
   [col res]
   (let [colname (col/column-name col)]
-    (map #(str colname "-" %) (range (count (first res))))))
+    (map #(prefix colname %) (range (count (first res))))))
 
 (defn- separate-column->columns
   [col target-columns replace-missing separator-fn]
@@ -131,13 +135,6 @@
      (if (grouped? ds)       
        (process-group-data ds #(process-separate-columns % column target-columns replace-missing separator-fn drop-column?) parallel?)
        (process-separate-columns ds column target-columns replace-missing separator-fn drop-column?)))))
-
-(defn- prefix [prefix-name value]
-  (let [with-prefix (str (->str prefix-name) "-" value)]
-    (if (keyword? prefix-name)
-      (keyword with-prefix)
-      with-prefix)))
-
 
 (defn- combine-with-dash [arg1 arg2]
   (let [to-string (fn [x]
