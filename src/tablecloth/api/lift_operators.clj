@@ -42,13 +42,13 @@
     (format 
      "Applies the operation %s to the columns selected by
       `columns-selector` and returns a new ds with the the result in
-      `target-col`. %s
+      `target-col`.
       
-      `columns-selector can be:
-      - name
-      - sequence of names
-      - map of names with new names (rename)
-      - function which filter names (via column metadata)"
+      columns-selector can be:
+        - name
+        - sequence of names
+        - map of names with new names (rename)
+        - function which filter names (via column metadata)"
      fn-sym
      (when (< max-allowed Double/POSITIVE_INFINITY)
        (format
@@ -66,42 +66,40 @@
   [fn-sym {:keys [return-ds? make-aggregator?]
            :or {return-ds? false
                 make-aggregator? false}}]
-  (let [defn (symbol "defn")
-        let (symbol "let")
-        arglists (get-arglists fn-sym)
+  (let [arglists (get-arglists fn-sym)
         max-cols (max-cols-allowed arglists)
         lifted-arglists (convert-arglists arglists return-ds?)
         new-fn-sym (symbol (name fn-sym))
         new-docstring (build-docstring fn-sym)]
-    `(~defn ~new-fn-sym
+    `(~'defn ~new-fn-sym
       ~new-docstring
       ~@(for [args lifted-arglists]
           (if make-aggregator?
             ;; build an aggregator fn
             `(~args
-              (~let [aggregator#
-                     (fn [ds#]
-                       (~let [ds-with-selected-cols#
+              (~'let [aggregator#
+                     (~'fn [ds#]
+                       (~'let [ds-with-selected-cols#
                               (select-columns ds# ~'columns-selector)
                               cols-count#
-                              (-> ds-with-selected-cols#
+                              (~'-> ds-with-selected-cols#
                                   column-names
-                                  count)
+                                  ~'count)
                               selected-cols# (columns ds-with-selected-cols#)]
-                        (if (>= ~max-cols cols-count#)
-                          (apply ~fn-sym (apply vector selected-cols#))
-                          (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))]
+                        (~'if (>= ~max-cols cols-count#)
+                          (~'apply ~fn-sym (~'apply ~'vector selected-cols#))
+                          (throw (Exception. (~'str "Exceeded maximum number of columns allowed for operation."))))))]
                (aggregate ~'ds aggregator#)))
             ;; build either a fn that returns a dataset or the result of the operation
             `(~args
-              (~let [selected-cols# (apply vector (columns
+              (~'let [selected-cols# (~'apply ~'vector (columns
                                                    (select-columns ~'ds ~'columns-selector)))
-                     args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
-               (if (>= ~max-cols (count selected-cols#))
-                 (->> args-to-pass#
-                      (apply ~fn-sym)
+                     args-to-pass# (~'concat selected-cols# [~@(drop 3 args)])]
+               (~'if (>= ~max-cols (~'count selected-cols#))
+                 (~'->> args-to-pass#
+                      (~'apply ~fn-sym)
                       ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
-                 (throw (Exception. (str "Exceeded maximum number of columns allowed for operation.")))))))))))
+                 (throw (Exception. (~'str "Exceeded maximum number of columns allowed for operation.")))))))))))
 
 (def serialized-lift-fn-lookup
   {'[distance
