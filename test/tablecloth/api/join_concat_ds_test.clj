@@ -84,6 +84,22 @@
                          [:i :y])
           (api/rows :as-maps)) => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}])
 
+(fact "int-string join with automatic column selector"
+      (-> (api/left-join (-> (api/dataset [{:i "foo" :y 2022}]))
+                         (-> (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                           {:i "foo" :y 2023 :s "2023"}])))
+          (api/rows :as-maps))  => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}]
+      (-> (api/left-join (-> (api/dataset [{:i "foo" :y 2022}])
+                             (api/convert-types {:y :int16}))
+                         (-> (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                           {:i "foo" :y 2023 :s "2023"}])))
+          (api/rows :as-maps)) => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}])
+
+(fact "int-string join with automatic column selector - when there are no common columns"
+      (-> (api/left-join (-> (api/dataset [{:i "foo" :x 2022}]))
+                         (-> (api/dataset [{:y 2022 :z "bar"}])))
+          (api/rows :as-maps))  => [{:i "foo", :x 2022, :y 2022 :z "bar"}])
+
 (fact "left join on shorts packed into the vector"
       (-> (api/left-join (-> (api/dataset [{:iy ["foo" (short 2022)]}]))
                          (-> (api/dataset [{:iy ["foo" (long 2022)] :s "2022"}
@@ -111,3 +127,39 @@
                          (api/dataset [{:k "baz"}])
                          [:k])
           (api/rows :as-maps)) => [{:k "baz", :v "\"baz\""} {:k "baz", :v "\"baz\""}])
+
+(fact "right join with automatic column selector"
+      (-> (api/right-join (api/dataset [{:i "foo" :y 2022}])
+                          (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                        {:i "foo" :y 2023 :s "2023"}]))
+          (api/rows :as-maps))  => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}
+                                    {:i nil, :y nil, :right.i "foo", :right.y 2023, :s "2023"}])
+
+(fact "inner join with automatic column selector"
+      (-> (api/inner-join (api/dataset [{:i "foo" :y 2022}])
+                          (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                        {:i "foo" :y 2023 :s "2023"}]))
+          (api/rows :as-maps))  => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}])
+
+(fact "full join with automatic column selector"
+      (-> (api/full-join (api/dataset [{:i "foo" :y 2022}
+                                       {:i "bar" :y 2021 }])
+                          (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                        {:i "foo" :y 2023 :s "2023"}]))
+          (api/rows :as-maps))  => [{:i "foo", :y 2022, :right.i "foo", :right.y 2022, :s "2022"}
+                                    {:i "bar", :y 2021, :right.i nil, :right.y nil, :s nil}
+                                    {:i nil, :y nil, :right.i "foo", :right.y 2023, :s "2023"}])
+
+(fact "anti join with automatic column selector"
+      (-> (api/anti-join (api/dataset [{:i "foo" :y 2022}
+                                       {:i "bar" :y 2021 }])
+                         (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                       {:i "foo" :y 2023 :s "2023"}]))
+          (api/rows :as-maps))  => [{:i "bar", :y 2021}])
+
+(fact "semi join with automatic column selector"
+      (-> (api/semi-join (api/dataset [{:i "foo" :y 2022}
+                                       {:i "bar" :y 2021 }])
+                         (api/dataset [{:i "foo" :y 2022 :s "2022"}
+                                       {:i "foo" :y 2023 :s "2023"}]))
+          (api/rows :as-maps))  => [{:i "foo", :y 2022}])
