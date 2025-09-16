@@ -6,4 +6,9 @@
            :test {:extra-deps {org.scicloj/clay {:mvn/version "2-beta54"}
                                org.scicloj/note-to-test {:mvn/version "1-alpha7"}
                                midje/midje {:mvn/version "1.10.10"}}
-                  :extra-paths ["test"]}}}
+                  :extra-paths ["test"]}
+           ;; run `clojure -M:profile` to produce a flamegraph
+           :profile {:extra-paths ["dev"]
+                     :extra-deps {com.clojure-goes-fast/clj-async-profiler {:mvn/version "1.6.2"}}
+                     :jvm-opts ["-Djdk.attach.allowAttachSelf"]
+                     :main-opts ["-m" "profile"]}}}
