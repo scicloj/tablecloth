@@ -1625,7 +1625,7 @@ DS
     (tc/+ :SUM [:V1 :V2]))
 
 (-> DS
-    (tc/* :MULTIPY [:V1 :V2]))
+    (tc/* :MULTIPLY [:V1 :V2]))
 
 
 ;; Now let's look at operations that would return a scalar:
