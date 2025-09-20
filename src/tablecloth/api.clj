@@ -2582,6 +2582,10 @@ column-names function returns names according to columns-selector
 
 
 (defn update-columns
+  "Updates columns of a dataset.
+     
+   Takes either a map of column name -> column update function (receiving a 'row')
+   or a column selector and a list of column update function, each taking a 'row' "
   ([ds columns-map]
   (tablecloth.api.columns/update-columns ds columns-map))
   ([ds columns-selector update-functions]
