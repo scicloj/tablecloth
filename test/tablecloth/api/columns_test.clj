@@ -55,3 +55,20 @@
                :int64   1
                :float64 1.0
                :string  "abc"))
+
+(fact "update-columns"
+      (->
+       (api/update-columns dss
+                           {:a (fn [row] (map count row))
+                            :b (fn [row] (map inc row))})
+       (api/select-columns [:a :b])
+       (api/rows :as-maps)) =>
+      [{:a 1, :b 2} {:a 1, :b 3} {:a 1, :b 4} {:a 1, :b 3} {:a 1, :b 4} {:a 1, :b 5} {:a 1, :b 4} {:a 1, :b 3} {:a 1, :b 2}]
+
+      (->
+       (api/update-columns dss [:a]
+                           [(fn [row] (map count row))])
+       :a
+       seq) => [1 1 1 1 1 1 1 1 1])
+
+
