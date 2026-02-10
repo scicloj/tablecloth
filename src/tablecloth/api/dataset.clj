@@ -13,6 +13,15 @@
   (:import
    [java.io FileNotFoundException]))
 
+;; auto-registers handlers for more file types,
+;; if 'scicloj.dataset-io is on classpath
+;; tablecloth has no dependency to it, but 'noj' has
+(try
+  ((requiring-resolve 'scicloj.dataset-io/enable-all-input-formats!))
+  (catch FileNotFoundException _
+    ;ignore
+    ))
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;; DATASET CREATION
 ;;;;;;;;;;;;;;;;;;;;;

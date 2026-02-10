@@ -1,10 +1,15 @@
 (ns tablecloth.api.dataset-test
-  (:require [tablecloth.api :as api]
-            [tablecloth.column.api :as tcc]
-            [tablecloth.common-test :refer [DS]]
-            [clojure.java.io :as io]
-            [midje.sweet :refer [tabular fact => throws]])
-  (:import [java.io FileNotFoundException]))
+  (:require
+   [clojure.java.io :as io]
+   [midje.sweet :refer [=> fact tabular throws]]
+   [tablecloth.api :as api]
+   [tablecloth.column.api :as tcc]
+   [tablecloth.common-test :refer [DS]]
+   [tech.v3.libs.arrow :as arrow]
+   [tech.v3.libs.fastexcel :as fastexcel]
+   [tablecloth.api :as tc])
+  (:import
+   [java.io FileNotFoundException]))
 
 (fact "dataset?"
       (fact (api/dataset? (api/dataset)) => true)
@@ -93,32 +98,32 @@
 
 (fact "dataset-info"
       (fact
-        (-> (api/info DS)
-            (select-keys [:col-name :datatype]))
-        => {:col-name [:V1 :V2 :V3 :V4]
-            :datatype [:int64 :int64 :float64 :string]})
+       (-> (api/info DS)
+           (select-keys [:col-name :datatype]))
+       => {:col-name [:V1 :V2 :V3 :V4]
+           :datatype [:int64 :int64 :float64 :string]})
       (fact
-        (-> (api/info DS)
-            (api/column-names))
-        => '(:col-name :datatype :n-valid :n-missing :min :mean :mode :max :standard-deviation :skew :first :last))
+       (-> (api/info DS)
+           (api/column-names))
+       => '(:col-name :datatype :n-valid :n-missing :min :mean :mode :max :standard-deviation :skew :first :last))
       (fact
-        (-> (api/info DS :basic)
-            (api/rows :as-maps))
-        => [{:name "DS", :columns 4, :rows 9, :grouped? false}])
+       (-> (api/info DS :basic)
+           (api/rows :as-maps))
+       => [{:name "DS", :columns 4, :rows 9, :grouped? false}])
       (fact
-        (-> (api/info DS :columns)
-            (api/rows :as-maps))
-        => [{:name :V1, :n-elems 9, :categorical? nil, :datatype :int64}
-            {:name :V2, :n-elems 9, :categorical? nil, :datatype :int64}
-            {:name :V3, :n-elems 9, :categorical? nil, :datatype :float64}
-            {:name :V4, :n-elems 9, :categorical? true, :datatype :string}])
+       (-> (api/info DS :columns)
+           (api/rows :as-maps))
+       => [{:name :V1, :n-elems 9, :categorical? nil, :datatype :int64}
+           {:name :V2, :n-elems 9, :categorical? nil, :datatype :int64}
+           {:name :V3, :n-elems 9, :categorical? nil, :datatype :float64}
+           {:name :V4, :n-elems 9, :categorical? true, :datatype :string}])
       (fact
-        (-> (api/info DS :columns)
-            (api/rows :as-maps {:nil-missing? false}))
-        => [{:name :V1, :n-elems 9, :datatype :int64}
-            {:name :V2, :n-elems 9, :datatype :int64}
-            {:name :V3, :n-elems 9, :datatype :float64}
-            {:name :V4, :n-elems 9, :categorical? true, :datatype :string}]))
+       (-> (api/info DS :columns)
+           (api/rows :as-maps {:nil-missing? false}))
+       => [{:name :V1, :n-elems 9, :datatype :int64}
+           {:name :V2, :n-elems 9, :datatype :int64}
+           {:name :V3, :n-elems 9, :datatype :float64}
+           {:name :V4, :n-elems 9, :categorical? true, :datatype :string}]))
 
 (fact "as-double-arrays"
       (tabular (fact (-> (api/dataset {:a [1 2 3]
@@ -135,3 +140,32 @@
             => (api/dataset {:x [0 1 2 3]
                              :y [10 10 10 10]
                              :z [10 11 12 13]})))
+
+
+(fact "excel,parquet,arrow work out-of-the-box in :alias 'test'"
+      (->
+       (api/dataset "data/singleSheet.xlsx")
+       (api/shape)) => [11 2]
+
+      (->
+       (fastexcel/workbook->datasets "data/twoSheets.xlsx")
+       first
+       (api/shape)) => [11 2]
+
+      (->
+       (arrow/stream->dataset "data/alldtypes.arrow-feather")
+       (api/shape)) => [1000 15]
+
+      (->
+       (api/dataset "data/alldtypes.arrow-feather"  {:file-type :arrow})
+       (api/shape)) => [1000 15]
+
+      (->
+       (api/dataset "data/userdata1.parquet")
+       (api/shape)) => [1000 13])
+
+
+
+
+
+

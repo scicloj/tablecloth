@@ -9,6 +9,7 @@
   :profiles {:dev {:cloverage    {:runner :midje}
                    :dependencies [[midje "1.10.10"]
                                   [org.scicloj/clay "2-beta54"]
+                                  [org.scicloj/dataset-io "1.0.0"]
                                   [babashka/fs "0.5.25"]] ;; need this since TMD grabs old version...
                    :plugins      [[lein-midje "3.2.1"]
                                   [lein-cloverage "1.2.4"]]}})
