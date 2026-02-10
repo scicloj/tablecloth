@@ -161,8 +161,8 @@
        (api/shape)) => [1000 15]
 
       (->
-       (api/dataset "data/userdata1.parquet")
-       (api/shape)) => [1000 13])
+       (api/dataset "data/titanic.parquet")
+       (api/shape)) => [891 12])
 
 
 
