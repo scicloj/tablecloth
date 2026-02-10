@@ -1,7 +1,8 @@
 ^:kindly/hide-code
 (ns index
   (:require [scicloj.kindly.v4.api :as kindly]
-            [scicloj.kindly.v4.kind :as kind]))
+            [scicloj.kindly.v4.kind :as kind]
+            [tablecloth.api :as tc]))
 
 ^:kindly/hide-code
 (def md
@@ -79,7 +80,8 @@ Dataset can be created from various of types of Clojure structures and files:
 * map of sequences or values
 * sequence of `tech.v3.dataset.column`s (taken from other dataset or created manually)
 * array of any arrays
-* file types: raw/gzipped csv/tsv, json, xls(x) taken from local file system or URL
+* file types out-of-the-box: raw/gzipped csv/tsv, json, nippy, taken from local file system or URL
+* file types requiring additional dependencies: xls(x), arrow, parquet     
 * input stream
 
 `tc/dataset` accepts:
@@ -229,11 +231,50 @@ Create dataset using macro `let-dataset` to simulate R `tibble` function. Each b
 (md "
 ----
 
-Import CSV file
+Import CSV / nippy file
 ")
 
 
 (tc/dataset "data/family.csv")
+(-> 
+ (tc/dataset "data/example-genres.nippy")
+ (tc/head 10))
+
+(md "
+----
+     
+
+Import Excel,Arrow,Parquet files
+     
+The simplest way for enabling Excel,Arrow,Parquet 
+is to add [dataset-io](https://github.com/scicloj/dataset-io) to deps.edn.
+Then tablecloth will automatically enable support for xls(x) , Arrow and Parquet     
+(this will add quite some dependencies)     
+     
+Otherwise you can enable it manualy following instructions here:
+     
+* [Excel](https://techascent.github.io/tech.ml.dataset/tech.v3.libs.fastexcel.html)
+* [Arrow](https://techascent.github.io/tech.ml.dataset/tech.v3.libs.arrow.html)
+* [Parquet](https://techascent.github.io/tech.ml.dataset/tech.v3.libs.parquet.html     )
+     ")
+
+(tc/dataset "data/singleSheet.xlsx")
+
+(->
+ (tc/dataset "data/alldtypes.arrow-feather"  {:file-type :arrow})
+ (tc/select-columns ["uints"
+                     "longs"
+                     "ubytes"
+                     "strings"
+                     "doubles"]))
+
+(->
+ (tc/dataset "data/titanic.parquet")
+ (tc/select-columns ["PassengerId"
+                     "Pclass"
+                     "Age"
+                     "Embarked" 
+                     "Survived"]))
 
 
 (md "
