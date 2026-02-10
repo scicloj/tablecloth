@@ -1,13 +1,12 @@
 {:extra-paths ["data"]
  :deps {org.clojure/clojure              {:mvn/version "1.12.2"}
-        techascent/tech.ml.dataset       {:mvn/version "7.062"}}
+        techascent/tech.ml.dataset       {:mvn/version "7.067"}}
  :aliases {:dev {:extra-deps {org.scicloj/clay {:mvn/version "2-beta54"}
                               org.scicloj/note-to-test {:mvn/version "1-alpha7"}}}
            :test {:extra-deps {org.scicloj/clay {:mvn/version "2-beta54"}
                                org.scicloj/note-to-test {:mvn/version "1-alpha7"}
                                midje/midje {:mvn/version "1.10.10"}
-                               scicloj/dataset-io {:git/url "https://github.com/scicloj/dataset-io"
-                                                   :git/sha "bd9875f44bb90ce55177d4dc67b4dc49d499b049"}}
+                               org.scicloj/dataset-io {:mvn/version "1.0.0"}}
                   :extra-paths ["test"]}
            ;; run `clojure -M:profile` to produce a flamegraph
            :profile {:extra-paths ["dev"]

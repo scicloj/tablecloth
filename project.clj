@@ -1,4 +1,4 @@
-(defproject scicloj/tablecloth "7.062"
+(defproject scicloj/tablecloth "7.067"
   :description "Dataset manipulation library built on the top of tech.ml.dataset."
   :url "https://github.com/scicloj/tablecloth"
   :license {:name "The MIT Licence"
@@ -9,6 +9,7 @@
   :profiles {:dev {:cloverage    {:runner :midje}
                    :dependencies [[midje "1.10.10"]
                                   [org.scicloj/clay "2-beta54"]
+                                  [org.scicloj/dataset-io "1.0.0"]
                                   [babashka/fs "0.5.25"]] ;; need this since TMD grabs old version...
                    :plugins      [[lein-midje "3.2.1"]
                                   [lein-cloverage "1.2.4"]]}})
