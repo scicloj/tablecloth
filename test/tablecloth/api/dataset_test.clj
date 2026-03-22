@@ -6,8 +6,7 @@
    [tablecloth.column.api :as tcc]
    [tablecloth.common-test :refer [DS]]
    [tech.v3.libs.arrow :as arrow]
-   [tech.v3.libs.fastexcel :as fastexcel]
-   [tablecloth.api :as tc])
+   [tech.v3.libs.fastexcel :as fastexcel])
   (:import
    [java.io FileNotFoundException]))
 
@@ -126,14 +125,33 @@
            {:name :V4, :n-elems 9, :categorical? true, :datatype :string}]))
 
 (fact "as-double-arrays"
-      (tabular (fact (-> (api/dataset {:a [1 2 3]
-                                       :b [5 6 7]})
-                         (?f :as-double-arrays)
-                         (->> (map seq)))
-                     = ?v)
+      (tabular (fact
+                (-> (api/dataset {:a [1 2 3]
+                                  :b [5 6 7]})
+                    (?f :as-double-arrays)
+                    (->> (map seq)))
+                => ?v)
                ?f ?v
                api/rows  '((1.0 5.0) (2.0 6.0) (3.0 7.0))
                api/columns '((1.0 2.0 3.0) (5.0 6.0 7.0))))
+
+(fact "as-double-arrays--nil/nan"
+      (let [rows
+            (->
+             (api/dataset {:a [1.0 nil 3.0]
+                           :b [Double/NaN 5.0 7.0]})
+             (api/rows :as-double-arrays))
+            cols
+            (->
+             (api/dataset {:a [1.0 nil 3.0]
+                           :b [Double/NaN 5.0 7.0]})
+             (api/columns :as-double-arrays))]
+        
+        (-> rows first second Double/isNaN) => true
+        (-> rows second first Double/isNaN) => true
+        (-> cols first second Double/isNaN) => true
+        (-> cols second first Double/isNaN) => true))
+
 
 (fact "let-dataset"
       (fact (api/let-dataset [x (range 4) y 10 z (tcc/+ x y)])
