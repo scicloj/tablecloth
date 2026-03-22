@@ -9,7 +9,8 @@
    [tech.v3.dataset.print :as p]
    [tech.v3.dataset.protocols :as prot]
    [tech.v3.dataset.tensor :as ds-tensor]
-   [tech.v3.tensor :as tensor])
+   [tech.v3.tensor :as tensor]
+   [ham-fisted.api :as hf])
   (:import
    [java.io FileNotFoundException]))
 
@@ -156,7 +157,7 @@
    (let [cols (ds/columns ds)]
      (case result-type
        :as-map (zipmap (ds/column-names ds) cols)
-       :as-double-arrays (into-array (map double-array (ds/columns ds)))
+       :as-double-arrays (into-array (map (fn [row] (hf/double-array row)) (ds/columns ds)))
        :as-seqs cols
        cols))))
 
@@ -177,7 +178,7 @@
    (let [options (assoc options :nil-missing? nil-missing?)]
      (case result-type
        :as-maps (ds/mapseq-reader ds options)
-       :as-double-arrays (into-array (map double-array (ds/value-reader ds)))
+       :as-double-arrays (into-array (map (fn [row] (hf/double-array row)) (ds/value-reader ds)))
        :as-seqs (ds/value-reader ds options)
        :as-vecs (ds/rowvecs ds options)
        (ds/value-reader ds options)))))
