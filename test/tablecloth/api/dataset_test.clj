@@ -73,12 +73,33 @@
       (fact (-> (api/dataset "DS.csv.gz")
                 (api/dataset?))
             => true)
-      (fact (do (api/write-nippy! DS "DS.nippy.gz")
+      (fact (do (api/write! DS "DS.nippy.gz")
                 (.exists (io/file "DS.nippy.gz")))
             => true)
-      (fact (-> (api/read-nippy "DS.nippy.gz")
+      (fact (do (api/write! DS "DS.nippy")
+                (.exists (io/file "DS.nippy")))
+            => true)
+
+      (fact (do (api/write! DS "DS.nippy.gz")
+                (.exists (io/file "DS.nippy.gz")))
+            => true)
+
+      (fact (do (api/write-nippy! DS "DS-1.nippy.gz")
+                (.exists (io/file "DS-1.nippy.gz")))
+            => true)
+
+      (fact (do (api/write-nippy! DS "DS-1.nippy")
+                (.exists (io/file "DS-1.nippy")))
+            => true)
+
+
+      (fact (-> (api/dataset "DS.nippy.gz")
+                (api/dataset?))
+            => true)
+      (fact (-> (api/dataset "DS.nippy")
                 (api/dataset?))
             => true))
+
 
 (fact "dataset-shape"
       (fact (api/shape DS)

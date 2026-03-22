@@ -215,17 +215,11 @@ column-names function returns names according to columns-selector
 
 (defn ^:deprecated write-nippy!
   [ds filename]
-  (let [f (if (gzipped? filename)
-            (tio/gzip-output-stream! filename)
-            filename)]
-    (tio/put-nippy! f ds)))
+  (ds/write! ds filename))
 
 (defn ^:deprecated read-nippy
   [filename]
-  (let [f (if (gzipped? filename)
-            (tio/gzip-input-stream filename)
-            filename)]
-    (tio/get-nippy f)))
+  (ds/->dataset filename))
 
 ;; parallel concat
 

@@ -1505,6 +1505,31 @@ column-names function returns names according to columns-selector
 
 
 (defn map-column->columns
+  "
+   The map-column->columns function transforms a dataset by expanding a column containing map values into 
+   multiple new columns. Specifically, it takes a source dataset ds and a source column src-col within that dataset (which contains map values), and performs the following operations:
+
+- Extracts the map data from src-col.
+- Creates a new dataset from this map data, where each key in the maps becomes a column.
+- Generates new column names by combining the name of src-col with each of the original map keys, using a dash (-) as a separator. The type (keyword, symbol, or string) of the new column names matches the type of src-col.
+- Appends these new columns to the original dataset ds.
+- Removes the original src-col from ds.
+
+The result is a new dataset that includes all original columns (except src-col) and the newly expanded columns derived from the maps in src-col.
+Parameters
+ 
+
+'ds': The input dataset, expected to be a Tablecloth dataset or any dataset compatible with the functions used.
+'src-col': The name (keyword, symbol, or string) of the source column in ds that contains map values.
+
+   Return Value
+ 
+A new dataset with the following characteristics:
+
+Contains all columns from the original dataset ds, except the src-col.
+Includes new columns derived from the keys of the maps in src-col, with names formed by combining src-col and the map keys.
+The new columns are appropriately named and typed, maintaining the type consistency with src-col.
+   "
   ([ds src-col]
   (tablecloth.api.join-separate/map-column->columns ds src-col)))
 
@@ -2588,9 +2613,9 @@ column-names function returns names according to columns-selector
 
 (defn update-columns
   "Updates columns of a dataset.
-     
-   Takes either a map of column name -> column update function (receiving a 'row')
-   or a column selector and a list of column update function, each taking a 'row' "
+       
+     Takes either a map of column name -> column update function (receiving a 'row')
+     or a column selector and a list of column update function, each taking a 'row' "
   ([ds columns-map]
   (tablecloth.api.columns/update-columns ds columns-map))
   ([ds columns-selector update-functions]
