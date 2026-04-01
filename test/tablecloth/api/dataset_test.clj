@@ -6,8 +6,7 @@
    [tablecloth.column.api :as tcc]
    [tablecloth.common-test :refer [DS]]
    [tech.v3.libs.arrow :as arrow]
-   [tech.v3.libs.fastexcel :as fastexcel]
-   [tablecloth.api :as tc])
+   [tech.v3.libs.fastexcel :as fastexcel])
   (:import
    [java.io FileNotFoundException]))
 
@@ -74,12 +73,33 @@
       (fact (-> (api/dataset "DS.csv.gz")
                 (api/dataset?))
             => true)
-      (fact (do (api/write-nippy! DS "DS.nippy.gz")
+      (fact (do (api/write! DS "DS.nippy.gz")
                 (.exists (io/file "DS.nippy.gz")))
             => true)
-      (fact (-> (api/read-nippy "DS.nippy.gz")
+      (fact (do (api/write! DS "DS.nippy")
+                (.exists (io/file "DS.nippy")))
+            => true)
+
+      (fact (do (api/write! DS "DS.nippy.gz")
+                (.exists (io/file "DS.nippy.gz")))
+            => true)
+
+      (fact (do (api/write-nippy! DS "DS-1.nippy.gz")
+                (.exists (io/file "DS-1.nippy.gz")))
+            => true)
+
+      (fact (do (api/write-nippy! DS "DS-1.nippy")
+                (.exists (io/file "DS-1.nippy")))
+            => true)
+
+
+      (fact (-> (api/dataset "DS.nippy.gz")
+                (api/dataset?))
+            => true)
+      (fact (-> (api/dataset "DS.nippy")
                 (api/dataset?))
             => true))
+
 
 (fact "dataset-shape"
       (fact (api/shape DS)
@@ -126,14 +146,33 @@
            {:name :V4, :n-elems 9, :categorical? true, :datatype :string}]))
 
 (fact "as-double-arrays"
-      (tabular (fact (-> (api/dataset {:a [1 2 3]
-                                       :b [5 6 7]})
-                         (?f :as-double-arrays)
-                         (->> (map seq)))
-                     = ?v)
+      (tabular (fact
+                (-> (api/dataset {:a [1 2 3]
+                                  :b [5 6 7]})
+                    (?f :as-double-arrays)
+                    (->> (map seq)))
+                => ?v)
                ?f ?v
                api/rows  '((1.0 5.0) (2.0 6.0) (3.0 7.0))
                api/columns '((1.0 2.0 3.0) (5.0 6.0 7.0))))
+
+(fact "as-double-arrays--nil/nan"
+      (let [rows
+            (->
+             (api/dataset {:a [1.0 nil 3.0]
+                           :b [Double/NaN 5.0 7.0]})
+             (api/rows :as-double-arrays))
+            cols
+            (->
+             (api/dataset {:a [1.0 nil 3.0]
+                           :b [Double/NaN 5.0 7.0]})
+             (api/columns :as-double-arrays))]
+        
+        (-> rows first second Double/isNaN) => true
+        (-> rows second first Double/isNaN) => true
+        (-> cols first second Double/isNaN) => true
+        (-> cols second first Double/isNaN) => true))
+
 
 (fact "let-dataset"
       (fact (api/let-dataset [x (range 4) y 10 z (tcc/+ x y)])
