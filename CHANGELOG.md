@@ -1,7 +1,14 @@
 # Change Log
-## unreleased
 
-- upgraded to TMD 8.012 ([#203])(https://github.com/scicloj/tablecloth/issues/203)
+## [8.0.16]
+
+- upgraded to TMD 8.016 ([#203])(https://github.com/scicloj/tablecloth/issues/203)
+
+### Fixed
+
+- `:as-vecs` for `tc/cols` [#202]
+- `:as-double-arrays` for `tc/rows` returns `##NaN` on missing values [#200]
+- auto-require dataset-io (xls, parquet, arrow) if on classpath [#197]
 
 ## [7.042]
 
