@@ -468,7 +468,7 @@ Possible result types:
 - `:as-maps` - sequence of maps (rows)
 - `:as-map` - map of sequences (columns)
 - `:as-double-arrays` - array of double arrays
-- `:as-vecs` - sequence of vectors (rows)
+- `:as-vecs` - sequence of vectors
 
 For `rows` setting `:nil-missing?` option to `false` will elide keys for nil values.
 
@@ -501,6 +501,10 @@ Columns as map
 
 (keys (tc/columns ds :as-map))
 
+
+;; Columns as vectors
+
+(tc/columns DS :as-vecs)
 
 (md "
 ----
@@ -593,15 +597,7 @@ Dataset is printed using `dataset->str` or `print-dataset` functions. Options ar
 
 (tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :markdown})
 
-
-
-
-
 (tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :repl})
-
-
-
-
 
 (tc/print-dataset (tc/group-by DS :V1) {:print-line-policy :single})
 

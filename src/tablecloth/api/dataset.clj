@@ -151,6 +151,7 @@
   * `:as-map`
   * `:as-double-arrays`
   * `:as-seqs`
+  * `:as-vecs`
   "
   ([ds] (columns ds :as-seqs))
   ([ds result-type]
@@ -159,6 +160,7 @@
        :as-map (zipmap (ds/column-names ds) cols)
        :as-double-arrays (into-array (map (fn [row] (hf/double-array row)) (ds/columns ds)))
        :as-seqs cols
+       :as-vecs (map vec cols)
        cols))))
 
 (defn rows
