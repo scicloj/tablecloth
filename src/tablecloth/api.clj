@@ -263,6 +263,8 @@
 
 
 (defn anti-join
+  ([ds-left ds-right]
+  (tablecloth.api.join-concat-ds/anti-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
   (tablecloth.api.join-concat-ds/anti-join ds-left ds-right columns-selector))
   ([ds-left ds-right columns-selector options]
@@ -315,6 +317,8 @@
 
 
 (defn asof-join
+  ([ds-left ds-right]
+  (tablecloth.api.join-concat-ds/asof-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
   (tablecloth.api.join-concat-ds/asof-join ds-left ds-right columns-selector))
   ([ds-left ds-right columns-selector options]
@@ -1180,6 +1184,8 @@ column-names function returns names according to columns-selector
 
 (defn full-join
   "Join keeping all rows"
+  ([ds-left ds-right]
+  (tablecloth.api.join-concat-ds/full-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
   (tablecloth.api.join-concat-ds/full-join ds-left ds-right columns-selector))
   ([ds-left ds-right columns-selector options]
@@ -1337,6 +1343,8 @@ column-names function returns names according to columns-selector
 
 
 (defn inner-join
+  ([ds-left ds-right]
+  (tablecloth.api.join-concat-ds/inner-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
   (tablecloth.api.join-concat-ds/inner-join ds-left ds-right columns-selector))
   ([ds-left ds-right columns-selector options]
@@ -1351,7 +1359,7 @@ column-names function returns names according to columns-selector
 
 
 (defn join-columns
-  "Join clumns of dataset. Accepts:
+  "Join columns of dataset. Accepts:
   dataset
   column selector (as in select-columns)
   options
@@ -1393,6 +1401,8 @@ column-names function returns names according to columns-selector
 
 
 (defn left-join
+  ([ds-left ds-right]
+  (tablecloth.api.join-concat-ds/left-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
   (tablecloth.api.join-concat-ds/left-join ds-left ds-right columns-selector))
   ([ds-left ds-right columns-selector options]
@@ -2108,6 +2118,8 @@ The new columns are appropriately named and typed, maintaining the type consiste
 
 
 (defn right-join
+  ([ds-left ds-right]
+  (tablecloth.api.join-concat-ds/right-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
   (tablecloth.api.join-concat-ds/right-join ds-left ds-right columns-selector))
   ([ds-left ds-right columns-selector options]
@@ -2217,6 +2229,8 @@ The new columns are appropriately named and typed, maintaining the type consiste
 
 
 (defn semi-join
+  ([ds-left ds-right]
+  (tablecloth.api.join-concat-ds/semi-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
   (tablecloth.api.join-concat-ds/semi-join ds-left ds-right columns-selector))
   ([ds-left ds-right columns-selector options]
