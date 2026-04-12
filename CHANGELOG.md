@@ -1,5 +1,16 @@
 # Change Log
 
+
+## unreleased
+
+- added
+  - between
+  - clean-column-names
+  - lag
+  - lead
+  - cumsum-col (same as existing operator cumsum ????)
+  - duplicate-rows
+
 ## [8.0.16]
 
 - upgraded to TMD 8.016 ([#203])(https://github.com/scicloj/tablecloth/issues/203)

@@ -3,9 +3,10 @@
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
-
+            [tablecloth.utils.strings :as strings]
             [tablecloth.api.utils :refer [column-names iterable-sequence? grouped? process-group-data]]
             [tablecloth.api.dataset :refer [dataset empty-ds?]]))
+   
 
 (defn- select-or-drop-columns
   "Select or drop columns."
@@ -246,3 +247,20 @@
        (if (and datatype (not= datatype (dtype/get-datatype c)))
          (dtype/->array datatype c)
          (dtype/->array c))))))
+
+(defn clean-column-names
+  "Convert column names of a dataset into ASCII-only, kebab-cased keywords. Throws an error if any column would be left with no name, e.g. one that was an all non-ASCII string.
+
+  ## Usage
+
+  `clean-column-names(ds)`
+
+  ## Arguments
+
+  - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
+
+  ## Returns
+
+  A dataset with the column names converted to ASCII-only, kebab-cased keywords."
+  [ds]
+  (rename-columns ds strings/to-clean-keyword))
