@@ -13,6 +13,7 @@
             [tablecloth.api.operators]
             [tablecloth.api.order-by]
             [tablecloth.api.reshape]
+            [tablecloth.api.rolling]
             [tablecloth.api.rows]
             [tablecloth.api.split]
             [tablecloth.api.unique-by]
@@ -352,6 +353,32 @@
   (tablecloth.api.operators/atan2 ds target-col columns-selector)))
 
 
+(defn between
+  "Detect where values fall in a specified range in a numeric column. This is a shortcut for `(< low x high)`.
+
+  ## Usage
+
+  `(between ds col-name low high)`
+
+  `(between ds col-name low high {:missing-default val})`
+
+  ## Arguments
+
+  - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
+  - `column-name` - Name of the column to use in the comparison
+  - `low` - Lower bound for values of `column-name`
+  - `high` - Upper bound for values of `column-name`
+  - `options` - __optional__ Options map containing the key `missing-default` to specify what value to use in the case that the value of (col-name row) is `nil`. Throws an error if there are any missing values in the column and this option is not provided.
+
+  ## Returns
+
+  A dataset with only rows that contain values between `low` and `high` in column `col-name`"
+  ([ds col-name low high]
+  (tablecloth.api.rows/between ds col-name low high))
+  ([ds col-selector low high options]
+  (tablecloth.api.rows/between ds col-selector low high options)))
+
+
 (defn bind
   ([ds & args]
   (apply tablecloth.api.join-concat-ds/bind ds args)))
@@ -550,6 +577,24 @@
   (tablecloth.api.operators/ceil ds target-col columns-selector)))
 
 
+(defn clean-column-names
+  "Convert column names of a dataset into ASCII-only, kebab-cased keywords. Throws an error if any column would be left with no name, e.g. one that was an all non-ASCII string.
+
+  ## Usage
+
+  `clean-column-names(ds)`
+
+  ## Arguments
+
+  - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
+
+  ## Returns
+
+  A dataset with the column names converted to ASCII-only, kebab-cased keywords."
+  ([ds]
+  (tablecloth.api.columns/clean-column-names ds)))
+
+
 (defn clone
   "Clone an object.  Can clone anything convertible to a reader."
   ([item]
@@ -610,6 +655,7 @@ column-names function returns names according to columns-selector
   * `:as-map`
   * `:as-double-arrays`
   * `:as-seqs`
+  * `:as-vecs`
   "
   ([ds]
   (tablecloth.api.dataset/columns ds))
@@ -787,6 +833,31 @@ column-names function returns names according to columns-selector
   (tablecloth.api.operators/cumsum ds target-col columns-selector)))
 
 
+(defn cumsum-col
+  "Compute the cumulative sum of a column
+
+  ## Usage
+
+  `(cumsum ds column-name)`
+
+  `(cumsum ds new-column-name column-name)`
+
+  ## Arguments
+
+  - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
+  - `new-column-name` - __optional__ Name for the column where newly computed values will go.
+    When ommitted new column name defaults to the keyword `<old-column-name>-cumulative-sum`
+  - `column-name` - Name of the column to use to compute the cumulative sum
+
+  ## Returns
+
+  A dataset with the additional column containing the cumulative sum."
+  ([ds column-name]
+  (tablecloth.api.rolling/cumsum-col ds column-name))
+  ([ds new-column-name column-name]
+  (tablecloth.api.rolling/cumsum-col ds new-column-name column-name)))
+
+
 (defn dataset
   "Create a `dataset`.
 
@@ -874,7 +945,7 @@ column-names function returns names according to columns-selector
      be useful in some contexts to use the `:string` parser with sequences of maps or
      maps of columns.
   - `:parser-fn` -
-      - `keyword?` - all columns parsed to this datatype. For example:
+  v      - `keyword?` - all columns parsed to this datatype. For example:
         `{:parser-fn :string}`
       - `map?` - `{column-name parse-method}` parse each column with specified
         `parse-method`.
@@ -1386,10 +1457,64 @@ column-names function returns names according to columns-selector
   (tablecloth.api.operators/kurtosis ds columns-selector)))
 
 
+(defn lag
+  "Compute previous (lagged) values from one column in a new column, can be used e.g. to compare values behind the current value.
+
+  ## Usage
+
+  `(lag ds column-name lag-size)`
+
+  `(lag ds new-column-name column-name lag-size)`
+
+  ## Arguments
+
+  - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
+  - `new-column-name` - __optional__ Name for the column where newly computed values will go.
+    When ommitted new column name defaults to the keyword `<old-column-name>-lag-<lag-size>`
+  - `column-name` - Name of the column to use to compute the lagged values
+  - `lag-size` - positive integer indicating how many rows to skip over to compute the lag
+
+  ## Returns
+
+  A dataset with the new column populated with the lagged values.
+  "
+  ([ds column-name lag-size]
+  (tablecloth.api.rolling/lag ds column-name lag-size))
+  ([ds new-column-name column-name lag-size]
+  (tablecloth.api.rolling/lag ds new-column-name column-name lag-size)))
+
+
 (defn last
   "Last row"
   ([ds]
   (tablecloth.api.rows/last ds)))
+
+
+(defn lead
+  "Compute next (lead) values from one column in a new column, can be used e.g. to compare values ahead of the current value.
+
+  ## Usage
+
+  `(lead ds column-name lead-size)`
+
+  `(lead ds new-column-name column-name lead-size)`
+
+  ## Arguments
+
+  - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
+  - `new-column-name` - __optional__ Name for the column where newly computed values will go.
+    When ommitted new column name defaults to the keyword `<old-column-name>-lead-<lead-size>`
+  - `column-name` - Name of the column to use to compute the lead values
+  - `lead-size` - positive integer indicating how many rows to skip over to compute the lead
+
+  ## Returns
+
+  A dataset with the column populated with the lead values.
+  "
+  ([ds column-name lead-size]
+  (tablecloth.api.rolling/lead ds column-name lead-size))
+  ([ds new-column-name column-name lead-size]
+  (tablecloth.api.rolling/lead ds new-column-name column-name lead-size)))
 
 
 (defn left-join

@@ -1,9 +1,9 @@
 (ns tablecloth.api.rows
   (:refer-clojure :exclude [shuffle rand-nth first last pmap])
   (:require [tech.v3.dataset :as ds]
+            [tech.v3.dataset.base :as ds-base]
             [tech.v3.datatype.argops :as aop]
             [tech.v3.parallel.for :refer [pmap]]
-            
             [tablecloth.api.utils :refer [iterable-sequence? rank column-names grouped? process-group-data]]
             [tablecloth.api.dataset :refer [rows]]
             [tablecloth.api.columns :refer [add-columns select-columns]]))
@@ -212,3 +212,49 @@
      (if (grouped? ds)
        (process-group-data ds #(rank-by-process % rank-fn rank-predicate))
        (rank-by-process ds rank-fn rank-predicate)))))
+
+(defn between
+  "Detect where values fall in a specified range in a numeric column. This is a shortcut for `(< low x high)`.
+
+  ## Usage
+
+  `(between ds col-name low high)`
+
+  `(between ds col-name low high {:missing-default val})`
+
+  ## Arguments
+
+  - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
+  - `column-name` - Name of the column to use in the comparison
+  - `low` - Lower bound for values of `column-name`
+  - `high` - Upper bound for values of `column-name`
+  - `options` - __optional__ Options map containing the key `missing-default` to specify what value to use in the case that the value of (col-name row) is `nil`. Throws an error if there are any missing values in the column and this option is not provided.
+
+  ## Returns
+
+  A dataset with only rows that contain values between `low` and `high` in column `col-name`"
+  ([ds col-name low high]
+   (between ds col-name low high {}))
+  ([ds col-selector low high {:keys [missing-default] :as options}]
+   (select-rows ds #(< low (% col-selector missing-default) high))))
+
+
+(defn duplicate-rows
+  "Filter a dataset for only duplicated rows.
+
+  ## Usage
+
+  `(duplicate-rows ds)`
+
+  ## Arguments
+
+  - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
+
+  ## Returns
+
+  A dataset containing only rows that are exact duplicates."
+  [ds]
+  (->> (ds/group-by->indexes ds vals)
+       (mapcat (fn [[_ v]] (when (second v) v)))
+       (#'ds-base/sorted-int32-sequence)
+       (ds/select-rows ds)))
