@@ -1,6 +1,7 @@
 (ns tablecloth.api.columns-test
   (:require [tablecloth.api :as api]
             [tech.v3.datatype :as dtype]
+            [clojure.test :refer [deftest testing is]]
             [midje.sweet :refer [tabular fact =>]]))
 
 
@@ -71,4 +72,13 @@
        :a
        seq) => [1 1 1 1 1 1 1 1 1])
 
-
+(deftest clean-column-names
+  (testing "normalizes column names to kebab-cased keywords"
+    ;; See `to-clean-keyword` test for in-depth examples
+    (is (= [:a-test :b-test :c-test]
+           (-> {"A Test" []
+                "bTest" []
+                :C_TEST []}
+               api/dataset
+               api/clean-column-names
+               api/column-names)))))
