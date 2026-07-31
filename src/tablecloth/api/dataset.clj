@@ -50,7 +50,9 @@
 
 (defn- from-tensor
   [data column-names layout dataset-name]
-  (let [t (tensor/->tensor data)
+  (let [t (tensor/->tensor (if (set? data)
+                             (seq data)
+                             data))
         t (-> (if (= layout :as-columns) (tensor/transpose t [1 0]) t)
               (ds-tensor/tensor->dataset dataset-name))]
     (if column-names
@@ -69,6 +71,7 @@
   * sequence of columns
   * file or url
   * array of arrays
+  * sequence of sequences
   * single value
 
   Single value is set only when it's not possible to find a path for given data. If tech.ml.dataset throws an exception, it's won;t be printed. To print a stack trace, set `stack-trace?` option to `true`.
