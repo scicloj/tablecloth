@@ -1,6 +1,19 @@
 (ns tablecloth.pipeline
   "Linear pipeline operations."
-  (:refer-clojure :exclude [group-by drop concat rand-nth first last shuffle])
+  (:refer-clojure :exclude [* + - /
+                            < <= > >=
+                            abs
+                            and or not
+                            bit-and bit-and-not bit-not bit-or
+                            bit-clear bit-flip bit-set
+                            bit-shift-left bit-shift-right bit-xor unsigned-bit-shift-right
+                            concat drop group-by
+                            identity
+                            infinite?
+                            first last max min
+                            even? neg? odd? pos? zero?
+                            quot rem
+                            rand-nth shuffle])
   (:require [tablecloth.api :as api]))
 
 (defmacro build-pipelined-function
@@ -21,7 +34,7 @@
   []
   (let [ps (ns-publics 'tablecloth.api)]
     `(do ~@(for [[f v] ps
-                 :when (not (excludes f))
+                 :when (clojure.core/not (excludes f))
                  :let [m (meta v)
                        f (symbol "tablecloth.api" (name f))]]
              `(build-pipelined-function ~f ~m)))))
