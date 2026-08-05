@@ -160,6 +160,12 @@
 ;; Use test check to see if I missed any possibilities
 (tch/quick-check 10000 stringable)
 
+;; TODO - convert to MIDJE!!!!!!!!
+
+(defmacro thrown?
+  [ex v]
+  `(try ~v false (catch ~ex ex# true)))
+
 ;; Still test some explicitly to make sure outputs are reasonable and document expected results
 (deftest to-clean-keyword
   (testing "handles non-string inputs"

@@ -1,6 +1,6 @@
 (ns tablecloth.api.fold-unroll-test
   (:require [tablecloth.api :as api]
-            [midje.sweet :refer [tabular fact =>]]))
+            [midje.sweet :refer [fact =>]]))
 
 (fact "one-row-ds"
       (-> (api/dataset {:a [1] :b [2]})

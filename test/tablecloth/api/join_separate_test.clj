@@ -1,8 +1,6 @@
 (ns tablecloth.api.join-separate-test
   (:require [tablecloth.api :as api]
-            [midje.sweet :refer [tabular fact =>]]))
-
-
+            [midje.sweet :refer [fact =>]]))
 
 (fact "array-column->columns works"
       (-> (api/dataset {:x [(double-array [1 2 3])

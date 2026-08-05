@@ -1,15 +1,17 @@
 {:extra-paths ["data"]
- :deps {org.clojure/clojure              {:mvn/version "1.12.4"}
-        techascent/tech.ml.dataset       {:mvn/version "8.021"}}
- :aliases {:dev {:extra-deps {org.scicloj/clay {:mvn/version "2.0.14"}
+ :deps {org.clojure/clojure              {:mvn/version "1.12.5"}
+        techascent/tech.ml.dataset       {:mvn/version "8.024"}}
+ :aliases {:dev {:extra-deps {#_#_org.clojure/clojure {:mvn/version "1.13.0-alpha6"}
+                              org.scicloj/clay {:mvn/version "2.0.20"}
                               org.scicloj/note-to-test {:mvn/version "1-alpha7"}}}
-           :test {:extra-deps {org.scicloj/clay {:mvn/version "2.0.14"}
+           :test {:extra-deps {#_#_org.clojure/clojure {:mvn/version "1.13.0-alpha6"}
+                               org.scicloj/clay {:mvn/version "2.0.20"}
                                org.scicloj/note-to-test {:mvn/version "1-alpha7"}
                                midje/midje {:mvn/version "1.10.10"}
                                org.scicloj/dataset-io {:mvn/version "1.0.0"}}
                   :extra-paths ["test"]}
            ;; run `clojure -M:profile` to produce a flamegraph
            :profile {:extra-paths ["dev"]
-                     :extra-deps {com.clojure-goes-fast/clj-async-profiler {:mvn/version "1.6.2"}}
+                     :extra-deps {com.clojure-goes-fast/clj-async-profiler {:mvn/version "1.8.0"}}
                      :jvm-opts ["-Djdk.attach.allowAttachSelf"]
                      :main-opts ["-m" "profile"]}}}

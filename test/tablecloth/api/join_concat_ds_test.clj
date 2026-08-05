@@ -1,5 +1,5 @@
 (ns tablecloth.api.join-concat-ds-test
-  (:require [midje.sweet :as midje :refer [fact tabular =>]]
+  (:require [midje.sweet :as midje :refer [fact =>]]
             [tablecloth.api :as api]))
 
 (def ds1 (api/dataset {:a [1 2 1 2 3 4 nil nil 4]

@@ -264,6 +264,10 @@
 
 
 (defn anti-join
+  "Applies the anti-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
   (tablecloth.api.join-concat-ds/anti-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
@@ -318,6 +322,10 @@
 
 
 (defn asof-join
+  "Applies the asof-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
   (tablecloth.api.join-concat-ds/asof-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
@@ -872,6 +880,7 @@ column-names function returns names according to columns-selector
   * sequence of columns
   * file or url
   * array of arrays
+  * sequence of sequences
   * single value
 
   Single value is set only when it's not possible to find a path for given data. If tech.ml.dataset throws an exception, it's won;t be printed. To print a stack trace, set `stack-trace?` option to `true`.
@@ -949,7 +958,7 @@ column-names function returns names according to columns-selector
      be useful in some contexts to use the `:string` parser with sequences of maps or
      maps of columns.
   - `:parser-fn` -
-  v      - `keyword?` - all columns parsed to this datatype. For example:
+      - `keyword?` - all columns parsed to this datatype. For example:
         `{:parser-fn :string}`
       - `map?` - `{column-name parse-method}` parse each column with specified
         `parse-method`.
@@ -1107,6 +1116,24 @@ column-names function returns names according to columns-selector
   (tablecloth.api.rows/drop-rows ds rows-selector options)))
 
 
+(defn duplicate-rows
+  "Filter a dataset for only duplicated rows.
+
+  ## Usage
+
+  `(duplicate-rows ds)`
+
+  ## Arguments
+
+  - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
+
+  ## Returns
+
+  A dataset containing only rows that are exact duplicates."
+  ([ds]
+  (tablecloth.api.rows/duplicate-rows ds)))
+
+
 (defn empty-ds?
   ([ds]
   (tablecloth.api.dataset/empty-ds? ds)))
@@ -1254,7 +1281,10 @@ column-names function returns names according to columns-selector
 
 
 (defn full-join
-  "Join keeping all rows"
+  "Join keeping all rows. If no automatic selector is
+   provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+       - `hashing` - Hashing function to use (default identity)
+       - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
   (tablecloth.api.join-concat-ds/full-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
@@ -1414,6 +1444,10 @@ column-names function returns names according to columns-selector
 
 
 (defn inner-join
+  "Applies the inner-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
   (tablecloth.api.join-concat-ds/inner-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
@@ -1526,6 +1560,10 @@ column-names function returns names according to columns-selector
 
 
 (defn left-join
+  "Applies the left-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
   (tablecloth.api.join-concat-ds/left-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
@@ -2243,6 +2281,10 @@ The new columns are appropriately named and typed, maintaining the type consiste
 
 
 (defn right-join
+  "Applies the right-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
   (tablecloth.api.join-concat-ds/right-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
@@ -2354,6 +2396,10 @@ The new columns are appropriately named and typed, maintaining the type consiste
 
 
 (defn semi-join
+  "Applies the semi-join operation on the datasets. If no automatic selector is
+  provided, common columns between two datasets are used as column-selectors. Options is a map with following keys -
+   - `hashing` - Hashing function to use (default identity)
+   - `drop-join-column?` - Remove joined columns (default true)"
   ([ds-left ds-right]
   (tablecloth.api.join-concat-ds/semi-join ds-left ds-right))
   ([ds-left ds-right columns-selector]
