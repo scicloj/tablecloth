@@ -1,5 +1,7 @@
 # Tablecloth
 
+<img src="notebooks/TMD.svg" alt="Tablecloth logo" width="100" align="right"/>
+
 Dataset (data frame) manipulation API for the tech.ml.dataset library
 
 
