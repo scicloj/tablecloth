@@ -2,12 +2,13 @@
   (:require [tech.v3.dataset :as ds]
             [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
-            [tablecloth.api :as tc]))
+            [tablecloth.api.dataset :refer [dataset]]
+            [tablecloth.api.columns :refer [update-columns]]))
 
 (defn- into-ds [col]
   (-> {:col col}
-      tc/dataset
-      (tc/update-columns :col #(col/set-missing % (col/missing col)))))
+      dataset
+      (update-columns :col #(col/set-missing % (col/missing col)))))
 
 (defn- out-of-ds [ds]
   (:col ds))
