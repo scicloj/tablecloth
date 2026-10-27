@@ -2,6 +2,7 @@
 
 
 ## unreleased
+- Added `clojure -M:regen` to regenerate all four generated API source files.
 - use TMD 8.021
 
 - added
