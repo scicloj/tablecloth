@@ -10,6 +10,9 @@
                                midje/midje {:mvn/version "1.10.10"}
                                org.scicloj/dataset-io {:mvn/version "1.0.0"}}
                   :extra-paths ["test"]}
+           ;; run `clojure -M:regen` to regenerate the four generated API files
+           :regen {:extra-paths ["dev"]
+                   :main-opts ["-m" "regen"]}
            ;; run `clojure -M:profile` to produce a flamegraph
            :profile {:extra-paths ["dev"]
                      :extra-deps {com.clojure-goes-fast/clj-async-profiler {:mvn/version "1.8.0"}}

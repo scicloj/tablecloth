@@ -191,13 +191,3 @@
        (unmark-group)
        ~@r
        (mark-as-group)))
-
-(comment
-  (exporter/write-api! 'tablecloth.api.api-template
-                       'tablecloth.api
-                       "src/tablecloth/api.clj"
-                       '[group-by drop concat rand-nth first last shuffle * + - / < <= >= >
-                         abs and bit-and bit-and-not bit-clear bit-flip bit-not bit-or bit-set
-                         bit-shift-left bit-shift-right bit-xor even? identity infinite? max min
-                         neg? not odd? or pos? quot rem unsigned-bit-shift-right zero?])
-  )
