@@ -33,3 +33,18 @@ jobs:
 
       - name: Test
         run: lein midje
+
+      - name: Check generated API files are up to date
+        if: success() || failure()
+        run: |
+          clojure -M:regen
+          drift=$(git status --porcelain -- \
+            src/tablecloth/column/api/operators.clj \
+            src/tablecloth/api/operators.clj \
+            src/tablecloth/column/api.clj \
+            src/tablecloth/api.clj)
+          if [ -n "$drift" ]; then
+            echo "$drift"
+            echo 'Run `clojure -M:regen` and commit the result.'
+            exit 1
+          fi
