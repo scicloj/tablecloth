@@ -44,7 +44,16 @@ jobs:
             src/tablecloth/column/api.clj \
             src/tablecloth/api.clj)
           if [ -n "$drift" ]; then
-            echo "$drift"
-            echo 'Run `clojure -M:regen` and commit the result.'
+            stale=$(echo "$drift" | cut -c4-)
+            for f in $stale; do
+              echo "::error file=$f::$f is out of date. Run \`clojure -M:regen\` and commit the result."
+            done
+            {
+              echo '### Generated API files are out of date'
+              echo
+              for f in $stale; do echo "- \`$f\`"; done
+              echo
+              echo 'Run `clojure -M:regen` and commit the result.'
+            } >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
