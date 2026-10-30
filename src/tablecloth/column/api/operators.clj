@@ -2,7 +2,7 @@
  tablecloth.column.api.operators
  (:require
   [tech.v3.datatype.functional]
-  [tablecloth.column.api.lift_operators])
+  [tablecloth.column.api.column])
  (:refer-clojure
   :exclude
   [*
@@ -48,12 +48,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/kurtosis x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/kurtosis x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -62,13 +62,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/bit-set x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/bit-set x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -77,12 +77,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/finite? x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/finite? x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -91,7 +91,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/distance x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -100,7 +100,7 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/reduce-min x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -109,12 +109,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/to-radians x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/to-radians x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -123,7 +123,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/bit-shift-right x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
@@ -133,7 +133,7 @@
      x
      y
      args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -142,7 +142,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/ieee-remainder x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
@@ -152,7 +152,7 @@
      x
      y
      args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -161,12 +161,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/log x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/log x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -175,7 +175,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/bit-shift-left x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
@@ -185,7 +185,7 @@
      x
      y
      args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -194,12 +194,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/acos x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/acos x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -208,12 +208,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/to-degrees x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/to-degrees x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -222,12 +222,12 @@
  ([x y z]
   (let
    [original-result (tech.v3.datatype.functional/< x y z)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/< x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -236,12 +236,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/floor x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/floor x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -250,13 +250,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/atan2 x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/atan2 x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -265,7 +265,7 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/normalize x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -274,13 +274,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/hypot x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/hypot x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -289,12 +289,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/tanh x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/tanh x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -303,12 +303,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/sq x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/sq x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -318,7 +318,7 @@
   (let
    [original-result
     (tech.v3.datatype.functional/fill-range x max-span)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -327,12 +327,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/sum x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/sum x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -341,12 +341,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/pos? x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/pos? x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -355,7 +355,7 @@
  ([x n]
   (let
    [original-result (tech.v3.datatype.functional/shift x n)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -364,12 +364,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/ceil x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/ceil x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -378,13 +378,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/bit-xor x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/bit-xor x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -394,7 +394,7 @@
   (let
    [original-result
     (tech.v3.datatype.functional/unsigned-bit-shift-right x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
@@ -404,7 +404,7 @@
      x
      y
      args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -413,12 +413,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/neg? x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/neg? x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -427,12 +427,12 @@
  ([x y z]
   (let
    [original-result (tech.v3.datatype.functional/<= x y z)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/<= x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -441,13 +441,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/* x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/* x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -456,18 +456,18 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/min x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/min x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/min x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -476,12 +476,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/atan x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/atan x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -491,13 +491,13 @@
   (let
    [original-result
     (tech.v3.datatype.functional/mathematical-integer? x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result
     (tech.v3.datatype.functional/mathematical-integer? x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -506,12 +506,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/cumprod x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/cumprod x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -520,12 +520,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/expm1 x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/expm1 x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -534,12 +534,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/identity x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/identity x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -548,7 +548,7 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/reduce-max x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -557,12 +557,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/cumsum x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/cumsum x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -576,7 +576,7 @@
      stats-names
      stats-data
      options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x stats-names options]
   (let
@@ -585,19 +585,19 @@
      x
      stats-names
      options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x stats-names]
   (let
    [original-result
     (tech.v3.datatype.functional/descriptive-statistics x stats-names)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result
     (tech.v3.datatype.functional/descriptive-statistics x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -606,12 +606,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/nan? x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/nan? x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -620,7 +620,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/bit-and-not x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
@@ -630,7 +630,7 @@
      x
      y
      args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -639,12 +639,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/logistic x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/logistic x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -653,12 +653,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/cos x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/cos x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -667,12 +667,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/log10 x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/log10 x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -681,13 +681,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/quot x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/quot x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -696,7 +696,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/dot-product x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -705,12 +705,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/tan x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/tan x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -719,12 +719,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/cbrt x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/cbrt x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -733,7 +733,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/eq x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -742,12 +742,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/mean x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/mean x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -756,12 +756,12 @@
  ([x y z]
   (let
    [original-result (tech.v3.datatype.functional/> x y z)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/> x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -770,7 +770,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/not-eq x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -779,12 +779,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/even? x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/even? x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -794,13 +794,13 @@
   (let
    [original-result
     (tech.v3.datatype.functional/spearmans-correlation x y options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result
     (tech.v3.datatype.functional/spearmans-correlation x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -809,12 +809,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/sqrt x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/sqrt x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -823,7 +823,7 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/reduce-* x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -832,12 +832,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/next-down x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/next-down x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -846,18 +846,18 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/- x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/- x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/- x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -866,7 +866,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/or x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -875,7 +875,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/distance-squared x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -884,13 +884,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/pow x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/pow x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -899,12 +899,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/next-up x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/next-up x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -913,12 +913,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/skew x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/skew x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -927,12 +927,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/exp x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/exp x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -941,7 +941,7 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/mean-fast x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -950,12 +950,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/zero? x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/zero? x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -964,13 +964,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/rem x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/rem x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -979,12 +979,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/cosh x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/cosh x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -993,12 +993,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/variance x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/variance x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1007,7 +1007,7 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/reduce-+ x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1017,12 +1017,12 @@
   (let
    [original-result
     (tech.v3.datatype.functional/get-significand x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/get-significand x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1031,13 +1031,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/bit-and x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/bit-and x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1047,13 +1047,13 @@
   (let
    [original-result
     (tech.v3.datatype.functional/kendalls-correlation x y options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result
     (tech.v3.datatype.functional/kendalls-correlation x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1062,12 +1062,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/not x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/not x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1077,12 +1077,12 @@
   (let
    [original-result
     (tech.v3.datatype.functional/standard-deviation x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/standard-deviation x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1091,12 +1091,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/cummin x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/cummin x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1105,7 +1105,7 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/magnitude x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1114,12 +1114,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/cummax x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/cummax x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1128,18 +1128,18 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional// x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional// x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional// x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1148,13 +1148,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/bit-or x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/bit-or x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1164,7 +1164,7 @@
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/equals x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1173,12 +1173,12 @@
  ([x y z]
   (let
    [original-result (tech.v3.datatype.functional/>= x y z)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/>= x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1187,13 +1187,13 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/bit-flip x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/bit-flip x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1202,12 +1202,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/log1p x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/log1p x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1216,12 +1216,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/asin x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/asin x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1230,12 +1230,12 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/quartiles x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/quartiles x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1244,12 +1244,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/quartile-3 x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/quartile-3 x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1258,12 +1258,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/infinite? x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/infinite? x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1272,12 +1272,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/round x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/round x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1286,12 +1286,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/quartile-1 x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/quartile-1 x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1300,12 +1300,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/odd? x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/odd? x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1314,7 +1314,7 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/bit-clear x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
@@ -1324,7 +1324,7 @@
      x
      y
      args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1333,18 +1333,18 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/+ x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/+ x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/+ x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1353,12 +1353,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/abs x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/abs x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1367,12 +1367,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/median x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/median x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1382,13 +1382,13 @@
   (let
    [original-result
     (tech.v3.datatype.functional/pearsons-correlation x y options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result
     (tech.v3.datatype.functional/pearsons-correlation x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1397,12 +1397,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/sinh x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/sinh x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1411,12 +1411,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/rint x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/rint x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1425,12 +1425,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/bit-not x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/bit-not x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1439,18 +1439,18 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/max x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/max x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x y & args]
   (let
    [original-result
     (clojure.core/apply tech.v3.datatype.functional/max x y args)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1459,12 +1459,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/ulp x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/ulp x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1474,13 +1474,13 @@
   (let
    [original-result
     (tech.v3.datatype.functional/percentiles x percentages options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x percentages]
   (let
    [original-result
     (tech.v3.datatype.functional/percentiles x percentages)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1489,12 +1489,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/sin x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/sin x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1503,7 +1503,7 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/sum-fast x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1512,12 +1512,12 @@
  ([x options]
   (let
    [original-result (tech.v3.datatype.functional/signum x options)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result)))
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/signum x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1526,7 +1526,7 @@
  ([x]
   (let
    [original-result (tech.v3.datatype.functional/magnitude-squared x)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
 (defn
@@ -1535,6 +1535,6 @@
  ([x y]
   (let
    [original-result (tech.v3.datatype.functional/and x y)]
-   (tablecloth.column.api.lift-operators/return-scalar-or-column
+   (tablecloth.column.api.column/return-scalar-or-column
     original-result))))
 
