@@ -18,14 +18,14 @@
     bit-shift-left bit-shift-right bit-xor even? identity infinite? max min
     neg? not odd? or pos? quot rem unsigned-bit-shift-right zero?])
 
-(defn- lift-step [target-ns source-ns lift-ns dep]
+(defn- lift-step [target-ns source-ns lift-ns deps]
   {:ns target-ns
    :file (codegen/namespace-to-path target-ns)
    :generate! #(codegen/do-lift
                 {:target-ns target-ns
                  :source-ns source-ns
                  :lift-fn-lookup @(requiring-resolve (symbol (name lift-ns) "serialized-lift-fn-lookup"))
-                 :deps [dep]
+                 :deps deps
                  :exclusions operator-exclusions})})
 
 (defn- api-step [template-ns target-ns exclusions]
@@ -37,9 +37,10 @@
 (def steps
   "In order: each step reads the outputs of the steps before it."
   [(lift-step 'tablecloth.column.api.operators 'tech.v3.datatype.functional
-              'tablecloth.column.api.lift-operators 'tablecloth.column.api.lift_operators)
+              'tablecloth.column.api.lift-operators '[tablecloth.column.api.column])
    (lift-step 'tablecloth.api.operators 'tablecloth.column.api.operators
-              'tablecloth.api.lift-operators 'tablecloth.api.lift_operators)
+              'tablecloth.api.lift-operators
+              '[tablecloth.api.columns tablecloth.api.dataset tablecloth.api.utils tablecloth.api.aggregate])
    (api-step 'tablecloth.column.api.api-template 'tablecloth.column.api api-exclusions)
    (api-step 'tablecloth.api.api-template 'tablecloth.api
              (into '[group-by drop concat rand-nth first last shuffle] api-exclusions))])

@@ -1,7 +1,6 @@
 (ns tablecloth.column.api.lift-operators
   (:require [tablecloth.utils.codegen :refer [do-lift]]
-            [tablecloth.column.api.column :refer [column]]
-            [tech.v3.datatype.argtypes :refer [arg-type]]))
+            [tablecloth.column.api.column :refer [return-scalar-or-column]]))
 
 (defn get-meta [fn-sym]
   (-> fn-sym resolve meta))
@@ -11,12 +10,6 @@
 
 (defn get-docstring [fn-sym]
   (-> fn-sym get-meta :doc))
-
-(defn return-scalar-or-column [item]
-  (let [item-type (arg-type item)]
-    (if (= item-type :reader)
-      (column item)
-      item)))
 
 (defn lift-op
   ([fn-sym]
