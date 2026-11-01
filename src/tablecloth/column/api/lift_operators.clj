@@ -38,22 +38,22 @@
                 :let [filtered-original-arg (filter (partial not= '&) original-arg)]]
             (list
              (if new-arg new-arg original-arg)
-            `(~let [original-result# (~fn-sym
+            `(~let [~'original-result (~fn-sym
                                       ~@(for [oldarg filtered-original-arg]
                                           (if (nil? (get new-arg-lookup oldarg))
                                             oldarg
                                             (get new-arg-lookup oldarg))))]
-              (return-scalar-or-column original-result#)))))
+              (return-scalar-or-column ~'original-result)))))
       `(~defn ~(symbol (name fn-sym)) 
         ~(or docstring "") 
         ~@(for [arg original-args
                 :let [[explicit-args rest-arg-expr] (split-with (partial not= '&) arg)]]
             (list
             arg
-            `(~let [original-result# ~(if (empty? rest-arg-expr)
+            `(~let [~'original-result ~(if (empty? rest-arg-expr)
                                         `(~fn-sym ~@explicit-args)
                                         `(apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
-              (return-scalar-or-column original-result#)))))))))
+              (return-scalar-or-column ~'original-result)))))))))
 
 (def serialized-lift-fn-lookup
   {['<
@@ -163,16 +163,3 @@
     'unsigned-bit-shift-right
     'variance
     'zero?] {:lift-fn lift-op}})
-
-
-(comment
-  (do-lift {:target-ns 'tablecloth.column.api.operators
-            :source-ns 'tech.v3.datatype.functional
-            :lift-fn-lookup serialized-lift-fn-lookup
-            :deps ['tablecloth.column.api.lift_operators]
-            :exclusions
-            '[* + - / < <= > >= abs and bit-and bit-and-not bit-clear bit-flip
-             bit-not bit-or bit-set bit-shift-left bit-shift-right bit-test bit-xor
-             even? identity infinite? max min neg? not odd? odd? or pos? quot rem
-             unsigned-bit-shift-right zero?]})
-  ,)

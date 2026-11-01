@@ -2,6 +2,8 @@
 
 
 ## unreleased
+- Added `clojure -M:regen` to regenerate all four generated API source files.
+- CI now detects when committed generated API files are outdated.
 - use TMD 8.021
 
 - added

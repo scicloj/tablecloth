@@ -79,26 +79,26 @@
           (if make-aggregator?
             ;; build an aggregator fn
             `(~args
-              (~let [aggregator#
-                     (fn [ds#]
-                       (~let [ds-with-selected-cols#
-                              (select-columns ds# ~'columns-selector)
-                              cols-count#
-                              (-> ds-with-selected-cols#
+              (~let [~'aggregator
+                     (fn [~'agg-ds]
+                       (~let [~'ds-with-selected-cols
+                              (select-columns ~'agg-ds ~'columns-selector)
+                              ~'cols-count
+                              (-> ~'ds-with-selected-cols
                                   column-names
                                   count)
-                              selected-cols# (columns ds-with-selected-cols#)]
-                        (if (>= ~max-cols cols-count#)
-                          (apply ~fn-sym (apply vector selected-cols#))
+                              ~'selected-cols (columns ~'ds-with-selected-cols)]
+                        (if (>= ~max-cols ~'cols-count)
+                          (apply ~fn-sym (apply vector ~'selected-cols))
                           (throw (Exception. (str "Exceeded maximum number of columns allowed for operation."))))))]
-               (aggregate ~'ds aggregator#)))
+               (aggregate ~'ds ~'aggregator)))
             ;; build either a fn that returns a dataset or the result of the operation
             `(~args
-              (~let [selected-cols# (apply vector (columns
+              (~let [~'selected-cols (apply vector (columns
                                                    (select-columns ~'ds ~'columns-selector)))
-                     args-to-pass# (concat selected-cols# [~@(drop 3 args)])]
-               (if (>= ~max-cols (count selected-cols#))
-                 (->> args-to-pass#
+                     ~'args-to-pass (concat ~'selected-cols [~@(drop 3 args)])]
+               (if (>= ~max-cols (count ~'selected-cols))
+                 (->> ~'args-to-pass
                       (apply ~fn-sym)
                       ~(if return-ds? `(add-or-replace-column ~'ds ~'target-col) `(identity)))
                  (throw (Exception. (str "Exceeded maximum number of columns allowed for operation.")))))))))))
@@ -206,15 +206,3 @@
      ulp
      unsigned-bit-shift-right
      zero?] {:lift-fn lift-op :optional-args {:return-ds? true}}})
-
-(comment
-  (do-lift {:target-ns 'tablecloth.api.operators
-            :source-ns 'tablecloth.column.api.operators
-            :lift-fn-lookup serialized-lift-fn-lookup
-            :deps ['tablecloth.api.lift_operators]
-            :exclusions
-            '[* + - / < <= > >= abs and bit-and bit-and-not bit-clear bit-flip
-             bit-not bit-or bit-set bit-shift-left bit-shift-right bit-test bit-xor
-             even? identity infinite? max min neg? not odd? odd? or pos? quot rem
-             unsigned-bit-shift-right zero?]})
-  ,)

@@ -667,21 +667,61 @@
 
 
 (defn reduce-*
+  "Invokes a reduce operation with the operand * to multiply items together.
+
+  Examples:
+
+  ```clojure
+  user> (dfn/reduce-* [1 2 3 4])
+  24
+  user> (dfn/reduce-* [-1 1.1 4])
+  -4.4
+  ```"
   ([x]
   (tablecloth.column.api.operators/reduce-* x)))
 
 
 (defn reduce-+
+  "Invokes a reduce operation with the operand + to add items together.
+
+  Examples:
+
+  ```clojure
+  user> (dfn/reduce-+ [1 2 3 4])
+  10
+  user> (dfn/reduce-+ [-1 1.1 4])
+  4.1
+  ```"
   ([x]
   (tablecloth.column.api.operators/reduce-+ x)))
 
 
 (defn reduce-max
+  "Invokes a reduce operation with the operand max find the maximum item of a list.
+
+  Examples:
+
+  ```clojure
+  user> (dfn/reduce-max [1 2 3 4])
+  4
+  user> (dfn/reduce-max [10 -10 20 100 -1])
+  100
+  ```"
   ([x]
   (tablecloth.column.api.operators/reduce-max x)))
 
 
 (defn reduce-min
+  "Invokes a reduce operation with the operand min find the minimum item of a list.
+
+  Examples:
+
+  ```clojure
+  user> (dfn/reduce-min [1 2 3 4])
+  1
+  user> (dfn/reduce-min [10 -10 20 100 -1])
+  -10
+  ```"
   ([x]
   (tablecloth.column.api.operators/reduce-min x)))
 
@@ -795,15 +835,18 @@ user> (dfn/shift (range 10) -2)
   number, it is treated as an index from the end of the column. The
   `:start` and `:end` keywords can be used to represent the start and
   end of the column, respectively.
+  The `step` parameter determines the increment between each index in the
+  slice. It defaults to 1 if not provided.
 
   Examples:
-  (def column [1 2 3 4 5])
-  (slice column 1 3)     ;=> [2 3]
-  (slice column 2)        ;=> [3 4 5]
-  (slice column -3 -1)    ;=> [3 4 5]
-  (slice column :start 2) ;=> [1 2 3 4 5]
-  (slice column 2 :end)   ;=> [3 4 5]
-  (slice column -2 :end)  ;=> [4 5]"
+  (def c (column [1 2 3 4 5]))
+  (slice c 1 3)     ;=> [2 3 4]
+  (slice c 2)        ;=> [3 4 5]
+  (slice c -3 -1)    ;=> [3 4 5]
+  (slice c :start 2) ;=> [1 2 3]
+  (slice c 2 :end)   ;=> [3 4 5]
+  (slice c -2 :end)  ;=> [4 5]
+  (slice c 0 :end 2) ;=> [1 3 5]"
   ([col from]
   (tablecloth.column.api.column/slice col from))
   ([col from to]
