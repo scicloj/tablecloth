@@ -3,6 +3,7 @@
             [tech.v3.datatype :as dtype]
             [tech.v3.datatype.functional :as fun]
             [tech.v3.datatype.argops :refer [argsort]]
+            [tech.v3.datatype.argtypes :refer [arg-type]]
             [tablecloth.api.utils :refer [->general-types concrete-type? type?]]))
 
 (defn column
@@ -14,6 +15,12 @@
   ([data {:keys [name]
           :as options}]
    (col/new-column name data)))
+
+(defn return-scalar-or-column [item]
+  (let [item-type (arg-type item)]
+    (if (= item-type :reader)
+      (column item)
+      item)))
 
 ;; Alias for tech.v3.dasetset.column.is-column?
 (defn column? 
