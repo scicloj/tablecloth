@@ -78,6 +78,8 @@
   ([col lag-size options]
    (shift-with-missing col lag-size options)))
 
-(defn lead [col lead-size options]
-  ;; add a lead with shift-with-missing
-  )
+(defn lead
+  ([col lead-size]
+   (shift-with-missing col (- lead-size) {}))
+  ([col lead-size options]
+   (shift-with-missing col (- lead-size) options)))
