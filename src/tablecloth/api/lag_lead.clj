@@ -1,6 +1,6 @@
 (ns tablecloth.api.lag-lead
-  (:require [tablecloth.column.api.lag-lead :as lag-lead]
-            [tablecloth.api :as tc]))
+  (:require [tablecloth.api.columns :as columns]
+            [tablecloth.column.api.lag-lead :as lag-lead]))
 
 (defn lag
   "Compute previous (lagged) values from one column in a new column, can be used e.g. to compare values behind the current value.
@@ -34,7 +34,7 @@
    (lag ds new-column-name column-name lag-size {}))
   ([ds new-column-name column-name lag-size options]
    (let [lagged (lag-lead/lag (ds column-name) lag-size options)]
-     (tc/add-column ds new-column-name lagged))))
+     (columns/add-column ds new-column-name lagged))))
 
 (defn lead
   "Compute next (lead) values from one column in a new column, can be used e.g. to compare values ahead of the current value.
@@ -71,4 +71,4 @@
    (lead ds new-column-name column-name lead-size {}))
   ([ds new-column-name column-name lead-size options]
    (let [led (lag-lead/lead (ds column-name) lead-size options)]
-     (tc/add-column ds new-column-name led))))
+     (columns/add-column ds new-column-name led))))

@@ -9,6 +9,7 @@
             [tablecloth.api.group-by]
             [tablecloth.api.join-concat-ds]
             [tablecloth.api.join-separate]
+            [tablecloth.api.lag-lead]
             [tablecloth.api.missing]
             [tablecloth.api.operators]
             [tablecloth.api.order-by]
@@ -1518,12 +1519,15 @@ column-names function returns names according to columns-selector
 
   ## Returns
 
-  A dataset with the new column populated with the lagged values.
+  A dataset with the new column populated with the nil missing values.
+  Optionally, specify fill values.
   "
   ([ds column-name lag-size]
-  (tablecloth.api.rolling/lag ds column-name lag-size))
+  (tablecloth.api.lag-lead/lag ds column-name lag-size))
   ([ds new-column-name column-name lag-size]
-  (tablecloth.api.rolling/lag ds new-column-name column-name lag-size)))
+  (tablecloth.api.lag-lead/lag ds new-column-name column-name lag-size))
+  ([ds new-column-name column-name lag-size options]
+  (tablecloth.api.lag-lead/lag ds new-column-name column-name lag-size options)))
 
 
 (defn last
@@ -1541,6 +1545,8 @@ column-names function returns names according to columns-selector
 
   `(lead ds new-column-name column-name lead-size)`
 
+  `(lead ds new-column-name column-name lead-size options)`
+
   ## Arguments
 
   - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
@@ -1548,15 +1554,19 @@ column-names function returns names according to columns-selector
     When ommitted new column name defaults to the keyword `<old-column-name>-lead-<lead-size>`
   - `column-name` - Name of the column to use to compute the lead values
   - `lead-size` - positive integer indicating how many rows to skip over to compute the lead
+  - `options` - __optional__ map; `:fill-with` fills the vacated rows instead of leaving them missing
 
   ## Returns
 
-  A dataset with the column populated with the lead values.
+  A dataset with the new column populated with the nil missing values.
+  Optionally, specify fill values.
   "
   ([ds column-name lead-size]
-  (tablecloth.api.rolling/lead ds column-name lead-size))
+  (tablecloth.api.lag-lead/lead ds column-name lead-size))
   ([ds new-column-name column-name lead-size]
-  (tablecloth.api.rolling/lead ds new-column-name column-name lead-size)))
+  (tablecloth.api.lag-lead/lead ds new-column-name column-name lead-size))
+  ([ds new-column-name column-name lead-size options]
+  (tablecloth.api.lag-lead/lead ds new-column-name column-name lead-size options)))
 
 
 (defn left-join
