@@ -40,13 +40,13 @@
                     {}
                     (shifted-missing col direction k))))
 
-(defn forward-or-backward? [k]
+(defn- forward-or-backward? [k]
   (cond
     (> k 0) :forward
     (< k 0) :backward
     :else   :neither))
 
-(defn shift-with-missing
+(defn- shift-with-missing
   "Shift `col` by `k` rows. Positive `k` moves values forward (lag), negative
   moves them backward (lead). Vacated slots are missing unless `:fill-with` is
   given in `options`."
@@ -72,14 +72,35 @@
        :neither
        col))))
 
+(defn- check-size!
+  "Throws unless `n` is a non-negative integer."
+  [fn-name n]
+  (when-not (and (integer? n) (not (neg? n)))
+    (throw (ex-info (str fn-name " size must be a non-negative integer, got "
+                         (pr-str n)
+                         (when (and (number? n) (neg? n))
+                           (str ". Use `" (if (= fn-name "lag") "lead" "lag")
+                                "` to shift the other way.")))
+                    {:type :tablecloth/invalid-argument
+                     :fn   fn-name
+                     :size n}))))
+
 (defn lag
+  "Shift `col` forward by `lag-size` rows, filling vacated slots with missing
+  values unless `:fill-with` is given in `options`. `lag-size` must be a
+  non-negative integer; use `lead` to shift the other way."
   ([col lag-size]
-   (shift-with-missing col lag-size {}))
+   (lag col lag-size {}))
   ([col lag-size options]
+   (check-size! "lag" lag-size)
    (shift-with-missing col lag-size options)))
 
 (defn lead
+  "Shift `col` backward by `lead-size` rows, filling vacated slots with missing
+  values unless `:fill-with` is given in `options`. `lead-size` must be a
+  non-negative integer; use `lag` to shift the other way."
   ([col lead-size]
-   (shift-with-missing col (- lead-size) {}))
+   (lead col lead-size {}))
   ([col lead-size options]
+   (check-size! "lead" lead-size)
    (shift-with-missing col (- lead-size) options)))
