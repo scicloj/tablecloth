@@ -1,7 +1,7 @@
 (ns tablecloth.column.api.lag-lead-test
   (:require [tablecloth.column.api.lag-lead :refer [lag lead]]
             [tablecloth.column.api :refer [column column? missing typeof]]
-            [midje.sweet :refer [tabular facts fact =>]]))
+            [midje.sweet :refer [tabular facts fact => =not=>]]))
 
 (facts "about lag"
        (fact "returns a column"
@@ -82,3 +82,36 @@
                     => #{0 2})
               (fact "a lead larger than the column gives all missing values"
                     (set (missing (lead (column [1 2 3]) 4))) => #{0 1 2})))
+
+(defn- thrown-data
+  "Returns [message ex-data] if `f` throws an ExceptionInfo, else nil."
+  [f]
+  (try (f) nil
+       (catch clojure.lang.ExceptionInfo e [(ex-message e) (ex-data e)])))
+
+(facts "about invalid sizes"
+       (fact "a size of 0 returns the column unchanged"
+             (vec (lag (column [1 2 3]) 0)) => [1 2 3]
+             (vec (lead (column [1 2 3]) 0)) => [1 2 3])
+
+       (fact "negative sizes throw, in every arity"
+             (thrown-data #(lag (column [1 2 3]) -1)) =not=> nil
+             (thrown-data #(lag (column [1 2 3]) -1 {})) =not=> nil
+             (thrown-data #(lead (column [1 2 3]) -1)) =not=> nil
+             (thrown-data #(lead (column [1 2 3]) -1 {})) =not=> nil)
+
+       (fact "the message points to the opposite function"
+             (first (thrown-data #(lag (column [1 2 3]) -1))) => #"Use `lead`"
+             (first (thrown-data #(lead (column [1 2 3]) -1))) => #"Use `lag`")
+
+       (fact "the error carries data"
+             (second (thrown-data #(lag (column [1 2 3]) -2)))
+             => {:type :tablecloth/invalid-argument :fn "lag" :size -2}
+             (second (thrown-data #(lead (column [1 2 3]) -2)))
+             => {:type :tablecloth/invalid-argument :fn "lead" :size -2})
+
+       (fact "nil and non-integer sizes throw"
+             (thrown-data #(lag (column [1 2 3]) nil)) =not=> nil
+             (thrown-data #(lag (column [1 2 3]) 1.5)) =not=> nil
+             (thrown-data #(lead (column [1 2 3]) nil)) =not=> nil
+             (thrown-data #(lead (column [1 2 3]) 1.5)) =not=> nil))
