@@ -1,28 +1,75 @@
 # Change Log
 
 
-## unreleased
-- Added `clojure -M:regen` to regenerate all four generated API source files.
-- CI now detects when committed generated API files are outdated.
-- use TMD 8.021
+## Unreleased
 
-- added
-  - between
-  - clean-column-names
-  - lag
-  - lead
-  - cumsum-col (same as existing operator cumsum ????)
-  - duplicate-rows
+### Added
 
-## [8.0.16]
+- Added column-level `lag` and `lead` in `tablecloth.column.api.lag-lead`.
+- Added a five-argument form of dataset-level `tc/lag` and `tc/lead`.
+  The options map supports `:fill-with`.
 
-- upgraded to TMD 8.016 ([#203])(https://github.com/scicloj/tablecloth/issues/203)
+### Changed
+
+- **Breaking:** Dataset-level `tc/lag` and `tc/lead` now mark vacated
+  boundary rows as missing instead of padding numeric columns with `0`.
+  To retain zero padding, use the new options form:
+
+  ```clojure
+  (tc/lag ds :lagged :source 1 {:fill-with 0})
+  (tc/lead ds :led :source 1 {:fill-with 0})
+  ```
+
+- `lag` and `lead` now use direct column shifts instead of the general
+  rolling-window implementation.
+- Shift sizes must be non-negative integers. Negative, non-integer and
+  `nil` sizes now throw `ExceptionInfo`.
 
 ### Fixed
 
-- `:as-vecs` for `tc/cols` [#202]
-- `:as-double-arrays` for `tc/rows` returns `##NaN` on missing values [#200]
-- auto-require dataset-io (xls, parquet, arrow) if on classpath [#197]
+- `lag` and `lead` preserve source-column datatypes and missing-value
+  information, including packed temporal columns.
+
+## [8.024] - 2026-08-05
+
+### Changed
+
+- Updated tech.ml.dataset to 8.024.
+
+### Fixed
+
+- Fixed [#168](https://github.com/scicloj/tablecloth/issues/168),
+  [#216](https://github.com/scicloj/tablecloth/issues/216) and
+  [#217](https://github.com/scicloj/tablecloth/issues/217).
+
+## [8.021] - 2026-05-07
+
+### Added
+
+- Added dataset-level `tc/lag` and `tc/lead`.
+- Added `between`.
+- Added `clean-column-names`.
+- Added `cumsum-col`.
+- Added `duplicate-rows`.
+
+### Changed
+
+- Updated tech.ml.dataset to 8.021.
+
+## [8.016] - 2026-04-02
+
+- Updated tech.ml.dataset to 8.016
+  ([#203](https://github.com/scicloj/tablecloth/issues/203)).
+
+### Fixed
+
+- `:as-vecs` for `tc/cols`
+  ([#202](https://github.com/scicloj/tablecloth/issues/202)).
+- `:as-double-arrays` for `tc/rows` returns `##NaN` for missing values
+  ([#200](https://github.com/scicloj/tablecloth/issues/200)).
+- Automatically require dataset-io for XLS, Parquet and Arrow support when it
+  is present on the classpath
+  ([#197](https://github.com/scicloj/tablecloth/issues/197)).
 
 ## [7.042]
 
