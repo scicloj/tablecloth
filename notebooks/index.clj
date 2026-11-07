@@ -1718,6 +1718,36 @@ Now let's use this function within a grouping expression:")
 
 
 (md "
+### Lag and lead
+
+`lag` adds a column where each row holds the value from `n` rows earlier; `lead` takes it from `n` rows later. Shifts are by row position, so sort the dataset first if order matters.
+
+Vacated rows at the edge are missing. The column keeps its datatype, and missing values in the source stay missing.
+")
+
+(-> DS
+    (tc/select-columns [:V2])
+    (tc/lag :V2 1)
+    (tc/lead :V2-next :V2 2))
+
+;; To fill vacated rows instead, pass an options map. `{:fill-with 0}` gives the zero padding of earlier releases.
+
+(-> DS
+    (tc/select-columns [:V2])
+    (tc/lag :V2-prev :V2 1 {:fill-with 0}))
+
+;; Sizes must be non-negative integers; other sizes throw. To shift the other way, use the opposite function: `(tc/lead ds :out :V2 2)` rather than a lag of `-2`.
+
+;; The same shifts work on a single column in `tablecloth.column.api.lag-lead`:
+
+(require '[tablecloth.column.api :as tcc]
+         '[tablecloth.column.api.lag-lead :as lag-lead])
+
+(lag-lead/lag (tcc/column [1 2 3 4]) 1)
+
+(lag-lead/lead (tcc/column [1 2 3 4]) 1 {:fill-with 0})
+
+(md "
 ### Rows
 
 Rows can be selected or dropped using various selectors:

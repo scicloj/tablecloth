@@ -1509,18 +1509,25 @@ column-names function returns names according to columns-selector
 
   `(lag ds new-column-name column-name lag-size)`
 
+  `(lag ds new-column-name column-name lag-size options)`
+
   ## Arguments
 
   - `ds` - A `tech.ml.dataset` (i.e a `tablecloth` dataset)
   - `new-column-name` - __optional__ Name for the column where newly computed values will go.
     When ommitted new column name defaults to the keyword `<old-column-name>-lag-<lag-size>`
   - `column-name` - Name of the column to use to compute the lagged values
-  - `lag-size` - positive integer indicating how many rows to skip over to compute the lag
+  - `lag-size` - non-negative integer, the number of rows to shift forward. To shift the
+    other way, use `lead`; negative sizes throw.
+  - `options` - __optional__ map; `:fill-with` puts the given value in the vacated rows
+    instead of leaving them missing. Use `{:fill-with 0}` for the zero padding of earlier
+    releases.
 
   ## Returns
 
-  A dataset with the new column populated with the nil missing values.
-  Optionally, specify fill values.
+  A dataset with the new column added. Row `i` holds the source value from row `i - lag-size`.
+  The first `lag-size` rows are missing unless `:fill-with` is given. The column keeps the
+  source datatype, and source missing values stay missing.
   "
   ([ds column-name lag-size]
   (tablecloth.api.lag-lead/lag ds column-name lag-size))
@@ -1553,13 +1560,17 @@ column-names function returns names according to columns-selector
   - `new-column-name` - __optional__ Name for the column where newly computed values will go.
     When ommitted new column name defaults to the keyword `<old-column-name>-lead-<lead-size>`
   - `column-name` - Name of the column to use to compute the lead values
-  - `lead-size` - positive integer indicating how many rows to skip over to compute the lead
-  - `options` - __optional__ map; `:fill-with` fills the vacated rows instead of leaving them missing
+  - `lead-size` - non-negative integer, the number of rows to shift backward. To shift the
+    other way, use `lag`; negative sizes throw.
+  - `options` - __optional__ map; `:fill-with` puts the given value in the vacated rows
+    instead of leaving them missing. Use `{:fill-with 0}` for the zero padding of earlier
+    releases.
 
   ## Returns
 
-  A dataset with the new column populated with the nil missing values.
-  Optionally, specify fill values.
+  A dataset with the new column added. Row `i` holds the source value from row `i + lead-size`.
+  The last `lead-size` rows are missing unless `:fill-with` is given. The column keeps the
+  source datatype, and source missing values stay missing.
   "
   ([ds column-name lead-size]
   (tablecloth.api.lag-lead/lead ds column-name lead-size))
