@@ -1,0 +1,740 @@
+
+---
+format:
+  html: {toc: true, toc-depth: 4, theme: spacelab, output-file: column_api.html}
+highlight-style: solarized
+code-block-background: true
+include-in-header: {text: '<link rel = "icon" href = "data:," />'}
+
+---
+<style>table {
+  border-style: thin;
+}
+th, td {
+  padding: 6px;
+}
+td {
+  text-align: left;
+}
+th {
+  text-align: center;
+  background-color: #ddd;
+}
+tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+</style><style>.printedClojure .sourceCode {
+  background-color: transparent;
+  border-style: none;
+}
+</style>
+<script src="column_api_files/md-default0.js" type="text/javascript"></script><script src="column_api_files/md-default1.js" type="text/javascript"></script>
+
+## Column API
+A `column` in tablecloth is a named sequence of typed data. This special type is defined in the `tech.ml.dataset`. It is roughly comparable to a R vector.
+
+### Column Creation
+Empty column
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/column)
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;boolean&gt;[0]
+null
+[]
+
+```
+</div>
+
+
+Column from a vector or a sequence
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/column [1 2 3 4 5])
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[5]
+null
+[1, 2, 3, 4, 5]
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/column `(1 2 3 4 5))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[5]
+null
+[1, 2, 3, 4, 5]
+
+```
+</div>
+
+
+
+#### Ones & Zeros
+You can also quickly create columns of ones or zeros:
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/ones 10)
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[10]
+null
+[1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/zeros 10)
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[10]
+null
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+```
+</div>
+
+
+
+#### Column?
+Finally, you can use the `column?` function to check if an item is a column:
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/column? [1 2 3 4 5])
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+false
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/column? (tcc/column))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+true
+
+```
+</div>
+
+
+Tablecloth's datasets of course consists of columns:
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/column? (-> (tc/dataset {:a [1 2 3 4 5]})
+                 :a))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+true
+
+```
+</div>
+
+
+
+### Types and Type detection
+The default set of types for a column are defined in the underlying "tech ml" system. We can see the set here:
+
+
+<div class="sourceClojure">
+```clojure
+(tech.v3.datatype.casting/all-datatypes)
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+(:int32
+ :int16
+ :float32
+ :float64
+ :int64
+ :uint64
+ :string
+ :uint16
+ :int8
+ :uint32
+ :keyword
+ :decimal
+ :uuid
+ :boolean
+ :object
+ :char
+ :uint8)
+
+```
+</div>
+
+
+
+#### Typeof & Typeof?
+When you create a column, the underlying system will try to autodetect its type. We can see that here using the `tcc/typeof` function to check the type of a column:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [1 2 3 4 5])
+    (tcc/typeof))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+:int64
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [:a :b :c :d :e])
+    (tcc/typeof))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+:keyword
+
+```
+</div>
+
+
+Columns containing heterogenous data will receive type `:object`:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [1 :b 3 :c 5])
+    (tcc/typeof))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+:object
+
+```
+</div>
+
+
+You can also use the `tcc/typeof?` function to check the value of a function as an asssertion:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [1 2 3 4 6])
+    (tcc/typeof? :boolean))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+false
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [1 2 3 4 6])
+    (tcc/typeof? :int64))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+true
+
+```
+</div>
+
+
+Tablecloth has a concept of "concrete" and "general" types. A general type is the broad category of type and the concrete type is the actual type in memory. For example, a concrete type is a 64-bit integer `:int64`, which is also of the general type `:integer`. The `typeof?` function supports checking both.
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [1 2 3 4 6])
+    (tcc/typeof? :int64))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+true
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [1 2 3 4 6])
+    (tcc/typeof? :integer))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+true
+
+```
+</div>
+
+
+
+### Column Access & Manipulation
+
+#### Column Access
+The method for accessing a particular index position in a column is the same as for Clojure vectors:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [1 2 3 4 5])
+    (get 3))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+4
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [1 2 3 4 5])
+    (nth 3))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+4
+
+```
+</div>
+
+
+
+#### Slice
+You can also slice a column
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column (range 10))
+    (tcc/slice 5))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[5]
+null
+[5, 6, 7, 8, 9]
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column (range 10))
+    (tcc/slice 1 4))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[4]
+null
+[1, 2, 3, 4]
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column (range 10))
+    (tcc/slice 0 9 2))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[5]
+null
+[0, 2, 4, 6, 8]
+
+```
+</div>
+
+
+For clarity, the `slice` method supports the `:end` and `:start` keywords:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column (range 10))
+    (tcc/slice :start :end 2))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[5]
+null
+[0, 2, 4, 6, 8]
+
+```
+</div>
+
+
+If you need to create a discontinuous subset of the column, you can use the `select` function. This method accepts an array of index positions or an array of booleans. When using boolean select, a true value will select the value at the index positions containing true values:
+
+#### Select
+Select the values at index positions 1 and 9:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column (range 10))
+    (tcc/select [1 9]))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[2]
+null
+[1, 9]
+
+```
+</div>
+
+
+Select the values at index positions 0 and 2 using booelan select:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column (range 10))
+    (tcc/select (tcc/column [true false true])))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[2]
+null
+[0, 2]
+
+```
+</div>
+
+
+
+#### Sort  
+Use `sort-column` to sort a column:
+Default sort is in ascending order:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [:c :z :a :f])
+    (tcc/sort-column))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;keyword&gt;[4]
+null
+[:a, :c, :f, :z]
+
+```
+</div>
+
+
+You can provide the `:desc` and `:asc` keywords to change the default behavior:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [:c :z :a :f])
+    (tcc/sort-column :desc))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;keyword&gt;[4]
+null
+[:z, :f, :c, :a]
+
+```
+</div>
+
+
+You can also provide a comparator fn:
+
+
+<div class="sourceClojure">
+```clojure
+(-> (tcc/column [{:position 2
+                  :text "and then stopped"}
+                 {:position 1
+                  :text "I ran fast"}])
+    (tcc/sort-column (fn [a b] (< (:position a) (:position b)))))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;persistent-map&gt;[2]
+null
+[{:position 1, :text "I ran fast"}, {:position 2, :text "and then stopped"}]
+
+```
+</div>
+
+
+
+### Column Operations
+The Column API contains a large number of operations. These operations all take one or more columns as an argument, and they return either a scalar value or a new column, depending on the operations.  These operations all take a column as the first argument so they are easy to use with the pipe `->` macro, as with all functions in Tablecloth.
+
+
+<div class="sourceClojure">
+```clojure
+(def a (tcc/column [20 30 40 50]))
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(def b (tcc/column (range 4)))
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/- a b)
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;int64&gt;[4]
+null
+[20, 29, 38, 47]
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/pow a 2)
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;float64&gt;[4]
+null
+[400.0, 900.0, 1600, 2500]
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/* 10 (tcc/sin a))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;float64&gt;[4]
+null
+[9.129, -9.880, 7.451, -2.624]
+
+```
+</div>
+
+
+
+<div class="sourceClojure">
+```clojure
+(tcc/< a 35)
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;boolean&gt;[4]
+null
+[true, true, false, false]
+
+```
+</div>
+
+
+All these operations take a column as their first argument and
+return a column, so they can be chained easily.
+
+
+<div class="sourceClojure">
+```clojure
+(-> a
+    (tcc/* b)
+    (tcc/< 70))
+```
+</div>
+
+
+
+<div class="printedClojure">
+```clojure
+#tech.v3.dataset.column&lt;boolean&gt;[4]
+null
+[true, true, false, false]
+
+```
+</div>
+
+
+<div style="background-color:grey;height:2px;width:100%;"></div>
+
+<div><pre><small><small>source: <a href="https://github.com/scicloj/tablecloth/blob/master/notebooks/column_api.clj">notebooks/column_api.clj</a></small></small></pre></div>
