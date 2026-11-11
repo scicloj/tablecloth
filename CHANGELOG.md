@@ -12,7 +12,7 @@
   and preserve datatypes (including packed temporals) and missing values.
 - `tc/lag` and `tc/lead` take an optional options map (`:fill-with`).
 - Shift sizes must be non-negative integers; other sizes throw `ExceptionInfo`.
-- Added column-level `lag` and `lead` in `tablecloth.column.api.lag-lead`.
+- Added column-level `lag` and `lead` to the Column API (`tcc/lag`, `tcc/lead`).
 - Removed `tablecloth.api.rolling/lag` and `lead`; direct callers should use
   `tc/lag` and `tc/lead`.
 

@@ -4883,38 +4883,36 @@ We'll start with two columns `a` and `b`:
 
 ;; ### Lag and lead
 
-;; `lag` shifts a column forward by row position, so row `i` holds the value from row `i - n`; `lead` shifts it backward, so row `i` holds the value from row `i + n`. They live in `tablecloth.column.api.lag-lead` and are not re-exported from `tcc`, so require them directly:
-
-(require '[tablecloth.column.api.lag-lead :as lag-lead])
+;; `tcc/lag` shifts a column forward by row position, so row `i` holds the value from row `i - n`; `tcc/lead` shifts it backward, so row `i` holds the value from row `i + n`.
 
 (def prices (tcc/column [10 20 nil 40 50]))
 
 ;; Shown side by side, each shifted value lines up with its source row:
 
 (tc/dataset {:prices prices
-             :lag-1 (lag-lead/lag prices 1)
-             :lead-2 (lag-lead/lead prices 2)})
+             :lag-1 (tcc/lag prices 1)
+             :lead-2 (tcc/lead prices 2)})
 
 ;; Vacated rows at the edge are missing, and a value missing in the source stays missing at its new row:
 
-(tcc/missing (lag-lead/lag prices 1))
+(tcc/missing (tcc/lag prices 1))
 
 ;; The shifted column keeps its datatype, including packed dates:
 
-(tcc/typeof (lag-lead/lag prices 1))
+(tcc/typeof (tcc/lag prices 1))
 
 (-> (tcc/column [(java.time.LocalDate/parse "2024-01-01")
                  (java.time.LocalDate/parse "2024-01-02")])
-    (lag-lead/lead 1)
+    (tcc/lead 1)
     (tcc/typeof))
 
 ;; To fill vacated rows instead, pass `:fill-with`. `{:fill-with 0}` matches the zero padding of earlier releases. The fill must match the column's datatype; the result keeps that datatype, and the source gap stays missing:
 
-(lag-lead/lag prices 1 {:fill-with 0})
+(tcc/lag prices 1 {:fill-with 0})
 
-(tcc/typeof (lag-lead/lag prices 1 {:fill-with 0}))
+(tcc/typeof (tcc/lag prices 1 {:fill-with 0}))
 
-;; Sizes must be non-negative integers; other sizes throw. To shift the other way, use the opposite function: `(lag-lead/lead prices 2)` rather than a lag of `-2`.
+;; Sizes must be non-negative integers; other sizes throw. To shift the other way, use the opposite function: `(tcc/lead prices 2)` rather than a lag of `-2`.
 
 ;; ### Missing Values
 
