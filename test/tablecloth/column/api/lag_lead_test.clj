@@ -1,6 +1,6 @@
 (ns tablecloth.column.api.lag-lead-test
   (:require [tablecloth.column.api.lag-lead :refer [lag lead]]
-            [tablecloth.column.api :refer [column column? missing typeof]]
+            [tablecloth.column.api :as tcc :refer [column column? missing typeof]]
             [midje.sweet :refer [tabular facts fact => =not=>]]))
 
 (facts "about lag"
@@ -169,3 +169,28 @@
 
        (fact "the fill is checked even when the size is 0"
              (thrown-data #(lag (column [1 2 3]) 0 {:fill-with "x"})) =not=> nil))
+
+(facts "about the public Column API exports"
+       (fact "tcc/lag and tcc/lead exist"
+             (some? (resolve 'tablecloth.column.api/lag)) => true
+             (some? (resolve 'tablecloth.column.api/lead)) => true)
+
+       (fact "they match the implementation, with and without options"
+             (let [c   (column [10 20 nil 40 50])
+                   obs (fn [x] [(vec x) (typeof x) (set (missing x))])]
+               (obs (tcc/lag c 1)) => (obs (lag c 1))
+               (obs (tcc/lead c 2)) => (obs (lead c 2))
+               (obs (tcc/lag c 1 {:fill-with 0})) => [[0 10 20 nil 40] :int64 #{3}]
+               (obs (tcc/lead c 2 {:fill-with 0})) => [[nil 40 50 0 0] :int64 #{0}]))
+
+       (fact "they keep packed dates"
+             (typeof (tcc/lead (column [(java.time.LocalDate/of 2020 1 1)
+                                        (java.time.LocalDate/of 2020 1 2)]) 1))
+             => :packed-local-date)
+
+       (fact "they raise the same errors"
+             (second (thrown-data #(tcc/lag (column [1 2 3]) -1)))
+             => {:type :tablecloth/invalid-argument :fn "lag" :size -1}
+             (first (thrown-data #(tcc/lead (column [1 2 3]) -1))) => #"Use `lag`"
+             (second (thrown-data #(tcc/lead (column ["a"]) 1 {:fill-with 0})))
+             => {:type :tablecloth/invalid-argument :fn "lead" :fill-with 0 :datatype :string}))
