@@ -115,3 +115,57 @@
              (thrown-data #(lag (column [1 2 3]) 1.5)) =not=> nil
              (thrown-data #(lead (column [1 2 3]) nil)) =not=> nil
              (thrown-data #(lead (column [1 2 3]) 1.5)) =not=> nil))
+
+(facts "about :fill-with"
+       (fact "an integer column with missing values keeps its datatype and missing positions"
+             (let [out (lag (column [10 20 nil 40 50]) 1 {:fill-with 0})]
+               (vec out) => [0 10 20 nil 40]
+               (typeof out) => :int64
+               (set (missing out)) => #{3})
+             (let [out (lead (column [10 20 nil 40 50]) 2 {:fill-with 0})]
+               (vec out) => [nil 40 50 0 0]
+               (typeof out) => :int64
+               (set (missing out)) => #{0}))
+
+       (fact "a float column with missing values keeps its datatype"
+             (typeof (lag (column [1.5 nil 3.5]) 1 {:fill-with 0})) => :float64
+             (typeof (lead (column [1.5 nil 3.5]) 1 {:fill-with 0.0})) => :float64)
+
+       (fact "string columns accept a string fill"
+             (let [out (lag (column ["a" nil "c"]) 1 {:fill-with "z"})]
+               (vec out) => ["z" "a" nil]
+               (typeof out) => :string
+               (set (missing out)) => #{2})
+             (vec (lead (column ["a" nil "c"]) 1 {:fill-with "z"})) => [nil "c" "z"])
+
+       (fact "packed dates accept a date fill and stay packed"
+             (let [d   #(java.time.LocalDate/of 2020 1 %)
+                   out (lead (column [(d 1) nil (d 3)]) 1 {:fill-with (d 9)})]
+               (vec out) => [nil (d 3) (d 9)]
+               (typeof out) => :packed-local-date
+               (set (missing out)) => #{0}))
+
+       (fact "a size of 0 returns the column unchanged"
+             (vec (lag (column [10 nil 30]) 0 {:fill-with 0})) => [10 nil 30]
+             (vec (lead (column [10 nil 30]) 0 {:fill-with 0})) => [10 nil 30])
+
+       (fact "a size at least as large as the column fills every row"
+             (tabular (fact (let [out (?f (column [10 nil 30]) ?n {:fill-with 0})]
+                              [(vec out) (typeof out) (set (missing out))])
+                            => [[0 0 0] :int64 #{}])
+                      ?f   ?n
+                      lag  3
+                      lag  4
+                      lead 3
+                      lead 4))
+
+       (fact "a fill that does not match the column datatype throws a clear error"
+             (first (thrown-data #(lag (column ["a" "b"]) 1 {:fill-with 0})))
+             => #"does not match the column datatype :string"
+             (first (thrown-data #(lead (column [1 2 3]) 1 {:fill-with 1.5})))
+             => #"does not match the column datatype :int64"
+             (second (thrown-data #(lag (column [1 2 3]) 1 {:fill-with "x"})))
+             => {:type :tablecloth/invalid-argument :fn "lag" :fill-with "x" :datatype :int64})
+
+       (fact "the fill is checked even when the size is 0"
+             (thrown-data #(lag (column [1 2 3]) 0 {:fill-with "x"})) =not=> nil))

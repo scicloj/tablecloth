@@ -78,3 +78,21 @@
              (tc/lag ds :x :a -1) => (throws clojure.lang.ExceptionInfo #"Use `lead`")
              (tc/lead ds :x :a -1) => (throws clojure.lang.ExceptionInfo #"Use `lag`")
              (tc/lag ds :a nil) => (throws clojure.lang.ExceptionInfo)))
+
+(facts "about :fill-with with missing source values"
+       (let [ds (tc/dataset {:a [10 20 nil 40]})]
+         (fact "lag keeps the datatype and the source gap"
+               (let [out (:p (tc/lag ds :p :a 1 {:fill-with 0}))]
+                 (vec out) => [0 10 20 nil]
+                 (tcc/typeof out) => :int64
+                 (vec (tcc/missing out)) => [3]))
+         (fact "lead keeps the datatype and the source gap"
+               (let [out (:p (tc/lead ds :p :a 1 {:fill-with 0}))]
+                 (vec out) => [20 nil 40 0]
+                 (tcc/typeof out) => :int64
+                 (vec (tcc/missing out)) => [1])))
+       (fact "string columns accept a string fill"
+             (vec (:p (tc/lag (tc/dataset {:s ["a" "b"]}) :p :s 1 {:fill-with "-"}))) => ["-" "a"])
+       (fact "an incompatible fill throws a clear error"
+             (tc/lag (tc/dataset {:s ["a" "b"]}) :p :s 1 {:fill-with 0})
+             => (throws clojure.lang.ExceptionInfo #"does not match the column datatype")))

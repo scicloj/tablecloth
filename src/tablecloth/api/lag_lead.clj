@@ -23,13 +23,14 @@
     other way, use `lead`; negative sizes throw.
   - `options` - __optional__ map; `:fill-with` puts the given value in the vacated rows
     instead of leaving them missing. Use `{:fill-with 0}` for the zero padding of earlier
-    releases.
+    releases. The value must match the column datatype (an integer for integer columns,
+    any number for float columns, a string for string columns); otherwise this throws.
 
   ## Returns
 
   A dataset with the new column added. Row `i` holds the source value from row `i - lag-size`.
   The first `lag-size` rows are missing unless `:fill-with` is given. The column keeps the
-  source datatype, and source missing values stay missing.
+  source datatype, with or without a fill, and source missing values stay missing.
   "
   ([ds column-name lag-size]
    (let [new-column-name (-> column-name
@@ -64,13 +65,14 @@
     other way, use `lag`; negative sizes throw.
   - `options` - __optional__ map; `:fill-with` puts the given value in the vacated rows
     instead of leaving them missing. Use `{:fill-with 0}` for the zero padding of earlier
-    releases.
+    releases. The value must match the column datatype (an integer for integer columns,
+    any number for float columns, a string for string columns); otherwise this throws.
 
   ## Returns
 
   A dataset with the new column added. Row `i` holds the source value from row `i + lead-size`.
   The last `lead-size` rows are missing unless `:fill-with` is given. The column keeps the
-  source datatype, and source missing values stay missing.
+  source datatype, with or without a fill, and source missing values stay missing.
   "
   ([ds column-name lead-size]
    (let [new-column-name (-> column-name
