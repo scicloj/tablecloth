@@ -1730,7 +1730,7 @@ Vacated rows at the edge are missing. The column keeps its datatype, and missing
     (tc/lag :V2 1)
     (tc/lead :V2-next :V2 2))
 
-;; To fill vacated rows instead, pass an options map. `{:fill-with 0}` gives the zero padding of earlier releases.
+;; To fill vacated rows instead, pass an options map. `{:fill-with 0}` gives the zero padding of earlier releases. The fill must match the column's datatype; a mismatched fill throws.
 
 (-> DS
     (tc/select-columns [:V2])
@@ -4908,9 +4908,11 @@ We'll start with two columns `a` and `b`:
     (lag-lead/lead 1)
     (tcc/typeof))
 
-;; To fill vacated rows instead, pass `:fill-with`. `{:fill-with 0}` matches the zero padding of earlier releases:
+;; To fill vacated rows instead, pass `:fill-with`. `{:fill-with 0}` matches the zero padding of earlier releases. The fill must match the column's datatype; the result keeps that datatype, and the source gap stays missing:
 
-(lag-lead/lag (tcc/column [1 2 3 4]) 1 {:fill-with 0})
+(lag-lead/lag prices 1 {:fill-with 0})
+
+(tcc/typeof (lag-lead/lag prices 1 {:fill-with 0}))
 
 ;; Sizes must be non-negative integers; other sizes throw. To shift the other way, use the opposite function: `(lag-lead/lead prices 2)` rather than a lag of `-2`.
 
