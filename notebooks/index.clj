@@ -1738,14 +1738,7 @@ Vacated rows at the edge are missing. The column keeps its datatype, and missing
 
 ;; Sizes must be non-negative integers; other sizes throw. To shift the other way, use the opposite function: `(tc/lead ds :out :V2 2)` rather than a lag of `-2`.
 
-;; The same shifts work on a single column in `tablecloth.column.api.lag-lead`:
-
-(require '[tablecloth.column.api :as tcc]
-         '[tablecloth.column.api.lag-lead :as lag-lead])
-
-(lag-lead/lag (tcc/column [1 2 3 4]) 1)
-
-(lag-lead/lead (tcc/column [1 2 3 4]) 1 {:fill-with 0})
+;; To shift a single column, see [Lag and lead](#lag-and-lead-1) in the Column API.
 
 (md "
 ### Rows
@@ -4887,6 +4880,39 @@ We'll start with two columns `a` and `b`:
 (-> a
     (tcc/* b)
     (tcc/< 70))
+
+;; ### Lag and lead
+
+;; `lag` shifts a column forward by row position, so row `i` holds the value from row `i - n`; `lead` shifts it backward, so row `i` holds the value from row `i + n`. They live in `tablecloth.column.api.lag-lead` and are not re-exported from `tcc`, so require them directly:
+
+(require '[tablecloth.column.api.lag-lead :as lag-lead])
+
+(def prices (tcc/column [10 20 nil 40 50]))
+
+;; Shown side by side, each shifted value lines up with its source row:
+
+(tc/dataset {:prices prices
+             :lag-1 (lag-lead/lag prices 1)
+             :lead-2 (lag-lead/lead prices 2)})
+
+;; Vacated rows at the edge are missing, and a value missing in the source stays missing at its new row:
+
+(tcc/missing (lag-lead/lag prices 1))
+
+;; The shifted column keeps its datatype, including packed dates:
+
+(tcc/typeof (lag-lead/lag prices 1))
+
+(-> (tcc/column [(java.time.LocalDate/parse "2024-01-01")
+                 (java.time.LocalDate/parse "2024-01-02")])
+    (lag-lead/lead 1)
+    (tcc/typeof))
+
+;; To fill vacated rows instead, pass `:fill-with`. `{:fill-with 0}` matches the zero padding of earlier releases:
+
+(lag-lead/lag (tcc/column [1 2 3 4]) 1 {:fill-with 0})
+
+;; Sizes must be non-negative integers; other sizes throw. To shift the other way, use the opposite function: `(lag-lead/lead prices 2)` rather than a lag of `-2`.
 
 ;; ### Missing Values
 
