@@ -457,9 +457,11 @@
   non-negative integer; use `lead` to shift the other way.
 
   The result keeps the datatype of `col`, and its missing values stay missing.
-  A `:fill-with` value must match that datatype (an integer for integer
-  columns, any number for float columns, a string for string columns);
-  otherwise this throws."
+  A `:fill-with` value is converted to that datatype. Integer columns take any
+  number that converts exactly and fits the range (2.0 works, 2.5 does not);
+  float columns take any number they can represent; other columns, including
+  strings, booleans and dates, take only a value of the same type; `:object`
+  columns take anything. Otherwise this throws."
   ([col lag-size]
   (tablecloth.column.api.lag-lead/lag col lag-size))
   ([col lag-size options]
@@ -472,9 +474,11 @@
   non-negative integer; use `lag` to shift the other way.
 
   The result keeps the datatype of `col`, and its missing values stay missing.
-  A `:fill-with` value must match that datatype (an integer for integer
-  columns, any number for float columns, a string for string columns);
-  otherwise this throws."
+  A `:fill-with` value is converted to that datatype. Integer columns take any
+  number that converts exactly and fits the range (2.0 works, 2.5 does not);
+  float columns take any number they can represent; other columns, including
+  strings, booleans and dates, take only a value of the same type; `:object`
+  columns take anything. Otherwise this throws."
   ([col lead-size]
   (tablecloth.column.api.lag-lead/lead col lead-size))
   ([col lead-size options]

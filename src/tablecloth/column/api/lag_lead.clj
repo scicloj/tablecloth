@@ -88,23 +88,57 @@
                      :fn   fn-name
                      :size n}))))
 
-(defn- check-fill!
-  "Throws unless `fill-with` is nil or fits the datatype of `col`."
-  [fn-name col fill-with]
-  (let [dt (packing/unpack-datatype (dtype/elemwise-datatype col))]
-    (when-not (or (nil? fill-with)
-                  (cond
-                    (casting/integer-type? dt) (integer? fill-with)
-                    (casting/numeric-type? dt) (number? fill-with)
-                    (#{:string :text} dt)      (string? fill-with)
-                    (= :object dt)             true
-                    :else (= dt (dtype/elemwise-datatype fill-with))))
-      (throw (ex-info (str fn-name " :fill-with " (pr-str fill-with)
-                           " does not match the column datatype " dt)
-                      {:type      :tablecloth/invalid-argument
-                       :fn        fn-name
-                       :fill-with fill-with
-                       :datatype  dt})))))
+(defn- invalid-fill
+  [fn-name value dt reason cause]
+  (ex-info (str fn-name " :fill-with " (pr-str value) " cannot fill a " dt
+                " column (" (name reason) ")")
+           {:type     :tablecloth/invalid-argument
+            :fn       fn-name
+            :argument :fill-with
+            :value    value
+            :datatype dt
+            :reason   reason}
+           cause))
+
+(defn- non-finite? [v]
+  (and (or (instance? Double v) (instance? Float v))
+       (not (Double/isFinite (double v)))))
+
+(defn- cast-fill
+  "Cast `value` once to the unpacked datatype of `col` and return it, or throw
+  a Tablecloth error when it does not fit that datatype exactly."
+  [fn-name col value]
+  (let [dt    (packing/unpack-datatype (dtype/elemwise-datatype col))
+        fail  (fn [reason cause] (throw (invalid-fill fn-name value dt reason cause)))
+        cast! (fn [] (try (casting/cast value dt)
+                          (catch Exception e (fail :not-representable e))))]
+    (cond
+      (casting/integer-type? dt)
+      (cond (not (number? value)) (fail :incompatible-type nil)
+            (non-finite? value)   (fail :not-representable nil)
+            :else (let [v (cast!)]
+                    (if (== value v) v (fail :lossy-conversion nil))))
+
+      (casting/float-type? dt)
+      (if-not (number? value)
+        (fail :incompatible-type nil)
+        (let [v (cast!)]
+          ;; a finite input that casts to infinity (e.g. a huge BigDecimal) overflowed
+          (if (and (not (non-finite? value)) (non-finite? (double v)))
+            (fail :not-representable nil)
+            v)))
+
+      (= :object dt)        (cast!)
+      (= :boolean dt)       (if (boolean? value) (cast!) (fail :incompatible-type nil))
+      (#{:string :text} dt) (if (string? value) (cast!) (fail :incompatible-type nil))
+      :else (if (= dt (dtype/elemwise-datatype value))
+              (cast!)
+              (fail :incompatible-type nil)))))
+
+(defn- cast-fill-option
+  [fn-name col options]
+  (cond-> options
+    (some? (:fill-with options)) (update :fill-with #(cast-fill fn-name col %))))
 
 (defn lag
   "Shift `col` forward by `lag-size` rows, filling vacated slots with missing
@@ -112,15 +146,16 @@
   non-negative integer; use `lead` to shift the other way.
 
   The result keeps the datatype of `col`, and its missing values stay missing.
-  A `:fill-with` value must match that datatype (an integer for integer
-  columns, any number for float columns, a string for string columns);
-  otherwise this throws."
+  A `:fill-with` value is converted to that datatype. Integer columns take any
+  number that converts exactly and fits the range (2.0 works, 2.5 does not);
+  float columns take any number they can represent; other columns, including
+  strings, booleans and dates, take only a value of the same type; `:object`
+  columns take anything. Otherwise this throws."
   ([col lag-size]
    (lag col lag-size {}))
   ([col lag-size options]
    (check-size! "lag" lag-size)
-   (check-fill! "lag" col (:fill-with options))
-   (shift-with-missing col lag-size options)))
+   (shift-with-missing col lag-size (cast-fill-option "lag" col options))))
 
 (defn lead
   "Shift `col` backward by `lead-size` rows, filling vacated slots with missing
@@ -128,12 +163,13 @@
   non-negative integer; use `lag` to shift the other way.
 
   The result keeps the datatype of `col`, and its missing values stay missing.
-  A `:fill-with` value must match that datatype (an integer for integer
-  columns, any number for float columns, a string for string columns);
-  otherwise this throws."
+  A `:fill-with` value is converted to that datatype. Integer columns take any
+  number that converts exactly and fits the range (2.0 works, 2.5 does not);
+  float columns take any number they can represent; other columns, including
+  strings, booleans and dates, take only a value of the same type; `:object`
+  columns take anything. Otherwise this throws."
   ([col lead-size]
    (lead col lead-size {}))
   ([col lead-size options]
    (check-size! "lead" lead-size)
-   (check-fill! "lead" col (:fill-with options))
-   (shift-with-missing col (- lead-size) options)))
+   (shift-with-missing col (- lead-size) (cast-fill-option "lead" col options))))

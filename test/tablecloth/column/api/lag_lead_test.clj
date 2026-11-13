@@ -1,5 +1,7 @@
 (ns tablecloth.column.api.lag-lead-test
   (:require [tablecloth.column.api.lag-lead :refer [lag lead]]
+            [tech.v3.datatype :as dtype]
+            [tech.v3.dataset.column :as ds-col]
             [tablecloth.column.api :as tcc :refer [column column? missing typeof]]
             [midje.sweet :refer [tabular facts fact => =not=>]]))
 
@@ -161,11 +163,12 @@
 
        (fact "a fill that does not match the column datatype throws a clear error"
              (first (thrown-data #(lag (column ["a" "b"]) 1 {:fill-with 0})))
-             => #"does not match the column datatype :string"
+             => #"cannot fill a :string column"
              (first (thrown-data #(lead (column [1 2 3]) 1 {:fill-with 1.5})))
-             => #"does not match the column datatype :int64"
+             => #"cannot fill a :int64 column"
              (second (thrown-data #(lag (column [1 2 3]) 1 {:fill-with "x"})))
-             => {:type :tablecloth/invalid-argument :fn "lag" :fill-with "x" :datatype :int64})
+             => {:type :tablecloth/invalid-argument :fn "lag" :argument :fill-with
+                 :value "x" :datatype :int64 :reason :incompatible-type})
 
        (fact "the fill is checked even when the size is 0"
              (thrown-data #(lag (column [1 2 3]) 0 {:fill-with "x"})) =not=> nil))
@@ -193,4 +196,90 @@
              => {:type :tablecloth/invalid-argument :fn "lag" :size -1}
              (first (thrown-data #(tcc/lead (column [1 2 3]) -1))) => #"Use `lag`"
              (second (thrown-data #(tcc/lead (column ["a"]) 1 {:fill-with 0})))
-             => {:type :tablecloth/invalid-argument :fn "lead" :fill-with 0 :datatype :string}))
+             => {:type :tablecloth/invalid-argument :fn "lead" :argument :fill-with
+                 :value 0 :datatype :string :reason :incompatible-type}))
+
+(defn- typed-column [datatype xs]
+  (ds-col/new-column :x (dtype/make-container datatype xs)))
+
+(defn- fill-result
+  "Shift `col` with `fill` through `f`. Returns `[values datatype]`, or the
+  Tablecloth error data, or `[:raw-exception class]` for any other throwable."
+  [f col fill]
+  (try (let [out (f col 1 {:fill-with fill})] [(vec out) (typeof out)])
+       (catch clojure.lang.ExceptionInfo e
+         (if (= :tablecloth/invalid-argument (:type (ex-data e)))
+           (select-keys (ex-data e) [:argument :value :datatype :reason])
+           [:raw-exception (class e)]))
+       (catch Throwable e [:raw-exception (class e)])))
+
+(facts "about casting :fill-with to the column datatype"
+       (fact "an integral float fills an integer column as an integer"
+             (fill-result tcc/lag (column [10 nil 30]) 2.0) => [[2 10 nil] :int64]
+             (fill-result tcc/lead (column [10 nil 30]) 2.0) => [[nil 30 2] :int64])
+
+       (fact "a fractional or non-finite fill for an integer column is rejected"
+             (fill-result tcc/lag (column [1 2]) 2.5)
+             => {:argument :fill-with :value 2.5 :datatype :int64 :reason :lossy-conversion}
+             (:reason (fill-result tcc/lead (column [1 2]) ##NaN)) => :not-representable)
+
+       (fact "signed integer limits are accepted, and one past them rejected"
+             (tabular (fact (fill-result tcc/lag (typed-column ?dt [1 2]) ?fill) => ?result)
+                      ?dt     ?fill                   ?result
+                      :int8   127                     [[127 1] :int8]
+                      :int8   -128                    [[-128 1] :int8]
+                      :int16  32767                   [[32767 1] :int16]
+                      :int32  -2147483648             [[-2147483648 1] :int32]
+                      :int64  Long/MAX_VALUE          [[Long/MAX_VALUE 1] :int64]
+                      :int8   300                     {:argument :fill-with :value 300 :datatype :int8 :reason :not-representable}
+                      :int8   -129                    {:argument :fill-with :value -129 :datatype :int8 :reason :not-representable}
+                      :int32  2147483648              {:argument :fill-with :value 2147483648 :datatype :int32 :reason :not-representable}
+                      :int64  9223372036854775808N    {:argument :fill-with :value 9223372036854775808N :datatype :int64 :reason :not-representable}))
+
+       (fact "unsigned integer limits are accepted, and values outside them rejected"
+             (tabular (fact (fill-result tcc/lead (typed-column ?dt [1 2]) ?fill) => ?result)
+                      ?dt     ?fill        ?result
+                      :uint8  0            [[2 0] :uint8]
+                      :uint8  255          [[2 255] :uint8]
+                      :uint16 65535        [[2 65535] :uint16]
+                      :uint32 4294967295   [[2 4294967295] :uint32]
+                      :uint8  256          {:argument :fill-with :value 256 :datatype :uint8 :reason :not-representable}
+                      :uint8  -1           {:argument :fill-with :value -1 :datatype :uint8 :reason :not-representable}
+                      :uint32 -1           {:argument :fill-with :value -1 :datatype :uint32 :reason :not-representable}))
+
+       (fact "a range failure keeps the dtype-next exception as its cause"
+             (try (tcc/lag (typed-column :int8 [1 2]) 1 {:fill-with 300})
+                  (catch clojure.lang.ExceptionInfo e (some? (ex-cause e))))
+             => true)
+
+       (fact "an integer fills a float column"
+             (fill-result tcc/lag (column [1.5 nil 3.5]) 3) => [[3.0 1.5 nil] :float64]
+             (fill-result tcc/lag (typed-column :float32 [1.5 2.5]) 3) => [[3.0 1.5] :float32])
+
+       (fact "a float that overflows the column is rejected"
+             (fill-result tcc/lag (typed-column :float32 [1.5 2.5]) 1e300)
+             => {:argument :fill-with :value 1e300 :datatype :float32 :reason :not-representable}
+             (fill-result tcc/lag (column [1.5 2.5]) 1e400M)
+             => {:argument :fill-with :value 1e400M :datatype :float64 :reason :not-representable})
+
+       (fact "numeric columns reject non-numbers"
+             (:reason (fill-result tcc/lag (column [1.5 2.5]) "1")) => :incompatible-type
+             (:reason (fill-result tcc/lag (column [1 2]) true)) => :incompatible-type)
+
+       (fact "string and boolean columns take only their own type"
+             (fill-result tcc/lag (column ["a" nil "c"]) "z") => [["z" "a" nil] :string]
+             (fill-result tcc/lag (column [true nil false]) false) => [[false true nil] :boolean]
+             (:reason (fill-result tcc/lag (column ["a" "b"]) 0)) => :incompatible-type
+             (:reason (fill-result tcc/lag (column [true false]) "x")) => :incompatible-type
+             (:reason (fill-result tcc/lag (column [true false]) 0)) => :incompatible-type)
+
+       (fact "temporal columns take only a value of the same type"
+             (let [d #(java.time.LocalDate/of 2020 1 %)]
+               (fill-result tcc/lead (column [(d 1) (d 2)]) (d 9)) => [[(d 2) (d 9)] :packed-local-date]
+               (fill-result tcc/lead (column [(d 1) (d 2)]) java.time.Instant/EPOCH)
+               => {:argument :fill-with :value java.time.Instant/EPOCH
+                   :datatype :local-date :reason :incompatible-type}
+               (:reason (fill-result tcc/lead (column [(d 1) (d 2)]) 17000)) => :incompatible-type))
+
+       (fact "object columns take any fill"
+             (fill-result tcc/lag (column [{:a 1} [2]]) "anything") => [["anything" {:a 1}] :object]))

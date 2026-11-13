@@ -1521,8 +1521,10 @@ column-names function returns names according to columns-selector
     other way, use `lead`; negative sizes throw.
   - `options` - __optional__ map; `:fill-with` puts the given value in the vacated rows
     instead of leaving them missing. Use `{:fill-with 0}` for the zero padding of earlier
-    releases. The value must match the column datatype (an integer for integer columns,
-    any number for float columns, a string for string columns); otherwise this throws.
+    releases. The value is converted to the column datatype: integer columns take any
+    number that converts exactly and fits the range (2.0 works, 2.5 does not), float
+    columns any number they can represent, and other columns only a value of the same
+    type (`:object` columns take anything). Otherwise this throws.
 
   ## Returns
 
@@ -1565,8 +1567,10 @@ column-names function returns names according to columns-selector
     other way, use `lag`; negative sizes throw.
   - `options` - __optional__ map; `:fill-with` puts the given value in the vacated rows
     instead of leaving them missing. Use `{:fill-with 0}` for the zero padding of earlier
-    releases. The value must match the column datatype (an integer for integer columns,
-    any number for float columns, a string for string columns); otherwise this throws.
+    releases. The value is converted to the column datatype: integer columns take any
+    number that converts exactly and fits the range (2.0 works, 2.5 does not), float
+    columns any number they can represent, and other columns only a value of the same
+    type (`:object` columns take anything). Otherwise this throws.
 
   ## Returns
 

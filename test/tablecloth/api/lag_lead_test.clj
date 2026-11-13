@@ -95,4 +95,18 @@
              (vec (:p (tc/lag (tc/dataset {:s ["a" "b"]}) :p :s 1 {:fill-with "-"}))) => ["-" "a"])
        (fact "an incompatible fill throws a clear error"
              (tc/lag (tc/dataset {:s ["a" "b"]}) :p :s 1 {:fill-with 0})
-             => (throws clojure.lang.ExceptionInfo #"does not match the column datatype")))
+             => (throws clojure.lang.ExceptionInfo #"cannot fill a :string column")))
+
+(facts "about casting :fill-with in the dataset functions"
+       (let [ds (tc/dataset {:a [10 nil 30]})]
+         (fact "an integral float fills an integer column and keeps the gap"
+               (let [out (:p (tc/lag ds :p :a 1 {:fill-with 0.0}))]
+                 (vec out) => [0 10 nil]
+                 (tcc/typeof out) => :int64
+                 (vec (tcc/missing out)) => [2]))
+         (fact "a lossy fill is rejected with Tablecloth error data"
+               (try (tc/lead ds :p :a 1 {:fill-with 2.5})
+                    (catch clojure.lang.ExceptionInfo e
+                      (select-keys (ex-data e) [:type :argument :value :datatype :reason])))
+               => {:type :tablecloth/invalid-argument :argument :fill-with
+                   :value 2.5 :datatype :int64 :reason :lossy-conversion})))
