@@ -10,6 +10,11 @@
                                midje/midje {:mvn/version "1.10.10"}
                                org.scicloj/dataset-io {:mvn/version "1.0.0"}}
                   :extra-paths ["test"]}
+;; run `clojure -M:docs dev/gendocs.clj` to build docs/index.html (needs Quarto and R, see README)
+           :docs {:extra-deps {org.scicloj/clay {:mvn/version "2.0.20"}
+                               org.scicloj/dataset-io {:mvn/version "1.0.0"}}
+                  ;; Clay's notebook reader overflows the default thread stack on index.clj
+                  :jvm-opts ["-Xss16m"]}
            ;; run `clojure -M:regen` to regenerate the four generated API files
            :regen {:extra-paths ["dev"]
                    :main-opts ["-m" "regen"]}
