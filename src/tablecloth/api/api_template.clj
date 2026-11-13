@@ -137,9 +137,11 @@
                          split
                          split->seq)
 
-(exporter/export-symbols tablecloth.api.rolling
+(exporter/export-symbols tablecloth.api.lag-lead
                          lag
-                         lead
+                         lead)
+
+(exporter/export-symbols tablecloth.api.rolling
                          cumsum-col)
 
 
