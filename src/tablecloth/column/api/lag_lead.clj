@@ -113,6 +113,8 @@
         cast! (fn [] (try (casting/cast value dt)
                           (catch Exception e (fail :not-representable e))))]
     (cond
+      ;; dtype-next stores and reads :uint64 as signed longs, so fills above
+      ;; Long/MAX_VALUE fail its checked cast and are rejected as not representable
       (casting/integer-type? dt)
       (cond (not (number? value)) (fail :incompatible-type nil)
             (non-finite? value)   (fail :not-representable nil)
@@ -120,13 +122,12 @@
                     (if (== value v) v (fail :lossy-conversion nil))))
 
       (casting/float-type? dt)
-      (if-not (number? value)
-        (fail :incompatible-type nil)
-        (let [v (cast!)]
-          ;; a finite input that casts to infinity (e.g. a huge BigDecimal) overflowed
-          (if (and (not (non-finite? value)) (non-finite? (double v)))
-            (fail :not-representable nil)
-            v)))
+      (cond (not (number? value)) (fail :incompatible-type nil)
+            ;; IEEE NaN and infinities exist in both widths; the checked cast rejects them for float32
+            (non-finite? value)   (if (= :float32 dt) (unchecked-float value) (double value))
+            :else (let [v (cast!)]
+                    ;; a finite input that casts to infinity (e.g. a huge BigDecimal) overflowed
+                    (if (non-finite? (double v)) (fail :not-representable nil) v)))
 
       (= :object dt)        (cast!)
       (= :boolean dt)       (if (boolean? value) (cast!) (fail :incompatible-type nil))
@@ -147,8 +148,9 @@
 
   The result keeps the datatype of `col`, and its missing values stay missing.
   A `:fill-with` value is converted to that datatype. Integer columns take any
-  number that converts exactly and fits the range (2.0 works, 2.5 does not);
-  float columns take any number they can represent; other columns, including
+  number that converts exactly and fits the range (2.0 works, 2.5 does not;
+  `:uint64` stops at Long/MAX_VALUE); float columns take any number they can
+  represent, including NaN and the infinities; other columns, including
   strings, booleans and dates, take only a value of the same type; `:object`
   columns take anything. Otherwise this throws."
   ([col lag-size]
@@ -164,8 +166,9 @@
 
   The result keeps the datatype of `col`, and its missing values stay missing.
   A `:fill-with` value is converted to that datatype. Integer columns take any
-  number that converts exactly and fits the range (2.0 works, 2.5 does not);
-  float columns take any number they can represent; other columns, including
+  number that converts exactly and fits the range (2.0 works, 2.5 does not;
+  `:uint64` stops at Long/MAX_VALUE); float columns take any number they can
+  represent, including NaN and the infinities; other columns, including
   strings, booleans and dates, take only a value of the same type; `:object`
   columns take anything. Otherwise this throws."
   ([col lead-size]

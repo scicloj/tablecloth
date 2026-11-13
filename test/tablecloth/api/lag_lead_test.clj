@@ -110,3 +110,18 @@
                       (select-keys (ex-data e) [:type :argument :value :datatype :reason])))
                => {:type :tablecloth/invalid-argument :argument :fill-with
                    :value 2.5 :datatype :int64 :reason :lossy-conversion})))
+
+(facts "about NaN and infinite fills in the dataset functions"
+       (fact "a float64 column takes -Infinity and keeps its gap"
+             (let [out (:p (tc/lead (tc/dataset {:a [1.5 nil 3.5]}) :p :a 1 {:fill-with ##-Inf}))]
+               (vec out) => [nil 3.5 ##-Inf]
+               (tcc/typeof out) => :float64
+               (vec (tcc/missing out)) => [0]))
+       (fact "a float32 column takes Infinity and NaN"
+             (let [ds  (tc/dataset {:a (float-array [1.5 2.5])})
+                   inf (:p (tc/lag ds :p :a 1 {:fill-with ##Inf}))
+                   nan (:p (tc/lag ds :p :a 1 {:fill-with ##NaN}))]
+               (first inf) => ##Inf
+               (tcc/typeof inf) => :float32
+               (Double/isNaN (double (first nan))) => true
+               (tcc/typeof nan) => :float32)))

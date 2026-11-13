@@ -283,3 +283,58 @@
 
        (fact "object columns take any fill"
              (fill-result tcc/lag (column [{:a 1} [2]]) "anything") => [["anything" {:a 1}] :object]))
+
+(facts "about :uint64 fills"
+       (fact "0 and Long/MAX_VALUE are accepted and the column stays :uint64"
+             (fill-result tcc/lag (typed-column :uint64 [1 2]) 0) => [[0 1] :uint64]
+             (fill-result tcc/lead (typed-column :uint64 [1 2]) Long/MAX_VALUE)
+             => [[2 Long/MAX_VALUE] :uint64])
+
+       (fact "values above Long/MAX_VALUE are rejected, because dtype-next stores :uint64 as signed longs"
+             (tabular (fact (fill-result tcc/lag (typed-column :uint64 [1 2]) ?fill)
+                            => {:argument :fill-with :value ?fill :datatype :uint64 :reason :not-representable})
+                      ?fill
+                      9223372036854775808N
+                      18446744073709551615N))
+
+       (fact "negative values and 2^64 are rejected"
+             (tabular (fact (fill-result tcc/lag (typed-column :uint64 [1 2]) ?fill)
+                            => {:argument :fill-with :value ?fill :datatype :uint64 :reason :not-representable})
+                      ?fill
+                      -1
+                      18446744073709551616N)))
+
+(defn- special-fill
+  "Fill a 2-row column of `dt` with `fill` through `f`; returns the filled value's
+  class and kind, and the result datatype."
+  [f dt fill]
+  (let [out (f (typed-column dt [1.5 2.5]) 1 {:fill-with fill})
+        v   (if (= f tcc/lag) (first out) (last out))]
+    [(cond (Double/isNaN (double v)) :nan
+           (= ##Inf (double v))      :inf
+           (= ##-Inf (double v))     :-inf
+           :else                     v)
+     (typeof out)]))
+
+(facts "about NaN and infinite fills for float columns"
+       (fact "NaN and both infinities are accepted for float32 and float64"
+             (tabular (fact (special-fill ?f ?dt ?fill) => [?kind ?dt])
+                      ?f       ?dt       ?fill   ?kind
+                      tcc/lag  :float32  ##NaN   :nan
+                      tcc/lag  :float32  ##Inf   :inf
+                      tcc/lead :float32  ##-Inf  :-inf
+                      tcc/lag  :float64  ##NaN   :nan
+                      tcc/lag  :float64  ##Inf   :inf
+                      tcc/lead :float64  ##-Inf  :-inf))
+
+       (fact "a filled NaN is a value, not a missing row"
+             (set (missing (tcc/lag (typed-column :float32 [1.5 2.5]) 1 {:fill-with ##NaN}))) => #{})
+
+       (fact "finite values that overflow are still rejected, in both directions"
+             (tabular (fact (fill-result tcc/lag (typed-column ?dt [1.5 2.5]) ?fill)
+                            => {:argument :fill-with :value ?fill :datatype ?dt :reason :not-representable})
+                      ?dt       ?fill
+                      :float32  1e300
+                      :float32  -1e300
+                      :float64  1e400M
+                      :float64  -1e400M)))

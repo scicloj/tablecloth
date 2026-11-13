@@ -458,8 +458,9 @@
 
   The result keeps the datatype of `col`, and its missing values stay missing.
   A `:fill-with` value is converted to that datatype. Integer columns take any
-  number that converts exactly and fits the range (2.0 works, 2.5 does not);
-  float columns take any number they can represent; other columns, including
+  number that converts exactly and fits the range (2.0 works, 2.5 does not;
+  `:uint64` stops at Long/MAX_VALUE); float columns take any number they can
+  represent, including NaN and the infinities; other columns, including
   strings, booleans and dates, take only a value of the same type; `:object`
   columns take anything. Otherwise this throws."
   ([col lag-size]
@@ -475,8 +476,9 @@
 
   The result keeps the datatype of `col`, and its missing values stay missing.
   A `:fill-with` value is converted to that datatype. Integer columns take any
-  number that converts exactly and fits the range (2.0 works, 2.5 does not);
-  float columns take any number they can represent; other columns, including
+  number that converts exactly and fits the range (2.0 works, 2.5 does not;
+  `:uint64` stops at Long/MAX_VALUE); float columns take any number they can
+  represent, including NaN and the infinities; other columns, including
   strings, booleans and dates, take only a value of the same type; `:object`
   columns take anything. Otherwise this throws."
   ([col lead-size]

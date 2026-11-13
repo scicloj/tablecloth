@@ -24,8 +24,9 @@
   - `options` - __optional__ map; `:fill-with` puts the given value in the vacated rows
     instead of leaving them missing. Use `{:fill-with 0}` for the zero padding of earlier
     releases. The value is converted to the column datatype: integer columns take any
-    number that converts exactly and fits the range (2.0 works, 2.5 does not), float
-    columns any number they can represent, and other columns only a value of the same
+    number that converts exactly and fits the range (2.0 works, 2.5 does not; `:uint64`
+    stops at Long/MAX_VALUE), float columns any number they can represent, including NaN
+    and the infinities, and other columns only a value of the same
     type (`:object` columns take anything). Otherwise this throws.
 
   ## Returns
@@ -68,8 +69,9 @@
   - `options` - __optional__ map; `:fill-with` puts the given value in the vacated rows
     instead of leaving them missing. Use `{:fill-with 0}` for the zero padding of earlier
     releases. The value is converted to the column datatype: integer columns take any
-    number that converts exactly and fits the range (2.0 works, 2.5 does not), float
-    columns any number they can represent, and other columns only a value of the same
+    number that converts exactly and fits the range (2.0 works, 2.5 does not; `:uint64`
+    stops at Long/MAX_VALUE), float columns any number they can represent, including NaN
+    and the infinities, and other columns only a value of the same
     type (`:object` columns take anything). Otherwise this throws.
 
   ## Returns
