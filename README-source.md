@@ -90,15 +90,19 @@ To generate `README.md`, run the `generate!` function at the [dev/readme_generat
 
 ### Detailed documentation generation
 
-To generate the detailed documentation, call the following. You will need the Quarto CLI [installed](https://quarto.org/docs/get-started/) in your system.
+Build `docs/index.html` from `notebooks/index.clj` from the repository root:
 
-Currently (April 2024), we use Quarto's [v1.5.10 pre-release](https://github.com/quarto-dev/quarto-cli/releases/tag/v1.5.10) (specifically this version, not the later ones) due to some Quarto bugs.
-
-```{clojure eval=FALSE}
-(require '[scicloj.clay.v2.api :as clay])
-(clay/make! {:format [:quarto :html]
-             :source-path "notebooks/index.clj"})
+```sh
+clojure -M:docs dev/gendocs.clj
 ```
+
+The `:docs` alias provides everything the notebook needs on the JVM: Clay, [dataset-io](https://github.com/scicloj/dataset-io) for the Excel, Arrow and Parquet examples, and the larger thread stack Clay needs. Two external tools must be on your `PATH`:
+
+* The [Quarto CLI](https://quarto.org/docs/get-started/). The current site was rendered with Quarto 1.9.37.
+* R with the `data.table`, `knitr` and `rmarkdown` packages. The data.table comparison section runs R chunks through knitr and downloads `flights14.csv` from GitHub, so the build also needs network access.
+
+The command exits nonzero, leaving `docs/index.html` unchanged, if a notebook form throws, a file or URL fails to load, or Quarto fails. Commit the regenerated `docs/index.html` with the notebook change.
+
 
 ### Code Generation
 

@@ -5,6 +5,16 @@
 - Added `clojure -M:regen` to regenerate all four generated API source files.
 - CI now detects when committed generated API files are outdated.
 - use TMD 8.021
+- **Breaking:** `tc/lag` and `tc/lead` now leave vacated boundary rows missing
+  instead of padding numeric columns with `0`. Keep zero padding with
+  `(tc/lag ds :lagged :source 1 {:fill-with 0})`.
+- `tc/lag` and `tc/lead` use direct column shifts instead of rolling windows,
+  and preserve datatypes (including packed temporals) and missing values.
+- `tc/lag` and `tc/lead` take an optional options map (`:fill-with`).
+- Shift sizes must be non-negative integers; other sizes throw `ExceptionInfo`.
+- Added column-level `lag` and `lead` to the Column API (`tcc/lag`, `tcc/lead`).
+- Removed `tablecloth.api.rolling/lag` and `lead`; direct callers should use
+  `tc/lag` and `tc/lead`.
 
 - added
   - between

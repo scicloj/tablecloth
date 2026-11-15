@@ -3,6 +3,7 @@
   "Tablecloth Column API"
   (:require [tablecloth.column.api.api-template]
             [tablecloth.column.api.column]
+            [tablecloth.column.api.lag-lead]
             [tablecloth.column.api.missing]
             [tablecloth.column.api.operators]
             [tech.v3.dataset.column])
@@ -448,6 +449,42 @@
   (tablecloth.column.api.operators/kurtosis x options))
   ([x]
   (tablecloth.column.api.operators/kurtosis x)))
+
+
+(defn lag
+  "Shift `col` forward by `lag-size` rows, filling vacated slots with missing
+  values unless `:fill-with` is given in `options`. `lag-size` must be a
+  non-negative integer; use `lead` to shift the other way.
+
+  The result keeps the datatype of `col`, and its missing values stay missing.
+  A `:fill-with` value is converted to that datatype. Integer columns take any
+  number that converts exactly and fits the range (2.0 works, 2.5 does not;
+  `:uint64` stops at Long/MAX_VALUE); float columns take any number they can
+  represent, including NaN and the infinities; other columns, including
+  strings, booleans and dates, take only a value of the same type; `:object`
+  columns take anything. Otherwise this throws."
+  ([col lag-size]
+  (tablecloth.column.api.lag-lead/lag col lag-size))
+  ([col lag-size options]
+  (tablecloth.column.api.lag-lead/lag col lag-size options)))
+
+
+(defn lead
+  "Shift `col` backward by `lead-size` rows, filling vacated slots with missing
+  values unless `:fill-with` is given in `options`. `lead-size` must be a
+  non-negative integer; use `lag` to shift the other way.
+
+  The result keeps the datatype of `col`, and its missing values stay missing.
+  A `:fill-with` value is converted to that datatype. Integer columns take any
+  number that converts exactly and fits the range (2.0 works, 2.5 does not;
+  `:uint64` stops at Long/MAX_VALUE); float columns take any number they can
+  represent, including NaN and the infinities; other columns, including
+  strings, booleans and dates, take only a value of the same type; `:object`
+  columns take anything. Otherwise this throws."
+  ([col lead-size]
+  (tablecloth.column.api.lag-lead/lead col lead-size))
+  ([col lead-size options]
+  (tablecloth.column.api.lag-lead/lead col lead-size options)))
 
 
 (defn log

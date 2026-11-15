@@ -276,40 +276,6 @@ Otherwise you can enable it manualy following instructions here:
                      "Embarked" 
                      "Survived"]))
 
-(md "
-----
-     
-
-Import Excel,Arrow,Parquet files
-     
-The simplest way for enabling Excel,Arrow,Parquet 
-is to add [dataset-io](https://github.com/scicloj/dataset-io) to deps.edn.
-Then tablecloth will automatically enable support for xls(x) , Arrow and Parquet     
-(this will add quite some dependencies)     
-     
-Otherwise you can enable it manualy following instructions here:
-     
-* [Excel](https://techascent.github.io/tech.ml.dataset/tech.v3.libs.fastexcel.html)
-* [Arrow](https://techascent.github.io/tech.ml.dataset/tech.v3.libs.arrow.html)
-* [Parquet](https://techascent.github.io/tech.ml.dataset/tech.v3.libs.parquet.html     )
-     ")
-
-(tc/dataset "data/singleSheet.xlsx")
-
-(->
- (tc/dataset "data/alldtypes.arrow-feather"  {:file-type :arrow})
- (tc/select-columns ["uints"
-                     "longs"
-                     "ubytes"
-                     "strings"
-                     "doubles"]))
-
-(->
- (tc/dataset "data/userdata1.parquet")
- (tc/select-columns ["registration_dttm"
-                     "id"
-                     "first_name"
-                     "last_name" "email"]))
 
 
 (md "
@@ -1716,6 +1682,29 @@ Now let's use this function within a grouping expression:")
 
 ;; In this example, we grouped `DS` and then passed the resulting grouped Dataset directly to the `mean` operation. Since `mean` returns a scalar, it operates as an aggregator, summarizing the results of each group.
 
+
+(md "
+### Lag and lead
+
+`lag` adds a column where each row holds the value from `n` rows earlier; `lead` takes it from `n` rows later. Shifts are by row position, so sort the dataset first if order matters.
+
+Vacated rows at the edge are missing. The column keeps its datatype, and missing values in the source stay missing.
+")
+
+(-> DS
+    (tc/select-columns [:V2])
+    (tc/lag :V2 1)
+    (tc/lead :V2-next :V2 2))
+
+;; To fill vacated rows instead, pass an options map. `{:fill-with 0}` gives the zero padding of earlier releases. The fill must match the column's datatype; a mismatched fill throws.
+
+(-> DS
+    (tc/select-columns [:V2])
+    (tc/lag :V2-prev :V2 1 {:fill-with 0}))
+
+;; Sizes must be non-negative integers; other sizes throw. To shift the other way, use the opposite function: `(tc/lead ds :out :V2 2)` rather than a lag of `-2`.
+
+;; To shift a single column, see [Lag and lead](#lag-and-lead-1) in the Column API.
 
 (md "
 ### Rows
@@ -4857,6 +4846,39 @@ We'll start with two columns `a` and `b`:
 (-> a
     (tcc/* b)
     (tcc/< 70))
+
+;; ### Lag and lead
+
+;; `tcc/lag` shifts a column forward by row position, so row `i` holds the value from row `i - n`; `tcc/lead` shifts it backward, so row `i` holds the value from row `i + n`.
+
+(def prices (tcc/column [10 20 nil 40 50]))
+
+;; Shown side by side, each shifted value lines up with its source row:
+
+(tc/dataset {:prices prices
+             :lag-1 (tcc/lag prices 1)
+             :lead-2 (tcc/lead prices 2)})
+
+;; Vacated rows at the edge are missing, and a value missing in the source stays missing at its new row:
+
+(tcc/missing (tcc/lag prices 1))
+
+;; The shifted column keeps its datatype, including packed dates:
+
+(tcc/typeof (tcc/lag prices 1))
+
+(-> (tcc/column [(java.time.LocalDate/parse "2024-01-01")
+                 (java.time.LocalDate/parse "2024-01-02")])
+    (tcc/lead 1)
+    (tcc/typeof))
+
+;; To fill vacated rows instead, pass `:fill-with`. `{:fill-with 0}` matches the zero padding of earlier releases. The fill must match the column's datatype; the result keeps that datatype, and the source gap stays missing:
+
+(tcc/lag prices 1 {:fill-with 0})
+
+(tcc/typeof (tcc/lag prices 1 {:fill-with 0}))
+
+;; Sizes must be non-negative integers; other sizes throw. To shift the other way, use the opposite function: `(tcc/lead prices 2)` rather than a lag of `-2`.
 
 ;; ### Missing Values
 
