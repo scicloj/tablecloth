@@ -29,7 +29,7 @@ its name and octave (C4 is middle C), `duration` its written length.
 (def melody
   (tc/dataset "data/ode-to-joy.csv" {:key-fn keyword}))
 
-melody
+(kind/table melody)
 
 (md "
 ## Helpers
