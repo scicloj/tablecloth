@@ -15,6 +15,9 @@
                                org.scicloj/dataset-io {:mvn/version "1.0.0"}}
                   ;; Clay's notebook reader overflows the default thread stack on index.clj
                   :jvm-opts ["-Xss16m"]}
+           ;; run `clojure -M:melody dev/genmelody.clj` to build target/melody/ode_to_joy.html
+           :melody {:extra-deps {org.scicloj/clay {:mvn/version "2.0.20"}}
+                    :extra-paths ["notebooks/melody"]}
            ;; run `clojure -M:regen` to regenerate the four generated API files
            :regen {:extra-paths ["dev"]
                    :main-opts ["-m" "regen"]}
