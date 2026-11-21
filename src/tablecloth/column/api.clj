@@ -196,7 +196,7 @@
 
 
 (defn column
-  "Create a `column` from a vector or sequence. "
+  "Create a column from a vector or sequence `data`. The only option is `:name`."
   ([]
   (tablecloth.column.api.column/column ))
   ([data]
@@ -224,7 +224,7 @@
 
 
 (defn column?
-  "Return true or false `item` is a column."
+  "Returns true if `item` is a column."
   ([item]
   (tablecloth.column.api.column/column? item)))
 
@@ -631,7 +631,7 @@
 
 
 (defn ones
-  "Creates a new column filled with `n-ones`"
+  "Create a new column of `n-ones` ones."
   ([n-ones]
   (tablecloth.column.api.column/ones n-ones)))
 
@@ -771,11 +771,11 @@
 
 
 (defn replace-missing
-  "Replace missing values in column `col` with give `strategy`.
+  "Replace missing values in column `col` with the given `strategy` (default: `:nearest`).
 
     Strategies may be:
 
-    - `:down` -	Take the previous value, or use provided value.
+    - `:down` - Take the previous value, or use provided value.
     - `:up` - Take the next value, or use provided value.
     - `:downup` - Take the previous value, otherwise take the next value.
     - `:updown` - Take the next value, otherwise take the previous value.
@@ -786,7 +786,7 @@
     - `:lerp` - Linearly interpolate values between previous and next nonmissing rows.
     - `:value` - Provide a value explicitly.  Value may be a function in which
                  case it will be called on the column with missing values elided
-                 and the return will be used to as the filler."
+                 and the return will be used as the filler."
   ([col]
   (tablecloth.column.api.missing/replace-missing col))
   ([col strategy]
@@ -984,7 +984,7 @@ user> (dfn/shift (range 10) -2)
 
 
 (defn typeof?
-  "True|false the column's elements are of the provided type `datatype`. Can check
+  "Returns true if the column's elements are of the provided type `datatype`. Can check
    both concrete types (e.g. :int32) or general types (:numerical, :textual, etc)."
   ([col datatype]
   (tablecloth.column.api.column/typeof? col datatype)))
@@ -1019,7 +1019,7 @@ user> (dfn/shift (range 10) -2)
 
 
 (defn zeros
-  "Create a new column filled wth `n-zeros`."
+  "Create a new column of `n-zeros` zeros."
   ([n-zeros]
   (tablecloth.column.api.column/zeros n-zeros)))
 
