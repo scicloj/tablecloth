@@ -6,7 +6,7 @@
             [tablecloth.api.utils :refer [->general-types concrete-type? type?]]))
 
 (defn column
-  "Create a `column` from a vector or sequence. "
+  "Create a column from a vector or sequence `data`. The only option is `:name`."
   ([]
    (col/new-column nil []))
   ([data]
@@ -17,7 +17,7 @@
 
 ;; Alias for tech.v3.dasetset.column.is-column?
 (defn column? 
-  "Return true or false `item` is a column."
+  "Returns true if `item` is a column."
   [item]
   (col/is-column? item))
 
@@ -27,7 +27,7 @@
   (dtype/elemwise-datatype col))
 
 (defn typeof?
-  "True|false the column's elements are of the provided type `datatype`. Can check
+  "Returns true if the column's elements are of the provided type `datatype`. Can check
    both concrete types (e.g. :int32) or general types (:numerical, :textual, etc)."
   [col datatype]
   (let [concrete-type-of-els (dtype/elemwise-datatype col)]
@@ -36,12 +36,12 @@
       (not (nil? (type? datatype concrete-type-of-els))))))
 
 (defn zeros
-  "Create a new column filled wth `n-zeros`."
+  "Create a new column of `n-zeros` zeros."
   [n-zeros]
   (column (dtype/const-reader 0 n-zeros)))
 
 (defn ones
-  "Creates a new column filled with `n-ones`"
+  "Create a new column of `n-ones` ones."
   [n-ones]
   (column (dtype/const-reader 1 n-ones)))
 
