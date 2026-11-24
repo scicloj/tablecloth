@@ -27,11 +27,11 @@
       (out-of-ds)))
 
 (defn replace-missing 
-  "Replace missing values in column `col` with give `strategy`.
+  "Replace missing values in column `col` with the given `strategy` (default: `:nearest`).
 
     Strategies may be:
 
-    - `:down` -	Take the previous value, or use provided value.
+    - `:down` - Take the previous value, or use provided value.
     - `:up` - Take the next value, or use provided value.
     - `:downup` - Take the previous value, otherwise take the next value.
     - `:updown` - Take the next value, otherwise take the previous value.
@@ -42,7 +42,7 @@
     - `:lerp` - Linearly interpolate values between previous and next nonmissing rows.
     - `:value` - Provide a value explicitly.  Value may be a function in which
                  case it will be called on the column with missing values elided
-                 and the return will be used to as the filler."
+                 and the return will be used as the filler."
   ([col]
    (replace-missing col :nearest))
   ([col strategy]
