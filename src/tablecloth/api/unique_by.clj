@@ -4,7 +4,6 @@
             [tech.v3.dataset.column :as col]
             [tech.v3.datatype :as dtype]
             [tech.v3.datatype.bitmap :as bitmap]
-            
             [tablecloth.api.utils :refer [iterable-sequence? column-names grouped? process-group-data]]
             [tablecloth.api.dataset :refer [dataset empty-ds?]]
             [tablecloth.api.columns :refer [select-columns]]
@@ -58,7 +57,6 @@
   (if (fn? strategy)
 
     (fn [ds] (strategy-fold ds columns-selector strategy options))
-    
     (let [local-options {:keep-fn (get strategies strategy strategy-first)}]
       (cond
         (iterable-sequence? columns-selector) (let [local-options (assoc local-options :column-name-seq columns-selector)]
@@ -88,19 +86,25 @@
     `:first` - select first row (default)
     `:last` - select last row
     `:random` - select random row
-    any function - apply function to a columns which are subject of uniqueness"
-
+    any function - apply function to a columns which are subject of uniqueness
+    `:remove-missing?` defaults to true. Drop missing values"
 
   ([ds] (unique-by ds (ds/column-names ds)))
   ([ds columns-selector] (unique-by ds columns-selector nil))
-  ([ds columns-selector {:keys [strategy select-keys parallel?]
-                         :or {strategy :first}
+  ([ds columns-selector {:keys [strategy select-keys parallel? drop-missing?]
+                         :or {strategy :first drop-missing? true}
                          :as options}]
    (let [selected-keys (column-names ds select-keys)
          ufn (unique-by-fn strategy columns-selector selected-keys options)
          ufn (partial maybe-empty (if (fn? strategy) ufn (partial maybe-skip-unique ufn)))]
-
+     (println "drop-missing? " drop-missing?)
      (if (grouped? ds)
        (process-group-data ds ufn parallel?)
        (ufn ds)))))
 
+;; (require '[tablecloth.api :as tc])
+
+;; (-> {:x (take 9 (cycle [1 nil 2]))
+;;      :y (take 9 (cycle ["A" "B" "C"]))}
+;;     tc/dataset
+;;     (tc/fold-by :y {:drop-missing? false}))
