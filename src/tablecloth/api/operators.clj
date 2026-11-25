@@ -2,10 +2,7 @@
  tablecloth.api.operators
  (:require
   [tablecloth.column.api.operators]
-  [tablecloth.api.columns]
-  [tablecloth.api.dataset]
-  [tablecloth.api.utils]
-  [tablecloth.api.aggregate])
+  [tablecloth.api.lift_operators])
  (:refer-clojure
   :exclude
   [*
