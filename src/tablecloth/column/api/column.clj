@@ -16,7 +16,7 @@
           :as options}]
    (col/new-column name data)))
 
-(defn return-scalar-or-column [item]
+(defn- return-scalar-or-column [item]
   (let [item-type (arg-type item)]
     (if (= item-type :reader)
       (column item)
