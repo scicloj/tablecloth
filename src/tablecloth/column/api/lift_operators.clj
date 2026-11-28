@@ -1,7 +1,6 @@
 (ns tablecloth.column.api.lift-operators
   (:require [tablecloth.utils.codegen :refer [do-lift]]
-            [tablecloth.column.api.column :refer [column]]
-            [tech.v3.datatype.argtypes :refer [arg-type]]))
+            [tech.v3.datatype.functional]))
 
 (defn get-meta [fn-sym]
   (-> fn-sym resolve meta))
@@ -11,12 +10,6 @@
 
 (defn get-docstring [fn-sym]
   (-> fn-sym get-meta :doc))
-
-(defn return-scalar-or-column [item]
-  (let [item-type (arg-type item)]
-    (if (= item-type :reader)
-      (column item)
-      item)))
 
 (defn lift-op
   ([fn-sym]
@@ -43,7 +36,7 @@
                                           (if (nil? (get new-arg-lookup oldarg))
                                             oldarg
                                             (get new-arg-lookup oldarg))))]
-              (return-scalar-or-column ~'original-result)))))
+              (#'tablecloth.column.api.column/return-scalar-or-column ~'original-result)))))
       `(~defn ~(symbol (name fn-sym)) 
         ~(or docstring "") 
         ~@(for [arg original-args
@@ -53,7 +46,7 @@
             `(~let [~'original-result ~(if (empty? rest-arg-expr)
                                         `(~fn-sym ~@explicit-args)
                                         `(apply ~fn-sym ~@explicit-args ~(second rest-arg-expr)))]
-              (return-scalar-or-column ~'original-result)))))))))
+              (#'tablecloth.column.api.column/return-scalar-or-column ~'original-result)))))))))
 
 (def serialized-lift-fn-lookup
   {['<

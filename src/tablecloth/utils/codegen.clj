@@ -68,7 +68,7 @@
      {:target-ns 'tablecloth.api.operators
      :source-ns 'tablecloth.column.api.operators
      :lift-fn-lookup {['+ '- '*] lift-fn}
-     :deps ['tablecloth.api.lift_operators]
+     :deps ['tablecloth.api.columns]
      :exclusions
      '[* + -]}"
 [{:keys [target-ns source-ns lift-fn-lookup deps exclusions]}]
